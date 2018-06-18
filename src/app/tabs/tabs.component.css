@@ -1,0 +1,25 @@
+.close {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: lightgray;
+    cursor: pointer;
+}
+.hide {
+    display: none;
+}
+.user-tab {
+    top: 10px;
+}
+
+.marker-tab {
+    top: 50px;
+}
+
+.info-tab {
+    top: 90px;
+}
+
+.admin-tab {
+    top: 130px;
+}

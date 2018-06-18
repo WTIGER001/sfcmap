@@ -1,0 +1,19 @@
+{
+    "markers": [
+        {
+            "id": "12341234",
+            "name": "Bob",
+            "type": "dragon-red",
+            "location": [
+                100,
+                100
+            ],
+            "view": [
+                "john"
+            ],
+            "edit": [
+                "john"
+            ]
+        }
+    ]
+}

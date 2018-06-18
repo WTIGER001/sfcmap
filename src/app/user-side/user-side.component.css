@@ -1,0 +1,25 @@
+.user-tab {
+    top: 10px;
+}
+
+.user-photo {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    float: left;
+}
+
+.user-name {
+    float: left;
+    height: 64px;
+    padding-left: 20px;
+    margin-right: auto;
+}
+.user-logout {
+    float: right;
+    height: 64px;
+    margin-top: 20px;
+}
+.user-name::after {
+    clear: both;
+}

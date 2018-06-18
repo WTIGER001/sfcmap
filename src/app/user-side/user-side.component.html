@@ -1,0 +1,12 @@
+<div *ngIf="isValid(); else showLogin" class="side-container">
+  <img [src]="user.photo" class="user-photo">
+  <h2 class="user-name">{{ user.name }}</h2>
+
+  <fa-icon icon="sign-out-alt" size="2x" (click)="logout()" class="user-logout"></fa-icon>
+
+</div>
+<ng-template #showLogin class="side-container">
+  <p>Please login.</p>
+  <img src="./assets/signin_with_google.png" (click)="loginGoogle()">
+</ng-template>
+

@@ -1,0 +1,98 @@
+.editbtn {
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.checkbtn {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.closebtn {
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.newbtn {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.deletebtn {
+    position: absolute;
+    left: 70px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+.unlockbtn {
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+.lockbtn {
+    position: absolute;
+    left: 100px;
+    top: 10px;
+    color: red;
+    cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    font-size: 14pt;
+    width: 100%;
+    display: block;
+    margin: 10px 10px, 0px, 10px;
+}
+
+.description {
+    font-size: 10pt;
+    width: 100%;
+    display: block;
+}
+
+.type {
+    text-align: center;
+    font-size: 10pt;
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.page {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 10pt;
+    width: 100%;
+    display: block;
+}
+
+.coords {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 10pt;
+    width: 100%;
+    display: block;
+    color: white;
+}
+
+
+.centered {
+    display: block;
+    margin: 0 auto ;
+}

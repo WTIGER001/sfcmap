@@ -1,0 +1,26 @@
+<div class="white">
+  <fa-icon icon="pencil-alt" size="lg" (click)="editstart()" class="editbtn" *ngIf="edit==false"></fa-icon>
+  <fa-icon icon="check" size="lg" (click)="save()" class="checkbtn" *ngIf="edit==true"></fa-icon>
+  <fa-icon icon="times" size="lg" (click)="cancel()" class="closebtn" *ngIf="edit==true"></fa-icon>
+  <fa-icon icon="plus" size="lg" (click)="newMarker()" class="newbtn" *ngIf="edit==false"></fa-icon>
+  <fa-icon icon="trash-alt" size="lg" (click)="delete()" class="deletebtn"></fa-icon>
+  <fa-icon icon="lock" size="lg" (click)="permisions()" class="lockbtn"></fa-icon>
+
+  <ng-container *ngIf="marker">
+    <ng-container *ngIf="edit==false">
+      <img [src]="marker?.marker._icon.src" class="centered">
+      <span class="title">{{marker?.name}}</span>
+      <span class="type">{{marker?.type}}</span>
+      <span class="description">{{marker?.description}}</span>
+      <a href="{{marker?.pageUrl}}">{{marker?.pageUrl}}</a>
+      <a href="#" class="coords" (click)="pan()">{{marker?.marker._latlng.lat}}, {{marker?.marker._latlng.lng}}</a>
+    </ng-container>
+    <ng-container *ngIf="edit==true">
+      <img [src]="marker?.marker._icon.src" class="centered">
+      <input type="text" value="{{marker?.name}}">
+      <input type="text" value="{{marker?.type}}">
+      <input type="textarea" value="{{marker?.description}}">
+      <input type="text" value="{{marker?.pageUrl}}">
+    </ng-container>
+  </ng-container>
+</div>
