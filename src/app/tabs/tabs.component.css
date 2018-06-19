@@ -12,14 +12,22 @@
     top: 10px;
 }
 
-.marker-tab {
+.map-tab {
     top: 50px;
 }
 
-.info-tab {
+.marker-tab {
     top: 90px;
 }
 
-.admin-tab {
+.info-tab {
     top: 130px;
+}
+
+.admin-tab {
+    top: 170px;
+}
+
+.visible {
+    display: block;
 }

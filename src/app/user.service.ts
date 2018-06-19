@@ -17,9 +17,42 @@ import { AngularFireDatabase } from 'angularfire2/database';
   providedIn: 'root'
 })
 export class UserService {
-
   // Starts off with a nobody users
   user = new BehaviorSubject<User>(new User())
+
+
+  canView(item: any): any {
+    if (!item['view']) {
+      return true
+    }
+    let view : Array<string> = item['view']
+    if (view.length == 0) {
+      return true
+    }
+    if (this.isReal) {
+      return view.includes(this.user.getValue().uid)
+    }
+    return false
+  }
+
+  canEdit(item: any): any {
+    if (!item['edit']) {
+      return true
+    }
+    let edit : Array<string> = item['edit']
+    if (edit.length == 0) {
+      return true
+    }
+    if (this.isReal) {
+      return edit.includes(this.user.getValue().uid)
+    }
+    return false
+  }
+
+  isReal(): any {
+    return this.user.getValue().uid == "NOBODY"
+  }
+
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFirestore, private dbOld: AngularFireDatabase) {
     afAuth.authState
@@ -33,6 +66,14 @@ export class UserService {
 
         this.user.next(u)
       });
+  }
+
+  public saveRecentMarker(markerId: string) {
+
+  }
+
+  public saveRecentMap(mapId: string) {
+
   }
 
   private getUserInfo(u: User): Observable<User> {
@@ -78,7 +119,8 @@ export class User {
   photo?: string
   groups?: string[]
   assumedGroups?: string[]
-  approvals?: string[]
+  recentMarkers?: string[]
+  recentMaps?: string[]
 
   isAdmin(): boolean {
     return this.groups.includes("admin")

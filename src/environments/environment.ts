@@ -9,7 +9,7 @@ export const environment = {
     authDomain: "sfcmap.firebaseapp.com",
     databaseURL: "https://sfcmap.firebaseio.com",
     projectId: "sfcmap",
-    storageBucket: "",
+    storageBucket: "sfcmap.appspot.com",
     messagingSenderId: "273084079541"
   }
 

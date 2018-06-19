@@ -96,3 +96,13 @@
     display: block;
     margin: 0 auto ;
 }
+
+.edit-container {
+    position: absolute;
+    top: 70px;
+}
+
+label.small {
+    font-size: .8em;
+    margin-bottom: 4px;
+}

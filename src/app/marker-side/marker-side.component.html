@@ -15,12 +15,26 @@
       <a href="{{marker?.pageUrl}}">{{marker?.pageUrl}}</a>
       <a href="#" class="coords" (click)="pan()">{{marker?.marker._latlng.lat}}, {{marker?.marker._latlng.lng}}</a>
     </ng-container>
-    <ng-container *ngIf="edit==true">
+    <div *ngIf="edit==true">
       <img [src]="marker?.marker._icon.src" class="centered">
-      <input type="text" value="{{marker?.name}}">
-      <input type="text" value="{{marker?.type}}">
-      <input type="textarea" value="{{marker?.description}}">
-      <input type="text" value="{{marker?.pageUrl}}">
-    </ng-container>
+
+      <div class="form-group">
+        <label for="name" class="small">Name</label>
+        <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Name" [(ngModel)]="marker.name">
+      </div>
+      <div class="form-group">
+        <label for="type" class="small">Type</label>
+        <div class="input-group">
+          <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Type" [(ngModel)]="marker.type">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button"><fa-icon icon="ellipsis-h"></fa-icon></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description" class="small">Description</label>
+        <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="marker.description"></textarea>
+      </div>
+    </div>
   </ng-container>
 </div>

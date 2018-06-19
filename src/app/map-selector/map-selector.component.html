@@ -1,3 +1,15 @@
-<p>
-  map-selector works!
-</p>
+<div>
+  Map
+</div>
+<div class="white scroller" *ngIf="catNames">
+  <div *ngFor="let catName of catNames ">
+    <h4>{{catName}}</h4>
+    <div class="map-item" *ngFor="let m of items.get(catName)">
+      <ng-container>
+        <!-- <img src="./assets/missing.png" height="100"> -->
+        <img [src]='m.url' width="150" (click)="select(m)">
+        <span class="map-title">{{m.name}}</span>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+.scroller {
+    overflow: auto
+}
+.map-item {
+    display: block;
+    cursor: pointer;
+    /* float: left; */
+}
+.map-title{
+    display: block;
+}

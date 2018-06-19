@@ -4,6 +4,7 @@ import { UserService } from './user.service'
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { UUID } from 'angular2-uuid';
+import { MapService } from './map.service';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class MarkerService {
   markerTypes = new Map<string, Icon>()
   items: Observable<any[]>;
 
-  constructor(private usr: UserService, private db: AngularFireDatabase) {
+  constructor(private usr: UserService, private db: AngularFireDatabase, private mapSvc : MapService) {
     // this.usr.
     this.items = db.list('markers').valueChanges();
     this.items.subscribe(v => {
@@ -41,8 +42,9 @@ export class MarkerService {
   }
 
   public newMarker(): MyMarker {
+    var loc = this.mapSvc.getCenter()
     var icn = this.markerTypes.get("Dragon - Red")
-    var m = new MyMarker(marker([100, 1000], { icon: icn, draggable: true }))
+    var m = new MyMarker(marker(loc, { icon: icn, draggable: false }))
     m.id = UUID.UUID().toString()
     m.name = "SAMPLE"
     m.type = "Dragon - Red"
@@ -76,7 +78,7 @@ export class MarkerService {
 
   deleteMarker(m: MyMarker) {
     this.markers.delete(m.id)
-    // this.markersObs.next()
+    this.markersObs.next([])
   }
 
   exportMarkers() {
@@ -95,8 +97,6 @@ export class MarkerService {
     this.markerTypes.set("Undead - Lich King", this.i("dragon_red"))
     this.markerTypes.set("Undead - Lieutenant", this.i("dragon_red"))
     this.markerTypes.set("Undead - Agent", this.i("dragon_red"))
-
-
   }
 
   private i(name: string): Icon {
@@ -223,4 +223,5 @@ export class Permissions {
   view: string[]
   edit: string[]
 }
+
 
