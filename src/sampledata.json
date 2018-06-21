@@ -1,89 +1,130 @@
 {
-    "groups" :[
+    "groups": [
         {
-            "name" : "GM", 
-            "description" : "Gamemasters"
+            "name": "GM",
+            "description": "Gamemasters"
         }
     ],
     "users": [
-       {
-        "uid" : "iVhfsQ2CfUfinto7flCsmwHkeyY2", 
-        "name" : "John Bauer", 
-        "email" : "john.baueriii@gmail.com",
-        "groups" : ["GM"], 
-        "recentMarkers" : ["10131b00-e7f5-4abb-88d3-0a11e9619e57"],
-        "recentMaps" : [ "4bb7b242-9943-429d-a1c5-e3c36672d146"]
-       }
-   ],
-    "mapTypes": [
-       {
-        "name" : "World / Continent", 
-        "order" : "100"
-       }, 
-       {
-        "name" : "City / Town", 
-        "order" : "200"
-       }, 
-       {
-        "name" : "Building", 
-        "order" : "300"
-       }
-    ],
-    "maps" : [
         {
-            "id" : "4bb7b242-9943-429d-a1c5-e3c36672d146",
-            "mapType" : "World / Continent",
-            "name" : "Six Kingdoms",
-            "description" :"...",
+            "uid": "iVhfsQ2CfUfinto7flCsmwHkeyY2",
+            "name": "John Bauer",
+            "email": "john.baueriii@gmail.com",
+            "groups": [
+                "GM"
+            ],
+            "recentMarkers": [
+                "10131b00-e7f5-4abb-88d3-0a11e9619e57"
+            ],
+            "recentMaps": [
+                "4bb7b242-9943-429d-a1c5-e3c36672d146"
+            ]
+        }
+    ],
+    "mapTypes": [
+        {
+            "name": "World / Continent",
+            "order": "100"
+        },
+        {
+            "name": "City / Town",
+            "order": "200"
+        },
+        {
+            "name": "Building",
+            "order": "300"
+        }
+    ],
+    "maps": [
+        {
+            "id": "4bb7b242-9943-429d-a1c5-e3c36672d146",
+            "mapType": "World / Continent",
+            "name": "Six Kingdoms",
+            "description": "...",
             "width": 1500,
-            "height": 1159, 
-            "edit" : ["iVhfsQ2CfUfinto7flCsmwHkeyY2"],
-            "view" : ["iVhfsQ2CfUfinto7flCsmwHkeyY2"]
-        }, 
+            "height": 1159,
+            "edit": [
+                "iVhfsQ2CfUfinto7flCsmwHkeyY2"
+            ],
+            "view": [
+                "iVhfsQ2CfUfinto7flCsmwHkeyY2"
+            ]
+        },
         {
             "id": "19f8de1b-daaf-43ad-8df9-330a8f2c557f",
-            "mapType" : "City / Town",
-            "name" : "Fallstown",
-            "description" :"...",
+            "mapType": "City / Town",
+            "name": "Fallstown",
+            "description": "...",
             "width": 1024,
             "height": 662
         }
     ],
-    "markerCategories" : [
+    "markerCategories": [
         {
-            "id" : "20b5380d-4226-4184-bd75-19725e731fa8",
-            "name" : "Factions>Dragons",
-            "appliesTo" : [
-                "World / Continent", 
+            "id": "272aac35-8c93-46af-9cec-883d0301ac87",
+            "name": "Uncategorized",
+            "appliesTo": [
+                "World / Continent",
+                "City / Town", 
+                "Building"
+            ]
+        },
+
+        {
+            "id": "20b5380d-4226-4184-bd75-19725e731fa8",
+            "name": "Factions>Dragons",
+            "appliesTo": [
+                "World / Continent",
                 "City / Town"
             ]
         }
     ],
-    "markerTypes" : [
+    "markerTypes": [
         {
-            "id" : "b4681ef4-8bde-4378-bdbb-eaf512984222",
-            "name" : "Red",
-            "category" : "Factions>Dragons",
-            "iconSize" : [43,60],
-            "iconAnchor" : [21,60]
-        }
-    ],
-    "markers": [
+            "id": "36ed0940-f3f0-496e-a452-e11c28bb3658",
+            "name": "Default",
+            "category": "Uncategorized",
+            "iconSize": [
+                39,
+                60
+            ],
+            "iconAnchor": [
+                19,
+                60
+            ]
+        },
         {
-            "id": "10131b00-e7f5-4abb-88d3-0a11e9619e57",
-            "map" : "4bb7b242-9943-429d-a1c5-e3c36672d146",
-            "name": "Tremor the Red",
-            "type": "dragon-red",
-            "location": [
-                100,
-                100
+            "id": "b4681ef4-8bde-4378-bdbb-eaf512984222",
+            "name": "Red",
+            "category": "Factions>Dragons",
+            "iconSize": [
+                43,
+                60
             ],
-            "view": [
-                "iVhfsQ2CfUfinto7flCsmwHkeyY2"
-            ],
-            "edit": [
-                "iVhfsQ2CfUfinto7flCsmwHkeyY2"
+            "iconAnchor": [
+                21,
+                60
             ]
         }
-    ]
+    ],
+    "markers": {
+        "4bb7b242-9943-429d-a1c5-e3c36672d146": [
+            {
+                "id": "10131b00-e7f5-4abb-88d3-0a11e9619e57",
+                "map": "4bb7b242-9943-429d-a1c5-e3c36672d146",
+                "name": "Tremor the Red",
+                "type": "dragon-red",
+                "location": [
+                    100,
+                    100
+                ],
+                "view": [
+                    "iVhfsQ2CfUfinto7flCsmwHkeyY2"
+                ],
+                "edit": [
+                    "iVhfsQ2CfUfinto7flCsmwHkeyY2"
+                ]
+            }
+        ]
+    }
 }

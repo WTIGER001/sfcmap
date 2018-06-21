@@ -1,0 +1,11 @@
+.admin-btn {
+    width: 90%;
+    margin-bottom: .5em;
+}
+
+.centered {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}

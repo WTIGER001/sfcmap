@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MarkerService, MyMarker } from '../marker.service';
 import { MapService } from '../map.service';
 import { CommonDialogService } from '../dialogs/common-dialog.service';
+import { MarkerType } from '../models';
 
 @Component({
   selector: 'app-marker-side',
@@ -11,13 +12,20 @@ import { CommonDialogService } from '../dialogs/common-dialog.service';
 export class MarkerSideComponent implements OnInit {
   marker: MyMarker
   edit = false
+
+  categories = []
+
   constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService) {
     this.mks.selection.subscribe(m => {
       if (this.marker != undefined) {
-        this.marker.m.dragging.disable()
+        this.disable()
       }
       this.marker = this.mks.toMyMarker(m);
       this.edit = false
+    })
+
+    this.mks.catsLoaded.subscribe( v => {
+      this.categories = this.mks.categories
     })
   }
 
@@ -31,10 +39,18 @@ export class MarkerSideComponent implements OnInit {
   }
 
   public newMarker() {
-    this.marker = this.mks.newMarker()
-    console.log(this.marker);
+    this.mks.newMarker(true)
+    // console.log(this.marker);
+    // this.editstart()
+  }
 
-    this.editstart()
+
+  name(markerType) : string {
+    let mk = this.mks.getMarkerType(markerType)
+    if (mk) {
+      return mk.name
+    }
+    return 'Ugh....'
   }
 
   iconImg() {
@@ -46,18 +62,19 @@ export class MarkerSideComponent implements OnInit {
   public editstart() {
     if (this.marker !== undefined) {
       this.edit = true
-      this.marker.m.dragging.enable()
+      this.enable()
     }
   }
 
   public cancel() {
     this.edit = false
-    this.marker.m.dragging.disable()
+    this.disable()
   }
 
   public save() {
     this.edit = false
-    this.marker.m.dragging.disable()
+    this.disable()
+    this.mks.saveMarker(this.marker)
   }
 
   public delete() {
@@ -71,4 +88,21 @@ export class MarkerSideComponent implements OnInit {
       })
     }
   }
+  enable() {
+    if (this.marker && this.marker.m.dragging) {
+      this.marker.m.dragging.enable()
+    }
+  }
+  disable() {
+    if (this.marker && this.marker.m.dragging) {
+      this.marker.m.dragging.disable()
+    }
+  }
+  setType(t : MarkerType) {
+    this.marker.type = t.id
+    let icn = this.mks.markerTypes.get(t.id)
+    this.marker.marker.setIcon(icn)
+  }
 }
+
+

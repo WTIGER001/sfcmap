@@ -33,6 +33,10 @@ import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.
 import { MarkerDialogComponent } from './dialogs/marker-dialog/marker-dialog.component';
 import { NotifyService } from './notify.service';
 import { DataService } from './data.service';
+import { MgrGroupComponent } from './mgr-group/mgr-group.component';
+import { MgrMarkerComponent } from './mgr-marker/mgr-marker.component';
+import { MgrMapComponent } from './mgr-map/mgr-map.component';
+import { DialogService } from './dialogs/dialog.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +50,10 @@ import { DataService } from './data.service';
     InputDialogComponent,
     MessageDialogComponent,
     ConfirmDialogComponent,
-    MarkerDialogComponent
+    MarkerDialogComponent,
+    MgrGroupComponent,
+    MgrMarkerComponent,
+    MgrMapComponent
   ],
   imports: [
     BrowserModule,
@@ -69,13 +76,17 @@ import { DataService } from './data.service';
     MapService,
     CommonDialogService,
     NotifyService, 
-    DataService
+    DataService, 
+    DialogService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     InputDialogComponent,
     MessageDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent, 
+    MgrGroupComponent,
+    MgrMapComponent, 
+    MgrMarkerComponent
   ]
 })
 export class AppModule {

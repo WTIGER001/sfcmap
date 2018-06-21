@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <fa-icon icon="map-marker-alt" size="lg"></fa-icon> Marker Manager</h4>
+  <div>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete">
+      <fa-icon icon="trash-alt" size="lg"></fa-icon>
+    </button>
+    <button type="button" class="close" aria-label="Close" (click)="newMarkerType()" placement="bottom" ngbTooltip="New Marker Type">
+      <fa-icon icon="plus" size="lg"></fa-icon>
+    </button>
+
+    <button type="button" class="close" aria-label="Close" (click)="newMarkerCategory()" placement="bottom" ngbTooltip="New Category">
+      <fa-icon icon="folder" size="lg"></fa-icon>
+    </button>
+
+
+  </div>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="tree col-3">
+        <ng-container *ngFor="let cat of categories">
+          <button [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]">{{cat.name}}</button>
+          <div id="{{cat}}" [ngbCollapse]="isCollapsed[cat.name]">
+            <button *ngFor="let t of cat.types" [class.selected]="selected==t" class="dropdown-item btn-sm" (click)="setType(t)">
+              <img [src]="t.url" height=30> {{t.name}}</button>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-9">
+        <ng-container *ngIf="selected">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control " id="name" placeholder="Enter Category Name" [(ngModel)]="selected.name">
+            <small id="emailHelp" class="form-text text-muted">{{selected.id}}</small>
+          </div>
+          <ng-container *ngIf="sType=='cat'">
+            <div class="form-group">
+              <label for="name">Applies To:</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.appliesTo">
+            </div>
+            <div class="form-group">
+              <label for="name">Category Image</label>
+              <input type="file" class="form-control " id="name" placeholder="select category image" (change)="setFile($event)">
+            </div>
+          </ng-container>
+          <ng-container *ngIf="sType=='type'">
+            <div class="form-group">
+              <label for="name">Icon</label>
+              <input type="file" class="form-control" id="name" placeholder="select icon file" (change)="setFile($event)" accept="image/png">
+            </div>
+            <div class="form-group">
+              <label for="name">Size</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.iconSize">
+            </div>
+            <div class="form-group">
+              <label for="name">Anchor</label>
+              <input type="text" class="form-control " id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.iconAnchor">
+            </div>
+          </ng-container>
+          <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">
+            <fa-icon icon="save" size="lg"></fa-icon> Save
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

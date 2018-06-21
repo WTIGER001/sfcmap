@@ -16,14 +16,22 @@ export class MarkerType {
     id : string
     name: string
     category: string
-    iconUrl: string /// Calculated
-    shadowUrl?: string /// Calculated 
-    iconSize: number[]
-    shadowSize: number[]
-    iconAnchor: number[]    // point of the icon which will correspond to marker's location
-    shadowAnchor: number[]  // the same for the shadow
-    popupAnchor: number[]
+    iconSize: [number, number]
+    iconAnchor: [number, number]    // point of the icon which will correspond to marker's location
+    url?: string
 }
+
+export class SavedMarker {
+    id : string
+    map : string
+    name : string
+    description? : string
+    type : string
+    location: [number, number]
+    view : string[]
+    edit : string[]
+}
+
 
 /**
  * A type of map. For example: World / Continent, City / Town, Building Interior, 

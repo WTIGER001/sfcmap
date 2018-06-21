@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from '../dialogs/dialog.service';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialogs : DialogService) { }
 
   ngOnInit() {
   }
 
+  openMarker(){
+    this.dialogs.openMarkers()
+  }
+  openMap() {
+    this.dialogs.openMaps()
+  }
+  openGroup() {
+    this.dialogs.openGroups()
+  }
 }

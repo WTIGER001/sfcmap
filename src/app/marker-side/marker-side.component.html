@@ -8,7 +8,7 @@
 
   <ng-container *ngIf="marker">
     <ng-container *ngIf="edit==false">
-      <img [src]="marker?.marker._icon.src" class="centered">
+      <img [src]="marker?.iconUrl" class="centered">
       <span class="title">{{marker?.name}}</span>
       <span class="type">{{marker?.type}}</span>
       <span class="description">{{marker?.description}}</span>
@@ -16,7 +16,7 @@
       <a href="#" class="coords" (click)="pan()">{{marker?.marker._latlng.lat}}, {{marker?.marker._latlng.lng}}</a>
     </ng-container>
     <div *ngIf="edit==true">
-      <img [src]="marker?.marker._icon.src" class="centered">
+      <img [src]="marker?.iconUrl" class="centered">
 
       <div class="form-group">
         <label for="name" class="small">Name</label>
@@ -25,9 +25,20 @@
       <div class="form-group">
         <label for="type" class="small">Type</label>
         <div class="input-group">
-          <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Type" [(ngModel)]="marker.type">
+          <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Type" [value]="name(marker.type)" editable="false">
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button"><fa-icon icon="ellipsis-h"></fa-icon></button>
+            <!-- <button class="btn btn-outline-secondary" type="button"><fa-icon icon="ellipsis-h"></fa-icon></button> -->
+            <div ngbDropdown placement="bottom-right">
+                <button class="btn btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle> </button>
+                <div ngbDropdownMenu class="icon-dropdown" aria-labelledby="dropdownBasic1">
+                    <ng-container *ngFor="let cat of categories">
+                      <h6   class="dropdown-header dh">{{cat.name}}</h6>
+                      <div class="icon-holder">
+                      <button *ngFor="let t of cat.types" class="dropdown-item btn-sm icon-flow" placement="bottom" [ngbTooltip]="t.name" (click)="setType(t)"><img [src]="t.url" height=30></button>
+                    </div>
+                    </ng-container>
+                </div>
+              </div>
           </div>
         </div>
       </div>
@@ -35,6 +46,7 @@
         <label for="description" class="small">Description</label>
         <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="marker.description"></textarea>
       </div>
+ 
     </div>
   </ng-container>
 </div>

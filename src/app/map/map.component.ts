@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { latLngBounds, Layer, imageOverlay, CRS, Map, LayerGroup, layerGroup, LeafletEvent, Marker } from 'leaflet';
 import { User, UserService } from '../user.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MarkerService } from '../marker.service';
+import { MarkerService, MyMarker } from '../marker.service';
 import { MapService } from '../map.service';
 import { DataService } from '../data.service';
 import { MapConfig } from '../models';
@@ -33,9 +33,9 @@ export class MapComponent implements OnInit {
     this.userSvc.user.subscribe(u => {
       this.user = u
     })
-    this.markers.markersObs.subscribe(
-      items => this.refresh()
-    )
+    // this.markers.markersObs.subscribe(
+    //   items => this.refresh(items)
+    // )
     this.markerLayer.addEventListener('click', (event: LeafletEvent) => {
       console.log("Clicked2");
 
@@ -56,27 +56,7 @@ export class MapComponent implements OnInit {
         this.markers.update(m)
       });
     })
-    // this.data.groups.subscribe( groups => {
-    //   console.log(groups);
-    // })
- 
-    // this.data.maps.subscribe( maps => {
-    //   this.mapCfg = maps.find(v => v.name == "Six Kingdoms")
-    //   this.mapCfgObs.next(this.mapCfg)
-    // })
-
-    // this.mapCfgObs.pipe(
-    //   mergeMap( (m : MapConfig)=>  this.data.url(m) )
-    // ).subscribe( url => {
-    //   console.log("Download url " + url);
-      
-    //   let bounds = latLngBounds([[0, 0], [this.mapCfg.height, this.mapCfg.width]]);
-    //   let mapLayer = imageOverlay(url, bounds)
-    //   this.options.layers.splice(0, this.options.layers.length)
-    //   this.layers.push(mapLayer)
-      
-    //   // this.options.layers.push(this.markerLayer)
-    // })
+  
 
     this.mapSvc.mapConfig.pipe(
       mergeMap( (m : MapConfig)=>  {
@@ -91,10 +71,12 @@ export class MapComponent implements OnInit {
       this.layers.splice(0, this.layers.length)
       this.layers.push(mapLayer)
       this.layers.push(this.markerLayer)
-      this.refresh()
       this.mapSvc.fit(bounds)
     })
 
+    this.markers.markers.subscribe( m => {
+      this.refresh(m)
+    })
     this.layers.push(this.l1)
   }
 
@@ -114,14 +96,12 @@ export class MapComponent implements OnInit {
   };
 
 
-  refresh() {
-    let items = this.markers.getViewableMarkers("john")
+  refresh(items: MyMarker[]) {
     console.log("Adding Markers: " + items.length);
     this.markerLayer.clearLayers()
     if (items.length > 0) {
       items.forEach(m => {
         m.marker.addEventListener('click', event => {
-          console.log("Clicked3");
           this.zone.run(() => {
             var m = <Marker>event.target
             this.markers.select(m)
