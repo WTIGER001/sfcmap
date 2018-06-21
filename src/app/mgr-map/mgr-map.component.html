@@ -1,3 +1,59 @@
-<p>
-  mgr-map works!
-</p>
+<div class="modal-header">
+    <h4 class="modal-title">
+      <fa-icon icon="map-marker-alt" size="lg"></fa-icon> Map Manager</h4>
+    <div>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete">
+        <fa-icon icon="trash-alt" size="lg"></fa-icon>
+      </button>
+      <button type="button" class="close" aria-label="Close" (click)="newMarkerType()" placement="bottom" ngbTooltip="New Marker Type">
+        <fa-icon icon="plus" size="lg"></fa-icon>
+      </button>
+  
+      <button type="button" class="close" aria-label="Close" (click)="newMarkerCategory()" placement="bottom" ngbTooltip="New Category">
+        <fa-icon icon="folder" size="lg"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="tree col-3">
+          <ng-container *ngFor="let mt of merged">
+            <button [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]"> <fa-icon icon="folder"></fa-icon>
+              {{mt.name}}</button>
+            <div id="{{mt.name}}" [ngbCollapse]="isCollapsed[mt.name]">
+              <button *ngFor="let m of mt.maps" [class.selected]="selected==m" class="dropdown-item btn-sm" (click)="setMap(m)"> <fa-icon icon="map" size="lg"></fa-icon>
+                {{m.name}}</button>
+            </div>
+          </ng-container>
+        </div>
+        <div class="col-9">
+          <ng-container *ngIf="selected">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control " id="name" placeholder="Enter Category Name" [(ngModel)]="selected.name">
+              <small id="emailHelp" class="form-text text-muted">{{selected.id}}</small>
+            </div>
+            <ng-container *ngIf="sType=='map'">
+              <div class="form-group">
+                <label for="name">Map Image</label>
+                <input type="file" class="form-control " id="name" placeholder="select map image" (change)="setFile($event)">
+              </div>
+            </ng-container>
+            <ng-container *ngIf="sType=='type'">
+              <div class="form-group">
+                <label for="name">Order</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.iconSize">
+              </div>
+            </ng-container>
+            <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">
+              <fa-icon icon="save" size="lg"></fa-icon> Save
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>

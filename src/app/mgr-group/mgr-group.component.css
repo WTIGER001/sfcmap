@@ -1,0 +1,18 @@
+.cat-style {
+    padding: 5px 2px;
+}
+
+.tree {
+    height: 500px;
+    overflow: auto;
+}
+
+.member-list {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.selected {
+    outline: 2px solid blue;
+    outline: 5px auto -webkit-focus-ring-color;
+}

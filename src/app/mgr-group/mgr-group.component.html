@@ -1,3 +1,51 @@
-<p>
-  mgr-group works!
-</p>
+<div class="modal-header">
+  <h4 class="modal-title">
+    <fa-icon icon="user" size="lg"></fa-icon> Group Manager</h4>
+  <div>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete">
+      <fa-icon icon="trash-alt" size="lg"></fa-icon>
+    </button>
+    <button type="button" class="close" aria-label="Close" (click)="newGroup()" placement="bottom" ngbTooltip="New Group">
+      <fa-icon icon="plus" size="lg"></fa-icon>
+    </button>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="tree col-3">
+        <ng-container *ngFor="let grp of groups">
+          <button [class.selected]="selected==grp" class="dropdown-item btn-sm cat-style" (click)="setGrp(grp)">
+            <fa-icon icon="user" fixedWidth="true"></fa-icon> {{grp.name}}</button>
+        </ng-container>
+      </div>
+      <div class="col-9">
+        <ng-container *ngIf="selected">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control " id="name" placeholder="Enter Group Name" [(ngModel)]="selected.name">
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="selected.description"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="name">Members</label>
+            <div class="member-list">
+              <div class="custom-control custom-checkbox" *ngFor="let opt of users">
+                <input type="checkbox" class="custom-control-input" id="{{opt.uid}}" [(checklist)]="members" [checklistValue]="opt.uid">
+                <label class="custom-control-label" for="{{opt.uid}}"> {{opt.name}}</label>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">
+            <fa-icon icon="save" size="lg"></fa-icon> Save
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

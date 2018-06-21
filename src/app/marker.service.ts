@@ -8,7 +8,6 @@ import { MapService } from './map.service';
 import { mergeMap, scan, window, concatMap } from 'rxjs/operators';
 import { DataService } from './data.service';
 import { SavedMarker, MapConfig, MarkerType, MarkerCategory } from './models';
-import { ENGINE_METHOD_DIGESTS } from 'constants';
 
 
 @Injectable({

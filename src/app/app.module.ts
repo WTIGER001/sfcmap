@@ -37,6 +37,7 @@ import { MgrGroupComponent } from './mgr-group/mgr-group.component';
 import { MgrMarkerComponent } from './mgr-marker/mgr-marker.component';
 import { MgrMapComponent } from './mgr-map/mgr-map.component';
 import { DialogService } from './dialogs/dialog.service';
+import { ChecklistModule } from 'angular-checklist';
 
 @NgModule({
   declarations: [
@@ -67,8 +68,8 @@ import { DialogService } from './dialogs/dialog.service';
     AngularFireStorageModule,
     LeafletModule.forRoot(),
     FontAwesomeModule,
-    NgbModule.forRoot()
-
+    NgbModule.forRoot(),
+    ChecklistModule
   ],
   providers: [
     MarkerService,

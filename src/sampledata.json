@@ -1,10 +1,13 @@
 {
-    "groups": [
-        {
-            "name": "GM",
-            "description": "Gamemasters"
+    "groups": {
+        "GM": {
+            "description": "Gamemasters",
+            "members": [
+                "iVhfsQ2CfUfinto7flCsmwHkeyY2"
+            ],
+            "name": "GM"
         }
-    ],
+    },
     "users": [
         {
             "uid": "iVhfsQ2CfUfinto7flCsmwHkeyY2",
@@ -65,11 +68,10 @@
             "name": "Uncategorized",
             "appliesTo": [
                 "World / Continent",
-                "City / Town", 
+                "City / Town",
                 "Building"
             ]
         },
-
         {
             "id": "20b5380d-4226-4184-bd75-19725e731fa8",
             "name": "Factions>Dragons",

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker } from './models';
+import { ReplaySubject, Observable, zip, range, combineLatest } from 'rxjs';
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType } from './models';
 import { User, UserService } from './user.service';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
-import { mergeMap, map, concatMap } from 'rxjs/operators';
+import { mergeMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { MyMarker } from './marker.service';
 
 @Injectable({
@@ -13,15 +13,14 @@ import { MyMarker } from './marker.service';
 })
 export class DataService {
 
- 
- 
- 
   mapTypes = new ReplaySubject<Array<MapType>>()
   maps = new ReplaySubject<Array<MapConfig>>()
   users = new ReplaySubject<Array<User>>()
   groups = new ReplaySubject<Array<UserGroup>>()
   markerCategories = new ReplaySubject<Array<MarkerCategory>>()
   markerTypes = new ReplaySubject<Array<MarkerType>>()
+  mapsWithUrls = new  ReplaySubject<Array<MarkerType>>()
+  mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>()
 
   constructor(private db: AngularFireDatabase, private notify : NotifyService, private storage: AngularFireStorage, private usrSvc : UserService) {
   
@@ -31,16 +30,30 @@ export class DataService {
     this.loadAndNotify<UserGroup>(this.toGroup, this.groups, 'groups', 'Loading User Groups')
     this.loadAndNotify<MarkerCategory>(this.toMarkerCategory, this.markerCategories, 'markerCategories', 'Loading Marker Categories')
     this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
-  }
+    
+    this.maps.pipe(
+      concatMap( i => i),
+      mergeMap( m => this.fillInMapUrl(m))
+    ).subscribe( a => {
+      console.log("Running");
+    })
 
-  // getMarkers(mapid: string): Observable<SavedMarker> {
-  //   return <Observable<SavedMarker>>this.db.list('markers/' + mapid)
-  //   .snapshotChanges()
-  //   .pipe(
-  //     concatMap( v => v),
-  //     map(v => v.payload.val())
-  //   )
-  // }
+    combineLatest(this.mapTypes, this.maps)
+    .subscribe(([mts, mps]) => {
+      console.log("Mergin");
+      
+      let mergedArr = new Array<MergedMapType>()
+      mts.forEach( mt => {
+        let merged = new MergedMapType()
+        merged.name = mt.name
+        merged.order = mt.order
+        merged.maps = mps.filter( m => m.mapType == merged.name && this.usrSvc.canView(m))
+        mergedArr.push(merged)
+      })
+      let items = mergedArr.sort((a, b) => b.order-a.order) 
+      this.mapTypesWithMaps.next(items)
+    })
+  }
 
   getMarkers(mapid: string): Observable<Array<SavedMarker>> {
     return this.db.list('markers/' + mapid)
@@ -65,6 +78,7 @@ export class DataService {
   private toMapType(item: any): MapType {
     let me = new MapType()
     Object.assign(me, item)
+
     return me
   }
 
@@ -98,7 +112,7 @@ export class DataService {
     return me
   }
 
-  private loadAndNotify<T>( convert: (a : any) => T, subject : ReplaySubject<Array<T>>, name : string, errorType : string) {
+  private loadAndNotify<T>( convert: (a : any) => T, subject : ReplaySubject<Array<T>>, name : string, errorType : string, sorter?: (items : Array<T>) => void) {
     console.log("Working on " + name);
     
     this.db.list(name).snapshotChanges().subscribe(
@@ -109,6 +123,9 @@ export class DataService {
           items.push(converted)
         })
         console.log("Loaded " + items.length + " " + name);
+        if (sorter) {
+          sorter(items)
+        }
         subject.next(items)
       },
       error => {
@@ -135,6 +152,17 @@ export class DataService {
     return ref.getDownloadURL().pipe(
       map( url => {
         item.url = url
+        return item
+      })
+    )
+  }
+
+  fillInMapUrl(item : MapConfig) : Observable<MapConfig> {
+    let path = 'images/' + item.id + ".jpg"
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      map( url => {
+        item.image = url
         return item
       })
     )
@@ -198,6 +226,17 @@ export class DataService {
     throw new Error("Method not implemented.");
   }
 
+  saveUserGroup(item: UserGroup) {
+    let toSave = this.clean(Object.assign({}, item))
+    console.log(toSave);
+    
+    this.db.object('groups/' + item.name).set(toSave).then( () => {
+      this.notify.success("Saved " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Saving Group")
+    })
+  }
+
   deleteMarker(item: SavedMarker | MyMarker) {
     this.db.object('markers/' + item.map + "/" + item.id).remove().then( () => {
       this.notify.success("Removed " + item.name)
@@ -233,6 +272,14 @@ export class DataService {
       name = item.name
     }
     this.db.object('markerTypes/' + dbId).remove().then( () => {
+      this.notify.success("Removed " + name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Deleteing " + name)
+    })
+  }
+
+  deleteUserGroup(item: UserGroup): any {
+    this.db.object('groups/' + item.name).remove().then( () => {
       this.notify.success("Removed " + name)
     }).catch( reason => {
       this.notify.showError(reason, "Error Deleteing " + name)

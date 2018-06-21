@@ -60,4 +60,11 @@ export class MapConfig {
 export class UserGroup {
     name : string
     description? : string
+    members : string[]
+}
+
+export class MergedMapType {
+    name : string
+    order: number
+    maps : MapConfig[]
 }

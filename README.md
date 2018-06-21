@@ -33,12 +33,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - Restrictions dialog
 - Use buttons for tool bar
 - Toolbar fix for enablement
-- Render marker type name
-
-### Marker Type
-- Dialog
-- Upload icon
-- Load height / width
 
 ## Map 
 - Pan limits
