@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Marker, icon, IconOptions, marker, Icon, latLng } from 'leaflet';
-import { UserService } from './user.service'
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { UUID } from 'angular2-uuid';
@@ -26,7 +25,7 @@ export class MarkerService {
   map : MapConfig
   catsLoaded = new ReplaySubject<boolean>()
 
-  constructor(private usr: UserService, private db: AngularFireDatabase, private mapSvc : MapService, private data : DataService) {
+  constructor(private db: AngularFireDatabase, private mapSvc : MapService, private data : DataService) {
     // Load the markers when the map changes
     this.mapSvc.mapConfig.pipe(
       mergeMap( newMap =>  {
@@ -37,7 +36,7 @@ export class MarkerService {
       console.log("checking Markers " + markers.length);
       let localMarkers = new Array<MyMarker>()
       markers.forEach( marker => {
-        if (this.usr.canView(marker)) {
+        if (this.data.canView(marker)) {
           let m = this.fromSavedMarker(marker)
           localMarkers.push(m)
         }

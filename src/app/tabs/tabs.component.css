@@ -4,9 +4,11 @@
     top: 2px;
     color: lightgray;
     cursor: pointer;
+    font-weight: 300;
 }
 .hide {
     display: none;
+    transition: display 2s step-end
 }
 .user-tab {
     top: 10px;
@@ -31,3 +33,4 @@
 .visible {
     display: block;
 }
+

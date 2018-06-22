@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable, zip, range, combineLatest } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType } from './models';
-import { User, UserService } from './user.service';
+import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of } from 'rxjs';
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { mergeMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { MyMarker } from './marker.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  // The currently logged in user
+  user = new BehaviorSubject<User>(new User())
 
   mapTypes = new ReplaySubject<Array<MapType>>()
   maps = new ReplaySubject<Array<MapConfig>>()
@@ -21,9 +24,20 @@ export class DataService {
   markerTypes = new ReplaySubject<Array<MarkerType>>()
   mapsWithUrls = new  ReplaySubject<Array<MarkerType>>()
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>()
-
-  constructor(private db: AngularFireDatabase, private notify : NotifyService, private storage: AngularFireStorage, private usrSvc : UserService) {
   
+  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private notify : NotifyService, private storage: AngularFireStorage) {
+  
+    afAuth.authState
+    .pipe(
+      map(fireUser => User.fromFireUser(fireUser)),
+      mergeMap(u => this.getUserInfo(u))
+    )
+    .subscribe(u => {
+      console.log("User Logged in " + u.uid)
+      console.log(u);
+      this.user.next(u)
+    });
+
     this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
     this.loadAndNotify<User>(this.toUser, this.users, 'users', 'Loading Users')
@@ -31,26 +45,27 @@ export class DataService {
     this.loadAndNotify<MarkerCategory>(this.toMarkerCategory, this.markerCategories, 'markerCategories', 'Loading Marker Categories')
     this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
     
+    // Load the URLS
     this.maps.pipe(
       concatMap( i => i),
-      mergeMap( m => this.fillInMapUrl(m))
+      mergeMap( m => this.fillInMapUrl(m)),
+      mergeMap( m => this.fillInMapThumb(m))
     ).subscribe( a => {
-      console.log("Running");
+      
     })
 
     combineLatest(this.mapTypes, this.maps)
     .subscribe(([mts, mps]) => {
-      console.log("Mergin");
-      
       let mergedArr = new Array<MergedMapType>()
       mts.forEach( mt => {
         let merged = new MergedMapType()
         merged.name = mt.name
         merged.order = mt.order
-        merged.maps = mps.filter( m => m.mapType == merged.name && this.usrSvc.canView(m))
+        merged.id = mt.id
+        merged.maps = mps.filter( m => m.mapType == merged.id && this.canView(m))
         mergedArr.push(merged)
       })
-      let items = mergedArr.sort((a, b) => b.order-a.order) 
+      let items = mergedArr.sort((a, b) => a.order-b.order) 
       this.mapTypesWithMaps.next(items)
     })
   }
@@ -69,10 +84,6 @@ export class DataService {
         return markers;
       })
     )
-  }
-
-  canView(item: any): any {
-    throw new Error("Method not implemented.");
   }
 
   private toMapType(item: any): MapType {
@@ -135,19 +146,17 @@ export class DataService {
   }
 
   url(item: MapConfig | MarkerType): Observable<string> {
-    console.log("Getting Download URL for " + item.name);
-    let path = 'images/' + item.id + ".jpg"
+    let path = 'images/' + item.id
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       map( item => {
-        console.log("DONE:  " + item);
         return item
       })
     )
   }
 
   fillInUrl(item : MarkerType) : Observable<MarkerType> {
-    let path = 'images/' + item.id + ".png"
+    let path = 'images/' + item.id
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       map( url => {
@@ -158,7 +167,7 @@ export class DataService {
   }
 
   fillInMapUrl(item : MapConfig) : Observable<MapConfig> {
-    let path = 'images/' + item.id + ".jpg"
+    let path = 'images/' + item.id 
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       map( url => {
@@ -168,9 +177,18 @@ export class DataService {
     )
   }
 
+  fillInMapThumb(item : MapConfig): Observable<MapConfig> {
+    return this.thumb(item).pipe(
+      map( url => {
+        item.thumb = url
+        return item
+      })
+    )
+  }
+
 
   thumb(mapCfg : MapConfig) : Observable<string> {
-    let path = 'images/' + mapCfg.id + "_thumb.png"
+    let path = 'images/' + mapCfg.id + "_thumb"
     const ref = this.storage.ref(path);
     return ref.getDownloadURL()
   }
@@ -222,8 +240,15 @@ export class DataService {
     }
   }
 
-  saveMarkerCategory(arg0: any): any {
-    throw new Error("Method not implemented.");
+  saveMarkerCategory(item: MarkerCategory) {
+    let toSave = this.clean(Object.assign({}, item))
+    console.log(toSave);
+    
+    this.db.object('markerCategories/' + item.id).set(toSave).then( () => {
+      this.notify.success("Saved " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Saving Group")
+    })
   }
 
   saveUserGroup(item: UserGroup) {
@@ -235,6 +260,93 @@ export class DataService {
     }).catch( reason => {
       this.notify.showError(reason, "Error Saving Group")
     })
+  }
+
+
+  saveMapType(item: MapType) {
+    let toSave = this.clean(Object.assign({}, item))
+    console.log(toSave);
+    this.db.object('mapTypes/' + item.id).set(toSave).then( () => {
+      this.notify.success("Saved " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Saving Group")
+    })
+  }
+
+  saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
+    console.log("Saving Map a");
+    if (thumb && image) {
+      console.log("Saving Map b");
+
+      let pathImage = 'images/' + map.id 
+      let pathThumb = 'images/' + map.id + "_thumb"
+  
+      let obsImage = this.saveImage(image, pathImage)
+      let obsThumb = this.saveImage(thumb, pathThumb)
+  
+      // Wait for the images to be uploaded
+      forkJoin(obsImage, obsThumb).subscribe( results => {
+
+        this._saveMap(map)
+      }, err => {
+        console.log("ERROR");
+        console.log(err);
+      }, () => {
+        console.log("Complete");
+      })
+
+    } else {
+      this._saveMap(map)
+    }
+  }
+
+  private _saveMap(item : MapConfig) {
+    let toSave = this.clean(Object.assign({}, item))
+    console.log(toSave);
+    this.db.object('maps/' + item.id).set(toSave).then( () => {
+      this.notify.success("Saved " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Saving Map")
+    })
+  }
+
+  saveImage(data : Blob, path : string) {
+    console.log("Saving Map Blob " + path);
+
+    const ref = this.storage.ref(path)
+    return ref.put(data)
+    .snapshotChanges()
+  }
+
+  saveUser(item: User) {
+    let toSave = this.clean(Object.assign({}, item))
+    console.log(toSave);
+    
+    this.db.object('users/' + item.uid).set(toSave).then( () => {
+      this.notify.success("Saved " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Saving User")
+    })
+  }
+
+  deleteMapType(item: MapType) {
+    this.db.object('mapTypes/' + item.id).remove().then( () => {
+      this.notify.success("Removed " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Deleting Map")
+    })
+  }
+
+  deleteMap(item: MapConfig) {
+    this.db.object('maps/' + item.id).remove().then( () => {
+      this.notify.success("Removed " + item.name)
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Deleting Map")
+    })
+
+    this.storage.ref('images/' + item.id +".jpg").delete()
+    this.storage.ref('images/' + item.id +"_thumb.png").delete()
+
   }
 
   deleteMarker(item: SavedMarker | MyMarker) {
@@ -260,6 +372,8 @@ export class DataService {
     }).catch( reason => {
       this.notify.showError(reason, "Error Deleteing " + name)
     })
+
+    this.storage.ref('images/' + dbId +".png").delete()
   }
 
   deleteMarkerType(item: MarkerType | string) {
@@ -276,6 +390,8 @@ export class DataService {
     }).catch( reason => {
       this.notify.showError(reason, "Error Deleteing " + name)
     })
+
+    this.storage.ref('images/' + dbId +".png").delete()
   }
 
   deleteUserGroup(item: UserGroup): any {
@@ -293,5 +409,101 @@ export class DataService {
       }
     }
     return obj
+  }
+
+  isRestricted(obj : any) : boolean {
+    if (obj.view && obj.view.length > 0) {
+      return true
+    }
+    if (obj.edit && obj.edit.length > 0) {
+      return true
+    }
+    return false
+  }
+
+  // User Functions
+
+  canView(item: any): any {
+    if (!item['view']) {
+      return true
+    }
+    let view : Array<string> = item['view']
+    if (view.length == 0) {
+      return true
+    }
+    if (this.isReal) {
+      return view.includes(this.user.getValue().uid)
+    }
+    return false
+  }
+
+  canEdit(item: any): any {
+    if (!item['edit']) {
+      return true
+    }
+    let edit : Array<string> = item['edit']
+    if (edit.length == 0) {
+      return true
+    }
+    if (this.isReal) {
+      return edit.includes(this.user.getValue().uid)
+    }
+    return false
+  }
+
+  isReal(): any {
+    return this.user.getValue().uid == "NOBODY"
+  }
+
+  public saveRecentMarker(markerId: string) {
+    if (this.isReal()) {
+      let u = this.user.getValue()
+      if (u.recentMarkers) {
+         u.recentMarkers.unshift(markerId)
+         if (u.recentMarkers.length > 5) {
+          u.recentMarkers.splice(5, u.recentMarkers.length - 5)
+         }
+      } else {
+        u.recentMarkers = [markerId]
+      }
+      this.saveUser(u)
+    }
+  }
+
+  public saveRecentMap(mapId: string) {
+    if (this.isReal()) {
+      let u = this.user.getValue()
+      if (u.recentMaps) {
+         u.recentMaps.unshift(mapId)
+         if (u.recentMaps.length > 5) {
+          u.recentMaps.splice(5, u.recentMaps.length - 5)
+         }
+      } else {
+        u.recentMaps = [mapId]
+      }
+      this.saveUser(u)
+    }
+  }
+
+  private getUserInfo(u: User): Observable<User> {
+    console.log("Getting User Information for " + u.uid);
+  
+    return this.db.object('users/' + u.uid)
+    .snapshotChanges()
+    .pipe (
+      mergeMap( result => {
+        if (result.payload.exists()) {
+          console.log("User Exists");
+          
+          console.log(result.payload.val());
+          var newUser: User = <User>result.payload.val()
+          return of(newUser)
+        } else {
+          console.log("User DOESNT ");
+          this.saveUser(u)
+          return of(u)
+        }
+      })
+    )
   }
 }

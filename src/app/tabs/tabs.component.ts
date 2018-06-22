@@ -30,7 +30,8 @@ export class TabsComponent implements OnInit {
 
     if (this.selected === tab) {
       this.expanded = false
-      this.selected = ""
+      // this.selected = ""
+      setTimeout(() => { this.selected = ""}, 800)
     } else {
       this.selected = tab
       this.expanded = true

@@ -10,12 +10,14 @@ body {
     background-color: black;
     display: block;
     position: fixed;
-    right: 0;
+    right: -25%;
     top: 0;
-    width: 0%;
+    width: 25%;
     height: 100%;
     z-index: 2;
     opacity: .8;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .side-container {
@@ -24,9 +26,11 @@ body {
 }
 
 .sideshow {
-    width: 25%;
-    padding: 10px;
-
+    right: 0;
+    transition: right .8s
+}
+.sideshow-hide {
+    transition: right .8s
 }
 
 .tab-icon {

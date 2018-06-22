@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MarkerService } from '../marker.service';
-import { UserService, User } from '../user.service';
 import { auth } from 'firebase';
+import { DataService } from '../data.service';
+import { User, UserGroup } from '../models';
+import { zip, combineLatest } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-side',
@@ -12,13 +15,23 @@ import { auth } from 'firebase';
 export class UserSideComponent implements OnInit {
 
   user: User
+  groups: UserGroup[] = []
 
-  constructor(public afAuth: AngularFireAuth, private markers: MarkerService, private userSvc: UserService) {
-    this.userSvc.user.subscribe(u => {
-      this.user = u
+  constructor(public afAuth: AngularFireAuth, private markers: MarkerService, private data: DataService) {
+    combineLatest(
+      this.data.user,
+      this.data.groups
+    ).subscribe(([u, g]) => {
+      this.user = u;
+      let newGroups = []
+      g.forEach(grp => {
+        if (grp.members.includes(u.uid)) {
+          newGroups.push(grp)
+        }
+      })
+      this.groups = newGroups
     })
   }
-
 
   ngOnInit() {
   }
@@ -30,7 +43,9 @@ export class UserSideComponent implements OnInit {
     this.afAuth.auth.signOut();
   }
   isValid() {
-    return this.user.uid != "NOBODY"
+    return this.user && this.user.uid != "NOBODY"
   }
-
+  save() {
+    this.data.saveUser(this.user)
+  }
 }

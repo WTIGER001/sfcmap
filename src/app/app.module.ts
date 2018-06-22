@@ -17,7 +17,6 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { AppComponent } from './app.component';
 import { MarkerService } from './marker.service';
-import { UserService } from './user.service';
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './map-selector/map-selector.component';
@@ -38,6 +37,8 @@ import { MgrMarkerComponent } from './mgr-marker/mgr-marker.component';
 import { MgrMapComponent } from './mgr-map/mgr-map.component';
 import { DialogService } from './dialogs/dialog.service';
 import { ChecklistModule } from 'angular-checklist';
+import { AccessDialogComponent } from './dialogs/access-dialog/access-dialog.component';
+import { RestrictService } from './dialogs/restrict.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ChecklistModule } from 'angular-checklist';
     MarkerDialogComponent,
     MgrGroupComponent,
     MgrMarkerComponent,
-    MgrMapComponent
+    MgrMapComponent,
+    AccessDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,12 +75,12 @@ import { ChecklistModule } from 'angular-checklist';
   ],
   providers: [
     MarkerService,
-    UserService,
     MapService,
     CommonDialogService,
     NotifyService, 
     DataService, 
-    DialogService
+    DialogService, 
+    RestrictService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -87,7 +89,8 @@ import { ChecklistModule } from 'angular-checklist';
     ConfirmDialogComponent, 
     MgrGroupComponent,
     MgrMapComponent, 
-    MgrMarkerComponent
+    MgrMarkerComponent, 
+    AccessDialogComponent
   ]
 })
 export class AppModule {

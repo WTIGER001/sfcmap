@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
-import { UserGroup } from '../models';
-import { User } from '../user.service';
+import { UserGroup, User } from '../models';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonDialogService } from '../dialogs/common-dialog.service';
 

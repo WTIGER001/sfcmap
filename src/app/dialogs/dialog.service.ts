@@ -5,6 +5,7 @@ import { from, Observable } from 'rxjs';
 import { MgrMarkerComponent } from '../mgr-marker/mgr-marker.component';
 import { MgrGroupComponent } from '../mgr-group/mgr-group.component';
 import { MgrMapComponent } from '../mgr-map/mgr-map.component';
+import { AccessDialogComponent } from './access-dialog/access-dialog.component';
 
 @Injectable()
 export class DialogService {
@@ -21,6 +22,5 @@ export class DialogService {
   } 
   public openMaps() {
     const modalRef = this.modalSvc.open(MgrMapComponent,  { size: 'lg' });
-  }
-  
+  }  
 }

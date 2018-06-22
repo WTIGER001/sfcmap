@@ -1,59 +1,101 @@
 <div class="modal-header">
-    <h4 class="modal-title">
-      <fa-icon icon="map-marker-alt" size="lg"></fa-icon> Map Manager</h4>
-    <div>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
-        <span aria-hidden="true">&times;</span>
+  <h4 class="modal-title">
+    <fa-icon icon="map-marker-alt" size="lg"></fa-icon> Map Manager</h4>
+  <div>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete"  [disabled]="!this.selected">
+      <fa-icon icon="trash-alt" size="lg"></fa-icon>
+    </button>
+    <button type="button" class="close" aria-label="Close" (click)="newMap()" placement="bottom" ngbTooltip="New Map"  [disabled]="!this.selected">
+      <fa-icon icon="plus" size="lg"></fa-icon>
+    </button>
+
+    <button type="button" class="close" aria-label="Close" (click)="newMapType()" placement="bottom" ngbTooltip="New Map Type">
+      <fa-icon icon="folder" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="restricted == false" type="button" class="close" aria-label="Close" (click)="showAccess()" placement="bottom" ngbTooltip="Restrict Access (Not Restricted)">
+        <fa-icon icon="unlock" size="lg"></fa-icon>
       </button>
-      <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete">
-        <fa-icon icon="trash-alt" size="lg"></fa-icon>
-      </button>
-      <button type="button" class="close" aria-label="Close" (click)="newMarkerType()" placement="bottom" ngbTooltip="New Marker Type">
-        <fa-icon icon="plus" size="lg"></fa-icon>
-      </button>
-  
-      <button type="button" class="close" aria-label="Close" (click)="newMarkerCategory()" placement="bottom" ngbTooltip="New Category">
-        <fa-icon icon="folder" size="lg"></fa-icon>
-      </button>
-    </div>
+      <button  *ngIf="restricted == true" type="button" class="close" aria-label="Close" (click)="showAccess()" placement="bottom" ngbTooltip="Restrict Access (Restricted)">
+          <fa-icon icon="lock" size="lg"></fa-icon>
+        </button>
   </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="tree col-3">
-          <ng-container *ngFor="let mt of merged">
-            <button [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]"> <fa-icon icon="folder"></fa-icon>
-              {{mt.name}}</button>
-            <div id="{{mt.name}}" [ngbCollapse]="isCollapsed[mt.name]">
-              <button *ngFor="let m of mt.maps" [class.selected]="selected==m" class="dropdown-item btn-sm" (click)="setMap(m)"> <fa-icon icon="map" size="lg"></fa-icon>
-                {{m.name}}</button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="tree col-3">
+        <ng-container *ngFor="let mt of merged">
+          <button [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]">
+            <fa-icon *ngIf='!isCollapsed[mt.name]' icon="folder-open"></fa-icon>
+            <fa-icon *ngIf='isCollapsed[mt.name]' icon="folder"></fa-icon>
+            {{mt.name}}</button>
+          <div id="{{mt.name}}" [ngbCollapse]="isCollapsed[mt.name]">
+            <button *ngFor="let m of mt.maps" [class.selected]="selected==m" class="dropdown-item btn-sm" (click)="setMap(m)">
+              <fa-icon icon="map" size="lg"></fa-icon>
+              {{m.name}}</button>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-9">
+        <ng-container *ngIf="selected">
+          <ng-container *ngIf="sType=='map'">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control " id="name" placeholder="Enter Map Name" [(ngModel)]="selected.name">
+                  <small id="emailHelp" class="form-text text-muted">{{selected.id}}</small>
+                </div>
+            <div class="container-fluid">
+              <div class="row p-0">
+                <div class="col-6 p-0">
+                  <div class="form-group  mb-0">
+                    <label for="name">Map Image</label>
+                  </div>
+                  <div class="form-group" >
+                    <label for="file" class="custom-file-upload p-0" (click)="getFile()">
+                      <canvas #mycanvas class="file-div" src="./assets/missing.png" width="150"></canvas>
+                    </label>
+                    <input id="file" #filecontrol type="file" class="inputfile " id="name" accept=".jpg,.png" placeholder="select map image" (change)="setFile($event)">
+                  </div>
+                </div>
+                <div class="col-6 p-0">
+                  <div class="form-group mb-0">
+                    <label for="name">Dimensions</label>
+                  </div>
+                  <div class="form-group">
+                    <label for="dim">Height</label>
+                    <input id="dim" type="text" class="form-control " id="name" placeholder="Enter Height" [(ngModel)]="selected.height">
+                  </div>
+                  <div class="form-group">
+                    <label for="dim">Width</label>
+                    <input id="dim" type="text" class="form-control " id="name" placeholder="Enter Width" [(ngModel)]="selected.width">
+                  </div>
+                </div>
+              </div>
             </div>
-          </ng-container>
-        </div>
-        <div class="col-9">
-          <ng-container *ngIf="selected">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" class="form-control " id="name" placeholder="Enter Category Name" [(ngModel)]="selected.name">
-              <small id="emailHelp" class="form-text text-muted">{{selected.id}}</small>
+              <label for="description">Description</label>
+              <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="selected.description"></textarea>
             </div>
-            <ng-container *ngIf="sType=='map'">
-              <div class="form-group">
-                <label for="name">Map Image</label>
-                <input type="file" class="form-control " id="name" placeholder="select map image" (change)="setFile($event)">
-              </div>
-            </ng-container>
-            <ng-container *ngIf="sType=='type'">
-              <div class="form-group">
-                <label for="name">Order</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.iconSize">
-              </div>
-            </ng-container>
-            <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">
-              <fa-icon icon="save" size="lg"></fa-icon> Save
-            </button>
           </ng-container>
-        </div>
+          <ng-container *ngIf="sType=='type'">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control " id="name" placeholder="Enter Map Type Name" [(ngModel)]="selected.name">
+                  <small id="emailHelp" class="form-text text-muted">ID:{{selected.id}}</small>
+                </div>
+            <div class="form-group">
+              <label for="name">Order</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.order">
+            </div>
+          </ng-container>
+          <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">
+            <fa-icon icon="save" size="lg"></fa-icon> Save
+          </button>
+        </ng-container>
       </div>
     </div>
   </div>
+</div>

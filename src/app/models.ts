@@ -1,3 +1,44 @@
+import { UUID } from "angular2-uuid";
+import { User as FireUser } from 'firebase';
+ 
+/**
+ * A user in the
+ */
+export class User {
+    name: string
+    email?: string
+    uid: string
+    photo?: string
+    groups?: string[]
+    assumedGroups?: string[]
+    recentMarkers?: string[]
+    recentMaps?: string[]
+  
+    isAdmin(): boolean {
+      return this.groups.includes("admin")
+    }
+  
+    constructor() {
+      this.name = "no one"
+      this.uid = "NOBODY"
+    }
+  
+    static fromFireUser(fireUser: FireUser) {
+      var u = new User()
+      if (fireUser !== null) {
+        console.log("Logged in user : " + fireUser.uid);
+  
+        u.uid = fireUser.uid
+        u.name = fireUser.displayName
+        u.email = fireUser.email
+        u.photo = fireUser.photoURL
+      } else {
+        console.log("No User loged in");
+      }
+  
+      return u
+    }
+  }
 
 /** 
  * A Marker Category is a group that markers are placed into. 
@@ -37,6 +78,7 @@ export class SavedMarker {
  * A type of map. For example: World / Continent, City / Town, Building Interior, 
  */
 export class MapType {
+    id: string 
     name : string
     order: number
 }
@@ -64,6 +106,7 @@ export class UserGroup {
 }
 
 export class MergedMapType {
+    id: string 
     name : string
     order: number
     maps : MapConfig[]

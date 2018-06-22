@@ -2,24 +2,25 @@
     top: 10px;
 }
 
+h2 {
+    font-weight: 300;
+}
+
 .user-photo {
     height: 64px;
     width: 64px;
     border-radius: 50%;
-    float: left;
+    border: 3px solid lightgray;
+    box-sizing: content-box
 }
 
-.user-name {
-    float: left;
-    height: 64px;
-    padding-left: 20px;
-    margin-right: auto;
+.logoutlink {
+    font-size: .8em;
 }
-.user-logout {
-    float: right;
-    height: 64px;
-    margin-top: 20px;
-}
-.user-name::after {
-    clear: both;
+
+.user-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

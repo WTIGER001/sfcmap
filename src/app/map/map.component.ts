@@ -1,11 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { latLngBounds, Layer, imageOverlay, CRS, Map, LayerGroup, layerGroup, LeafletEvent, Marker } from 'leaflet';
-import { User, UserService } from '../user.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MarkerService, MyMarker } from '../marker.service';
 import { MapService } from '../map.service';
 import { DataService } from '../data.service';
-import { MapConfig } from '../models';
+import { MapConfig, User } from '../models';
 import { flatten } from '@angular/compiler';
 import { ReplaySubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
@@ -27,10 +26,10 @@ export class MapComponent implements OnInit {
   markerLayer: LayerGroup = layerGroup()
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
-    private markers: MarkerService, private userSvc: UserService, 
+    private markers: MarkerService,  
     private mapSvc : MapService, private data : DataService) {
 
-    this.userSvc.user.subscribe(u => {
+    this.data.user.subscribe(u => {
       this.user = u
     })
     // this.markers.markersObs.subscribe(

@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    <fa-icon icon="user" size="lg"></fa-icon> Group Manager</h4>
+    <fa-icon icon="users" size="lg"></fa-icon> Group Manager</h4>
   <div>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
       <span aria-hidden="true">&times;</span>
@@ -19,7 +19,7 @@
       <div class="tree col-3">
         <ng-container *ngFor="let grp of groups">
           <button [class.selected]="selected==grp" class="dropdown-item btn-sm cat-style" (click)="setGrp(grp)">
-            <fa-icon icon="user" fixedWidth="true"></fa-icon> {{grp.name}}</button>
+            <fa-icon icon="users" fixedWidth="true"></fa-icon> {{grp.name}}</button>
         </ng-container>
       </div>
       <div class="col-9">

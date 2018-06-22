@@ -7,7 +7,7 @@
     <div class="map-item" *ngFor="let m of mt.maps">
       <ng-container>
         <!-- <img src="./assets/missing.png" height="100"> -->
-        <img [src]='m.image' width="150" (click)="select(m)">
+        <img [src]='m.thumb' width="150" (click)="select(m)">
         <span class="map-title">{{m.name}}</span>
       </ng-container>
     </div>

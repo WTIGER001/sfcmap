@@ -1,12 +1,25 @@
+
 <div *ngIf="isValid(); else showLogin" class="side-container">
-  <img [src]="user.photo" class="user-photo">
-  <h2 class="user-name">{{ user.name }}</h2>
+  <div class="user-title">
+    <img [src]="user.photo" class="user-photo user-item ">
+    <h2 class="user-name mb-0 pb-0 ">{{ user.name }}</h2>
+    <!-- <fa-icon icon="sign-out-alt" size="2x" (click)="logout()" class="user-logout user-item "></fa-icon> -->
+    <a href="#" (click)="logout()" class="logoutlink mt-0 pt-0">Log Out</a>
+  </div>
 
-  <fa-icon icon="sign-out-alt" size="2x" (click)="logout()" class="user-logout"></fa-icon>
+  <label class="mt-2 mb-0" for="name">My Groups</label>
+  <small class="form-text text-muted mb-2">These are the groups you are in. Check any group that you want to be currently active.</small>
 
+  <div class="group-list">
+    <div class="custom-control custom-checkbox" *ngFor="let g of groups">
+      <input type="checkbox" class="custom-control-input" id="{{g.name}}" [(checklist)]="user.assumedGroups" [checklistValue]="g.name"
+        (checklistChange)="save()">
+      <label class="custom-control-label" for="{{g.name}}">{{g.name}}</label>
+      <small *ngIf="g.description" class="form-text text-muted">{{g.description}}</small>
+    </div>
+  </div>
 </div>
 <ng-template #showLogin class="side-container">
   <p>Please login.</p>
   <img src="./assets/signin_with_google.png" (click)="loginGoogle()">
 </ng-template>
-

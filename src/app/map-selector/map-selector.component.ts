@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { MapType, MapConfig, MergedMapType } from '../models';
 import { DataService } from '../data.service';
-import { UserService, User } from '../user.service';
 import { MapService } from '../map.service';
 
 @Component({
@@ -13,7 +12,7 @@ import { MapService } from '../map.service';
 export class MapSelectorComponent implements OnInit {
   merged : Array<MergedMapType>
 
-  constructor(private data: DataService, private usrSvc: UserService, private mapSvc : MapService) {
+  constructor(private data: DataService, private mapSvc : MapService) {
     this.data.mapTypesWithMaps.subscribe( items => {
       this.merged = items
     })
@@ -24,7 +23,7 @@ export class MapSelectorComponent implements OnInit {
 
   select (map : MapConfig) {
     this.mapSvc.setConfig(map)
-    this.usrSvc.saveRecentMap(map.id)
+    this.data.saveRecentMap(map.id)
   } 
  
   getUrl(map : MapConfig) : Observable<string>{
