@@ -9,7 +9,7 @@
 
   <ng-container *ngIf="marker">
     <div class="marker-container" *ngIf="edit==false">
-      <img [src]="marker?.iconUrl" class="centered  mt-4" >
+      <img [src]="marker?.iconUrl" class="centered  mt-4  iconselected" >
       <span class="title">{{marker?.name}}</span>
       <span class="type">{{name()}}</span>
       <span class="description">{{marker?.description}}</span>
@@ -17,7 +17,7 @@
       <a href="#" class="coords" (click)="pan()">{{marker?.marker._latlng.lat}}, {{marker?.marker._latlng.lng}}</a>
     </div>
     <div *ngIf="edit==true">
-      <img [src]="marker?.iconUrl" class="centered mt-4">
+      <img [src]="marker?.iconUrl" class="centered mt-4 iconselected">
 
       <div class="form-group">
         <label for="name" class="small">Name</label>

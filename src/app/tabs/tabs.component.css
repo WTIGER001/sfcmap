@@ -31,7 +31,7 @@
 
 
 .side-nav {
-    background-color: black;
+    background-color: rgba(0, 0, 0, .8);
     display: block;
     position: fixed;
     right: -25%;
@@ -39,7 +39,6 @@
     width: 25%;
     height: 100%;
     z-index: 2;
-    opacity: .8;
     padding: 10px;
     box-sizing: border-box;
 }
@@ -69,8 +68,8 @@
     left: -30px;
     /* width: 20px; */
     /* background-color: #605f5d; */
-    background-color: rgba(96, 96, 93, .8);
-    /* opacity: .8; */
+    background-color: rgba(96, 96, 93, 1);
+    opacity: .8;
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     padding: 5px;

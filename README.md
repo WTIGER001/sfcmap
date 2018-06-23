@@ -38,76 +38,60 @@ Selection   - Peach - #D9B08C
 Text        - Light - #D1E8E2
 
 
-## Big
+## Priority 1
 - Need to make a marker selection control...
 
-
-## Misc
-- Landing Page
-- Loading Indicator
+## Prority 2
+- Marker Groups / Layers to control visiblity easily?
 - Try out some plugins
 -- Draw
-- Group into modules? 
--- Map, Marker, User?
-
-## Model
-- Marker Groups / Layers to control visiblity easily?
-- Test on phone (need to make slide outs full pages)
-- Default marker at the Map Type and Map level
-- Project or Game or Collection top level construct
-- Class names as member variables and then standard methods
-- implement Clone(), Clean(), etc...
-
-## Services
 - Refilter when someone assumes a group
-
-## Markers Tab
-- Restrictions dialog
 - Use buttons for tool bar
 - Toolbar fix for enablement
-- Recent Markers area
-
-## Map 
-- Pan limits
 - Marker to Other Map Links
+- Map Tab : Styling and typeography
+- Map Tab: Slide out pannel to choose more
+- Map: Square Graticules (w/ controls)
 
-## Marker Manager
-- Applies to fix
-- Maybe ditch dialogs and instead use a fly out panel
-
-## Map Side Panel
-- Styling and typeography
-- Slide out pannel to choose more
-- Collapseable
-
-## Info Tab
-- Not sure if I need to keep this... dont know what the content is...
-
-## RPG Features?
-- Dice Roller
-- Chat window
-- Distance Measure
+## Priority 3
+- Distance Measure 
 - Distance Calibrate
 - Marker Snap
 - Marker Edit mode
+
+## Prority 4
+- Landing Page
+- Loading Indicator
+- Project or Game or Collection top level construct
+- Class names as member variables and then standard methods (implement Clone(), Clean(), etc...)
+- Recent Markers area
+- Maybe ditch dialogs and instead use a fly out panel
+
+## Prority 5
+- Group into modules? 
+-- Map, Marker, User?
+- Test on phone (need to make slide outs full pages)
+- Pan limits
+- Border Decoration for regions (a,b,c, etc)
+
+## RPG Features ( hard stuff /// Out of scope)?
+- Dice Roller
+- Chat window ( can use skype )
 - White Board
-- Graticules at a predfined scale
 - Hexegon Graticules (bigger issue)
 
 
-## Tree Ideas
-<tree>
-    <tree-item *ngFor="let a of items" [value]="a" [template]="tree-item-content'>
-        <tree-item [value]="a" [template]="tree-item-content' > </tree-item>
-    </tree-item>
-</tree>
+---------------------
 
-<ng-template #tree-item-expanded>
-    <fa-icon icon='caret-left' size='lg' [fixedwidth]='true'>
-</ng-template>
-<ng-template #tree-item-collapsed>
-    <fa-icon icon='caret-down' size='lg' [fixedwidth]='true'>
-</ng-template>
-<ng-template #tree-item-content>
-    <fa-icon icon='caret-down' size='lg' [fixedwidth]='true'>
-</ng-template>
+Layer / Marker Selection
+
+Layer Types:
+- Image Overlay 
+-- Controls: 
+- Feature Group
+-- List Layers
+- Marker
+-- 
+- Graticule
+-- Move (left / right / up / down)
+-- X/Y Spacing
