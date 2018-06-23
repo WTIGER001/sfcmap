@@ -95,22 +95,20 @@ export class MgrMapComponent implements OnInit {
   save() {
     if (this.selected) {
       if (this.sType == 'map') {
-        console.log("Saving Map");
         if (this.result) {
           this.data.saveMap(this.selected, this.result.image, this.result.thumb)
         } else {
           this.data.saveMap(this.selected)
         }
       } else {
-        console.log("Saving Map Type");
-        this.selected.name = this.escape(this.selected.name)
+        console.log(this.selected);
+  
         this.data.saveMapType(this.selected)
       }
     }
   }
 
   setType(t) {
-    console.log("Saving Map");
     this.restricted = false
     this.selected = t
     this.sType = 'type'

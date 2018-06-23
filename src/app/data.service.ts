@@ -62,6 +62,7 @@ export class DataService {
         merged.name = mt.name
         merged.order = mt.order
         merged.id = mt.id
+        merged.defaultMarker = mt.defaultMarker
         merged.maps = mps.filter( m => m.mapType == merged.id && this.canView(m))
         mergedArr.push(merged)
       })

@@ -30,10 +30,9 @@
     <div class="row">
       <div class="tree col-3">
         <ng-container *ngFor="let mt of merged">
-          <button [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]">
-            <fa-icon *ngIf='!isCollapsed[mt.name]' icon="folder-open"></fa-icon>
-            <fa-icon *ngIf='isCollapsed[mt.name]' icon="folder"></fa-icon>
-            {{mt.name}}</button>
+          <div [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style noselect" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]">
+            <fa-icon class="pointer" (click)="isCollapsed[mt.name] = !isCollapsed[mt.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[mt.name] ? 'caret-right' : 'caret-down'"></fa-icon>{{mt.name}}
+          </div>
           <div id="{{mt.name}}" [ngbCollapse]="isCollapsed[mt.name]">
             <button *ngFor="let m of mt.maps" [class.selected]="selected==m" class="dropdown-item btn-sm" (click)="setMap(m)">
               <fa-icon icon="map" size="lg"></fa-icon>
@@ -79,9 +78,9 @@
               </div>
             </div>
             <div class="form-group">
-                <label for="name">Default Marker</label>
-                <app-marker-combo [(ngModel)]="selected.defaultMarker" [map]="selected"></app-marker-combo>
-              </div>
+              <label for="name">Default Marker</label>
+              <app-marker-combo [(ngModel)]="selected.defaultMarker" [map]="selected"></app-marker-combo>
+            </div>
             <div class="form-group">
               <label for="description">Description</label>
               <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="selected.description"></textarea>

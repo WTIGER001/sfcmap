@@ -3,6 +3,8 @@ import { MarkerService, MyMarker } from '../../marker.service';
 import { MapService } from '../../map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { MarkerType, MapConfig } from '../../models';
+import { RestrictService } from '../../dialogs/restrict.service';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-marker-side',
@@ -15,7 +17,8 @@ export class MarkerSideComponent implements OnInit {
   map: MapConfig
   categories = []
   ready = new Map<string, boolean>()
-  constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService) {
+  restricted = false
+  constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService, private restrict : RestrictService, private data : DataService) {
     // Handle Selections
     this.mapSvc.selection.subscribe(sel => {
       if (this.marker != undefined) {
@@ -23,6 +26,7 @@ export class MarkerSideComponent implements OnInit {
       }
       if (!sel.isEmpty()) {
         if (MyMarker.is(sel.first)) {
+          this.restricted = this.data.isRestricted(sel.first)
           this.marker = sel.first
           this.edit = false
         }
@@ -58,6 +62,7 @@ export class MarkerSideComponent implements OnInit {
     let m = this.mks.newTempMarker()
     this.mapSvc.addTempMarker(m)
     this.marker = m
+    this.restricted = false
     this.editstart()
   }
 
@@ -96,6 +101,7 @@ export class MarkerSideComponent implements OnInit {
     this.edit = false
     this.disable()
     this.mks.saveMarker(this.marker)
+    this.mapSvc.newmarkerLayer.clearLayers()
   }
 
   public delete() {
@@ -121,11 +127,26 @@ export class MarkerSideComponent implements OnInit {
       this.marker.m.dragging.disable()
     }
   }
-  
+
   setType(t: MarkerType) {
     this.marker.type = t.id
     let icn = this.mks.markerTypes.get(t.id)
     this.marker.marker.setIcon(icn)
+  }
+
+  public permissions() {
+    if (this.marker) {
+      this.restrict.openRestrict(this.marker.view, this.marker.edit).subscribe( ([view, edit]) => {
+        if (this.data.canEdit(this.marker)) {
+          console.log("edit " + edit);
+          console.log("view " + view);
+          
+          this.marker.edit = edit
+          this.marker.view = view
+          this.mks.saveMarker(this.marker)
+        }
+      })
+    }
   }
 }
 

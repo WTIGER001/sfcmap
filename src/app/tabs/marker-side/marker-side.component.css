@@ -37,6 +37,7 @@
     color: white;
     cursor: pointer;
 }
+
 .unlockbtn {
     position: absolute;
     left: 100px;
@@ -44,12 +45,20 @@
     color: white;
     cursor: pointer;
 }
+
 .lockbtn {
     position: absolute;
     left: 100px;
     top: 10px;
     color: red;
     cursor: pointer;
+}
+
+.marker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .title {
@@ -61,6 +70,7 @@
 }
 
 .description {
+    text-align: center;
     font-size: 10pt;
     width: 100%;
     display: block;

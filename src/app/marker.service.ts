@@ -164,9 +164,9 @@ export class MarkerService {
   }
 
   saveMarker(m: MyMarker) {
-    this.data.saveMarker(this.toSavedMarker(m))
-    // this.markers.set(m.id, m);
-    // this.markersObs.next([])
+    let s = this.toSavedMarker(m)
+    console.log(s);
+    this.data.saveMarker(s)
   }
 
   deleteMarker(m: MyMarker) {
@@ -222,6 +222,7 @@ export class MarkerService {
     m.name = saved.name
     m.type = saved.type
     m.view = saved.view
+    m.edit = saved.edit
     m.map =saved.map
     m.description = saved.description
 

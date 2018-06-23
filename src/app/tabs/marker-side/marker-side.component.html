@@ -4,19 +4,20 @@
   <fa-icon icon="times" size="lg" (click)="cancel()" class="closebtn" *ngIf="edit==true"></fa-icon>
   <fa-icon icon="plus" size="lg" (click)="newMarker()" class="newbtn" *ngIf="edit==false"></fa-icon>
   <fa-icon icon="trash-alt" size="lg" (click)="delete()" class="deletebtn"></fa-icon>
-  <fa-icon icon="lock" size="lg" (click)="permisions()" class="lockbtn"></fa-icon>
+  <fa-icon *ngIf="restricted == true" icon="lock" size="lg" (click)="permissions()" class="lockbtn"></fa-icon>
+  <fa-icon *ngIf="restricted == false" icon="unlock" size="lg" (click)="permissions()" class="unlockbtn"></fa-icon>
 
   <ng-container *ngIf="marker">
-    <ng-container *ngIf="edit==false">
-      <img [src]="marker?.iconUrl" class="centered">
+    <div class="marker-container" *ngIf="edit==false">
+      <img [src]="marker?.iconUrl" class="centered  mt-4" >
       <span class="title">{{marker?.name}}</span>
       <span class="type">{{name()}}</span>
       <span class="description">{{marker?.description}}</span>
       <a href="{{marker?.pageUrl}}">{{marker?.pageUrl}}</a>
       <a href="#" class="coords" (click)="pan()">{{marker?.marker._latlng.lat}}, {{marker?.marker._latlng.lng}}</a>
-    </ng-container>
+    </div>
     <div *ngIf="edit==true">
-      <img [src]="marker?.iconUrl" class="centered">
+      <img [src]="marker?.iconUrl" class="centered mt-4">
 
       <div class="form-group">
         <label for="name" class="small">Name</label>

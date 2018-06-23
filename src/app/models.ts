@@ -111,6 +111,7 @@ export class MergedMapType {
     id: string
     name: string
     order: number
+    defaultMarker : string
     maps: MapConfig[]
 }
 

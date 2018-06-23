@@ -22,7 +22,8 @@
     <div class="row">
       <div class="tree col-3">
         <ng-container *ngFor="let cat of categories">
-          <button [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]">{{cat.name}}</button>
+          <!-- <button [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]">{{cat.name}}</button> -->
+          <div [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style noselect" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]"><fa-icon (click)="isCollapsed[cat.name] = !isCollapsed[cat.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[cat.name] ? 'caret-right' : 'caret-down'"></fa-icon> {{cat.name}}</div>
           <div id="{{cat}}" [ngbCollapse]="isCollapsed[cat.name]">
             <button *ngFor="let t of cat.types" [class.selected]="selected==t" class="dropdown-item btn-sm" (click)="setType(t)">
               <img [src]="t.url" height=30> {{t.name}}</button>

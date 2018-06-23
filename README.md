@@ -41,8 +41,10 @@ Text        - Light - #D1E8E2
 ## Big
 - Need to make a marker selection control...
 
+
 ## Misc
 - Landing Page
+- Loading Indicator
 - Try out some plugins
 -- Draw
 - Group into modules? 
@@ -60,7 +62,6 @@ Text        - Light - #D1E8E2
 - Refilter when someone assumes a group
 
 ## Markers Tab
-- New Markers directly editing
 - Restrictions dialog
 - Use buttons for tool bar
 - Toolbar fix for enablement
@@ -94,3 +95,19 @@ Text        - Light - #D1E8E2
 - Hexegon Graticules (bigger issue)
 
 
+## Tree Ideas
+<tree>
+    <tree-item *ngFor="let a of items" [value]="a" [template]="tree-item-content'>
+        <tree-item [value]="a" [template]="tree-item-content' > </tree-item>
+    </tree-item>
+</tree>
+
+<ng-template #tree-item-expanded>
+    <fa-icon icon='caret-left' size='lg' [fixedwidth]='true'>
+</ng-template>
+<ng-template #tree-item-collapsed>
+    <fa-icon icon='caret-down' size='lg' [fixedwidth]='true'>
+</ng-template>
+<ng-template #tree-item-content>
+    <fa-icon icon='caret-down' size='lg' [fixedwidth]='true'>
+</ng-template>
