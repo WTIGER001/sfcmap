@@ -1,0 +1,19 @@
+<div class="input-group">
+  <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Type" [value]="name()"
+    editable="false">
+  <div class="input-group-append">
+    <div ngbDropdown placement="bottom-right">
+      <button class="btn btn-outline-secondary toggle2" id="dropdownBasic1" ngbDropdownToggle> </button>
+      <div ngbDropdownMenu class="icon-dropdown" aria-labelledby="dropdownBasic1">
+        <ng-container *ngFor="let cat of categories">
+          <h6 class="dropdown-header dh">{{cat.name}}</h6>
+          <div class="icon-holder">
+            <button *ngFor="let t of cat.types" class="dropdown-item btn-sm icon-flow" placement="bottom" [ngbTooltip]="t.name" (click)="select(t)">
+              <img [src]="t.url" height=30>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

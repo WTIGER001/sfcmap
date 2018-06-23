@@ -6,14 +6,14 @@ import { UUID } from 'angular2-uuid';
 import { MapService } from './map.service';
 import { mergeMap, scan, window, concatMap } from 'rxjs/operators';
 import { DataService } from './data.service';
-import { SavedMarker, MapConfig, MarkerType, MarkerCategory } from './models';
+import { SavedMarker, MapConfig, MarkerType, MarkerCategory, MapType } from './models';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarkerService {
- 
+  mapTypes : MapType[]
   public selection = new ReplaySubject<Marker>()
   public updates = new ReplaySubject<Marker>()
 
@@ -24,6 +24,7 @@ export class MarkerService {
   categories = new Array<Category>()
   map : MapConfig
   catsLoaded = new ReplaySubject<boolean>()
+  defaultMarker : string
 
   constructor(private db: AngularFireDatabase, private mapSvc : MapService, private data : DataService) {
     // Load the markers when the map changes
@@ -38,12 +39,18 @@ export class MarkerService {
       markers.forEach( marker => {
         if (this.data.canView(marker)) {
           let m = this.fromSavedMarker(marker)
-          localMarkers.push(m)
+          if (m) {
+            localMarkers.push(m)
+          }
+        } else {
+          console.log("Cannot View... skipping");
         }
       })
       console.log("Adding Marker " + localMarkers.length);
       this.markers.next(localMarkers)
     })
+
+    this.data.mapTypes.subscribe( t => this.mapTypes = t)
 
     // Load the Categories
     this.data.markerCategories.subscribe( cats => {
@@ -52,6 +59,7 @@ export class MarkerService {
         let c = new Category()
         c.id = cat.id
         c.name = cat.name
+        c.appliesTo = cat.appliesTo
         mycats.push(c)
       })
       this.categories = mycats
@@ -60,7 +68,10 @@ export class MarkerService {
 
     // Load each of the icons
     this.catsLoaded.pipe(
-      mergeMap( v => this.data.markerTypes),
+      mergeMap( v => {
+        this.defaultMarker = undefined
+        return this.data.markerTypes
+      }),
       concatMap( items => {
         this.categories.forEach( c => {
           c.types = []
@@ -69,18 +80,26 @@ export class MarkerService {
       }),
       mergeMap( (value, index) => this.data.fillInUrl(value), 5)
     ).subscribe( markerType => {
+
+
       let icn =  icon({
         iconUrl: markerType.url,
         iconSize: markerType.iconSize,
         iconAnchor: markerType.iconAnchor
+        // shadowUrl: markerType.url,
+        // shadowSize: markerType.iconSize,
+        // shadowAnchor: [0,0]
       })
       this.types.set(markerType.id, markerType)
       this.markerTypes.set(markerType.id, icn)
-      let cat = this.categories.find( c=> c.name == markerType.category)
+      let cat = this.categories.find( c=> c.id == markerType.category)
       if (cat) {
           cat.types.push(markerType)
       } else {
         console.log("No Cat found for " + markerType.category);
+      }
+      if (this.defaultMarker == undefined) {
+        this.defaultMarker = markerType.id
       }
     })
   }
@@ -97,26 +116,47 @@ export class MarkerService {
     this.selection.next(me)
   }
 
-  public newMarker(select : boolean): MyMarker {
+  public newTempMarker(): MyMarker {
+    let markerTypeId = this.getDefaultMarker(this.map) 
     var loc = this.mapSvc.getCenter()
-    var icn = this.markerTypes.get("36ed0940-f3f0-496e-a452-e11c28bb3658")
+    var icn = this.markerTypes.get(markerTypeId)
     if (icn == undefined) {
       console.log("ERROR NO ICON");
     }
     var m = new MyMarker(marker(loc, { icon: icn, draggable: false }))
     m.id = UUID.UUID().toString()
     m.name = "New Marker"
-    m.type = "36ed0940-f3f0-496e-a452-e11c28bb3658"
+    m.type = markerTypeId
     m.map = this.map.id
 
+    return m
+  }
+
+  public newMarker(select : boolean): MyMarker {
+    let m = this.newTempMarker()
+    
     this.saveMarker(m)
     console.log(m);
     
     if (select) {
+      m.selected = true
       this.select(m.marker)
     }
 
     return m
+  }
+
+  getDefaultMarker(item : MapConfig) : string {
+    if (item.defaultMarker) {
+      return item.defaultMarker
+    }
+    
+    let mt = this.mapTypes.find(mt => mt.id == item.mapType)
+    if (mt && mt.defaultMarker) {
+      return mt.defaultMarker
+    }
+
+    return this.defaultMarker
   }
 
   getMarkerTypes(): Map<string, Icon> {
@@ -167,6 +207,10 @@ export class MarkerService {
   
     // Get the Icon
     let icn = this.markerTypes.get(saved.type)
+    if (icn == undefined) {
+      console.log("Cannot find Maerk Type with id of " + saved.type);
+      return undefined
+    }
 
     let loc = latLng(saved.location[0], saved.location[1])
 
@@ -201,10 +245,14 @@ export class MarkerService {
 }
 
 export class MyMarker {
+  public static readonly TYPE = "markers.MyMarker";
+  objType = MyMarker.TYPE;
+
+  static is(obj: any): obj is MyMarker {
+      return obj.objType && obj.objType == MyMarker.TYPE
+  }
 
   constructor(public m: Marker) { }
-
-
 
   get marker(): Marker {
     return this.m;
@@ -281,6 +329,12 @@ export class MyMarker {
   set map(id : string) {
     this.m["__map"] = id
   }
+  get selected(): boolean {
+    return this.m["__selected"]
+  }
+  set selected(id : boolean) {
+    this.m["__selected"] = id
+  }
   get iconUrl() : string {
     // console.log("this.m " + this.m);
     // console.log("this.m.options" + this.m.options);
@@ -298,6 +352,7 @@ export class Permissions {
 }
 
 class Category {
+  appliesTo: string[];
   name: string
   id : string
   types : MarkerType[] = []

@@ -210,7 +210,7 @@ export class DataService {
 
   saveWithImage(item: MarkerType) {
     let f : File = item["__FILE"]
-    this.storage.upload('images/' + item.id + ".png", f)
+    this.storage.upload('images/' + item.id , f)
     .snapshotChanges()
     .subscribe( v => {}, e => {}, () => {
       this.saveMarkerTypeNoImage(item)
@@ -344,8 +344,8 @@ export class DataService {
       this.notify.showError(reason, "Error Deleting Map")
     })
 
-    this.storage.ref('images/' + item.id +".jpg").delete()
-    this.storage.ref('images/' + item.id +"_thumb.png").delete()
+    this.storage.ref('images/' + item.id).delete()
+    this.storage.ref('images/' + item.id +"_thumb").delete()
 
   }
 
@@ -373,7 +373,7 @@ export class DataService {
       this.notify.showError(reason, "Error Deleteing " + name)
     })
 
-    this.storage.ref('images/' + dbId +".png").delete()
+    this.storage.ref('images/' + dbId).delete()
   }
 
   deleteMarkerType(item: MarkerType | string) {
@@ -391,7 +391,7 @@ export class DataService {
       this.notify.showError(reason, "Error Deleteing " + name)
     })
 
-    this.storage.ref('images/' + dbId +".png").delete()
+    this.storage.ref('images/' + dbId ).delete()
   }
 
   deleteUserGroup(item: UserGroup): any {

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MarkerService, MyMarker } from '../marker.service';
-import { MapService } from '../map.service';
-import { CommonDialogService } from '../dialogs/common-dialog.service';
-import { MarkerType } from '../models';
+import { MarkerService, MyMarker } from '../../marker.service';
+import { MapService } from '../../map.service';
+import { CommonDialogService } from '../../dialogs/common-dialog.service';
+import { MarkerType, MapConfig } from '../../models';
 
 @Component({
   selector: 'app-marker-side',
@@ -12,20 +12,34 @@ import { MarkerType } from '../models';
 export class MarkerSideComponent implements OnInit {
   marker: MyMarker
   edit = false
-
+  map: MapConfig
   categories = []
-
+  ready = new Map<string, boolean>()
   constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService) {
-    this.mks.selection.subscribe(m => {
+    // Handle Selections
+    this.mapSvc.selection.subscribe(sel => {
       if (this.marker != undefined) {
         this.disable()
       }
-      this.marker = this.mks.toMyMarker(m);
-      this.edit = false
+      if (!sel.isEmpty()) {
+        if (MyMarker.is(sel.first)) {
+          this.marker = sel.first
+          this.edit = false
+        }
+      }
     })
-
-    this.mks.catsLoaded.subscribe( v => {
+    // Get Data
+    this.mapSvc.mapConfig.subscribe(m => this.map = m)
+    this.mks.catsLoaded.subscribe(v => {
       this.categories = this.mks.categories
+    })
+    this.mapSvc.markerReady.subscribe( marker => {
+      console.log("Received Add");
+      this.ready.set(marker.id, true)
+    })
+    this.mapSvc.markerRemove.subscribe( marker => {
+      console.log("Received Remove");
+      this.ready.delete(marker.id)
     })
   }
 
@@ -39,18 +53,25 @@ export class MarkerSideComponent implements OnInit {
   }
 
   public newMarker() {
-    this.mks.newMarker(true)
+    // this.mks.newMarker(true)
     // console.log(this.marker);
-    // this.editstart()
+    let m = this.mks.newTempMarker()
+    this.mapSvc.addTempMarker(m)
+    this.marker = m
+    this.editstart()
   }
 
 
-  name(markerType) : string {
-    let mk = this.mks.getMarkerType(markerType)
+  name(): string {
+    let mk = this.mks.getMarkerType(this.marker.type)
     if (mk) {
       return mk.name
     }
     return 'Ugh....'
+  }
+
+  mapId() {
+    return this.map.id
   }
 
   iconImg() {
@@ -91,6 +112,8 @@ export class MarkerSideComponent implements OnInit {
   enable() {
     if (this.marker && this.marker.m.dragging) {
       this.marker.m.dragging.enable()
+    } else {
+     
     }
   }
   disable() {
@@ -98,7 +121,8 @@ export class MarkerSideComponent implements OnInit {
       this.marker.m.dragging.disable()
     }
   }
-  setType(t : MarkerType) {
+  
+  setType(t: MarkerType) {
     this.marker.type = t.id
     let icn = this.mks.markerTypes.get(t.id)
     this.marker.marker.setIcon(icn)

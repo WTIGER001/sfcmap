@@ -10,6 +10,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { TreeModule } from 'angular-tree-component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -20,9 +21,9 @@ import { MarkerService } from './marker.service';
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './map-selector/map-selector.component';
-import { AdminComponent } from './admin/admin.component';
-import { UserSideComponent } from './user-side/user-side.component';
-import { MarkerSideComponent } from './marker-side/marker-side.component';
+import { AdminComponent } from './tabs/admin/admin.component';
+import { UserSideComponent } from './tabs/user-side/user-side.component';
+import { MarkerSideComponent } from './tabs/marker-side/marker-side.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { MapService } from './map.service';
 import { CommonDialogService } from './dialogs/common-dialog.service';
@@ -39,6 +40,8 @@ import { DialogService } from './dialogs/dialog.service';
 import { ChecklistModule } from 'angular-checklist';
 import { AccessDialogComponent } from './dialogs/access-dialog/access-dialog.component';
 import { RestrictService } from './dialogs/restrict.service';
+import { MarkerComboComponent } from './controls/marker-combo/marker-combo.component';
+import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,9 @@ import { RestrictService } from './dialogs/restrict.service';
     MgrGroupComponent,
     MgrMarkerComponent,
     MgrMapComponent,
-    AccessDialogComponent
+    AccessDialogComponent,
+    MarkerComboComponent,
+    LayersTabComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +76,7 @@ import { RestrictService } from './dialogs/restrict.service';
     LeafletModule.forRoot(),
     FontAwesomeModule,
     NgbModule.forRoot(),
+    TreeModule,
     ChecklistModule
   ],
   providers: [

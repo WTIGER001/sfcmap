@@ -1,0 +1,8 @@
+<h4>Layers</h4>
+<small class="form-text text-muted mb-2">Select the data to show on the map</small>
+
+<label *ngFor="let layer of layers" class="white">{{name(layer)}}
+
+</label>
+
+<tree-root class="white" [nodes]="items" [options]="options"></tree-root>

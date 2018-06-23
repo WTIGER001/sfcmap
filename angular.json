@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/angular-tree-component/dist/angular-tree-component.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"

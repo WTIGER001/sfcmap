@@ -56,3 +56,16 @@ body {
 .tab-selected {
     background-color: #9ed485;
 }
+
+.glow {
+    z-index:-1;
+    transform: scale(1.01) translate(-50%, -50%);
+    -webkit-transform: scale(1.01) translate(-50%, -50%);
+    filter: brightness(0) invert(1) blur(5px);
+    -webkit-filter: brightness(0) invert(1) blur(5px);
+  }
+.iconselected {
+    /* outline: 2px solid blue !important; */
+    /* background-color: rgba(153,153,153,0.5); */
+    filter: drop-shadow(0px 0px 3px blue)
+}

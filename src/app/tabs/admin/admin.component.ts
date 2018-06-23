@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService } from '../dialogs/dialog.service';
+import { DialogService } from '../../dialogs/dialog.service';
 
 @Component({
   selector: 'app-admin',

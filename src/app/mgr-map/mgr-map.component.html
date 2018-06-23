@@ -5,22 +5,24 @@
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')" placement="bottom" ngbTooltip="Close">
       <span aria-hidden="true">&times;</span>
     </button>
-    <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete"  [disabled]="!this.selected">
+    <button type="button" class="close" aria-label="Close" (click)="delete()" placement="bottom" ngbTooltip="Delete" [disabled]="!this.selected">
       <fa-icon icon="trash-alt" size="lg"></fa-icon>
     </button>
-    <button type="button" class="close" aria-label="Close" (click)="newMap()" placement="bottom" ngbTooltip="New Map"  [disabled]="!this.selected">
+    <button type="button" class="close" aria-label="Close" (click)="newMap()" placement="bottom" ngbTooltip="New Map" [disabled]="!this.selected">
       <fa-icon icon="plus" size="lg"></fa-icon>
     </button>
 
     <button type="button" class="close" aria-label="Close" (click)="newMapType()" placement="bottom" ngbTooltip="New Map Type">
       <fa-icon icon="folder" size="lg"></fa-icon>
     </button>
-    <button *ngIf="restricted == false" type="button" class="close" aria-label="Close" (click)="showAccess()" placement="bottom" ngbTooltip="Restrict Access (Not Restricted)">
-        <fa-icon icon="unlock" size="lg"></fa-icon>
-      </button>
-      <button  *ngIf="restricted == true" type="button" class="close" aria-label="Close" (click)="showAccess()" placement="bottom" ngbTooltip="Restrict Access (Restricted)">
-          <fa-icon icon="lock" size="lg"></fa-icon>
-        </button>
+    <button *ngIf="restricted == false" type="button" class="close" aria-label="Close" (click)="showAccess()" placement="bottom"
+      ngbTooltip="Restrict Access (Not Restricted)">
+      <fa-icon icon="unlock" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="restricted == true" type="button" class="close" aria-label="Close" (click)="showAccess()" placement="bottom"
+      ngbTooltip="Restrict Access (Restricted)">
+      <fa-icon icon="lock" size="lg"></fa-icon>
+    </button>
   </div>
 </div>
 <div class="modal-body">
@@ -42,22 +44,23 @@
       <div class="col-9">
         <ng-container *ngIf="selected">
           <ng-container *ngIf="sType=='map'">
-              <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control " id="name" placeholder="Enter Map Name" [(ngModel)]="selected.name">
-                  <small id="emailHelp" class="form-text text-muted">{{selected.id}}</small>
-                </div>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control " id="name" placeholder="Enter Map Name" [(ngModel)]="selected.name">
+              <small id="emailHelp" class="form-text text-muted">{{selected.id}}</small>
+            </div>
             <div class="container-fluid">
               <div class="row p-0">
                 <div class="col-6 p-0">
                   <div class="form-group  mb-0">
                     <label for="name">Map Image</label>
                   </div>
-                  <div class="form-group" >
+                  <div class="form-group">
                     <label for="file" class="custom-file-upload p-0" (click)="getFile()">
                       <canvas #mycanvas class="file-div" src="./assets/missing.png" width="150"></canvas>
                     </label>
-                    <input id="file" #filecontrol type="file" class="inputfile " id="name" accept=".jpg,.png" placeholder="select map image" (change)="setFile($event)">
+                    <input id="file" #filecontrol type="file" class="inputfile " id="name" accept=".jpg,.png" placeholder="select map image"
+                      (change)="setFile($event)">
                   </div>
                 </div>
                 <div class="col-6 p-0">
@@ -76,16 +79,24 @@
               </div>
             </div>
             <div class="form-group">
+                <label for="name">Default Marker</label>
+                <app-marker-combo [(ngModel)]="selected.defaultMarker" [map]="selected"></app-marker-combo>
+              </div>
+            <div class="form-group">
               <label for="description">Description</label>
               <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="selected.description"></textarea>
             </div>
           </ng-container>
           <ng-container *ngIf="sType=='type'">
-              <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control " id="name" placeholder="Enter Map Type Name" [(ngModel)]="selected.name">
-                  <small id="emailHelp" class="form-text text-muted">ID:{{selected.id}}</small>
-                </div>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control " id="name" placeholder="Enter Map Type Name" [(ngModel)]="selected.name">
+              <small id="emailHelp" class="form-text text-muted">ID:{{selected.id}}</small>
+            </div>
+            <div class="form-group">
+              <label for="name">Default Marker</label>
+              <app-marker-combo [(ngModel)]="selected.defaultMarker" [mapType]="selected"></app-marker-combo>
+            </div>
             <div class="form-group">
               <label for="name">Order</label>
               <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.order">

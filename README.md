@@ -28,13 +28,69 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 # TODO
 
+Colors
+
+---THEME 1----
+Background  - Gun Metal Gray - #2C3531
+            - Blue Sapphire - #116466
+Selection   - Peach - #D9B08C
+            - Tan - #FFCB9A
+Text        - Light - #D1E8E2
+
+
+## Big
+- Need to make a marker selection control...
+
+## Misc
+- Landing Page
+- Try out some plugins
+-- Draw
+- Group into modules? 
+-- Map, Marker, User?
+
+## Model
+- Marker Groups / Layers to control visiblity easily?
+- Test on phone (need to make slide outs full pages)
+- Default marker at the Map Type and Map level
+- Project or Game or Collection top level construct
+- Class names as member variables and then standard methods
+- implement Clone(), Clean(), etc...
+
+## Services
+- Refilter when someone assumes a group
+
 ## Markers Tab
 - New Markers directly editing
 - Restrictions dialog
 - Use buttons for tool bar
 - Toolbar fix for enablement
+- Recent Markers area
 
 ## Map 
 - Pan limits
-- 
+- Marker to Other Map Links
+
+## Marker Manager
+- Applies to fix
+- Maybe ditch dialogs and instead use a fly out panel
+
+## Map Side Panel
+- Styling and typeography
+- Slide out pannel to choose more
+- Collapseable
+
+## Info Tab
+- Not sure if I need to keep this... dont know what the content is...
+
+## RPG Features?
+- Dice Roller
+- Chat window
+- Distance Measure
+- Distance Calibrate
+- Marker Snap
+- Marker Edit mode
+- White Board
+- Graticules at a predfined scale
+- Hexegon Graticules (bigger issue)
+
 

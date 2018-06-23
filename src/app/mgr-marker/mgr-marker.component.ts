@@ -3,7 +3,7 @@ import { MarkerService } from '../marker.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonDialogService } from '../dialogs/common-dialog.service';
 import { DataService } from '../data.service';
-import { MarkerType, MarkerCategory } from '../models';
+import { MarkerType, MarkerCategory, MapType } from '../models';
 import { UUID } from 'angular2-uuid';
 import { Observable, ReplaySubject } from 'rxjs';
 
@@ -17,12 +17,13 @@ export class MgrMarkerComponent implements OnInit {
   selected
   categories = [];
   sType : string
+  mapTypes : MapType[] = []
 
   constructor(private mks : MarkerService, private activeModal : NgbActiveModal, private cd : CommonDialogService, private data : DataService) { 
     this.mks.catsLoaded.subscribe( v => {
       this.categories = this.mks.categories
     })
-
+    this.data.mapTypes.subscribe( types => this.mapTypes = types )
   }
 
   ngOnInit() {
@@ -94,7 +95,7 @@ export class MgrMarkerComponent implements OnInit {
     if (this.selected) {
       let cat = ''
       if (this.sType == 'cat') {
-        cat = this.selected.name
+        cat = this.selected.id
       } else {
         cat = this.selected.category
       }

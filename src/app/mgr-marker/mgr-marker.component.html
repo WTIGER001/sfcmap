@@ -39,8 +39,14 @@
           <ng-container *ngIf="sType=='cat'">
             <div class="form-group">
               <label for="name">Applies To:</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.appliesTo">
+              <div class="member-list">
+                  <div class="custom-control custom-checkbox" *ngFor="let opt of mapTypes">
+                    <input type="checkbox" class="custom-control-input" id="{{opt.id}}" [(checklist)]="selected.appliesTo" [checklistValue]="opt.id">
+                    <label class="custom-control-label" for="{{opt.id}}"> {{opt.name}}</label>
+                  </div>
+                </div>
             </div>
+  
             <div class="form-group">
               <label for="name">Category Image</label>
               <input type="file" class="form-control " id="name" placeholder="select category image" (change)="setFile($event)">
@@ -53,11 +59,11 @@
             </div>
             <div class="form-group">
               <label for="name">Size</label>
-              <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.iconSize">
+              <input type="text" class="form-control" id="name" placeholder="Height, Width" [(ngModel)]="selected.iconSize">
             </div>
             <div class="form-group">
               <label for="name">Anchor</label>
-              <input type="text" class="form-control " id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.iconAnchor">
+              <input type="text" class="form-control " id="name" placeholder="Height, Width" [(ngModel)]="selected.iconAnchor">
             </div>
           </ng-container>
           <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">

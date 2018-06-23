@@ -1,0 +1,27 @@
+
+label.small {
+    font-size: .8em;
+    margin-bottom: 4px;
+}
+
+.icon-flow {
+    padding: .2em;
+    width: 30px;
+    display: flex;
+}
+
+.icon-holder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.dh {
+    white-space: normal;
+    padding-left: 5px;
+}
+
+.toggle2 {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
