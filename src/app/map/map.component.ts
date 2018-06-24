@@ -8,6 +8,10 @@ import { MapConfig, User, SavedMarker, Selection } from '../models';
 import { flatten } from '@angular/compiler';
 import { ReplaySubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import * as L from 'leaflet';
+import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
+import '../leaflet/box-select.js';
+
 
 @Component({
   selector: 'app-map',
@@ -146,6 +150,12 @@ export class MapComponent implements OnInit {
 
   onMapReady(map: LeafletMap) {
     this.map = map
+    // Install plugins
+    L.control.coordinates({ position: "bottomleft" }).addTo(map);
+    // L.Map.addInitHook
+    // L.Map.addInitHook('addHandler', 'boxSelect', L.Map.BoxSelect);
+    this.map.addHandler('boxSelect', L.BoxSelect)
+
     this.zone.run(() => {
       this.mapSvc.setMap(map);
     });
