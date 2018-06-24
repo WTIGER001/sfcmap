@@ -64,9 +64,7 @@
 
 .tab {
     position: absolute;
-    /* height: 20px; */
     left: -30px;
-    /* width: 20px; */
     /* background-color: #605f5d; */
     background-color: rgba(96, 96, 93, 1);
     opacity: .8;

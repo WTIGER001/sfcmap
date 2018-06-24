@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User } from './models';
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -85,6 +85,34 @@ export class DataService {
         return markers;
       })
     )
+  }
+
+  toObject(item: IObjectType):  MarkerGroup | UserGroup {
+    if (MarkerGroup.is(item)) { return item } 
+    if (UserGroup.is(item)) { return item } 
+  }
+
+  to
+
+  dbPath(item : IObjectType) : string {
+    if (MarkerGroup.is(item)) { return 'markerGroups/' + item.id } 
+    if (UserGroup.is(item)) { return 'groups/' + item.name } 
+
+  }
+
+  save(item: IObjectType)  {
+    // Copy the Item so we only save a normal javascript object, and remove all the bad
+    let toSave = this.clean(Object.assign({}, item))
+
+    // Get path to the object
+    let path = this.dbPath(item)
+    console.log(toSave);
+    
+    this.db.object(path).set(toSave).then( () => {
+      this.notify.success("Saved ")
+    }).catch( reason => {
+      this.notify.showError(reason, "Error Saving Group")
+    })
   }
 
   private toMapType(item: any): MapType {

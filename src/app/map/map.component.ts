@@ -151,10 +151,18 @@ export class MapComponent implements OnInit {
   onMapReady(map: LeafletMap) {
     this.map = map
     // Install plugins
-    L.control.coordinates({ position: "bottomleft" }).addTo(map);
+    L.control.coordinates(
+      { 
+        decimals: 2,
+        position: "bottomleft",
+        labelTemplateLat:"Y: {y}",
+        labelTemplateLng:"X: {x}", 
+        enableUserInput: false
+      }
+    ).addTo(map);
     // L.Map.addInitHook
     // L.Map.addInitHook('addHandler', 'boxSelect', L.Map.BoxSelect);
-    this.map.addHandler('boxSelect', L.BoxSelect)
+    // this.map.addHandler('boxSelect', L.BoxSelect)
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);

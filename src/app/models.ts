@@ -101,7 +101,15 @@ export class MapConfig {
     edit: string[]
 }
 
-export class UserGroup {
+export class UserGroup implements IObjectType {
+    public static readonly TYPE = 'db.UserGroup'
+
+    // TypeScript guard
+    static is(obj: any): obj is UserGroup {
+        return obj.objType !== undefined && obj.objType === UserGroup.TYPE
+    }
+
+    readonly objType : string = UserGroup.TYPE
     name: string
     description?: string
     members: string[]
@@ -113,6 +121,42 @@ export class MergedMapType {
     order: number
     defaultMarker : string
     maps: MapConfig[]
+}
+
+export interface IObjectType {
+    objType: string
+}
+
+export interface IDbItem {
+    id : string
+    name : string
+    description: string
+}
+
+export interface IRestrictedItem {
+    edit: string[]
+    view: string[]
+}
+
+export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType  {
+    public static readonly TYPE = 'db.MarkerGroup'
+    public static readonly FOLDER = 'markerGroups'
+
+    // TypeScript guard
+    static is(obj: any): obj is MarkerGroup {
+        return obj.objType !== undefined && obj.objType === MarkerGroup.TYPE
+    }
+
+    static dbPath(obj : MarkerGroup) : string {
+        return MarkerGroup.FOLDER + '/' + obj.id
+    }
+
+    readonly objType : string = MarkerGroup.TYPE
+    id : string
+    name: string
+    description: string
+    edit: string[]
+    view: string[]
 }
 
 export class Selection {
@@ -155,50 +199,21 @@ export class Selection {
     }
 }
 
-
-interface ObjType {
-    objType: string
+export class SavedSession {
+    maps? : Map<string, SessionMap>
 }
 
-export class Test1 implements ObjType {
-    objType: string = 'models.Test1'
-    hi: string
-    opt?: string
-
-    static is(obj: any): obj is Test1 {
-        return (<Test1>obj).objType !== undefined && (<Test1>obj).objType === 'models.Test1'
-    }
+export class SessionMap {
+    groups? :  Map<string, SessionGroup>
 }
 
-export class Test2 implements ObjType {
-    objType: string = 'models.Test2'
-
-    static is(obj: any): obj is Test1 {
-        return (<ObjType>obj).objType !== undefined && (<Test1>obj).objType === 'models.Test1'
-    }
-    static convertTo(obj: any) {
-        let me = new MapType()
-        Object.assign(me, obj)
-
-        return me
-    }
+export class SessionGroup {
+    visible: boolean
+    markers? :  Map<string, SessionMarker>
 }
 
-class abc {
-    fun(a: any) {
-
-        let b = {
-            hi: " HIH"
-        }
-
-        if (Test1.is(a)) {
-            
-        }
-
-        if (Test1.is(b)) {
-
-        }
-
-
-    }
+export class SessionMarker {
+    markerId: string
+    visible: boolean
 }
+
