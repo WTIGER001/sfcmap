@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MarkerService } from '../marker.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonDialogService } from '../dialogs/common-dialog.service';
 import { DataService } from '../data.service';
 import { MarkerType, MarkerCategory, MapType } from '../models';
 import { UUID } from 'angular2-uuid';
 import { Observable, ReplaySubject } from 'rxjs';
+import { MapService } from '../map.service';
 
 @Component({
   selector: 'app-mgr-marker',
@@ -19,9 +19,9 @@ export class MgrMarkerComponent implements OnInit {
   sType : string
   mapTypes : MapType[] = []
 
-  constructor(private mks : MarkerService, private activeModal : NgbActiveModal, private cd : CommonDialogService, private data : DataService) { 
-    this.mks.catsLoaded.subscribe( v => {
-      this.categories = this.mks.categories
+  constructor(private mapSvc : MapService, private activeModal : NgbActiveModal, private cd : CommonDialogService, private data : DataService) { 
+    this.mapSvc.catsLoaded.subscribe( v => {
+      this.categories = this.mapSvc.categories
     })
     this.data.mapTypes.subscribe( types => this.mapTypes = types )
   }

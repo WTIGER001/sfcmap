@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../map.service';
+import { MapService, MyMarker } from '../../map.service';
 import { Map as LeafletMap, LayerGroup } from 'leaflet';
 import { delay, mergeMap, map as rxmap } from 'rxjs/operators';
 import { ITreeOptions } from 'angular-tree-component';
 import { ITreeNode } from 'angular-tree-component/dist/defs/api';
-import { MyMarker } from '../../marker.service';
 import { MapConfig, MarkerGroup, SavedMarker } from '../../models';
 import { DataService } from '../../data.service';
 

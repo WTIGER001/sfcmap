@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { MarkerService, MyMarker } from '../marker.service';
-import { MapService } from '../map.service';
+import { MapService, MyMarker } from '../map.service';
 
 @Component({
   selector: 'app-tabs',
@@ -12,12 +11,6 @@ export class TabsComponent implements OnInit {
   selected = ""
 
   constructor(private zone: NgZone, private mapSvc : MapService) {
-    // this.mks.selection.subscribe(m => {
-    //   // this.zone.run(() => {
-    //   this.expanded = true
-    //   this.selected = 'marker'
-    //   // });
-    // })
     this.mapSvc.selection.subscribe( sel => {
       if (sel.isEmpty()) {
         

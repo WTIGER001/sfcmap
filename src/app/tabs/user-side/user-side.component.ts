@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MarkerService } from '../../marker.service';
 import { auth } from 'firebase';
 import { DataService } from '../../data.service';
 import { User, UserGroup } from '../../models';
 import { zip, combineLatest } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { MapService } from '../../map.service';
 
 @Component({
   selector: 'app-user-side',
@@ -17,7 +17,7 @@ export class UserSideComponent implements OnInit {
   user: User
   groups: UserGroup[] = []
 
-  constructor(public afAuth: AngularFireAuth, private markers: MarkerService, private data: DataService) {
+  constructor(public afAuth: AngularFireAuth, private mapSvc: MapService, private data: DataService) {
     combineLatest(
       this.data.user,
       this.data.groups

@@ -17,7 +17,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { AppComponent } from './app.component';
-import { MarkerService } from './marker.service';
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './map-selector/map-selector.component';
@@ -82,7 +81,6 @@ import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-
     ChecklistModule
   ],
   providers: [
-    MarkerService,
     MapService,
     CommonDialogService,
     NotifyService, 

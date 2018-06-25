@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MapConfig, MarkerGroup } from '../../models';
 import { DataService } from '../../data.service';
-import { MyMarker } from '../../marker.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MyMarker } from '../../map.service';
 
 @Component({
   selector: 'app-marker-group-combo',

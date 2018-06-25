@@ -5,7 +5,6 @@ import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { mergeMap, map, concatMap, bufferCount } from 'rxjs/operators';
-import { MyMarker } from './marker.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 
@@ -120,9 +119,17 @@ export class DataService {
 
   }
 
+  sample(item: IObjectType): any {
+    if (MarkerGroup.is(item)) { return MarkerGroup.SAMPLE }
+    if (UserGroup.is(item)) { return UserGroup.SAMPLE }
+
+  }
+
   save(item: IObjectType) {
     // Copy the Item so we only save a normal javascript object, and remove all the bad
     let toSave = this.clean(Object.assign({}, item))
+    // Remove the fields that are not part of the object that should be saved in the database
+    this.trimExtraneousFields(toSave, this.sample(item))
 
     // Get path to the object
     let path = this.dbPath(item)
@@ -413,7 +420,7 @@ export class DataService {
 
   }
 
-  deleteMarker(item: SavedMarker | MyMarker) {
+  deleteMarker(item: SavedMarker ) {
     this.db.object('markers/' + item.map + "/" + item.id).remove().then(() => {
       this.notify.success("Removed " + item.name)
     }).catch(reason => {
@@ -473,6 +480,26 @@ export class DataService {
       }
     }
     return obj
+  }
+
+  trimExtraneousFields(obj: any, sample: any) {
+    if (sample) {
+      let fields = new Map<string, boolean>()
+      for (var propName in sample) {
+        fields.set(propName, true)
+      }
+      for (var propName in obj) {
+        if (!fields.has(propName)) {
+          delete obj[propName];
+        }
+      }
+    }
+  }
+
+  copyData(dest: any, src: any, sample: any) {
+    for (var propName in sample) {
+      dest[propName] = src[propName]
+    }
   }
 
   isRestricted(obj: any): boolean {

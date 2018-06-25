@@ -1,8 +1,8 @@
 import { Component, Output, forwardRef, Input, OnInit } from '@angular/core';
-import { MarkerService } from '../../marker.service';
 import { MarkerType, MapConfig, MapType } from '../../models';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { typeSourceSpan } from '@angular/compiler';
+import { MapService } from '../../map.service';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
   all = []
   categories = []
 
-  constructor(private mks: MarkerService) {
+  constructor(private mapSvc: MapService) {
 
   }
 
@@ -49,8 +49,8 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   ngOnInit(): void {
-    this.mks.catsLoaded.subscribe(v => {
-      this.all = this.mks.categories
+    this.mapSvc.catsLoaded.subscribe(v => {
+      this.all = this.mapSvc.categories
       this.refresh()
     })
   }
@@ -63,7 +63,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
       mapTypeId = this.mapType.id
     }
     if (this.innerValue) {
-      this.selected = this.mks.getMarkerType(this.innerValue)
+      this.selected = this.mapSvc.getMarkerType(this.innerValue)
     }
 
     this.categories = this.all.filter(c => {
@@ -77,7 +77,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
 
   name(): string {
     if (this.value) {
-      let mk = this.mks.getMarkerType(this.value)
+      let mk = this.mapSvc.getMarkerType(this.value)
       if (mk) {
         return mk.name
       }

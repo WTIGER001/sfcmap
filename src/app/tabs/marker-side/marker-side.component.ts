@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MarkerService, MyMarker } from '../../marker.service';
-import { MapService } from '../../map.service';
+import { MapService, MyMarker } from '../../map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { MarkerType, MapConfig, MarkerGroup } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
@@ -21,7 +20,7 @@ export class MarkerSideComponent implements OnInit {
   groups: MarkerGroup[] = []
   ready = new Map<string, boolean>()
   restricted = false
-  constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService) {
+  constructor( private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService) {
     // Handle Selections
     this.mapSvc.selection.subscribe(sel => {
       if (this.marker != undefined) {
@@ -47,8 +46,8 @@ export class MarkerSideComponent implements OnInit {
         this.groups = v
       })
 
-    this.mks.catsLoaded.subscribe(v => {
-      this.categories = this.mks.categories
+    this.mapSvc.catsLoaded.subscribe(v => {
+      this.categories = this.mapSvc.categories
     })
     this.mapSvc.markerReady.subscribe(marker => {
       console.log("Received Add");
@@ -71,9 +70,7 @@ export class MarkerSideComponent implements OnInit {
   }
 
   public newMarker() {
-    // this.mks.newMarker(true)
-    // console.log(this.marker);
-    let m = this.mks.newTempMarker()
+    let m = this.mapSvc.newTempMarker()
     this.mapSvc.addTempMarker(m)
     this.marker = m
     this.restricted = false
@@ -82,7 +79,7 @@ export class MarkerSideComponent implements OnInit {
 
 
   name(): string {
-    let mk = this.mks.getMarkerType(this.marker.type)
+    let mk = this.mapSvc.getMarkerType(this.marker.type)
     if (mk) {
       return mk.name
     }
@@ -146,7 +143,7 @@ export class MarkerSideComponent implements OnInit {
 
     console.log(this.marker);
 
-    this.mks.saveMarker(this.marker)
+    this.mapSvc.saveMarker(this.marker)
     this.mapSvc.newmarkerLayer.clearLayers()
   }
 
@@ -154,7 +151,7 @@ export class MarkerSideComponent implements OnInit {
     if (this.marker != undefined) {
       this.CDialog.confirm("Are you sure you want to delete this marker?", "Delete " + this.marker.name + "?").subscribe(result => {
         if (result) {
-          this.mks.deleteMarker(this.marker)
+          this.mapSvc.deleteMarker(this.marker)
           this.edit = false
           this.marker = undefined
         }
@@ -176,7 +173,7 @@ export class MarkerSideComponent implements OnInit {
 
   setType(t: MarkerType) {
     this.marker.type = t.id
-    let icn = this.mks.markerTypes.get(t.id)
+    let icn = this.mapSvc.markerTypes.get(t.id)
     this.marker.marker.setIcon(icn)
   }
 
@@ -189,7 +186,7 @@ export class MarkerSideComponent implements OnInit {
 
           this.marker.edit = edit
           this.marker.view = view
-          this.mks.saveMarker(this.marker)
+          this.mapSvc.saveMarker(this.marker)
         }
       })
     }

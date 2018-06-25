@@ -1,8 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, layerGroup, LeafletEvent, Marker, DomUtil } from 'leaflet';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MarkerService, MyMarker } from '../marker.service';
-import { MapService } from '../map.service';
+import { MapService, MyMarker } from '../map.service';
 import { DataService } from '../data.service';
 import { MapConfig, User, SavedMarker, Selection } from '../models';
 import { flatten } from '@angular/compiler';
@@ -32,7 +31,6 @@ export class MapComponent implements OnInit {
   currentSelection: Selection = new Selection([])
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
-    private markers: MarkerService,
     private mapSvc: MapService, private data: DataService) {
 
     this.markerLayer["__name"] = "All"
@@ -59,10 +57,11 @@ export class MapComponent implements OnInit {
       this.mapSvc.fit(bounds)
     })
 
-    this.markers.markers.subscribe(m => {
+    this.mapSvc.markersObs.subscribe(m => {
       this.savedMarkers = m
       this.refresh(m)
     })
+
     this.layers.push(this.l1)
 
     this.mapSvc.layers = this.layers

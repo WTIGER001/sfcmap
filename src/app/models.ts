@@ -104,6 +104,7 @@ export class MapConfig {
 
 export class UserGroup implements IObjectType {
     public static readonly TYPE = 'db.UserGroup'
+    public static readonly SAMPLE = new UserGroup()
 
     // TypeScript guard
     static is(obj: any): obj is UserGroup {
@@ -142,6 +143,7 @@ export interface IRestrictedItem {
 export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType {
     public static readonly TYPE = 'db.MarkerGroup'
     public static readonly FOLDER = 'markerGroups'
+    public static readonly SAMPLE = new MarkerGroup()
 
     // TypeScript guard
     static is(obj: any): obj is MarkerGroup {
@@ -218,4 +220,6 @@ export class SessionMarker {
     markerId: string
     visible: boolean
 }
+
+
 

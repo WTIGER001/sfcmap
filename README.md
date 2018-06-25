@@ -40,6 +40,7 @@ Text        - Light - #D1E8E2
 
 ## Priority 1
 - Need to make a marker selection control...
+- Combine the marker service and the map service
 
 ## Prority 2
 - Marker Groups / Layers to control visiblity easily?
@@ -105,10 +106,12 @@ in -> map id
 out -> selected marker group (maybe id?)
 how to 
 
+-- GET DATA
 1.) Get Personal Map Visiblity Object
-2.) Remove the items that 
-3.) Get Groups
-4.) Create LayerGroup per Group, +1 for UNCATEGORIZED
-5.) Get the Markers
+2.) Get Groups
+3.) Create LayerGroup per Group, +1 for UNCATEGORIZED
+4.) Get the Markers
+-- Process
+5.) Filter / Remove the items that are hidden
 6.) Add Markers to the appropriate layer groups
-
+7.) Add the filtered layer groups to the map
