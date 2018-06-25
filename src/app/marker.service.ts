@@ -4,58 +4,84 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { UUID } from 'angular2-uuid';
 import { MapService } from './map.service';
-import { mergeMap, scan, window, concatMap } from 'rxjs/operators';
+import { mergeMap, scan, window, concatMap, map as rxmap } from 'rxjs/operators';
 import { DataService } from './data.service';
-import { SavedMarker, MapConfig, MarkerType, MarkerCategory, MapType } from './models';
-
+import { SavedMarker, MapConfig, MarkerType, MarkerCategory, MapType, MarkerGroup } from './models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarkerService {
-  mapTypes : MapType[]
+  mapTypes: MapType[]
   public selection = new ReplaySubject<Marker>()
   public updates = new ReplaySubject<Marker>()
 
   public markers = new ReplaySubject<Array<MyMarker>>()
-
+  public markerGroups = new Array<MarkerGroup>()
   private types = new Map<string, MarkerType>()
   markerTypes = new Map<string, Icon>()
   categories = new Array<Category>()
-  map : MapConfig
+  map: MapConfig
   catsLoaded = new ReplaySubject<boolean>()
-  defaultMarker : string
+  defaultMarker: string
 
-  constructor(private db: AngularFireDatabase, private mapSvc : MapService, private data : DataService) {
-    // Load the markers when the map changes
-    this.mapSvc.mapConfig.pipe(
-      mergeMap( newMap =>  {
+  constructor(private db: AngularFireDatabase, private mapSvc: MapService, private data: DataService) {
+    this.mapSvc.mapConfig
+      .pipe(
+        mergeMap(newMap => {
           this.map = newMap
-        return this.data.getMarkers(newMap.id)
-      } )
-    ).subscribe ( markers => {
-      console.log("checking Markers " + markers.length);
-      let localMarkers = new Array<MyMarker>()
-      markers.forEach( marker => {
-        if (this.data.canView(marker)) {
-          let m = this.fromSavedMarker(marker)
-          if (m) {
-            localMarkers.push(m)
+          return this.data.getMarkerGroups(newMap.id)
+        }),
+        mergeMap(mgs => {
+          this.markerGroups = mgs
+          return this.data.getMarkers(this.map.id)
+        })
+      ).subscribe(markers => {
+        console.log("checking Markers " + markers.length);
+        let localMarkers = new Array<MyMarker>()
+        markers.forEach(marker => {
+          if (this.data.canView(marker)) {
+            let m = this.fromSavedMarker(marker)
+            if (m) {
+              localMarkers.push(m)
+            }
+          } else {
+            console.log("Cannot View... skipping");
           }
-        } else {
-          console.log("Cannot View... skipping");
-        }
+        })
+        console.log("Adding Marker " + localMarkers.length);
+        this.markers.next(localMarkers)
       })
-      console.log("Adding Marker " + localMarkers.length);
-      this.markers.next(localMarkers)
-    })
 
-    this.data.mapTypes.subscribe( t => this.mapTypes = t)
+    // // Load the markers when the map changes
+    // this.mapSvc.mapConfig.pipe(
+    //       mergeMap(newMap => {
+    //         this.map = newMap
+    //         return this.data.getMarkers(newMap.id)
+    //       })
+    //     ).subscribe(markers => {
+    //       console.log("checking Markers " + markers.length);
+    //       let localMarkers = new Array<MyMarker>()
+    //       markers.forEach(marker => {
+    //         if (this.data.canView(marker)) {
+    //           let m = this.fromSavedMarker(marker)
+    //           if (m) {
+    //             localMarkers.push(m)
+    //           }
+    //         } else {
+    //           console.log("Cannot View... skipping");
+    //         }
+    //       })
+    //       console.log("Adding Marker " + localMarkers.length);
+    //       this.markers.next(localMarkers)
+    //     })
+
+    this.data.mapTypes.subscribe(t => this.mapTypes = t)
 
     // Load the Categories
-    this.data.markerCategories.subscribe( cats => {
+    this.data.markerCategories.subscribe(cats => {
       let mycats = new Array<Category>()
-      cats.forEach( cat => {
+      cats.forEach(cat => {
         let c = new Category()
         c.id = cat.id
         c.name = cat.name
@@ -68,21 +94,21 @@ export class MarkerService {
 
     // Load each of the icons
     this.catsLoaded.pipe(
-      mergeMap( v => {
+      mergeMap(v => {
         this.defaultMarker = undefined
         return this.data.markerTypes
       }),
-      concatMap( items => {
-        this.categories.forEach( c => {
+      concatMap(items => {
+        this.categories.forEach(c => {
           c.types = []
         })
         return items
       }),
-      mergeMap( (value, index) => this.data.fillInUrl(value), 5)
-    ).subscribe( markerType => {
+      mergeMap((value, index) => this.data.fillInUrl(value), 5)
+    ).subscribe(markerType => {
 
 
-      let icn =  icon({
+      let icn = icon({
         iconUrl: markerType.url,
         iconSize: markerType.iconSize,
         iconAnchor: markerType.iconAnchor
@@ -92,9 +118,9 @@ export class MarkerService {
       })
       this.types.set(markerType.id, markerType)
       this.markerTypes.set(markerType.id, icn)
-      let cat = this.categories.find( c=> c.id == markerType.category)
+      let cat = this.categories.find(c => c.id == markerType.category)
       if (cat) {
-          cat.types.push(markerType)
+        cat.types.push(markerType)
       } else {
         console.log("No Cat found for " + markerType.category);
       }
@@ -117,7 +143,7 @@ export class MarkerService {
   }
 
   public newTempMarker(): MyMarker {
-    let markerTypeId = this.getDefaultMarker(this.map) 
+    let markerTypeId = this.getDefaultMarker(this.map)
     var loc = this.mapSvc.getCenter()
     var icn = this.markerTypes.get(markerTypeId)
     if (icn == undefined) {
@@ -132,12 +158,12 @@ export class MarkerService {
     return m
   }
 
-  public newMarker(select : boolean): MyMarker {
+  public newMarker(select: boolean): MyMarker {
     let m = this.newTempMarker()
-    
+
     this.saveMarker(m)
     console.log(m);
-    
+
     if (select) {
       m.selected = true
       this.select(m.marker)
@@ -146,11 +172,11 @@ export class MarkerService {
     return m
   }
 
-  getDefaultMarker(item : MapConfig) : string {
+  getDefaultMarker(item: MapConfig): string {
     if (item.defaultMarker) {
       return item.defaultMarker
     }
-    
+
     let mt = this.mapTypes.find(mt => mt.id == item.mapType)
     if (mt && mt.defaultMarker) {
       return mt.defaultMarker
@@ -172,7 +198,7 @@ export class MarkerService {
   deleteMarker(m: MyMarker) {
     this.data.deleteMarker(m)
   }
- 
+
 
   private i(name: string): Icon {
     return icon({
@@ -203,8 +229,8 @@ export class MarkerService {
     return new MyMarker(m)
   }
 
-  public fromSavedMarker(saved : SavedMarker) : MyMarker {
-  
+  public fromSavedMarker(saved: SavedMarker): MyMarker {
+
     // Get the Icon
     let icn = this.markerTypes.get(saved.type)
     if (icn == undefined) {
@@ -223,14 +249,15 @@ export class MarkerService {
     m.type = saved.type
     m.view = saved.view
     m.edit = saved.edit
-    m.map =saved.map
+    m.map = saved.map
+    m.markerGroup = saved.markerGroup
     m.description = saved.description
 
     return m
   }
 
-  public toSavedMarker(m : MyMarker) : SavedMarker {
-    let location : [number, number] = [m.marker.getLatLng().lat,m.marker.getLatLng().lng]
+  public toSavedMarker(m: MyMarker): SavedMarker {
+    let location: [number, number] = [m.marker.getLatLng().lat, m.marker.getLatLng().lng]
 
     let saved = new SavedMarker()
     saved.id = m.id
@@ -241,6 +268,7 @@ export class MarkerService {
     saved.edit = m.edit
     saved.view = m.view
     saved.map = m.map
+    saved.markerGroup = m.markerGroup
     return saved
   }
 }
@@ -250,7 +278,7 @@ export class MyMarker {
   objType = MyMarker.TYPE;
 
   static is(obj: any): obj is MyMarker {
-      return obj.objType && obj.objType == MyMarker.TYPE
+    return obj.objType && obj.objType == MyMarker.TYPE
   }
 
   constructor(public m: Marker) { }
@@ -281,6 +309,12 @@ export class MyMarker {
   }
   set type(my: string) {
     this.m["__type"] = my
+  }
+  get markerGroup(): string {
+    return this.m["__markerGroup"]
+  }
+  set markerGroup(my: string) {
+    this.m["__markerGroup"] = my
   }
   get pageUrl(): string {
     return this.m["__pageUrl"]
@@ -327,16 +361,16 @@ export class MyMarker {
   get map(): string {
     return this.m["__map"]
   }
-  set map(id : string) {
+  set map(id: string) {
     this.m["__map"] = id
   }
   get selected(): boolean {
     return this.m["__selected"]
   }
-  set selected(id : boolean) {
+  set selected(id: boolean) {
     this.m["__selected"] = id
   }
-  get iconUrl() : string {
+  get iconUrl(): string {
     // console.log("this.m " + this.m);
     // console.log("this.m.options" + this.m.options);
     // console.log("this.m.options.icon " + this.m.options.icon);
@@ -355,6 +389,6 @@ export class Permissions {
 class Category {
   appliesTo: string[];
   name: string
-  id : string
-  types : MarkerType[] = []
+  id: string
+  types: MarkerType[] = []
 }

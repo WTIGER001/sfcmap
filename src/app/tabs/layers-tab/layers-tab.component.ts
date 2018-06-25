@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../map.service';
-import { Map, LayerGroup } from 'leaflet';
-import { delay } from 'rxjs/operators';
+import { Map as LeafletMap, LayerGroup } from 'leaflet';
+import { delay, mergeMap, map as rxmap } from 'rxjs/operators';
 import { ITreeOptions } from 'angular-tree-component';
 import { ITreeNode } from 'angular-tree-component/dist/defs/api';
 import { MyMarker } from '../../marker.service';
+import { MapConfig, MarkerGroup, SavedMarker } from '../../models';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-layers-tab',
@@ -12,15 +14,41 @@ import { MyMarker } from '../../marker.service';
   styleUrls: ['./layers-tab.component.css']
 })
 export class LayersTabComponent implements OnInit {
-  map: Map
+  map: LeafletMap
+  mapConfig: MapConfig
+  groups: MarkerGroup[] = []
+  markers: SavedMarker[] = []
   layers = []
   items = []
-
+  shownGroups = []
+  shownMarkers = []
+  isCollapsed = new Map<string, boolean>()
   options: ITreeOptions = {
     useCheckbox: true
   };
 
-  constructor(private mapSvc: MapService) {
+  constructor(private mapSvc: MapService, private data: DataService) {
+    this.mapSvc.mapConfig
+      .pipe(
+        mergeMap(mapConfig => {
+          this.mapConfig = mapConfig;
+          return this.data.getMarkerGroups(mapConfig.id)
+        }),
+        mergeMap(groups => {
+          this.groups = groups
+          this.groups.forEach(g => {
+            this.shownGroups.push(g.id)
+          })
+          return this.data.getMarkers(this.mapConfig.id)
+        })
+      ).subscribe(marks => {
+        this.markers = marks
+        this.markers.forEach(m => {
+          this.shownMarkers.push(m.id)
+        })
+        console.log("Marker Count " + this.markers.length);
+      })
+
     this.mapSvc.map
       .subscribe(m => {
         this.map = m
@@ -29,6 +57,23 @@ export class LayersTabComponent implements OnInit {
 
     this.mapSvc.mapConfig.pipe(delay(100)).subscribe(mapConfig => {
       this.items = this.generateTreeItems()
+    })
+  }
+
+  getMarkers(g: MarkerGroup): SavedMarker[] {
+    return this.markers.filter(m => {
+      if (m.markerGroup) {
+        return m.markerGroup == g.id
+      }
+      return false;
+    })
+  }
+  getUngroupedMarkers(): SavedMarker[] {
+    return this.markers.filter(m => {
+      if (m.markerGroup) {
+        return false
+      }
+      return true;
     })
   }
 

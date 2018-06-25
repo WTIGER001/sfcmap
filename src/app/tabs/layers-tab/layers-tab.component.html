@@ -1,8 +1,24 @@
 <h4>Layers</h4>
 <small class="form-text text-muted mb-2">Select the data to show on the map</small>
 
-<label *ngFor="let layer of layers" class="white">{{name(layer)}}
-
-</label>
-
-<tree-root class="white" [nodes]="items" [options]="options" (event)="activate($event)"></tree-root>
+<div id="style-1" class="scroll-v ">
+    <ng-container *ngFor="let g of groups">
+        <div class="pack">
+            <fa-icon (click)="isCollapsed[g.id] = !isCollapsed[g.id]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="{{g.id}}" [(checklist)]="shownGroups" [checklistValue]="g.id">
+                <label class="custom-control-label" for="{{g.id}}">{{g.name}}</label>
+            </div>
+        </div>
+        <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5">
+            <div class="custom-control custom-checkbox" *ngFor="let m of getMarkers(g)">
+                <input type="checkbox" class="custom-control-input" id="{{m.id}}" [(checklist)]="shownMarkers" [checklistValue]="m.id">
+                <label class="custom-control-label" for="{{m.id}}"> {{m.name}}</label>
+            </div>
+        </div>
+    </ng-container>
+    <div class="custom-control custom-checkbox" *ngFor="let m of getUngroupedMarkers(g)">
+        <input type="checkbox" class="custom-control-input" id="{{m.id}}" [(checklist)]="shownMarkers" [checklistValue]="m.id">
+        <label class="custom-control-label" for="{{m.id}}"> {{m.name}}</label>
+    </div>
+</div>

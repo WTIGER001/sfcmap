@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MarkerService, MyMarker } from '../../marker.service';
 import { MapService } from '../../map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
-import { MarkerType, MapConfig } from '../../models';
+import { MarkerType, MapConfig, MarkerGroup } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
+import { mergeMap } from 'rxjs/operators';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-marker-side',
@@ -16,9 +18,10 @@ export class MarkerSideComponent implements OnInit {
   edit = false
   map: MapConfig
   categories = []
+  groups: MarkerGroup[] = []
   ready = new Map<string, boolean>()
   restricted = false
-  constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService, private restrict : RestrictService, private data : DataService) {
+  constructor(private mks: MarkerService, private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService) {
     // Handle Selections
     this.mapSvc.selection.subscribe(sel => {
       if (this.marker != undefined) {
@@ -33,18 +36,29 @@ export class MarkerSideComponent implements OnInit {
       }
     })
     // Get Data
-    this.mapSvc.mapConfig.subscribe(m => this.map = m)
+    this.mapSvc.mapConfig
+      .pipe(
+        mergeMap(m => {
+          this.map = m;
+          return this.data.getMarkerGroups(m.id)
+        })
+      )
+      .subscribe(v => {
+        this.groups = v
+      })
+
     this.mks.catsLoaded.subscribe(v => {
       this.categories = this.mks.categories
     })
-    this.mapSvc.markerReady.subscribe( marker => {
+    this.mapSvc.markerReady.subscribe(marker => {
       console.log("Received Add");
       this.ready.set(marker.id, true)
     })
-    this.mapSvc.markerRemove.subscribe( marker => {
+    this.mapSvc.markerRemove.subscribe(marker => {
       console.log("Received Remove");
       this.ready.delete(marker.id)
     })
+
   }
 
   pan() {
@@ -100,6 +114,38 @@ export class MarkerSideComponent implements OnInit {
   public save() {
     this.edit = false
     this.disable()
+    console.log('--------SAVING-------');
+    console.log('Marker Group = ' + this.marker.markerGroup)
+    // Determine if a new Marker group was used
+    if (this.marker.markerGroup) {
+      let type = this.groups.find(mg => mg.id == this.marker.markerGroup)
+      console.log(type);
+
+      if (type == undefined) {
+        console.log('--------NOT FOUND-------');
+        let newGroup = new MarkerGroup()
+        newGroup.id = UUID.UUID().toString()
+        newGroup.name = this.marker.markerGroup
+        newGroup.map = this.map.id
+        this.marker.markerGroup = newGroup.id
+        console.log(newGroup);
+        this.data.save(newGroup)
+      }
+    }
+
+    // console.log('--------ONCE-------');
+
+    // let newGroup = new MarkerGroup()
+    // newGroup.id = UUID.UUID().toString()
+    // newGroup.name = "Sample Group"
+    // newGroup.map = this.map.id
+    // this.marker.markerGroup = newGroup.id
+    // console.log(newGroup);
+
+    // this.data.save(newGroup)
+
+    console.log(this.marker);
+
     this.mks.saveMarker(this.marker)
     this.mapSvc.newmarkerLayer.clearLayers()
   }
@@ -119,7 +165,7 @@ export class MarkerSideComponent implements OnInit {
     if (this.marker && this.marker.m.dragging) {
       this.marker.m.dragging.enable()
     } else {
-     
+
     }
   }
   disable() {
@@ -136,11 +182,11 @@ export class MarkerSideComponent implements OnInit {
 
   public permissions() {
     if (this.marker) {
-      this.restrict.openRestrict(this.marker.view, this.marker.edit).subscribe( ([view, edit]) => {
+      this.restrict.openRestrict(this.marker.view, this.marker.edit).subscribe(([view, edit]) => {
         if (this.data.canEdit(this.marker)) {
           console.log("edit " + edit);
           console.log("view " + view);
-          
+
           this.marker.edit = edit
           this.marker.view = view
           this.mks.saveMarker(this.marker)

@@ -9,7 +9,7 @@
 
   <ng-container *ngIf="marker">
     <div class="marker-container" *ngIf="edit==false">
-      <img [src]="marker?.iconUrl" class="centered  mt-4  iconselected" >
+      <img [src]="marker?.iconUrl" class="centered  mt-4  iconselected">
       <span class="title">{{marker?.name}}</span>
       <span class="type">{{name()}}</span>
       <span class="description">{{marker?.description}}</span>
@@ -24,14 +24,17 @@
         <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Name" [(ngModel)]="marker.name">
       </div>
       <div class="form-group">
-          <label for="type" class="small">Type</label>
-          <app-marker-combo [(ngModel)]="marker.type" [map]="map"></app-marker-combo>
-        </div>
+        <label for="type" class="small">Type</label>
+        <app-marker-combo [(ngModel)]="marker.type" [map]="map"></app-marker-combo>
+      </div>
+      <div class="form-group">
+        <label for="type" class="small">Group</label>
+        <app-marker-group-combo [(ngModel)]="marker.markerGroup" [marker]="marker"></app-marker-group-combo>
+      </div>
       <div class="form-group">
         <label for="description" class="small">Description</label>
         <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="marker.description"></textarea>
       </div>
- 
     </div>
   </ng-container>
 </div>

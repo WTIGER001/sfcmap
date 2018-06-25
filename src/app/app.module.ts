@@ -42,6 +42,7 @@ import { AccessDialogComponent } from './dialogs/access-dialog/access-dialog.com
 import { RestrictService } from './dialogs/restrict.service';
 import { MarkerComboComponent } from './controls/marker-combo/marker-combo.component';
 import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
+import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-group-combo.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
     MgrMapComponent,
     AccessDialogComponent,
     MarkerComboComponent,
-    LayersTabComponent
+    LayersTabComponent,
+    MarkerGroupComboComponent
   ],
   imports: [
     BrowserModule,

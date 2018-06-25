@@ -1,28 +1,38 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import { Map, LatLng, Layer, LayerGroup, Marker } from 'leaflet';
-import { MapConfig, Selection } from './models';
-import { MyMarker } from './marker.service';
+import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup } from 'leaflet';
+import { MapConfig, Selection, MarkerGroup, SavedMarker } from './models';
+import { MyMarker, MarkerService } from './marker.service';
+import { DataService } from './data.service';
+import { combineLatest } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
- 
- 
+  private readonly UNCATEGORIZED = "UNCATEGORIZED"
   public selection = new ReplaySubject<Selection>()
   public markerReady = new ReplaySubject<MyMarker>()
   public markerRemove = new ReplaySubject<MyMarker>()
 
-
   layers: Layer[];
   newmarkerLayer: LayerGroup;
 
-  map = new ReplaySubject<Map>()
-  _map: Map
+  map = new ReplaySubject<LeafletMap>()
+  _map: LeafletMap
+  _mapCfg: MapConfig
   mapConfig = new ReplaySubject<MapConfig>()
 
-  addTempMarker(marker : MyMarker) {
+  groups: MarkerGroup[] = []
+  markers: SavedMarker[] = []
+  myMarkers = new Map<string, MyMarker>()
+  lGroups = new Map<string, LayerGroup>()
+
+  constructor(private zone: NgZone, private data: DataService, private mks: MarkerService) {
+
+  }
+
+  addTempMarker(marker: MyMarker) {
     this.newmarkerLayer.clearLayers()
     marker.marker.addTo(this.newmarkerLayer)
     marker.marker.addEventListener('click', event => {
@@ -35,13 +45,36 @@ export class MapService {
     })
   }
 
-  setConfig(mapCfg : MapConfig) {
+  setConfig(mapCfg: MapConfig) {
     this.mapConfig.next(mapCfg)
+    this._mapCfg = mapCfg
+    this.load()
   }
 
-  setMap(map: Map): any {
+  setMap(map: LeafletMap): any {
     this.map.next(map)
     this._map = map
+  }
+
+  load() {
+    this.data.getMarkerGroups(this._mapCfg.id)
+      .subscribe(
+        groups => {
+          this.groups = groups
+          this.lGroups.clear()
+          this.lGroups.set(this.UNCATEGORIZED, layerGroup())
+          groups.forEach(g => {
+            let lg = layerGroup()
+            this.lGroups.set(g.id, lg)
+          })
+        }
+      )
+    this.data.getMarkers(this._mapCfg.id)
+      .subscribe(
+        markers => {
+          this.markers = markers
+        }
+      )
   }
 
   panTo(location: any) {
@@ -50,7 +83,7 @@ export class MapService {
     }
   }
 
-  getCenter() : LatLng {
+  getCenter(): LatLng {
     if (this._map !== undefined) {
       return this._map.getCenter()
     }
@@ -71,5 +104,4 @@ export class MapService {
     this.markerRemove.next(marker)
   }
 
-  constructor(private zone : NgZone) { }
 }

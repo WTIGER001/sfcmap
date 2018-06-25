@@ -98,3 +98,9 @@ Layer Types:
 
 
 Master List of Layers
+
+----------
+combo
+in -> map id
+out -> selected marker group (maybe id?)
+how to 

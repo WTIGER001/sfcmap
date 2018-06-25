@@ -68,6 +68,7 @@ export class SavedMarker {
     name: string
     description?: string
     type: string
+    markerGroup: string
     location: [number, number]
     view: string[]
     edit: string[]
@@ -109,7 +110,7 @@ export class UserGroup implements IObjectType {
         return obj.objType !== undefined && obj.objType === UserGroup.TYPE
     }
 
-    readonly objType : string = UserGroup.TYPE
+    readonly objType: string = UserGroup.TYPE
     name: string
     description?: string
     members: string[]
@@ -119,7 +120,7 @@ export class MergedMapType {
     id: string
     name: string
     order: number
-    defaultMarker : string
+    defaultMarker: string
     maps: MapConfig[]
 }
 
@@ -128,8 +129,8 @@ export interface IObjectType {
 }
 
 export interface IDbItem {
-    id : string
-    name : string
+    id: string
+    name: string
     description: string
 }
 
@@ -138,7 +139,7 @@ export interface IRestrictedItem {
     view: string[]
 }
 
-export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType  {
+export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType {
     public static readonly TYPE = 'db.MarkerGroup'
     public static readonly FOLDER = 'markerGroups'
 
@@ -147,14 +148,15 @@ export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType  {
         return obj.objType !== undefined && obj.objType === MarkerGroup.TYPE
     }
 
-    static dbPath(obj : MarkerGroup) : string {
-        return MarkerGroup.FOLDER + '/' + obj.id
+    static dbPath(obj: MarkerGroup): string {
+        return MarkerGroup.FOLDER + '/' + obj.map + "/" + obj.id
     }
 
-    readonly objType : string = MarkerGroup.TYPE
-    id : string
+    readonly objType: string = MarkerGroup.TYPE
+    id: string
     name: string
     description: string
+    map: string
     edit: string[]
     view: string[]
 }
@@ -162,36 +164,36 @@ export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType  {
 export class Selection {
     public static readonly MARKER = 'marker'
 
-    constructor(public items : any[], public type?: string) {
+    constructor(public items: any[], public type?: string) {
         console.log("Created Select of " + this.items.length);
     }
 
-    public get first() : any {
-        if ( this.items &&  this.items.length > 0) {
+    public get first(): any {
+        if (this.items && this.items.length > 0) {
             return this.items[0]
         }
     }
 
     public isEmpty() {
-        return ! ( this.items &&  this.items.length > 0)
+        return !(this.items && this.items.length > 0)
     }
 
-    public removed(previous : Selection) : any[] {
-        let found = previous.items.filter( prevItem => !this.items.includes(prevItem))
+    public removed(previous: Selection): any[] {
+        let found = previous.items.filter(prevItem => !this.items.includes(prevItem))
         if (found) {
             return found
         }
         return []
     }
-    public added(previous : Selection) : any[] {
-        let found = this.items.filter( item => !previous.items.includes(item))
+    public added(previous: Selection): any[] {
+        let found = this.items.filter(item => !previous.items.includes(item))
         if (found) {
             return found
         }
         return []
     }
-    public same(previous : Selection) : any[] {
-        let found = previous.items.filter( prevItem => this.items.includes(prevItem))
+    public same(previous: Selection): any[] {
+        let found = previous.items.filter(prevItem => this.items.includes(prevItem))
         if (found) {
             return found
         }
@@ -200,16 +202,16 @@ export class Selection {
 }
 
 export class SavedSession {
-    maps? : Map<string, SessionMap>
+    maps?: Map<string, SessionMap>
 }
 
 export class SessionMap {
-    groups? :  Map<string, SessionGroup>
+    groups?: Map<string, SessionGroup>
 }
 
 export class SessionGroup {
     visible: boolean
-    markers? :  Map<string, SessionMarker>
+    markers?: Map<string, SessionMarker>
 }
 
 export class SessionMarker {

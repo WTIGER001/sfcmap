@@ -16,8 +16,8 @@ import { typeSourceSpan } from '@angular/compiler';
 export class MarkerComboComponent implements ControlValueAccessor {
   _map: MapConfig
   _mapType: MapType
-  selected : MarkerType
-  private innerValue 
+  selected: MarkerType
+  private innerValue
   private changed = [];
   private touched = [];
   private disabled: boolean;
@@ -67,7 +67,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
     }
 
     this.categories = this.all.filter(c => {
-      console.log(c)
       if (c.appliesTo && c.appliesTo.length > 0) {
         return c.appliesTo.includes(mapTypeId)
       } else {
@@ -99,7 +98,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   set value(value: string) {
-    console.log("Setting to : " + value);
     if (this.innerValue !== value) {
       this.innerValue = value;
       this.refresh()
@@ -120,7 +118,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: string): void {
-    console.log("writeValue to : " + obj);
     this.innerValue = obj;
     this.refresh()
   }
