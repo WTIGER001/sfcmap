@@ -104,3 +104,11 @@ combo
 in -> map id
 out -> selected marker group (maybe id?)
 how to 
+
+1.) Get Personal Map Visiblity Object
+2.) Remove the items that 
+3.) Get Groups
+4.) Create LayerGroup per Group, +1 for UNCATEGORIZED
+5.) Get the Markers
+6.) Add Markers to the appropriate layer groups
+
