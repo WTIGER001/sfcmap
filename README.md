@@ -39,7 +39,7 @@ Text        - Light - #D1E8E2
 
 
 ## Priority 1
-
+- Delete Marker Group
 
 ## Prority 2
 - Try out some plugins
