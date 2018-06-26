@@ -15,6 +15,8 @@
       <span class="description">{{marker?.description}}</span>
       <a href="{{marker?.pageUrl}}">{{marker?.pageUrl}}</a>
       <a href="#" class="coords" (click)="pan()">{{marker?.marker._latlng.lat}}, {{marker?.marker._latlng.lng}}</a>
+      <button *ngIf="marker.mapLink " type="button" class="btn btn-outline-secondary admin-btn mt-2" (click)="openLinkedMap()">
+        <fa-icon icon="map" fixedWidth="true"></fa-icon> Open Linked Map</button>
     </div>
     <div *ngIf="edit==true">
       <img [src]="marker?.iconUrl" class="centered mt-4 iconselected">
@@ -30,6 +32,14 @@
       <div class="form-group">
         <label for="type" class="small">Group</label>
         <app-marker-group-combo [(ngModel)]="marker.markerGroup" [marker]="marker"></app-marker-group-combo>
+      </div>
+      <div class="form-group">
+        <label for="mapLink" class="small">Map Link</label>
+        <select class="form-control" id="mapLink" [(ngModel)]="marker.mapLink">
+          <optgroup *ngFor="let mt of merged" [label]="mt.name">
+            <option *ngFor="let map of mt.maps" [value]="map.id">{{map.name}}</option>
+          </optgroup>
+        </select>
       </div>
       <div class="form-group">
         <label for="description" class="small">Description</label>

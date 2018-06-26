@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService, MyMarker } from '../../map.service';
 import { Map as LeafletMap, LayerGroup } from 'leaflet';
-import { delay, mergeMap, map as rxmap } from 'rxjs/operators';
+import { delay, mergeMap, map as rxmap, map } from 'rxjs/operators';
 import { ITreeOptions } from 'angular-tree-component';
 import { ITreeNode } from 'angular-tree-component/dist/defs/api';
-import { MapConfig, MarkerGroup, SavedMarker } from '../../models';
+import { MapConfig, MarkerGroup, SavedMarker, UserPreferences, MapPrefs } from '../../models';
 import { DataService } from '../../data.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-layers-tab',
@@ -13,21 +14,37 @@ import { DataService } from '../../data.service';
   styleUrls: ['./layers-tab.component.css']
 })
 export class LayersTabComponent implements OnInit {
+  prefs: UserPreferences
   map: LeafletMap
   mapConfig: MapConfig
   groups: MarkerGroup[] = []
   markers: SavedMarker[] = []
   layers = []
   items = []
-  shownGroups = []
-  shownMarkers = []
-  isCollapsed = new Map<string, boolean>()
+  groupIds = []
+  markerIds = []
+
+  isCollapsed = {}
   options: ITreeOptions = {
     useCheckbox: true
   };
 
   constructor(private mapSvc: MapService, private data: DataService) {
-    this.mapSvc.mapConfig
+    this.mapSvc.map
+      .subscribe(m => {
+        this.map = m
+        this.layers = this.mapSvc.layers
+      })
+
+    let prefObs = this.data.userPrefs.pipe(
+      map(prefs => this.prefs = prefs)
+    )
+
+    let mapObs = this.mapSvc.mapConfig.pipe(
+      map(mapConfig => this.mapConfig = mapConfig)
+    )
+
+    let allObs = this.mapSvc.mapConfig
       .pipe(
         mergeMap(mapConfig => {
           this.mapConfig = mapConfig;
@@ -36,27 +53,25 @@ export class LayersTabComponent implements OnInit {
         mergeMap(groups => {
           this.groups = groups
           this.groups.forEach(g => {
-            this.shownGroups.push(g.id)
+            this.isCollapsed[g.id] = true
           })
+          this.isCollapsed[MapService.UNCATEGORIZED] = true
+
           return this.data.getMarkers(this.mapConfig.id)
+        }),
+        map(marks => {
+          this.markers = marks
         })
-      ).subscribe(marks => {
-        this.markers = marks
-        this.markers.forEach(m => {
-          this.shownMarkers.push(m.id)
-        })
-        console.log("Marker Count " + this.markers.length);
+      )
+
+
+    combineLatest(prefObs, allObs)
+      .subscribe(() => {
+        this._shownGroups = this.prefs.getMapPref(this.mapConfig.id).hiddenGroups
+        this._shownMarkers = this.prefs.getMapPref(this.mapConfig.id).hiddenMarkers
+        console.log("ALL DONE");
       })
 
-    this.mapSvc.map
-      .subscribe(m => {
-        this.map = m
-        this.layers = this.mapSvc.layers
-      })
-
-    this.mapSvc.mapConfig.pipe(delay(100)).subscribe(mapConfig => {
-      this.items = this.generateTreeItems()
-    })
   }
 
   getMarkers(g: MarkerGroup): SavedMarker[] {
@@ -67,6 +82,7 @@ export class LayersTabComponent implements OnInit {
       return false;
     })
   }
+
   getUngroupedMarkers(): SavedMarker[] {
     return this.markers.filter(m => {
       if (m.markerGroup) {
@@ -75,49 +91,6 @@ export class LayersTabComponent implements OnInit {
       return true;
     })
   }
-
-  onSelectChange(event) {
-
-  }
-
-  onFilterChange(event) {
-
-  }
-
-  generateTreeItems(): any[] {
-
-    let items = []
-    console.log("Layer COunt " + this.layers.length);
-    this.layers.forEach(layer => {
-      console.log("Layer : " + this.name(layer));
-      let child = this.genTree(layer)
-      console.log("... created" + child.text);
-      items.push(child)
-    })
-    console.log("Item count " + items.length);
-
-    return items
-  }
-
-  genTree(obj: any): any {
-    console.log("Item : " + this.name(obj));
-    let item = {
-      name: this.name(obj),
-      id: this.id(obj),
-      data: obj,
-      children: []
-    }
-
-    if (this.isFeatureGroup(obj)) {
-      console.log("FeatureLayer : " + this.name(obj));
-      obj.eachLayer(l => {
-        let child = this.genTree(l)
-        item.children.push(child)
-      })
-    }
-    return item
-  }
-
 
   ngOnInit() {
   }
@@ -155,5 +128,57 @@ export class LayersTabComponent implements OnInit {
         this.mapSvc.panTo(item['_latlng'])
       }
     }
+  }
+
+  groupCheckChange($event) {
+    console.log($event);
+    // this.shownGroups = $event
+    if (this.prefs) {
+      let mPrefs = this.prefs.getMapPref(this.mapConfig.id)
+      mPrefs.hiddenGroups = $event
+      console.log("Hidden Groups")
+      console.log(mPrefs.hiddenGroups);
+      this.data.save(this.prefs)
+    }
+  }
+
+  markerCheckChange($event) {
+    console.log($event);
+
+    if (this.prefs) {
+      if (!this.prefs.maps) {
+        this.prefs.maps = new Map<string, MapPrefs>()
+      }
+      let mPrefs = this.prefs.getMapPref(this.mapConfig.id)
+      mPrefs.hiddenMarkers = $event
+      console.log("Hidden Markers")
+      console.log(mPrefs.hiddenMarkers);
+      this.data.save(this.prefs)
+    }
+  }
+
+  diff<T>(all: T[], some: T[]): T[] {
+    return all.filter(allItem => !some.includes(allItem))
+  }
+
+  _shownGroups = []
+  _shownMarkers = []
+
+  set shownGroups(v: any[]) {
+    this._shownGroups = v
+    this.groupCheckChange(v)
+  }
+
+  set shownMarkers(v: any[]) {
+    this._shownMarkers = v
+    this.markerCheckChange(v)
+  }
+
+  get shownGroups(): any[] {
+    return this._shownGroups
+  }
+
+  get shownMarkers(): any[] {
+    return this._shownMarkers
   }
 }

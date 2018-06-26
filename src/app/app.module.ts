@@ -19,7 +19,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
-import { MapSelectorComponent } from './map-selector/map-selector.component';
+import { MapSelectorComponent } from './tabs/map-selector/map-selector.component';
 import { AdminComponent } from './tabs/admin/admin.component';
 import { UserSideComponent } from './tabs/user-side/user-side.component';
 import { MarkerSideComponent } from './tabs/marker-side/marker-side.component';
@@ -42,6 +42,7 @@ import { RestrictService } from './dialogs/restrict.service';
 import { MarkerComboComponent } from './controls/marker-combo/marker-combo.component';
 import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
 import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-group-combo.component';
+import { UnchecklistDirective } from './controls/unchecklist.directive';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-
     AccessDialogComponent,
     MarkerComboComponent,
     LayersTabComponent,
-    MarkerGroupComboComponent
+    MarkerGroupComboComponent,
+    UnchecklistDirective
   ],
   imports: [
     BrowserModule,
@@ -83,19 +85,19 @@ import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-
   providers: [
     MapService,
     CommonDialogService,
-    NotifyService, 
-    DataService, 
-    DialogService, 
+    NotifyService,
+    DataService,
+    DialogService,
     RestrictService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     InputDialogComponent,
     MessageDialogComponent,
-    ConfirmDialogComponent, 
+    ConfirmDialogComponent,
     MgrGroupComponent,
-    MgrMapComponent, 
-    MgrMarkerComponent, 
+    MgrMapComponent,
+    MgrMarkerComponent,
     AccessDialogComponent
   ]
 })

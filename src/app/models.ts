@@ -10,9 +10,6 @@ export class User {
     uid: string
     photo?: string
     groups?: string[]
-    assumedGroups?: string[]
-    recentMarkers?: string[]
-    recentMaps?: string[]
 
     isAdmin(): boolean {
         return this.groups.includes("admin")
@@ -69,6 +66,7 @@ export class SavedMarker {
     description?: string
     type: string
     markerGroup: string
+    mapLink: string
     location: [number, number]
     view: string[]
     edit: string[]
@@ -143,7 +141,15 @@ export interface IRestrictedItem {
 export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType {
     public static readonly TYPE = 'db.MarkerGroup'
     public static readonly FOLDER = 'markerGroups'
-    public static readonly SAMPLE = new MarkerGroup()
+    public static readonly SAMPLE = {
+        objType: '',
+        id: 'string',
+        name: 'string',
+        description: 'string',
+        map: 'string',
+        edit: [],
+        view: [],
+    }
 
     // TypeScript guard
     static is(obj: any): obj is MarkerGroup {
@@ -203,23 +209,73 @@ export class Selection {
     }
 }
 
-export class SavedSession {
-    maps?: Map<string, SessionMap>
+export class UserPreferences {
+    public static readonly TYPE = 'db.UserPreferences'
+    public static readonly FOLDER = 'userPreferences'
+    public static readonly SAMPLE = {
+        objType: '',
+        uid: 'string',
+        maps: {},
+        recentMarkers: [],
+        recentMaps: [],
+        assumedGroups: []
+    }
+
+    // TypeScript guard
+    static is(obj: any): obj is UserPreferences {
+        return obj.objType !== undefined && obj.objType === UserPreferences.TYPE
+    }
+
+    static dbPath(obj: UserPreferences): string {
+        return UserPreferences.FOLDER + '/' + obj.uid
+    }
+    static pathTo(userId: string): string {
+        return UserPreferences.FOLDER + '/' + userId
+    }
+
+    getMapPref(mapId: string): MapPrefs {
+        if (!this.maps) {
+            this.maps = new Map<string, MapPrefs>()
+        }
+
+        if (!this.maps[mapId]) {
+            let mp = new MapPrefs()
+            mp.mapId = mapId
+            this.maps[mapId] = new MapPrefs()
+        }
+        return this.maps[mapId]
+    }
+
+    isHiddenMarker(mapId: string, markerId: string): boolean {
+        let mp = this.getMapPref(mapId)
+        if (mp.hiddenMarkers) {
+            return mp.hiddenMarkers.includes(markerId)
+        }
+        return false
+    }
+
+    isHiddenGroup(mapId: string, groupId: string): boolean {
+        let mp = this.getMapPref(mapId)
+        if (mp.hiddenGroups) {
+            return mp.hiddenGroups.includes(groupId)
+        }
+        return false
+    }
+
+    readonly objType: string = UserPreferences.TYPE
+
+    uid: string
+    maps = {}
+    recentMarkers?: string[]
+    recentMaps?: string[]
+    assumedGroups?: string[]
+
 }
 
-export class SessionMap {
-    groups?: Map<string, SessionGroup>
+export class MapPrefs {
+    mapId: string
+    hiddenGroups: string[] = []
+    hiddenMarkers: string[] = []
 }
-
-export class SessionGroup {
-    visible: boolean
-    markers?: Map<string, SessionMarker>
-}
-
-export class SessionMarker {
-    markerId: string
-    visible: boolean
-}
-
 
 

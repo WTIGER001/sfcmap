@@ -60,6 +60,10 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
     if (this.selected) {
       return this.selected.name
     } else if (this.innerValue) {
+      let item = this.all.find(mg => mg.id == this.innerValue)
+      if (item) {
+        return item.name
+      }
       return this.innerValue
     }
     return ''

@@ -1,0 +1,15 @@
+<div>
+  Map
+</div>
+<div class="white scroller" *ngIf="merged">
+  <div *ngFor="let mt of merged ">
+    <h4>{{mt.name}}</h4>
+    <div class="map-item" *ngFor="let m of mt.maps">
+      <ng-container>
+        <!-- <img src="./assets/missing.png" height="100"> -->
+        <img [src]='m.thumb' width="150" (click)="select(m)">
+        <span class="map-title">{{m.name}}</span>
+      </ng-container>
+    </div>
+  </div>
+</div>

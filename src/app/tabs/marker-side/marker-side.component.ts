@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService, MyMarker } from '../../map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
-import { MarkerType, MapConfig, MarkerGroup } from '../../models';
+import { MarkerType, MapConfig, MarkerGroup, MergedMapType } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { mergeMap } from 'rxjs/operators';
@@ -20,7 +20,13 @@ export class MarkerSideComponent implements OnInit {
   groups: MarkerGroup[] = []
   ready = new Map<string, boolean>()
   restricted = false
-  constructor( private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService) {
+  merged: MergedMapType[] = []
+
+  constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService) {
+    this.data.mapTypesWithMaps.subscribe(items => {
+      this.merged = items
+    })
+
     // Handle Selections
     this.mapSvc.selection.subscribe(sel => {
       if (this.marker != undefined) {
@@ -49,15 +55,6 @@ export class MarkerSideComponent implements OnInit {
     this.mapSvc.catsLoaded.subscribe(v => {
       this.categories = this.mapSvc.categories
     })
-    this.mapSvc.markerReady.subscribe(marker => {
-      console.log("Received Add");
-      this.ready.set(marker.id, true)
-    })
-    this.mapSvc.markerRemove.subscribe(marker => {
-      console.log("Received Remove");
-      this.ready.delete(marker.id)
-    })
-
   }
 
   pan() {
@@ -129,22 +126,10 @@ export class MarkerSideComponent implements OnInit {
         this.data.save(newGroup)
       }
     }
-
-    // console.log('--------ONCE-------');
-
-    // let newGroup = new MarkerGroup()
-    // newGroup.id = UUID.UUID().toString()
-    // newGroup.name = "Sample Group"
-    // newGroup.map = this.map.id
-    // this.marker.markerGroup = newGroup.id
-    // console.log(newGroup);
-
-    // this.data.save(newGroup)
-
     console.log(this.marker);
 
     this.mapSvc.saveMarker(this.marker)
-    this.mapSvc.newmarkerLayer.clearLayers()
+    this.mapSvc.newMarkersLayer.clearLayers()
   }
 
   public delete() {
@@ -175,6 +160,12 @@ export class MarkerSideComponent implements OnInit {
     this.marker.type = t.id
     let icn = this.mapSvc.markerTypes.get(t.id)
     this.marker.marker.setIcon(icn)
+  }
+
+  public openLinkedMap() {
+    if (this.marker && this.marker.mapLink) {
+      this.mapSvc.openMap(this.marker.mapLink)
+    }
   }
 
   public permissions() {

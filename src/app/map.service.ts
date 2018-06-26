@@ -1,16 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
-import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng  } from 'leaflet';
-import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType } from './models';
+import { ReplaySubject, combineLatest } from 'rxjs';
+import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng } from 'leaflet';
+import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, UserPreferences } from './models';
 import { DataService } from './data.service';
-import { combineLatest, mergeMap, concatMap } from 'rxjs/operators';
+import { mergeMap, concatMap, map } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-  private readonly UNCATEGORIZED = "UNCATEGORIZED"
+  public static readonly UNCATEGORIZED = "UNGROUPED"
 
   // Observables
   public selection = new ReplaySubject<Selection>()
@@ -22,19 +22,23 @@ export class MapService {
   // Core Data
   map = new ReplaySubject<LeafletMap>()
   mapConfig = new ReplaySubject<MapConfig>()
+  prefs: UserPreferences
 
+  maps: MapConfig[] = []
   _map: LeafletMap
   _mapCfg: MapConfig
   groups: MarkerGroup[] = []
   markers: SavedMarker[] = []
   mapTypes: MapType[]
   myMarkers = new Map<string, MyMarker>()
+  myMarks: MyMarker[] = []
   public markersObs = new ReplaySubject<Array<MyMarker>>()
   private types = new Map<string, MarkerType>()
 
   // Layers
   layers: Layer[];
-  newmarkerLayer: LayerGroup;
+  newMarkersLayer: LayerGroup;
+  allMarkersLayer: LayerGroup;
   lGroups = new Map<string, LayerGroup>()
 
   categories = new Array<Category>()
@@ -43,24 +47,46 @@ export class MapService {
   catsLoaded = new ReplaySubject<boolean>()
 
   constructor(private zone: NgZone, private data: DataService) {
+    this.allMarkersLayer = layerGroup()
+    this.newMarkersLayer = layerGroup()
+
+    this.data.maps.subscribe(
+      maps => this.maps = maps
+    )
+
+    let prefsObs = this.data.userPrefs.pipe(
+      map(prefs => this.prefs = prefs),
+      map(prefs => {
+        if (!this._mapCfg) {
+          if (prefs.recentMaps && prefs.recentMaps.length > 0) {
+            let mapId = prefs.recentMaps[0]
+            let mapConfig = this.maps.find(m => m.id == mapId)
+            if (mapConfig) {
+              this.setConfig(mapConfig)
+            }
+          }
+        }
+      })
+    )
+
     // Load the Map Types
     this.data.mapTypes.subscribe(t => this.mapTypes = t)
 
-      // Load the Categories
-      this.data.markerCategories.subscribe(cats => {
-        let mycats = new Array<Category>()
-        cats.forEach(cat => {
-          let c = new Category()
-          c.id = cat.id
-          c.name = cat.name
-          c.appliesTo = cat.appliesTo
-          mycats.push(c)
-        })
-        this.categories = mycats
-        this.catsLoaded.next(true)
+    // Load the Categories
+    this.data.markerCategories.subscribe(cats => {
+      let mycats = new Array<Category>()
+      cats.forEach(cat => {
+        let c = new Category()
+        c.id = cat.id
+        c.name = cat.name
+        c.appliesTo = cat.appliesTo
+        mycats.push(c)
       })
+      this.categories = mycats
+      this.catsLoaded.next(true)
+    })
 
-      // Load each of the icons
+    // Load each of the icons
     this.catsLoaded.pipe(
       mergeMap(v => {
         this.defaultMarker = undefined
@@ -91,8 +117,10 @@ export class MapService {
         this.defaultMarker = markerType.id
       }
     })
-    this.mapConfig
+
+    let mapMarkerGroupsObs = this.mapConfig
       .pipe(
+        map(mapCfg => this._mapCfg = mapCfg),
         mergeMap(newMap => this.data.getMarkerGroups(newMap.id)),
         mergeMap(mgs => {
           this.groups = mgs
@@ -100,28 +128,88 @@ export class MapService {
           // Make LayerGroups
           this.makeLayerGroups(mgs);
           return this.data.getMarkers(this._mapCfg.id)
-        })
-      ).subscribe(markers => {
-        console.log("checking Markers " + markers.length);
-        this.markers = markers
-        let localMarkers = new Array<MyMarker>()
-        markers.forEach(marker => {
-          if (this.data.canView(marker)) {
-            let m = this.fromSavedMarker(marker)
-            if (m) {
-              localMarkers.push(m)
+        }),
+        map(markers => {
+          console.log("checking Markers " + markers.length);
+          this.markers = markers
+          let localMarkers = new Array<MyMarker>()
+          markers.forEach(marker => {
+            if (this.data.canView(marker)) {
+              let m = this.fromSavedMarker(marker)
+              if (m) {
+                localMarkers.push(m)
+              }
             }
-          } 
+          })
+          this.myMarks = localMarkers
+          this.markersObs.next(localMarkers)
         })
-        this.markersObs.next(localMarkers)
+      )
+
+    combineLatest(prefsObs, mapMarkerGroupsObs)
+      .subscribe(() => {
+        console.log("BUILDING LAYERS");
+        this.allMarkersLayer.clearLayers()
+
+        // Loop through the groups. Add each group to the map
+        this.groups.forEach(g => {
+          this.addGroup(g.id)
+        })
+        this.addGroup(MapService.UNCATEGORIZED)
+
+        // Loop through the markers. Add each marker to the group layer
+        // 
+        this.myMarks.forEach(mm => {
+          if (!this.prefs.isHiddenMarker(this._mapCfg.id, mm.id)) {
+            if (mm.markerGroup) {
+              let g = this.lGroups.get(mm.markerGroup)
+              this.addEventListeners(mm)
+              mm.marker.addTo(g)
+            } else {
+              let g = this.lGroups.get(MapService.UNCATEGORIZED)
+              this.addEventListeners(mm)
+              mm.marker.addTo(g)
+            }
+          }
+        })
       })
+  }
+
+  private addGroup(groupId: string) {
+    if (!this.prefs.isHiddenGroup(this._mapCfg.id, groupId)) {
+      let lGroup = this.lGroups.get(groupId)
+      if (lGroup) {
+        lGroup.clearLayers()
+        lGroup.addTo(this.allMarkersLayer)
+      }
+    }
+  }
 
 
+  private addEventListeners(m: MyMarker) {
+    m.marker.addEventListener('click', event => {
+      this.zone.run(() => {
+        var m = <Marker>event.target
+        let marker = new MyMarker(m)
+        marker.selected = true
+        this.select(new MyMarker(m))
+      });
+    })
+    m.marker.on('add', event => {
+      this.zone.run(() => {
+        this.markerAdded(m)
+      })
+    })
+    m.marker.on('remove', event => {
+      this.zone.run(() => {
+        this.markerRemoved(m)
+      })
+    })
   }
 
   private makeLayerGroups(mgs: MarkerGroup[]) {
     this.lGroups.clear();
-    this.lGroups.set(this.UNCATEGORIZED, layerGroup());
+    this.lGroups.set(MapService.UNCATEGORIZED, layerGroup());
     mgs.forEach(g => {
       let lg = layerGroup();
       this.lGroups.set(g.id, lg);
@@ -133,8 +221,8 @@ export class MapService {
    * @param marker 
    */
   addTempMarker(marker: MyMarker) {
-    this.newmarkerLayer.clearLayers()
-    marker.marker.addTo(this.newmarkerLayer)
+    this.newMarkersLayer.clearLayers()
+    marker.marker.addTo(this.newMarkersLayer)
     marker.marker.addEventListener('click', event => {
       this.zone.run(() => {
         var m = <Marker>event.target
@@ -145,20 +233,9 @@ export class MapService {
     })
   }
 
-  public newMarker(select: boolean): MyMarker {
-    let m = this.newTempMarker()
-
-    this.saveMarker(m)
-    console.log(m);
-
-    if (select) {
-      m.selected = true
-      this.select(m.marker)
-    }
-
-    return m
-  }
-
+  /**
+   * Create a new Temporary Marker (one that has not been saved yet)
+   */
   public newTempMarker(): MyMarker {
     let markerTypeId = this.getDefaultMarker(this._mapCfg)
     var loc = this.getCenter()
@@ -173,6 +250,13 @@ export class MapService {
     m.map = this._mapCfg.id
 
     return m
+  }
+
+  openMap(mapId: string) {
+    let me = this.maps.find(m => m.id == mapId)
+    if (me) {
+      this.setConfig(me)
+    }
   }
 
   setConfig(mapCfg: MapConfig) {
@@ -274,6 +358,7 @@ export class MapService {
     m.view = saved.view
     m.edit = saved.edit
     m.map = saved.map
+    m.mapLink = saved.mapLink
     m.markerGroup = saved.markerGroup
     m.description = saved.description
 
@@ -292,14 +377,11 @@ export class MapService {
     saved.edit = m.edit
     saved.view = m.view
     saved.map = m.map
+    saved.mapLink = m.mapLink
     saved.markerGroup = m.markerGroup
     return saved
   }
-
-
-
 }
-
 
 export class MyMarker {
   public static readonly TYPE = "markers.MyMarker";
@@ -349,6 +431,12 @@ export class MyMarker {
   }
   set pageUrl(my: string) {
     this.m["__pageUrl"] = my
+  }
+  get mapLink(): string {
+    return this.m["__mapLink"]
+  }
+  set mapLink(my: string) {
+    this.m["__mapLink"] = my
   }
   get view(): string[] {
     return this.m["__view"]

@@ -39,11 +39,9 @@ Text        - Light - #D1E8E2
 
 
 ## Priority 1
-- Need to make a marker selection control...
-- Combine the marker service and the map service
+
 
 ## Prority 2
-- Marker Groups / Layers to control visiblity easily?
 - Try out some plugins
 -- Draw
 - Refilter when someone assumes a group
