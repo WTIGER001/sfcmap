@@ -15,3 +15,40 @@ h6 {
     outline: 2px solid blue;
     outline: 5px auto -webkit-focus-ring-color;
 }
+
+.filter-div {
+    position: relative;
+  }
+
+.filter {
+    background-color: transparent;
+    width: 100%;
+    color: black;
+    margin-bottom: .2em;
+    padding-left: 24px;
+}
+
+.clear-filter-icon {
+    display: flex;
+    position: absolute;
+    right: 6px;
+    top: 0;
+    bottom: 0;
+    color: rgba(0, 0, 0, .4);
+    cursor: pointer;
+    align-items: center;
+}
+
+.clear-filter-icon:hover {
+  color: rgba(0, 0, 0, 1)
+}
+
+.filter-icon {
+    display: flex;
+    position: absolute;
+    left: 6px;
+    top: 0;
+    bottom: 0;
+    color: rgba(0, 0, 0, .4);
+    align-items: center;
+}

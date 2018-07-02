@@ -11,7 +11,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: .5rem;
     font-weight: 400;
     line-height: 1.2;
-    color: white;
     display: block;
 }
 
@@ -39,25 +38,30 @@ body {
     height: 100%;
 }
 
-::-webkit-scrollbar-track
+.scroller-dark::-webkit-scrollbar-track
 {
     width: 8px;  
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: rgba(0, 0, 0, .8);
 }
 
-::-webkit-scrollbar
+.scroller-dark::-webkit-scrollbar
 {
 	width: 12px;
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
+    padding-left: 10px;
 }
 
-::-webkit-scrollbar-thumb
+.scroller-dark::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #555;
 } 
+
+.scroller-dark::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
 
 .glow {
     z-index:-1;

@@ -1,7 +1,7 @@
 <h1>Layers</h1>
 <small class="form-text text-muted mb-2">Select the data to show on the map</small>
 
-<div class="scroller">
+<div class="scroller scroller-dark">
     <ng-container *ngFor="let g of groups">
         <div class="pack">
             <fa-icon (click)="isCollapsed[g.id] = !isCollapsed[g.id]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>

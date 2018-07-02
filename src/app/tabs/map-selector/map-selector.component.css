@@ -10,22 +10,32 @@ figure {
 figure > img {
     transition: transform ease-in-out 200ms;
     object-fit: cover;
-    /* max-height: 150px; */
     max-height: 80px;
     width: 100%;
     border-radius: 6px;
-    /* width: 150px; */
-}
-
-.recent-div {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 10px;
 }
 
 .recent {
-    height: 50px;
+    float: left;
+    height: 48px;
+    width: 48px;
     grid-row: 1;
+    margin-right: 10px;
+    margin-bottom: 16px;
+}
+
+.recent figure {
+    border-radius: 40%;
+}
+
+.recent:last-of-type {
+    margin-right: 0
+}
+
+.recent-div::after {
+    content: '';
+    display: table;
+    clear: both;
 }
 
 figure:hover > img {

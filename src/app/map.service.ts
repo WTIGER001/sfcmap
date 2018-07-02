@@ -422,9 +422,9 @@ export class MapService {
    */
   public newTempMarker(latlng?: LatLng): MyMarker {
     let markerTypeId = this.getDefaultMarker(this._mapCfg)
-
-    if (!latLng) {
-      latlng = this.getCenter()
+    let point = latlng
+    if (latlng == undefined || latlng.lat == undefined) {
+      point = this.getCenter()
     }
 
     // var loc = this.getCenter()
@@ -432,7 +432,8 @@ export class MapService {
     if (icn == undefined) {
       this.mapLoad.debug('No icon for the temporary marker')
     }
-    var m = new MyMarker(marker(latlng, { icon: icn, draggable: false }))
+
+    var m = new MyMarker(marker(point, { icon: icn, draggable: false }))
     m.id = UUID.UUID().toString()
     m.name = "New Marker"
     m.type = markerTypeId
@@ -699,7 +700,7 @@ export class MyMarker {
   }
 }
 
-class Category {
+export class Category {
   appliesTo: string[];
   name: string
   id: string

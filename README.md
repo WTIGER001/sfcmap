@@ -43,7 +43,6 @@ Text        - Light - #D1E8E2
 - Delete Marker Group
 - Delete Temporary Marker
 - Resize Markers with Zoom Levels
-- Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Select marker from layer list
 - Dont show empty marker groups [minor]
 - Tie marker types to marker layers with a marker type having a default group [minor]
@@ -56,13 +55,11 @@ Text        - Light - #D1E8E2
 ## Prority 2
 - Try out some plugins
 -- Draw
-- Smoother zoom ( less spacing between soom levels)
+- Router for maps and 'back button'. Router should also support a coordinate center and zoom
+- Smoother zoom ( less spacing between Zoom levels) (Hard)
 - Refilter when someone assumes a group (change to unchecklist)
 - Use buttons for tool bar
 - Toolbar fix for enablement
-- Map Tab : Styling and typeography
-- Map Tab: Slide out pannel to choose more
-- Rename tabs
 - Map: Square Graticules (w/ controls)
 
 ## Priority 3
@@ -82,10 +79,7 @@ Text        - Light - #D1E8E2
 - Maybe ditch dialogs and instead use a fly out panel
 
 ## Prority 5
-- Group into modules? 
--- Map, Marker, User?
 - Test on phone (need to make slide outs full pages)
-- Pan limits
 - Border Decoration for regions (a,b,c, etc)
 
 ## RPG Features ( hard stuff /// Out of scope)?

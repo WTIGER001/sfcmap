@@ -33,9 +33,13 @@
     background-color: rgba(0, 0, 0, .8);
     display: block;
     position: fixed;
-    right: -25%;
+    /* right: -25%; */
+    right: -300px;
+    /* right: calc(-50vw + 50px); */
     top: 0;
-    width: 25%;
+    /* width: 25%; */
+    width: 300px;
+    /* width: calc(50vw - 50px); */
     height: 100vh;
     z-index: 2;
     padding: 10px;
@@ -79,3 +83,8 @@
 .tab-selected {
     background-color: #9ed485;
 }
+
+.side-container  h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
