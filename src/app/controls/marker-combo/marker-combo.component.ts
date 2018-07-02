@@ -3,6 +3,7 @@ import { MarkerType, MapConfig, MapType } from '../../models';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { typeSourceSpan } from '@angular/compiler';
 import { MapService } from '../../map.service';
+import { DataService } from '../../data.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
   all = []
   categories = []
 
-  constructor(private mapSvc: MapService) {
+  constructor(private mapSvc: MapService, private data: DataService) {
 
   }
 
@@ -49,8 +50,8 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   ngOnInit(): void {
-    this.mapSvc.catsLoaded.subscribe(v => {
-      this.all = this.mapSvc.categories
+    this.data.categories.subscribe(categories => {
+      this.all = categories
       this.refresh()
     })
   }

@@ -179,6 +179,7 @@ export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType {
     map: string
     edit: string[]
     view: string[]
+    markers: SavedMarker[]
 }
 
 export class Selection {
@@ -289,5 +290,13 @@ export class MapPrefs {
     hiddenGroups: string[] = []
     hiddenMarkers: string[] = []
 }
+
+export class Category {
+    appliesTo: string[];
+    name: string
+    id: string
+    types: MarkerType[] = []
+}
+
 
 

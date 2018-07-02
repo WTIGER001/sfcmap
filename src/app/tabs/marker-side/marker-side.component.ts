@@ -45,15 +45,15 @@ export class MarkerSideComponent implements OnInit {
       .pipe(
         mergeMap(m => {
           this.map = m;
-          return this.data.getMarkerGroups(m.id)
+          return this.data.getCompleteMarkerGroups(m.id)
         })
       )
       .subscribe(v => {
         this.groups = v
       })
 
-    this.mapSvc.catsLoaded.subscribe(v => {
-      this.categories = this.mapSvc.categories
+    this.data.categories.subscribe(categories => {
+      this.categories = categories
     })
   }
 
@@ -146,8 +146,6 @@ export class MarkerSideComponent implements OnInit {
   enable() {
     if (this.marker && this.marker.m.dragging) {
       this.marker.m.dragging.enable()
-    } else {
-
     }
   }
   disable() {
@@ -158,7 +156,7 @@ export class MarkerSideComponent implements OnInit {
 
   setType(t: MarkerType) {
     this.marker.type = t.id
-    let icn = this.mapSvc.markerTypes.get(t.id)
+    let icn = this.mapSvc.getIcon(t.id)
     this.marker.marker.setIcon(icn)
   }
 

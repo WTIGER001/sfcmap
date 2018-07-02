@@ -31,25 +31,20 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Colors
 
 ---THEME 1----
-Background  - Gun Metal Gray - #2C3531
-            - Blue Sapphire - #116466
-Selection   - Peach - #D9B08C
-            - Tan - #FFCB9A
-Text        - Light - #D1E8E2
+Background  - Gun Metal Gray    - #2C3531
+            - Blue Sapphire     - #116466
+Selection   - Peach             - #D9B08C
+            - Tan               - #FFCB9A
+Text        - Light             - #D1E8E2
 
 
 ## Priority 1
 - Figure out why markers dont load correctly
 - Delete Marker Group
 - Delete Temporary Marker
-- Resize Markers with Zoom Levels
-- Select marker from layer list
 - Dont show empty marker groups [minor]
 - Tie marker types to marker layers with a marker type having a default group [minor]
-- Load more icons [minor]
 - Export / import icons 
-- Change name of 'marker' to icon and icon sets?
-- Proper default map load
 - Bulk edit marker types
 
 ## Prority 2
@@ -61,6 +56,7 @@ Text        - Light - #D1E8E2
 - Use buttons for tool bar
 - Toolbar fix for enablement
 - Map: Square Graticules (w/ controls)
+- Select marker from layer list
 
 ## Priority 3
 - USe LIs for Tabs

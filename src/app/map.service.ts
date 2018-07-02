@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject, combineLatest, BehaviorSubject } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
-import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, UserPreferences, AnchorPostitionChoice } from './models';
+import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, UserPreferences, AnchorPostitionChoice, Category } from './models';
 import { DataService } from './data.service';
 import { mergeMap, concatMap, map, buffer, bufferCount } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
@@ -40,6 +40,8 @@ export class MapService {
   /** Array of all Marker Groups for this map. For each marker group there is an associated layer */
   groups: MarkerGroup[] = []
 
+  types = new Map<string, MarkerType>()
+
   /** Array of all Saved Markers for this map that the user has the permision to view */
   markers: SavedMarker[] = []
 
@@ -55,7 +57,7 @@ export class MapService {
   public markersObs = new ReplaySubject<Array<MyMarker>>()
 
   /** Map of types of markers. The key is the marker type's id. This is a map to make searching for a type quick */
-  private types = new Map<string, MarkerType>()
+  private = new Map<string, MarkerType>()
 
   // Layers
   /** All the layers that are displayed on the map */
@@ -76,9 +78,6 @@ export class MapService {
   /** The Default marker to use if there is no other available. This is only used when the user selects the 'new marker' action */
   defaultMarker: string
 
-  /** Observable indicating that the Categories have been loaded. Should problably just switch this to an observable on the categories. Should also move this to the Data Service */
-  catsLoaded = new ReplaySubject<boolean>()
-
   // Get rid of?
   // public selection = new ReplaySubject<Marker>()
   /** Observable to tell when a marker is ready */
@@ -87,8 +86,6 @@ export class MapService {
   public markerRemove = new ReplaySubject<MyMarker>()
   /** Observable for when a marker is updated */
   public updates = new ReplaySubject<Marker>()
-  /** Icons for the marker by type */
-  markerTypes = new Map<string, Icon>()
 
   mouseCoord
 
@@ -103,16 +100,14 @@ export class MapService {
 
     this.allMarkersLayer = layerGroup()
     this.newMarkersLayer = layerGroup()
-    this.iconCache = new IconZoomLevelCache(this.markerZoomLog)
+    this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
 
     // When the map changees regenerate all the cached icons. We do this because the scale can change for the map and there may me more zoom levels
     this.map.subscribe(m => {
       this.iconCache.clear()
       this.iconCache.minZoom = m.getMinZoom()
       this.iconCache.maxZoom = m.getMaxZoom()
-
       this.log.debug(`Map Changed, New Zoom Levels are ${m.getMinZoom()} to ${m.getMaxZoom()}`)
-
       this.addMapListeners(m)
     })
 
@@ -131,122 +126,73 @@ export class MapService {
     this.data.mapTypes.subscribe(t => this.mapTypes = t)
 
     // Load the Categories
-    let loadCategoriesObs = this.data.markerCategories.pipe(map(cats => {
-      let mycats = new Array<Category>()
-      cats.forEach(cat => {
-        let c = new Category()
-        c.id = cat.id
-        c.name = cat.name
-        c.appliesTo = cat.appliesTo
-        mycats.push(c)
-      })
-      this.categories = mycats
-      this.catsLoaded.next(true)
-    }))
-
-    loadCategoriesObs.subscribe(() => {
-      this.mapLoad.debug("Loaded Categories")
+    this.data.categories.subscribe(cats => {
+      this.mapLoad.debug("Loading Categories ... " + cats.length)
+      this.categories = cats
     })
 
-    // Load each of the icons
-    let expectedCount = 0
-    let loadIconsObs = this.catsLoaded.pipe(
-      mergeMap(v => {
-        this.defaultMarker = undefined
-        return this.data.markerTypes
-      }),
-      concatMap(items => {
-        expectedCount = items.length
-        this.categories.forEach(c => {
-          c.types = []
+    let makeMarkerTypes = this.data.markersWithUrls.pipe(map(
+      markertypes => {
+        this.mapLoad.debug("Loading Marker Types")
+        this.iconCache.load(markertypes, this._map)
+        this.types.clear()
+        markertypes.forEach(type => {
+          this.types.set(type.id, type)
         })
-        return items
+        this.mapLoad.debug("Loading Marker Types", this.types)
+        return this.types
+      }
+    ))
+
+    let loadGroups = this.mapConfig.pipe(
+      mergeMap(mapCfg => {
+        this.mapLoad.debug("Loading Marker Groups")
+        return this.data.getCompleteMarkerGroups(mapCfg.id)
       }),
-      mergeMap((value, index) => this.data.fillInUrl(value), 5),
-      map(markerType => {
-        let icn = icon({
-          iconUrl: markerType.url,
-          iconSize: markerType.iconSize,
-          iconAnchor: markerType.iconAnchor
-        })
-        this.iconCache.addIcon(markerType, this._map)
-        this.types.set(markerType.id, markerType)
-        this.markerTypes.set(markerType.id, icn)
-        let cat = this.categories.find(c => c.id == markerType.category)
-        if (cat) {
-          cat.types.push(markerType)
-        } else {
-          this.mapLoad.debug(this.mapLoad.fmt("No Category found for {0}", markerType.category))
-        }
-        if (this.defaultMarker == undefined) {
-          this.defaultMarker = markerType.id
-        }
-      }),
-      bufferCount(expectedCount)
+      map(groups => {
+        this.groups = groups
+        this.makeLayerGroups(groups)
+        return groups
+      })
     )
-    loadIconsObs.subscribe(() => {
-      this.mapLoad.debug("Loaded Icons")
-    })
 
-    let mapMarkerGroupsObs = this.mapConfig
-      .pipe(
-        map(mapCfg => this._mapCfg = mapCfg),
-        mergeMap(newMap => this.data.getMarkerGroups(newMap.id)),
-        mergeMap(mgs => {
-          this.groups = mgs
+    combineLatest(this.mapConfig, loadGroups, prefsObs, makeMarkerTypes).subscribe((value) => {
+      const mapCfg = value[0]
+      const groups = value[1]
+      const prefs = value[2]
 
-          // Make LayerGroups
-          this.makeLayerGroups(mgs);
-          return this.data.getMarkers(this._mapCfg.id)
-        }),
-        map(markers => {
-          this.mapLoad.debug(`Processing ${markers.length} Markers`)
+      this.mapLoad.debug(`Building Layers`)
+      this.allMarkersLayer.clearLayers()
 
-          this.markers = markers
-          let localMarkers = new Array<MyMarker>()
-          markers.forEach(marker => {
-            if (this.data.canView(marker)) {
-              let m = this.fromSavedMarker(marker)
-              if (m) {
-                localMarkers.push(m)
+      // Add each group to the map
+      let localMarkers = new Array<MyMarker>();
+      groups.forEach(grp => {
+
+        if (!prefs.isHiddenGroup(mapCfg.id, grp.id)) {
+          let lGroup = this.lGroups.get(grp.id)
+          if (lGroup) {
+            lGroup.clearLayers()
+            lGroup.addTo(this.allMarkersLayer)
+
+            grp.markers.forEach(marker => {
+              if (this.data.canView(marker)) {
+                let myMark = this.fromSavedMarker(marker);
+                if (myMark) {
+                  localMarkers.push(myMark);
+                  if (!prefs.isHiddenMarker(mapCfg.id, myMark.id)) {
+                    this.addEventListeners(myMark)
+                    myMark.marker.addTo(lGroup)
+                  }
+                }
               }
-            }
-          })
-          this.myMarks = localMarkers
-          this.markersObs.next(localMarkers)
-        })
-      )
-
-    combineLatest(prefsObs, mapMarkerGroupsObs)
-      .subscribe(() => {
-        this.mapLoad.debug(`Building Layers`)
-        this.allMarkersLayer.clearLayers()
-
-        // Loop through the groups. Add each group to the map
-        this.groups.forEach(g => {
-          this.addGroup(g.id)
-        })
-        this.addGroup(MapService.UNCATEGORIZED)
-
-        // Loop through the markers. Add each marker to the group layer
-        if (this.myMarks) {
-          this.myMarks.forEach(mm => {
-            if (!this.prefs.isHiddenMarker(this._mapCfg.id, mm.id)) {
-              if (mm.markerGroup) {
-                let g = this.lGroups.get(mm.markerGroup)
-                this.addEventListeners(mm)
-                mm.marker.addTo(g)
-              } else {
-                let g = this.lGroups.get(MapService.UNCATEGORIZED)
-                this.addEventListeners(mm)
-                mm.marker.addTo(g)
-              }
-            }
-          })
+            });
+          }
         }
+        this.myMarks = localMarkers;
+        this.markersObs.next(localMarkers);
       })
+    });
   }
-
 
   private setDefaultMap(prefs: UserPreferences) {
     if (!this._mapCfg) {
@@ -349,20 +295,6 @@ export class MapService {
   }
 
   /**
-   * Adds the ayer group associated with a group id to the allMarkersLayer
-   * @param groupId Group Id to add
-   */
-  private addGroup(groupId: string) {
-    if (!this.prefs.isHiddenGroup(this._mapCfg.id, groupId)) {
-      let lGroup = this.lGroups.get(groupId)
-      if (lGroup) {
-        lGroup.clearLayers()
-        lGroup.addTo(this.allMarkersLayer)
-      }
-    }
-  }
-
-  /**
    * Adds necessary event listeners
    * @param m The marker to add listeners to
    */
@@ -393,7 +325,6 @@ export class MapService {
    */
   private makeLayerGroups(mgs: MarkerGroup[]) {
     this.lGroups.clear();
-    this.lGroups.set(MapService.UNCATEGORIZED, layerGroup());
     mgs.forEach(g => {
       let lg = layerGroup();
       this.lGroups.set(g.id, lg);
@@ -417,6 +348,10 @@ export class MapService {
     })
   }
 
+  public getIcon(typeId: string): Icon {
+    return this.iconCache.getIcon(typeId, this._map.getZoom())
+  }
+
   /**
    * Create a new Temporary Marker (one that has not been saved yet)
    */
@@ -428,7 +363,7 @@ export class MapService {
     }
 
     // var loc = this.getCenter()
-    var icn = this.markerTypes.get(markerTypeId)
+    var icn = this.iconCache.getIcon(markerTypeId, this._map.getZoom())
     if (icn == undefined) {
       this.mapLoad.debug('No icon for the temporary marker')
     }
@@ -526,10 +461,6 @@ export class MapService {
     return this.defaultMarker
   }
 
-  getMarkerTypes(): Map<string, Icon> {
-    return this.markerTypes
-  }
-
   saveMarker(m: MyMarker) {
     let s = this.toSavedMarker(m)
     this.mapLoad.debug('Saving Marker ', s)
@@ -549,7 +480,8 @@ export class MapService {
   public fromSavedMarker(saved: SavedMarker): MyMarker {
 
     // Get the Icon
-    let icn = this.markerTypes.get(saved.type)
+    // let icn = this.iconCache.getAnyIcon(saved.type)
+    let icn = this.iconCache.getIcon(saved.type, this._map.getZoom())
     if (icn == undefined) {
       this.mapLoad.debug(this.mapLoad.fmt("Cannot find marker with id {0}", saved.type))
       return undefined
@@ -700,12 +632,6 @@ export class MyMarker {
   }
 }
 
-export class Category {
-  appliesTo: string[];
-  name: string
-  id: string
-  types: MarkerType[] = []
-}
 
 
 class IconZoomLevelCache {
@@ -713,12 +639,19 @@ class IconZoomLevelCache {
   maxZoom = 20
   cache = new Map<string, Icon[]>()
 
-  constructor(private log: Debugger) {
+  constructor(private log: Debugger, private loadinglog: Debugger) {
 
   }
 
   clear() {
     this.cache.clear()
+  }
+
+  load(types: MarkerType[], map: LeafletMap) {
+    this.cache.clear()
+    types.forEach(item => {
+      this.addIcon(item, map)
+    })
   }
 
   addIcon(type: MarkerType, map: LeafletMap) {
@@ -828,4 +761,11 @@ class IconZoomLevelCache {
     return undefined
   }
 
+  getAnyIcon(id: string): Icon {
+    let icons = this.cache.get(id)
+    if (icons) {
+      return icons[0]
+    }
+    return undefined
+  }
 }

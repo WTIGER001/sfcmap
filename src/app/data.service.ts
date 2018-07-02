@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, UserPreferences } from './models';
+import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval } from 'rxjs';
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, UserPreferences, Category } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -12,6 +12,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
   providedIn: 'root'
 })
 export class DataService {
+  public static readonly UNCATEGORIZED = "UNGROUPED"
+
   ready = new ReplaySubject<boolean>()
 
   // The currently logged in user
@@ -24,14 +26,17 @@ export class DataService {
   groups = new ReplaySubject<Array<UserGroup>>()
   markerCategories = new ReplaySubject<Array<MarkerCategory>>()
   markerTypes = new ReplaySubject<Array<MarkerType>>()
-  mapsWithUrls = new ReplaySubject<Array<MarkerType>>()
+  markersWithUrls = new ReplaySubject<Array<MarkerType>>()
+  mapsWithUrls = new ReplaySubject<Array<MapConfig>>()
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>()
+  categories = new ReplaySubject<Array<Category>>()
 
   log: Debugger
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
     this.log = this.notify.newDebugger("Data")
 
+    // Wait for the user
     afAuth.authState
       .pipe(
         map(fireUser => User.fromFireUser(fireUser)),
@@ -42,11 +47,13 @@ export class DataService {
         this.user.next(u)
       });
 
+    // Get the User Preferences
     this.user.pipe(
       mergeMap(u => this.getUserPrefs(u))
-    ).subscribe(
-      prefs => this.userPrefs.next(prefs)
-    )
+    ).subscribe(prefs => {
+      this.log.debug(`Loaded User Preferences`)
+      this.userPrefs.next(prefs)
+    })
 
     this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
@@ -55,14 +62,66 @@ export class DataService {
     this.loadAndNotify<MarkerCategory>(this.toMarkerCategory, this.markerCategories, 'markerCategories', 'Loading Marker Categories')
     this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
 
-    // Load the URLS
+    // Load the URLS for map
+    let mapBuffer = new BufferedSubscriber<MapConfig>()
     this.maps.pipe(
+      map(i => {
+        mapBuffer.bufferSize = i.length;
+        return i
+      }),
       concatMap(i => i),
-      mergeMap(m => this.fillInMapUrl(m)),
-      mergeMap(m => this.fillInMapThumb(m))
-    ).subscribe(a => {
-
+      mergeMap(m => this.fillInMapUrl(m), 5),
+      mergeMap(m => this.fillInMapThumb(m), 5)
+    ).subscribe(item => {
+      mapBuffer.push(item)
+      if (mapBuffer.full()) {
+        let items = mapBuffer.empty()
+        this.log.debug(`Loaded URLS for all maps ... ${items.length}`)
+        this.mapsWithUrls.next(items)
+      }
     })
+
+
+    // Load the URLS for the markers
+    let markerBuffer = new BufferedSubscriber<MarkerType>()
+    this.markerTypes.pipe(
+      map(i => {
+        this.log.debug(`Loading URLS for all Markers .. Step 1... ${i.length}`)
+        markerBuffer.bufferSize = i.length;
+        return i
+      }),
+      concatMap(i => i),
+      mergeMap(m => this.fillInUrl(m), 5)
+      // bufferCount(markerCount[0])
+    ).subscribe(item => {
+      markerBuffer.push(item)
+      if (markerBuffer.full()) {
+        let items = markerBuffer.empty()
+        this.log.debug(`Loaded URLS for all Markers ... ${items.length}`)
+        this.markersWithUrls.next(items)
+      }
+    })
+
+    //Load the Categories
+    combineLatest(this.markerCategories, this.markerTypes).subscribe(
+      (value) => {
+        let cats = value[0]
+        let types = value[1]
+        let mycats = new Array<Category>()
+        cats.forEach(cat => {
+          // Load the Category
+          let c = new Category()
+          c.id = cat.id
+          c.name = cat.name
+          c.appliesTo = cat.appliesTo
+          mycats.push(c)
+
+          // Add the correct marker types
+          c.types = types.filter(t => t.category == c.id) || []
+        })
+        this.categories.next(mycats)
+      }
+    )
 
     combineLatest(this.mapTypes, this.maps)
       .subscribe(([mts, mps]) => {
@@ -78,6 +137,7 @@ export class DataService {
         })
         let items = mergedArr.sort((a, b) => a.order - b.order)
         this.mapTypesWithMaps.next(items)
+        this.log.debug(`Loaded Map Types With Maps ... ${items.length}`)
       })
 
     combineLatest(this.user, this.maps, this.mapTypes, this.markerTypes, this.markerCategories)
@@ -86,7 +146,7 @@ export class DataService {
       })
   }
 
-  getMarkers(mapid: string): Observable<Array<SavedMarker>> {
+  private getMarkers(mapid: string): Observable<Array<SavedMarker>> {
     return this.db.list('markers/' + mapid)
       .snapshotChanges()
       .pipe(
@@ -100,7 +160,7 @@ export class DataService {
       )
   }
 
-  getMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
+  private getMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
     return this.db.list('markerGroups/' + mapid)
       .snapshotChanges()
       .pipe(
@@ -114,6 +174,28 @@ export class DataService {
       )
   }
 
+  getCompleteMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
+    return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), this.getMarkers(mapid)).pipe(
+      map(value => {
+        this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
+        let markerTypes = value[0]
+        let groups = value[1]
+        let markers = value[2]
+
+        groups.forEach(grp => {
+          grp.markers = markers.filter(m => m.markerGroup == grp.id)
+        })
+        let uncat = new MarkerGroup()
+        uncat.id = DataService.UNCATEGORIZED
+        uncat.name = "Ungrouped"
+        uncat.markers = markers.filter(m => (m.markerGroup && m.markerGroup == ''))
+        if (uncat.markers.length > 0) {
+          groups.push(uncat)
+        }
+        return groups
+      })
+    )
+  }
 
   toObject(item: IObjectType): MarkerGroup | UserGroup | UserPreferences {
     if (MarkerGroup.is(item)) { return item }
@@ -253,6 +335,10 @@ export class DataService {
     )
   }
 
+  loadMapUrls(maps: MapConfig[]) {
+
+  }
+
   fillInMapUrl(item: MapConfig): Observable<MapConfig> {
     let path = 'images/' + item.id
     const ref = this.storage.ref(path);
@@ -346,7 +432,6 @@ export class DataService {
       this.notify.showError(reason, "Error Saving Group")
     })
   }
-
 
   saveMapType(item: MapType) {
     let toSave = this.clean(Object.assign({}, item))
@@ -641,5 +726,37 @@ export class DataService {
           }
         })
       )
+  }
+
+
+  private myBuffer<T>(obs: Observable<T>, bufferSize): Observable<T[]> {
+    let rtn = new ReplaySubject<T[]>()
+    let items = new Array[bufferSize]()
+    obs.subscribe(item => {
+      items.push(item)
+      if (items.length == bufferSize) {
+        rtn.next(items)
+        items = []
+      }
+    })
+    return rtn;
+  }
+
+}
+
+export class BufferedSubscriber<T> {
+  constructor() { }
+  bufferSize: number
+  items = []
+  push(item: T) {
+    this.items.push(item)
+  }
+  full(): boolean {
+    return this.items.length >= this.bufferSize
+  }
+  empty(): T[] {
+    let temp = this.items
+    this.items = []
+    return temp
   }
 }

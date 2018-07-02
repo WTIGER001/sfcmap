@@ -25,7 +25,6 @@ export class MapSelectorComponent implements OnInit {
 
     combineLatest(this.data.userPrefs, this.data.maps, this.data.mapTypesWithMaps).subscribe(
       (value: [UserPreferences, MapConfig[], MergedMapType[]]) => {
-        console.log("Processing Recent Items", value);
         let items = []
         if (value[0].recentMaps) {
           value[0].recentMaps.forEach(mapId => {
