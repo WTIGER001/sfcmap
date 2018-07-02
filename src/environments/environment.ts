@@ -11,7 +11,13 @@ export const environment = {
     projectId: "sfcmap",
     storageBucket: "sfcmap.appspot.com",
     messagingSenderId: "273084079541"
-  }
+  },
+  logLevel: 'DEBUG',
+  logCategories: [
+    'Map Loading',
+    'Notify',
+    'Data'
+  ]
 
 };
 

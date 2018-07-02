@@ -23,7 +23,8 @@
       <div class="tree col-3">
         <ng-container *ngFor="let cat of categories">
           <!-- <button [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]">{{cat.name}}</button> -->
-          <div [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style noselect" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]"><fa-icon (click)="isCollapsed[cat.name] = !isCollapsed[cat.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[cat.name] ? 'caret-right' : 'caret-down'"></fa-icon> {{cat.name}}</div>
+          <div [class.selected]="selected==cat" class="dropdown-item btn-sm cat-style noselect" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]">
+            <fa-icon (click)="isCollapsed[cat.name] = !isCollapsed[cat.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[cat.name] ? 'caret-right' : 'caret-down'"></fa-icon> {{cat.name}}</div>
           <div id="{{cat}}" [ngbCollapse]="isCollapsed[cat.name]">
             <button *ngFor="let t of cat.types" [class.selected]="selected==t" class="dropdown-item btn-sm" (click)="setType(t)">
               <img [src]="t.url" height=30> {{t.name}}</button>
@@ -41,13 +42,13 @@
             <div class="form-group">
               <label for="name">Applies To:</label>
               <div class="member-list">
-                  <div class="custom-control custom-checkbox" *ngFor="let opt of mapTypes">
-                    <input type="checkbox" class="custom-control-input" id="{{opt.id}}" [(checklist)]="selected.appliesTo" [checklistValue]="opt.id">
-                    <label class="custom-control-label" for="{{opt.id}}"> {{opt.name}}</label>
-                  </div>
+                <div class="custom-control custom-checkbox" *ngFor="let opt of mapTypes">
+                  <input type="checkbox" class="custom-control-input" id="{{opt.id}}" [(checklist)]="selected.appliesTo" [checklistValue]="opt.id">
+                  <label class="custom-control-label" for="{{opt.id}}"> {{opt.name}}</label>
                 </div>
+              </div>
             </div>
-  
+
             <div class="form-group">
               <label for="name">Category Image</label>
               <input type="file" class="form-control " id="name" placeholder="select category image" (change)="setFile($event)">
@@ -58,14 +59,15 @@
               <label for="name">Icon</label>
               <input type="file" class="form-control" id="name" placeholder="select icon file" (change)="setFile($event)" accept="image/png">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="name">Size</label>
               <input type="text" class="form-control" id="name" placeholder="Height, Width" [(ngModel)]="selected.iconSize">
             </div>
             <div class="form-group">
               <label for="name">Anchor</label>
               <input type="text" class="form-control " id="name" placeholder="Height, Width" [(ngModel)]="selected.iconAnchor">
-            </div>
+            </div> -->
+            <app-marker-sizing-control [item]="selected"></app-marker-sizing-control>
           </ng-container>
           <button type="button" class="btn btn-outline-secondary" aria-label="Close" (click)="save()">
             <fa-icon icon="save" size="lg"></fa-icon> Save

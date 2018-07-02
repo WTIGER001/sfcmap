@@ -23,16 +23,11 @@ export class User {
     static fromFireUser(fireUser: FireUser) {
         var u = new User()
         if (fireUser !== null) {
-            console.log("Logged in user : " + fireUser.uid);
-
             u.uid = fireUser.uid
             u.name = fireUser.displayName
             u.email = fireUser.email
             u.photo = fireUser.photoURL
-        } else {
-            console.log("No User loged in");
         }
-
         return u
     }
 }
@@ -47,6 +42,18 @@ export class MarkerCategory {
     appliesTo: string[]
 }
 
+export enum AnchorPostitionChoice {
+    TopLeft = 0,
+    TopCenter,
+    TopRight,
+    MiddleLeft,
+    MiddleCenter,
+    MiddleRight,
+    BottomLeft,
+    BottomCenter,
+    BottomRight
+}
+
 /**
  * A Marker Type is a type of marker that can be placed. This type brings with it the icon and category
  */
@@ -57,6 +64,11 @@ export class MarkerType {
     iconSize: [number, number]
     iconAnchor: [number, number]    // point of the icon which will correspond to marker's location
     url?: string
+    zoomLevelForOriginalSize: number = 1
+    zoomRange: [number, number] = [-20, 200]
+    displayRange: [number, number] = [-20, 200]
+    sizing: string = 'fixed'
+    anchorPosition: AnchorPostitionChoice = AnchorPostitionChoice.MiddleCenter
 }
 
 export class SavedMarker {

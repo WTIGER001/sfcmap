@@ -23,6 +23,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/ngx-toastr/toastr.css",
+              "./node_modules/leaflet-simple-graticule/L.SimpleGraticule.css",
               "./node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.css",
               "./node_modules/angular-tree-component/dist/angular-tree-component.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",

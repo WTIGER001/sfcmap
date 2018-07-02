@@ -8,9 +8,9 @@ import { flatten } from '@angular/compiler';
 import { ReplaySubject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import * as L from 'leaflet';
+import * as simple from 'leaflet-simple-graticule';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
-import '../leaflet/box-select.js';
-
+import '../leaflet/simple.js'
 
 @Component({
   selector: 'app-map',
@@ -23,13 +23,14 @@ export class MapComponent {
 
   bounds = latLngBounds([[0, 0], [1536, 2048]]);
   mainMap = imageOverlay('./assets/missing.png', this.bounds);
+  crs = L.CRS.Simple;
 
   options = {
     zoom: 1,
     minZoom: -2,
     // maxZoom: 3,
     continousWorld: false,
-    crs: CRS.Simple
+    crs: this.crs
   };
 
   layers: Layer[] = [];
@@ -39,6 +40,8 @@ export class MapComponent {
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
     private mapSvc: MapService, private data: DataService) {
 
+
+
     this.mapSvc.mapConfig.pipe(
       mergeMap((m: MapConfig) => {
         this.mapCfg = m
@@ -47,6 +50,18 @@ export class MapComponent {
     ).subscribe(url => {
       let bounds = latLngBounds([[0, 0], [this.mapCfg.height, this.mapCfg.width]]);
       let mapLayer = imageOverlay(url, bounds)
+      let mapMaxResolution = 1.00000000;
+      let mapMinResolution = Math.pow(2, 20) * mapMaxResolution;;
+
+      // this.crs['transformation'] = new L.Transformation(1, bounds[0], -1, bounds[3]);
+      this.crs.scale = function (zoom) {
+        return Math.pow(1.5, zoom);
+      };
+      // this.crs.zoom = function (scale) {
+      //   return Math.log(scale * mapMinResolution) / Math.LN2;
+      // };
+      this.map.setMaxBounds(bounds);
+
       this.layers.splice(0, this.layers.length)
       this.layers.push(mapLayer)
       this.layers.push(this.mapSvc.allMarkersLayer)
@@ -81,6 +96,7 @@ export class MapComponent {
 
   onMapReady(map: LeafletMap) {
     this.map = map
+
     // Install plugins
     L.control.coordinates(
       {
@@ -91,9 +107,16 @@ export class MapComponent {
         enableUserInput: false
       }
     ).addTo(map);
-    // L.Map.addInitHook
-    // L.Map.addInitHook('addHandler', 'boxSelect', L.Map.BoxSelect);
-    // this.map.addHandler('boxSelect', L.BoxSelect)
+    L.control.scale().addTo(map)
+
+    var options = {
+      interval: 24,
+      showshowOriginLabel: true,
+      redraw: 'move'
+    };
+
+
+    // L.simpleGraticule(options).addTo(map);
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);

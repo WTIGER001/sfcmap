@@ -39,24 +39,39 @@ Text        - Light - #D1E8E2
 
 
 ## Priority 1
+- Figure out why markers dont load correctly
 - Delete Marker Group
+- Delete Temporary Marker
+- Resize Markers with Zoom Levels
+- Router for maps and 'back button'. Router should also support a coordinate center and zoom
+- Select marker from layer list
+- Dont show empty marker groups [minor]
+- Tie marker types to marker layers with a marker type having a default group [minor]
+- Load more icons [minor]
+- Export / import icons 
+- Change name of 'marker' to icon and icon sets?
+- Proper default map load
+- Bulk edit marker types
 
 ## Prority 2
 - Try out some plugins
 -- Draw
-- Refilter when someone assumes a group
+- Smoother zoom ( less spacing between soom levels)
+- Refilter when someone assumes a group (change to unchecklist)
 - Use buttons for tool bar
 - Toolbar fix for enablement
-- Marker to Other Map Links
 - Map Tab : Styling and typeography
 - Map Tab: Slide out pannel to choose more
+- Rename tabs
 - Map: Square Graticules (w/ controls)
 
 ## Priority 3
+- USe LIs for Tabs
 - Distance Measure 
 - Distance Calibrate
 - Marker Snap
 - Marker Edit mode
+- Marker hover information (tooltip) / click information (popup)
 
 ## Prority 4
 - Landing Page
@@ -78,7 +93,7 @@ Text        - Light - #D1E8E2
 - Chat window ( can use skype )
 - White Board
 - Hexegon Graticules (bigger issue)
-
+- Fog / Exposed areas (basically just draw), predefined areas too
 
 ---------------------
 
@@ -95,21 +110,24 @@ Layer Types:
 -- Move (left / right / up / down)
 -- X/Y Spacing
 
+Name Ideas:
+- Atlas
+- Map Book
+- Gazateer
+- Gallery
 
-Master List of Layers
+Collections / Atlas / Volume
 
-----------
-combo
-in -> map id
-out -> selected marker group (maybe id?)
-how to 
+id
+parentId?
+name
+description?
+image
+view?
+edit?
 
--- GET DATA
-1.) Get Personal Map Visiblity Object
-2.) Get Groups
-3.) Create LayerGroup per Group, +1 for UNCATEGORIZED
-4.) Get the Markers
--- Process
-5.) Filter / Remove the items that are hidden
-6.) Add Markers to the appropriate layer groups
-7.) Add the filtered layer groups to the map
+prefs
++ recentProjects
+
+
+

@@ -1,8 +1,7 @@
-
 <div *ngIf="isValid(); else showLogin" class="side-container">
   <div class="user-title">
     <img [src]="user.photo" class="user-photo user-item ">
-    <h2 class="user-name mb-0 pb-0 ">{{ user.name }}</h2>
+    <h1 class="user-name mb-0 pb-0 ">{{ user.name }}</h1>
     <!-- <fa-icon icon="sign-out-alt" size="2x" (click)="logout()" class="user-logout user-item "></fa-icon> -->
     <a href="#" (click)="logout()" class="logoutlink mt-0 pt-0">Log Out</a>
   </div>

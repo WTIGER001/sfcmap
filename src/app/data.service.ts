@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of } from 'rxjs';
 import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, UserPreferences } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
-import { NotifyService } from './notify.service';
+import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { mergeMap, map, concatMap, bufferCount } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -27,7 +27,10 @@ export class DataService {
   mapsWithUrls = new ReplaySubject<Array<MarkerType>>()
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>()
 
+  log: Debugger
+
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
+    this.log = this.notify.newDebugger("Data")
 
     afAuth.authState
       .pipe(
@@ -35,8 +38,7 @@ export class DataService {
         mergeMap(u => this.getUserInfo(u))
       )
       .subscribe(u => {
-        console.log("User Logged in " + u.uid)
-        console.log(u);
+        this.log.info(`User Logged in ${u.uid}`, u)
         this.user.next(u)
       });
 
@@ -140,10 +142,10 @@ export class DataService {
 
     // Get path to the object
     let path = this.dbPath(item)
-    console.log(toSave);
+    this.log.info('Saving Item ', toSave)
 
     this.db.object(path).set(toSave).then(() => {
-      this.notify.success("Saved " + path)
+      // this.notify.success("Saved " + path)
     }).catch(reason => {
       this.notify.showError(reason, "Error Saving " + path)
     })
@@ -208,7 +210,7 @@ export class DataService {
   }
 
   private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {
-    console.log("Working on " + name);
+    this.log.debug('Loading ' + name)
 
     this.db.list(name).snapshotChanges().subscribe(
       inTypes => {
@@ -217,7 +219,8 @@ export class DataService {
           let converted = convert(item.payload.val())
           items.push(converted)
         })
-        console.log("Loaded " + items.length + " " + name);
+        this.log.debug("Loaded " + items.length + " " + name);
+
         if (sorter) {
           sorter(items)
         }
@@ -277,12 +280,10 @@ export class DataService {
     return ref.getDownloadURL()
   }
 
-
   saveMarker(item: SavedMarker) {
     // Convert the Saved Marker into a regular object
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
-
+    this.log.debug(toSave);
 
     this.db.object('markers/' + item.map + "/" + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -303,10 +304,10 @@ export class DataService {
   }
 
   saveMarkerTypeNoImage(item: MarkerType) {
-    console.log("saving")
+    this.log.debug("saving")
 
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
+    this.log.debug(toSave);
 
     this.db.object('markerTypes/' + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -326,7 +327,7 @@ export class DataService {
 
   saveMarkerCategory(item: MarkerCategory) {
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
+    this.log.debug(toSave);
 
     this.db.object('markerCategories/' + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -337,7 +338,7 @@ export class DataService {
 
   saveUserGroup(item: UserGroup) {
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
+    this.log.debug(toSave);
 
     this.db.object('groups/' + item.name).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -349,7 +350,7 @@ export class DataService {
 
   saveMapType(item: MapType) {
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
+    this.log.debug(toSave);
     this.db.object('mapTypes/' + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
     }).catch(reason => {
@@ -358,9 +359,9 @@ export class DataService {
   }
 
   saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
-    console.log("Saving Map a");
+    this.log.debug("Saving Map a");
     if (thumb && image) {
-      console.log("Saving Map b");
+      this.log.debug("Saving Map b");
 
       let pathImage = 'images/' + map.id
       let pathThumb = 'images/' + map.id + "_thumb"
@@ -373,10 +374,10 @@ export class DataService {
 
         this._saveMap(map)
       }, err => {
-        console.log("ERROR");
-        console.log(err);
+        this.log.debug("ERROR");
+        this.log.debug(err);
       }, () => {
-        console.log("Complete");
+        this.log.debug("Complete");
       })
 
     } else {
@@ -386,7 +387,7 @@ export class DataService {
 
   private _saveMap(item: MapConfig) {
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
+    this.log.debug(toSave);
     this.db.object('maps/' + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
     }).catch(reason => {
@@ -395,7 +396,7 @@ export class DataService {
   }
 
   saveImage(data: Blob, path: string) {
-    console.log("Saving Map Blob " + path);
+    this.log.debug("Saving Map Blob " + path);
 
     const ref = this.storage.ref(path)
     return ref.put(data)
@@ -404,7 +405,7 @@ export class DataService {
 
   saveUser(item: User) {
     let toSave = this.clean(Object.assign({}, item))
-    console.log(toSave);
+    this.log.debug(toSave);
 
     this.db.object('users/' + item.uid).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -575,11 +576,11 @@ export class DataService {
   }
 
   public saveRecentMap(mapId: string) {
-    console.log("Saving Recent Map");
+    this.log.debug("Saving Recent Map");
 
     if (this.isReal()) {
       let u = this.userPrefs.getValue()
-      console.log("Found User Prefs");
+      this.log.debug("Found User Prefs");
 
       if (u.recentMaps) {
         let recent = u.recentMaps.filter(item => item != mapId)
@@ -591,26 +592,26 @@ export class DataService {
       } else {
         u.recentMaps = [mapId]
       }
-      console.log("Saving");
+      this.log.debug("Saving");
       this.save(u)
     }
   }
 
   private getUserInfo(u: User): Observable<User> {
-    console.log("Getting User Information for " + u.uid);
+    this.log.debug("Getting User Information for " + u.uid);
 
     return this.db.object('users/' + u.uid)
       .snapshotChanges()
       .pipe(
         mergeMap(result => {
           if (result.payload.exists()) {
-            console.log("User Exists");
+            this.log.debug("User Exists");
 
-            console.log(result.payload.val());
+            this.log.debug(result.payload.val());
             var newUser: User = <User>result.payload.val()
             return of(newUser)
           } else {
-            console.log("User DOESNT ");
+            this.log.debug("User DOESNT ");
             this.saveUser(u)
             return of(u)
           }
@@ -619,23 +620,23 @@ export class DataService {
   }
 
   private getUserPrefs(u: User): Observable<UserPreferences> {
-    console.log("Getting User Preferences for " + u.uid);
+    this.log.debug("Getting User Preferences for " + u.uid);
     return this.db.object(UserPreferences.pathTo(u.uid))
       .snapshotChanges()
       .pipe(
         mergeMap(result => {
           if (result.payload.exists()) {
-            console.log("User PRefes Exist");
+            this.log.debug("User PRefes Exist");
             let prefs = this.toUserPreferences(<UserPreferences>result.payload.val())
-            console.log(prefs)
+            this.log.debug(prefs)
             return of(prefs)
           } else {
-            console.log("NO User PRefes Exist");
+            this.log.debug("NO User PRefes Exist");
 
             let newPrefs = new UserPreferences();
             newPrefs.uid = u.uid
             this.save(newPrefs)
-            console.log(newPrefs)
+            this.log.debug(newPrefs)
             return of(newPrefs)
           }
         })

@@ -1,11 +1,98 @@
-.scroller {
-    overflow: auto
-}
-.map-item {
+
+figure {
     display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
     cursor: pointer;
-    /* float: left; */
 }
-.map-title{
-    display: block;
+
+figure > img {
+    transition: transform ease-in-out 200ms;
+    object-fit: cover;
+    /* max-height: 150px; */
+    max-height: 80px;
+    width: 100%;
+    border-radius: 6px;
+    /* width: 150px; */
+}
+
+.recent-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.recent {
+    height: 50px;
+    grid-row: 1;
+}
+
+figure:hover > img {
+    transform: scale(1.2);
+    filter: blur(10);
+    border-radius: 6px;
+}
+
+figcaption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: .2em;
+    background-color:  rgba(67, 70, 75, 0.5);
+    text-align: center;
+    border-radius: 6px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: .3s ease;
+    background-color:  rgba(0, 140, 186, 0.5);
+    border-radius: 6px;
+  }
+
+  .icon {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  figure:hover .overlay {
+    opacity: 1;
+  }
+
+  .filter-div {
+    position: relative;
+  }
+
+  .filter {
+      background-color: transparent;
+      width: 100%;
+      color: whitesmoke;
+      margin-bottom: .2em;
+  }
+
+  .clear-filter-icon {
+      display: flex;
+      position: absolute;
+      right: 6px;
+      top: 0;
+      bottom: 0;
+      color: rgba(255, 255, 255, .4);
+      cursor: pointer;
+      align-items: center;
+  }
+
+  .clear-filter-icon:hover {
+    color: rgba(255, 255, 255, 1)
 }

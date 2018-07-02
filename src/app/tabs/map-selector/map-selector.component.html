@@ -1,15 +1,41 @@
-<div>
-  Map
+<h1>Map</h1>
+<div class="filter-div">
+  <input type="text" class="form-control form-control-sm filter" placeholder="filter" [ngModel]="filter" (ngModelChange)="filterUpdate($event)">
+  <div class="clear-filter-icon" (click)="clearFilter()" *ngIf='filter.length>0'>
+    <fa-icon icon="times" size="lg"></fa-icon>
+  </div>
 </div>
-<div class="white scroller" *ngIf="merged">
-  <div *ngFor="let mt of merged ">
-    <h4>{{mt.name}}</h4>
-    <div class="map-item" *ngFor="let m of mt.maps">
-      <ng-container>
-        <!-- <img src="./assets/missing.png" height="100"> -->
-        <img [src]='m.thumb' width="150" (click)="select(m)">
-        <span class="map-title">{{m.name}}</span>
-      </ng-container>
+<div class="white scroller" *ngIf="filtered">
+  <ng-container *ngIf="recent">
+    <h2 class="pointer noselect" (click)="isCollapsed['recent'] = !isCollapsed['recent']">
+      <fa-icon [fixedWidth]="true" size="lg" [icon]="isCollapsed['recent'] ? 'caret-right' : 'caret-down'"></fa-icon> Recent
+    </h2>
+    <div [ngbCollapse]="isCollapsed['recent']" class="recent-div">
+      <div *ngFor="let m of recent">
+        <figure class="recent" (click)="select(m)">
+          <img [src]='m.thumb' height="50">
+          <div class="overlay">
+            <fa-icon class="icon" icon="check"></fa-icon>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *ngFor="let mt of filtered ">
+    <h2 class="pointer noselect" (click)="isCollapsed[mt.id] = !isCollapsed[mt.id]">
+      <fa-icon [fixedWidth]="true" size="lg" [icon]="isCollapsed[mt.id] ? 'caret-right' : 'caret-down'"></fa-icon> {{mt.name}}
+    </h2>
+    <div [ngbCollapse]="isCollapsed[mt.id]">
+      <div class="pointer" *ngFor="let m of mt.maps">
+        <figure (click)="select(m)" class="figure-choice">
+          <img [src]='m.thumb'>
+          <figcaption>{{m.name}}</figcaption>
+          <div class="overlay">
+            <fa-icon class="icon" icon="check" size="2x"></fa-icon>
+          </div>
+        </figure>
+      </div>
     </div>
   </div>
 </div>

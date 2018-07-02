@@ -11,6 +11,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { TreeModule } from 'angular-tree-component';
+import { ToastrModule } from 'ngx-toastr';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -43,6 +44,7 @@ import { MarkerComboComponent } from './controls/marker-combo/marker-combo.compo
 import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
 import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-group-combo.component';
 import { UnchecklistDirective } from './controls/unchecklist.directive';
+import { MarkerSizingControlComponent } from './controls/marker-sizing-control/marker-sizing-control.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { UnchecklistDirective } from './controls/unchecklist.directive';
     MarkerComboComponent,
     LayersTabComponent,
     MarkerGroupComboComponent,
-    UnchecklistDirective
+    UnchecklistDirective,
+    MarkerSizingControlComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,11 @@ import { UnchecklistDirective } from './controls/unchecklist.directive';
     FontAwesomeModule,
     NgbModule.forRoot(),
     TreeModule,
-    ChecklistModule
+    ChecklistModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      timeOut: 3000
+    }),
   ],
   providers: [
     MapService,
