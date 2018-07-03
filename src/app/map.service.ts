@@ -3,9 +3,10 @@ import { ReplaySubject, combineLatest, BehaviorSubject } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
 import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, UserPreferences, AnchorPostitionChoice, Category } from './models';
 import { DataService } from './data.service';
-import { mergeMap, concatMap, map, buffer, bufferCount } from 'rxjs/operators';
+import { mergeMap, concatMap, map, buffer, bufferCount, take } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
 import { NotifyService, Debugger } from './notify.service';
+import { Keys } from './util/keys';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +53,8 @@ export class MapService {
   myMarkers = new Map<string, MyMarker>()
 
 
+  actions = new Array<MapAction>()
+
   myMarks: MyMarker[] = []
 
   public markersObs = new ReplaySubject<Array<MyMarker>>()
@@ -92,6 +95,7 @@ export class MapService {
   log: Debugger
   mapLoad: Debugger
   markerZoomLog: Debugger
+
 
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService) {
     this.log = this.notify.newDebugger()
@@ -192,6 +196,14 @@ export class MapService {
         this.markersObs.next(localMarkers);
       })
     });
+
+    let a = new CreateMarkerAction()
+    this.log.debug("Create ACtion ", a)
+
+
+    this.registerAction(new CreateMarkerAction())
+    this.registerAction(new DeleteMarkerAction())
+    this.registerAction(new HiMarkerAction())
   }
 
   private setDefaultMap(prefs: UserPreferences) {
@@ -229,17 +241,46 @@ export class MapService {
 
     map.on('keypress ', (event: any) => {
       this.markerZoomLog.debug("Key Press ", event)
-      if (event.originalEvent.ctrlKey && event.originalEvent.code == 'KeyM') {
-        this.markerZoomLog.debug("Creating new Marker at : ", this.mouseCoord)
-        let m = this.newTempMarker(this.mouseCoord)
-        this.markerZoomLog.debug("New Marker Created: ", m)
-        this.addTempMarker(m)
+
+      let action = this.actions.find(a => this.matchKey(a, event.originalEvent))
+      if (action) {
+        this.log.debug("Running Action : ", action.name)
+        action.doAction(this)
       }
     })
+
     map.on('mousemove ', (event: any) => {
       this.mouseCoord = event.latlng
     })
   }
+
+  registerAction(action: MapAction) {
+    this.actions.push(action)
+  }
+
+  unregisterAction(action: MapAction) {
+    this.actions.push(action)
+  }
+
+  matchKey(action: MapAction, event: any): boolean {
+    const ctrl = "CTRL"
+    const shift = "SHIFT"
+    const alt = "ALT"
+    let parts = action.keyTrigger.toUpperCase().split("+")
+
+    if (parts.includes(ctrl) && !event.ctrlKey) {
+      return false
+    }
+    if (parts.includes(shift) && !event.shiftKey) {
+      return false
+    }
+    if (parts.includes(alt) && !event.altKey) {
+      return false
+    }
+    const key = event.key.toUpperCase()
+    return parts.includes(key)
+  }
+
 
   /**
    * Add the necessary styleing to each marker that is selected
@@ -257,11 +298,11 @@ export class MapService {
     }
   }
 
-  private isMarker(obj: any): obj is Marker {
+  isMarker(obj: any): obj is Marker {
     return obj.options && obj.options.icon
   }
 
-  private isLayerGroup(obj: any): obj is LayerGroup {
+  isLayerGroup(obj: any): obj is LayerGroup {
     return obj.eachLayer
   }
 
@@ -369,7 +410,8 @@ export class MapService {
     }
 
     var m = new MyMarker(marker(point, { icon: icn, draggable: false }))
-    m.id = UUID.UUID().toString()
+
+    m.id = "TEMP"
     m.name = "New Marker"
     m.type = markerTypeId
     m.map = this._mapCfg.id
@@ -462,20 +504,25 @@ export class MapService {
   }
 
   saveMarker(m: MyMarker) {
+    if (m.id == 'TEMP') {
+      m.id = UUID.UUID().toString()
+    }
     let s = this.toSavedMarker(m)
     this.mapLoad.debug('Saving Marker ', s)
-
     this.data.saveMarker(s)
   }
 
   deleteMarker(m: MyMarker) {
-    this.data.deleteMarker(this.toSavedMarker(m))
+    if (m.id == 'TEMP') {
+      m.marker.removeFrom(this._map)
+    } else {
+      this.data.deleteMarker(this.toSavedMarker(m))
+    }
   }
 
   public toMyMarker(m: Marker): MyMarker {
     return new MyMarker(m)
   }
-
 
   public fromSavedMarker(saved: SavedMarker): MyMarker {
 
@@ -767,5 +814,49 @@ class IconZoomLevelCache {
       return icons[0]
     }
     return undefined
+  }
+}
+
+export interface MapAction {
+  name: string
+  keyTrigger: string
+  doAction(mapSvc: MapService)
+}
+
+class CreateMarkerAction implements MapAction {
+  name: string
+  keyTrigger: string
+
+  constructor() {
+    this.name = "Create Marker"
+    this.keyTrigger = "CTRL+M"
+  }
+
+  doAction(mapSvc: MapService) {
+    let m = mapSvc.newTempMarker(mapSvc.mouseCoord)
+    mapSvc.addTempMarker(m)
+  }
+}
+
+class DeleteMarkerAction implements MapAction {
+  get name() { return "Delete Selected Marker" }
+  get keyTrigger() { return "SHIFT+D" }
+  doAction(mapSvc: MapService) {
+    mapSvc.selection.pipe(
+      take(1)
+    ).subscribe(sel => {
+      let m = sel.first
+      if (m || mapSvc.isMarker(m)) {
+        mapSvc.deleteMarker(m)
+      }
+    })
+  }
+}
+
+class HiMarkerAction implements MapAction {
+  get name() { return "HI" }
+  get keyTrigger() { return "SHIFT+H" }
+  doAction(mapSvc: MapService) {
+    mapSvc.log.info("Hi from your keyboard")
   }
 }

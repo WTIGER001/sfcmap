@@ -39,7 +39,6 @@ Text        - Light             - #D1E8E2
 
 
 ## Priority 1
-- Figure out why markers dont load correctly
 - Delete Marker Group
 - Delete Temporary Marker
 - Dont show empty marker groups [minor]

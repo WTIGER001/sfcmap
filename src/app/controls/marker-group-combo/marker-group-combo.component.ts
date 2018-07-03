@@ -38,16 +38,12 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   }
 
   onTextChange($event) {
-    console.log('---------TEXT------');
     console.log($event);
     this.value = event.target['value']
-    console.log(this.innerValue);
-    console.log('---------------');
-    // this.innerValue.markerGroup = event
   }
 
   refresh() {
-    this.data.getMarkerGroups(this.marker.map)
+    this.data.getCompleteMarkerGroups(this.marker.map)
       .subscribe(v => {
         this.all = v
         if (this.innerValue) {
@@ -69,7 +65,6 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
     return ''
   }
 
-
   select(type: MarkerGroup) {
     this.value = type.id
     this.selected = type
@@ -80,7 +75,6 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   }
 
   set value(value: string) {
-    console.log("Setting to : " + value);
     if (this.innerValue !== value) {
       this.innerValue = value;
       this.refresh()
@@ -101,10 +95,7 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: string): void {
-    console.log('---------------');
     console.log(obj);
-    console.log('---------------');
-
     this.innerValue = obj;
     this.refresh()
   }
