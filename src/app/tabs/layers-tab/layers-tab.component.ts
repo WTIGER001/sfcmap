@@ -4,7 +4,7 @@ import { Map as LeafletMap, LayerGroup } from 'leaflet';
 import { delay, mergeMap, map as rxmap, map } from 'rxjs/operators';
 import { ITreeOptions } from 'angular-tree-component';
 import { ITreeNode } from 'angular-tree-component/dist/defs/api';
-import { MapConfig, MarkerGroup, SavedMarker, UserPreferences, MapPrefs } from '../../models';
+import { MapConfig, MarkerGroup, SavedMarker, User, MapPrefs } from '../../models';
 import { DataService } from '../../data.service';
 import { combineLatest } from 'rxjs';
 
@@ -14,11 +14,11 @@ import { combineLatest } from 'rxjs';
   styleUrls: ['./layers-tab.component.css']
 })
 export class LayersTabComponent implements OnInit {
-  prefs: UserPreferences
+  prefs: User
   map: LeafletMap
   mapConfig: MapConfig
   groups: MarkerGroup[] = []
-  markers: SavedMarker[] = []
+  // markers: SavedMarker[] = []
   layers = []
   items = []
   groupIds = []
@@ -36,7 +36,7 @@ export class LayersTabComponent implements OnInit {
         this.layers = this.mapSvc.layers
       })
 
-    let prefObs = this.data.userPrefs.pipe(
+    let prefObs = this.data.user.pipe(
       map(prefs => this.prefs = prefs)
     )
 
@@ -48,19 +48,13 @@ export class LayersTabComponent implements OnInit {
       .pipe(
         mergeMap(mapConfig => {
           this.mapConfig = mapConfig;
-          return this.data.getMarkerGroups(mapConfig.id)
+          return this.data.getCompleteMarkerGroups(mapConfig.id)
         }),
-        mergeMap(groups => {
+        map(groups => {
           this.groups = groups
           this.groups.forEach(g => {
             this.isCollapsed[g.id] = true
           })
-          this.isCollapsed[MapService.UNCATEGORIZED] = true
-
-          return this.data.getMarkers(this.mapConfig.id)
-        }),
-        map(marks => {
-          this.markers = marks
         })
       )
 
@@ -74,23 +68,7 @@ export class LayersTabComponent implements OnInit {
 
   }
 
-  getMarkers(g: MarkerGroup): SavedMarker[] {
-    return this.markers.filter(m => {
-      if (m.markerGroup) {
-        return m.markerGroup == g.id
-      }
-      return false;
-    })
-  }
 
-  getUngroupedMarkers(): SavedMarker[] {
-    return this.markers.filter(m => {
-      if (m.markerGroup) {
-        return false
-      }
-      return true;
-    })
-  }
 
   ngOnInit() {
   }

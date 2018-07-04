@@ -3,3 +3,6 @@
     flex-direction: row
 }
 
+.block-link {
+    display: block;
+}

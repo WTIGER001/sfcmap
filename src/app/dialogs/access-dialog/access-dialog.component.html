@@ -14,22 +14,22 @@
           <option value="false">Everyone</option>
           <option value="true">Only Some People / Groups</option>
         </select>
-        <hr />
+        <hr>
         <div *ngIf="viewRestrict=='true'" class="choices">
           <h6>
             <fa-icon icon="users"></fa-icon> Groups</h6>
           <div class="member-list">
             <div class="custom-control custom-checkbox" *ngFor="let opt of groups">
-              <input type="checkbox" class="custom-control-input" id="{{opt.name}}" [(checklist)]="view" [checklistValue]="opt.name">
-              <label class="custom-control-label ml-2" for="{{opt.name}}"> {{opt.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="ACCESS_{{opt.name}}" [(checklist)]="view" [checklistValue]="opt.name">
+              <label class="custom-control-label ml-2" for="ACCESS_{{opt.name}}"> {{opt.name}}</label>
             </div>
           </div>
           <h6 class="mt-2">
             <fa-icon icon="user"></fa-icon> Users</h6>
           <div class="member-list">
             <div class="custom-control custom-checkbox" *ngFor="let opt of users">
-              <input type="checkbox" class="custom-control-input" id="{{opt.uid}}" [(checklist)]="view" [checklistValue]="opt.uid">
-              <label class="custom-control-label  ml-2" for="{{opt.uid}}"> {{opt.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="ACCESS_{{opt.uid}}" [(checklist)]="view" [checklistValue]="opt.uid">
+              <label class="custom-control-label ml-2" for="ACCESS_{{opt.uid}}"> {{opt.name}}</label>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
           <option value="true">Only Some People / Groups</option>
         </select>
         <hr />
-        <div *ngIf="editRestrict=='true'"  class="choices">
+        <div *ngIf="editRestrict=='true'" class="choices">
           <h6>
             <fa-icon icon="users"></fa-icon> Groups</h6>
           <div class="member-list">

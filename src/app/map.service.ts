@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject, combineLatest, BehaviorSubject } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
-import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, UserPreferences, AnchorPostitionChoice, Category } from './models';
+import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, User, AnchorPostitionChoice, Category } from './models';
 import { DataService } from './data.service';
 import { mergeMap, concatMap, map, buffer, bufferCount, take } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
@@ -24,7 +24,7 @@ export class MapService {
   public mapConfig = new ReplaySubject<MapConfig>()
 
   /** Reference to the current users preferences */
-  prefs: UserPreferences
+  user: User
 
   /** Icons (one per marker type) at each soom level for the map. This is precomputed so that zooming is quick. Note this is computed each time there is a map change  */
   iconCache: IconZoomLevelCache
@@ -121,10 +121,10 @@ export class MapService {
     )
 
     // When the user preferences change
-    let prefsObs = this.data.userPrefs.pipe(
-      map(prefs => this.prefs = prefs)
+    let userObs = this.data.user.pipe(
+      map(u => this.user = u)
     )
-    prefsObs.subscribe(prefs => this.setDefaultMap(prefs))
+    userObs.subscribe(user => this.setDefaultMap(user))
 
     // Load the Map Types
     this.data.mapTypes.subscribe(t => this.mapTypes = t)
@@ -160,7 +160,7 @@ export class MapService {
       })
     )
 
-    combineLatest(this.mapConfig, loadGroups, prefsObs, makeMarkerTypes).subscribe((value) => {
+    combineLatest(this.mapConfig, loadGroups, userObs, makeMarkerTypes).subscribe((value) => {
       const mapCfg = value[0]
       const groups = value[1]
       const prefs = value[2]
@@ -206,7 +206,7 @@ export class MapService {
     this.registerAction(new HiMarkerAction())
   }
 
-  private setDefaultMap(prefs: UserPreferences) {
+  private setDefaultMap(prefs: User) {
     if (!this._mapCfg) {
       if (prefs.recentMaps && prefs.recentMaps.length > 0) {
         let mapId = prefs.recentMaps[0];
@@ -289,9 +289,9 @@ export class MapService {
     let sel = this.selection.getValue()
     if (!sel.isEmpty()) {
       sel.items.forEach(item => {
-        if (this.isMarker(item)) {
+        if (this.isMarker(item) && item["_icon"]) {
           DomUtil.addClass(item["_icon"], 'iconselected')
-        } else if (MyMarker.is(item)) {
+        } else if (MyMarker.is(item) && item.marker["_icon"]) {
           DomUtil.addClass(item.marker["_icon"], 'iconselected')
         }
       })

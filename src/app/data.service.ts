@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, UserPreferences, Category } from './models';
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, Category } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -18,7 +18,6 @@ export class DataService {
 
   // The currently logged in user
   user = new BehaviorSubject<User>(new User())
-  userPrefs = new BehaviorSubject<UserPreferences>(new UserPreferences())
 
   mapTypes = new ReplaySubject<Array<MapType>>()
   maps = new ReplaySubject<Array<MapConfig>>()
@@ -48,12 +47,6 @@ export class DataService {
       });
 
     // Get the User Preferences
-    this.user.pipe(
-      mergeMap(u => this.getUserPrefs(u))
-    ).subscribe(prefs => {
-      this.log.debug(`Loaded User Preferences`)
-      this.userPrefs.next(prefs)
-    })
 
     this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
@@ -153,7 +146,10 @@ export class DataService {
         map(items => {
           let markers = new Array<SavedMarker>()
           items.forEach(m => {
-            markers.push(<SavedMarker>m.payload.val())
+            let saved = <SavedMarker>m.payload.val()
+            if (this.canView(saved)) {
+              markers.push(saved)
+            }
           })
           return markers;
         })
@@ -175,7 +171,11 @@ export class DataService {
   }
 
   getCompleteMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
-    return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), this.getMarkers(mapid)).pipe(
+    let myMarkerObs = this.user.pipe(
+      mergeMap(pref => this.getMarkers(mapid))
+    )
+
+    return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), myMarkerObs).pipe(
       map(value => {
         this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
         let markerTypes = value[0]
@@ -188,7 +188,7 @@ export class DataService {
         let uncat = new MarkerGroup()
         uncat.id = DataService.UNCATEGORIZED
         uncat.name = "Ungrouped"
-        uncat.markers = markers.filter(m => (m.markerGroup && m.markerGroup == ''))
+        uncat.markers = markers.filter(m => (!m.markerGroup || m.markerGroup == ''))
         if (uncat.markers.length > 0) {
           groups.push(uncat)
         }
@@ -197,22 +197,22 @@ export class DataService {
     )
   }
 
-  toObject(item: IObjectType): MarkerGroup | UserGroup | UserPreferences {
+  toObject(item: IObjectType): MarkerGroup | UserGroup | User {
     if (MarkerGroup.is(item)) { return item }
     if (UserGroup.is(item)) { return item }
-    if (UserPreferences.is(item)) { return item }
+    if (User.is(item)) { return item }
   }
 
   dbPath(item: IObjectType): string {
     if (MarkerGroup.is(item)) { return MarkerGroup.dbPath(item) }
     if (UserGroup.is(item)) { return 'groups/' + item.name }
-    if (UserPreferences.is(item)) { return UserPreferences.dbPath(item) }
+    if (User.is(item)) { return User.dbPath(item) }
   }
 
   sample(item: IObjectType): any {
     if (MarkerGroup.is(item)) { return MarkerGroup.SAMPLE }
     if (UserGroup.is(item)) { return UserGroup.SAMPLE }
-    if (UserPreferences.is(item)) { return UserPreferences.SAMPLE }
+    if (User.is(item)) { return User.SAMPLE }
 
   }
 
@@ -281,12 +281,6 @@ export class DataService {
 
   private toMarkerGroup(item: any): MarkerGroup {
     let me = new MarkerGroup()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toUserPreferences(item: any): UserPreferences {
-    let me = new UserPreferences()
     Object.assign(me, item)
     return me
   }
@@ -372,6 +366,7 @@ export class DataService {
     this.log.debug(toSave);
 
     this.db.object('markers/' + item.map + "/" + item.id).set(toSave).then(() => {
+      this.log.debug("Saved a Marker ", toSave)
       this.notify.success("Saved " + item.name)
     }).catch(reason => {
       this.notify.showError(reason, "Error Saving Marker")
@@ -488,17 +483,6 @@ export class DataService {
       .snapshotChanges()
   }
 
-  saveUser(item: User) {
-    let toSave = this.clean(Object.assign({}, item))
-    this.log.debug(toSave);
-
-    this.db.object('users/' + item.uid).set(toSave).then(() => {
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving User")
-    })
-  }
-
   deleteMapType(item: MapType) {
     this.db.object('mapTypes/' + item.id).remove().then(() => {
       this.notify.success("Removed " + item.name)
@@ -612,7 +596,6 @@ export class DataService {
   }
 
   // User Functions
-
   canView(item: any): any {
     if (!item['view']) {
       return true
@@ -622,7 +605,7 @@ export class DataService {
       return true
     }
     if (this.isReal) {
-      return view.includes(this.user.getValue().uid)
+      return view.includes(this.user.getValue().uid) || this.arrayMatch(view, this.user.getValue().assumedGroups)
     }
     return false
   }
@@ -636,7 +619,7 @@ export class DataService {
       return true
     }
     if (this.isReal) {
-      return edit.includes(this.user.getValue().uid)
+      return edit.includes(this.user.getValue().uid) || this.arrayMatch(edit, this.user.getValue().assumedGroups)
     }
     return false
   }
@@ -647,7 +630,7 @@ export class DataService {
 
   public saveRecentMarker(markerId: string) {
     if (this.isReal()) {
-      let u = this.userPrefs.getValue()
+      let u = this.user.getValue()
       if (u.recentMarkers) {
         u.recentMarkers.unshift(markerId)
         if (u.recentMarkers.length > 5) {
@@ -664,7 +647,7 @@ export class DataService {
     this.log.debug("Saving Recent Map");
 
     if (this.isReal()) {
-      let u = this.userPrefs.getValue()
+      let u = this.user.getValue()
       this.log.debug("Found User Prefs");
 
       if (u.recentMaps) {
@@ -693,36 +676,12 @@ export class DataService {
             this.log.debug("User Exists");
 
             this.log.debug(result.payload.val());
-            var newUser: User = <User>result.payload.val()
-            return of(newUser)
-          } else {
-            this.log.debug("User DOESNT ");
-            this.saveUser(u)
+            let u = this.toUser(result.payload.val())
             return of(u)
-          }
-        })
-      )
-  }
-
-  private getUserPrefs(u: User): Observable<UserPreferences> {
-    this.log.debug("Getting User Preferences for " + u.uid);
-    return this.db.object(UserPreferences.pathTo(u.uid))
-      .snapshotChanges()
-      .pipe(
-        mergeMap(result => {
-          if (result.payload.exists()) {
-            this.log.debug("User PRefes Exist");
-            let prefs = this.toUserPreferences(<UserPreferences>result.payload.val())
-            this.log.debug(prefs)
-            return of(prefs)
           } else {
-            this.log.debug("NO User PRefes Exist");
-
-            let newPrefs = new UserPreferences();
-            newPrefs.uid = u.uid
-            this.save(newPrefs)
-            this.log.debug(newPrefs)
-            return of(newPrefs)
+            this.log.debug("User doesn't exist");
+            this.save(u)
+            return of(u)
           }
         })
       )
@@ -740,6 +699,19 @@ export class DataService {
       }
     })
     return rtn;
+  }
+
+  private arrayMatch(arr1: string[], arr2: string[]): boolean {
+    let result = false
+    let matches = []
+    if (arr1 && arr2) {
+      arr1.forEach(arr1Item => {
+        if (arr2.includes(arr1Item)) {
+          result = true
+        }
+      })
+    }
+    return result
   }
 
 }

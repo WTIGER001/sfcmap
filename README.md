@@ -40,11 +40,10 @@ Text        - Light             - #D1E8E2
 
 ## Priority 1
 - Delete Marker Group
-- Delete Temporary Marker
-- Dont show empty marker groups [minor]
-- Tie marker types to marker layers with a marker type having a default group [minor]
 - Export / import icons 
-- Bulk edit marker types
+- Bulk edit marker types (Select a bunch and edit the anchor)
+- Refilter when someone assumes a group (change to unchecklist)
+
 
 ## Prority 2
 - Try out some plugins
@@ -79,10 +78,12 @@ Text        - Light             - #D1E8E2
 
 ## RPG Features ( hard stuff /// Out of scope)?
 - Dice Roller
+- Fog / Exposed areas (basically just draw), predefined areas too
+- Character Icons
+- Atlas / Collection
 - Chat window ( can use skype )
 - White Board
 - Hexegon Graticules (bigger issue)
-- Fog / Exposed areas (basically just draw), predefined areas too
 
 ---------------------
 
@@ -118,5 +119,15 @@ edit?
 prefs
 + recentProjects
 
+Import / Export
+-------------------
+Marker Types (e.g. Icon Sets)
+Map
+Map With Markers
 
-
+Grid
+----------------
+Options - 5ft grid.
+Zoom in to a layer... 
+-- Offset X, Y
+-- Size 

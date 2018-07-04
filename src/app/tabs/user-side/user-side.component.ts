@@ -46,6 +46,7 @@ export class UserSideComponent implements OnInit {
     return this.user && this.user.uid != "NOBODY"
   }
   save() {
-    this.data.saveUser(this.user)
+    // this.data.saveUser(this.user)
+    this.data.save(this.user)
   }
 }

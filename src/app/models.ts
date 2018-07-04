@@ -5,11 +5,31 @@ import { User as FireUser } from 'firebase';
  * A user in the
  */
 export class User {
+    public static readonly TYPE = 'db.User'
+    public static readonly FOLDER = 'users'
+    public static readonly SAMPLE = {
+        objType: '',
+        name: 'string',
+        email: 'string',
+        photo: 'string',
+        groups: [],
+        uid: 'string',
+        maps: {},
+        recentMarkers: [],
+        recentMaps: [],
+        assumedGroups: []
+    }
+
     name: string
     email?: string
     uid: string
     photo?: string
     groups?: string[]
+
+    maps = {}
+    recentMarkers?: string[]
+    recentMaps?: string[]
+    assumedGroups?: string[]
 
     isAdmin(): boolean {
         return this.groups.includes("admin")
@@ -30,7 +50,52 @@ export class User {
         }
         return u
     }
+
+    // TypeScript guard
+    static is(obj: any): obj is User {
+        return obj.objType !== undefined && obj.objType === User.TYPE
+    }
+
+    static dbPath(obj: User): string {
+        return User.FOLDER + '/' + obj.uid
+    }
+    static pathTo(userId: string): string {
+        return User.FOLDER + '/' + userId
+    }
+
+    getMapPref(mapId: string): MapPrefs {
+        if (!this.maps) {
+            this.maps = new Map<string, MapPrefs>()
+        }
+
+        if (!this.maps[mapId]) {
+            let mp = new MapPrefs()
+            mp.mapId = mapId
+            this.maps[mapId] = new MapPrefs()
+        }
+        return this.maps[mapId]
+    }
+
+    isHiddenMarker(mapId: string, markerId: string): boolean {
+        let mp = this.getMapPref(mapId)
+        if (mp.hiddenMarkers) {
+            return mp.hiddenMarkers.includes(markerId)
+        }
+        return false
+    }
+
+    isHiddenGroup(mapId: string, groupId: string): boolean {
+        let mp = this.getMapPref(mapId)
+        if (mp.hiddenGroups) {
+            return mp.hiddenGroups.includes(groupId)
+        }
+        return false
+    }
+
+    readonly objType: string = User.TYPE
 }
+
+
 
 /** 
  * A Marker Category is a group that markers are placed into. 
@@ -222,68 +287,6 @@ export class Selection {
     }
 }
 
-export class UserPreferences {
-    public static readonly TYPE = 'db.UserPreferences'
-    public static readonly FOLDER = 'userPreferences'
-    public static readonly SAMPLE = {
-        objType: '',
-        uid: 'string',
-        maps: {},
-        recentMarkers: [],
-        recentMaps: [],
-        assumedGroups: []
-    }
-
-    // TypeScript guard
-    static is(obj: any): obj is UserPreferences {
-        return obj.objType !== undefined && obj.objType === UserPreferences.TYPE
-    }
-
-    static dbPath(obj: UserPreferences): string {
-        return UserPreferences.FOLDER + '/' + obj.uid
-    }
-    static pathTo(userId: string): string {
-        return UserPreferences.FOLDER + '/' + userId
-    }
-
-    getMapPref(mapId: string): MapPrefs {
-        if (!this.maps) {
-            this.maps = new Map<string, MapPrefs>()
-        }
-
-        if (!this.maps[mapId]) {
-            let mp = new MapPrefs()
-            mp.mapId = mapId
-            this.maps[mapId] = new MapPrefs()
-        }
-        return this.maps[mapId]
-    }
-
-    isHiddenMarker(mapId: string, markerId: string): boolean {
-        let mp = this.getMapPref(mapId)
-        if (mp.hiddenMarkers) {
-            return mp.hiddenMarkers.includes(markerId)
-        }
-        return false
-    }
-
-    isHiddenGroup(mapId: string, groupId: string): boolean {
-        let mp = this.getMapPref(mapId)
-        if (mp.hiddenGroups) {
-            return mp.hiddenGroups.includes(groupId)
-        }
-        return false
-    }
-
-    readonly objType: string = UserPreferences.TYPE
-
-    uid: string
-    maps = {}
-    recentMarkers?: string[]
-    recentMaps?: string[]
-    assumedGroups?: string[]
-
-}
 
 export class MapPrefs {
     mapId: string
