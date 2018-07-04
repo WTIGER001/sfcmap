@@ -5,6 +5,7 @@ figure {
     overflow: hidden;
     border-radius: 6px;
     cursor: pointer;
+    margin: 0 3px;
 }
 
 figure > img {
@@ -15,17 +16,22 @@ figure > img {
     border-radius: 6px;
 }
 
+figure:hover {
+    filter: drop-shadow(0px 0px 3px white);
+}
+
 .recent {
     float: left;
     height: 48px;
     width: 48px;
     grid-row: 1;
-    margin-right: 10px;
-    margin-bottom: 16px;
+    margin-right: 7px;
+    margin-bottom: 12px;
 }
 
 .recent figure {
     border-radius: 40%;
+    margin: 0;
 }
 
 .recent:last-of-type {
@@ -40,7 +46,6 @@ figure > img {
 
 figure:hover > img {
     transform: scale(1.2);
-    filter: blur(10);
     border-radius: 6px;
 }
 
