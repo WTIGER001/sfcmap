@@ -137,6 +137,15 @@ export class MarkerType {
 }
 
 export class SavedMarker {
+    public static readonly TYPE = 'db.markers'
+    public static readonly SAMPLE = new SavedMarker()
+
+    // TypeScript guard
+    static is(obj: any): obj is SavedMarker {
+        return obj.objType !== undefined && obj.objType === SavedMarker.TYPE
+    }
+
+    readonly objType: string = SavedMarker.TYPE
     id: string
     map: string
     name: string

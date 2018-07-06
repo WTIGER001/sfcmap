@@ -4,21 +4,25 @@
 <div class="scroller scroller-dark">
     <ng-container *ngFor="let g of groups">
         <ng-container *ngIf="g.markers?.length > 0">
-            <div class="pack" mwlDroppable (drop)="drop($event.dropData, g)" (dragEnter)="dragging=g" (dragLeave)="dragging=undefined"
-                [class.drop-target]="g==dragging">
-                <fa-icon (click)="isCollapsed[g.id] = !isCollapsed[g.id]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
+            <div class="pack" mwlDraggable [dropData]="g" (dragEnd)="dragging=undefined" mwlDroppable (drop)="drop($event.dropData, g)"
+                (dragEnter)="dragging=g" (dragLeave)="dragging=undefined" [class.drop-target]="g==dragging">
+                <fa-icon class="pointer" (click)="isCollapsed[g.id] = !isCollapsed[g.id]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="{{g.id}}" [(unchecklist)]="shownGroups" [unchecklistValue]="g.id">
                     <label class="custom-control-label" for="{{g.id}}">{{g.name}}</label>
                 </div>
             </div>
-            <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5" (dragLeave)="dragging=undefined">
-                <div mwlDraggable [dropData]="m" class="custom-control custom-checkbox" *ngFor="let m of g.markers">
+            <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5">
+                <div mwlDraggable [dropData]="m" (dragEnd)="dragging=undefined" class="custom-control custom-checkbox" *ngFor="let m of g.markers">
                     <input type="checkbox" class="custom-control-input" id="{{m.id}}" [(unchecklist)]="shownMarkers" [unchecklistValue]="m.id">
                     <label class="custom-control-label" for="{{m.id}}"> {{m.name}}</label>
                 </div>
             </div>
         </ng-container>
     </ng-container>
-    <button class=" btn btn-link text-muted pl-0 mt-2 block-link" (click)="manageLayers()">Manage Layers</button>
+    <div class="btn-outline-secondary p-2 center" (click)="manageLayers()">
+        <fa-icon icon="trash" size="4x" mwlDroppable (drop)="drop($event.dropData, g)" (dragEnter)="dragging='trash'" (dragLeave)="dragging=undefined"
+            [class.drop-target]="dragging=='trash'"></fa-icon>
+    </div>
+
 </div>

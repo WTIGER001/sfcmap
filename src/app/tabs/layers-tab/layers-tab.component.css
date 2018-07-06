@@ -11,3 +11,10 @@
     /* border: 2px solid white; */
     background-color: steelblue;
 }
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}

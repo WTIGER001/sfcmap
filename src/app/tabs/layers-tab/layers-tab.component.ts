@@ -47,8 +47,6 @@ export class LayersTabComponent implements OnInit {
     let allObs = this.mapSvc.mapConfig
       .pipe(
         mergeMap(mapConfig => {
-          console.log("Map Config Set.............................");
-
           this.mapConfig = mapConfig;
           this.isCollapsed = {}
           return this.data.getCompleteMarkerGroups(mapConfig.id)
@@ -56,11 +54,7 @@ export class LayersTabComponent implements OnInit {
         map(groups => {
           this.groups = groups
           this.groups.forEach(g => {
-            if (this.isCollapsed.hasOwnProperty(g.id)) {
-              // if (this.isCollapsed[g.id]) {
-              console.log("HAS PROPERTY ... skipping.");
-            } else {
-              console.log("NO PROPERTY ... setting.");
+            if (!this.isCollapsed.hasOwnProperty(g.id)) {
               this.isCollapsed[g.id] = true
             }
           })
@@ -72,7 +66,6 @@ export class LayersTabComponent implements OnInit {
       .subscribe(() => {
         this._shownGroups = this.prefs.getMapPref(this.mapConfig.id).hiddenGroups
         this._shownMarkers = this.prefs.getMapPref(this.mapConfig.id).hiddenMarkers
-        console.log("ALL DONE");
       })
 
   }
@@ -169,14 +162,25 @@ export class LayersTabComponent implements OnInit {
     return this._shownMarkers
   }
 
-  drop(item: SavedMarker, group: MarkerGroup) {
-    if (item && item.markerGroup != group.id) {
-      if (group.id == DataService.UNCATEGORIZED) {
+  drop(item: SavedMarker | MarkerGroup, group: MarkerGroup) {
+    if (MarkerGroup.is(item) && group.id != item.id) {
+      let gid = group.id == DataService.UNCATEGORIZED ? '' : group.id
+      item.markers.forEach(m => {
+        m.markerGroup = gid
+        this.data.saveMarker(m)
+      })
+      this.data.delete(group)
+    }
+    if (SavedMarker.is(item) && item.markerGroup != group.id) {
+      if (group.id == DataService.UNCATEGORIZED && item.markerGroup != '') {
         item.markerGroup = ''
-      } else {
-        item.markerGroup = group.id
+        this.data.saveMarker(item)
       }
-      this.data.saveMarker(item)
+
+      if (group.id != DataService.UNCATEGORIZED) {
+        item.markerGroup = group.id
+        this.data.saveMarker(item)
+      }
     }
   }
 
