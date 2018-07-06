@@ -39,6 +39,9 @@ export class UserSideComponent implements OnInit {
   loginGoogle() {
     this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
+  loginGithub() {
+    this.afAuth.auth.signInWithPopup(new auth.GithubAuthProvider());
+  }
   logout() {
     this.afAuth.auth.signOut();
   }

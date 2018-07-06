@@ -16,6 +16,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons'
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
@@ -30,7 +31,6 @@ import { CommonDialogService } from './dialogs/common-dialog.service';
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
-import { MarkerDialogComponent } from './dialogs/marker-dialog/marker-dialog.component';
 import { NotifyService } from './notify.service';
 import { DataService } from './data.service';
 import { MgrGroupComponent } from './mgr-group/mgr-group.component';
@@ -45,6 +45,7 @@ import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
 import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-group-combo.component';
 import { UnchecklistDirective } from './controls/unchecklist.directive';
 import { MarkerSizingControlComponent } from './controls/marker-sizing-control/marker-sizing-control.component';
+import { NgExpandableListDirective } from './controls/ng-expandable-list.directive';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,6 @@ import { MarkerSizingControlComponent } from './controls/marker-sizing-control/m
     InputDialogComponent,
     MessageDialogComponent,
     ConfirmDialogComponent,
-    MarkerDialogComponent,
     MgrGroupComponent,
     MgrMarkerComponent,
     MgrMapComponent,
@@ -67,7 +67,8 @@ import { MarkerSizingControlComponent } from './controls/marker-sizing-control/m
     LayersTabComponent,
     MarkerGroupComboComponent,
     UnchecklistDirective,
-    MarkerSizingControlComponent
+    MarkerSizingControlComponent,
+    NgExpandableListDirective
   ],
   imports: [
     BrowserModule,
@@ -110,6 +111,7 @@ import { MarkerSizingControlComponent } from './controls/marker-sizing-control/m
 })
 export class AppModule {
   constructor() {
+    library.add(faGoogle, faGithub)
     library.add(fas);
   }
 }

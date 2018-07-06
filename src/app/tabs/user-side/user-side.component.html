@@ -20,5 +20,15 @@
 </div>
 <ng-template #showLogin class="side-container">
   <p>Please login.</p>
-  <img src="./assets/signin_with_google.png" (click)="loginGoogle()">
+
+  <div class="centered">
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="loginGoogle()">
+      <fa-icon [icon]="['fab', 'google']" size="lg" inverse='true'></fa-icon>
+      <span>Sign in with Google</span>
+    </button>
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="loginGithub()">
+      <fa-icon [icon]="['fab', 'github']" size="lg" inverse='true'></fa-icon>
+      <span>Sign in with Github</span>
+    </button>
+  </div>
 </ng-template>

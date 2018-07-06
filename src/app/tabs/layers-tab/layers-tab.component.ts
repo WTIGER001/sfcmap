@@ -159,4 +159,8 @@ export class LayersTabComponent implements OnInit {
   get shownMarkers(): any[] {
     return this._shownMarkers
   }
+
+  manageLayers() {
+
+  }
 }

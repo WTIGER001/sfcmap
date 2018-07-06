@@ -10,16 +10,16 @@ import { CommonDialogService } from '../dialogs/common-dialog.service';
   styleUrls: ['./mgr-group.component.css']
 })
 export class MgrGroupComponent implements OnInit {
-  groups : UserGroup[]= [] 
-  users : User[] = []
+  groups: UserGroup[] = []
+  users: User[] = []
   members: string[] = []
-  selected : UserGroup
+  selected: UserGroup
 
-  constructor(private data : DataService, private activeModal : NgbActiveModal, private cd : CommonDialogService) {
-    this.data.groups.subscribe( grps => {
+  constructor(private data: DataService, public activeModal: NgbActiveModal, private cd: CommonDialogService) {
+    this.data.groups.subscribe(grps => {
       this.groups = grps
     })
-    this.data.users.subscribe( usrs => {
+    this.data.users.subscribe(usrs => {
       this.users = usrs
     })
   }
@@ -28,7 +28,7 @@ export class MgrGroupComponent implements OnInit {
   }
 
   setGrp(g) {
-    let copy = JSON.parse( JSON.stringify(g))
+    let copy = JSON.parse(JSON.stringify(g))
     this.selected = copy
     console.log(this.selected);
 
@@ -42,7 +42,7 @@ export class MgrGroupComponent implements OnInit {
   newGroup() {
     let g = new UserGroup()
     g.name = "New Group"
-    
+
     this.selected = g
   }
 
@@ -54,7 +54,7 @@ export class MgrGroupComponent implements OnInit {
 
   delete() {
     if (this.selected) {
-      this.cd.confirm("Are you sure you want to delete " + this.selected.name +"?", "Confirm Delete").subscribe( r => {
+      this.cd.confirm("Are you sure you want to delete " + this.selected.name + "?", "Confirm Delete").subscribe(r => {
         if (r) {
           this.data.deleteUserGroup(this.selected)
           this.selected = undefined

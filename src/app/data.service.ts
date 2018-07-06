@@ -288,7 +288,15 @@ export class DataService {
   private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {
     this.log.debug('Loading ' + name)
 
-    this.db.list(name).snapshotChanges().subscribe(
+    this.user.pipe(
+      mergeMap(user => {
+        if (user.uid === 'NOBODY') {
+          return of([])
+        } else {
+          return this.db.list(name).snapshotChanges()
+        }
+      })
+    ).subscribe(
       inTypes => {
         let items = new Array<T>()
         inTypes.forEach(item => {

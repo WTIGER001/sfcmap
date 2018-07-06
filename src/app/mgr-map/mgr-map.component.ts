@@ -14,7 +14,7 @@ import { RestrictService } from '../dialogs/restrict.service';
   styleUrls: ['./mgr-map.component.css']
 })
 export class MgrMapComponent implements OnInit {
-  restricted : boolean = false
+  restricted: boolean = false
   merged: MergedMapType[] = []
   selected
   isCollapsed = new Map<any, boolean>()
@@ -24,7 +24,7 @@ export class MgrMapComponent implements OnInit {
   @ViewChild('filecontrol') fileButton
   @ViewChild('mycanvas') canvas
 
-  constructor(private zone: NgZone, private activeModal: NgbActiveModal, private cd: CommonDialogService, private data: DataService, private dialog : RestrictService) {
+  constructor(private zone: NgZone, public activeModal: NgbActiveModal, private cd: CommonDialogService, private data: DataService, private dialog: RestrictService) {
     this.data.mapTypesWithMaps.subscribe(items => {
       this.merged = items
     })
@@ -102,7 +102,7 @@ export class MgrMapComponent implements OnInit {
         }
       } else {
         console.log(this.selected);
-  
+
         this.data.saveMapType(this.selected)
       }
     }
@@ -162,7 +162,7 @@ export class MgrMapComponent implements OnInit {
       map.id = UUID.UUID().toString()
 
       console.log(map);
-      
+
       this.sType = 'map'
       this.selected = map
 
@@ -194,7 +194,7 @@ export class MgrMapComponent implements OnInit {
 
   showAccess() {
     if (this.selected && this.sType == 'map') {
-      this.dialog.openRestrict(this.selected.view, this.selected.edit).subscribe( result => {
+      this.dialog.openRestrict(this.selected.view, this.selected.edit).subscribe(result => {
         this.selected.view = result[0]
         this.selected.edit = result[1]
         console.log(this.selected);
@@ -203,9 +203,9 @@ export class MgrMapComponent implements OnInit {
     }
   }
 
-  escape(str : string) {
+  escape(str: string) {
     let newStr = JSON.stringify(str)
-    let newStr2 = newStr.substring(1, newStr.length-2)
+    let newStr2 = newStr.substring(1, newStr.length - 2)
     return newStr2
   }
 }

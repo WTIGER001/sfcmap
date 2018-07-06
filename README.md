@@ -44,7 +44,6 @@ Text        - Light             - #D1E8E2
 - Bulk edit marker types (Select a bunch and edit the anchor)
 - Refilter when someone assumes a group (change to unchecklist)
 
-
 ## Prority 2
 - Try out some plugins
 -- Draw
@@ -131,3 +130,10 @@ Options - 5ft grid.
 Zoom in to a layer... 
 -- Offset X, Y
 -- Size 
+
+<ul [NgExpander] [expanded]="true">
+    <li>Test 1234</li>
+<ul>
+<ul [NgxExpandableList] [expanded]="true">
+    <li>Test 1234</li>
+<ul>

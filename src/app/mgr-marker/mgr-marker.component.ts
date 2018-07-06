@@ -21,7 +21,7 @@ export class MgrMarkerComponent implements OnInit {
   sType: string
   mapTypes: MapType[] = []
 
-  constructor(private mapSvc: MapService, private activeModal: NgbActiveModal, private cd: CommonDialogService, private data: DataService) {
+  constructor(private mapSvc: MapService, public activeModal: NgbActiveModal, private cd: CommonDialogService, private data: DataService) {
     this.data.categories.subscribe(categories => {
       this.categories = categories
       this.applyFilter()
