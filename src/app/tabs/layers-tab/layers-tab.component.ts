@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService, MyMarker } from '../../map.service';
-import { Map as LeafletMap, LayerGroup } from 'leaflet';
+import { Map as LeafletMap, LayerGroup, Marker } from 'leaflet';
 import { delay, mergeMap, map as rxmap, map } from 'rxjs/operators';
 import { ITreeOptions } from 'angular-tree-component';
 import { ITreeNode } from 'angular-tree-component/dist/defs/api';
@@ -47,13 +47,22 @@ export class LayersTabComponent implements OnInit {
     let allObs = this.mapSvc.mapConfig
       .pipe(
         mergeMap(mapConfig => {
+          console.log("Map Config Set.............................");
+
           this.mapConfig = mapConfig;
+          this.isCollapsed = {}
           return this.data.getCompleteMarkerGroups(mapConfig.id)
         }),
         map(groups => {
           this.groups = groups
           this.groups.forEach(g => {
-            this.isCollapsed[g.id] = true
+            if (this.isCollapsed.hasOwnProperty(g.id)) {
+              // if (this.isCollapsed[g.id]) {
+              console.log("HAS PROPERTY ... skipping.");
+            } else {
+              console.log("NO PROPERTY ... setting.");
+              this.isCollapsed[g.id] = true
+            }
           })
         })
       )
@@ -158,6 +167,17 @@ export class LayersTabComponent implements OnInit {
 
   get shownMarkers(): any[] {
     return this._shownMarkers
+  }
+
+  drop(item: SavedMarker, group: MarkerGroup) {
+    if (item && item.markerGroup != group.id) {
+      if (group.id == DataService.UNCATEGORIZED) {
+        item.markerGroup = ''
+      } else {
+        item.markerGroup = group.id
+      }
+      this.data.saveMarker(item)
+    }
   }
 
   manageLayers() {

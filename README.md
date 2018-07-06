@@ -39,6 +39,8 @@ Text        - Light             - #D1E8E2
 
 
 ## Priority 1
+- Login Sequence --- Fix completely...
+- Change map group
 - Delete Marker Group
 - Export / import icons 
 - Bulk edit marker types (Select a bunch and edit the anchor)

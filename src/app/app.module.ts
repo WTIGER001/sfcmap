@@ -12,6 +12,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { TreeModule } from 'angular-tree-component';
 import { ToastrModule } from 'ngx-toastr';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -46,6 +47,7 @@ import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-
 import { UnchecklistDirective } from './controls/unchecklist.directive';
 import { MarkerSizingControlComponent } from './controls/marker-sizing-control/marker-sizing-control.component';
 import { NgExpandableListDirective } from './controls/ng-expandable-list.directive';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { NgExpandableListDirective } from './controls/ng-expandable-list.directi
     MarkerGroupComboComponent,
     UnchecklistDirective,
     MarkerSizingControlComponent,
-    NgExpandableListDirective
+    NgExpandableListDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +92,7 @@ import { NgExpandableListDirective } from './controls/ng-expandable-list.directi
       positionClass: 'toast-bottom-right',
       timeOut: 3000
     }),
+    DragAndDropModule.forRoot()
   ],
   providers: [
     MapService,

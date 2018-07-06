@@ -14,6 +14,9 @@ import { RestrictService } from '../dialogs/restrict.service';
   styleUrls: ['./mgr-map.component.css']
 })
 export class MgrMapComponent implements OnInit {
+
+  dragging = undefined
+
   restricted: boolean = false
   merged: MergedMapType[] = []
   selected
@@ -33,6 +36,19 @@ export class MgrMapComponent implements OnInit {
   getFile() {
     console.log(this.fileButton);
     this.fileButton.nativeElement.click()
+  }
+
+  dragEnd(event: any) {
+    this.dragging = undefined
+  }
+
+  drop(map: MapConfig, target: MergedMapType) {
+    console.log("Dropped ", map.name, " on ", target.name)
+    this.dragging = undefined
+    if (map.id && map.mapType != target.id) {
+      map.mapType = target.id
+      this.data.saveMap(map)
+    }
   }
 
   setFile(event) {

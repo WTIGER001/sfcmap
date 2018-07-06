@@ -6,3 +6,8 @@
 .block-link {
     display: block;
 }
+
+.drop-target {
+    /* border: 2px solid white; */
+    background-color: steelblue;
+}

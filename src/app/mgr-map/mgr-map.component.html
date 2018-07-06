@@ -34,7 +34,8 @@
             <fa-icon class="pointer" (click)="isCollapsed[mt.name] = !isCollapsed[mt.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[mt.name] ? 'caret-right' : 'caret-down'"></fa-icon>{{mt.name}}
           </div>
           <div id="{{mt.name}}" [ngbCollapse]="isCollapsed[mt.name]">
-            <button *ngFor="let m of mt.maps" [class.selected]="selected==m" class="dropdown-item btn-sm" (click)="setMap(m)">
+            <button mwlDraggable (dragEnd)="dragEnd($event)" [dropData]="m" *ngFor="let m of mt.maps" [class.selected]="selected==m"
+              class="dropdown-item btn-sm" (click)="setMap(m)">
               <fa-icon icon="map" size="lg"></fa-icon>
               {{m.name}}</button>
           </div>

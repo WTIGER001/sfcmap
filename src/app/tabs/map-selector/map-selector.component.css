@@ -5,7 +5,11 @@ figure {
     overflow: hidden;
     border-radius: 6px;
     cursor: pointer;
-    margin: 0 3px;
+    margin: 0 3px 20px;
+}
+
+figure:last-of-type {
+    margin: 0 3px 10px;
 }
 
 figure > img {
@@ -22,8 +26,9 @@ figure:hover {
 
 .recent {
     float: left;
-    height: 48px;
-    width: 48px;
+    height: 0;
+    width: 20%;
+    padding-bottom: 20%;
     grid-row: 1;
     margin-right: 7px;
     margin-bottom: 12px;
