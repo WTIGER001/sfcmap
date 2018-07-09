@@ -178,6 +178,7 @@ export class MapConfig {
     name: string
     description?: string
     defaultMarker?: string
+    ppm: number
     image: string  /// Calculated
     thumb: string   /// Calculated
     width: number   /// Calculated
@@ -257,6 +258,7 @@ export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType {
 }
 
 export class Selection {
+
     public static readonly MARKER = 'marker'
 
     constructor(public items: any[], public type?: string) {
@@ -267,6 +269,26 @@ export class Selection {
         if (this.items && this.items.length > 0) {
             return this.items[0]
         }
+    }
+
+    toggle(...objs): Selection {
+        let myItems = this.items.slice(0)
+        objs.forEach(item => {
+            console.log("Looking at ", item.name);
+
+            if (myItems.includes[item]) {
+                let i = myItems.indexOf(item)
+                myItems = myItems.splice(i, 1)
+            } else {
+                myItems.push(item)
+            }
+        })
+
+        myItems.forEach(i => {
+            console.log("In selection ", i.name);
+        })
+
+        return new Selection([])
     }
 
     public isEmpty() {
@@ -308,6 +330,11 @@ export class Category {
     name: string
     id: string
     types: MarkerType[] = []
+}
+
+export class Distance {
+    constructor(public value: number, public unit: string) {
+    }
 }
 
 

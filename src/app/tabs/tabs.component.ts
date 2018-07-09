@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { MapService, MyMarker } from '../map.service';
+import { MapConfig } from '../models';
 
 @Component({
   selector: 'app-tabs',
@@ -9,11 +10,11 @@ import { MapService, MyMarker } from '../map.service';
 export class TabsComponent implements OnInit {
   expanded = false
   selected = ""
-
-  constructor(private zone: NgZone, private mapSvc : MapService) {
-    this.mapSvc.selection.subscribe( sel => {
+  mapCfg: MapConfig
+  constructor(private zone: NgZone, private mapSvc: MapService) {
+    this.mapSvc.selection.subscribe(sel => {
       if (sel.isEmpty()) {
-        
+
       } else {
         if (MyMarker.is(sel.first)) {
           this.expanded = true
@@ -21,6 +22,8 @@ export class TabsComponent implements OnInit {
         }
       }
     })
+
+    this.mapSvc.mapConfig.subscribe(m => this.mapCfg = m);
   }
 
   ngOnInit() {
@@ -35,7 +38,7 @@ export class TabsComponent implements OnInit {
     if (this.selected === tab) {
       this.expanded = false
       // this.selected = ""
-      setTimeout(() => { this.selected = ""}, 800)
+      setTimeout(() => { this.selected = "" }, 800)
     } else {
       this.selected = tab
       this.expanded = true

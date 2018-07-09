@@ -54,6 +54,23 @@
     cursor: pointer;
 }
 
+
+.rulerbtn {
+    position: absolute;
+    left: 130px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.measurebtn {
+    position: absolute;
+    left: 160px;
+    top: 10px;
+    color: white;
+    cursor: pointer;
+}
+
 .marker-container {
     display: flex;
     justify-content: center;

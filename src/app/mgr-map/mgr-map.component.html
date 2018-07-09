@@ -30,7 +30,8 @@
     <div class="row">
       <div class="tree col-3">
         <ng-container *ngFor="let mt of merged">
-          <div [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style noselect" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]">
+          <div mwlDroppable (drop)="drop($event.dropData, mt)" (dragEnter)="dragging=mt" (dragLeave)="dragging=undefined" [class.drop-target]="mt==dragging"
+            [class.selected]="selected==mt" class="dropdown-item btn-sm cat-style noselect" (click)="setType(mt)" (dblclick)="isCollapsed[mt.name] = !isCollapsed[mt.name]">
             <fa-icon class="pointer" (click)="isCollapsed[mt.name] = !isCollapsed[mt.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[mt.name] ? 'caret-right' : 'caret-down'"></fa-icon>{{mt.name}}
           </div>
           <div id="{{mt.name}}" [ngbCollapse]="isCollapsed[mt.name]">

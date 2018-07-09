@@ -6,6 +6,8 @@
   <fa-icon icon="trash-alt" size="lg" (click)="delete()" class="deletebtn"></fa-icon>
   <fa-icon *ngIf="restricted == true" icon="lock" size="lg" (click)="permissions()" class="lockbtn"></fa-icon>
   <fa-icon *ngIf="restricted == false" icon="unlock" size="lg" (click)="permissions()" class="unlockbtn"></fa-icon>
+  <fa-icon icon="ruler-combined" size="lg" (click)="startRuler()" class="rulerbtn"></fa-icon>
+  <fa-icon icon="ruler" size="lg" (click)="startMeasure()" class="measurebtn"></fa-icon>
 
   <ng-container *ngIf="marker">
     <div class="marker-container" *ngIf="edit==false">

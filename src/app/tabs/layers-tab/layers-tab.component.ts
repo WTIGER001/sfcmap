@@ -7,6 +7,7 @@ import { ITreeNode } from 'angular-tree-component/dist/defs/api';
 import { MapConfig, MarkerGroup, SavedMarker, User, MapPrefs } from '../../models';
 import { DataService } from '../../data.service';
 import { combineLatest } from 'rxjs';
+import { CommonDialogService } from '../../dialogs/common-dialog.service';
 
 @Component({
   selector: 'app-layers-tab',
@@ -29,7 +30,7 @@ export class LayersTabComponent implements OnInit {
     useCheckbox: true
   };
 
-  constructor(private mapSvc: MapService, private data: DataService) {
+  constructor(private mapSvc: MapService, private data: DataService, private dialog: CommonDialogService) {
     this.mapSvc.map
       .subscribe(m => {
         this.map = m
@@ -181,6 +182,25 @@ export class LayersTabComponent implements OnInit {
         item.markerGroup = group.id
         this.data.saveMarker(item)
       }
+    }
+  }
+
+  trash(item: SavedMarker | MarkerGroup) {
+    if (MarkerGroup.is(item)) {
+      if (item.markers.length > 0) {
+        this.dialog.confirm("Are you sure you want to delete " + item.name + "? It has " + item.markers.length + " markers that will also be deleted.").subscribe(result => {
+          if (result) {
+            item.markers.forEach(m => {
+              this.data.deleteMarker(m)
+            })
+            this.data.delete(item)
+          }
+        })
+      } else {
+        this.data.delete(item)
+      }
+    } else if (SavedMarker.is(item)) {
+      this.data.deleteMarker(item)
     }
   }
 

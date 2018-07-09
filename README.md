@@ -40,11 +40,9 @@ Text        - Light             - #D1E8E2
 
 ## Priority 1
 - Login Sequence --- Fix completely...
-- Change map group
-- Delete Marker Group
 - Export / import icons 
 - Bulk edit marker types (Select a bunch and edit the anchor)
-- Refilter when someone assumes a group (change to unchecklist)
+- Upload Progress
 
 ## Prority 2
 - Try out some plugins
@@ -74,7 +72,7 @@ Text        - Light             - #D1E8E2
 - Maybe ditch dialogs and instead use a fly out panel
 
 ## Prority 5
-- Test on phone (need to make slide outs full pages)
+- Test on phone 
 - Border Decoration for regions (a,b,c, etc)
 
 ## RPG Features ( hard stuff /// Out of scope)?
@@ -133,9 +131,18 @@ Zoom in to a layer...
 -- Offset X, Y
 -- Size 
 
-<ul [NgExpander] [expanded]="true">
-    <li>Test 1234</li>
-<ul>
-<ul [NgxExpandableList] [expanded]="true">
-    <li>Test 1234</li>
-<ul>
+Layers Tab
+- Make the items selectable and aware of selections
+- Select Multiple
+- Replace bootstrap check box with custom one 
+- Switch to LIs
+- Use the List Drag and Drop to get the insertion point
+- Show the Icons
+
+Map
+- Switch to better scale
+- Set map units
+- Enable / Disable Scale
+- Enable / Disable Coordinates
+- Fixed Marker Size (in map units)
+

@@ -7,6 +7,7 @@ import { mergeMap, concatMap, map, buffer, bufferCount, take } from 'rxjs/operat
 import { UUID } from 'angular2-uuid';
 import { NotifyService, Debugger } from './notify.service';
 import { Keys } from './util/keys';
+import * as L from 'leaflet'
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,8 @@ export class MapService {
 
   /** The top level layer that all the marker layer groups are added to */
   allMarkersLayer: LayerGroup;
+
+  overlayLayer: L.ImageOverlay
 
   /** Map of the LayerGroups that are used for each Marker Group. The key is the marker group id and there is a special layer there for the uncategorized markers */
   lGroups = new Map<string, LayerGroup>()
@@ -342,10 +345,18 @@ export class MapService {
   private addEventListeners(m: MyMarker) {
     m.marker.addEventListener('click', event => {
       this.zone.run(() => {
+        this.log.debug("EVENT, ", event, event.target)
         var m = <Marker>event.target
         let marker = new MyMarker(m)
         marker.selected = true
-        this.select(new MyMarker(m))
+        this.log.debug("MARKER, ", marker.name)
+
+
+        if (event['originalEvent'].ctrlKey) {
+          this.addToSelect(marker)
+        } else {
+          this.select(marker)
+        }
       });
     })
     m.marker.on('add', event => {
@@ -474,6 +485,22 @@ export class MapService {
     this.selection.next(new Selection(items))
   }
 
+  addToSelect(...items: MyMarker[]) {
+    let old = this.selection.getValue()
+    let allItems = old.items.slice(0)
+    items.forEach(item => {
+      console.log("Looking at ", item.name);
+      let indx = allItems.findIndex(i => item.id == i.id)
+      if (indx >= 0) {
+        allItems.splice(indx, 1)
+      } else {
+        allItems.push(item)
+      }
+    })
+    let sel = new Selection(allItems)
+    this.selection.next(sel)
+  }
+
   markerAdded(marker: MyMarker) {
     this.markerReady.next(marker)
   }
@@ -569,6 +596,10 @@ export class MapService {
     saved.markerGroup = m.markerGroup
     return saved
   }
+
+
+
+
 }
 
 export class MyMarker {
@@ -756,12 +787,9 @@ class IconZoomLevelCache {
    * @param size The original size of the marker (in pixels) for the map at native resolution
    */
   scale(map: LeafletMap, zoom: number, size: [number, number]): [number, number] {
-
-
-    let a = map.project([0, 0], zoom)
-    let b = map.project([size[1], size[0]], zoom)
-    let c = a.subtract(b)
-    return [Math.abs(c.x), Math.abs(c.y)]
+    let simple = L.CRS.Simple
+    let scale = simple.scale(zoom)
+    return [size[0] * scale, size[1] * scale]
   }
 
   calcAnchor(size: [number, number], type: MarkerType, ): [number, number] {

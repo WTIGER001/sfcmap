@@ -1,0 +1,64 @@
+<h1>Map</h1>
+
+<!-- Current Map area-->
+<div *ngIf="mapCfg" class="center-layout">
+  <fa-icon icon="map" size="2x"></fa-icon>
+  <h2>{{mapCfg.name}}</h2>
+  <app-readmore class="text-muted mb-2 description" [value]="mapCfg?.description"></app-readmore>
+  <div class="buttonbar">
+    <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()" placement="bottom"
+      ngbTooltip="Measure the distance beween 2 points on the map">
+      <fa-icon icon="ruler" size="lg"></fa-icon>
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom" ngbTooltip="Calibrate the distance between 2 points on the map">
+      <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
+    </button>
+  </div>
+</div>
+
+<!-- Grid Lines-->
+<h4>
+  <fa-icon icon="caret-right" fixedWidth="true"></fa-icon> Gridlines</h4>
+<div class="ml-2">
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="gridOptions.enabled" (change)="toggleGrid()">
+    <label class="custom-control-label" for="grid_enable"> Enable Gridlines</label>
+  </div>
+  Spacing
+  <div class="input-group">
+    <input class="form-control form-control-sm" type="number" [(ngModel)]="gridOptions.spacing" (change)="updateGrid()">
+    <div ngbDropdown placement="bottom-right">
+      <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{gridOptions.spacingUnit}} </button>
+      <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="gridOptions.spacingUnit = u.abbr">{{u.name}}</button>
+      </div>
+    </div>
+  </div>
+  Offset NS
+  <div class="slidecontainer">
+    <input class="form-control form-control-sm slider" type="range" [min]="-gridOptions.spacing" [max]="gridOptions.spacing"
+      [step]="gridOptions.spacing/50" [(ngModel)]="gridOptions.offsetNS" id="myRange" (change)="updateGrid()">
+  </div>
+  Offset EW
+  <div class="slidecontainer">
+    <input class="form-control form-control-sm slider" type="range" [min]="-gridOptions.spacing" [max]="gridOptions.spacing"
+      [step]="gridOptions.spacing/50" [(ngModel)]="gridOptions.offsetEW" id="myRange" (change)="updateGrid()">
+  </div>
+  Color
+  <div>
+    <input class="form-control form-control-sm" [(colorPicker)]="gridOptions.color" [style.background]="gridOptions.color" cpAlphaChannel='always'
+      cpPosition='left' (colorPickerChange)="updateGrid()" />
+  </div>
+  Line Weight
+  <div class="slidecontainer">
+    <input class="form-control form-control-sm slider" type="range" min="1" max="9" step="1" [(ngModel)]="gridOptions.lineWeight"
+      (change)="updateGrid()">
+  </div>
+</div>
+
+<!-- Fog of War-->
+<h4>
+  <fa-icon icon="caret-right" fixedWidth="true"></fa-icon> Fog of War</h4>
+<div class="">
+
+</div>

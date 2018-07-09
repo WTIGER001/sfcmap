@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { MapService, MyMarker } from '../../map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { MarkerType, MapConfig, MarkerGroup, MergedMapType } from '../../models';
@@ -6,6 +6,10 @@ import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { mergeMap } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
+import { Map as LeafletMap, LeafletMouseEvent } from 'leaflet';
+import { CalibrateX } from '../../leaflet/calibrate';
+import { DialogService } from '../../dialogs/dialog.service';
+import { Measure } from '../../leaflet/measure';
 
 @Component({
   selector: 'app-marker-side',
@@ -21,10 +25,17 @@ export class MarkerSideComponent implements OnInit {
   ready = new Map<string, boolean>()
   restricted = false
   merged: MergedMapType[] = []
+  leafletMap: LeafletMap
+  ruler: number[] = [4]
 
-  constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService) {
+  calibrateX: CalibrateX
+
+  constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
       this.merged = items
+    })
+    this.mapSvc.map.subscribe(m => {
+      this.leafletMap = m
     })
 
     // Handle Selections
@@ -61,6 +72,32 @@ export class MarkerSideComponent implements OnInit {
     if (this.marker !== undefined) {
       this.mapSvc.panTo(this.marker.marker["_latlng"])
     }
+  }
+
+  startRuler() {
+    this.leafletMap.dragging.disable()
+    this.leafletMap.doubleClickZoom.disable()
+    this.calibrateX = new CalibrateX(this.leafletMap, this.map, this.dialog, this.zone, this.data, this.mapSvc)
+    this.calibrateX.enable()
+    this.calibrateX.onDisable(() => {
+      this.leafletMap.dragging.enable()
+      this.leafletMap.doubleClickZoom.enable()
+    })
+  }
+
+  startMeasure() {
+    this.leafletMap.dragging.disable()
+    this.leafletMap.doubleClickZoom.disable()
+    let measure = new Measure(this.leafletMap, this.map, this.dialog, this.zone, this.data, this.mapSvc)
+    measure.enable()
+    measure.onDisable(() => {
+      this.leafletMap.dragging.enable()
+      this.leafletMap.doubleClickZoom.enable()
+    })
+  }
+
+  private isMouseEvent(event: any): event is LeafletMouseEvent {
+    return true
   }
 
   ngOnInit() {

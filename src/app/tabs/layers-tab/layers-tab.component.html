@@ -1,5 +1,7 @@
 <h1>Layers</h1>
-<small class="form-text text-muted mb-2">Select the data to show on the map. Drag items between groups to move</small>
+
+
+<small class="form-text text-muted mb-2">Select the data to show on the map. Drag items between groups to move and drag to the trash to delete.</small>
 
 <div class="scroller scroller-dark">
     <ng-container *ngFor="let g of groups">
@@ -20,9 +22,10 @@
             </div>
         </ng-container>
     </ng-container>
-    <div class="btn-outline-secondary p-2 center" (click)="manageLayers()">
-        <fa-icon icon="trash" size="4x" mwlDroppable (drop)="drop($event.dropData, g)" (dragEnter)="dragging='trash'" (dragLeave)="dragging=undefined"
+    <div class="p-2 center subdued" (click)="manageLayers()" mwlDroppable (drop)="trash($event.dropData)" (dragEnter)="dragging='trash'"
+        (dragLeave)="dragging=undefined" (dragMove)="dragging='trash'" [class.drop-target]="dragging=='trash'">
+        <fa-icon icon="trash" size="4x" mwlDroppable (dragEnter)="dragging='trash'" (dragLeave)="dragging=undefined" (dragMove)="dragging='trash'"
             [class.drop-target]="dragging=='trash'"></fa-icon>
     </div>
-
+    {{dragging}}
 </div>

@@ -1,26 +1,31 @@
 <div class="side-nav" [class.sideshow]="expanded==true" [class.sideshow-hide]="expanded==false">
-  <div class="tab user-tab" (click)="toggle('user')" [class.tab-selected]="selected==='user'">
-    <fa-icon icon="user" fixedWidth="true"></fa-icon>
-  </div>
-  <div class="tab map-tab" (click)="toggle('map')" [class.tab-selected]="selected==='map'">
+  <div class="tab-set">
+    <div class="tab" (click)="toggle('user')" [class.tab-selected]="selected==='user'">
+      <fa-icon icon="user" fixedWidth="true"></fa-icon>
+    </div>
+    <div class="tab " (click)="toggle('mapselect')" [class.tab-selected]="selected==='mapselect'">
       <fa-icon icon="map" fixedWidth="true"></fa-icon>
     </div>
-  <div class="tab marker-tab" (click)="toggle('marker')" [class.tab-selected]="selected==='marker'">
-    <fa-icon icon="map-marker-alt" fixedWidth="true"></fa-icon>
+    <div class="tab " *ngIf="mapCfg" (click)="toggle('map')" [class.tab-selected]="selected==='map'">
+      <fa-icon icon="map-marked" fixedWidth="true"></fa-icon>
+    </div>
+    <div class="tab " *ngIf="mapCfg" (click)="toggle('marker')" [class.tab-selected]="selected==='marker'">
+      <fa-icon icon="map-marker-alt" fixedWidth="true"></fa-icon>
+    </div>
+    <div class="tab " *ngIf="mapCfg" (click)="toggle('layers')" [class.tab-selected]="selected==='layers'">
+      <fa-icon icon="info" [fixedWidth]="true"></fa-icon>
+    </div>
+    <div class="tab " (click)="toggle('admin')" [class.tab-selected]="selected==='admin'">
+      <fa-icon icon="cog" [fixedWidth]="true"></fa-icon>
+    </div>
   </div>
-  <div class="tab info-tab" (click)="toggle('layers')" [class.tab-selected]="selected==='layers'">
-    <fa-icon icon="info" [fixedWidth]="true"></fa-icon>
-  </div>
-  <div class="tab admin-tab" (click)="toggle('admin')" [class.tab-selected]="selected==='admin'">
-    <fa-icon icon="cog" [fixedWidth]="true"></fa-icon>
-  </div>
-  <!-- <fa-icon icon="times" (click)="close()" class="close" [class.hide]="expanded==false"></fa-icon> -->
   <button type="button" class="close" aria-label="Close" (click)="expanded=false" [class.hide]="expanded==false">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  <app-user-side  class="side-container"  [class.visible]="selected==='user'" [class.hide]="selected!=='user'"></app-user-side>
-  <app-marker-side  class="side-container"  [class.visible]="selected==='marker'"  [class.hide]="selected!=='marker'"></app-marker-side>
-  <app-map-selector  class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-selector>
-  <app-admin  class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>
-  <app-layers-tab    class="side-container"  [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <app-user-side class="side-container" [class.visible]="selected==='user'" [class.hide]="selected!=='user'"></app-user-side>
+  <app-marker-side class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-side>
+  <app-map-selector class="side-container" [class.visible]="selected==='mapselect'" [class.hide]="selected!=='mapselect'"></app-map-selector>
+  <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
+  <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>
+  <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
 </div>

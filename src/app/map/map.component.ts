@@ -10,7 +10,7 @@ import { mergeMap } from 'rxjs/operators';
 import * as L from 'leaflet';
 import * as simple from 'leaflet-simple-graticule';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
-import '../leaflet/simple.js'
+import { Trans } from '../util/transformation';
 
 @Component({
   selector: 'app-map',
@@ -21,9 +21,10 @@ export class MapComponent {
   mapCfg: MapConfig
   map: LeafletMap
 
+
   bounds = latLngBounds([[0, 0], [1536, 2048]]);
   mainMap = imageOverlay('./assets/missing.png', this.bounds);
-  crs = L.CRS.Simple;
+  crs = Trans.createManualCRS(6)
 
   options = {
     zoom: 1,
@@ -40,26 +41,21 @@ export class MapComponent {
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
     private mapSvc: MapService, private data: DataService) {
 
-
-
     this.mapSvc.mapConfig.pipe(
       mergeMap((m: MapConfig) => {
         this.mapCfg = m
         return this.data.url(m)
       })
     ).subscribe(url => {
-      let bounds = latLngBounds([[0, 0], [this.mapCfg.height, this.mapCfg.width]]);
-      let mapLayer = imageOverlay(url, bounds)
-      let mapMaxResolution = 1.00000000;
-      let mapMinResolution = Math.pow(2, 20) * mapMaxResolution;;
+      console.log("Map Changed!", this.crs);
 
-      // this.crs['transformation'] = new L.Transformation(1, bounds[0], -1, bounds[3]);
-      this.crs.scale = function (zoom) {
-        return Math.pow(1.5, zoom);
-      };
-      // this.crs.zoom = function (scale) {
-      //   return Math.log(scale * mapMinResolution) / Math.LN2;
-      // };
+      let factor = Trans.computeFactor(this.mapCfg)
+      let transformation = Trans.createTransform(this.mapCfg)
+      let bounds = latLngBounds([[0, 0], [this.mapCfg.height / factor, this.mapCfg.width / factor]]);
+      let mapLayer = imageOverlay(url, bounds)
+      this.mapSvc.overlayLayer = mapLayer
+
+      this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
       this.map.setMaxBounds(bounds);
 
       this.layers.splice(0, this.layers.length)
@@ -74,9 +70,9 @@ export class MapComponent {
       let added = sel.added(this.currentSelection)
       let same = sel.same(this.currentSelection)
 
+
       removed.forEach(item => {
         if (MyMarker.is(item)) {
-          item.selected = false
           if (item.marker["_icon"]) {
             DomUtil.removeClass(item.marker["_icon"], 'iconselected')
           }
@@ -84,9 +80,10 @@ export class MapComponent {
       })
       added.forEach(item => {
         if (MyMarker.is(item)) {
-          item.selected = true
           if (item.marker["_icon"]) {
             DomUtil.addClass(item.marker["_icon"], 'iconselected')
+          } else {
+            console.log("NO ICON  : " + item.name);
           }
         }
       })
@@ -96,6 +93,7 @@ export class MapComponent {
 
   onMapReady(map: LeafletMap) {
     this.map = map
+    console.log("Map Ready!", map);
 
     // Install plugins
     L.control.coordinates(
@@ -109,18 +107,11 @@ export class MapComponent {
     ).addTo(map);
     L.control.scale().addTo(map)
 
-    var options = {
-      interval: 24,
-      showshowOriginLabel: true,
-      redraw: 'move'
-    };
-
-
-    // L.simpleGraticule(options).addTo(map);
-
     this.zone.run(() => {
       this.mapSvc.setMap(map);
     });
   }
+
+
 
 }

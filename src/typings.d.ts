@@ -4,6 +4,7 @@ declare module 'leaflet' {
     namespace control {
         function coordinates(v: any);
     }
+    
     var BoxSelect: any
     function simpleGraticule(options: any);
 }

@@ -1,0 +1,8 @@
+<ng-container *ngIf="trimmed && !expanded">
+  {{shorttext}}...
+  <a href="#" (click)="toggle()" class="readmore">[more]</a>
+</ng-container>
+<ng-container *ngIf="trimmed && expanded">{{longtext}}
+  <a href="#" (click)="toggle()" class="readmore"> [less]</a>
+</ng-container>
+<ng-container *ngIf="!trimmed">{{longtext}}</ng-container>

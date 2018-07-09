@@ -25,12 +25,14 @@ figure:hover {
 }
 
 .recent {
+    box-sizing: content-box;
     float: left;
     height: 0;
     width: 20%;
     padding-bottom: 20%;
     grid-row: 1;
-    margin-right: 7px;
+    margin-left: 3px;
+    margin-right: 8px;
     margin-bottom: 12px;
 }
 
@@ -60,9 +62,8 @@ figcaption {
     left: 0;
     right: 0;
     padding: .2em;
-    background-color:  rgba(67, 70, 75, 0.5);
+    background-color:  rgba(67, 70, 75, 0.7);
     text-align: center;
-    border-radius: 6px;
 }
 
 .overlay {

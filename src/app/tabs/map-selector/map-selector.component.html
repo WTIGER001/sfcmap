@@ -1,4 +1,4 @@
-<h1>Maps</h1>
+<h1>Change Map</h1>
 <div class="filter-div">
   <input type="text" class="form-control form-control-sm filter" placeholder="filter" [ngModel]="filter" (ngModelChange)="filterUpdate($event)">
   <div class="clear-filter-icon" (click)="clearFilter()" *ngIf='filter.length>0'>
@@ -13,7 +13,7 @@
     <div [ngbCollapse]="isCollapsed['recent']" class="recent-div">
       <div *ngFor="let m of recent" class="recent">
         <figure (click)="select(m)" placement="bottom" [ngbTooltip]="m.name">
-          <img [src]='m.thumb' height="48">
+          <img [src]='m.thumb' height="52">
           <div class="overlay">
             <fa-icon class="icon" icon="check"></fa-icon>
           </div>

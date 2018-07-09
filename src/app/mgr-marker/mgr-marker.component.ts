@@ -185,4 +185,25 @@ export class MgrMarkerComponent implements OnInit {
     this.selected = t
     this.sType = 'cat'
   }
+
+  drop(item: MarkerType | Category, cat: Category) {
+    if (this.isMarkerType(item) && item.category != cat.id) {
+      item.category = cat.id
+      this.data.saveMarkerType(item)
+    } else if (this.isCategory(item) && item.id != cat.id) {
+      item.types.forEach(t => {
+        t.category = cat.id
+        this.data.saveMarkerType(t)
+      })
+    }
+  }
+
+
+  isMarkerType(item: any): item is MarkerType {
+    return item.hasOwnProperty('category')
+  }
+
+  isCategory(item: any): item is Category {
+    return item.hasOwnProperty('types')
+  }
 }

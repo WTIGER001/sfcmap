@@ -7,14 +7,15 @@
     display: block;
 }
 
-.drop-target {
-    /* border: 2px solid white; */
-    background-color: steelblue;
-}
-
 .center {
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
+}
 
+.subdued {
+    width: 100%;
+    color: rgba(68, 68, 68, 0.9)
 }

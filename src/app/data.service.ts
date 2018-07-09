@@ -661,8 +661,8 @@ export class DataService {
       if (u.recentMaps) {
         let recent = u.recentMaps.filter(item => item != mapId)
         recent.unshift(mapId)
-        if (recent.length > 5) {
-          recent.splice(5, recent.length - 5)
+        if (recent.length > 4) {
+          recent.splice(4, recent.length - 4)
         }
         u.recentMaps = recent
       } else {

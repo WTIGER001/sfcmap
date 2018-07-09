@@ -13,6 +13,7 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { TreeModule } from 'angular-tree-component';
 import { ToastrModule } from 'ngx-toastr';
 import { DragAndDropModule } from 'angular-draggable-droppable';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -48,6 +49,9 @@ import { UnchecklistDirective } from './controls/unchecklist.directive';
 import { MarkerSizingControlComponent } from './controls/marker-sizing-control/marker-sizing-control.component';
 import { NgExpandableListDirective } from './controls/ng-expandable-list.directive';
 import { LoginComponent } from './login/login.component';
+import { DistanceEntryComponent } from './dialogs/distance-entry/distance-entry.component';
+import { MapTabComponent } from './tabs/map-tab/map-tab.component';
+import { ReadmoreComponent } from './controls/readmore/readmore.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +75,10 @@ import { LoginComponent } from './login/login.component';
     UnchecklistDirective,
     MarkerSizingControlComponent,
     NgExpandableListDirective,
-    LoginComponent
+    LoginComponent,
+    DistanceEntryComponent,
+    MapTabComponent,
+    ReadmoreComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +99,8 @@ import { LoginComponent } from './login/login.component';
       positionClass: 'toast-bottom-right',
       timeOut: 3000
     }),
-    DragAndDropModule.forRoot()
+    DragAndDropModule.forRoot(),
+    ColorPickerModule
   ],
   providers: [
     MapService,
@@ -110,7 +118,8 @@ import { LoginComponent } from './login/login.component';
     MgrGroupComponent,
     MgrMapComponent,
     MgrMarkerComponent,
-    AccessDialogComponent
+    AccessDialogComponent,
+    DistanceEntryComponent
   ]
 })
 export class AppModule {

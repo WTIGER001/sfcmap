@@ -6,6 +6,8 @@ import { MgrMarkerComponent } from '../mgr-marker/mgr-marker.component';
 import { MgrGroupComponent } from '../mgr-group/mgr-group.component';
 import { MgrMapComponent } from '../mgr-map/mgr-map.component';
 import { AccessDialogComponent } from './access-dialog/access-dialog.component';
+import { Distance } from '../models';
+import { DistanceEntryComponent } from './distance-entry/distance-entry.component';
 
 @Injectable()
 export class DialogService {
@@ -15,12 +17,16 @@ export class DialogService {
   }
 
   public openMarkers() {
-    const modalRef = this.modalSvc.open(MgrMarkerComponent,  { size: 'lg' });
+    const modalRef = this.modalSvc.open(MgrMarkerComponent, { size: 'lg' });
   }
   public openGroups() {
-    const modalRef = this.modalSvc.open(MgrGroupComponent,  { size: 'lg' });
-  } 
+    const modalRef = this.modalSvc.open(MgrGroupComponent, { size: 'lg' });
+  }
   public openMaps() {
-    const modalRef = this.modalSvc.open(MgrMapComponent,  { size: 'lg' });
-  }  
+    const modalRef = this.modalSvc.open(MgrMapComponent, { size: 'lg' });
+  }
+  public openDistance(): Observable<Distance> {
+    const modalRef = this.modalSvc.open(DistanceEntryComponent);
+    return modalRef.componentInstance.result
+  }
 }
