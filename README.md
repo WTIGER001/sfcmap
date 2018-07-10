@@ -6,6 +6,8 @@ sfcmap is a simple mapping utility for roleplaying game applications. It allows 
 
 scfmap uses the services in firebase to provide a backend, storage and authentication. 
 
+![Screen shot](https://github.com/WTIGER001/sfcmap/blob/master/screenshot.png "Screenshot")
+
 ## Features
 
 ### User Login and Customization
