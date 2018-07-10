@@ -28,7 +28,7 @@ export class ReadmoreComponent implements OnInit {
 
   private trim() {
     this.expanded = false
-    if (this.longtext.length > this.maxLength) {
+    if (this.longtext && this.longtext.length > this.maxLength) {
       let num = this.maxLength
       while (!this.isBoundry(this.longtext.substr(num, 1))) {
         num -= 1

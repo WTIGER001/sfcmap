@@ -117,3 +117,7 @@ figcaption {
   .clear-filter-icon:hover {
     color: rgba(255, 255, 255, 1)
 }
+
+.map-scroll {
+    height: calc(100vh - 110px);
+}

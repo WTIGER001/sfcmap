@@ -139,7 +139,7 @@ export class DataService {
       })
   }
 
-  private getMarkers(mapid: string): Observable<Array<SavedMarker>> {
+  getMarkers(mapid: string): Observable<Array<SavedMarker>> {
     return this.db.list('markers/' + mapid)
       .snapshotChanges()
       .pipe(

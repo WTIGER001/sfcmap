@@ -6,6 +6,7 @@ import { NgZone } from "@angular/core";
 import { Trans, DistanceUnit } from "../util/transformation";
 import { DataService } from "../data.service";
 import { MapService } from "../map.service";
+import { Format } from "../util/format";
 
 
 export class Measure implements Handler {
@@ -109,15 +110,17 @@ export class Measure implements Handler {
             }).addTo(this.layer)
 
             let distance = this.map.distance(this.start, this.end)
+            let text = Format.formatDistance(distance)
+
             let distFt = DistanceUnit.Feet.fromMeters(distance)
             let distPath = Math.floor(distFt / 5) * 5
-
-            let text = distFt.toFixed(1) + '&nbsp;Feet <br>' + distPath.toFixed(1) + "&nbsp;Feet in Pathfinder";
+            if (distPath < 1000) {
+                text = text + '<br>' + distPath.toFixed(1) + "&nbsp;Feet in Pathfinder";
+            }
             L.circleMarker(this.end, {
                 color: 'red',
                 radius: 0.1
             }).bindTooltip(text, { permanent: true, offset: L.point(0, -40), className: 'moving-tooltip' }).addTo(this.layer).openTooltip();
-
         }
     }
 

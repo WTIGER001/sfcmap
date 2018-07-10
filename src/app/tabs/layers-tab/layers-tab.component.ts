@@ -24,7 +24,7 @@ export class LayersTabComponent implements OnInit {
   items = []
   groupIds = []
   markerIds = []
-
+  dragging
   isCollapsed = {}
   options: ITreeOptions = {
     useCheckbox: true

@@ -6,6 +6,7 @@ import { NgZone } from "@angular/core";
 import { Trans, DistanceUnit } from "../util/transformation";
 import { DataService } from "../data.service";
 import { MapService } from "../map.service";
+import { concatMap, take } from "rxjs/operators";
 
 
 export class CalibrateX implements Handler {
@@ -87,9 +88,9 @@ export class CalibrateX implements Handler {
     }
 
     removeHooks?(): void {
-        this.map.off('click', this.onClick)
-        this.map.off('mousemove', this.onMouseMove)
-        L.DomEvent.off(this.map.getContainer(), 'keydown', this.escape)
+        this.map.off('click', this.onClick, this)
+        this.map.off('mousemove', this.onMouseMove, this)
+        L.DomEvent.off(this.map.getContainer(), 'keydown', this.escape, this)
     }
 
     onClick(e: LeafletMouseEvent) {
@@ -99,12 +100,11 @@ export class CalibrateX implements Handler {
             this.active = true
         } else {
             this.active = false
+            this.disable()
             this.zone.run(() => {
-                console.log("RUNNING");
-
                 this.dialog.openDistance().subscribe(distance => {
-                    this.disable()
-
+                    // Old PPM
+                    let oldPPM = this.mapCfg.ppm || 1
                     // Use the standard CRS because that has a 1:1 pixel transform
                     let simple = L.CRS.Simple
                     // Account for the current zoom level
@@ -115,11 +115,24 @@ export class CalibrateX implements Handler {
                     let dist = this.startPx.distanceTo(newPoint)
                     // Scale the raw distance to account for zoom
                     let pixels = dist / scale
-
+                    // Compute the PPM
                     let unit = DistanceUnit.getUnit(distance.unit)
                     let meters = unit.toMeters(distance.value)
-                    this.mapCfg.ppm = Trans.computePPM(meters, pixels)
+                    let newPPM = Trans.computePPM(meters, pixels)
+                    this.mapCfg.ppm = newPPM
+
+                    // Save the Map
                     this.data.saveMap(this.mapCfg)
+
+                    // Go through each marker on the map and fix the coordinates
+                    this.data.getMarkers(this.mapCfg.id).pipe(take(1), concatMap(m => m)).subscribe(m => {
+                        let loc = m.location
+                        let newLoc0 = loc[0] * oldPPM / newPPM
+                        let newLoc1 = loc[1] * oldPPM / newPPM
+                        m.location = [newLoc0, newLoc1]
+                        this.data.saveMarker(m)
+                    })
+
                     this.mapSvc.setConfig(this.mapCfg)
                 })
             })
@@ -137,11 +150,11 @@ export class CalibrateX implements Handler {
             this.measureLine.addTo(this.layer)
             L.circle(this.start, {
                 color: 'red',
-                radius: 2
+                radius: 0.1
             }).addTo(this.layer)
             L.circle(this.end, {
                 color: 'red',
-                radius: 2
+                radius: 0.1
             }).addTo(this.layer)
         }
     }

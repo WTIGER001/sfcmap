@@ -54,7 +54,6 @@ export class MapComponent {
       let bounds = latLngBounds([[0, 0], [this.mapCfg.height / factor, this.mapCfg.width / factor]]);
       let mapLayer = imageOverlay(url, bounds)
       this.mapSvc.overlayLayer = mapLayer
-
       this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
       this.map.setMaxBounds(bounds);
 
@@ -69,7 +68,6 @@ export class MapComponent {
       let removed = sel.removed(this.currentSelection)
       let added = sel.added(this.currentSelection)
       let same = sel.same(this.currentSelection)
-
 
       removed.forEach(item => {
         if (MyMarker.is(item)) {

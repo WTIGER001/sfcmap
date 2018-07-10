@@ -23,7 +23,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
   <app-user-side class="side-container" [class.visible]="selected==='user'" [class.hide]="selected!=='user'"></app-user-side>
-  <app-marker-side class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-side>
+  <app-marker-tab class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-tab>
   <app-map-selector class="side-container" [class.visible]="selected==='mapselect'" [class.hide]="selected!=='mapselect'"></app-map-selector>
   <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
   <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>

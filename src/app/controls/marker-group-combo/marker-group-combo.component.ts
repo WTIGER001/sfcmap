@@ -15,6 +15,7 @@ import { MyMarker } from '../../map.service';
 export class MarkerGroupComboComponent implements ControlValueAccessor {
   selected: MarkerGroup
   mk: MyMarker
+  mks: MyMarker[]
   private innerValue: string
   private changed = [];
   private touched = [];
@@ -36,6 +37,17 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   get marker(): MyMarker {
     return this.mk
   }
+
+  @Input() set markers(m: MyMarker[]) {
+    this.mks = m
+    this.innerValue = m[0].markerGroup
+    this.refresh()
+  }
+
+  get markers(): MyMarker[] {
+    return this.mks
+  }
+
 
   onTextChange($event) {
     console.log($event);

@@ -26,7 +26,7 @@ import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './tabs/map-selector/map-selector.component';
 import { AdminComponent } from './tabs/admin/admin.component';
 import { UserSideComponent } from './tabs/user-side/user-side.component';
-import { MarkerSideComponent } from './tabs/marker-side/marker-side.component';
+import { MarkerTabComponent } from './tabs/marker-tab/marker-tab.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { MapService } from './map.service';
 import { CommonDialogService } from './dialogs/common-dialog.service';
@@ -60,7 +60,7 @@ import { ReadmoreComponent } from './controls/readmore/readmore.component';
     MapSelectorComponent,
     AdminComponent,
     UserSideComponent,
-    MarkerSideComponent,
+    MarkerTabComponent,
     TabsComponent,
     InputDialogComponent,
     MessageDialogComponent,

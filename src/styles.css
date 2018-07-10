@@ -39,14 +39,15 @@ body {
     color: white;
 }
 
+.description {
+    line-height: 1.3em;
+    font-size: .9em;
+}
+
 /*  Scrollbars
     -------------------*/
 .scroller {
     overflow: auto;
-}
-
-.scroller-dark {
-    height: calc(100vh - 110px);
 }
 
 .scroller-dark::-webkit-scrollbar-track

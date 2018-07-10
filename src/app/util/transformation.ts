@@ -3,7 +3,7 @@ import { CRS } from "leaflet";
 import * as L from 'leaflet';
 
 export class DistanceUnit {
-    public static units = []
+    public static units: DistanceUnit[] = []
     public static readonly M = new DistanceUnit('Meter', "m", 1)
     public static readonly KM = new DistanceUnit('Kilometer', "km", 1000)
     public static readonly Feet = new DistanceUnit('Feet', "ft", 0.3048)

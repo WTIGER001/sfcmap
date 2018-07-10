@@ -23,7 +23,11 @@ export class TabsComponent implements OnInit {
       }
     })
 
-    this.mapSvc.mapConfig.subscribe(m => this.mapCfg = m);
+    this.mapSvc.mapConfig.subscribe(m => {
+      this.mapCfg = m
+      this.expanded = true
+      this.selected = 'map'
+    });
   }
 
   ngOnInit() {

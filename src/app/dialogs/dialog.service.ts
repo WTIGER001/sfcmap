@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { from, Observable } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { MgrMarkerComponent } from '../mgr-marker/mgr-marker.component';
 import { MgrGroupComponent } from '../mgr-group/mgr-group.component';
 import { MgrMapComponent } from '../mgr-map/mgr-map.component';
@@ -26,7 +26,9 @@ export class DialogService {
     const modalRef = this.modalSvc.open(MgrMapComponent, { size: 'lg' });
   }
   public openDistance(): Observable<Distance> {
+
     const modalRef = this.modalSvc.open(DistanceEntryComponent);
+    modalRef.componentInstance.result = new Subject<Distance>()
     return modalRef.componentInstance.result
   }
 }

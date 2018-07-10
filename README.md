@@ -39,9 +39,11 @@ Text        - Light             - #D1E8E2
 
 
 ## Priority 1
-- Login Sequence --- Fix completely...
+- Login Sequence --- Fix completely...Basically dont do anything unless they are logged in... consider anonymous users
+- Data Loading order seems recursive
+- Migrate to Firestore, Use batches, deeper structure. 
+- Fix icons in 'fixed' mode, they seem to move around as you zoom
 - Export / import icons 
-- Bulk edit marker types (Select a bunch and edit the anchor)
 - Upload Progress
 
 ## Prority 2
@@ -49,18 +51,14 @@ Text        - Light             - #D1E8E2
 -- Draw
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Smoother zoom ( less spacing between Zoom levels) (Hard)
-- Refilter when someone assumes a group (change to unchecklist)
-- Use buttons for tool bar
-- Toolbar fix for enablement
-- Map: Square Graticules (w/ controls)
 - Select marker from layer list
+- True Layers (e.g. Country borders, quarters) and allow polygons, lines, text and markers
+- Draw & edit polygons, lines, and text
+- Switch to featureGroup layers and change the eventing
+- Incorporate Draw Plugin (https://github.com/Leaflet/Leaflet.Editable)
 
 ## Priority 3
-- USe LIs for Tabs
-- Distance Measure 
-- Distance Calibrate
 - Marker Snap
-- Marker Edit mode
 - Marker hover information (tooltip) / click information (popup)
 
 ## Prority 4
@@ -95,9 +93,7 @@ Layer Types:
 -- List Layers
 - Marker
 -- 
-- Graticule
--- Move (left / right / up / down)
--- X/Y Spacing
+
 
 Name Ideas:
 - Atlas

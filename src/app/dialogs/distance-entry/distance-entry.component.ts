@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChildren } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Distance } from '../../models';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { DistanceUnit } from '../../util/transformation';
 
 @Component({
@@ -10,7 +10,7 @@ import { DistanceUnit } from '../../util/transformation';
   styleUrls: ['./distance-entry.component.css']
 })
 export class DistanceEntryComponent implements OnInit, AfterViewInit {
-  public result: ReplaySubject<Distance> = new ReplaySubject();
+  public result: Subject<Distance>;
   value: number
   unit: string = "M"
   units = DistanceUnit.units

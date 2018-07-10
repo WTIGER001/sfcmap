@@ -185,6 +185,7 @@ export class MapConfig {
     height: number  /// Calculated
     view: string[]
     edit: string[]
+    gridOptions: any
 }
 
 export class UserGroup implements IObjectType {

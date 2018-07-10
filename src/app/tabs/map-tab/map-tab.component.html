@@ -18,47 +18,49 @@
 
 <!-- Grid Lines-->
 <h4>
-  <fa-icon icon="caret-right" fixedWidth="true"></fa-icon> Gridlines</h4>
-<div class="ml-2">
+  <fa-icon class="pointer" (click)="isCollapsed['grid'] = !isCollapsed['grid']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['grid'] ? 'caret-right' : 'caret-down'"></fa-icon> Gridlines</h4>
+
+<div class="ml-2" [ngbCollapse]="isCollapsed['grid']">
   <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="gridOptions.enabled" (change)="toggleGrid()">
+    <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="grid.options.enabled" (change)="toggleGrid()">
     <label class="custom-control-label" for="grid_enable"> Enable Gridlines</label>
   </div>
   Spacing
   <div class="input-group">
-    <input class="form-control form-control-sm" type="number" [(ngModel)]="gridOptions.spacing" (change)="updateGrid()">
+    <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
     <div ngbDropdown placement="bottom-right">
-      <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{gridOptions.spacingUnit}} </button>
+      <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}} </button>
       <div ngbDropdownMenu aria-labelledby="dropDownUnits">
-        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="gridOptions.spacingUnit = u.abbr">{{u.name}}</button>
+        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
       </div>
     </div>
   </div>
   Offset NS
   <div class="slidecontainer">
-    <input class="form-control form-control-sm slider" type="range" [min]="-gridOptions.spacing" [max]="gridOptions.spacing"
-      [step]="gridOptions.spacing/50" [(ngModel)]="gridOptions.offsetNS" id="myRange" (change)="updateGrid()">
+    <input class="form-control form-control-sm slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
+      [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
   </div>
   Offset EW
   <div class="slidecontainer">
-    <input class="form-control form-control-sm slider" type="range" [min]="-gridOptions.spacing" [max]="gridOptions.spacing"
-      [step]="gridOptions.spacing/50" [(ngModel)]="gridOptions.offsetEW" id="myRange" (change)="updateGrid()">
+    <input class="form-control form-control-sm slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
+      [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
   </div>
   Color
   <div>
-    <input class="form-control form-control-sm" [(colorPicker)]="gridOptions.color" [style.background]="gridOptions.color" cpAlphaChannel='always'
-      cpPosition='left' (colorPickerChange)="updateGrid()" />
+    <input class="form-control form-control-sm" [(colorPicker)]="grid.options.color" [style.background]="grid.options.color"
+      cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateGrid()" />
   </div>
   Line Weight
   <div class="slidecontainer">
-    <input class="form-control form-control-sm slider" type="range" min="1" max="9" step="1" [(ngModel)]="gridOptions.lineWeight"
+    <input class="form-control form-control-sm slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight"
       (change)="updateGrid()">
   </div>
 </div>
 
 <!-- Fog of War-->
 <h4>
-  <fa-icon icon="caret-right" fixedWidth="true"></fa-icon> Fog of War</h4>
-<div class="">
+  <fa-icon class="pointer" (click)="isCollapsed['fog'] = !isCollapsed['fog']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['fog'] ? 'caret-right' : 'caret-down'"></fa-icon> Fog of War</h4>
+
+<div class="ml-2" [ngbCollapse]="isCollapsed['fog']">
 
 </div>
