@@ -1,3 +1,30 @@
-.back {
-    background-image: image('/assets/bacground.jpg')
+
+.login-container {
+    background-image: url('/assets/background.jpg');
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height : 100vh;
+    align-items: center
+}
+
+.login {
+    color: white;
+    min-width: 300px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: rgba(56, 56, 56, .9);
+    border-radius: 4px;
+    font-size: 1.3em;
+}
+.login button {
+    margin-top: 20px;
+    width: 75%;
+    display: flex;
+    color: white;
+    justify-content: center
 }

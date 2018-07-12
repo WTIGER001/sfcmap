@@ -42,7 +42,9 @@ export class NotifyService {
   }
 
   showError(error: string, operation?: string, code?: number) {
+    let err = new Error()
     console.log("ERRORS: " + error);
+    console.log(err)
     this.dialog.errorMsg(error)
   }
 

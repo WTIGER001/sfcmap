@@ -1,3 +1,13 @@
-<p>
-  login works!
-</p>
+<div class="login-container">
+  <div class="login">
+    <h1>Welcome, please sign in to have access to the maps.</h1>
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="loginGoogle()">
+      <fa-icon [icon]="['fab', 'google']" size="lg" inverse='true'></fa-icon>
+      <span>&nbsp;&nbsp;&nbsp;Sign in with Google</span>
+    </button>
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="loginGithub()">
+      <fa-icon [icon]="['fab', 'github']" size="lg" inverse='true'></fa-icon>
+      <span>&nbsp;&nbsp;&nbsp;Sign in with Github</span>
+    </button>
+  </div>
+</div>

@@ -1,25 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <div *ngIf="user; else showLogin">
-    <h1>Hello {{ user.name }}! {{ user.photo }}</h1>
-    <img [src]="user.photo">
-    <button (click)="logout()">Logout</button>
-</div>
-<ng-template #showLogin>
-    <p>Please login.</p>
-    <button (click)="login()">Login with Google</button>
-</ng-template> -->
-
-<!-- <div *ngIf="afAuth.user | async as user; else showLogin">
-    <h1>Hello {{ user.displayName }}!</h1>
-    <img [src]="user.photo">
-    <button (click)="logout()">Logout</button>
-</div>
-<ng-template #showLogin>
-    <p>Please login.</p>
-    <button (click)="login()">Login with Google</button>
-</ng-template> -->
-
-<!-- <div class="mapcontainer" leaflet [leafletOptions]="options" [leafletLayers]="layers" (leafletMapReady)="onMapReady($event)"></div> -->
-
-<app-map></app-map>
-<app-tabs></app-tabs>
+<ng-container *ngIf="user.uid!='NOBODY'">
+    <app-map></app-map>
+    <app-tabs></app-tabs>
+</ng-container>
+<ng-container *ngIf="user.uid=='NOBODY'">
+    <app-login></app-login>
+</ng-container>

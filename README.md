@@ -4,7 +4,7 @@
 
 sfcmap is a simple mapping utility for roleplaying game applications. It allows you to upload maps and add markers. This allows you to create a map library for your RPG maps to augment the tabletop games. Markers and maps have simple permissions that can be applied so all your players don't see the secrets waiting for them. This ia a general approach suitible for continent spanning maps, regional maps, town and city maps, building interiors and dungeons. See the [Demo](https://sfcmap.firebaseapp.com/)
 
-scfmap uses the services in firebase to provide a backend, storage and authentication. 
+scfmap uses the services in firebase to provide a backend, storage and authentication. *This project is in active development and will change frequently. It is certainly not ready for any real users as the data model (and even database) are being redesigned.*
 
 ![Screen shot](https://github.com/WTIGER001/sfcmap/blob/master/screenshot.png "Screenshot")
 
@@ -40,28 +40,38 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 - Markers and Marker Groups can be toggled from the map
 
 ## Development
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run npm start to start the application in debug mode
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run `npm start` to start the application in debug mode
 
 ## Known Issues
 - After login you have to refresh
 - LOTS of requests for data when a map is calibrated
 
-## TODO
-My TODO List
+### Mobile Device Issues
+- Tab icons are too small
+- Measure and Calibrate dont work because there is no real 'mouse move' events
+- Managers (map, marker and groups) are in dialogs and are too small - Separate to separate pages with a router
+- Auto expansion of tabs is annoying - make this a preference
+- Tab close is too small. I want to swipe to close
+- Map pane doesn't scroll on overflow
+- would be nice to full screen or PWA
+- Clicking on the measure or calibrate should diable the action
+- Wipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
+(actually, the rest of it worked surprisingly well!)
+
+## To Do
 
 ### Priority 1
-- Login Sequence --- Fix completely...Basically dont do anything unless they are logged in... consider anonymous users
-- Data Loading order seems recursive
+- Login Sequence --- Fix completely...Basically don't do anything unless they are logged in... consider anonymous users
+- Data Loading order seems recursive, fix this so there is not a ridiculous number of reloads
 - Migrate to Firestore, Use batches, deeper structure. 
 - Fix icons in 'fixed' mode, they seem to move around as you zoom
 - Export / import icons 
 - Upload Progress
+- Redo some of the RxJS to use tap
 
 ### Prority 2
-- Try out some plugins
--- Draw
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
-- Smoother zoom ( less spacing between Zoom levels) (Hard)
+- Smoother zoom ( less spacing between Zoom levels) (I think this is a setting in the map)
 - Select marker from layer list
 - True Layers (e.g. Country borders, quarters) and allow polygons, lines, text and markers
 - Draw & edit polygons, lines, and text
@@ -71,6 +81,7 @@ My TODO List
 ### Priority 3
 - Marker Snap
 - Marker hover information (tooltip) / click information (popup)
+- Drag and Drop a new marker on the page. 
 
 ### Prority 4
 - Landing Page
@@ -92,6 +103,8 @@ My TODO List
 - Chat window ( can use skype )
 - White Board
 - Hexegon Graticules (bigger issue)
+
+
 
 ### Other
 Layers Tab

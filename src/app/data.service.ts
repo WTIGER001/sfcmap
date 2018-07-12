@@ -4,7 +4,7 @@ import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker,
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
-import { mergeMap, map, concatMap, bufferCount } from 'rxjs/operators';
+import { mergeMap, map, concatMap, bufferCount, tap } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 
@@ -36,18 +36,21 @@ export class DataService {
     this.log = this.notify.newDebugger("Data")
 
     // Wait for the user
-    afAuth.authState
+    afAuth.user
       .pipe(
+        tap(fireUser => this.log.info("User Recieved ", fireUser)),
         map(fireUser => User.fromFireUser(fireUser)),
-        mergeMap(u => this.getUserInfo(u))
+        mergeMap(u => this.getUserInfo(u)),
+        tap(u => this.log.info("User INFO Recieved ", u))
       )
       .subscribe(u => {
+        this.log.info("-------------------------------------------------------------------------")
         this.log.info(`User Logged in ${u.uid}`, u)
+        this.log.info("-------------------------------------------------------------------------")
         this.user.next(u)
       });
 
     // Get the User Preferences
-
     this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
     this.loadAndNotify<User>(this.toUser, this.users, 'users', 'Loading Users')
@@ -286,7 +289,7 @@ export class DataService {
   }
 
   private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {
-    this.log.debug('Loading ' + name)
+    this.log.debug('Base Item loadAndNotify ' + name)
 
     this.user.pipe(
       mergeMap(user => {
@@ -675,6 +678,9 @@ export class DataService {
 
   private getUserInfo(u: User): Observable<User> {
     this.log.debug("Getting User Information for " + u.uid);
+    if (u.uid == 'NOBODY') {
+      return of(new User())
+    }
 
     return this.db.object('users/' + u.uid)
       .snapshotChanges()
