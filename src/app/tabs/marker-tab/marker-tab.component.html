@@ -1,7 +1,7 @@
 <div class="white">
   <h1>Markers</h1>
 
-  <div class="buttonbar">
+  <div class="buttonbar" *ngIf="edit==false">
     <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a new marker">
       <fa-icon icon="plus" size="lg"></fa-icon>
     </button>
@@ -16,6 +16,15 @@
     </button>
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected marker(s)">
       <fa-icon icon="trash-alt" size="lg"></fa-icon>
+    </button>
+  </div>
+
+  <div class="buttonbar" *ngIf="edit==true">
+    <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+      <fa-icon icon="save" size="lg"></fa-icon> Save
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
+      <fa-icon icon="times" size="lg"></fa-icon> Cancel
     </button>
   </div>
 
@@ -60,14 +69,6 @@
         <label for="description" class="small">Description</label>
         <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="marker.description"></textarea>
       </div>
-      <div class="buttonbar">
-        <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="save()">
-          <fa-icon icon="save" size="lg"></fa-icon> Save
-        </button>
-        <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
-          <fa-icon icon="times" size="lg"></fa-icon> Cancel
-        </button>
-      </div>
     </div>
 
     <!-- Edit of multiple markers -->
@@ -79,14 +80,6 @@
       <div class="form-group">
         <label for="type" class="small">Group</label>
         <app-marker-group-combo [(ngModel)]="markers.markerGroup" [marker]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
-      </div>
-      <div class="buttonbar">
-        <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="save()">
-          <fa-icon icon="save" size="lg"></fa-icon> Save
-        </button>
-        <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
-          <fa-icon icon="times" size="lg"></fa-icon> Cancel
-        </button>
       </div>
     </div>
   </div>
