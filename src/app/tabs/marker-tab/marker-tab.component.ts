@@ -11,6 +11,7 @@ import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Measure } from '../../leaflet/measure';
 import { Format } from '../../util/format';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-marker-tab',
@@ -50,6 +51,9 @@ export class MarkerTabComponent implements OnInit {
       .pipe(
         mergeMap(m => {
           this.map = m;
+          if (m.id == 'BAD') {
+            return of([])
+          }
           return this.data.getCompleteMarkerGroups(m.id)
         })
       )

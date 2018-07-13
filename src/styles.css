@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     font-family: inherit;
@@ -52,7 +53,7 @@ body {
 
 .scroller-dark::-webkit-scrollbar-track
 {
-    width: 8px;  
+    width: 5px;  
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: rgba(0, 0, 0, .8);
@@ -60,14 +61,14 @@ body {
 
 .scroller-dark::-webkit-scrollbar
 {
-	width: 12px;
+	width: 5px;
     background-color: #F5F5F5;
     padding-left: 10px;
 }
 
 .scroller-dark::-webkit-scrollbar-thumb
 {
-	border-radius: 10px;
+	border-radius: 6px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #555;
@@ -75,6 +76,10 @@ body {
 
 .scroller-dark::-webkit-scrollbar-corner {
     background-color: transparent;
+}
+
+.hide {
+    display: none
 }
 
 .glow {
@@ -138,3 +143,11 @@ body {
       text-align: center;
       align-items: center;
   }
+
+  .tab-link {
+    color: white;
+  }    
+
+.tab-link a:hover {
+    color: grey
+}

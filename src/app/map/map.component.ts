@@ -5,7 +5,7 @@ import { MapService, MyMarker } from '../map.service';
 import { DataService } from '../data.service';
 import { MapConfig, User, SavedMarker, Selection } from '../models';
 import { flatten } from '@angular/compiler';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import * as L from 'leaflet';
 import * as simple from 'leaflet-simple-graticule';
@@ -43,25 +43,33 @@ export class MapComponent {
 
     this.mapSvc.mapConfig.pipe(
       mergeMap((m: MapConfig) => {
-        this.mapCfg = m
-        return this.data.url(m)
+        if (m.id != 'BAD') {
+          this.mapCfg = m
+          return this.data.url(m)
+        } else {
+          this.mapCfg = undefined
+          return of("")
+        }
       })
     ).subscribe(url => {
       console.log("Map Changed!", this.crs);
+      if (url != "") {
+        let factor = Trans.computeFactor(this.mapCfg)
+        let transformation = Trans.createTransform(this.mapCfg)
+        let bounds = latLngBounds([[0, 0], [this.mapCfg.height / factor, this.mapCfg.width / factor]]);
+        let mapLayer = imageOverlay(url, bounds)
+        this.mapSvc.overlayLayer = mapLayer
+        this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
+        this.map.setMaxBounds(bounds);
 
-      let factor = Trans.computeFactor(this.mapCfg)
-      let transformation = Trans.createTransform(this.mapCfg)
-      let bounds = latLngBounds([[0, 0], [this.mapCfg.height / factor, this.mapCfg.width / factor]]);
-      let mapLayer = imageOverlay(url, bounds)
-      this.mapSvc.overlayLayer = mapLayer
-      this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
-      this.map.setMaxBounds(bounds);
-
-      this.layers.splice(0, this.layers.length)
-      this.layers.push(mapLayer)
-      this.layers.push(this.mapSvc.allMarkersLayer)
-      this.layers.push(this.mapSvc.newMarkersLayer)
-      this.mapSvc.fit(bounds)
+        this.layers.splice(0, this.layers.length)
+        this.layers.push(mapLayer)
+        this.layers.push(this.mapSvc.allMarkersLayer)
+        this.layers.push(this.mapSvc.newMarkersLayer)
+        this.mapSvc.fit(bounds)
+      } else {
+        this.layers.splice(0, this.layers.length)
+      }
     })
 
     this.mapSvc.selection.subscribe(sel => {

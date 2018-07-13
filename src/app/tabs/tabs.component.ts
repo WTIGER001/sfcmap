@@ -8,8 +8,8 @@ import { MapConfig } from '../models';
   styleUrls: ['./tabs.component.css']
 })
 export class TabsComponent implements OnInit {
-  expanded = false
-  selected = ""
+  expanded = true
+  selected = "mapselect"
   mapCfg: MapConfig
   constructor(private zone: NgZone, private mapSvc: MapService) {
     this.mapSvc.selection.subscribe(sel => {
@@ -24,9 +24,14 @@ export class TabsComponent implements OnInit {
     })
 
     this.mapSvc.mapConfig.subscribe(m => {
-      this.mapCfg = m
-      this.expanded = true
-      this.selected = 'map'
+      if (m.id == 'BAD') {
+        this.mapCfg = undefined
+        this.selected = 'mapselect'
+      } else {
+        this.mapCfg = m
+        this.expanded = true
+        this.selected = 'map'
+      }
     });
   }
 

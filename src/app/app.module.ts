@@ -52,6 +52,8 @@ import { LoginComponent } from './login/login.component';
 import { DistanceEntryComponent } from './dialogs/distance-entry/distance-entry.component';
 import { MapTabComponent } from './tabs/map-tab/map-tab.component';
 import { ReadmoreComponent } from './controls/readmore/readmore.component';
+import { EditMapComponent } from './controls/edit-map/edit-map.component';
+import { MapTypeComboComponent } from './controls/map-type-combo/map-type-combo.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import { ReadmoreComponent } from './controls/readmore/readmore.component';
     DistanceEntryComponent,
     MapTabComponent,
     ReadmoreComponent,
+    EditMapComponent,
+    MapTypeComboComponent,
   ],
   imports: [
     BrowserModule,

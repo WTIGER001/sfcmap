@@ -61,7 +61,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## To Do
 
 ### Priority 1
-- Login Sequence --- Fix completely...Basically don't do anything unless they are logged in... consider anonymous users
+- Login Sequence --- Fix completely...Basically don't do anything unless they are logged in... consider anonymous users - Still strugling with this..
 - Data Loading order seems recursive, fix this so there is not a ridiculous number of reloads
 - Migrate to Firestore, Use batches, deeper structure. 
 - Fix icons in 'fixed' mode, they seem to move around as you zoom
@@ -122,3 +122,18 @@ Map
 - Enable / Disable Coordinates
 - Fixed Marker Size (in map units)
 
+## Notes
+
+Login / Data Refresh issue
+Maybe the way I should solve this is to cache the data locally and use my own subjects. That way I can clear everything out at once. Have to be careful about partial updates to stay efficient. 
+
+Example: 
+
+1. User Subscribe
+1. Subscribe to data changes -> Write changes to disk (indexdb)
+1. publish calculated data
+1. Logout
+1. Unsubscribe from ALL subscriptions
+1. Login subscribe again
+
+for PWA

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { MapService } from '../../map.service';
 import { DataService } from '../../data.service';
 import { MapConfig, Distance } from '../../models';
@@ -11,6 +11,8 @@ import { DistanceUnit } from '../../util/transformation';
 import { GridLayer, GridOptions } from '../../leaflet/grid';
 import { Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
+import { CommonDialogService } from '../../dialogs/common-dialog.service';
+import { EditMapComponent } from '../../controls/edit-map/edit-map.component';
 
 @Component({
   selector: 'app-map-tab',
@@ -18,29 +20,37 @@ import { throttleTime } from 'rxjs/operators';
   styleUrls: ['./map-tab.component.css']
 })
 export class MapTabComponent implements OnInit {
+  @ViewChild('editmap') editmap: EditMapComponent
+
   mapCfg: MapConfig
   map: LeafletMap
 
   calibrateX: CalibrateX
   measureXY: Measure
   units = DistanceUnit.units
+  edit = false
 
   grid: GridLayer
   isCollapsed = {}
   saveMe = new Subject<boolean>()
-  constructor(private mapSvc: MapService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
+  constructor(private mapSvc: MapService, private data: DataService, private dialog: DialogService, private zone: NgZone, private commonDialog: CommonDialogService) {
     this.isCollapsed['grid'] = true
     this.isCollapsed['fog'] = true
     this.grid = new GridLayer(this.mapSvc)
     this.mapSvc.mapConfig.subscribe(m => {
-      this.mapCfg = m
-      this.grid.remove()
-      this.grid = new GridLayer(this.mapSvc)
-      if (m.gridOptions) {
-        Util.extend(this.grid.options, m.gridOptions)
-      }
-      if (this.grid.options.enabled && this.map) {
-        this.grid.addTo(this.map)
+      if (m.id == 'Bad') {
+        this.mapCfg = undefined
+      } else {
+        this.mapCfg = m
+        this.edit = false
+        this.grid.remove()
+        this.grid = new GridLayer(this.mapSvc)
+        if (m.gridOptions) {
+          Util.extend(this.grid.options, m.gridOptions)
+        }
+        if (this.grid.options.enabled && this.map) {
+          this.grid.addTo(this.map)
+        }
       }
     })
     this.mapSvc.map.subscribe(m => this.map = m)
@@ -54,6 +64,36 @@ export class MapTabComponent implements OnInit {
 
   addMarker() {
 
+  }
+
+  public startEdit() {
+    this.edit = true
+  }
+
+  public close() {
+    this.mapSvc.setConfig(null)
+  }
+
+  public delete() {
+    this.commonDialog.confirm("Are you sure you want to delete this map? This cannot be undone. All the markers and content assocaited with this map will also be deleted.", "Delete " + this.mapCfg.name)
+      .subscribe(result => {
+        if (result) {
+          this.data.deleteMap(this.mapCfg)
+          this.mapCfg = undefined
+          this.mapSvc.setConfig(null)
+        }
+      })
+  }
+
+
+  save() {
+    this.edit = false
+    this.editmap.save()
+    this.mapCfg = this.editmap.selected
+  }
+
+  cancel() {
+    this.edit = false
   }
 
   public toggleGrid() {

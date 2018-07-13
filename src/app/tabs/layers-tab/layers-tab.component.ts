@@ -6,7 +6,7 @@ import { ITreeOptions } from 'angular-tree-component';
 import { ITreeNode } from 'angular-tree-component/dist/defs/api';
 import { MapConfig, MarkerGroup, SavedMarker, User, MapPrefs } from '../../models';
 import { DataService } from '../../data.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 
 @Component({
@@ -50,6 +50,9 @@ export class LayersTabComponent implements OnInit {
         mergeMap(mapConfig => {
           this.mapConfig = mapConfig;
           this.isCollapsed = {}
+          if (mapConfig.id == 'BAD') {
+            return of([])
+          }
           return this.data.getCompleteMarkerGroups(mapConfig.id)
         }),
         map(groups => {

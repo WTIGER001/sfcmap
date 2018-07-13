@@ -1,66 +1,94 @@
 <h1>Map</h1>
-
-<!-- Current Map area-->
-<div *ngIf="mapCfg" class="center-layout">
-  <div class="buttonbar">
-    <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()" placement="bottom"
-      ngbTooltip="Measure the distance beween 2 points on the map">
-      <fa-icon icon="ruler" size="lg"></fa-icon>
-    </button>
-    <button class="btn btn-outline-secondary btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom" ngbTooltip="Calibrate the distance between 2 points on the map">
-      <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
-    </button>
-  </div>
-  <fa-icon icon="map" size="2x"></fa-icon>
-  <h2>{{mapCfg.name}}</h2>
-  <app-readmore class="text-muted mb-2 description" [value]="mapCfg?.description"></app-readmore>
-</div>
-
-<!-- Grid Lines-->
-<h4>
-  <fa-icon class="pointer" (click)="isCollapsed['grid'] = !isCollapsed['grid']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['grid'] ? 'caret-right' : 'caret-down'"></fa-icon> Gridlines</h4>
-
-<div class="ml-2" [ngbCollapse]="isCollapsed['grid']">
-  <div class="custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="grid.options.enabled" (change)="toggleGrid()">
-    <label class="custom-control-label" for="grid_enable"> Enable Gridlines</label>
-  </div>
-  Spacing
-  <div class="input-group">
-    <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
-    <div ngbDropdown placement="bottom-right">
-      <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}} </button>
-      <div ngbDropdownMenu aria-labelledby="dropDownUnits">
-        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
-      </div>
+<ng-container *ngIf="mapCfg">
+  <!-- Buttons -->
+  <div class="center-layout">
+    <div class="buttonbar" *ngIf="edit==false">
+      <button class="btn btn-outline-secondary btn-tool" (click)="startEdit()" placement="bottom" ngbTooltip="Edit this map">
+        <fa-icon icon="pencil-alt" size="lg"></fa-icon>
+      </button>
+      <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()" placement="bottom"
+        ngbTooltip="Measure the distance beween 2 points on the map">
+        <fa-icon icon="ruler" size="lg"></fa-icon>
+      </button>
+      <button class="btn btn-outline-secondary btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom" ngbTooltip="Calibrate the distance between 2 points on the map">
+        <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
+      </button>
+      <button class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete this map">
+        <fa-icon icon="trash-alt" size="lg"></fa-icon>
+      </button>
+      <button class="btn btn-outline-secondary btn-tool" (click)="close()" placement="bottom" ngbTooltip="Close this map">
+        <fa-icon icon="times" size="lg"></fa-icon>
+      </button>
+    </div>
+    <div class="buttonbar" *ngIf="edit==true">
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+        <fa-icon icon="save" size="lg"></fa-icon> Save
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon> Cancel
+      </button>
     </div>
   </div>
-  Offset NS
-  <div class="slidecontainer">
-    <input class="form-control form-control-sm slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
-      [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
-  </div>
-  Offset EW
-  <div class="slidecontainer">
-    <input class="form-control form-control-sm slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
-      [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
-  </div>
-  Color
-  <div>
-    <input class="form-control form-control-sm" [(colorPicker)]="grid.options.color" [style.background]="grid.options.color"
-      cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateGrid()" />
-  </div>
-  Line Weight
-  <div class="slidecontainer">
-    <input class="form-control form-control-sm slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight"
-      (change)="updateGrid()">
-  </div>
-</div>
 
-<!-- Fog of War-->
-<h4>
-  <fa-icon class="pointer" (click)="isCollapsed['fog'] = !isCollapsed['fog']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['fog'] ? 'caret-right' : 'caret-down'"></fa-icon> Fog of War</h4>
+  <div class="scroller scroller-dark map-scroll">
+    <!-- Edit screen-->
+    <app-edit-map #editmap [map]="mapCfg" *ngIf="edit==true"></app-edit-map>
 
-<div class="ml-2" [ngbCollapse]="isCollapsed['fog']">
+    <!-- Information -->
+    <div *ngIf="edit==false" class="center-layout">
+      <fa-icon icon="map" size="2x"></fa-icon>
+      <h2>{{mapCfg.name}}</h2>
+      <app-readmore class="text-muted mb-2 description" [value]="mapCfg?.description"></app-readmore>
+    </div>
+    <ng-container *ngIf="edit==false">
+      <!-- Grid Lines-->
+      <h4>
+        <fa-icon class="pointer" (click)="isCollapsed['grid'] = !isCollapsed['grid']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['grid'] ? 'caret-right' : 'caret-down'"></fa-icon> Gridlines</h4>
 
-</div>
+      <div class="ml-2" [ngbCollapse]="isCollapsed['grid']">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="grid.options.enabled" (change)="toggleGrid()">
+          <label class="custom-control-label" for="grid_enable"> Enable Gridlines</label>
+        </div>
+        Spacing
+        <div class="input-group">
+          <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
+          <div ngbDropdown placement="bottom-right">
+            <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}} </button>
+            <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+              <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
+            </div>
+          </div>
+        </div>
+        Offset NS
+        <div class="slidecontainer">
+          <input class="form-control form-control-sm slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
+            [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
+        </div>
+        Offset EW
+        <div class="slidecontainer">
+          <input class="form-control form-control-sm slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
+            [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
+        </div>
+        Color
+        <div>
+          <input class="form-control form-control-sm" [(colorPicker)]="grid.options.color" [style.background]="grid.options.color"
+            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateGrid()" />
+        </div>
+        Line Weight
+        <div class="slidecontainer">
+          <input class="form-control form-control-sm slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight"
+            (change)="updateGrid()">
+        </div>
+      </div>
+
+      <!-- Fog of War-->
+      <h4>
+        <fa-icon class="pointer" (click)="isCollapsed['fog'] = !isCollapsed['fog']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['fog'] ? 'caret-right' : 'caret-down'"></fa-icon> Fog of War</h4>
+
+      <div class="ml-2" [ngbCollapse]="isCollapsed['fog']">
+
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

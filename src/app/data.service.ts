@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval } from 'rxjs';
+import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval, Subscription } from 'rxjs';
 import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, Category } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { mergeMap, map, concatMap, bufferCount, tap } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { User as FireUser } from 'firebase';
 
 
 @Injectable({
@@ -13,6 +14,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class DataService {
   public static readonly UNCATEGORIZED = "UNGROUPED"
+  public readonly NOBODY = new User()
 
   ready = new ReplaySubject<boolean>()
 
@@ -32,31 +34,16 @@ export class DataService {
 
   log: Debugger
 
+  subs: Subscription[] = []
+
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
     this.log = this.notify.newDebugger("Data")
 
-    // Wait for the user
-    afAuth.user
-      .pipe(
-        tap(fireUser => this.log.info("User Recieved ", fireUser)),
-        map(fireUser => User.fromFireUser(fireUser)),
-        mergeMap(u => this.getUserInfo(u)),
-        tap(u => this.log.info("User INFO Recieved ", u))
-      )
-      .subscribe(u => {
-        this.log.info("-------------------------------------------------------------------------")
-        this.log.info(`User Logged in ${u.uid}`, u)
-        this.log.info("-------------------------------------------------------------------------")
-        this.user.next(u)
-      });
-
-    // Get the User Preferences
-    this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
-    this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
-    this.loadAndNotify<User>(this.toUser, this.users, 'users', 'Loading Users')
-    this.loadAndNotify<UserGroup>(this.toGroup, this.groups, 'groups', 'Loading User Groups')
-    this.loadAndNotify<MarkerCategory>(this.toMarkerCategory, this.markerCategories, 'markerCategories', 'Loading Marker Categories')
-    this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
+    // Subscribe to the firebase user. This can be null or a firebase user. When we get a user or a null value we reload all the data
+    afAuth.user.subscribe(fireUser => {
+      let user = User.fromFireUser(fireUser)
+      this.onLogon(user)
+    })
 
     // Load the URLS for map
     let mapBuffer = new BufferedSubscriber<MapConfig>()
@@ -76,7 +63,6 @@ export class DataService {
         this.mapsWithUrls.next(items)
       }
     })
-
 
     // Load the URLS for the markers
     let markerBuffer = new BufferedSubscriber<MarkerType>()
@@ -140,6 +126,33 @@ export class DataService {
       .subscribe(() => {
         this.ready.next(true)
       })
+  }
+
+  onLogon(user: User) {
+    // Clean up the previous subscriptions
+    this.subs.forEach(sub => {
+      sub.unsubscribe()
+    })
+    this.subs.slice(0)
+
+    // Load the data if there is a real user
+    if (user !== null && user.uid !== 'NOBODY') {
+      let sub = this.getUserInfo(user).subscribe(u => this.user.next(u))
+      this.subs.push(sub)
+      this.loadData()
+    } else {
+      this.user.next(this.NOBODY)
+    }
+
+  }
+
+  loadData() {
+    this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
+    this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
+    this.loadAndNotify<User>(this.toUser, this.users, 'users', 'Loading Users')
+    this.loadAndNotify<UserGroup>(this.toGroup, this.groups, 'groups', 'Loading User Groups')
+    this.loadAndNotify<MarkerCategory>(this.toMarkerCategory, this.markerCategories, 'markerCategories', 'Loading Marker Categories')
+    this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
   }
 
   getMarkers(mapid: string): Observable<Array<SavedMarker>> {
@@ -291,7 +304,7 @@ export class DataService {
   private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {
     this.log.debug('Base Item loadAndNotify ' + name)
 
-    this.user.pipe(
+    let sub = this.user.pipe(
       mergeMap(user => {
         if (user.uid === 'NOBODY') {
           return of([])
@@ -317,6 +330,7 @@ export class DataService {
         this.notify.showError(error, errorType)
       }
     )
+    this.subs.push(sub)
   }
 
   url(item: MapConfig | MarkerType): Observable<string> {
@@ -678,7 +692,7 @@ export class DataService {
 
   private getUserInfo(u: User): Observable<User> {
     this.log.debug("Getting User Information for " + u.uid);
-    if (u.uid == 'NOBODY') {
+    if (u == null || u.uid == 'NOBODY') {
       return of(new User())
     }
 

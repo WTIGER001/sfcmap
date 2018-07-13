@@ -1,7 +1,9 @@
-<ng-container *ngIf="user.uid!='NOBODY'">
-    <app-map></app-map>
-    <app-tabs></app-tabs>
-</ng-container>
-<ng-container *ngIf="user.uid=='NOBODY'">
-    <app-login></app-login>
-</ng-container>
+<div class="all">
+    <ng-container *ngIf="user.uid!='NOBODY'">
+        <app-map></app-map>
+        <app-tabs></app-tabs>
+    </ng-container>
+    <ng-container *ngIf="user.uid=='NOBODY'">
+        <app-login></app-login>
+    </ng-container>
+</div>

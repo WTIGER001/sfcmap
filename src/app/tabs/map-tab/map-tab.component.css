@@ -64,3 +64,7 @@
     background: #555;
     cursor: pointer;
 }
+
+.map-scroll {
+    height: calc(100vh - 110px);
+}

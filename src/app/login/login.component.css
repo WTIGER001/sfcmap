@@ -1,6 +1,7 @@
 
 .login-container {
-    background-image: url('/assets/background.jpg');
+    background-image: url('/assets/background2.jpg');
+    background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -18,12 +19,14 @@
     align-items: center;
     padding: 40px;
     background-color: rgba(56, 56, 56, .9);
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 1.3em;
+    box-shadow: 2px 2px 9px black;
 }
+
 .login button {
     margin-top: 20px;
-    width: 75%;
+    width : 240px;
     display: flex;
     color: white;
     justify-content: center

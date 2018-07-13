@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ReplaySubject, combineLatest, BehaviorSubject } from 'rxjs';
+import { ReplaySubject, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
 import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, User, AnchorPostitionChoice, Category } from './models';
 import { DataService } from './data.service';
@@ -22,7 +22,7 @@ export class MapService {
   public map = new ReplaySubject<LeafletMap>()
 
   /** Observable for the Map Config that is associated to the Leaflet map */
-  public mapConfig = new ReplaySubject<MapConfig>()
+  public mapConfig = new ReplaySubject<MapConfig | null>()
 
   /** Reference to the current users preferences */
   user: User
@@ -153,8 +153,12 @@ export class MapService {
 
     let loadGroups = this.mapConfig.pipe(
       mergeMap(mapCfg => {
-        this.mapLoad.debug("Loading Marker Groups")
-        return this.data.getCompleteMarkerGroups(mapCfg.id)
+        if (mapCfg.id != 'BAD') {
+          this.mapLoad.debug("Loading Marker Groups")
+          return this.data.getCompleteMarkerGroups(mapCfg.id)
+        } else {
+          return of([])
+        }
       }),
       map(groups => {
         this.groups = groups
@@ -167,6 +171,10 @@ export class MapService {
       const mapCfg = value[0]
       const groups = value[1]
       const prefs = value[2]
+
+      if (mapCfg.id == 'BAD') {
+        return
+      }
 
       this.mapLoad.debug(`Building Layers`)
       this.allMarkersLayer.clearLayers()
@@ -447,7 +455,14 @@ export class MapService {
    */
   setConfig(mapCfg: MapConfig) {
     this._mapCfg = mapCfg
-    this.mapConfig.next(mapCfg)
+    this.log.log("NEW CONFIG ", mapCfg)
+    if (mapCfg == null || mapCfg == undefined) {
+      let badmapCfg = new MapConfig()
+      badmapCfg.id = "BAD"
+      this.mapConfig.next(badmapCfg)
+    } else {
+      this.mapConfig.next(mapCfg)
+    }
   }
 
   /**
