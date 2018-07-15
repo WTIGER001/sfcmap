@@ -18,7 +18,7 @@
       <img src="./assets/icons/polygon.png">
     </button>
   </div>
-  <div class="buttonbar" *ngIf="edit==false">
+  <div class="buttonbar" *ngIf="edit==false && !selection.isEmpty()">
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="editstart()" placement="bottom"
       ngbTooltip="Edit the selected marker(s)">
       <fa-icon icon="pencil-alt" size="lg"></fa-icon>
@@ -48,7 +48,16 @@
   <div class="scroller scroller-dark marker-scroll">
     <ng-container *ngIf="!edit && selection.items.length>=1">
       <div class="marker-container" *ngFor="let item of selection.items">
-        <img [src]="item?._iconUrl" height="50" class="centered mt-2 iconselected">
+        <img *ngIf="type=='marker'" [src]="item?._iconUrl" height="50" class="centered mt-2 iconselected">
+
+        <div #svgholder *ngIf="type=='shape'" class="mt-2">
+          <svg #svgdisplay width="200" [viewheight]="dynamicHeight()" appViewbox [viewvalue]="viewbox()">
+
+          </svg>
+        </div>
+        <!-- <path class="leaflet-interactive" stroke="#2f3339" stroke-opacity="1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+        fill="#2f3339" fill-opacity="0.2" fill-rule="evenodd" d="M566 602L566 430L968 430L968 602z"></path> -->
+
         <h3>{{item?.name}}</h3>
         <span *ngIf="item.group" class="type">{{name(item)}}</span>
         <a href="#" class="coords" (click)="pan()">{{coords(item)}}</a>

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MapService } from '../../map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { MapConfig, MarkerGroup, MergedMapType, Selection } from '../../models';
@@ -22,6 +22,7 @@ export class MarkerTabComponent implements OnInit {
   @ViewChild('editshape') editShape: EditShapeComponent
   @ViewChild('editmarker') editMarker: EditMarkerComponent
 
+
   item: Annotation
 
   markers: Annotation
@@ -39,6 +40,14 @@ export class MarkerTabComponent implements OnInit {
   ruler: number[] = [4]
   selection: Selection = new Selection([])
   calibrateX: CalibrateX
+
+  svgelement: ElementRef
+
+  @ViewChild('svgdisplay') set content(content: ElementRef) {
+    console.log("Setting SVG DISPLAY ", content);
+    this.svgelement = content;
+    this.insertSVG()
+  }
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
@@ -66,9 +75,72 @@ export class MarkerTabComponent implements OnInit {
     })
   }
 
+
+
   pan() {
     if (this.item !== undefined) {
       this.mapSvc.panTo(this.item.center())
+    }
+  }
+
+  viewbox() {
+    if (ShapeAnnotation.is(this.item)) {
+      let d = this.item.asItem().getElement().getAttribute("d")
+      let mod = d.replace(/[^0-9]+/g, " ").trim()
+      let parts = mod.split(" ")
+
+      let minX: number = parseInt(parts[0])
+      let maxX: number = parseInt(parts[0])
+      let minY: number = parseInt(parts[1])
+      let maxY: number = parseInt(parts[1])
+      for (let i = 2; i < parts.length; i += 2) {
+        let x: number = parseInt(parts[i])
+        let y: number = parseInt(parts[i + 1])
+        maxX = Math.max(x, maxX)
+        maxY = Math.max(y, maxY)
+        minX = Math.min(x, minX)
+        minY = Math.min(y, minY)
+      }
+      let result = minX + " " + minY + " " + (maxX - minX) + " " + (maxY - minY)
+      console.log("VIEWBOX ", d, mod, parts, result);
+      return result
+    }
+    return "0 0 200 100"
+  }
+
+  dynamicHeight() {
+    if (ShapeAnnotation.is(this.item)) {
+      let d = this.item.asItem().getElement().getAttribute("d")
+      let mod = d.replace(/[^0-9]+/g, " ").trim()
+      let parts = mod.split(" ")
+
+      let minX: number = parseInt(parts[0])
+      let maxX: number = parseInt(parts[0])
+      let minY: number = parseInt(parts[1])
+      let maxY: number = parseInt(parts[1])
+      for (let i = 2; i < parts.length; i += 2) {
+        let x: number = parseInt(parts[i])
+        let y: number = parseInt(parts[i + 1])
+        maxX = Math.max(x, maxX)
+        maxY = Math.max(y, maxY)
+        minX = Math.min(x, minX)
+        minY = Math.min(y, minY)
+      }
+      let deltaX = (maxX - minX)
+      let deltaY = (maxY - minY)
+      let aspect = deltaY / deltaX
+      return Math.min(200 * aspect, 150)
+    }
+    return 100
+  }
+
+  private insertSVG() {
+    if (this.item && ShapeAnnotation.is(this.item)) {
+      let element = this.item.asItem().getElement()
+      let el = this.svgelement.nativeElement
+
+      let copy = element.cloneNode(true)
+      el.appendChild(copy)
     }
   }
 
@@ -84,18 +156,6 @@ export class MarkerTabComponent implements OnInit {
   }
 
   public newMarker() {
-    // let s = new MarkerTypeAnnotation()
-    // let shp = this.mapSvc._map.editTools.startMarker()
-    // s.setAttachment(shp)
-
-    // s.id = UUID.UUID().toString()
-    // s.map = this.map.id
-    // s.copyOptionsFromShape()
-
-    // this.item = s
-    // this.edit = true
-    // this.type = 'marker'
-
     let m = this.mapSvc.newTempMarker()
     this.processSelection(new Selection([m]))
     this.restricted = false
@@ -105,6 +165,7 @@ export class MarkerTabComponent implements OnInit {
 
   public newPolyline() {
     let s = new ShapeAnnotation('polyline')
+    s.name = "New Polyline"
     let shp = this.mapSvc._map.editTools.startPolyline()
     s.setAttachment(shp)
     this.completeShape(s)
@@ -112,6 +173,7 @@ export class MarkerTabComponent implements OnInit {
 
   public newCircle() {
     let s = new ShapeAnnotation('circle')
+    s.name = "New Circle"
     let shp = this.mapSvc._map.editTools.startCircle()
     s.setAttachment(shp)
     this.completeShape(s)
@@ -119,15 +181,15 @@ export class MarkerTabComponent implements OnInit {
 
   public newRectangle() {
     let s = new ShapeAnnotation('rectangle')
+    s.name = "New Rectangle"
     let shp = this.mapSvc._map.editTools.startRectangle()
     s.setAttachment(shp)
     this.completeShape(s)
-    console.log("CREATED ", s);
-
   }
 
   public newPolygon() {
     let s = new ShapeAnnotation('polygon')
+    s.name = "New Polygon"
     let shp = this.mapSvc._map.editTools.startPolygon();
     s.setAttachment(shp)
     this.completeShape(s)
@@ -187,7 +249,7 @@ export class MarkerTabComponent implements OnInit {
     if (ShapeAnnotation.is(this.item)) {
       this.item.asItem().disableEdit()
     }
-    this.mapSvc.newMarkersLayer.clearLayers()
+    this.item.getAttachment().remove()
 
     if (this.item.id == "TEMP") {
       this.processSelection(new Selection([]))
@@ -322,6 +384,12 @@ export class MarkerTabComponent implements OnInit {
     this.item = this.firstAnnotation()
     if (this.item) {
       this.markers = this.item
+      if (MarkerTypeAnnotation.is(this.item)) {
+        this.type = 'marker'
+      }
+      if (ShapeAnnotation.is(this.item)) {
+        this.type = 'shape'
+      }
     }
     this.edit = false
   }

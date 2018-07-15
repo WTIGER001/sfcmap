@@ -59,6 +59,7 @@ import { LineStyleComponent } from './controls/line-style/line-style.component';
 import { EditShapeComponent } from './controls/edit-shape/edit-shape.component';
 import { EditLineComponent } from './controls/edit-line/edit-line.component';
 import { EditMarkerComponent } from './controls/edit-marker/edit-marker.component';
+import { ViewboxDirective } from './controls/viewbox.directive';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { EditMarkerComponent } from './controls/edit-marker/edit-marker.componen
     EditShapeComponent,
     EditLineComponent,
     EditMarkerComponent,
+    ViewboxDirective,
   ],
   imports: [
     BrowserModule,
