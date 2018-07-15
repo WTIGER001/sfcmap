@@ -277,7 +277,6 @@ export class MarkerTabComponent implements OnInit {
   }
 
   private processSelection(newSelection: Selection) {
-    console.log("SELECTION ", newSelection);
     this.disableDragging()
     this.selection = newSelection
     this.restricted = this.isRestricted()
@@ -285,7 +284,6 @@ export class MarkerTabComponent implements OnInit {
     if (this.item) {
       this.markers = this.item
     }
-
     this.edit = false
   }
 

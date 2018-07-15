@@ -198,8 +198,6 @@ export class DataService {
         if (uncat.annotations.length > 0) {
           groups.push(uncat)
         }
-        console.log("MADE GROUPS : ", groups);
-
         return groups
       })
     )
@@ -379,8 +377,7 @@ export class DataService {
       Object.assign(me, item)
       return me
     }
-
-    console.log("AHH CRAAAPPP ", item)
+    throw new Error("Invalid Annotation")
   }
 
   private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {

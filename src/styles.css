@@ -48,7 +48,9 @@ body {
 /*  Scrollbars
     -------------------*/
 .scroller {
-    overflow: auto;
+    /* overflow: auto; */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .scroller-dark::-webkit-scrollbar-track

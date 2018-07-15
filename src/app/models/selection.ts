@@ -3,7 +3,6 @@ export class Selection {
     public static readonly MARKER = 'marker'
 
     constructor(public items: any[], public type?: string) {
-        console.log("Created Select of " + this.items.length);
     }
 
     public get first(): any {
@@ -15,18 +14,12 @@ export class Selection {
     toggle(...objs): Selection {
         let myItems = this.items.slice(0)
         objs.forEach(item => {
-            console.log("Looking at ", item.name);
-
             if (myItems.includes[item]) {
                 let i = myItems.indexOf(item)
                 myItems = myItems.splice(i, 1)
             } else {
                 myItems.push(item)
             }
-        })
-
-        myItems.forEach(i => {
-            console.log("In selection ", i.name);
         })
 
         return new Selection([])

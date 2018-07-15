@@ -8,6 +8,7 @@ import { MapConfig, MarkerGroup, User, MapPrefs, Annotation } from '../../models
 import { DataService } from '../../data.service';
 import { combineLatest, of } from 'rxjs';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-layers-tab',
@@ -56,7 +57,6 @@ export class LayersTabComponent implements OnInit {
       })
     )
 
-
     combineLatest(prefObs, allObs, mapObs)
       .subscribe((result) => {
         let mapCfg = result[2]
@@ -87,34 +87,25 @@ export class LayersTabComponent implements OnInit {
   }
 
   isFeatureGroup(item: any): item is LayerGroup {
-    console.log(item);
-
     return item.eachLayer
   }
 
   groupCheckChange($event) {
-    console.log($event);
     // this.shownGroups = $event
     if (this.prefs) {
       let mPrefs = this.prefs.getMapPref(this.mapConfig.id)
       mPrefs.hiddenGroups = $event
-      console.log("Hidden Groups")
-      console.log(mPrefs.hiddenGroups);
       this.data.save(this.prefs)
     }
   }
 
   markerCheckChange($event) {
-    console.log($event);
-
     if (this.prefs) {
       if (!this.prefs.maps) {
         this.prefs.maps = new Map<string, MapPrefs>()
       }
       let mPrefs = this.prefs.getMapPref(this.mapConfig.id)
       mPrefs.hiddenMarkers = $event
-      console.log("Hidden Markers")
-      console.log(mPrefs.hiddenMarkers);
       this.data.save(this.prefs)
     }
   }

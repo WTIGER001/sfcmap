@@ -57,7 +57,6 @@ export abstract class Annotation implements IObjectType {
     toLeaflet(iconCache: IconZoomLevelCache): any {
         if (!this._leafletAttachment) {
             this._leafletAttachment = this.createLeafletAttachment(iconCache)
-            console.log("_leafletAttachment ", this._leafletAttachment);
             this._leafletAttachment.objAttach = this
         }
         return this._leafletAttachment
@@ -102,7 +101,6 @@ export class MarkerTypeAnnotation extends Annotation {
     }
 
     copyPoints() {
-        console.log("COPY POINTS ", this.toMarker().getLatLng());
         let ll = this.toMarker().getLatLng()
         this.points = [ll]
     }
@@ -113,8 +111,6 @@ export class MarkerTypeAnnotation extends Annotation {
 
     options(iconCache: IconZoomLevelCache): MarkerOptions {
         let icn = iconCache.getAnyIcon(this.markerType)
-        console.log("ICON ", icn);
-
         return {
             icon: icn
         }
@@ -342,9 +338,6 @@ export class ShapeAnnotation extends Annotation {
             opts.fillColor = LangUtil.baseColor(this.fillColor)
             opts.fillOpacity = LangUtil.colorAlpha(this.fillColor)
         }
-
-        console.log("OPTIONS ", opts);
-
         return opts
     }
 

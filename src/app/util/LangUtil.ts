@@ -37,7 +37,6 @@ export class LangUtil {
         // LangUtil.removeTransients(copy)
         LangUtil.removeTransients(copy)
         LangUtil.clean(copy)
-        console.log("TO SAVE ", copy);
 
         return copy
     }

@@ -103,7 +103,7 @@ export class MapService {
   markerZoomLog: Debugger
 
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService) {
-    this.log = this.notify.newDebugger()
+    this.log = this.notify.newDebugger('Map')
     this.mapLoad = this.notify.newDebugger('Map Loading')
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
 
@@ -179,7 +179,6 @@ export class MapService {
       const mapCfg = value[0]
       const groups = value[1]
       const user = value[2]
-      console.log("combineLatest");
 
       if (mapCfg.id == 'BAD') {
         return
@@ -222,12 +221,10 @@ export class MapService {
         grp.annotations.forEach(annotation => {
           if (!user.isHiddenMarker(mapCfg.id, annotation.id)) {
             // Create and bind the leaflet type
-            console.log("ADDING ITEM ", annotation.name);
             let item = annotation.toLeaflet(this.iconCache)
             item['title'] = annotation.name
 
             item.addTo(lGroup)
-            console.log("ADDED LEAFLET ITEM TO GROUP");
           }
         })
       }
@@ -366,12 +363,9 @@ export class MapService {
   private onAnnotationClick(event: any) {
 
     this.zone.run(() => {
-      this.log.debug("EVENT, ", event, event.target, event.layer)
       const leafletItem = event.layer
-      console.log("CLICKED ON ", leafletItem);
-      console.log("ELEMENT ", leafletItem.getElement())
+      console.log("CLICKED ON ", leafletItem.getElement())
       this.printLayers()
-
 
       const annotation = <Annotation>leafletItem.objAttach
       if (event.originalEvent.ctrlKey) {
@@ -393,7 +387,6 @@ export class MapService {
    */
   public newTempMarker(latlng?: LatLng): MarkerTypeAnnotation {
     let markerTypeId = this.getDefaultMarker(this._mapCfg)
-    console.log("markerTypeId: ", markerTypeId);
 
     let point = latlng
     if (latlng == undefined || latlng.lat == undefined) {
@@ -408,7 +401,6 @@ export class MapService {
     m.map = this._mapCfg.id
 
     let leafletMarker: Marker = m.toLeaflet(this.iconCache)
-    console.log("MARKER ", leafletMarker)
     leafletMarker.addTo(this.newMarkersLayer)
 
     return m
@@ -481,7 +473,6 @@ export class MapService {
     let old = this.selection.getValue()
     let allItems = old.items.slice(0)
     items.forEach(item => {
-      console.log("Looking at ", item.name);
       let indx = allItems.findIndex(i => item.id == i.id)
       if (indx >= 0) {
         allItems.splice(indx, 1)
@@ -587,7 +578,7 @@ export class MapService {
 }
 
 class Node {
-  depth: number = 1
+  depth: number = 0
   title: string
   parent: Node
   children: Node[] = []

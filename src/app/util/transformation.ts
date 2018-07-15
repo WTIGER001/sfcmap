@@ -46,8 +46,6 @@ export class Trans {
     public static computeFactor(mapCfp: MapConfig): number {
         let factor = 1
         if (mapCfp.ppm && mapCfp.ppm != 0) {
-            console.log("PPM ", mapCfp.ppm);
-
             return mapCfp.ppm
         }
         return factor
