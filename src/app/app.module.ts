@@ -60,6 +60,7 @@ import { EditShapeComponent } from './controls/edit-shape/edit-shape.component';
 import { EditLineComponent } from './controls/edit-line/edit-line.component';
 import { EditMarkerComponent } from './controls/edit-marker/edit-marker.component';
 import { ViewboxDirective } from './controls/viewbox.directive';
+import { SvgboxComponent } from './controls/svgbox/svgbox.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { ViewboxDirective } from './controls/viewbox.directive';
     EditLineComponent,
     EditMarkerComponent,
     ViewboxDirective,
+    SvgboxComponent,
   ],
   imports: [
     BrowserModule,

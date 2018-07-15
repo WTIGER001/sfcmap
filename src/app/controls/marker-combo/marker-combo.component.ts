@@ -17,6 +17,7 @@ import { DataService } from '../../data.service';
 export class MarkerComboComponent implements ControlValueAccessor {
   _map: MapConfig
   _mapType: MapType
+  _mapId: string
   selected: MarkerType
   private innerValue
   private changed = [];
@@ -31,6 +32,11 @@ export class MarkerComboComponent implements ControlValueAccessor {
 
   }
 
+  @Input() set mapId(mapId: string) {
+    this._mapId = mapId
+    this.refresh()
+  }
+
   @Input() set map(m: MapConfig) {
     this._map = m
     this.refresh()
@@ -39,6 +45,10 @@ export class MarkerComboComponent implements ControlValueAccessor {
   @Input() set mapType(m: MapType) {
     this._mapType = m
     this.refresh()
+  }
+
+  get mapId(): string {
+    return this._mapId
   }
 
   get map(): MapConfig {
@@ -51,6 +61,8 @@ export class MarkerComboComponent implements ControlValueAccessor {
 
   ngOnInit(): void {
     this.data.categories.subscribe(categories => {
+      console.log("All CATEGORIES: ", categories);
+
       this.all = categories
       this.refresh()
     })
@@ -58,11 +70,15 @@ export class MarkerComboComponent implements ControlValueAccessor {
 
   refresh() {
     let mapTypeId = ''
-    if (this.map) {
+    if (this.mapId) {
+      mapTypeId = this.mapId
+    } else if (this.map) {
       mapTypeId = this.map.mapType
     } else if (this.mapType) {
       mapTypeId = this.mapType.id
     }
+
+    console.log("MAP TYPE ID: ", mapTypeId);
     if (this.innerValue) {
       this.selected = this.mapSvc.getMarkerType(this.innerValue)
     }

@@ -27,27 +27,23 @@ export class MarkerTabComponent implements OnInit {
 
   markers: Annotation
 
-  type = 'shape'
-
   edit = false
   map: MapConfig
-  categories = []
+
+  // categories = []
+
   groups: MarkerGroup[] = []
-  ready = new Map<string, boolean>()
+
+  // ready = new Map<string, boolean>()
+
   restricted = false
+
   merged: MergedMapType[] = []
   leafletMap: LeafletMap
   ruler: number[] = [4]
   selection: Selection = new Selection([])
+
   calibrateX: CalibrateX
-
-  svgelement: ElementRef
-
-  @ViewChild('svgdisplay') set content(content: ElementRef) {
-    console.log("Setting SVG DISPLAY ", content);
-    this.svgelement = content;
-    this.insertSVG()
-  }
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
@@ -65,17 +61,15 @@ export class MarkerTabComponent implements OnInit {
       this.processSelection(sel)
     })
 
-    // Get Data
+    // Needed for name resolution
     this.mapSvc.completeMarkerGroups.subscribe(
       groups => this.groups = groups
     )
 
-    this.data.categories.subscribe(categories => {
-      this.categories = categories
-    })
+    // this.data.categories.subscribe(categories => {
+    //   this.categories = categories
+    // })
   }
-
-
 
   pan() {
     if (this.item !== undefined) {
@@ -83,65 +77,17 @@ export class MarkerTabComponent implements OnInit {
     }
   }
 
-  viewbox() {
-    if (ShapeAnnotation.is(this.item)) {
-      let d = this.item.asItem().getElement().getAttribute("d")
-      let mod = d.replace(/[^0-9]+/g, " ").trim()
-      let parts = mod.split(" ")
-
-      let minX: number = parseInt(parts[0])
-      let maxX: number = parseInt(parts[0])
-      let minY: number = parseInt(parts[1])
-      let maxY: number = parseInt(parts[1])
-      for (let i = 2; i < parts.length; i += 2) {
-        let x: number = parseInt(parts[i])
-        let y: number = parseInt(parts[i + 1])
-        maxX = Math.max(x, maxX)
-        maxY = Math.max(y, maxY)
-        minX = Math.min(x, minX)
-        minY = Math.min(y, minY)
-      }
-      let result = minX + " " + minY + " " + (maxX - minX) + " " + (maxY - minY)
-      console.log("VIEWBOX ", d, mod, parts, result);
-      return result
+  public itemType(item: Annotation): string {
+    if (ShapeAnnotation.is(item)) {
+      return 'shape'
     }
-    return "0 0 200 100"
-  }
-
-  dynamicHeight() {
-    if (ShapeAnnotation.is(this.item)) {
-      let d = this.item.asItem().getElement().getAttribute("d")
-      let mod = d.replace(/[^0-9]+/g, " ").trim()
-      let parts = mod.split(" ")
-
-      let minX: number = parseInt(parts[0])
-      let maxX: number = parseInt(parts[0])
-      let minY: number = parseInt(parts[1])
-      let maxY: number = parseInt(parts[1])
-      for (let i = 2; i < parts.length; i += 2) {
-        let x: number = parseInt(parts[i])
-        let y: number = parseInt(parts[i + 1])
-        maxX = Math.max(x, maxX)
-        maxY = Math.max(y, maxY)
-        minX = Math.min(x, minX)
-        minY = Math.min(y, minY)
-      }
-      let deltaX = (maxX - minX)
-      let deltaY = (maxY - minY)
-      let aspect = deltaY / deltaX
-      return Math.min(200 * aspect, 150)
+    if (MarkerTypeAnnotation.is(item)) {
+      return 'marker'
     }
-    return 100
-  }
-
-  private insertSVG() {
-    if (this.item && ShapeAnnotation.is(this.item)) {
-      let element = this.item.asItem().getElement()
-      let el = this.svgelement.nativeElement
-
-      let copy = element.cloneNode(true)
-      el.appendChild(copy)
+    if (ImageAnnotation.is(item)) {
+      return 'image'
     }
+    throw new Error("Invalid Item")
   }
 
   private isMouseEvent(event: any): event is LeafletMouseEvent {
@@ -160,7 +106,6 @@ export class MarkerTabComponent implements OnInit {
     this.processSelection(new Selection([m]))
     this.restricted = false
     this.editstart()
-    this.type = 'marker'
   }
 
   public newPolyline() {
@@ -202,7 +147,6 @@ export class MarkerTabComponent implements OnInit {
 
     this.item = s
     this.edit = true
-    this.type = 'shape'
   }
 
   name(m: Annotation): string {
@@ -223,24 +167,10 @@ export class MarkerTabComponent implements OnInit {
   }
 
   public editstart() {
-    console.log("Edit Start - 1");
     if (this.item !== undefined) {
       this.edit = true
-      console.log("Edit Start - 2");
       this.enableDragging()
-      console.log("Edit Start - 3");
-      if (ShapeAnnotation.is(this.item)) {
-        this.item.asItem().enableEdit()
-        this.type = 'shape'
-      }
-      if (MarkerTypeAnnotation.is(this.item)) {
-        this.type = 'marker'
-      }
-      if (ImageAnnotation.is(this.item)) {
-        this.type = 'image'
-      }
     }
-    console.log("Edit Start - 4");
   }
 
   public cancel() {
@@ -249,9 +179,9 @@ export class MarkerTabComponent implements OnInit {
     if (ShapeAnnotation.is(this.item)) {
       this.item.asItem().disableEdit()
     }
-    this.item.getAttachment().remove()
 
     if (this.item.id == "TEMP") {
+      this.item.getAttachment().remove()
       this.processSelection(new Selection([]))
     }
   }
@@ -259,58 +189,28 @@ export class MarkerTabComponent implements OnInit {
   public save() {
     this.edit = false
     this.disableDragging()
-
-    if (this.type == 'marker') {
-      this.saveMarker()
-    } else if (this.type == 'shape') {
-      this.saveShape()
-    }
-
-    this.mapSvc.newMarkersLayer.clearLayers()
+    this.selection.items.forEach(m => {
+      this.saveItem(m)
+    })
   }
 
-  private saveShape() {
+  private saveItem(item: ShapeAnnotation) {
     // Update the Group 
-    let typeId = this.getGroupOrCreateId(this.item.group)
-    this.item.group = typeId
+    let typeId = this.getGroupOrCreateId(item.group)
+    item.group = typeId
 
     // Disable the editing and dragging
-    this.item.getAttachment().disableEdit()
-    this.item.getAttachment().dragging.disable()
+    item.getAttachment().disableEdit()
+    item.getAttachment().dragging.disable()
 
     // Copy the points that could have been updated while the user was dragging
-    this.item.copyPoints()
+    item.copyPoints()
 
     // Save the shape
-    this.editShape.save()
+    // this.editShape.save()
+    this.mapSvc.saveAnnotation(item)
 
     // Clear the temporary shape
-    this.mapSvc.newMarkersLayer.clearLayers()
-  }
-
-  private saveMarker() {
-    if (this.selection.items.length > 1) {
-      // Find and create the markergroup if needed
-      let typeId = this.getGroupOrCreateId(this.markers.group)
-
-      // Apply the changes to each
-      this.selection.items.forEach(m => {
-        if (Annotation.is(m)) {
-          m.group = typeId
-          if (MarkerTypeAnnotation.is(m)) {
-            // m.markerType =  this.markers.m
-          }
-          this.mapSvc.saveAnnotation(m)
-        }
-      })
-    } else {
-      let typeId = this.getGroupOrCreateId(this.item.group)
-      this.item.group = typeId
-      this.item.copyPoints()
-
-      this.mapSvc.saveAnnotation(this.item)
-    }
-
     this.mapSvc.newMarkersLayer.clearLayers()
   }
 
@@ -384,14 +284,17 @@ export class MarkerTabComponent implements OnInit {
     this.item = this.firstAnnotation()
     if (this.item) {
       this.markers = this.item
-      if (MarkerTypeAnnotation.is(this.item)) {
-        this.type = 'marker'
-      }
-      if (ShapeAnnotation.is(this.item)) {
-        this.type = 'shape'
-      }
     }
+
     this.edit = false
+  }
+
+  private types(): string {
+    const all = new Map<string, boolean>()
+    const myTypes: string[] = []
+    this.selection.items.forEach(i => all.set(this.itemType(i), true))
+    all.forEach((v, k) => myTypes.push(k))
+    return myTypes.join("|")
   }
 
   private firstAnnotation(): Annotation {
@@ -408,21 +311,25 @@ export class MarkerTabComponent implements OnInit {
 
   private disableDragging() {
     this.selection.items.forEach(m => {
-      if (m.dragging) {
-        m.dragging.disable()
+      let annotation = <Annotation>m
+      let leafletAttachment = annotation.getAttachment()
+      if (leafletAttachment.dragging) {
+        leafletAttachment.dragging.disable()
+      }
+      if (ShapeAnnotation.is(m)) {
+        this.item.getAttachment().disableEdit()
       }
     })
   }
 
   private enableDragging() {
-    console.log("DRAGGING: ", this.selection);
-
     this.selection.items.forEach(m => {
-      console.log("ENABLE DRAGGING: ", m);
       let annotation = <Annotation>m
-      let leafletAttachment = annotation.getAttachment()
-      if (leafletAttachment.dragging) {
-        leafletAttachment.dragging.enable()
+      if (annotation.getAttachment().dragging) {
+        annotation.getAttachment().dragging.enable()
+      }
+      if (ShapeAnnotation.is(m)) {
+        m.getAttachment().enableEdit()
       }
     })
   }

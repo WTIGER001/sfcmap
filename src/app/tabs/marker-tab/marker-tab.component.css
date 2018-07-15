@@ -116,3 +116,10 @@ label.small {
 .marker-container a:hover {
     color: grey
 }
+
+.svghighlight path {
+    fill: white;
+    fill-opacity:1;
+    stroke: white;
+    stroke-opacity:"1"
+}

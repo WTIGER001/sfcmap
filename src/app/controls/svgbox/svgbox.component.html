@@ -1,0 +1,10 @@
+<svg #svgholder width="200" [viewheight]="dynamicHeight()" appViewbox [viewvalue]="viewbox()">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow _ngcontent-c5="" dx="0" dy="0" flood-color="white" flood-opacity="1" stdDeviation="5"></feDropShadow>
+    </filter>
+  </defs>
+  <g #svgdisplay class="svghighlight" style="filter:url(#shadow);">
+
+  </g>
+</svg>

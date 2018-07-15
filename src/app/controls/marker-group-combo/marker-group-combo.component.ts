@@ -50,7 +50,6 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
     return this.mks
   }
 
-
   onTextChange($event) {
     console.log($event);
     this.value = event.target['value']

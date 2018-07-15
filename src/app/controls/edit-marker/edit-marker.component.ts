@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MarkerTypeAnnotation } from '../../models';
+import { MarkerTypeAnnotation, MapConfig } from '../../models';
 
 @Component({
   selector: 'app-edit-marker',
@@ -7,6 +7,9 @@ import { MarkerTypeAnnotation } from '../../models';
   styleUrls: ['./edit-marker.component.css']
 })
 export class EditMarkerComponent {
+  @Input()
+  map: MapConfig
+
   @Input()
   marker: MarkerTypeAnnotation
 

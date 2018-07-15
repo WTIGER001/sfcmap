@@ -46,17 +46,14 @@
   </div>
 
   <div class="scroller scroller-dark marker-scroll">
+    <!-- Display and Item -->
     <ng-container *ngIf="!edit && selection.items.length>=1">
       <div class="marker-container" *ngFor="let item of selection.items">
-        <img *ngIf="type=='marker'" [src]="item?._iconUrl" height="50" class="centered mt-2 iconselected">
+        <img *ngIf="itemType(item)=='marker'" [src]="item?._iconUrl" height="40" class="centered mt-2 iconselected">
 
-        <div #svgholder *ngIf="type=='shape'" class="mt-2">
-          <svg #svgdisplay width="200" [viewheight]="dynamicHeight()" appViewbox [viewvalue]="viewbox()">
-
-          </svg>
+        <div *ngIf="itemType(item)=='shape'" class="mt-2">
+          <app-svgbox [shape]="item" [maxheight]="100" [padding]="10"></app-svgbox>
         </div>
-        <!-- <path class="leaflet-interactive" stroke="#2f3339" stroke-opacity="1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-        fill="#2f3339" fill-opacity="0.2" fill-rule="evenodd" d="M566 602L566 430L968 430L968 602z"></path> -->
 
         <h3>{{item?.name}}</h3>
         <span *ngIf="item.group" class="type">{{name(item)}}</span>
@@ -70,12 +67,17 @@
     </ng-container>
 
     <!-- Edit of a single marker -->
-    <div *ngIf="edit && type=='marker' && selection.items.length==1">
-      <app-edit-marker [marker]="item"></app-edit-marker>
+    <div *ngIf="edit && itemType(item)=='marker' && selection.items.length==1">
+      <app-edit-marker [marker]="item" [map]="map"></app-edit-marker>
+    </div>
+
+    <!-- Edit a single shape -->
+    <div *ngIf="edit && itemType(item) == 'shape' && selection.items.length == 1">
+      <app-edit-shape #editshape [shape]='item'></app-edit-shape>
     </div>
 
     <!-- Edit of multiple markers -->
-    <div *ngIf="edit && type=='marker'&& selection.items.length > 1">
+    <div *ngIf="edit && types()=='marker' && selection.items.length > 1">
       <div class="form-group">
         <label for="type" class="small">Type</label>
         <app-marker-combo [(ngModel)]="markers.type" [map]="map" (change)="updateMuliEdit()"></app-marker-combo>
@@ -86,9 +88,11 @@
       </div>
     </div>
 
-    <!-- Edit of multiple markers -->
-    <div *ngIf="edit && type=='shape'">
-      <app-edit-shape #editshape [shape]='item'></app-edit-shape>
+    <div *ngIf="edit && types()!='marker' && selection.items.length > 1">
+      <div class="form-group">
+        <label for="type" class="small">Group</label>
+        <app-marker-group-combo [(ngModel)]="markers.group" [annotation]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
+      </div>
     </div>
   </div>
 </div>
