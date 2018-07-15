@@ -287,7 +287,7 @@ export class MarkerTabComponent implements OnInit {
     this.edit = false
   }
 
-  private types(): string {
+  public types(): string {
     const all = new Map<string, boolean>()
     const myTypes: string[] = []
     this.selection.items.forEach(i => all.set(this.itemType(i), true))

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MarkerTypeAnnotation, MapConfig } from '../../models';
+import { MarkerTypeAnnotation, MapConfig, MergedMapType } from '../../models';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-edit-marker',
@@ -15,7 +16,13 @@ export class EditMarkerComponent {
 
   @Output() changes = new EventEmitter<MarkerTypeAnnotation>()
 
-  constructor() { }
+  merged: MergedMapType[] = []
+
+  constructor(private data: DataService) {
+    this.data.mapTypesWithMaps.subscribe(items => {
+      this.merged = items
+    })
+  }
 
   save() {
 
