@@ -2,7 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MapConfig, MarkerGroup } from '../../models';
 import { DataService } from '../../data.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MyMarker } from '../../map.service';
+import { Annotation } from '../../models';
+import { MapService } from '../../map.service';
+// import { MyMarker } from '../../map.service';
 
 @Component({
   selector: 'app-marker-group-combo',
@@ -14,8 +16,8 @@ import { MyMarker } from '../../map.service';
 })
 export class MarkerGroupComboComponent implements ControlValueAccessor {
   selected: MarkerGroup
-  mk: MyMarker
-  mks: MyMarker[]
+  single: Annotation
+  mks: Annotation[]
   private innerValue: string
   private changed = [];
   private touched = [];
@@ -24,27 +26,27 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   all: MarkerGroup[] = []
   options = []
 
-  constructor(private data: DataService) {
+  constructor(private data: DataService, private mapSvc: MapService) {
 
   }
 
-  @Input() set marker(m: MyMarker) {
-    this.mk = m
-    this.innerValue = m.markerGroup
+  @Input() set annotation(m: Annotation) {
+    this.single = m
+    this.innerValue = m.group
     this.refresh()
   }
 
-  get marker(): MyMarker {
-    return this.mk
+  get annotation(): Annotation {
+    return this.single
   }
 
-  @Input() set markers(m: MyMarker[]) {
+  @Input() set annotations(m: Annotation[]) {
     this.mks = m
-    this.innerValue = m[0].markerGroup
+    this.innerValue = m[0].group
     this.refresh()
   }
 
-  get markers(): MyMarker[] {
+  get annotations(): Annotation[] {
     return this.mks
   }
 
@@ -55,7 +57,7 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   }
 
   refresh() {
-    this.data.getCompleteMarkerGroups(this.marker.map)
+    this.mapSvc.completeMarkerGroups
       .subscribe(v => {
         this.all = v
         if (this.innerValue) {

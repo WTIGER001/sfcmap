@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { MapService, MyMarker } from '../map.service';
-import { MapConfig } from '../models';
+import { MapService } from '../map.service';
+import { MapConfig, Annotation } from '../models';
 
 @Component({
   selector: 'app-tabs',
@@ -16,7 +16,7 @@ export class TabsComponent implements OnInit {
       if (sel.isEmpty()) {
 
       } else {
-        if (MyMarker.is(sel.first)) {
+        if (Annotation.is(sel.first)) {
           this.expanded = true
           this.selected = 'marker'
         }

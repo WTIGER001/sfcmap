@@ -1,0 +1,10 @@
+<div ngbDropdown placement="bottom-right">
+  <button #selectedbutton class="btn btn-outline-secondary px-3 wide" id="ddWeight" ngbDropdownToggle>
+    <img [src]="getSelectedImage()">
+  </button>
+  <div ngbDropdownMenu class="icon-dropdown" aria-labelledby="ddWeight" boundary="viewport">
+    <button *ngFor="let t of weights; let i = index" class="dropdown-item btn-sm center px-2" placement="bottom" (click)="select(i)">
+      <img [src]="getImage(i)">
+    </button>
+  </div>
+</div>

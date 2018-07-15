@@ -14,9 +14,9 @@ export const environment = {
   },
   logLevel: 'DEBUG',
   logCategories: [
-    'Map Loading',
-    'Notify',
-    'Data'
+    // 'Map Loading',
+    // 'Notify',
+    // 'Data'
   ]
 
 };

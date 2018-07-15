@@ -1,10 +1,24 @@
 <div class="white">
-  <h1>Markers</h1>
+  <h1>Annotations</h1>
 
   <div class="buttonbar" *ngIf="edit==false">
     <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a new marker">
-      <fa-icon icon="plus" size="lg"></fa-icon>
+      <fa-icon icon="map-marker-alt" size="lg"></fa-icon>
     </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="newPolyline()" placement="bottom" ngbTooltip="Create a new line">
+      <img src="./assets/icons/polyline.png">
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="newRectangle()" placement="bottom" ngbTooltip="Create a new rectangle">
+      <img src="./assets/icons/rectangle.png">
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="newCircle()" placement="bottom" ngbTooltip="Create a new circle">
+      <img src="./assets/icons/circle.png">
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="newPolygon()" placement="bottom" ngbTooltip="Create a new polygon">
+      <img src="./assets/icons/polygon.png">
+    </button>
+  </div>
+  <div class="buttonbar" *ngIf="edit==false">
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="editstart()" placement="bottom"
       ngbTooltip="Edit the selected marker(s)">
       <fa-icon icon="pencil-alt" size="lg"></fa-icon>
@@ -16,6 +30,9 @@
     </button>
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected marker(s)">
       <fa-icon icon="trash-alt" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="deselect()" placement="bottom" ngbTooltip="Deselect Items">
+      <fa-icon icon="times" size="lg"></fa-icon>
     </button>
   </div>
 
@@ -29,58 +46,40 @@
   </div>
 
   <div class="scroller scroller-dark marker-scroll">
-    <ng-container *ngIf="!edit">
-      <div class="marker-container" *ngFor="let marker of selection.items">
-        <img [src]="marker?.iconUrl" height="50" class="centered mt-2 iconselected">
-        <h3>{{marker?.name}}</h3>
-        <span *ngIf="marker.markerGroup" class="type">{{name(marker)}}</span>
-        <a href="#" class="coords" (click)="pan()">{{coords(marker)}}</a>
-        <a *ngIf="marker.pageUrl" [href]="marker.pageurl" target="_blank">
+    <ng-container *ngIf="!edit && selection.items.length>=1">
+      <div class="marker-container" *ngFor="let item of selection.items">
+        <img [src]="item?._iconUrl" height="50" class="centered mt-2 iconselected">
+        <h3>{{item?.name}}</h3>
+        <span *ngIf="item.group" class="type">{{name(item)}}</span>
+        <a href="#" class="coords" (click)="pan()">{{coords(item)}}</a>
+        <a *ngIf="item.pageUrl" [href]="item.pageurl" target="_blank">
           <fa-icon icon="globe"></fa-icon> Open Web Link</a>
-        <a *ngIf="marker.mapLink" href="#" (click)="openLinkedMap()">
+        <a *ngIf="item.mapLink" href="#" (click)="openLinkedMap()">
           <fa-icon icon="map"></fa-icon> Open Linked Map</a>
-        <app-readmore class="text-muted mb-2 description" *ngIf="marker.description" [value]="marker.description"></app-readmore>
+        <app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>
       </div>
     </ng-container>
+
     <!-- Edit of a single marker -->
-    <div *ngIf="edit && selection.items.length==1">
-      <img [src]="marker?.iconUrl" class="centered mt-4 iconselected">
-      <div class="form-group">
-        <label for="name" class="small">Name</label>
-        <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Marker Name" [(ngModel)]="marker.name">
-      </div>
-      <div class="form-group">
-        <label for="type" class="small">Type</label>
-        <app-marker-combo [(ngModel)]="marker.type" [map]="map"></app-marker-combo>
-      </div>
-      <div class="form-group">
-        <label for="type" class="small">Group</label>
-        <app-marker-group-combo [(ngModel)]="marker.markerGroup" [marker]="marker"></app-marker-group-combo>
-      </div>
-      <div class="form-group">
-        <label for="mapLink" class="small">Map Link</label>
-        <select class="form-control" id="mapLink" [(ngModel)]="marker.mapLink">
-          <optgroup *ngFor="let mt of merged" [label]="mt.name">
-            <option *ngFor="let map of mt.maps" [value]="map.id">{{map.name}}</option>
-          </optgroup>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="description" class="small">Description</label>
-        <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="marker.description"></textarea>
-      </div>
+    <div *ngIf="edit && type=='marker' && selection.items.length==1">
+      <app-edit-marker [marker]="item"></app-edit-marker>
     </div>
 
     <!-- Edit of multiple markers -->
-    <div *ngIf="edit && selection.items.length > 1">
+    <div *ngIf="edit && type=='marker'&& selection.items.length > 1">
       <div class="form-group">
         <label for="type" class="small">Type</label>
         <app-marker-combo [(ngModel)]="markers.type" [map]="map" (change)="updateMuliEdit()"></app-marker-combo>
       </div>
       <div class="form-group">
         <label for="type" class="small">Group</label>
-        <app-marker-group-combo [(ngModel)]="markers.markerGroup" [marker]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
+        <app-marker-group-combo [(ngModel)]="markers.group" [annotation]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
       </div>
+    </div>
+
+    <!-- Edit of multiple markers -->
+    <div *ngIf="edit && type=='shape'">
+      <app-edit-shape #editshape [shape]='item'></app-edit-shape>
     </div>
   </div>
 </div>

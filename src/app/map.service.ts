@@ -1,19 +1,22 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
-import { MapConfig, Selection, MarkerGroup, SavedMarker, MarkerType, MapType, User, AnchorPostitionChoice, Category } from './models';
+import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category } from './models';
 import { DataService } from './data.service';
 import { mergeMap, concatMap, map, buffer, bufferCount, take } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
 import { NotifyService, Debugger } from './notify.service';
-import { Keys } from './util/keys';
 import * as L from 'leaflet'
+import { Annotation, MarkerTypeAnnotation, IconZoomLevelCache } from './models';
+import { flatten } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
   public static readonly UNCATEGORIZED = "UNGROUPED"
+
+  public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>()
 
   /** Observable for the current selection */
   public selection = new BehaviorSubject<Selection>(new Selection([]))
@@ -45,20 +48,20 @@ export class MapService {
   types = new Map<string, MarkerType>()
 
   /** Array of all Saved Markers for this map that the user has the permision to view */
-  markers: SavedMarker[] = []
+  markers: MarkerTypeAnnotation[] = []
 
   /** Array of all the Map Types */
   mapTypes: MapType[]
 
 
-  myMarkers = new Map<string, MyMarker>()
+  myMarkers = new Map<string, Annotation>()
 
 
   actions = new Array<MapAction>()
 
-  myMarks: MyMarker[] = []
+  myMarks: Annotation[] = []
 
-  public markersObs = new ReplaySubject<Array<MyMarker>>()
+  // public markersObs = new ReplaySubject<Array<Annotation>>()
 
   /** Map of types of markers. The key is the marker type's id. This is a map to make searching for a type quick */
   private = new Map<string, MarkerType>()
@@ -76,7 +79,7 @@ export class MapService {
   overlayLayer: L.ImageOverlay
 
   /** Map of the LayerGroups that are used for each Marker Group. The key is the marker group id and there is a special layer there for the uncategorized markers */
-  lGroups = new Map<string, LayerGroup>()
+  lGroups = new Map<string, L.FeatureGroup>()
 
   /** The categories array. A category is a hierarchichl grouping of marker groups and marker types */
   categories = new Array<Category>()
@@ -87,9 +90,9 @@ export class MapService {
   // Get rid of?
   // public selection = new ReplaySubject<Marker>()
   /** Observable to tell when a marker is ready */
-  public markerReady = new ReplaySubject<MyMarker>()
+  public markerReady = new ReplaySubject<Annotation>()
   /** Observable for when a marker is removed */
-  public markerRemove = new ReplaySubject<MyMarker>()
+  public markerRemove = new ReplaySubject<Annotation>()
   /** Observable for when a marker is updated */
   public updates = new ReplaySubject<Marker>()
 
@@ -99,14 +102,17 @@ export class MapService {
   mapLoad: Debugger
   markerZoomLog: Debugger
 
-
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService) {
     this.log = this.notify.newDebugger()
     this.mapLoad = this.notify.newDebugger('Map Loading')
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
 
     this.allMarkersLayer = layerGroup()
+    this.allMarkersLayer['title'] = "All Markers"
+
     this.newMarkersLayer = layerGroup()
+    this.newMarkersLayer['title'] = "New Markers"
+
     this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
 
     // When the map changees regenerate all the cached icons. We do this because the scale can change for the map and there may me more zoom levels
@@ -116,6 +122,9 @@ export class MapService {
       this.iconCache.maxZoom = m.getMaxZoom()
       this.log.debug(`Map Changed, New Zoom Levels are ${m.getMinZoom()} to ${m.getMaxZoom()}`)
       this.addMapListeners(m)
+      // m.editOptions.featuresLayer = this.allMarkersLayer
+      // m.editOptions.editLayer = layerGroup().addTo(m)
+      // m.editOptions.editLayer['title'] = "Edit Layer"
     })
 
     // When the array of available maps changes just update
@@ -151,15 +160,14 @@ export class MapService {
       }
     ))
 
-    let loadGroups = this.mapConfig.pipe(
-      mergeMap(mapCfg => {
-        if (mapCfg.id != 'BAD') {
-          this.mapLoad.debug("Loading Marker Groups")
-          return this.data.getCompleteMarkerGroups(mapCfg.id)
-        } else {
-          return of([])
-        }
-      }),
+    // Load the groups
+    this.mapConfig.pipe(
+      mergeMap(mapCfg => mapCfg.id != 'BAD' ? this.data.getCompleteAnnotationGroups(mapCfg.id) : of([]))
+    ).subscribe(groups => {
+      this.completeMarkerGroups.next(groups)
+    })
+
+    let loadGroups = this.completeMarkerGroups.pipe(
       map(groups => {
         this.groups = groups
         this.makeLayerGroups(groups)
@@ -170,51 +178,60 @@ export class MapService {
     combineLatest(this.mapConfig, loadGroups, userObs, makeMarkerTypes).subscribe((value) => {
       const mapCfg = value[0]
       const groups = value[1]
-      const prefs = value[2]
+      const user = value[2]
+      console.log("combineLatest");
 
       if (mapCfg.id == 'BAD') {
         return
       }
 
-      this.mapLoad.debug(`Building Layers`)
+      // this.allMarkersLayer.clearLayers()
       this.allMarkersLayer.clearLayers()
 
-      // Add each group to the map
-      let localMarkers = new Array<MyMarker>();
       groups.forEach(grp => {
-
-        if (!prefs.isHiddenGroup(mapCfg.id, grp.id)) {
-          let lGroup = this.lGroups.get(grp.id)
-          if (lGroup) {
-            lGroup.clearLayers()
-            lGroup.addTo(this.allMarkersLayer)
-
-            grp.markers.forEach(marker => {
-              if (this.data.canView(marker)) {
-                let myMark = this.fromSavedMarker(marker);
-                if (myMark) {
-                  localMarkers.push(myMark);
-                  if (!prefs.isHiddenMarker(mapCfg.id, myMark.id)) {
-                    this.addEventListeners(myMark)
-                    myMark.marker.addTo(lGroup)
-                  }
-                }
-              }
-            });
-          }
-        }
-        this.myMarks = localMarkers;
-        this.markersObs.next(localMarkers);
+        this.buildGroup(grp, user, mapCfg)
       })
     });
-
-    let a = new CreateMarkerAction()
-    this.log.debug("Create ACtion ", a)
-
 
     this.registerAction(new CreateMarkerAction())
     this.registerAction(new DeleteMarkerAction())
     this.registerAction(new HiMarkerAction())
+  }
+
+
+  private makeLayerGroups(mgs: MarkerGroup[]) {
+    // Clear out the map
+    this.lGroups.clear()
+
+    // Create the new layers
+    mgs.forEach(g => {
+      let lg = L.featureGroup()
+      lg['title'] = g.name
+      lg.on('click', this.onAnnotationClick, this)
+      this.lGroups.set(g.id, lg);
+    });
+  }
+
+  private buildGroup(grp: MarkerGroup, user: User, mapCfg: MapConfig) {
+    if (!user.isHiddenGroup(mapCfg.id, grp.id)) {
+      let lGroup = this.lGroups.get(grp.id)
+      if (lGroup) {
+        lGroup.clearLayers()
+        lGroup.addTo(this.allMarkersLayer)
+
+        grp.annotations.forEach(annotation => {
+          if (!user.isHiddenMarker(mapCfg.id, annotation.id)) {
+            // Create and bind the leaflet type
+            console.log("ADDING ITEM ", annotation.name);
+            let item = annotation.toLeaflet(this.iconCache)
+            item['title'] = annotation.name
+
+            item.addTo(lGroup)
+            console.log("ADDED LEAFLET ITEM TO GROUP");
+          }
+        })
+      }
+    }
   }
 
   private setDefaultMap(prefs: User) {
@@ -302,8 +319,8 @@ export class MapService {
       sel.items.forEach(item => {
         if (this.isMarker(item) && item["_icon"]) {
           DomUtil.addClass(item["_icon"], 'iconselected')
-        } else if (MyMarker.is(item) && item.marker["_icon"]) {
-          DomUtil.addClass(item.marker["_icon"], 'iconselected')
+        } else if (MarkerTypeAnnotation.is(item) && item.getAttachment()["_icon"]) {
+          DomUtil.addClass(item.getAttachment()["_icon"], 'iconselected')
         }
       })
     }
@@ -346,67 +363,26 @@ export class MapService {
     }
   }
 
-  /**
-   * Adds necessary event listeners
-   * @param m The marker to add listeners to
-   */
-  private addEventListeners(m: MyMarker) {
-    m.marker.addEventListener('click', event => {
-      this.zone.run(() => {
-        this.log.debug("EVENT, ", event, event.target)
-        var m = <Marker>event.target
-        let marker = new MyMarker(m)
-        marker.selected = true
-        this.log.debug("MARKER, ", marker.name)
+  private onAnnotationClick(event: any) {
+
+    this.zone.run(() => {
+      this.log.debug("EVENT, ", event, event.target, event.layer)
+      const leafletItem = event.layer
+      console.log("CLICKED ON ", leafletItem);
+      console.log("ELEMENT ", leafletItem.getElement())
+      this.printLayers()
 
 
-        if (event['originalEvent'].ctrlKey) {
-          this.addToSelect(marker)
-        } else {
-          this.select(marker)
-        }
-      });
-    })
-    m.marker.on('add', event => {
-      this.zone.run(() => {
-        this.markerAdded(m)
-      })
-    })
-    m.marker.on('remove', event => {
-      this.zone.run(() => {
-        this.markerRemoved(m)
-      })
+      const annotation = <Annotation>leafletItem.objAttach
+      if (event.originalEvent.ctrlKey) {
+        this.addToSelect(annotation)
+      } else {
+        this.select(annotation)
+      }
+
     })
   }
 
-  /**
-   * Make all the LayerGroups
-   * @param mgs Marker Groups
-   */
-  private makeLayerGroups(mgs: MarkerGroup[]) {
-    this.lGroups.clear();
-    mgs.forEach(g => {
-      let lg = layerGroup();
-      this.lGroups.set(g.id, lg);
-    });
-  }
-
-  /**
-   * Add a temporary marker, ready for editing. This needs to be saved if the user wants it persisted to the database
-   * @param marker 
-   */
-  addTempMarker(marker: MyMarker) {
-    this.newMarkersLayer.clearLayers()
-    marker.marker.addTo(this.newMarkersLayer)
-    marker.marker.addEventListener('click', event => {
-      this.zone.run(() => {
-        var m = <Marker>event.target
-        let marker = new MyMarker(m)
-        marker.selected = true
-        this.select(new MyMarker(m))
-      });
-    })
-  }
 
   public getIcon(typeId: string): Icon {
     return this.iconCache.getIcon(typeId, this._map.getZoom())
@@ -415,28 +391,29 @@ export class MapService {
   /**
    * Create a new Temporary Marker (one that has not been saved yet)
    */
-  public newTempMarker(latlng?: LatLng): MyMarker {
+  public newTempMarker(latlng?: LatLng): MarkerTypeAnnotation {
     let markerTypeId = this.getDefaultMarker(this._mapCfg)
+    console.log("markerTypeId: ", markerTypeId);
+
     let point = latlng
     if (latlng == undefined || latlng.lat == undefined) {
       point = this.getCenter()
     }
 
-    // var loc = this.getCenter()
-    var icn = this.iconCache.getIcon(markerTypeId, this._map.getZoom())
-    if (icn == undefined) {
-      this.mapLoad.debug('No icon for the temporary marker')
-    }
-
-    var m = new MyMarker(marker(point, { icon: icn, draggable: false }))
-
+    const m = new MarkerTypeAnnotation()
+    m.points = [point]
     m.id = "TEMP"
     m.name = "New Marker"
-    m.type = markerTypeId
+    m.markerType = markerTypeId
     m.map = this._mapCfg.id
+
+    let leafletMarker: Marker = m.toLeaflet(this.iconCache)
+    console.log("MARKER ", leafletMarker)
+    leafletMarker.addTo(this.newMarkersLayer)
 
     return m
   }
+
 
   /**
    * Open the given map
@@ -455,7 +432,6 @@ export class MapService {
    */
   setConfig(mapCfg: MapConfig) {
     this._mapCfg = mapCfg
-    this.log.log("NEW CONFIG ", mapCfg)
     if (mapCfg == null || mapCfg == undefined) {
       let badmapCfg = new MapConfig()
       badmapCfg.id = "BAD"
@@ -490,6 +466,7 @@ export class MapService {
       return this._map.getCenter()
     }
   }
+
   fit(bounds): any {
     if (this._map !== undefined) {
       return this._map.fitBounds(bounds)
@@ -500,7 +477,7 @@ export class MapService {
     this.selection.next(new Selection(items))
   }
 
-  addToSelect(...items: MyMarker[]) {
+  addToSelect(...items: any[]) {
     let old = this.selection.getValue()
     let allItems = old.items.slice(0)
     items.forEach(item => {
@@ -514,14 +491,6 @@ export class MapService {
     })
     let sel = new Selection(allItems)
     this.selection.next(sel)
-  }
-
-  markerAdded(marker: MyMarker) {
-    this.markerReady.next(marker)
-  }
-
-  markerRemoved(marker: MyMarker) {
-    this.markerRemove.next(marker)
   }
 
   getMarkerType(id: string): MarkerType {
@@ -545,318 +514,105 @@ export class MapService {
     return this.defaultMarker
   }
 
-  saveMarker(m: MyMarker) {
+  saveAnnotation(m: Annotation) {
     if (m.id == 'TEMP') {
       m.id = UUID.UUID().toString()
     }
-    let s = this.toSavedMarker(m)
-    this.mapLoad.debug('Saving Marker ', s)
-    this.data.saveMarker(s)
+    this.data.save(m)
   }
 
-  deleteMarker(m: MyMarker) {
+  deleteAnnotation(m: Annotation) {
     if (m.id == 'TEMP') {
-      m.marker.removeFrom(this._map)
+      m.getAttachment().removeFrom(this._map)
     } else {
-      this.data.deleteMarker(this.toSavedMarker(m))
+      this.data.delete(m)
     }
   }
 
-  public toMyMarker(m: Marker): MyMarker {
-    return new MyMarker(m)
+  printLayers() {
+    let root = new Node()
+    root.title = "ROOT"
+    this._map.eachLayer(l => {
+      this.popLayers(l, root)
+    })
+
+    // Trim the layers
+    let all = root.flatten()
+    let titles = new Map<string, number>()
+    all.forEach(n => {
+      titles.set(n.title, (titles.get(n.title) || 0) + 1)
+    })
+    titles.forEach((cnt, title) => {
+      if (cnt > 1) {
+        let items = all.filter(n => n.title == title)
+        items.sort((a, b) => a.depth - b.depth)
+        items.pop()
+        items.forEach(n => {
+          n.remove()
+        })
+      }
+    })
+
+    // Print nodes
+    this.printNode(root)
   }
 
-  public fromSavedMarker(saved: SavedMarker): MyMarker {
-
-    // Get the Icon
-    // let icn = this.iconCache.getAnyIcon(saved.type)
-    let icn = this.iconCache.getIcon(saved.type, this._map.getZoom())
-    if (icn == undefined) {
-      this.mapLoad.debug(this.mapLoad.fmt("Cannot find marker with id {0}", saved.type))
-      return undefined
-    }
-
-    let loc = latLng(saved.location[0], saved.location[1])
-
-    // Generate the marker 
-    let mk = marker(loc, { icon: icn, draggable: false })
-
-    let m = new MyMarker(mk)
-    m.id = saved.id
-    m.name = saved.name
-    m.type = saved.type
-    m.view = saved.view
-    m.edit = saved.edit
-    m.map = saved.map
-    m.mapLink = saved.mapLink
-    m.markerGroup = saved.markerGroup
-    m.description = saved.description
-
-    return m
-  }
-
-  public toSavedMarker(m: MyMarker): SavedMarker {
-    let location: [number, number] = [m.marker.getLatLng().lat, m.marker.getLatLng().lng]
-
-    let saved = new SavedMarker()
-    saved.id = m.id
-    saved.name = m.name
-    saved.description = m.description
-    saved.location = location
-    saved.type = m.type
-    saved.edit = m.edit
-    saved.view = m.view
-    saved.map = m.map
-    saved.mapLink = m.mapLink
-    saved.markerGroup = m.markerGroup
-    return saved
-  }
-
-
-
-
-}
-
-export class MyMarker {
-  public static readonly TYPE = "markers.MyMarker";
-  objType = MyMarker.TYPE;
-
-  static is(obj: any): obj is MyMarker {
-    return obj.objType && obj.objType == MyMarker.TYPE
-  }
-
-  constructor(public m: Marker) { }
-
-  get marker(): Marker {
-    return this.m;
-  }
-  get id(): string {
-    return this.m["__id"]
-  }
-  set id(myId: string) {
-    this.m["__id"] = myId
-  }
-  get name(): string {
-    return this.m.options.title
-  }
-  set name(myName: string) {
-    this.m.options.title = myName
-  }
-  get description(): string {
-    return this.m["__description"]
-  }
-  set description(my: string) {
-    this.m["__description"] = my
-  }
-  get type(): string {
-    return this.m["__type"]
-  }
-  set type(my: string) {
-    this.m["__type"] = my
-  }
-  get markerGroup(): string {
-    return this.m["__markerGroup"]
-  }
-  set markerGroup(my: string) {
-    this.m["__markerGroup"] = my
-  }
-  get pageUrl(): string {
-    return this.m["__pageUrl"]
-  }
-  set pageUrl(my: string) {
-    this.m["__pageUrl"] = my
-  }
-  get mapLink(): string {
-    return this.m["__mapLink"]
-  }
-  set mapLink(my: string) {
-    this.m["__mapLink"] = my
-  }
-  get view(): string[] {
-    return this.m["__view"]
-  }
-  set view(my: string[]) {
-    this.m["__view"] = my
-  }
-  get edit(): string[] {
-    return this.m["__edit"]
-  }
-  set edit(my: string[]) {
-    this.m["__edit"] = my
-  }
-  get x(): number {
-    return this.m["__x"]
-  }
-  set x(my: number) {
-    this.m["__x"] = my
-  }
-  get y(): number {
-    return this.m["__y"]
-  }
-  set y(my: number) {
-    this.m["__y"] = my
-  }
-  get maxZoom(): number {
-    return this.m["__maxZoom"]
-  }
-  set maxZoom(my: number) {
-    this.m["__maxZoom"] = my
-  }
-  get minZoom(): number {
-    return this.m["__minZoom"]
-  }
-  set minZoom(my: number) {
-    this.m["__minZoom"] = my
-  }
-  get map(): string {
-    return this.m["__map"]
-  }
-  set map(id: string) {
-    this.m["__map"] = id
-  }
-  get selected(): boolean {
-    return this.m["__selected"]
-  }
-  set selected(id: boolean) {
-    this.m["__selected"] = id
-  }
-  get iconUrl(): string {
-    return this.m.options.icon.options.iconUrl
-  }
-}
-
-
-
-class IconZoomLevelCache {
-  minZoom = 0
-  maxZoom = 20
-  cache = new Map<string, Icon[]>()
-
-  constructor(private log: Debugger, private loadinglog: Debugger) {
-
-  }
-
-  clear() {
-    this.cache.clear()
-  }
-
-  load(types: MarkerType[], map: LeafletMap) {
-    this.cache.clear()
-    types.forEach(item => {
-      this.addIcon(item, map)
+  printNode(n: Node) {
+    let space = this.space(n.depth)
+    console.log(space, n.title);
+    n.children.forEach(child => {
+      this.printNode(child)
     })
   }
 
-  addIcon(type: MarkerType, map: LeafletMap) {
-    let maxZoom = Math.min(this.maxZoom, 10)
-    let minZoom = Math.max(this.minZoom, -5)
+  popLayers(l: any, n: Node) {
+    let child = new Node()
+    child.title = (l.title || 'NO TITLE') + ' (' + l._leaflet_id + ')'
+    n.add(child)
 
-    let icons = []
-
-    if (type.sizing == 'variable') {
-      this.log.debug("Variable Sized Icon: " + type.name)
-      this.log.debug("Variable Sized Icon: ", type.name)
-
-      for (let i = minZoom; i <= maxZoom; i++) {
-        // Some of the icons have min or max zoom level where they cap out in size
-        let zoomLevel = this.limit(i, type.zoomRange[0], type.zoomRange[1])
-        let size = this.scale(map, zoomLevel, type.iconSize)
-        let anchor = this.calcAnchor(size, type)
-
-        if (type.name == 'Lich Agent') {
-          this.log.debug('Lich zoom: ', i, zoomLevel, size, anchor)
-        }
-
-        let icn = icon({
-          iconUrl: type.url,
-          iconSize: size,
-          iconAnchor: anchor
-        })
-
-        icons.push(icn)
-      }
-    } else {
-      this.log.debug("Fixed Sized Icon: " + type.name)
-      this.log.debug("Fixed Sized Icon: ", type.name)
-
-      let icn = icon({
-        iconUrl: type.url,
-        iconSize: type.iconSize,
-        iconAnchor: type.iconAnchor
+    if (l.eachLayer) {
+      l.eachLayer(childLayer => {
+        this.popLayers(childLayer, child)
       })
-      for (let i = minZoom; i <= maxZoom; i++) {
-        icons.push(icn)
-      }
     }
-    this.cache.set(type.id, icons)
   }
 
-  limit(value: number, min: number, max: number) {
-    return Math.min(max, Math.max(min, value))
-  }
-
-  /**
-   * Calculate how large or small the marker should be at the given zoom level
-   * @param map The Map that will be projected 
-   * @param zoom The zoom level to use
-   * @param size The original size of the marker (in pixels) for the map at native resolution
-   */
-  scale(map: LeafletMap, zoom: number, size: [number, number]): [number, number] {
-    let simple = L.CRS.Simple
-    let scale = simple.scale(zoom)
-    return [size[0] * scale, size[1] * scale]
-  }
-
-  calcAnchor(size: [number, number], type: MarkerType, ): [number, number] {
-
-    let [sx, sy] = [1, 1]
-    if (type.anchorPosition == AnchorPostitionChoice.BottomLeft) {
-      sx = 0
-      sy = size[1]
-    } else if (type.anchorPosition == AnchorPostitionChoice.BottomCenter) {
-      sx = 0.5 * size[0]
-      sy = size[1]
-    } else if (type.anchorPosition == AnchorPostitionChoice.BottomRight) {
-      sx = size[0]
-      sy = size[1]
-    } else if (type.anchorPosition == AnchorPostitionChoice.MiddleLeft) {
-      sx = 0
-      sy = 0.5 * size[1]
-    } else if (type.anchorPosition == AnchorPostitionChoice.MiddleCenter) {
-      sx = 0.5 * size[0]
-      sy = 0.5 * size[1]
-    } else if (type.anchorPosition == AnchorPostitionChoice.MiddleRight) {
-      sx = size[0]
-      sy = 0.5 * size[1]
-    } else if (type.anchorPosition == AnchorPostitionChoice.TopLeft) {
-      sx = 0
-      sy = 0
-    } else if (type.anchorPosition == AnchorPostitionChoice.TopCenter) {
-      sx = 0.5 * size[0]
-      sy = 0
-    } else if (type.anchorPosition == AnchorPostitionChoice.TopRight) {
-      sx = size[0]
-      sy = 0
+  private space(times: number): string {
+    let data = ''
+    for (let i = 0; i < times; i++) {
+      data += '  '
     }
+    return data
+  }
+}
 
-    return [sx, sy]
+class Node {
+  depth: number = 1
+  title: string
+  parent: Node
+  children: Node[] = []
+
+  add(child: Node) {
+    this.children.push(child)
+    child.parent = this
+    child.depth = this.depth + 1
   }
 
-  getIcon(id: string, zoomLevel: number): Icon {
-    let index = zoomLevel - this.minZoom
-    let icons = this.cache.get(id)
-    if (icons) {
-      return icons[index]
+  remove() {
+    if (this.parent) {
+      let indx = this.parent.children.indexOf(this)
+      this.parent.children.splice(indx, 1)
     }
-    return undefined
   }
 
-  getAnyIcon(id: string): Icon {
-    let icons = this.cache.get(id)
-    if (icons) {
-      return icons[0]
-    }
-    return undefined
+  flatten(): Node[] {
+    let flat = []
+    flat.push(this)
+    this.children.forEach(child => {
+      let childFlat = child.flatten()
+      flat.push(...childFlat)
+    })
+    return flat
   }
 }
 
@@ -876,8 +632,7 @@ class CreateMarkerAction implements MapAction {
   }
 
   doAction(mapSvc: MapService) {
-    let m = mapSvc.newTempMarker(mapSvc.mouseCoord)
-    mapSvc.addTempMarker(m)
+    mapSvc.newTempMarker(mapSvc.mouseCoord)
   }
 }
 
@@ -889,8 +644,8 @@ class DeleteMarkerAction implements MapAction {
       take(1)
     ).subscribe(sel => {
       let m = sel.first
-      if (m || mapSvc.isMarker(m)) {
-        mapSvc.deleteMarker(m)
+      if (m || Annotation.is(m)) {
+        mapSvc.deleteAnnotation(m)
       }
     })
   }

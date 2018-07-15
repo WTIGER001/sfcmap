@@ -126,11 +126,11 @@ export class CalibrateX implements Handler {
 
                     // Go through each marker on the map and fix the coordinates
                     this.data.getMarkers(this.mapCfg.id).pipe(take(1), concatMap(m => m)).subscribe(m => {
-                        let loc = m.location
+                        let loc = m.center()
                         let newLoc0 = loc[0] * oldPPM / newPPM
                         let newLoc1 = loc[1] * oldPPM / newPPM
-                        m.location = [newLoc0, newLoc1]
-                        this.data.saveMarker(m)
+                        m.setLocation([newLoc0, newLoc1])
+                        this.data.save(m)
                     })
 
                     this.mapSvc.setConfig(this.mapCfg)

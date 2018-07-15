@@ -1,15 +1,15 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, layerGroup, LeafletEvent, Marker, DomUtil } from 'leaflet';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { MapService, MyMarker } from '../map.service';
+import { MapService } from '../map.service';
 import { DataService } from '../data.service';
-import { MapConfig, User, SavedMarker, Selection } from '../models';
-import { flatten } from '@angular/compiler';
+import { MapConfig, User, Selection, Annotation } from '../models';
 import { ReplaySubject, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import * as L from 'leaflet';
-import * as simple from 'leaflet-simple-graticule';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
+import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
+import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
 import { Trans } from '../util/transformation';
 
 @Component({
@@ -21,7 +21,6 @@ export class MapComponent {
   mapCfg: MapConfig
   map: LeafletMap
 
-
   bounds = latLngBounds([[0, 0], [1536, 2048]]);
   mainMap = imageOverlay('./assets/missing.png', this.bounds);
   crs = Trans.createManualCRS(6)
@@ -29,9 +28,11 @@ export class MapComponent {
   options = {
     zoom: 1,
     minZoom: -2,
-    // maxZoom: 3,
     continousWorld: false,
-    crs: this.crs
+    crs: this.crs,
+    attributionControl: false,
+    zoomDelta: 0.5,
+    editable: true,
   };
 
   layers: Layer[] = [];
@@ -40,6 +41,9 @@ export class MapComponent {
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
     private mapSvc: MapService, private data: DataService) {
+
+
+    this.mapSvc.mapConfig.subscribe(m => this.mapCfg = m)
 
     this.mapSvc.mapConfig.pipe(
       mergeMap((m: MapConfig) => {
@@ -58,6 +62,7 @@ export class MapComponent {
         let transformation = Trans.createTransform(this.mapCfg)
         let bounds = latLngBounds([[0, 0], [this.mapCfg.height / factor, this.mapCfg.width / factor]]);
         let mapLayer = imageOverlay(url, bounds)
+        mapLayer['title'] = "Base Map"
         this.mapSvc.overlayLayer = mapLayer
         this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
         this.map.setMaxBounds(bounds);
@@ -78,16 +83,16 @@ export class MapComponent {
       let same = sel.same(this.currentSelection)
 
       removed.forEach(item => {
-        if (MyMarker.is(item)) {
-          if (item.marker["_icon"]) {
-            DomUtil.removeClass(item.marker["_icon"], 'iconselected')
+        if (Annotation.is(item)) {
+          if (item.getAttachment()["_icon"]) {
+            DomUtil.removeClass(item.getAttachment()["_icon"], 'iconselected')
           }
         }
       })
       added.forEach(item => {
-        if (MyMarker.is(item)) {
-          if (item.marker["_icon"]) {
-            DomUtil.addClass(item.marker["_icon"], 'iconselected')
+        if (Annotation.is(item)) {
+          if (item.getAttachment()["_icon"]) {
+            DomUtil.addClass(item.getAttachment()["_icon"], 'iconselected')
           } else {
             console.log("NO ICON  : " + item.name);
           }

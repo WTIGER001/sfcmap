@@ -54,6 +54,11 @@ import { MapTabComponent } from './tabs/map-tab/map-tab.component';
 import { ReadmoreComponent } from './controls/readmore/readmore.component';
 import { EditMapComponent } from './controls/edit-map/edit-map.component';
 import { MapTypeComboComponent } from './controls/map-type-combo/map-type-combo.component';
+import { LineWeightComponent } from './controls/line-weight/line-weight.component';
+import { LineStyleComponent } from './controls/line-style/line-style.component';
+import { EditShapeComponent } from './controls/edit-shape/edit-shape.component';
+import { EditLineComponent } from './controls/edit-line/edit-line.component';
+import { EditMarkerComponent } from './controls/edit-marker/edit-marker.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +88,11 @@ import { MapTypeComboComponent } from './controls/map-type-combo/map-type-combo.
     ReadmoreComponent,
     EditMapComponent,
     MapTypeComboComponent,
+    LineWeightComponent,
+    LineStyleComponent,
+    EditShapeComponent,
+    EditLineComponent,
+    EditMarkerComponent,
   ],
   imports: [
     BrowserModule,

@@ -43,13 +43,50 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run `npm start` to start the application in debug mode
 
 ## Known Issues
-- After login you have to refresh
 - LOTS of requests for data when a map is calibrated
 
-### Mobile Device Issues
+## To Do
+
+### Drawing Layers & Marker Management
+- Need to refactor the layers page to allow polylines, polygons and circles. Maybe move the marker creation here too? 
+- True Layers (e.g. Country borders, quarters) and allow polygons, lines, text and markers
+- Select marker from layer list
+- Switch to featureGroup layers and change the eventing
+- Draw & edit polygons, lines, and text
+- Marker Snap
+- Drag and Drop a new marker on the page. 
+- Marker hover information (tooltip) / click information (popup)
+- Recent Markers area
+
+### Map 
+- Smoother zoom ( less spacing between Zoom levels) (I think this is a setting in the map)
+- Fix icons in 'fixed' mode, they seem to move around as you zoom
+- Router for maps and 'back button'. Router should also support a coordinate center and zoom
+- Border Decoration for regions (a,b,c, etc)
+- Switch to better scale
+- Set map units
+- Enable / Disable Scale
+- Enable / Disable Coordinates
+- Fixed Marker Size (in map units)
+
+### Data Management
+- Data Loading order seems recursive, fix this so there is not a ridiculous number of reloads
+- Export / import icons 
+- Upload Progress
+- Redo some of the RxJS to use tap
+- Migrate to Firestore, Use batches, deeper structure. 
+
+### General Application
+- Landing Page
+- Loading Indicator
+- Project or Game or Collection top level construct
+- Maybe ditch dialogs and instead use a fly out panel
+- Class names as member variables and then standard methods (implement Clone(), Clean(), etc...)
+
+### Mobile Device Support 
 - Tab icons are too small
 - Measure and Calibrate dont work because there is no real 'mouse move' events
-- Managers (map, marker and groups) are in dialogs and are too small - Separate to separate pages with a router
+- Managers (map, marker and groups) are in dialogs and are too small - Separate to separate pages with a router - Started on this
 - Auto expansion of tabs is annoying - make this a preference
 - Tab close is too small. I want to swipe to close
 - Map pane doesn't scroll on overflow
@@ -57,43 +94,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Clicking on the measure or calibrate should diable the action
 - Wipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
 (actually, the rest of it worked surprisingly well!)
-
-## To Do
-
-### Priority 1
-- Login Sequence --- Fix completely...Basically don't do anything unless they are logged in... consider anonymous users - Still strugling with this..
-- Data Loading order seems recursive, fix this so there is not a ridiculous number of reloads
-- Migrate to Firestore, Use batches, deeper structure. 
-- Fix icons in 'fixed' mode, they seem to move around as you zoom
-- Export / import icons 
-- Upload Progress
-- Redo some of the RxJS to use tap
-
-### Prority 2
-- Router for maps and 'back button'. Router should also support a coordinate center and zoom
-- Smoother zoom ( less spacing between Zoom levels) (I think this is a setting in the map)
-- Select marker from layer list
-- True Layers (e.g. Country borders, quarters) and allow polygons, lines, text and markers
-- Draw & edit polygons, lines, and text
-- Switch to featureGroup layers and change the eventing
-- Incorporate Draw Plugin (https://github.com/Leaflet/Leaflet.Editable)
-
-### Priority 3
-- Marker Snap
-- Marker hover information (tooltip) / click information (popup)
-- Drag and Drop a new marker on the page. 
-
-### Prority 4
-- Landing Page
-- Loading Indicator
-- Project or Game or Collection top level construct
-- Class names as member variables and then standard methods (implement Clone(), Clean(), etc...)
-- Recent Markers area
-- Maybe ditch dialogs and instead use a fly out panel
-
-### Prority 5
-- Test on phone 
-- Border Decoration for regions (a,b,c, etc)
 
 ### RPG Features ( hard stuff /// Out of scope)?
 - Dice Roller
@@ -104,10 +104,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - White Board
 - Hexegon Graticules (bigger issue)
 
-
-
-### Other
-Layers Tab
+### Layers Tab
 - Make the items selectable and aware of selections
 - Select Multiple
 - Replace bootstrap check box with custom one 
@@ -115,25 +112,13 @@ Layers Tab
 - Use the List Drag and Drop to get the insertion point
 - Show the Icons
 
-Map
-- Switch to better scale
-- Set map units
-- Enable / Disable Scale
-- Enable / Disable Coordinates
-- Fixed Marker Size (in map units)
-
 ## Notes
+- Not sure how we should delete map types or marker categories
 
-Login / Data Refresh issue
-Maybe the way I should solve this is to cache the data locally and use my own subjects. That way I can clear everything out at once. Have to be careful about partial updates to stay efficient. 
-
-Example: 
-
-1. User Subscribe
-1. Subscribe to data changes -> Write changes to disk (indexdb)
-1. publish calculated data
-1. Logout
-1. Unsubscribe from ALL subscriptions
-1. Login subscribe again
-
-for PWA
+Got new shapes sort of working. Still need to: 
+- Selection
+- Circle doesnt seem to work
+- Opacity is not correct...extract from the color
+- Add help labels
+- Delete
+- Labels

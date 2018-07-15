@@ -1,0 +1,13 @@
+.center {
+    display: flex;
+    justify-items: center;
+}
+.wide {
+    width: 100%;
+}
+.dropdown-menu {
+    min-width: 1rem;
+}
+.dropdown-toggle::after {
+    display: none;
+}

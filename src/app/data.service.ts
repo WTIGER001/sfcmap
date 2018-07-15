@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval, Subscription } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, SavedMarker, MergedMapType, User, IObjectType, MarkerGroup, Category } from './models';
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MergedMapType, User, IObjectType, MarkerGroup, Category } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { mergeMap, map, concatMap, bufferCount, tap } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User as FireUser } from 'firebase';
+import { LangUtil } from './util/LangUtil';
+import { Annotation, ShapeAnnotation, ImageAnnotation, MarkerTypeAnnotation } from './models';
 
 
 @Injectable({
@@ -155,14 +157,62 @@ export class DataService {
     this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
   }
 
-  getMarkers(mapid: string): Observable<Array<SavedMarker>> {
+  getAnnotations(mapid: string): Observable<Array<Annotation>> {
+    return this.db.list(Annotation.FOLDER + '/' + mapid)
+      .snapshotChanges()
+      .pipe(
+        map(items => {
+          let all = new Array<Annotation>()
+          items.forEach(m => {
+            let pojo = <Annotation>m.payload.val()
+            let saved = this.toAnnotation(pojo)
+            if (this.canView(saved)) {
+              all.push(saved)
+            }
+          })
+          return all;
+        })
+      )
+  }
+
+  getCompleteAnnotationGroups(mapid: string): Observable<Array<MarkerGroup>> {
+    let annotationObs = this.user.pipe(
+      mergeMap(pref => this.getAnnotations(mapid))
+    )
+
+    return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), annotationObs).pipe(
+      map(value => {
+        this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
+        let markerTypes = value[0]
+        let groups = value[1]
+        let annotations = value[2]
+
+        groups.forEach(grp => {
+          grp.annotations = annotations.filter(m => m.group == grp.id)
+        })
+
+        let uncat = new MarkerGroup()
+        uncat.id = DataService.UNCATEGORIZED
+        uncat.name = "Ungrouped"
+        uncat.annotations = annotations.filter(m => (!m.group || m.group == ''))
+        if (uncat.annotations.length > 0) {
+          groups.push(uncat)
+        }
+        console.log("MADE GROUPS : ", groups);
+
+        return groups
+      })
+    )
+  }
+
+  getMarkers(mapid: string): Observable<Array<MarkerTypeAnnotation>> {
     return this.db.list('markers/' + mapid)
       .snapshotChanges()
       .pipe(
         map(items => {
-          let markers = new Array<SavedMarker>()
+          let markers = new Array<MarkerTypeAnnotation>()
           items.forEach(m => {
-            let saved = <SavedMarker>m.payload.val()
+            let saved = <MarkerTypeAnnotation>m.payload.val()
             if (this.canView(saved)) {
               markers.push(saved)
             }
@@ -186,60 +236,58 @@ export class DataService {
       )
   }
 
-  getCompleteMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
-    let myMarkerObs = this.user.pipe(
-      mergeMap(pref => this.getMarkers(mapid))
-    )
+  // getCompleteMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
+  //   let myMarkerObs = this.user.pipe(
+  //     mergeMap(pref => this.getMarkers(mapid))
+  //   )
 
-    return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), myMarkerObs).pipe(
-      map(value => {
-        this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
-        let markerTypes = value[0]
-        let groups = value[1]
-        let markers = value[2]
+  //   return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), myMarkerObs).pipe(
+  //     map(value => {
+  //       this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
+  //       let markerTypes = value[0]
+  //       let groups = value[1]
+  //       let markers = value[2]
 
-        groups.forEach(grp => {
-          grp.markers = markers.filter(m => m.markerGroup == grp.id)
-        })
-        let uncat = new MarkerGroup()
-        uncat.id = DataService.UNCATEGORIZED
-        uncat.name = "Ungrouped"
-        uncat.markers = markers.filter(m => (!m.markerGroup || m.markerGroup == ''))
-        if (uncat.markers.length > 0) {
-          groups.push(uncat)
-        }
-        return groups
-      })
-    )
-  }
+  //       groups.forEach(grp => {
+  //         grp.markers = markers.filter(m => m.markerGroup == grp.id)
+  //       })
+  //       let uncat = new MarkerGroup()
+  //       uncat.id = DataService.UNCATEGORIZED
+  //       uncat.name = "Ungrouped"
+  //       uncat.markers = markers.filter(m => (!m.markerGroup || m.markerGroup == ''))
+  //       if (uncat.markers.length > 0) {
+  //         groups.push(uncat)
+  //       }
+  //       return groups
+  //     })
+  //   )
+  // }
 
-  toObject(item: IObjectType): MarkerGroup | UserGroup | User {
+  toObject(item: IObjectType): MarkerGroup | UserGroup | User | Annotation {
     if (MarkerGroup.is(item)) { return item }
     if (UserGroup.is(item)) { return item }
     if (User.is(item)) { return item }
+    if (Annotation.is(item)) { return item }
   }
 
-  dbPath(item: IObjectType): string {
-    if (MarkerGroup.is(item)) { return MarkerGroup.dbPath(item) }
-    if (UserGroup.is(item)) { return 'groups/' + item.name }
-    if (User.is(item)) { return User.dbPath(item) }
-  }
 
-  sample(item: IObjectType): any {
-    if (MarkerGroup.is(item)) { return MarkerGroup.SAMPLE }
-    if (UserGroup.is(item)) { return UserGroup.SAMPLE }
-    if (User.is(item)) { return User.SAMPLE }
 
-  }
+  // sample(item: IObjectType): any {
+  //   if (MarkerGroup.is(item)) { return MarkerGroup.SAMPLE }
+  //   if (UserGroup.is(item)) { return UserGroup.SAMPLE }
+  //   if (User.is(item)) { return User.SAMPLE }
+  //   if (Annotation.is(item)) { return Annotation.SAMPLE }
+  // }
 
   save(item: IObjectType) {
     // Copy the Item so we only save a normal javascript object, and remove all the bad
-    let toSave = this.clean(Object.assign({}, item))
+    // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
-    this.trimExtraneousFields(toSave, this.sample(item))
+    // LangUtil.trimExtraneousFields(toSave, this.sample(item))
+    const toSave = LangUtil.prepareForStorage(item)
 
     // Get path to the object
-    let path = this.dbPath(item)
+    let path = item.dbPath()
     this.log.info('Saving Item ', toSave)
 
     this.db.object(path).set(toSave).then(() => {
@@ -249,13 +297,22 @@ export class DataService {
     })
   }
 
+  saveAll(...items) {
+    items.forEach(i => this.save(i))
+  }
+
   delete(item: IObjectType) {
-    let path = this.dbPath(item)
+    let path = item.dbPath()
+    // let path = this.dbPath(item)
     this.db.object(path).remove().then(() => {
       this.notify.success("Removed ")
     }).catch(reason => {
       this.notify.showError(reason, "Error Deleting Map")
     })
+  }
+
+  deleteAll(...items) {
+    items.forEach(i => this.delete(i))
   }
 
   private toMapType(item: any): MapType {
@@ -299,6 +356,31 @@ export class DataService {
     let me = new MarkerGroup()
     Object.assign(me, item)
     return me
+  }
+
+  private toAnnotation(item: any): Annotation {
+    // if (MarkerAnnotation.is(item)) {
+    //   let me = new MarkerAnnotation()
+    //   Object.assign(me, item)
+    //   return me
+    // }
+    if (ShapeAnnotation.is(item)) {
+      let me = new ShapeAnnotation(item.subtype)
+      Object.assign(me, item)
+      return me
+    }
+    if (ImageAnnotation.is(item)) {
+      let me = new ImageAnnotation()
+      Object.assign(me, item)
+      return me
+    }
+    if (MarkerTypeAnnotation.is(item)) {
+      let me = new MarkerTypeAnnotation()
+      Object.assign(me, item)
+      return me
+    }
+
+    console.log("AHH CRAAAPPP ", item)
   }
 
   private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {
@@ -385,18 +467,18 @@ export class DataService {
     return ref.getDownloadURL()
   }
 
-  saveMarker(item: SavedMarker) {
-    // Convert the Saved Marker into a regular object
-    let toSave = this.clean(Object.assign({}, item))
-    this.log.debug(toSave);
+  // saveMarker(item: MarkerAnnotation) {
+  //   // Convert the Saved Marker into a regular object
+  //   let toSave = LangUtil.clean(Object.assign({}, item))
+  //   this.log.debug(toSave);
 
-    this.db.object('markers/' + item.map + "/" + item.id).set(toSave).then(() => {
-      this.log.debug("Saved a Marker ", toSave)
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Marker")
-    })
-  }
+  //   this.db.object('markers/' + item.map + "/" + item.id).set(toSave).then(() => {
+  //     this.log.debug("Saved a Marker ", toSave)
+  //     this.notify.success("Saved " + item.name)
+  //   }).catch(reason => {
+  //     this.notify.showError(reason, "Error Saving Marker")
+  //   })
+  // }
 
 
   saveWithImage(item: MarkerType) {
@@ -412,7 +494,7 @@ export class DataService {
   saveMarkerTypeNoImage(item: MarkerType) {
     this.log.debug("saving")
 
-    let toSave = this.clean(Object.assign({}, item))
+    let toSave = LangUtil.clean(Object.assign({}, item))
     this.log.debug(toSave);
 
     this.db.object('markerTypes/' + item.id).set(toSave).then(() => {
@@ -432,7 +514,7 @@ export class DataService {
   }
 
   saveMarkerCategory(item: MarkerCategory) {
-    let toSave = this.clean(Object.assign({}, item))
+    let toSave = LangUtil.clean(Object.assign({}, item))
     this.log.debug(toSave);
 
     this.db.object('markerCategories/' + item.id).set(toSave).then(() => {
@@ -443,7 +525,7 @@ export class DataService {
   }
 
   saveUserGroup(item: UserGroup) {
-    let toSave = this.clean(Object.assign({}, item))
+    let toSave = LangUtil.clean(Object.assign({}, item))
     this.log.debug(toSave);
 
     this.db.object('groups/' + item.name).set(toSave).then(() => {
@@ -454,7 +536,7 @@ export class DataService {
   }
 
   saveMapType(item: MapType) {
-    let toSave = this.clean(Object.assign({}, item))
+    let toSave = LangUtil.clean(Object.assign({}, item))
     this.log.debug(toSave);
     this.db.object('mapTypes/' + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -491,7 +573,7 @@ export class DataService {
   }
 
   private _saveMap(item: MapConfig) {
-    let toSave = this.clean(Object.assign({}, item))
+    let toSave = LangUtil.clean(Object.assign({}, item))
     this.log.debug(toSave);
     this.db.object('maps/' + item.id).set(toSave).then(() => {
       this.notify.success("Saved " + item.name)
@@ -525,15 +607,6 @@ export class DataService {
 
     this.storage.ref('images/' + item.id).delete()
     this.storage.ref('images/' + item.id + "_thumb").delete()
-
-  }
-
-  deleteMarker(item: SavedMarker) {
-    this.db.object('markers/' + item.map + "/" + item.id).remove().then(() => {
-      this.notify.success("Removed " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Marker")
-    })
   }
 
   deleteMarkerCategory(item: MarkerCategory | string) {
@@ -579,35 +652,6 @@ export class DataService {
     }).catch(reason => {
       this.notify.showError(reason, "Error Deleteing " + name)
     })
-  }
-
-  clean(obj): any {
-    for (var propName in obj) {
-      if (obj[propName] === null || obj[propName] === undefined) {
-        delete obj[propName];
-      }
-    }
-    return obj
-  }
-
-  trimExtraneousFields(obj: any, sample: any) {
-    if (sample) {
-      let fields = new Map<string, boolean>()
-      for (var propName in sample) {
-        fields.set(propName, true)
-      }
-      for (var propName in obj) {
-        if (!fields.has(propName)) {
-          delete obj[propName];
-        }
-      }
-    }
-  }
-
-  copyData(dest: any, src: any, sample: any) {
-    for (var propName in sample) {
-      dest[propName] = src[propName]
-    }
   }
 
   isRestricted(obj: any): boolean {

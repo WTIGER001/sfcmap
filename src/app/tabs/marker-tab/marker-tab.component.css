@@ -9,6 +9,15 @@
     margin-bottom: 6px;
 }
 
+.btn-tool > img {
+    filter:  brightness(0) invert(.7);
+    height: 24px;
+}
+
+.btn-tool:hover > img {
+    filter:  brightness(0) invert(1);
+}
+
 .btn-tool {
     margin-right: 5px;
 }

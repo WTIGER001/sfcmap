@@ -5,7 +5,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MergedMapType, MapConfig, MapType } from '../models';
 import { Observable, ReplaySubject } from 'rxjs';
 import { UUID } from 'angular2-uuid';
-import { DialogService } from '../dialogs/dialog.service';
 import { RestrictService } from '../dialogs/restrict.service';
 
 @Component({
