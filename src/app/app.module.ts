@@ -47,7 +47,6 @@ import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
 import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-group-combo.component';
 import { UnchecklistDirective } from './controls/unchecklist.directive';
 import { MarkerSizingControlComponent } from './controls/marker-sizing-control/marker-sizing-control.component';
-import { NgExpandableListDirective } from './controls/ng-expandable-list.directive';
 import { LoginComponent } from './login/login.component';
 import { DistanceEntryComponent } from './dialogs/distance-entry/distance-entry.component';
 import { MapTabComponent } from './tabs/map-tab/map-tab.component';
@@ -61,7 +60,6 @@ import { EditLineComponent } from './controls/edit-line/edit-line.component';
 import { EditMarkerComponent } from './controls/edit-marker/edit-marker.component';
 import { ViewboxDirective } from './controls/viewbox.directive';
 import { SvgboxComponent } from './controls/svgbox/svgbox.component';
-import { ExpandCheckItemComponent } from './controls/expand-check-item/expand-check-item.component';
 import { TextboxStyleComboComponent } from './controls/textbox-style-combo/textbox-style-combo.component';
 import { CheckboxComponent } from './controls/checkbox/checkbox.component';
 
@@ -86,7 +84,6 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
     MarkerGroupComboComponent,
     UnchecklistDirective,
     MarkerSizingControlComponent,
-    NgExpandableListDirective,
     LoginComponent,
     DistanceEntryComponent,
     MapTabComponent,
@@ -100,7 +97,6 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
     EditMarkerComponent,
     ViewboxDirective,
     SvgboxComponent,
-    ExpandCheckItemComponent,
     TextboxStyleComboComponent,
     CheckboxComponent,
   ],
