@@ -52,7 +52,6 @@ export class SvgboxComponent {
       const pad = this.padding
 
       let result = (minX - pad) + " " + (minY - pad) + " " + ((maxX - minX) + 2 * pad) + " " + ((maxY - minY) + 2 * pad)
-      console.log("VIEWBOX ", d, mod, parts, result);
       return result
     }
     return "0 0 200 100"

@@ -61,6 +61,9 @@ import { EditLineComponent } from './controls/edit-line/edit-line.component';
 import { EditMarkerComponent } from './controls/edit-marker/edit-marker.component';
 import { ViewboxDirective } from './controls/viewbox.directive';
 import { SvgboxComponent } from './controls/svgbox/svgbox.component';
+import { ExpandCheckItemComponent } from './controls/expand-check-item/expand-check-item.component';
+import { TextboxStyleComboComponent } from './controls/textbox-style-combo/textbox-style-combo.component';
+import { CheckboxComponent } from './controls/checkbox/checkbox.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +100,9 @@ import { SvgboxComponent } from './controls/svgbox/svgbox.component';
     EditMarkerComponent,
     ViewboxDirective,
     SvgboxComponent,
+    ExpandCheckItemComponent,
+    TextboxStyleComboComponent,
+    CheckboxComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,7 +144,8 @@ import { SvgboxComponent } from './controls/svgbox/svgbox.component';
     MgrMarkerComponent,
     AccessDialogComponent,
     DistanceEntryComponent
-  ]
+  ],
+  exports: [CheckboxComponent]
 })
 export class AppModule {
   constructor() {

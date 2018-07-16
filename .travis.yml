@@ -19,6 +19,8 @@ after_success:
   - firebase deploy --token $FIREBASE_TOKEN
 
 notifications:
+  recipients:
+    john.baueriii@gmail.com
   email:
     on_failure: change
     on_success: change

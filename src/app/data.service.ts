@@ -37,6 +37,7 @@ export class DataService {
   log: Debugger
 
   subs: Subscription[] = []
+  _users: Array<User>
 
   constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
     this.log = this.notify.newDebugger("Data")
@@ -46,6 +47,8 @@ export class DataService {
       let user = User.fromFireUser(fireUser)
       this.onLogon(user)
     })
+
+    this.users.subscribe(u => this._users = u)
 
     // Load the URLS for map
     let mapBuffer = new BufferedSubscriber<MapConfig>()
@@ -179,25 +182,31 @@ export class DataService {
     let annotationObs = this.user.pipe(
       mergeMap(pref => this.getAnnotations(mapid))
     )
+    let groupObs = this.user.pipe(
+      mergeMap(pref => this.getMarkerGroups(mapid))
+    )
 
-    return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), annotationObs).pipe(
+    return combineLatest(this.markersWithUrls, groupObs, annotationObs).pipe(
       map(value => {
         this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
         let markerTypes = value[0]
-        let groups = value[1]
+        let loadedGroups = value[1]
         let annotations = value[2]
-
-        groups.forEach(grp => {
-          grp.annotations = annotations.filter(m => m.group == grp.id)
+        let groups = []
+        loadedGroups.forEach(grp => {
+          grp._annotations = annotations.filter(m => m.group == grp.id)
+          groups.push(grp)
         })
 
         let uncat = new MarkerGroup()
         uncat.id = DataService.UNCATEGORIZED
         uncat.name = "Ungrouped"
-        uncat.annotations = annotations.filter(m => (!m.group || m.group == ''))
-        if (uncat.annotations.length > 0) {
+        uncat._annotations = annotations.filter(m => (!m.group || m.group == ''))
+        if (uncat._annotations.length > 0) {
           groups.push(uncat)
         }
+        console.log("GENERATED GROUPS ", groups);
+
         return groups
       })
     )
@@ -225,41 +234,20 @@ export class DataService {
       .snapshotChanges()
       .pipe(
         map(items => {
-          let markers = new Array<MarkerGroup>()
+          let groups = new Array<MarkerGroup>()
           items.forEach(m => {
-            markers.push(this.toMarkerGroup(m.payload.val()))
+            let saved = this.toMarkerGroup(m.payload.val())
+            console.log("Checking Access for  ", saved);
+            if (this.canView(saved)) {
+              console.log("GRANTE Access");
+              groups.push(saved)
+            }
           })
-          return markers;
+          console.log("LOADED GROUPS ", groups);
+          return groups;
         })
       )
   }
-
-  // getCompleteMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
-  //   let myMarkerObs = this.user.pipe(
-  //     mergeMap(pref => this.getMarkers(mapid))
-  //   )
-
-  //   return combineLatest(this.markersWithUrls, this.getMarkerGroups(mapid), myMarkerObs).pipe(
-  //     map(value => {
-  //       this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
-  //       let markerTypes = value[0]
-  //       let groups = value[1]
-  //       let markers = value[2]
-
-  //       groups.forEach(grp => {
-  //         grp.markers = markers.filter(m => m.markerGroup == grp.id)
-  //       })
-  //       let uncat = new MarkerGroup()
-  //       uncat.id = DataService.UNCATEGORIZED
-  //       uncat.name = "Ungrouped"
-  //       uncat.markers = markers.filter(m => (!m.markerGroup || m.markerGroup == ''))
-  //       if (uncat.markers.length > 0) {
-  //         groups.push(uncat)
-  //       }
-  //       return groups
-  //     })
-  //   )
-  // }
 
   toObject(item: IObjectType): MarkerGroup | UserGroup | User | Annotation {
     if (MarkerGroup.is(item)) { return item }
@@ -268,14 +256,6 @@ export class DataService {
     if (Annotation.is(item)) { return item }
   }
 
-
-
-  // sample(item: IObjectType): any {
-  //   if (MarkerGroup.is(item)) { return MarkerGroup.SAMPLE }
-  //   if (UserGroup.is(item)) { return UserGroup.SAMPLE }
-  //   if (User.is(item)) { return User.SAMPLE }
-  //   if (Annotation.is(item)) { return Annotation.SAMPLE }
-  // }
 
   save(item: IObjectType) {
     // Copy the Item so we only save a normal javascript object, and remove all the bad
@@ -754,6 +734,61 @@ export class DataService {
           }
         })
       )
+  }
+
+
+  restrictSummary(item: any): string {
+    let viewUserNames = []
+    let viewGroupNames = []
+    let editUserNames = []
+    let editGroupNames = []
+    if (item.view) {
+      item.view.forEach(i => {
+        let match = this._users.find(u => u.uid == i)
+        if (match) {
+          viewUserNames.push(match.name)
+        } else {
+          viewGroupNames.push(i)
+        }
+      })
+    }
+    if (item.edit) {
+      item.edit.forEach(i => {
+        let match = this._users.find(u => u.uid == i)
+        if (match) {
+          editUserNames.push(match.name)
+        } else {
+          editGroupNames.push(i)
+        }
+      })
+    }
+
+    let result = ''
+    if (viewUserNames.length > 0 || viewGroupNames.length > 0) {
+      result += 'View Restrictions\n'
+      result += 'Groups: '
+      result += viewGroupNames.length > 0 ? viewGroupNames.join(",") : 'None'
+      result += '\nUsers: '
+      result += viewUserNames.length > 0 ? viewUserNames.join(",") : 'None'
+      result += '\n'
+    } else {
+      result += 'View Restrictions: None\n'
+    }
+
+    if (editGroupNames.length > 0 || editUserNames.length > 0) {
+      result += 'Edit Restrictions\n'
+      result += 'Groups: '
+      result += editGroupNames.length > 0 ? editGroupNames.join(",") : 'None'
+      result += '\nUsers: '
+      result += editUserNames.length > 0 ? editUserNames.join(",") : 'None'
+    } else {
+      result += 'Edit Restrictions: None\n'
+    }
+    if (editGroupNames.length > 0 && editUserNames.length > 0 && viewGroupNames.length > 0 && viewGroupNames.length > 0) {
+      result = 'No Restrictions'
+    }
+
+    return result
   }
 
 

@@ -1,0 +1,19 @@
+<div class="check-layout">
+  <!-- Exandable element -->
+  <fa-icon class="pointer" (click)="isCollapsed[g.id] = !isCollapsed[g.id]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
+
+  <!-- Checked item-->
+  <fa-icon class="pointer" (click)="toggleCheck()" [fixedWidth]="true" [icon]="checked?'check-square' : 'square'"></fa-icon>
+
+  <!-- Text content-->
+  <span class="selectable">
+    <ng-content></ng-content>
+  </span>
+
+</div>
+<!-- 
+<expand-check-item 
+  [checked]="item.visible" (checkStateChanged)="itemChecked(item)" 
+  [collapseId]="item.id"   (collapseStateChange)="itemCollapsed(item)"
+  [selected]="true" (select)="itemSelected(i)">{{item.name}}</expand-check-item>
+  <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5"> -->

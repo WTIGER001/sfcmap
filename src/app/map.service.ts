@@ -14,8 +14,6 @@ import { flatten } from '@angular/compiler';
   providedIn: 'root'
 })
 export class MapService {
-  public static readonly UNCATEGORIZED = "UNGROUPED"
-
   public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>()
 
   /** Observable for the current selection */
@@ -218,12 +216,15 @@ export class MapService {
         lGroup.clearLayers()
         lGroup.addTo(this.allMarkersLayer)
 
-        grp.annotations.forEach(annotation => {
+        grp._annotations.forEach(annotation => {
           if (!user.isHiddenMarker(mapCfg.id, annotation.id)) {
             // Create and bind the leaflet type
             let item = annotation.toLeaflet(this.iconCache)
             item['title'] = annotation.name
-
+            if (grp.showText) {
+              let cls = grp.textStyle || 'sfc-tooltip-default'
+              item.bindTooltip(annotation.name, { permanent: true, direction: "center", className: cls })
+            }
             item.addTo(lGroup)
           }
         })
@@ -364,8 +365,7 @@ export class MapService {
 
     this.zone.run(() => {
       const leafletItem = event.layer
-      console.log("CLICKED ON ", leafletItem.getElement())
-      this.printLayers()
+      // this.printLayers()
 
       const annotation = <Annotation>leafletItem.objAttach
       if (event.originalEvent.ctrlKey) {

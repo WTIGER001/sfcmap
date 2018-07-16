@@ -1,0 +1,19 @@
+
+.custom-check {
+    color: white;
+}
+
+.custom-checked {
+    color: #007bff;
+}
+.pack label {
+    margin: 0;
+}
+.custom-unchecked {
+    color: white;
+}
+
+.my-label {
+    width: 24px;
+    margin: 0;
+}

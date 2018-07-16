@@ -1,0 +1,14 @@
+.wide {
+    width: 100%;
+}
+.dropdown-menu {
+    min-width: 1rem;
+    width: 260px;
+}
+.choice {
+    width: 100px;
+}
+.togglefix {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}

@@ -1,46 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, } from '@angular/core';
 import { MapService } from '../../map.service';
 import { Map as LeafletMap, LayerGroup, Marker } from 'leaflet';
-import { delay, mergeMap, map as rxmap, map } from 'rxjs/operators';
-import { ITreeOptions } from 'angular-tree-component';
-import { ITreeNode } from 'angular-tree-component/dist/defs/api';
-import { MapConfig, MarkerGroup, User, MapPrefs, Annotation } from '../../models';
+import { map } from 'rxjs/operators';
+import { MapConfig, MarkerGroup, User, MapPrefs, Annotation, Selection } from '../../models';
 import { DataService } from '../../data.service';
 import { combineLatest, of } from 'rxjs';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
-import { log } from 'util';
+import { RestrictService } from '../../dialogs/restrict.service';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-layers-tab',
   templateUrl: './layers-tab.component.html',
   styleUrls: ['./layers-tab.component.css']
 })
-export class LayersTabComponent implements OnInit {
-  prefs: User
-  map: LeafletMap
-  mapConfig: MapConfig
-  groups: MarkerGroup[] = []
-  // markers: SavedMarker[] = []
-  layers = []
-  items = []
-  groupIds = []
-  markerIds = []
-  dragging
-  isCollapsed = {}
-  options: ITreeOptions = {
-    useCheckbox: true
-  };
+export class LayersTabComponent {
+  // Flag to indicate if edit mode is enabled
+  edit = false
 
-  constructor(private mapSvc: MapService, private data: DataService, private dialog: CommonDialogService) {
-    this.mapSvc.map
-      .subscribe(m => {
-        this.map = m
-        this.layers = this.mapSvc.layers
-      })
+  // Layer that is selected, can be undefined for no selection
+  layer: MarkerGroup
+
+  // flag indicating if this object has restrictions
+  restricted = false
+
+  // Object to track collapsed state. Each id is a propery name and the property value is a boolean
+  isCollapsed = {}
+
+  // The current user
+  user: User
+
+  // The current leaflet map
+  map: LeafletMap
+
+  // The current map config
+  mapConfig: MapConfig
+
+  // All the known groups for the current map
+  groups: MarkerGroup[] = []
+
+  // Item that is currently being dragged. This can be either a Marker Group or an Annotation item
+  dragging
+
+  // Cache of the groups that are shown from the users selection
+  _shownGroups = []
+
+  // Cache of the annotations that are shown from the users selection
+  _shownMarkers = []
+
+  // Shows the empty groups in the
+  showEmpty = true
+
+  selection: Selection = new Selection([])
+
+  constructor(private mapSvc: MapService, private data: DataService, private dialog: CommonDialogService, private restrict: RestrictService) {
+    this.mapSvc.map.subscribe(m => this.map = m)
 
     let prefObs = this.data.user.pipe(
-      map(prefs => this.prefs = prefs)
+      map(user => this.user = user)
     )
+
+    this.mapSvc.selection.subscribe(s => this.selection = s)
 
     let mapObs = this.mapSvc.mapConfig.pipe(
       map(mapConfig => this.mapConfig = mapConfig)
@@ -60,62 +80,131 @@ export class LayersTabComponent implements OnInit {
     combineLatest(prefObs, allObs, mapObs)
       .subscribe((result) => {
         let mapCfg = result[2]
-        this._shownGroups = this.prefs.getMapPref(mapCfg.id).hiddenGroups
-        this._shownMarkers = this.prefs.getMapPref(mapCfg.id).hiddenMarkers
+        this._shownGroups = this.user.getMapPref(mapCfg.id).hiddenGroups
+        this._shownMarkers = this.user.getMapPref(mapCfg.id).hiddenMarkers
       })
-
   }
 
-  ngOnInit() {
+  newLayer() {
+    let newLayer = new MarkerGroup()
+    newLayer.id = 'TEMP'
+    newLayer.name = "New Layer"
+    newLayer.map = this.mapConfig.id
+    this.layer = newLayer
+    this.restricted = false
+    this.editStart()
   }
 
-  name(item) {
-    if (item.options && item.options.title) {
-      return item.options.title
+  editStart() {
+    if (this.layer) {
+      this.edit = true
     }
-    if (item['__name']) {
-      return item['__name']
-    }
-    return '--unknown--'
   }
 
-  id(item) {
-    if (item['__id']) {
-      return item['__id']
+  permissions() {
+    if (this.layer) {
+      this.restrict.openRestrict(this.layer.view, this.layer.edit).subscribe(([view, edit]) => {
+        if (this.data.canEdit(this.layer)) {
+          this.layer.edit = edit
+          this.layer.view = view
+          this.data.save(this.layer)
+          this.restricted = this.data.isRestricted(this.layer)
+        }
+      })
     }
-    return this.name(item)
+  }
+
+  delete() {
+    if (this.layer) {
+      this.dialog.confirm("Are you sure you want to delete " + this.layer.name + "? It has " + this.layer._annotations.length + " markers that will also be deleted.").subscribe(result => {
+        if (result) {
+          this.layer._annotations.forEach(m => {
+            this.data.delete(m)
+          })
+          this.data.delete(this.layer)
+          this.layer = undefined
+        }
+      })
+    }
+  }
+
+  deselect() {
+    this.layer = undefined
+    this.edit = false
+  }
+
+  save() {
+    if (this.layer) {
+      if (this.layer.id == 'TEMP') {
+        this.layer.id = UUID.UUID().toString()
+      }
+      this.data.save(this.layer)
+    }
+    this.edit = false
+  }
+
+  select(item: MarkerGroup) {
+    if (this.isSelected(item)) {
+      this.deselect()
+    } else {
+      this.layer = item
+      this.restricted = this.data.isRestricted(this.layer)
+    }
+  }
+
+  isSelected(item: MarkerGroup) {
+    return (this.layer && this.layer.id == item.id)
+  }
+
+  isChecked(item: MarkerGroup): boolean {
+    if (this.user) {
+      return !this.user.isHiddenGroup(this.mapConfig.id, item.id)
+    }
+    return true
+  }
+
+  cancel() {
+    this.edit = false
   }
 
   isFeatureGroup(item: any): item is LayerGroup {
     return item.eachLayer
   }
 
+  isRestricted(item: any): boolean {
+    return this.data.isRestricted(item)
+  }
+
+  restrictSummary(item: any) {
+    return this.data.restrictSummary(item)
+  }
+
   groupCheckChange($event) {
-    // this.shownGroups = $event
-    if (this.prefs) {
-      let mPrefs = this.prefs.getMapPref(this.mapConfig.id)
-      mPrefs.hiddenGroups = $event
-      this.data.save(this.prefs)
+    if (this.user) {
+      let mPrefs = this.user.getMapPref(this.mapConfig.id)
+      if ($event) {
+        mPrefs.hiddenGroups = $event
+        this.data.save(this.user)
+      } else {
+        console.log("BADDD - mPrefs.hiddenGroups is undefined");
+      }
     }
   }
 
   markerCheckChange($event) {
-    if (this.prefs) {
-      if (!this.prefs.maps) {
-        this.prefs.maps = new Map<string, MapPrefs>()
+    if (this.user) {
+      if (!this.user.maps) {
+        this.user.maps = new Map<string, MapPrefs>()
       }
-      let mPrefs = this.prefs.getMapPref(this.mapConfig.id)
-      mPrefs.hiddenMarkers = $event
-      this.data.save(this.prefs)
+      let mPrefs = this.user.getMapPref(this.mapConfig.id)
+      if ($event) {
+        mPrefs.hiddenMarkers = $event
+        this.data.save(this.user)
+      } else {
+        console.log("BADDD - mPrefs.hiddenMarkers is undefined");
+      }
     }
   }
-
-  diff<T>(all: T[], some: T[]): T[] {
-    return all.filter(allItem => !some.includes(allItem))
-  }
-
-  _shownGroups = []
-  _shownMarkers = []
 
   set shownGroups(v: any[]) {
     this._shownGroups = v
@@ -138,7 +227,7 @@ export class LayersTabComponent implements OnInit {
   drop(item: Annotation | MarkerGroup, group: MarkerGroup) {
     if (MarkerGroup.is(item) && group.id != item.id) {
       let gid = group.id == DataService.UNCATEGORIZED ? '' : group.id
-      item.annotations.forEach(m => {
+      item._annotations.forEach(m => {
         m.group = gid
         this.data.save(m)
       })
@@ -157,26 +246,37 @@ export class LayersTabComponent implements OnInit {
     }
   }
 
-  trash(item: Annotation | MarkerGroup) {
-    if (MarkerGroup.is(item)) {
-      if (item.annotations.length > 0) {
-        this.dialog.confirm("Are you sure you want to delete " + item.name + "? It has " + item.annotations.length + " markers that will also be deleted.").subscribe(result => {
-          if (result) {
-            item.annotations.forEach(m => {
-              this.data.delete(m)
-            })
-            this.data.delete(item)
-          }
-        })
-      } else {
-        this.data.delete(item)
-      }
-    } else if (Annotation.is(item)) {
-      this.data.delete(item)
+  isAnnotationChecked(item: Annotation): boolean {
+    if (this.user) {
+      return !this.user.isHiddenMarker(this.mapConfig.id, item.id)
     }
   }
 
-  manageLayers() {
+  toggleAnnotation(item: Annotation) {
+    if (this.isAnnotationChecked(item)) {
+      this._shownMarkers.push(item.id)
+    } else {
+      let indx = this._shownMarkers.indexOf(item.id)
+      this._shownMarkers.splice(indx)
+    }
+    this.markerCheckChange(this._shownMarkers)
+  }
 
+  toggleGroup(item: MarkerGroup) {
+    if (this.isChecked(item)) {
+      this._shownGroups.push(item.id)
+    } else {
+      let indx = this._shownGroups.indexOf(item.id)
+      this._shownGroups.splice(indx)
+    }
+    this.groupCheckChange(this._shownGroups)
+  }
+
+  selectAnnotation(item: Annotation) {
+    this.mapSvc.select(item)
+  }
+
+  isAnnotationSelected(item: Annotation): boolean {
+    return this.selection.items.includes(item)
   }
 }

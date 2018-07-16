@@ -1,30 +1,83 @@
 <h1>Layers</h1>
 
 
-<small class="form-text text-muted mb-2">Select the data to show on the map. Drag items between groups to move and drag to the trash to delete.</small>
+<div class="buttonbar" *ngIf="edit==false">
+    <button class="btn btn-outline-secondary btn-tool" (click)="newLayer()" placement="bottom" ngbTooltip="Create a new layer">
+        <fa-icon icon="plus" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected layer">
+        <fa-icon icon="pencil-alt" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="permissions()" placement="bottom" ngbTooltip="Set the access permissions">
+        <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
+        <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected layer">
+        <fa-icon icon="trash-alt" size="lg"></fa-icon>
+    </button>
+    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="deselect()" placement="bottom" ngbTooltip="Deselect this layer">
+        <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+</div>
+<div class="buttonbar" *ngIf="edit==true">
+    <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Save" (click)="save()">
+        <fa-icon icon="save" size="lg"></fa-icon> Save
+    </button>
+    <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Cancel" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon> Cancel
+    </button>
+</div>
 
-<div class="scroller scroller-dark">
-    <ng-container *ngFor="let g of groups">
-        <ng-container *ngIf="g.annotations?.length > 0">
-            <div class="pack" mwlDraggable [dropData]="g" (dragEnd)="dragging=undefined" mwlDroppable (drop)="drop($event.dropData, g)"
-                (dragEnter)="dragging=g" (dragLeave)="dragging=undefined" [class.drop-target]="g==dragging">
-                <fa-icon class="pointer" (click)="isCollapsed[g.id] = !isCollapsed[g.id]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="{{g.id}}" [(unchecklist)]="shownGroups" [unchecklistValue]="g.id">
-                    <label class="custom-control-label" for="{{g.id}}">{{g.name}}</label>
+<div class="scroller scroller-dark scroll-layers">
+    <ng-container *ngIf="edit==false">
+        <ng-container *ngFor="let g of groups">
+            <div *ngIf="showEmpty || g._annotations?.length > 0">
+                <div mwlDraggable [dropData]="g" class="pack" [class.selected]="isSelected(g)" (dragEnd)="dragging=undefined" mwlDroppable
+                    (drop)="drop($event.dropData, g)" (dragEnter)="dragging=g" (dragLeave)="dragging=undefined" [class.drop-target]="g==dragging">
+                    <fa-icon *ngIf="g._annotations?.length > 0;else spacer" class="pointer" (click)="isCollapsed[g.id] = !isCollapsed[g.id]"
+                        [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
+                    <ng-template #spacer>
+                        <fa-icon class="spacer" [fixedWidth]="true" size="lg" [icon]="'square'"></fa-icon>
+                    </ng-template>
+
+
+                    <app-checkbox [checked]="isChecked(g)" (checkchange)="toggleGroup(g)"></app-checkbox>
+                    <label class="pointer" (click)="select(g)" placement="bottom" [ngbTooltip]="g.description">{{g.name}}</label>
+                    <fa-icon *ngIf="isRestricted(g)" class="text-muted grid-right" icon="lock"></fa-icon>
                 </div>
-            </div>
-            <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5">
-                <div mwlDraggable [dropData]="m" (dragEnd)="dragging=undefined" class="custom-control custom-checkbox" *ngFor="let m of g.annotations">
-                    <input type="checkbox" class="custom-control-input" id="{{m.id}}" [(unchecklist)]="shownMarkers" [unchecklistValue]="m.id">
-                    <label class="custom-control-label" for="{{m.id}}"> {{m.name}}</label>
+                <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5">
+                    <div mwlDraggable [dropData]="m" (dragEnd)="dragging=undefined" class="pack" *ngFor="let m of g._annotations" [class.selected]="isAnnotationSelected(m)">
+                        <app-checkbox [checked]="isAnnotationChecked(m)" (checkchange)="toggleAnnotation(m)"></app-checkbox>
+                        <label (click)="selectAnnotation(m)"> {{m.name}}</label>
+                        <fa-icon *ngIf="isRestricted(m)" class="text-muted grid-right" icon="lock"></fa-icon>
+                    </div>
                 </div>
             </div>
         </ng-container>
     </ng-container>
-    <div class="p-2 center subdued" (click)="manageLayers()" mwlDroppable (drop)="trash($event.dropData)" (dragEnter)="dragging='trash'"
-        (dragLeave)="dragging=undefined" (dragMove)="dragging='trash'" [class.drop-target]="dragging=='trash'">
-        <fa-icon icon="trash" size="4x" mwlDroppable (dragEnter)="dragging='trash'" (dragLeave)="dragging=undefined" (dragMove)="dragging='trash'"
-            [class.drop-target]="dragging=='trash'"></fa-icon>
+    <div *ngIf="edit==true">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Layer Name" [(ngModel)]="layer.name">
+        </div>
+        <div class="form-group  pack">
+            <label for="layer-show-label" class="my-label">
+                <fa-icon *ngIf="!layer.showText" size="lg" class="pointer custom-unchecked" [icon]="'square'"></fa-icon>
+                <fa-layers *ngIf="layer.showText">
+                    <fa-icon size="lg" class="pointer custom-checked" [icon]="'square'"></fa-icon>
+                    <fa-icon class="pointer custom-check" [icon]="'check'" [transform]="'right-2'"></fa-icon>
+                </fa-layers>
+            </label>
+            <input type="checkbox" class="custom-control-input" id="layer-show-label" [(ngModel)]="layer.showText">
+            <label class="pointer" for="layer-show-label">Show Labels</label>
+        </div>
+        <div class="form-group">
+            <label for="text-style">Label Style</label>
+            <app-textbox-style-combo [(ngModel)]="layer.textStyle"></app-textbox-style-combo>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="layer.description"></textarea>
+        </div>
     </div>
 </div>

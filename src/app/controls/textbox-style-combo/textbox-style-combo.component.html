@@ -1,0 +1,13 @@
+<div class="input-group">
+  <input type="text" name="maptype" class="form-control form-control-sm main py-0" id="mg" [value]="selected">
+  <div class="input-group-append">
+    <div ngbDropdown placement="bottom-right">
+      <button class="btn btn-outline-secondary togglefix" ngbDropdownToggle> </button>
+      <div ngbDropdownMenu class="icon-dropdown">
+        <div *ngFor="let item of styles" class="pointer dropdown-item btn-sm center px-2" (click)="select(item)">
+          <div class="choice" [class]="item">{{text}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

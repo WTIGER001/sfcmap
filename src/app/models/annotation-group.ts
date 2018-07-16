@@ -27,10 +27,16 @@ export class MarkerGroup implements IRestrictedItem, IDbItem, IObjectType {
     id: string
     name: string
     description: string
+
+    /**
+     * The id of the map that this group is associated to
+     */
     map: string
     edit: string[]
     view: string[]
+    showText: boolean = false
+    textStyle: string = 'sfc-tooltip-default'
     // markers: SavedMarker[]
-    annotations: Annotation[]
+    _annotations: Annotation[]
 }
 

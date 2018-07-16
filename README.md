@@ -47,40 +47,37 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## To Do
 
-### Drawing Layers & Marker Management
-- Need to refactor the layers page to allow polylines, polygons and circles. Maybe move the marker creation here too? 
-- True Layers (e.g. Country borders, quarters) and allow polygons, lines, text and markers
+### Annotations
 - Select marker from layer list
-- Switch to featureGroup layers and change the eventing
-- Draw & edit polygons, lines, and text
 - Marker Snap
-- Drag and Drop a new marker on the page. 
 - Marker hover information (tooltip) / click information (popup)
 - Recent Markers area
+- Text labels
+- Image Annotations
+- Custom Marker Annotations
+- SVG Annotations (low priority)
+- Map Link should have optional coordinates
+- Fix Circle Annotation... Doesnt work
 
 ### Map 
-- Smoother zoom ( less spacing between Zoom levels) (I think this is a setting in the map)
-- Fix icons in 'fixed' mode, they seem to move around as you zoom
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Border Decoration for regions (a,b,c, etc)
 - Switch to better scale
-- Set map units
+- Set map units (in creation?)
 - Enable / Disable Scale
 - Enable / Disable Coordinates
 - Fixed Marker Size (in map units)
 
 ### Data Management
 - Data Loading order seems recursive, fix this so there is not a ridiculous number of reloads
-- Export / import icons 
+- Export / import marker types 
 - Upload Progress
-- Redo some of the RxJS to use tap
-- Migrate to Firestore, Use batches, deeper structure. 
+- Convert group manager to tab or full page using router
+- Convert marker manager to tab or full page using router
 
 ### General Application
-- Landing Page
 - Loading Indicator
 - Project or Game or Collection top level construct
-- Maybe ditch dialogs and instead use a fly out panel
 - Class names as member variables and then standard methods (implement Clone(), Clean(), etc...)
 
 ### Mobile Device Support 
@@ -89,7 +86,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Managers (map, marker and groups) are in dialogs and are too small - Separate to separate pages with a router - Started on this
 - Auto expansion of tabs is annoying - make this a preference
 - Tab close is too small. I want to swipe to close
-- Map pane doesn't scroll on overflow
 - would be nice to full screen or PWA
 - Clicking on the measure or calibrate should diable the action
 - Wipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
@@ -116,9 +112,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Not sure how we should delete map types or marker categories
 
 Got new shapes sort of working. Still need to: 
-- Selection
 - Circle doesnt seem to work
-- Opacity is not correct...extract from the color
 - Add help labels
-- Delete
 - Labels

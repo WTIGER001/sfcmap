@@ -1,0 +1,8 @@
+<label for="{{id}}" class="my-label">
+  <fa-icon *ngIf="!internalchecked" size="lg" class="pointer custom-unchecked" [icon]="'square'"></fa-icon>
+  <fa-layers *ngIf="internalchecked">
+    <fa-icon size="lg" class="pointer custom-checked" [icon]="'square'"></fa-icon>
+    <fa-icon class="pointer custom-check" [icon]="'check'" [transform]="'right-2'"></fa-icon>
+  </fa-layers>
+</label>
+<input type="checkbox" #checkel class="custom-control-input" id="{{id}}" [(ngModel)]="internalchecked" (change)="changeEvent()">

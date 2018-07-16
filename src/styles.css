@@ -121,11 +121,7 @@ body {
     background-color: steelblue;
 }
 
-.moving-tooltip{
-    background-color: rgba(255, 255, 255, .7);
-    background-clip: padding-box;
-    opacity: 0.7;
-  }
+
 
   .leaflet-bar{
     background-color: #ffffff;
@@ -153,3 +149,104 @@ body {
 .tab-link a:hover {
     color: grey
 }
+
+.grid-right {
+    margin-left: auto;
+    order: 2;
+}
+
+/* -------------------------------------------- */
+/* Common Button Styles                         */
+/* -------------------------------------------- */
+.buttonbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+.btn-tool > img {
+    filter:  brightness(0) invert(.7);
+    height: 24px;
+}
+
+.btn-tool:hover > img {
+    filter:  brightness(0) invert(1);
+}
+
+.btn-tool {
+    margin-right: 5px;
+}
+
+.btn-tool:last-of-type {
+    margin-right: 0;
+}
+
+.lockbtn {
+    color: red;
+    cursor: pointer;
+}
+
+/* -------------------------------------------- */
+/* Leaflet Tooltip Styles                       */
+/* -------------------------------------------- */
+
+.sfc-tooltip-default {
+    border: 0;
+    background: transparent;
+    color: white; 
+    text-shadow: black 0.1em 0.1em 0.2em;
+    box-shadow: 0 0 ;
+    padding: .1em .5em;
+}
+
+.sfc-tooltip-background {
+    border: 0;
+    background: rgba(0, 0, 0, .8);
+    color: white; 
+    box-shadow: 0 0 ;
+    padding: .1em .5em;
+}
+
+.sfc-tooltip-default-lg {
+    border: 0;
+    background: transparent;
+    color: white; 
+    text-shadow: black 0.1em 0.1em 0.2em;
+    box-shadow: 0 0 ;
+    font-size: 1.4rem;
+    padding: .1em .5em;
+}
+
+.sfc-tooltip-background-lg {
+    border: 0;
+    background: rgba(0, 0, 0, .8);
+    color: white; 
+    box-shadow: 0 0 ;
+    font-size: 1.4rem;
+    padding: .1em .5em;
+}
+
+.sfc-tooltip-default-sm {
+    border: 0;
+    background: transparent;
+    color: white; 
+    text-shadow: black 0.1em 0.1em 0.2em;
+    box-shadow: 0 0 ;
+    font-size: .8rem;
+    padding: .1em .5em;
+}
+
+.sfc-tooltip-background-sm {
+    border: 0;
+    background: rgba(0, 0, 0, .8);
+    color: white; 
+    box-shadow: 0 0 ;
+    font-size: .8rem;
+    padding: .1em .5em;
+}
+
+
+.moving-tooltip{
+    background-color: rgba(255, 255, 255, .7);
+    background-clip: padding-box;
+    opacity: 0.7;
+  }

@@ -1,6 +1,10 @@
 .pack {
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .block-link {
@@ -18,4 +22,41 @@
 .subdued {
     width: 100%;
     color: rgba(68, 68, 68, 0.9)
+}
+
+.selected {
+    background-color: #9ed485;
+    border-radius: 4px;
+    color: black;
+}
+
+.custom-check {
+    color: white;
+}
+
+.custom-checked {
+    color: #007bff;
+}
+.pack label {
+    margin: 0;
+}
+.custom-unchecked {
+    color: white;
+}
+
+.my-label {
+    width: 24px;
+    margin: 0;
+}
+
+.scroll-layers {
+    height: calc(100vh - 110px);
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.spacer {
+    color: rgba(0, 0, 0, 0)
 }
