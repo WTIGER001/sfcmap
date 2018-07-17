@@ -7,7 +7,7 @@ import { DialogService } from '../../dialogs/dialog.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
+  tool: string
   constructor(private dialogs: DialogService) { }
 
   ngOnInit() {
