@@ -1,0 +1,54 @@
+<div class="buttonbar mt-2" *ngIf="edit==false">
+  <button class="btn btn-outline-secondary btn-tool" (click)="newMarkerCategory()" placement="bottom" ngbTooltip="Create a new folder">
+    <fa-icon icon="folder" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="selected" class="btn btn-outline-secondary btn-tool" (click)="newMarkerType()" placement="bottom" ngbTooltip="Create a new type of marker">
+    <fa-icon icon="plus" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="selected" class="btn btn-outline-secondary btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected item">
+    <fa-icon icon="pencil-alt" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="selected" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected item">
+    <fa-icon icon="trash-alt" size="lg"></fa-icon>
+  </button>
+</div>
+<div class="buttonbar mt-2" *ngIf="edit==true">
+  <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Save" (click)="save()">
+    <fa-icon icon="save" size="lg"></fa-icon> Save
+  </button>
+  <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Cancel" (click)="cancel()">
+    <fa-icon icon="times" size="lg"></fa-icon> Cancel
+  </button>
+</div>
+
+<div *ngIf="edit==false" class="filter-div">
+  <input type="text" class="form-control form-control-sm filter" placeholder="filter" [ngModel]="filter" (ngModelChange)="filterUpdate($event)">
+  <div class="clear-filter-icon" (click)="clearFilter()" *ngIf='filter.length>0'>
+    <fa-icon icon="times" size="lg"></fa-icon>
+  </div>
+</div>
+
+<div class="scroller scroller-dark scroll-marker-types">
+  <!-- List-->
+  <ng-container *ngIf="edit==false">
+    <ng-container *ngFor="let cat of filtered">
+      <div mwlDraggable [dropData]="cat" (dragEnd)="dragging=undefined" mwlDroppable (drop)="drop($event.dropData, cat)" (dragEnter)="dragging=cat"
+        (dragLeave)="dragging=undefined" [class.drop-target]="cat==dragging" [class.selected]="selected==cat" class="my-1 mx-0 noselect pack">
+        <fa-icon class="pointer" (click)="isCollapsed[cat.name] = !isCollapsed[cat.name]" [fixedWidth]="true" size="lg" [icon]="isCollapsed[cat.name] ? 'caret-right' : 'caret-down'"></fa-icon>
+        <label class="pointer my-0" (click)="setCat(cat)" (dblclick)="isCollapsed[cat.name] = !isCollapsed[cat.name]">
+          {{cat.name}}
+        </label>
+      </div>
+      <div [ngbCollapse]="isCollapsed[cat.name]" class="ml-3">
+        <div *ngFor="let t of cat.types" [class.selected]="selected==t" (click)="setType(t)" (dblclick)="editStart()" mwlDraggable
+          (dragEnd)="dragEnd($event)" [dropData]="t">
+          <label class="pointer item-label">
+            <img [src]="t.url" height=30 class="mr-1"> {{t.name}}</label>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <app-edit-marker-type-category *ngIf="edit==true && sType=='cat'" [selected]="selected"></app-edit-marker-type-category>
+  <app-edit-marker-type *ngIf="edit==true && sType=='type'" [selected]="selected"></app-edit-marker-type>
+</div>

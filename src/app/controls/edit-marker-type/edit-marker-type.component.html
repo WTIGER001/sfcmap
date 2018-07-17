@@ -1,0 +1,19 @@
+<div class="form-group  mb-0 center-layout">
+  <label for="file" class="custom-file-upload p-0 center" (click)="getFile()">
+    <canvas #mycanvas class="file-div" [class.hide]="!hasImage"></canvas>
+    <img #myimage class="file-div" [class.hide]="!hasImage">
+    <div *ngIf="!hasImage" class="border">
+      <h3>Select</h3>
+      <h3>Image</h3>
+    </div>
+  </label>
+  <input id="file" #filecontrol type="file" class="inputfile " id="name" accept=".jpg,.png" placeholder="select map image"
+    (change)="setFile($event)">
+</div>
+
+<div class="form-group">
+  <label for="name">Name</label>
+  <input type="text" class="form-control " id="name" placeholder="Enter Type Name" [(ngModel)]="selected.name">
+</div>
+
+<app-marker-sizing-control [item]="selected"></app-marker-sizing-control>

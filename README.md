@@ -27,49 +27,48 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 - Drag and drop to change map categories
 - Map images are stored on the firestorage as well as thumbnails
 
-### Map Markers
+### Annoations
 - Marker Manager allows new types of markers to be created with custom icons
-- Marker types can be restricted from viewing and editing
-- Markers can be created on the map and dragged into place. 
-- Markers can link to other maps, like a city on a continent map linking to the city map
+- Annotations types can be restricted from viewing and editing
+- Markers, Rectangles, Polylines and Polygons are types of Annoations that can be created
+- Annoations can be created on the map and dragged into place. 
+- Annoations can link to other maps, like a city on a continent map linking to the city map
 - Markers can be fixed in size (screen coordinates) or change relative to the zoom level
-- Markers can link to external web pages
-- Markers can be selected from the map (one or more by holding down the CTRL key)
-- Markers can be edited enmass an individually
-- Markers can be organized into groups
-- Markers and Marker Groups can be toggled from the map
+- Annoations can link to external web pages
+- Annoations can be selected from the map (one or more by holding down the CTRL key)
+- Annoations can be edited enmass and individually
+- Annoations can be organized into layers
+- Annoations and layers can be toggled from the map
 
 ## Development
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run `npm start` to start the application in debug mode
 
 ## Known Issues
-- LOTS of requests for data when a map is calibrated
+- Annotations get disconnected when they are edited. They show up fine on the map but you have to click them again to have the tab work correctly
 
 ## To Do
 
 ### Annotations
-- Select marker from layer list
 - Marker Snap
 - Marker hover information (tooltip) / click information (popup)
-- Recent Markers area
-- Text labels
 - Image Annotations
 - Custom Marker Annotations
-- SVG Annotations (low priority)
+- Recent Markers area
 - Map Link should have optional coordinates
 - Fix Circle Annotation... Doesnt work
+- SVG Annotations (low priority)
 
 ### Map 
+- Restyle zoom buttons
+- Switch to better scale
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Border Decoration for regions (a,b,c, etc)
-- Switch to better scale
 - Set map units (in creation?)
 - Enable / Disable Scale
 - Enable / Disable Coordinates
 - Fixed Marker Size (in map units)
 
 ### Data Management
-- Data Loading order seems recursive, fix this so there is not a ridiculous number of reloads
 - Export / import marker types 
 - Upload Progress
 - Convert group manager to tab or full page using router
@@ -101,17 +100,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Hexegon Graticules (bigger issue)
 
 ### Layers Tab
-- Make the items selectable and aware of selections
-- Select Multiple
-- Replace bootstrap check box with custom one 
-- Switch to LIs
 - Use the List Drag and Drop to get the insertion point
-- Show the Icons
 
 ## Notes
 - Not sure how we should delete map types or marker categories
-
-Got new shapes sort of working. Still need to: 
-- Circle doesnt seem to work
-- Add help labels
-- Labels

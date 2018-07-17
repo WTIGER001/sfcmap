@@ -1,95 +1,52 @@
-<!-- Marker Sizing -->
-<div class="row form-group">
-  <div class="col col-auto">
-    <label>Marker Sizing</label>
-  </div>
-  <div class="col">
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="fixed" [(ngModel)]="item.sizing">
-      <label class="form-check-label" for="inlineRadio1">Fixed size</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="variable" [(ngModel)]="item.sizing">
-      <label class="form-check-label" for="inlineRadio2">Change with map zoom </label>
-    </div>
-  </div>
-</div>
-
 <div class="row">
   <div class="col form-group">
-    <label>Size</label>
-    <div class="row">
-      <div class="col label-row">
-        <label for="">Width</label>
-      </div>
-      <div class="col px-0">
-        <input type="number" class="form-control form-control-sm" id="size_x" placeholder="Width" [(ngModel)]="item?.iconSize[0]">
-      </div>
-    </div>
-    <div class="row   pt-2">
-      <div class="col  label-row">
-        <label for="">Height</label>
-      </div>
-      <div class="col  px-0">
-        <input type="number" class="form-control form-control-sm" id="size_y" placeholder="Height" [(ngModel)]="item?.iconSize[1]">
-      </div>
-    </div>
+    <label for="">Width</label>
+    <input type="number" class="form-control" id="size_x" placeholder="Width" [(ngModel)]="item?.iconSize[0]">
   </div>
   <div class="col form-group">
-    <label>Zoom Range</label>
-    <div class="row">
-      <div class="col label-row">
-        <label for="">Min</label>
-      </div>
-      <div class="col  px-0">
-        <input type="text" class="form-control form-control-sm" id="size_x" placeholder="Min" [(ngModel)]="item?.zoomRange[0]">
-      </div>
-    </div>
-    <div class="row  pt-2">
-      <div class="col label-row">
-        <label for="">Max</label>
-      </div>
-      <div class="col  px-0">
-        <input type="text" class="form-control form-control-sm" id="size_y" placeholder="Max" [(ngModel)]="item?.zoomRange[1]">
-      </div>
-    </div>
+    <label for="">Height</label>
+    <input type="number" class="form-control" id="size_y" placeholder="Height" [(ngModel)]="item?.iconSize[1]">
+  </div>
+</div>
+<label>Marker Sizing</label>
+<div class="form-group">
+  <select class="form-control " [(ngModel)]="item.sizing">
+    <option value="fixed">Fixed size</option>
+    <option value="variable">Change with map zoom</option>
+  </select>
+</div>
+<div class="row">
+  <div class="col form-group">
+    <label for="">Zoom Min</label>
+    <input type="text" class="form-control" id="size_x" placeholder="Min" [(ngModel)]="item?.zoomRange[0]">
   </div>
   <div class="col form-group">
-    <label>Display Range</label>
-    <div class="row">
-      <div class="col label-row">
-        <label for="">Min</label>
-      </div>
-      <div class="col  pl-0">
-        <input type="text" class="form-control form-control-sm" id="size_x" placeholder="Min" [(ngModel)]="item?.displayRange[0]">
-      </div>
-    </div>
-    <div class="row pt-2">
-      <div class="col label-row">
-        <label for="">Max</label>
-      </div>
-      <div class="col  pl-0">
-        <input type="text" class="form-control form-control-sm" id="size_y" placeholder="Max" [(ngModel)]="item?.displayRange[1]">
-      </div>
-    </div>
+    <label for="">Zoom Max</label>
+    <input type="text" class="form-control" id="size_y" placeholder="Max" [(ngModel)]="item?.zoomRange[1]">
+  </div>
+</div>
+<div class="row">
+  <div class="col form-group">
+    <label for="">Display Min</label>
+    <input type="text" class="form-control" id="size_x" placeholder="Min" [(ngModel)]="item?.displayRange[0]">
+  </div>
+  <div class="col form-group">
+    <label for="">Display Max</label>
+    <input type="text" class="form-control" id="size_y" placeholder="Max" [(ngModel)]="item?.displayRange[1]">
   </div>
 </div>
 
-<div class="row form-group">
-  <div class="col col-auto">
-    <label>Anchor</label>
-  </div>
-  <div class="col">
-    <select class="form-control  form-control-sm" [(ngModel)]="item.anchorPosition">
-      <option value="0">Top Left</option>
-      <option value="1">Top Center</option>
-      <option value="2">Top Right</option>
-      <option value="3">Middle Left</option>
-      <option value="4">Middle Center</option>
-      <option value="5">Middle Right</option>
-      <option value="6">Bottom Left</option>
-      <option value="7">Bottom Center</option>
-      <option value="8">Bottom Right</option>
-    </select>
-  </div>
+<label>Anchor</label>
+<div class="form-group">
+  <select class="form-control " [(ngModel)]="item.anchorPosition">
+    <option value="0">Top Left</option>
+    <option value="1">Top Center</option>
+    <option value="2">Top Right</option>
+    <option value="3">Middle Left</option>
+    <option value="4">Middle Center</option>
+    <option value="5">Middle Right</option>
+    <option value="6">Bottom Left</option>
+    <option value="7">Bottom Center</option>
+    <option value="8">Bottom Right</option>
+  </select>
 </div>

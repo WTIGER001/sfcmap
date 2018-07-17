@@ -5,8 +5,13 @@ declare module 'leaflet' {
         new(map: Map, options: EditOptions): Editable;
     }
 
+    namespace Util {
+        function extend(dest: any, src?: any, ...other): any;
+    }
     namespace control {
         function coordinates(v: any);
+        function graphicScale(options?: any): L.Control;
+        function betterscale(options?: any): L.Control;
     }
 
     var BoxSelect: any

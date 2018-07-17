@@ -1,31 +1,14 @@
-.tree {
-    height: 500px;
-    overflow: auto;
-}
-h6 {
-    margin-top: .4em;
-}
-.cat-style {
-    padding: 5px 2px;
-}
-.auto {
-    margin: 0 auto;
-}
-.selected {
-    outline: 2px solid blue;
-    outline: 5px auto -webkit-focus-ring-color;
-}
 
 .filter-div {
     position: relative;
+    margin-top: .5em;
   }
 
 .filter {
     background-color: transparent;
     width: 100%;
-    color: black;
+    color: white;
     margin-bottom: .2em;
-    padding-left: 24px;
 }
 
 .clear-filter-icon {
@@ -34,13 +17,13 @@ h6 {
     right: 6px;
     top: 0;
     bottom: 0;
-    color: rgba(0, 0, 0, .4);
+    color: rgba(255, 255, 255, .4);
     cursor: pointer;
     align-items: center;
 }
 
 .clear-filter-icon:hover {
-  color: rgba(0, 0, 0, 1)
+  color: rgba(255, 255, 255, 1)
 }
 
 .filter-icon {
@@ -49,6 +32,22 @@ h6 {
     left: 6px;
     top: 0;
     bottom: 0;
-    color: rgba(0, 0, 0, .4);
+    color: rgba(255, 255, 255, .4);
     align-items: center;
+}
+.pack {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.item-label {
+    margin: 0;
+    padding: 1px;
+}
+
+.scroll-marker-types {
+    height: calc(100vh - 200px);
 }

@@ -1,0 +1,13 @@
+<div class="form-group">
+  <label for="name">Name</label>
+  <input type="text" class="form-control " id="name" placeholder="Enter Folder Name" [(ngModel)]="selected.name">
+</div>
+<div class="form-group">
+  <label for="name">Applies To:</label>
+  <div class="ml-2">
+    <div class="custom-control custom-checkbox" *ngFor="let opt of mapTypes">
+      <input type="checkbox" class="custom-control-input" id="{{opt.id}}" [(checklist)]="selected.appliesTo" [checklistValue]="opt.id">
+      <label class="custom-control-label" for="{{opt.id}}"> {{opt.name}}</label>
+    </div>
+  </div>
+</div>

@@ -36,7 +36,6 @@ import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.
 import { NotifyService } from './notify.service';
 import { DataService } from './data.service';
 import { MgrGroupComponent } from './mgr-group/mgr-group.component';
-import { MgrMarkerComponent } from './mgr-marker/mgr-marker.component';
 import { MgrMapComponent } from './mgr-map/mgr-map.component';
 import { DialogService } from './dialogs/dialog.service';
 import { ChecklistModule } from 'angular-checklist';
@@ -62,6 +61,9 @@ import { ViewboxDirective } from './controls/viewbox.directive';
 import { SvgboxComponent } from './controls/svgbox/svgbox.component';
 import { TextboxStyleComboComponent } from './controls/textbox-style-combo/textbox-style-combo.component';
 import { CheckboxComponent } from './controls/checkbox/checkbox.component';
+import { EditMarkerTypeComponent } from './controls/edit-marker-type/edit-marker-type.component';
+import { EditMarkerTypeCategoryComponent } from './controls/edit-marker-type-category/edit-marker-type-category.component';
+import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marker-type-manager.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,6 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
     MessageDialogComponent,
     ConfirmDialogComponent,
     MgrGroupComponent,
-    MgrMarkerComponent,
     MgrMapComponent,
     AccessDialogComponent,
     MarkerComboComponent,
@@ -99,6 +100,9 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
     SvgboxComponent,
     TextboxStyleComboComponent,
     CheckboxComponent,
+    EditMarkerTypeComponent,
+    EditMarkerTypeCategoryComponent,
+    MarkerTypeManagerComponent,
   ],
   imports: [
     BrowserModule,
@@ -137,7 +141,6 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
     ConfirmDialogComponent,
     MgrGroupComponent,
     MgrMapComponent,
-    MgrMarkerComponent,
     AccessDialogComponent,
     DistanceEntryComponent
   ],

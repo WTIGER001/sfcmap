@@ -1,35 +1,47 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommonDialogService } from '../dialogs/common-dialog.service';
-import { DataService } from '../data.service';
-import { MarkerType, MarkerCategory, MapType, Category } from '../models';
+import { MapType, Category, MarkerType, MarkerCategory } from '../../models';
+import { MapService } from '../../map.service';
+import { CommonDialogService } from '../../dialogs/common-dialog.service';
+import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
 import { Observable, ReplaySubject } from 'rxjs';
-import { MapService } from '../map.service';
 
 @Component({
-  selector: 'app-mgr-marker',
-  templateUrl: './mgr-marker.component.html',
-  styleUrls: ['./mgr-marker.component.css']
+  selector: 'app-marker-type-manager',
+  templateUrl: './marker-type-manager.component.html',
+  styleUrls: ['./marker-type-manager.component.css']
 })
-export class MgrMarkerComponent implements OnInit {
-  isCollapsed = new Map<any, boolean>()
+export class MarkerTypeManagerComponent implements OnInit {
+  edit = false
+  isCollapsed = {}
   selected
   filter = ''
   filtered: Category[] = []
   categories: Category[] = []
   sType: string
-  mapTypes: MapType[] = []
 
-  constructor(private mapSvc: MapService, public activeModal: NgbActiveModal, private cd: CommonDialogService, private data: DataService) {
+  constructor(private mapSvc: MapService, private cd: CommonDialogService, private data: DataService) {
     this.data.categories.subscribe(categories => {
       this.categories = categories
+      categories.forEach(c => {
+        if (!this.isCollapsed.hasOwnProperty(c.name)) {
+          this.isCollapsed[c.name] = true
+        }
+      })
       this.applyFilter()
     })
-    this.data.mapTypes.subscribe(types => this.mapTypes = types)
   }
 
   ngOnInit() {
+  }
+
+  editStart() {
+    this.edit = true
+  }
+
+  cancel() {
+    this.edit = false
+    this.selected = undefined
   }
 
   clearFilter() {
@@ -69,36 +81,6 @@ export class MgrMarkerComponent implements OnInit {
     }
   }
 
-
-  setFile(event) {
-    if (this.selected) {
-      let f = event.target.files[0]
-      this.selected["__FILE"] = f
-      this.getDimensions(f).subscribe(val => {
-        this.selected.iconSize = val
-        this.selected.iconAnchor = [Math.round(val[0] / 2), val[1]]
-      })
-      console.log("FILE")
-      console.log(this.selected["__FILE"]);
-    }
-  }
-
-  getDimensions(f: File): Observable<[number, number]> {
-    let val = new ReplaySubject<[number, number]>()
-    let reader = new FileReader()
-    reader.readAsDataURL(f)
-    reader.onloadend = function () {
-      var url = reader.result
-      var img = new Image()
-      img.src = url
-      img.onload = function () {
-        val.next([img.width, img.height])
-      }
-    }
-    return val
-  }
-
-
   delete() {
     if (this.sType == 'cat') {
       if (this.selected.types.length > 0) {
@@ -124,6 +106,7 @@ export class MgrMarkerComponent implements OnInit {
   }
 
   newMarkerCategory() {
+    this.edit = true
     this.sType = 'cat'
 
     let item = new MarkerCategory()
@@ -142,21 +125,20 @@ export class MgrMarkerComponent implements OnInit {
       }
 
       this.sType = 'type'
+      this.edit = true
 
       let item = new MarkerType()
       item.id = UUID.UUID().toString()
       item.category = cat
       item.name = "New Type"
+      item.iconSize = [0, 0]
 
       this.selected = item
     }
   }
 
-
   save() {
-    console.log("SAVING");
-    console.log(this.selected);
-
+    this.edit = false
     if (this.sType == 'cat') {
       this.data.saveMarkerCategory(this.selected)
     } else {
@@ -181,6 +163,7 @@ export class MgrMarkerComponent implements OnInit {
     this.selected = t
     this.sType = 'type'
   }
+
   setCat(t) {
     this.selected = t
     this.sType = 'cat'
@@ -206,4 +189,5 @@ export class MgrMarkerComponent implements OnInit {
   isCategory(item: any): item is Category {
     return item.hasOwnProperty('types')
   }
+
 }

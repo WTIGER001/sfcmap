@@ -8,6 +8,9 @@ import { ReplaySubject, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import * as L from 'leaflet';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
+// import '../../../node_modules/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js';
+import '../leaflet/better-scale.js';
+import { BetterScale } from '../leaflet/better-scale'
 import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
 import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
 import { Trans } from '../util/transformation';
@@ -117,6 +120,17 @@ export class MapComponent {
       }
     ).addTo(map);
     L.control.scale().addTo(map)
+
+    // let scaleOptions = {
+    //   doubleLine: true,
+    //   fill: 'fill'
+    // }
+    // var graphicScale = L.control.graphicScale(scaleOptions).addTo(map);
+    // L.control.betterscale().addTo(map);
+    // console.log("SCALE 1:", new BetterScale());
+    // let scale = L.Util.extend({}, new L.Control(), new BetterScale())
+    // console.log("SCALE 2:", scale);
+    // scale.addTo(map)
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);

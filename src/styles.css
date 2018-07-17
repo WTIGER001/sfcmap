@@ -250,3 +250,13 @@ body {
     background-clip: padding-box;
     opacity: 0.7;
   }
+
+
+/* -------------------------------------------- */
+/* Lists and Trees                              */
+/* -------------------------------------------- */
+.selected {
+    background-color: #9ed485;
+    border-radius: 4px;
+    color: black;
+}
