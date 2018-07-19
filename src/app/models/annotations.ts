@@ -350,7 +350,13 @@ export class ShapeAnnotation extends Annotation {
     }
 
     private toRectangle(): Rectangle {
-        return rectangle(this.points, this.options())
+        if (this.points && this.points.length > 1) {
+            return rectangle(this.points, this.options())
+        } else {
+            console.log("BAD RECT ", this)
+            return rectangle([[0, 0], [1, 1]], this.options())
+        }
+
     }
 
     private toCircle(): Circle {

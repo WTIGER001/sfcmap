@@ -42,6 +42,17 @@ export class MapSelectorComponent implements OnInit {
   ngOnInit() {
   }
 
+  newFolder() {
+
+  }
+
+  newMap() {
+    let m = new MapConfig()
+    m.id = 'TEMP'
+    m.name = "New Map"
+    this.mapSvc.setConfig(m)
+  }
+
   select(map: MapConfig) {
     this.mapSvc.setConfig(map)
     this.data.saveRecentMap(map.id)

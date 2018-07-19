@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '../../dialogs/dialog.service';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,7 +9,7 @@ import { DialogService } from '../../dialogs/dialog.service';
 })
 export class AdminComponent implements OnInit {
   tool: string
-  constructor(private dialogs: DialogService) { }
+  constructor(private dialogs: DialogService, private data: DataService) { }
 
   ngOnInit() {
   }
@@ -16,7 +17,8 @@ export class AdminComponent implements OnInit {
   openMap() {
     this.dialogs.openMaps()
   }
-  openGroup() {
-    this.dialogs.openGroups()
+
+  updateMapUrls() {
+    this.data.updateAllMapUrls()
   }
 }

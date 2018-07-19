@@ -45,26 +45,16 @@ export class MapComponent {
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
     private mapSvc: MapService, private data: DataService) {
 
+    this.mapSvc.mapConfig.subscribe(m => {
+      console.log("Map Changed!", this.crs, m);
+      this.mapCfg = m
+      if (m.id != 'BAD') {
+        let factor = Trans.computeFactor(m)
+        let transformation = Trans.createTransform(m)
+        let bounds = latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
+        console.log("bounds", bounds);
 
-    this.mapSvc.mapConfig.subscribe(m => this.mapCfg = m)
-
-    this.mapSvc.mapConfig.pipe(
-      mergeMap((m: MapConfig) => {
-        if (m.id != 'BAD') {
-          this.mapCfg = m
-          return this.data.url(m)
-        } else {
-          this.mapCfg = undefined
-          return of("")
-        }
-      })
-    ).subscribe(url => {
-      console.log("Map Changed!", this.crs);
-      if (url != "") {
-        let factor = Trans.computeFactor(this.mapCfg)
-        let transformation = Trans.createTransform(this.mapCfg)
-        let bounds = latLngBounds([[0, 0], [this.mapCfg.height / factor, this.mapCfg.width / factor]]);
-        let mapLayer = imageOverlay(url, bounds)
+        let mapLayer = imageOverlay(m.image, bounds)
         mapLayer['title'] = "Base Map"
         this.mapSvc.overlayLayer = mapLayer
         this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
@@ -74,7 +64,9 @@ export class MapComponent {
         this.layers.push(mapLayer)
         this.layers.push(this.mapSvc.allMarkersLayer)
         this.layers.push(this.mapSvc.newMarkersLayer)
+
         this.mapSvc.fit(bounds)
+
       } else {
         this.layers.splice(0, this.layers.length)
       }

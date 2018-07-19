@@ -52,6 +52,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Marker Snap
 - Marker hover information (tooltip) / click information (popup)
 - Image Annotations
+- Drop support for images
 - Custom Marker Annotations
 - Recent Markers area
 - Map Link should have optional coordinates
@@ -72,12 +73,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Export / import marker types 
 - Upload Progress
 - Convert group manager to tab or full page using router
-- Convert marker manager to tab or full page using router
 
 ### General Application
 - Loading Indicator
 - Project or Game or Collection top level construct
-- Class names as member variables and then standard methods (implement Clone(), Clean(), etc...)
+- 
 
 ### Mobile Device Support 
 - Tab icons are too small
@@ -98,6 +98,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Chat window ( can use skype )
 - White Board
 - Hexegon Graticules (bigger issue)
+- Mobile Fog of war based on user vision, but aware of doors and obstacles
+- Auras
+
 
 ### Layers Tab
 - Use the List Drag and Drop to get the insertion point

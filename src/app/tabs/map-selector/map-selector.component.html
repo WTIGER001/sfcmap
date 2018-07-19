@@ -1,4 +1,14 @@
 <h1>Select Map</h1>
+<div class="center-layout">
+  <div class="buttonbar">
+    <button class="btn btn-outline-secondary btn-tool" (click)="newFolder()" placement="bottom" ngbTooltip="New Folder for Maps">
+      <fa-icon icon="folder" size="lg"></fa-icon>
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="newMap()" placement="bottom" ngbTooltip="new Map">
+      <fa-icon icon="plus" size="lg"></fa-icon>
+    </button>
+  </div>
+</div>
 <div class="filter-div">
   <input type="text" class="form-control form-control-sm filter" placeholder="filter" [ngModel]="filter" (ngModelChange)="filterUpdate($event)">
   <div class="clear-filter-icon" (click)="clearFilter()" *ngIf='filter.length>0'>

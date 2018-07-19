@@ -20,8 +20,8 @@
             <fa-icon icon="users"></fa-icon> Groups</h6>
           <div class="member-list">
             <div class="custom-control custom-checkbox" *ngFor="let opt of groups">
-              <input type="checkbox" class="custom-control-input" id="ACCESS_{{opt.name}}" [(checklist)]="view" [checklistValue]="opt.name">
-              <label class="custom-control-label ml-2" for="ACCESS_{{opt.name}}"> {{opt.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="ACCESS_{{opt.id}}" [(checklist)]="view" [checklistValue]="opt.id">
+              <label class="custom-control-label ml-2" for="ACCESS_{{opt.id}}"> {{opt.name}}</label>
             </div>
           </div>
           <h6 class="mt-2">
@@ -46,8 +46,8 @@
             <fa-icon icon="users"></fa-icon> Groups</h6>
           <div class="member-list">
             <div class="custom-control custom-checkbox" *ngFor="let opt of groups">
-              <input type="checkbox" class="custom-control-input" id="E{{opt.name}}" [(checklist)]="edit" [checklistValue]="opt.name">
-              <label class="custom-control-label" for="E{{opt.name}}"> {{opt.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="E{{opt.id}}" [(checklist)]="edit" [checklistValue]="opt.id">
+              <label class="custom-control-label" for="E{{opt.id}}"> {{opt.name}}</label>
             </div>
           </div>
           <h6 class="mt-2">

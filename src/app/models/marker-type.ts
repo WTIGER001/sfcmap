@@ -13,7 +13,7 @@ export class MarkerType implements IObjectType {
     }
 
     dbPath(): string {
-        return MarkerType.FOLDER + "/" + this.name
+        return MarkerType.FOLDER + "/" + this.id
     }
 
     readonly objType: string = MarkerType.TYPE

@@ -3,6 +3,7 @@ import { MapConfig } from '../../models';
 import { Util } from 'leaflet';
 import { ImageUtil, ImageResult } from '../../util/ImageUtil';
 import { DataService } from '../../data.service';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-edit-map',
@@ -25,12 +26,15 @@ export class EditMapComponent implements OnInit, AfterViewInit {
     Util.extend(copy, input)
     this.selected = copy
 
-    this.data.thumb(this.selected).subscribe(
-      url => {
-        this.thumbnail = url
-        this.loadImage()
-      }
-    )
+    if (input.id != 'TEMP') {
+      console.log("Getting Thumbnail for ", input);
+      this.data.thumb(this.selected).subscribe(
+        url => {
+          this.thumbnail = url
+          this.loadImage()
+        }
+      )
+    }
   }
 
   constructor(private zone: NgZone,
@@ -75,6 +79,9 @@ export class EditMapComponent implements OnInit, AfterViewInit {
   save() {
     console.log("SAVING MAP");
     if (this.selected) {
+      if (this.selected.id == 'TEMP') {
+        this.selected.id = UUID.UUID().toString()
+      }
       if (this.result) {
         console.log("SAVING MAP with IMages");
         this.data.saveMap(this.selected, this.result.image, this.result.thumb)

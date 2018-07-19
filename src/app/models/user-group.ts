@@ -13,7 +13,10 @@ export class UserGroup implements IObjectType {
     }
 
     readonly objType: string = UserGroup.TYPE
+    id: string
     name: string
     description?: string
     members: string[]
+    edit: string[] = []
+    view: string[] = []
 }

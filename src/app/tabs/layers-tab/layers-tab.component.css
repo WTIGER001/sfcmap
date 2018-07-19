@@ -1,11 +1,4 @@
-.pack {
-    display: flex;
-    flex-direction: row;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
+
 
 .block-link {
     display: block;

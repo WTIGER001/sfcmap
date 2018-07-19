@@ -5,8 +5,10 @@
         <fa-icon icon="map-marker-alt" fixedWidth="true"></fa-icon> Marker Manager</button>
     <button type="button" class="btn btn-outline-secondary admin-btn" (click)="openMap()">
         <fa-icon icon="map" fixedWidth="true"></fa-icon> Maps Manager</button>
-    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="openGroup()">
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="tool='group'">
         <fa-icon icon="user" fixedWidth="true"></fa-icon> Group Manager</button>
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="updateMapUrls()">
+        <fa-icon icon="wrench" fixedWidth="true"></fa-icon> Update Map URLs</button>
 </div>
 <ng-container *ngIf="tool=='marker-type'">
     <div class="admin-tool-header">
@@ -15,5 +17,13 @@
         <fa-icon class="pointer" icon="times" size="lg" (click)="tool=undefined"></fa-icon>
     </div>
     <app-marker-type-manager></app-marker-type-manager>
+</ng-container>
 
+<ng-container *ngIf="tool=='group'">
+    <div class="admin-tool-header">
+        <fa-icon icon="users" size="lg"></fa-icon>
+        Group Manager
+        <fa-icon class="pointer" icon="times" size="lg" (click)="tool=undefined"></fa-icon>
+    </div>
+    <app-group-manager></app-group-manager>
 </ng-container>

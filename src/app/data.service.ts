@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval, Subscription } from 'rxjs';
+import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval, Subscription, Subject, concat, timer } from 'rxjs';
 import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MergedMapType, User, IObjectType, MarkerGroup, Category } from './models';
 import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
 import { NotifyService, Debugger } from './notify.service';
 import { AngularFireStorage } from 'angularfire2/storage';
-import { mergeMap, map, concatMap, bufferCount, tap } from 'rxjs/operators';
+import { mergeMap, map, concatMap, bufferCount, tap, first, retry, retryWhen, delayWhen, delay, concatAll } from 'rxjs/operators';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User as FireUser } from 'firebase';
 import { LangUtil } from './util/LangUtil';
@@ -29,8 +29,8 @@ export class DataService {
   groups = new ReplaySubject<Array<UserGroup>>()
   markerCategories = new ReplaySubject<Array<MarkerCategory>>()
   markerTypes = new ReplaySubject<Array<MarkerType>>()
-  markersWithUrls = new ReplaySubject<Array<MarkerType>>()
-  mapsWithUrls = new ReplaySubject<Array<MapConfig>>()
+  // markersWithUrls = new ReplaySubject<Array<MarkerType>>()
+  // mapsWithUrls = new ReplaySubject<Array<MapConfig>>()
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>()
   categories = new ReplaySubject<Array<Category>>()
 
@@ -51,43 +51,43 @@ export class DataService {
     this.users.subscribe(u => this._users = u)
 
     // Load the URLS for map
-    let mapBuffer = new BufferedSubscriber<MapConfig>()
-    this.maps.pipe(
-      map(i => {
-        mapBuffer.bufferSize = i.length;
-        return i
-      }),
-      concatMap(i => i),
-      mergeMap(m => this.fillInMapUrl(m), 5),
-      mergeMap(m => this.fillInMapThumb(m), 5)
-    ).subscribe(item => {
-      mapBuffer.push(item)
-      if (mapBuffer.full()) {
-        let items = mapBuffer.empty()
-        this.log.debug(`Loaded URLS for all maps ... ${items.length}`)
-        this.mapsWithUrls.next(items)
-      }
-    })
+    // let mapBuffer = new BufferedSubscriber<MapConfig>()
+    // this.maps.pipe(
+    //   map(i => {
+    //     mapBuffer.bufferSize = i.length;
+    //     return i
+    //   }),
+    //   concatMap(i => i),
+    //   mergeMap(m => this.fillInMapUrl(m), 5),
+    //   mergeMap(m => this.fillInMapThumb(m), 5)
+    // ).subscribe(item => {
+    //   mapBuffer.push(item)
+    //   if (mapBuffer.full()) {
+    //     let items = mapBuffer.empty()
+    //     this.log.debug(`Loaded URLS for all maps ... ${items.length}`)
+    //     this.mapsWithUrls.next(items)
+    //   }
+    // })
 
     // Load the URLS for the markers
-    let markerBuffer = new BufferedSubscriber<MarkerType>()
-    this.markerTypes.pipe(
-      map(i => {
-        this.log.debug(`Loading URLS for all Markers .. Step 1... ${i.length}`)
-        markerBuffer.bufferSize = i.length;
-        return i
-      }),
-      concatMap(i => i),
-      mergeMap(m => this.fillInUrl(m), 5)
-      // bufferCount(markerCount[0])
-    ).subscribe(item => {
-      markerBuffer.push(item)
-      if (markerBuffer.full()) {
-        let items = markerBuffer.empty()
-        this.log.debug(`Loaded URLS for all Markers ... ${items.length}`)
-        this.markersWithUrls.next(items)
-      }
-    })
+    // let markerBuffer = new BufferedSubscriber<MarkerType>()
+    // this.markerTypes.pipe(
+    //   map(i => {
+    //     this.log.debug(`Loading URLS for all Markers .. Step 1... ${i.length}`)
+    //     markerBuffer.bufferSize = i.length;
+    //     return i
+    //   }),
+    //   concatMap(i => i),
+    //   mergeMap(m => this.fillInUrl(m), 5)
+    //   // bufferCount(markerCount[0])
+    // ).subscribe(item => {
+    //   markerBuffer.push(item)
+    //   if (markerBuffer.full()) {
+    //     let items = markerBuffer.empty()
+    //     this.log.debug(`Loaded URLS for all Markers ... ${items.length}`)
+    //     this.markersWithUrls.next(items)
+    //   }
+    // })
 
     //Load the Categories
     combineLatest(this.markerCategories, this.markerTypes).subscribe(
@@ -151,6 +151,7 @@ export class DataService {
 
   }
 
+
   loadData() {
     this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
@@ -186,7 +187,7 @@ export class DataService {
       mergeMap(pref => this.getMarkerGroups(mapid))
     )
 
-    return combineLatest(this.markersWithUrls, groupObs, annotationObs).pipe(
+    return combineLatest(this.markerTypes, groupObs, annotationObs).pipe(
       map(value => {
         this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
         let markerTypes = value[0]
@@ -205,8 +206,6 @@ export class DataService {
         if (uncat._annotations.length > 0) {
           groups.push(uncat)
         }
-        console.log("GENERATED GROUPS ", groups);
-
         return groups
       })
     )
@@ -237,13 +236,10 @@ export class DataService {
           let groups = new Array<MarkerGroup>()
           items.forEach(m => {
             let saved = this.toMarkerGroup(m.payload.val())
-            console.log("Checking Access for  ", saved);
             if (this.canView(saved)) {
-              console.log("GRANTE Access");
               groups.push(saved)
             }
           })
-          console.log("LOADED GROUPS ", groups);
           return groups;
         })
       )
@@ -280,7 +276,12 @@ export class DataService {
   }
 
   delete(item: IObjectType) {
+    if (UserGroup.is(item)) {
+      this.completeUserGroupDelete(item)
+    }
+
     let path = item.dbPath()
+
     // let path = this.dbPath(item)
     this.db.object(path).remove().then(() => {
       this.notify.success("Removed ")
@@ -313,9 +314,9 @@ export class DataService {
   }
 
   private toGroup(item: any): UserGroup {
-    // let me = new UserGroup()
-    // Object.assign(me, item)
-    return <UserGroup>item
+    let me = new UserGroup()
+    Object.assign(me, item)
+    return me
   }
 
   private toMarkerCategory(item: any): MarkerCategory {
@@ -357,6 +358,7 @@ export class DataService {
       Object.assign(me, item)
       return me
     }
+    console.log("BAD ANNOATION", item);
     throw new Error("Invalid Annotation")
   }
 
@@ -376,7 +378,9 @@ export class DataService {
         let items = new Array<T>()
         inTypes.forEach(item => {
           let converted = convert(item.payload.val())
-          items.push(converted)
+          if (this.canView(converted)) {
+            items.push(converted)
+          }
         })
         this.log.debug("Loaded " + items.length + " " + name);
 
@@ -393,7 +397,10 @@ export class DataService {
   }
 
   url(item: MapConfig | MarkerType): Observable<string> {
+
     let path = 'images/' + item.id
+    // console.log(`Map URL for ${item.id}-${item.name} is ${path}`);
+
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       map(item => {
@@ -404,9 +411,13 @@ export class DataService {
 
   fillInUrl(item: MarkerType): Observable<MarkerType> {
     let path = 'images/' + item.id
+    // console.log(`Marker Type URL for ${item.id}-${item.name} is ${path}`);
+
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       map(url => {
+        // console.log(`Marker Type URL for ${item.id}-${item.name} ULR IS ${url}`);
+
         item.url = url
         return item
       })
@@ -418,10 +429,14 @@ export class DataService {
   }
 
   fillInMapUrl(item: MapConfig): Observable<MapConfig> {
+
     let path = 'images/' + item.id
+    console.log(`Fill In Map URL for ${item.id}-${item.name} is ${path}`);
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       map(url => {
+        console.log(`Fill In Map URL for ${item.id}-${item.name} URL ${url} for map `, item);
+
         item.image = url
         return item
       })
@@ -431,35 +446,24 @@ export class DataService {
   fillInMapThumb(item: MapConfig): Observable<MapConfig> {
     return this.thumb(item).pipe(
       map(url => {
+        console.log("Thumbnail Complete: ", url, " for ", item.id + " (" + item.name + ") for ", item);
         item.thumb = url
         return item
-      })
+      }),
+      retry(5)
     )
   }
 
-
   thumb(mapCfg: MapConfig): Observable<string> {
     let path = 'images/' + mapCfg.id + "_thumb"
+    console.log(`Thumbnail for ${mapCfg.id}-${mapCfg.name} is ${path}`);
     const ref = this.storage.ref(path);
     return ref.getDownloadURL()
   }
 
-  // saveMarker(item: MarkerAnnotation) {
-  //   // Convert the Saved Marker into a regular object
-  //   let toSave = LangUtil.clean(Object.assign({}, item))
-  //   this.log.debug(toSave);
-
-  //   this.db.object('markers/' + item.map + "/" + item.id).set(toSave).then(() => {
-  //     this.log.debug("Saved a Marker ", toSave)
-  //     this.notify.success("Saved " + item.name)
-  //   }).catch(reason => {
-  //     this.notify.showError(reason, "Error Saving Marker")
-  //   })
-  // }
-
-
   saveWithImage(item: MarkerType) {
     let f: File = item["__FILE"]
+
     this.storage.upload('images/' + item.id, f)
       .snapshotChanges()
       .subscribe(v => { }, e => { }, () => {
@@ -522,21 +526,85 @@ export class DataService {
     })
   }
 
-  saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
-    this.log.debug("Saving Map a");
-    if (thumb && image) {
-      this.log.debug("Saving Map b");
+  updateAllMapUrls() {
+    // Load all the maps
+    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(first()).subscribe(items => {
+      items.forEach(map => {
+        this.updateMapUrls(map)
+      })
+    })
 
+    this.db.list<MarkerType>(MarkerType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
+      items.forEach(markerType => {
+        this.updateMarkerUrls(markerType)
+      })
+    })
+
+  }
+
+
+  updateMarkerUrls(markerType: MarkerType) {
+    let m = this.toMarkerType(markerType)
+    this.fillInUrl(m).subscribe(() => {
+      console.log("Updating markerType DATA ");
+      this.save(m)
+    }, err => {
+      this.log.debug("ERROR: ", err);
+    }, () => {
+      this.log.debug("Complete");
+      this.notify.success("Updated urls for: " + m.name);
+    })
+  }
+
+  updateMapUrls(mapCfg: MapConfig) {
+    let map = this.toMap(mapCfg)
+    concat(
+      this.fillInMapUrl(map),
+      this.fillInMapThumb(map)
+    ).subscribe(() => {
+      console.log("Updating Map DATA ");
+      this.save(map)
+    }, err => {
+      this.log.debug("ERROR: ", err);
+    }, () => {
+      this.log.debug("Complete");
+      this.notify.success("Updated urls for: " + map.name);
+    })
+  }
+
+  saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
+    if (thumb && image) {
       let pathImage = 'images/' + map.id
       let pathThumb = 'images/' + map.id + "_thumb"
+      console.log("Preparing to save Map DATA", map);
 
-      let obsImage = this.saveImage(image, pathImage)
-      let obsThumb = this.saveImage(thumb, pathThumb)
 
-      // Wait for the images to be uploaded
-      forkJoin(obsImage, obsThumb).subscribe(results => {
+      // const saveImg = this.saveImage(image, pathImage)
+      // const saveThumb = this.saveImage(thumb, pathThumb)
+      // const urlImg = this.fillInMapUrl(map)
+      // const urlThumb = this.fillInMapThumb(map)
 
-        this._saveMap(map)
+      // this.waitForComplete(saveImg, () => {
+      //   console.log("Save IMG COMPLETE");
+      //   this.waitForComplete(saveThumb, () => {
+      //     console.log("Save THUMB COMPLETE");
+      //     this.waitForComplete(urlImg, () => {
+      //       console.log("URL IMG COMPLETE");
+      //       this.waitForComplete(urlThumb, () => {
+      //         console.log("URL IMG THUMB");
+      //         console.log("Saving Map DATA", map);
+      //         this.save(map)
+      //       })
+      //     })
+      //   })
+      // })
+
+      forkJoin(this.saveImage(image, pathImage), this.saveImage(thumb, pathThumb)).pipe(
+        mergeMap(result => this.fillInMapUrl(map)),
+        mergeMap(result => this.fillInMapThumb(map))
+      ).subscribe(() => {
+        console.log("Saving Map DATA", map);
+        this.save(map)
       }, err => {
         this.log.debug("ERROR");
         this.log.debug(err);
@@ -544,9 +612,47 @@ export class DataService {
         this.log.debug("Complete");
       })
 
+
+
+      // const example = source.pipe(concatAll());
+      // example.subscribe(() => {
+      //   console.log("Saving Map DATA", map);
+      //   this.save(map)
+      // }, err => {
+      //   this.log.debug("ERROR");
+      //   this.log.debug(err);
+      // }, () => {
+      //   this.log.debug("Complete");
+      // })
+
+      // concat(
+      //   this.saveImage(image, pathImage),
+      //   this.saveImage(thumb, pathThumb),
+      //   this.fillInMapUrl(map),
+      //   this.fillInMapThumb(map)
+      // ).subscribe(() => {
+      //   console.log("Saving Map DATA", map);
+      //   this.save(map)
+      // }, err => {
+      //   this.log.debug("ERROR");
+      //   this.log.debug(err);
+      // }, () => {
+      //   this.log.debug("Complete");
+      // })
+
     } else {
-      this._saveMap(map)
+      this.save(map)
     }
+  }
+
+  waitForComplete(obs: Observable<any>, fn: () => void) {
+    obs.subscribe(
+      onNext => { },
+      onError => { },
+      () => {
+        fn()
+      }
+    )
   }
 
   private _saveMap(item: MapConfig) {
@@ -560,11 +666,19 @@ export class DataService {
   }
 
   saveImage(data: Blob, path: string) {
-    this.log.debug("Saving Map Blob " + path);
+    console.log("Saving Map Blob " + path);
 
     const ref = this.storage.ref(path)
-    return ref.put(data)
-      .snapshotChanges()
+    let loadProgress = new Subject<number>()
+    loadProgress.subscribe(this.notify.progress("Loading Image"))
+
+    const task = ref.put(data)
+    task.percentageChanges()
+      .subscribe(loadProgress)
+
+    return loadProgress
+
+    // return ref.put(data).percentageChanges()
   }
 
   deleteMapType(item: MapType) {
@@ -623,12 +737,82 @@ export class DataService {
     this.storage.ref('images/' + dbId).delete()
   }
 
-  deleteUserGroup(item: UserGroup): any {
-    this.db.object('groups/' + item.name).remove().then(() => {
-      this.notify.success("Removed " + name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Deleteing " + name)
+  // Deletes the access id from all the things necessary
+  completeUserGroupDelete(grp: UserGroup): any {
+    this.db.list<User>(User.FOLDER).valueChanges().pipe(first()).subscribe(users => {
+      users.forEach(u => {
+        let id = this.remove(u.assumedGroups, grp.id)
+        let name = this.remove(u.assumedGroups, grp.name)
+        if (id || name) {
+          this.save(this.toUser(u))
+        }
+      })
     })
+
+    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(first()).subscribe(items => {
+      console.log("Checking on Maps");
+      this.removeGroup(items, grp, this.toMap)
+    })
+
+    this.db.list<MapType>(MapType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
+      console.log("Checking on Map Type");
+      this.removeGroup(items, grp, this.toMapType)
+    })
+
+    this.db.list<MarkerType>(MarkerType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
+      console.log("Checking on Marker Type");
+      this.removeGroup(items, grp, this.toMarkerType)
+    })
+
+    this.db.list<MarkerType>(MarkerCategory.FOLDER).valueChanges().pipe(first()).subscribe(items => {
+      console.log("Checking on Marker Category");
+      this.removeGroup(items, grp, this.toMarkerCategory)
+    })
+
+    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(
+      first(),
+      concatMap(m => m),
+      tap(m => console.log("MAP ", m.id)),
+      mergeMap(m => this.db.list<MarkerGroup>(MarkerGroup.FOLDER + "/" + m.id).valueChanges())
+    ).subscribe(all => {
+      console.log("Checking on Marker Group");
+      this.removeGroup(all, grp, this.toMarkerGroup)
+    })
+
+    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(
+      first(),
+      concatMap(m => m),
+      tap(m => console.log("MAP ", m.id)),
+      mergeMap(m => this.db.list<Annotation>(Annotation.FOLDER + "/" + m.id).valueChanges())
+    ).subscribe(all => {
+      console.log("Checking on Annotations");
+      this.removeGroup(all, grp, this.toAnnotation)
+    })
+
+  }
+
+  private removeGroup(items: any[], grp: UserGroup, convert: (a: any) => any) {
+    items.forEach(raw => {
+      let item = convert(raw)
+      let viewId = this.remove(item.view, grp.id)
+      let viewName = this.remove(item.view, grp.name)
+      let editId = this.remove(item.edit, grp.id)
+      let editName = this.remove(item.edit, grp.name)
+      if (viewId || viewName || editId || editName) {
+        this.save(item)
+      }
+    })
+  }
+
+  private remove(arr: string[], val: string): boolean {
+    if (arr) {
+      let indx = arr.indexOf(val)
+      if (indx >= 0) {
+        arr.splice(indx)
+        return true
+      }
+    }
+    return false
   }
 
   isRestricted(obj: any): boolean {
@@ -836,3 +1020,37 @@ export class BufferedSubscriber<T> {
     return temp
   }
 }
+
+
+// export class Sequence {
+//   all: Observable<any>[]
+//   constructor(...obs: Observable<any>[]) {
+//     this.all = obs
+//   }
+
+//   chain(obs : Observable<any>,next : Observable<any>) {
+//     obs.subscribe(
+//        onNext => {},
+//        onError => {},
+//        () => {
+//         next.subscribe()
+//        }
+//     )
+//   }
+
+//   waitForComplete(obs : Observable<any>, fn:  ()=> void) {
+//     obs.subscribe(
+//        onNext => {},
+//        onError => {},
+//        () => {
+//         fn()
+//        }
+//     )
+//   }
+
+//   run(fn: ()=> void) {
+//     this.all.forEach( obs => {
+//       this.waitForComplete(obs)
+//     })
+//   }
+// }

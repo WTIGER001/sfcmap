@@ -11,9 +11,9 @@
 
   <div class="group-list">
     <div class="custom-control custom-checkbox" *ngFor="let g of groups">
-      <input type="checkbox" class="custom-control-input" id="{{g.name}}" [(checklist)]="user.assumedGroups" [checklistValue]="g.name"
+      <input type="checkbox" class="custom-control-input" id="ASSUMED_{{g.id}}" [(checklist)]="user.assumedGroups" [checklistValue]="g.id"
         (checklistChange)="save()">
-      <label class="custom-control-label" for="{{g.name}}">{{g.name}}</label>
+      <label class="custom-control-label" for="ASSUMED_{{g.id}}">{{g.name}}</label>
       <small *ngIf="g.description" class="form-text text-muted">{{g.description}}</small>
     </div>
   </div>

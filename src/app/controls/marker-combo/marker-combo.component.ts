@@ -61,8 +61,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
 
   ngOnInit(): void {
     this.data.categories.subscribe(categories => {
-      console.log("All CATEGORIES: ", categories);
-
       this.all = categories
       this.refresh()
     })
@@ -78,7 +76,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
       mapTypeId = this.mapType.id
     }
 
-    console.log("MAP TYPE ID: ", mapTypeId);
     if (this.innerValue) {
       this.selected = this.mapSvc.getMarkerType(this.innerValue)
     }

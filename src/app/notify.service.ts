@@ -1,8 +1,9 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonDialogService } from './dialogs/common-dialog.service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { environment } from '../environments/environment';
+import { Observable, Observer } from 'rxjs';
 
 export const Levels = [
   'TRACE',
@@ -40,6 +41,38 @@ export class NotifyService {
     this.toast.success(message)
     console.log(message);
   }
+
+  progress(title: string): Observer<number> {
+
+    let cfg: Partial<IndividualConfig> = {
+      timeOut: 10000,
+      // enableHtml: true,
+    }
+    let message = "Just Starting"
+    let toast = this.toast.show(message, title, cfg, "success")
+    let observer = {
+      next: (value: number) => {
+        console.log("PROGRESS: ", value.toFixed(1));
+
+        let message = value.toFixed(1) + " % Complete"
+
+        toast.message = message
+        toast.toastRef.componentInstance.message = message
+      },
+      error: (err: any) => {
+
+      },
+      complete: () => {
+        console.log("COMPLETE: ");
+        toast.toastRef.componentInstance.message = "Complete!"
+        this.toast.remove(toast.toastId)
+      }
+    }
+    return observer
+
+  }
+
+
 
   showError(error: string, operation?: string, code?: number) {
     let err = new Error()
@@ -128,4 +161,8 @@ export interface Debugger {
   info(msg: any, ...params: any[])
   log(msg: any, ...params: any[])
   fmt(msg: string, ...args): string
+}
+
+class ProgressTracker {
+
 }

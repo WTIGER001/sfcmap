@@ -1,10 +1,26 @@
-
+/* -------------------------------------------- */
+/* Imports                                      */
+/* -------------------------------------------- */
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+/* -------------------------------------------- */
+/* Global setuyp and variables                  */
+/* -------------------------------------------- */
+
+:root {
+    --lock-color : rgb(127, 0, 0);
+    --primary-color : white;
+    --highlight-color : #9ed485;
+    --muted-color: #515558;
+}
 
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
+/* -------------------------------------------- */
+/* Typography                                   */
+/* -------------------------------------------- */
 
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
@@ -181,7 +197,7 @@ body {
 }
 
 .lockbtn {
-    color: red;
+    color: var(--lock-color);
     cursor: pointer;
 }
 
@@ -256,7 +272,22 @@ body {
 /* Lists and Trees                              */
 /* -------------------------------------------- */
 .selected {
-    background-color: #9ed485;
+    background-color: var(--highlight-color);
     border-radius: 4px;
     color: black;
 }
+
+.pack {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+
+/* -------------------------------------------- */
+/* Toasts and Progress                          */
+/* -------------------------------------------- */
+

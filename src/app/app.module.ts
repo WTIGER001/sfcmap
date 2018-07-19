@@ -35,7 +35,6 @@ import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { NotifyService } from './notify.service';
 import { DataService } from './data.service';
-import { MgrGroupComponent } from './mgr-group/mgr-group.component';
 import { MgrMapComponent } from './mgr-map/mgr-map.component';
 import { DialogService } from './dialogs/dialog.service';
 import { ChecklistModule } from 'angular-checklist';
@@ -64,6 +63,7 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
 import { EditMarkerTypeComponent } from './controls/edit-marker-type/edit-marker-type.component';
 import { EditMarkerTypeCategoryComponent } from './controls/edit-marker-type-category/edit-marker-type-category.component';
 import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marker-type-manager.component';
+import { GroupManagerComponent } from './controls/group-manager/group-manager.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +77,6 @@ import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marke
     InputDialogComponent,
     MessageDialogComponent,
     ConfirmDialogComponent,
-    MgrGroupComponent,
     MgrMapComponent,
     AccessDialogComponent,
     MarkerComboComponent,
@@ -103,6 +102,7 @@ import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marke
     EditMarkerTypeComponent,
     EditMarkerTypeCategoryComponent,
     MarkerTypeManagerComponent,
+    GroupManagerComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,7 +139,6 @@ import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marke
     InputDialogComponent,
     MessageDialogComponent,
     ConfirmDialogComponent,
-    MgrGroupComponent,
     MgrMapComponent,
     AccessDialogComponent,
     DistanceEntryComponent

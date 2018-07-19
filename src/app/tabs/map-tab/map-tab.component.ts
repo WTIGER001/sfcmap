@@ -40,6 +40,10 @@ export class MapTabComponent implements OnInit {
     this.mapSvc.mapConfig.subscribe(m => {
       if (m.id == 'Bad') {
         this.mapCfg = undefined
+      } else if (m.id == 'TEMP') {
+        this.mapCfg = m
+        this.edit = true
+        this.grid.remove()
       } else {
         this.mapCfg = m
         this.edit = false

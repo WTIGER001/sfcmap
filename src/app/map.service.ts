@@ -145,7 +145,7 @@ export class MapService {
       this.categories = cats
     })
 
-    let makeMarkerTypes = this.data.markersWithUrls.pipe(map(
+    let makeMarkerTypes = this.data.markerTypes.pipe(map(
       markertypes => {
         this.mapLoad.debug("Loading Marker Types")
         this.iconCache.load(markertypes, this._map)
@@ -423,12 +423,15 @@ export class MapService {
    * @param mapCfg 
    */
   setConfig(mapCfg: MapConfig) {
+    console.log("Setting COnfiguration ", mapCfg);
+
     this._mapCfg = mapCfg
     if (mapCfg == null || mapCfg == undefined) {
       let badmapCfg = new MapConfig()
       badmapCfg.id = "BAD"
       this.mapConfig.next(badmapCfg)
     } else {
+
       this.mapConfig.next(mapCfg)
     }
   }
