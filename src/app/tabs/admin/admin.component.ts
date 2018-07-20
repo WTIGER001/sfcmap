@@ -9,13 +9,9 @@ import { DataService } from '../../data.service';
 })
 export class AdminComponent implements OnInit {
   tool: string
-  constructor(private dialogs: DialogService, private data: DataService) { }
+  constructor(private data: DataService) { }
 
   ngOnInit() {
-  }
-
-  openMap() {
-    this.dialogs.openMaps()
   }
 
   updateMapUrls() {

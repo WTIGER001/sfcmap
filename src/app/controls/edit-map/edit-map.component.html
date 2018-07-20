@@ -5,9 +5,9 @@
 <div class="form-group  mb-0">
   <label for="name">Map Image</label>
 </div>
-<div class="form-group  mb-0 center">
+<div class="form-group  mb-0">
   <label for="file" class="custom-file-upload p-0 center" (click)="getFile()">
-    <canvas #mycanvas class="file-div" src="./assets/missing.png"></canvas>
+    <canvas #mycanvas class="file-div"></canvas>
   </label>
   <input id="file" #filecontrol type="file" class="inputfile " id="name" accept=".jpg,.png" placeholder="select map image"
     (change)="setFile($event)">
@@ -15,11 +15,11 @@
 <div class="area">
   <div class="form-group">
     <label for="dim">Height</label>
-    <input id="dim" type="text" class="form-control " id="name" placeholder="Enter Height" [(ngModel)]="selected.height">
+    <input id="dim" type="text" class="form-control form-control-sm" id="name" placeholder="Enter Height" [(ngModel)]="selected.height">
   </div>
   <div class="form-group">
     <label for="dim">Width</label>
-    <input id="dim" type="text" class="form-control " id="name" placeholder="Enter Width" [(ngModel)]="selected.width">
+    <input id="dim" type="text" class="form-control form-control-sm" id="name" placeholder="Enter Width" [(ngModel)]="selected.width">
   </div>
 </div>
 <div class="form-group">

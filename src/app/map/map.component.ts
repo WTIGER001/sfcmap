@@ -5,7 +5,7 @@ import { MapService } from '../map.service';
 import { DataService } from '../data.service';
 import { MapConfig, User, Selection, Annotation } from '../models';
 import { ReplaySubject, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, delay } from 'rxjs/operators';
 import * as L from 'leaflet';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
 // import '../../../node_modules/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js';
@@ -25,7 +25,7 @@ export class MapComponent {
   map: LeafletMap
 
   bounds = latLngBounds([[0, 0], [1536, 2048]]);
-  mainMap = imageOverlay('./assets/missing.png', this.bounds);
+  mainMap = imageOverlay('https://firebasestorage.googleapis.com/v0/b/sfcmap.appspot.com/o/images%2Ff1d8f636-6e8e-bde6-15b0-af7f81571c12?alt=media&token=582b3c4c-f8d5-44bd-a211-f3c609f0b23a', this.bounds);
   crs = Trans.createManualCRS(6)
 
   options = {
@@ -38,7 +38,7 @@ export class MapComponent {
     editable: true,
   };
 
-  layers: Layer[] = [];
+  layers: Layer[] = [this.mainMap];
 
   currentSelection: Selection = new Selection([])
 
@@ -46,13 +46,12 @@ export class MapComponent {
     private mapSvc: MapService, private data: DataService) {
 
     this.mapSvc.mapConfig.subscribe(m => {
-      console.log("Map Changed!", this.crs, m);
       this.mapCfg = m
-      if (m.id != 'BAD') {
+      console.log("Map Changed!", this.crs);
+      if (m.id != "BAD") {
         let factor = Trans.computeFactor(m)
         let transformation = Trans.createTransform(m)
         let bounds = latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
-        console.log("bounds", bounds);
 
         let mapLayer = imageOverlay(m.image, bounds)
         mapLayer['title'] = "Base Map"
@@ -66,7 +65,6 @@ export class MapComponent {
         this.layers.push(this.mapSvc.newMarkersLayer)
 
         this.mapSvc.fit(bounds)
-
       } else {
         this.layers.splice(0, this.layers.length)
       }

@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, ReplaySubject, combineLatest } from 'rxjs';
 import { MapType, MapConfig, MergedMapType, User } from '../../models';
 import { DataService } from '../../data.service';
 import { MapService } from '../../map.service';
+import { EditMapComponent } from '../../controls/edit-map/edit-map.component';
+import { EditMapTypeComponent } from '../../controls/edit-map-type/edit-map-type.component';
+import { CommonDialogService } from '../../dialogs/common-dialog.service';
 
 @Component({
   selector: 'app-map-selector',
@@ -10,14 +13,20 @@ import { MapService } from '../../map.service';
   styleUrls: ['./map-selector.component.css']
 })
 export class MapSelectorComponent implements OnInit {
+  @ViewChild('editmap') editmap: EditMapComponent
+  @ViewChild('editfolder') editfolder: EditMapTypeComponent
+
   merged: Array<MergedMapType>
   filtered: Array<MergedMapType>
   recent: Array<MapConfig> = []
 
+  edit = false
+  folder: MapType
+  newMapCfg: MapConfig
   isCollapsed = {}
   filter = ''
 
-  constructor(private data: DataService, private mapSvc: MapService) {
+  constructor(private data: DataService, private mapSvc: MapService, private cd: CommonDialogService) {
     this.data.mapTypesWithMaps.subscribe(items => {
       this.merged = items
       this.updateList()
@@ -43,14 +52,43 @@ export class MapSelectorComponent implements OnInit {
   }
 
   newFolder() {
+    let f = new MapType()
+    f.id = 'TEMP'
+    f.name = "New Folder"
+    this.edit = true
+    this.folder = f
+  }
 
+  editStart() {
+    this.edit = true
+  }
+
+  delete() {
+    if (this.folder) {
+      this.cd.confirm("Are you sure you want to delete " + this.folder.name + "? If you do then you will not be able to access the maps in this category any longer.", "Confirm Delete").subscribe(
+        r => {
+          if (r) {
+            let f = new MapType()
+            f.id = this.folder.id
+            this.data.delete(f)
+            this.folder = undefined
+          }
+        }
+      )
+    }
   }
 
   newMap() {
     let m = new MapConfig()
     m.id = 'TEMP'
     m.name = "New Map"
-    this.mapSvc.setConfig(m)
+
+    this.edit = true
+    this.newMapCfg = m
+  }
+
+  selectFolder(mapType: MapType) {
+    this.folder = mapType
   }
 
   select(map: MapConfig) {
@@ -65,6 +103,22 @@ export class MapSelectorComponent implements OnInit {
   filterUpdate(event) {
     this.filter = event
     this.updateList()
+  }
+
+  save() {
+    if (this.newMapCfg) {
+      this.editmap.save()
+    } else if (this.folder) {
+      this.editfolder.save()
+    }
+
+    this.cancel()
+  }
+
+  cancel() {
+    this.edit = false
+    this.newMapCfg = undefined
+    this.folder = undefined
   }
 
   clearFilter() {

@@ -1,0 +1,12 @@
+<div class="form-group">
+  <label for="name">Name</label>
+  <input type="text" class="form-control " id="name" placeholder="Enter Map Type Name" [(ngModel)]="selected.name">
+</div>
+<div class="form-group">
+  <label for="name">Default Marker</label>
+  <app-marker-combo [(ngModel)]="selected.defaultMarker" [mapType]="selected"></app-marker-combo>
+</div>
+<div class="form-group">
+  <label for="name">Order</label>
+  <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.order">
+</div>

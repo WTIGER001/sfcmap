@@ -13,7 +13,7 @@ export class MapType implements IObjectType {
     }
 
     dbPath(): string {
-        return MapType.FOLDER + "/" + this.name
+        return MapType.FOLDER + "/" + this.id
     }
 
     readonly objType: string = MapType.TYPE
