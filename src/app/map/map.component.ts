@@ -8,7 +8,8 @@ import { ReplaySubject, of } from 'rxjs';
 import { mergeMap, delay } from 'rxjs/operators';
 import * as L from 'leaflet';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
-import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
+// import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
+import '../leaflet/edit.js';
 import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
 import { Trans } from '../util/transformation';
 import { Scale } from '../leaflet/scale';
@@ -74,6 +75,9 @@ export class MapComponent {
         this.layers.push(this.mapSvc.newMarkersLayer)
 
         this.mapSvc.fit(bounds)
+
+        this.map.editTools.editLayer['title'] = "EDIT LAYER"
+        this.map.editTools.featuresLayer['title'] = "FEATURES LAYER"
       } else {
         this.layers.splice(0, this.layers.length)
       }

@@ -48,6 +48,7 @@ export abstract class Annotation implements IObjectType {
 
     public setAttachment(item: any) {
         this._leafletAttachment = item
+        this._leafletAttachment['title'] = this.name
     }
 
     public getAttachment(): any {

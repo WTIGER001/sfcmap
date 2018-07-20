@@ -5,7 +5,7 @@ import { MapConfig, MarkerGroup, MergedMapType, Selection } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
-import { Map as LeafletMap, LeafletMouseEvent } from 'leaflet';
+import { Map as LeafletMap, LeafletMouseEvent, circle } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Format } from '../../util/format';
@@ -117,9 +117,11 @@ export class MarkerTabComponent implements OnInit {
   }
 
   public newCircle() {
+
     let s = new ShapeAnnotation('circle')
     s.name = "New Circle"
     let shp = this.mapSvc._map.editTools.startCircle()
+    shp.addTo(this.mapSvc.newMarkersLayer)
     s.setAttachment(shp)
     this.completeShape(s)
   }
@@ -141,10 +143,19 @@ export class MarkerTabComponent implements OnInit {
   }
 
   private completeShape(s: ShapeAnnotation) {
-    s.id = UUID.UUID().toString()
+    s.id = 'TEMP'
     s.map = this.map.id
     s.copyOptionsFromShape()
 
+    s.getAttachment().on('click', event => {
+      console.log("CLICKED ON  : ", event);
+      this.mapSvc.printLayers()
+      console.log("------>> ", event.target.getLeafletId());
+
+    }, this)
+
+
+    this.selection = new Selection([s])
     this.item = s
     this.edit = true
   }
@@ -178,7 +189,9 @@ export class MarkerTabComponent implements OnInit {
     this.disableDragging()
     if (ShapeAnnotation.is(this.item)) {
       this.item.asItem().disableEdit()
+      this.mapSvc._map.editTools.featuresLayer.clearLayers()
     }
+    this.mapSvc.newMarkersLayer.clearLayers()
 
     if (this.item.id == "TEMP") {
       this.item.getAttachment().remove()
@@ -190,6 +203,9 @@ export class MarkerTabComponent implements OnInit {
     this.edit = false
     this.disableDragging()
     this.selection.items.forEach(m => {
+      if (m.id == 'TEMP') {
+        m.id = UUID.UUID().toString()
+      }
       this.saveItem(m)
     })
   }

@@ -110,7 +110,6 @@ export class MapService {
 
     this.newMarkersLayer = layerGroup()
     this.newMarkersLayer['title'] = "New Markers"
-
     this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
 
     // When the map changees regenerate all the cached icons. We do this because the scale can change for the map and there may me more zoom levels
@@ -442,6 +441,10 @@ export class MapService {
    */
   setMap(map: LeafletMap): any {
     this._map = map
+
+    // map.editTools.editLayer['title'] = "Edit Layer"
+    // map.editTools.featuresLayer['title'] = "Feature Layer"
+
     this.map.next(map)
   }
 

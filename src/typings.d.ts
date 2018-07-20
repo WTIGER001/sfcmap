@@ -133,6 +133,12 @@ declare module 'leaflet' {
          * When you need to stop any ongoing drawing, without needing to know which editor is active.
          */
         stopDrawing(): void;
+
+
+        featuresLayer: L.LayerGroup;
+
+        editLayer: L.LayerGroup;
+
     }
 
     let Editable: EditableStatic;

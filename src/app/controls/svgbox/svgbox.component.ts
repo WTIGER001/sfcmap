@@ -33,25 +33,9 @@ export class SvgboxComponent {
 
   viewbox() {
     if (ShapeAnnotation.is(this.item)) {
-      let d = this.item.asItem().getElement().getAttribute("d")
-      let mod = d.replace(/[a-zA-Z]+/g, " ").trim()
-      let parts = mod.split(" ")
-
-      let minX: number = parseInt(parts[0])
-      let maxX: number = parseInt(parts[0])
-      let minY: number = parseInt(parts[1])
-      let maxY: number = parseInt(parts[1])
-      for (let i = 2; i < parts.length; i += 2) {
-        let x: number = parseInt(parts[i])
-        let y: number = parseInt(parts[i + 1])
-        maxX = Math.max(x, maxX)
-        maxY = Math.max(y, maxY)
-        minX = Math.min(x, minX)
-        minY = Math.min(y, minY)
-      }
-      const pad = this.padding
-
-      let result = (minX - pad) + " " + (minY - pad) + " " + ((maxX - minX) + 2 * pad) + " " + ((maxY - minY) + 2 * pad)
+      let path = this.item.asItem().getElement()
+      let bb = path.getBoundingClientRect()
+      let result = (bb.left - this.padding) + " " + (bb.top - this.padding) + " " + (bb.width + 2 * this.padding) + " " + (bb.height + 2 * this.padding)
       return result
     }
     return "0 0 200 100"
@@ -59,25 +43,9 @@ export class SvgboxComponent {
 
   dynamicHeight() {
     if (ShapeAnnotation.is(this.item)) {
-      let d = this.item.asItem().getElement().getAttribute("d")
-      let mod = d.replace(/[^0-9]+/g, " ").trim()
-      let parts = mod.split(" ")
-
-      let minX: number = parseInt(parts[0])
-      let maxX: number = parseInt(parts[0])
-      let minY: number = parseInt(parts[1])
-      let maxY: number = parseInt(parts[1])
-      for (let i = 2; i < parts.length; i += 2) {
-        let x: number = parseInt(parts[i])
-        let y: number = parseInt(parts[i + 1])
-        maxX = Math.max(x, maxX)
-        maxY = Math.max(y, maxY)
-        minX = Math.min(x, minX)
-        minY = Math.min(y, minY)
-      }
-      let deltaX = (maxX - minX)
-      let deltaY = (maxY - minY)
-      let aspect = deltaY / deltaX
+      let path = this.item.asItem().getElement()
+      let bb = path.getBoundingClientRect()
+      let aspect = bb.height / bb.width
       return Math.min(200 * aspect, this.maxheight)
     }
     return 100

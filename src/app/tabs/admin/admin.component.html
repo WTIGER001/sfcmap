@@ -7,6 +7,8 @@
         <fa-icon icon="user" fixedWidth="true"></fa-icon> Group Manager</button>
     <button type="button" class="btn btn-outline-secondary admin-btn" (click)="updateMapUrls()">
         <fa-icon icon="wrench" fixedWidth="true"></fa-icon> Update Map URLs</button>
+    <button type="button" class="btn btn-outline-secondary admin-btn" (click)="clearNewMarkers()">
+        <fa-icon icon="wrench" fixedWidth="true"></fa-icon> Clear New Marker Layer</button>
 </div>
 <ng-container *ngIf="tool=='marker-type'">
     <div class="admin-tool-header">

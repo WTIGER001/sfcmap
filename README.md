@@ -56,16 +56,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Custom Marker Annotations
 - Recent Markers area
 - Map Link should have optional coordinates
-- Fix Circle Annotation... Doesnt work
 - SVG Annotations (low priority)
 
 ### Map 
 - Restyle zoom buttons
-- Switch to better scale
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Border Decoration for regions (a,b,c, etc)
-- Enable / Disable Scale
-- Enable / Disable Coordinates
 - Fixed Marker Size (in map units)
 
 ### Data Management
