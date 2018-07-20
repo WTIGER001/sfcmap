@@ -64,20 +64,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Switch to better scale
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Border Decoration for regions (a,b,c, etc)
-- Set map units (in creation?)
 - Enable / Disable Scale
 - Enable / Disable Coordinates
 - Fixed Marker Size (in map units)
 
 ### Data Management
 - Export / import marker types 
-- Upload Progress
-- Convert group manager to tab or full page using router
+- Add validation to map form
+- Add validation to map Type form
+- Add validation to marker Type form
+- Add validation to group form
 
 ### General Application
-- Loading Indicator
-- Project or Game or Collection top level construct
-- 
+- Project or Game or Collection top level construct (this changes a lot)
+- Remove the temporary objects like category and mergedmap type
+- move the dbPath functions to the data service
+- explore e2e testing
+- clean up the css to the big style sheet
 
 ### Mobile Device Support 
 - Tab icons are too small
@@ -100,10 +103,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Hexegon Graticules (bigger issue)
 - Mobile Fog of war based on user vision, but aware of doors and obstacles
 - Auras
+- Ping Graphic
 
-
-### Layers Tab
-- Use the List Drag and Drop to get the insertion point
-
-## Notes
-- Not sure how we should delete map types or marker categories
+## Design Thoughts
+Still have to figure out how I want to grow the application to support RPGs... How much this could replace
+a normal table top simulator. I think i need a 'realtime' layer somehow. That should be nothing more than
+another type of list on firebase. One that save is called all the time (on a debounce).
+ 
+I can see content for a map just for a single game or something...

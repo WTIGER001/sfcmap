@@ -268,6 +268,88 @@ body {
     opacity: 0.7;
   }
 
+/* -------------------------------------------- */
+/* Leaflet Scale Styles                         */
+/* -------------------------------------------- */
+.sfc-scale {
+    padding: 20px 20px 5px 5px;
+    background-color:  rgba(254,246,237, .8);
+    opacity: .8;
+    border-radius: 2px;
+}
+
+.sfc-scale-ruler {
+    border: 1px solid rgb(168, 166, 166);
+    display: flex;
+}
+
+.sfc-scale-division {
+    display: flex;
+    position: relative;
+}
+
+.sfc-scale-bar-label {
+    font-size: .9em;
+    color: black;
+    text-shadow: #fef6ed 1px 1px 4px;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    right:0;
+    margin-right: -50%;
+    white-space: nowrap;
+}
+
+.sfc-scale-bar-odd {
+    /* background-color: #6b3720; */
+    background-color: rgba(127, 127, 127, .8)
+    /* background-color: var(--lock-color) */
+}
+
+.sfc-scale-bar-even {
+    /* background-color: #fef6ed; */
+    background-color: rgba(254,246,237, .8)
+}
+
+.uiElement {
+    background-color: transparent
+}
+
+.uiElement labelFirst {
+    font-size: .9em;
+    /* color: #fef6ed;
+    text-shadow: black 1px 1px 8pxem; */
+    color: black;
+    text-shadow: #fef6ed 0px 0px 8px;
+}
+
+.leaflet-container {
+    font-family: inherit;
+    font-size: .9em;
+}
+
+
+
+.leaflet-control-coordinates .uiElement {
+	margin:4px;
+}
+
+.leaflet-control-coordinates .uiElement .labelFirst {
+	margin-right:4px;
+}
+
+.leaflet-control-coordinates .uiHidden{
+	display:none;
+}
+
+.leaflet-control-coordinates .uiElement.label {
+    color: #fef6ed;
+    text-shadow: black 1px 1px 8pxem;
+	font-weight: inherit;
+    font-size: .95em;
+	padding: 0;
+	display: inherit;
+}
 
 /* -------------------------------------------- */
 /* Lists and Trees                              */

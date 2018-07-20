@@ -8,12 +8,10 @@ import { ReplaySubject, of } from 'rxjs';
 import { mergeMap, delay } from 'rxjs/operators';
 import * as L from 'leaflet';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
-// import '../../../node_modules/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js';
-import '../leaflet/better-scale.js';
-import { BetterScale } from '../leaflet/better-scale'
 import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
 import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
 import { Trans } from '../util/transformation';
+import { Scale } from '../leaflet/scale';
 
 @Component({
   selector: 'app-map',
@@ -36,6 +34,7 @@ export class MapComponent {
     attributionControl: false,
     zoomDelta: 0.5,
     editable: true,
+    divisions: 4,
   };
 
   layers: Layer[] = [this.mainMap];
@@ -99,6 +98,9 @@ export class MapComponent {
     this.map = map
     console.log("Map Ready!", map);
 
+    const scale = new Scale()
+    scale.addTo(map)
+
     // Install plugins
     L.control.coordinates(
       {
@@ -109,24 +111,11 @@ export class MapComponent {
         enableUserInput: false
       }
     ).addTo(map);
-    L.control.scale().addTo(map)
-
-    // let scaleOptions = {
-    //   doubleLine: true,
-    //   fill: 'fill'
-    // }
-    // var graphicScale = L.control.graphicScale(scaleOptions).addTo(map);
-    // L.control.betterscale().addTo(map);
-    // console.log("SCALE 1:", new BetterScale());
-    // let scale = L.Util.extend({}, new L.Control(), new BetterScale())
-    // console.log("SCALE 2:", scale);
-    // scale.addTo(map)
+    // L.control.scale().addTo(map)
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);
     });
   }
-
-
 
 }
