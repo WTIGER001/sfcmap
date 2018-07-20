@@ -12,6 +12,7 @@ import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
 import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
 import { Trans } from '../util/transformation';
 import { Scale } from '../leaflet/scale';
+import { UrlResolver } from '@angular/compiler';
 
 @Component({
   selector: 'app-map',
@@ -25,6 +26,10 @@ export class MapComponent {
   bounds = latLngBounds([[0, 0], [1536, 2048]]);
   mainMap = imageOverlay('https://firebasestorage.googleapis.com/v0/b/sfcmap.appspot.com/o/images%2Ff1d8f636-6e8e-bde6-15b0-af7f81571c12?alt=media&token=582b3c4c-f8d5-44bd-a211-f3c609f0b23a', this.bounds);
   crs = Trans.createManualCRS(6)
+
+  user: User
+  coords: L.Control
+  scale: Scale
 
   options = {
     zoom: 1,
@@ -43,6 +48,11 @@ export class MapComponent {
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
     private mapSvc: MapService, private data: DataService) {
+
+    this.data.user.subscribe(u => {
+      this.user = u
+      this.applyPrefs()
+    })
 
     this.mapSvc.mapConfig.subscribe(m => {
       this.mapCfg = m
@@ -98,11 +108,10 @@ export class MapComponent {
     this.map = map
     console.log("Map Ready!", map);
 
-    const scale = new Scale()
-    scale.addTo(map)
+    this.scale = new Scale()
 
     // Install plugins
-    L.control.coordinates(
+    this.coords = L.control.coordinates(
       {
         decimals: 2,
         position: "bottomleft",
@@ -110,12 +119,25 @@ export class MapComponent {
         labelTemplateLng: "X: {x}",
         enableUserInput: false
       }
-    ).addTo(map);
+    )
     // L.control.scale().addTo(map)
+
+    this.applyPrefs()
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);
     });
   }
+
+
+
+  applyPrefs() {
+    if (this.user.prefs && this.scale) {
+      this.user.prefs.showScale ? this.scale.addTo(this.map) : this.scale.remove()
+      this.user.prefs.showCoords ? this.coords.addTo(this.map) : this.coords.remove()
+    }
+  }
+
+
 
 }

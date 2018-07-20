@@ -12,6 +12,8 @@ import { AbstractValueAccessor } from '../value-accessor';
   ]
 })
 export class CheckboxComponent extends AbstractValueAccessor {
+  @Input() mode = "check"
+
   id = UUID.UUID().toString()
   internalchecked = false
   @ViewChild('checkel') checkel

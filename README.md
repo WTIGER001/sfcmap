@@ -111,3 +111,6 @@ a normal table top simulator. I think i need a 'realtime' layer somehow. That sh
 another type of list on firebase. One that save is called all the time (on a debounce).
  
 I can see content for a map just for a single game or something...
+
+
+User Grid: Columns with auto and 1fr

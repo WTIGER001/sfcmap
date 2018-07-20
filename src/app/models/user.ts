@@ -30,6 +30,7 @@ export class User implements IObjectType {
     recentMarkers?: string[]
     recentMaps?: string[]
     assumedGroups?: string[]
+    prefs: Prefs = new Prefs()
 
     isAdmin(): boolean {
         return this.groups.includes("admin")
@@ -100,4 +101,10 @@ export class MapPrefs {
     mapId: string
     hiddenGroups: string[] = []
     hiddenMarkers: string[] = []
+}
+
+export class Prefs {
+    showScale: true
+    showCoords: false
+    expandTabOnSelect: true
 }

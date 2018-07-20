@@ -18,6 +18,11 @@ h2 {
     font-size: .8em;
 }
 
+.pref-list {
+    display: flex;
+    flex-direction: column;
+}
+
 .user-title {
     display: flex;
     justify-content: center;

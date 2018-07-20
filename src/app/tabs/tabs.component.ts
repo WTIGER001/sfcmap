@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { MapService } from '../map.service';
-import { MapConfig, Annotation } from '../models';
+import { MapConfig, Annotation, User } from '../models';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-tabs',
@@ -11,12 +12,19 @@ export class TabsComponent implements OnInit {
   expanded = true
   selected = "mapselect"
   mapCfg: MapConfig
-  constructor(private zone: NgZone, private mapSvc: MapService) {
+  autoexpand = true
+  constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService) {
+    this.data.user.subscribe(u => {
+      if (u.prefs) {
+        console.log("UPDATE PREFS");
+        this.autoexpand = u.prefs.expandTabOnSelect
+      }
+    })
     this.mapSvc.selection.subscribe(sel => {
       if (sel.isEmpty()) {
 
       } else {
-        if (Annotation.is(sel.first)) {
+        if (Annotation.is(sel.first) && this.autoexpand) {
           this.expanded = true
           this.selected = 'marker'
         }
@@ -41,6 +49,7 @@ export class TabsComponent implements OnInit {
     this.selected = ""
     this.expanded = false
   }
+
   public toggle(tab) {
     console.log("Toggle");
 
@@ -53,6 +62,7 @@ export class TabsComponent implements OnInit {
       this.expanded = true
     }
   }
+
 }
 
 

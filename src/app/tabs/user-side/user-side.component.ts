@@ -48,6 +48,9 @@ export class UserSideComponent implements OnInit {
   isValid() {
     return this.user && this.user.uid != "NOBODY"
   }
+  updatePrefs() {
+    this.data.save(this.user)
+  }
 
   save() {
     this.data.save(this.user)
