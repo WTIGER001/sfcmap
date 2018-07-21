@@ -329,7 +329,7 @@ export class ShapeAnnotation extends Annotation {
         opts.fill = this.fill
         opts.stroke = this.border
         opts.weight = this.weight
-
+        opts.noClip = true
         if (this.color) {
             opts.color = LangUtil.baseColor(this.color)
             opts.opacity = LangUtil.colorAlpha(this.color)

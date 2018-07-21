@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { ShapeAnnotation } from '../../models';
+import { MapService } from '../../map.service';
+import { Map, PointExpression, Point, LatLng } from 'leaflet';
+import { Rect } from '../../util/geom';
 
 @Component({
   selector: 'app-svgbox',
@@ -7,8 +10,14 @@ import { ShapeAnnotation } from '../../models';
   styleUrls: ['./svgbox.component.css']
 })
 export class SvgboxComponent {
-  constructor() { }
+  map: Map
+  constructor(private mapSvc: MapService) {
+    this.mapSvc.map.subscribe(m => {
+      this.map = m
+    })
+  }
 
+  svgitem: Element
   svgelement: ElementRef
   grpelement: ElementRef
   item: ShapeAnnotation
@@ -31,20 +40,61 @@ export class SvgboxComponent {
     this.insertSVG()
   }
 
+
+  pathBounds(d: string): Rect {
+    let d_1 = d.replace(/[,zM]/g, " ").trim()
+    let parts = d_1.split(/[Laz]/)
+
+    if (d_1.includes("a")) {
+      let move = this.extractPoint(parts[0])
+      let h = this.extractArc(parts[1])
+      return new Rect(move[0], move[1] - h, h * 2, h * 2)
+    } else {
+      let p = this.extractPoint(parts[0])
+      let minX: number = p[0]
+      let maxX: number = p[0]
+      let minY: number = p[1]
+      let maxY: number = p[1]
+      for (let i = 0; i < parts.length; i += 1) {
+        p = this.extractPoint(parts[i])
+        maxX = Math.max(p[0], maxX)
+        maxY = Math.max(p[1], maxY)
+        minX = Math.min(p[0], minX)
+        minY = Math.min(p[1], minY)
+      }
+      return Rect.fromEnds(minX, minY, maxX, maxY)
+    }
+  }
+
+  extractArc(part: string): number {
+    let parts = part.split(" ")
+    let y = parts[1]
+    return parseInt(y)
+  }
+
+  extractPoint(part: string): [number, number] {
+    let parts = part.split(" ")
+    let x = parts[0]
+    let y = parts[1]
+    return [parseInt(x), parseInt(y)]
+  }
+
   viewbox() {
     if (ShapeAnnotation.is(this.item)) {
-      let path = this.item.asItem().getElement()
-      let bb = path.getBoundingClientRect()
-      let result = (bb.left - this.padding) + " " + (bb.top - this.padding) + " " + (bb.width + 2 * this.padding) + " " + (bb.height + 2 * this.padding)
-      return result
+      let path = this.svgitem
+      let d = path.getAttribute("d")
+      let bounds = this.pathBounds(d)
+      let padded = Rect.pad(bounds, this.padding)
+
+      return padded.x + " " + padded.y + " " + padded.width + " " + padded.height
     }
     return "0 0 200 100"
   }
 
   dynamicHeight() {
     if (ShapeAnnotation.is(this.item)) {
-      let path = this.item.asItem().getElement()
-      let bb = path.getBoundingClientRect()
+      let path = this.svgitem
+      let bb = this.pathBounds(path.getAttribute('d'))
       let aspect = bb.height / bb.width
       return Math.min(200 * aspect, this.maxheight)
     }
@@ -54,6 +104,7 @@ export class SvgboxComponent {
   private insertSVG() {
     if (this.item) {
       let element = this.item.asItem().getElement()
+      this.svgitem = element
 
       // Background Copy
       let backcopy = element.cloneNode(true)

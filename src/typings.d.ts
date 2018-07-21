@@ -1,5 +1,5 @@
 import * as L from 'leaflet';
-import SimpleGraticule from 'leaflet-simple-graticule'
+
 declare module 'leaflet' {
     interface EditableStatic {
         new(map: Map, options: EditOptions): Editable;
@@ -10,13 +10,9 @@ declare module 'leaflet' {
     }
     namespace control {
         function coordinates(v: any);
-        function graphicScale(options?: any): L.Control;
-        function betterscale(options?: any): L.Control;
     }
 
     var BoxSelect: any
-    function simpleGraticule(options: any);
-
     /**
   * Options to pass to L.Editable when instanciating.
   */

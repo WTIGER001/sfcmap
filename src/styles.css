@@ -272,7 +272,7 @@ body {
 /* Leaflet Scale Styles                         */
 /* -------------------------------------------- */
 .sfc-scale {
-    padding: 20px 20px 5px 5px;
+    padding: 20px 25px 5px 5px;
     background-color:  rgba(254,246,237, .8);
     opacity: .8;
     border-radius: 2px;
@@ -301,13 +301,10 @@ body {
 }
 
 .sfc-scale-bar-odd {
-    /* background-color: #6b3720; */
     background-color: rgba(127, 127, 127, .8)
-    /* background-color: var(--lock-color) */
 }
 
 .sfc-scale-bar-even {
-    /* background-color: #fef6ed; */
     background-color: rgba(254,246,237, .8)
 }
 
@@ -316,9 +313,6 @@ body {
 }
 
 .uiElement labelFirst {
-    font-size: .9em;
-    /* color: #fef6ed;
-    text-shadow: black 1px 1px 8pxem; */
     color: black;
     text-shadow: #fef6ed 0px 0px 8px;
 }
@@ -327,8 +321,6 @@ body {
     font-family: inherit;
     font-size: .9em;
 }
-
-
 
 .leaflet-control-coordinates .uiElement {
 	margin:4px;
