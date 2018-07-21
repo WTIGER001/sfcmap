@@ -109,4 +109,7 @@ another type of list on firebase. One that save is called all the time (on a deb
 I can see content for a map just for a single game or something...
 
 
-User Grid: Columns with auto and 1fr
+Grid for sizing tabs: Columns with auto and 1fr
+Fix coordinates
+Allow points to be added to line
+

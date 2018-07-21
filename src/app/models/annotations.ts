@@ -42,6 +42,7 @@ export abstract class Annotation implements IObjectType {
     view: string[]
     mapLink: string
     points: any[]
+    snap: false
 
     // Do not save to database
     _leafletAttachment: any
@@ -106,7 +107,7 @@ export class MarkerTypeAnnotation extends Annotation {
         this.points = [ll]
     }
 
-    private toMarker(): Marker {
+    toMarker(): Marker {
         return this._leafletAttachment
     }
 
@@ -280,15 +281,6 @@ export class ShapeAnnotation extends Annotation {
     }
 
     copyOptionsToShape() {
-        // const opts = this.options()
-
-        // this._leafletAttachment.options.stroke = opts.stroke
-        // this._leafletAttachment.options.color = opts.color
-        // this._leafletAttachment.options.opacity = opts.opacity
-        // this._leafletAttachment.options.weight = opts.weight
-        // this._leafletAttachment.options.fill = opts.fill
-        // this._leafletAttachment.options.fillColor = opts.fillColor
-
         (<Polygon>this._leafletAttachment).setStyle(this.options())
         this._leafletAttachment.redraw()
     }

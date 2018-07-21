@@ -5,13 +5,14 @@ import { MapConfig, MarkerGroup, MergedMapType, Selection } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
-import { Map as LeafletMap, LeafletMouseEvent, circle } from 'leaflet';
+import { Map as LeafletMap, LeafletMouseEvent, circle, Marker, Util } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Format } from '../../util/format';
 import { EditShapeComponent } from '../../controls/edit-shape/edit-shape.component';
 import { Annotation, ShapeAnnotation, MarkerTypeAnnotation, ImageAnnotation } from '../../models';
 import { EditMarkerComponent } from '../../controls/edit-marker/edit-marker.component';
+import { GridLayer } from '../../leaflet/grid';
 
 @Component({
   selector: 'app-marker-tab',
@@ -44,13 +45,19 @@ export class MarkerTabComponent implements OnInit {
   selection: Selection = new Selection([])
 
   calibrateX: CalibrateX
+  grid: GridLayer
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
       this.merged = items
     })
-
-    this.mapSvc.mapConfig.subscribe(m => this.map = m)
+    this.grid = new GridLayer(this.mapSvc)
+    this.mapSvc.mapConfig.subscribe(m => {
+      this.map = m
+      if (m.gridOptions) {
+        Util.extend(this.grid.options, m.gridOptions)
+      }
+    })
 
     this.mapSvc.map.subscribe(m => {
       this.leafletMap = m
@@ -271,6 +278,16 @@ export class MarkerTabComponent implements OnInit {
     }
   }
 
+  private snapMarkerToGrid(e) {
+    const m = <Marker>e.target
+    const ann = <MarkerTypeAnnotation>m['objAttach']
+    if (ann.snap) {
+      let bnds = this.grid.getGridCell(e.latlng)
+      let snapPoint = bnds.getCenter()
+      m.setLatLng(snapPoint)
+    }
+  }
+
   public openLinkedMap() {
     if (this.item && this.item.mapLink) {
       this.mapSvc.openMap(this.item.mapLink)
@@ -333,6 +350,9 @@ export class MarkerTabComponent implements OnInit {
       if (ShapeAnnotation.is(m)) {
         this.item.getAttachment().disableEdit()
       }
+      if (MarkerTypeAnnotation.is(m)) {
+        annotation.getAttachment().off('drag', this.snapMarkerToGrid, this)
+      }
     })
   }
 
@@ -344,6 +364,17 @@ export class MarkerTabComponent implements OnInit {
       }
       if (ShapeAnnotation.is(m)) {
         m.getAttachment().enableEdit()
+      }
+      if (MarkerTypeAnnotation.is(m)) {
+        console.log("Enabling Marker Snap");
+        // annotation.getAttachment().on('drag', e => {
+        //   console.log('marker drag event', e.latlng);
+        //   let bnds = this.grid.getGridCell(e.latlng)
+        //   let snapPoint = bnds.getCenter()
+        //   console.log('snapping to: ', snapPoint);
+        //   m.toMarker().setLatLng(snapPoint)
+        // });
+        annotation.getAttachment().on('drag', this.snapMarkerToGrid, this)
       }
     })
   }

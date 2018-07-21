@@ -1,18 +1,60 @@
-import { LayerGroup, Map, polyline, latLng, PolylineOptions } from "leaflet";
+import { LayerGroup, Map, polyline, latLng, PolylineOptions, LatLngExpression, LatLng, LatLngBounds, latLngBounds, LeafletMouseEvent, Rectangle, rectangle, DomEvent } from "leaflet";
 import { DistanceUnit } from "../util/transformation";
 import { MapService } from "../map.service";
 
 export class GridLayer extends LayerGroup {
     options = new GridOptions()
     map: Map
+    cellRect: Rectangle
+    highlighting: boolean
 
     constructor(private mapSvc: MapService) {
         super()
     }
 
+    /**
+     * Find the cell that this point includes
+     * @param ll Point to search for
+     */
+    getGridCell(ll: LatLng): LatLngBounds {
+        let bounds = this.mapSvc.overlayLayer.getBounds()
+
+        let unit = DistanceUnit.getUnit(this.options.spacingUnit)
+        let offsetEW = unit.toMeters((this.options.offsetEW || 0))
+        let offsetNS = unit.toMeters((this.options.offsetNS || 0))
+        let space = unit.toMeters(this.options.spacing)
+
+        let startCol = ll.lng - offsetEW
+        let col = Math.floor(startCol / space)
+        let startRow = ll.lat - offsetNS
+        let row = Math.floor(startRow / space)
+
+        let west = (col * space) + offsetEW
+        let east = west + space
+        let south = (row * space) + offsetNS
+        let north = south + space
+
+        console.log("snap to: ", row, " ", col, " ", space);
+
+        let bnds = latLngBounds([south, west], [north, east])
+        return bnds
+    }
+
+    highlightCell(event: LeafletMouseEvent) {
+        if (this.highlighting) {
+            let cell = this.getGridCell(event.latlng)
+            if (!this.cellRect) {
+                this.cellRect = rectangle(cell, { color: 'red' }).addTo(this._map)
+            } else {
+                this.cellRect.setBounds(cell)
+            }
+        }
+    }
+
     onAdd(map: Map): this {
         this.map = map
         map.on('viewreset move', this.refresh, this)
+        map.on('mousemove', this.highlightCell, this)
         this.refresh()
         return this
     }
@@ -20,6 +62,7 @@ export class GridLayer extends LayerGroup {
     onRemove(map: Map): this {
         this.clearLayers();
         map.off('viewreset move', this.refresh, this)
+        map.off('mousemove', this.highlightCell, this)
         return this
     }
 
