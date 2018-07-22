@@ -28,4 +28,7 @@ export class EditMarkerComponent {
 
   }
 
+  update() {
+    this.marker.copyOptionsToShape();
+  }
 }

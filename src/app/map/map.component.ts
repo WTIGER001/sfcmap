@@ -3,14 +3,16 @@ import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MapService } from '../map.service';
 import { DataService } from '../data.service';
-import { MapConfig, User, Selection, Annotation } from '../models';
+import { MapConfig, User, Selection, Annotation, MarkerTypeAnnotation, ShapeAnnotation, ImageAnnotation } from '../models';
 import { ReplaySubject, of } from 'rxjs';
 import { mergeMap, delay } from 'rxjs/operators';
 import * as L from 'leaflet';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
 // import '../../../node_modules/leaflet-editable/src/Leaflet.Editable.js';
 import '../leaflet/edit.js';
-import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
+import '../leaflet/path.js';
+import '../leaflet/image-drag.js';
+// import '../../../node_modules/leaflet.path.drag/src/Path.Drag.js';
 import { Trans } from '../util/transformation';
 import { Scale } from '../leaflet/scale';
 import { UrlResolver } from '@angular/compiler';
@@ -89,19 +91,23 @@ export class MapComponent {
       let same = sel.same(this.currentSelection)
 
       removed.forEach(item => {
-        if (Annotation.is(item)) {
-          if (item.getAttachment()["_icon"]) {
-            DomUtil.removeClass(item.getAttachment()["_icon"], 'iconselected')
-          }
+        if (MarkerTypeAnnotation.is(item)) {
+          DomUtil.removeClass(item.getAttachment()["_icon"], 'iconselected')
+        } else if (ShapeAnnotation.is(item)) {
+          this.removeSvgFilters(item)
+          DomUtil.removeClass(item.getAttachment()["_path"], 'iconselected')
+        } else if (ImageAnnotation.is(item)) {
+          DomUtil.removeClass(item.getAttachment()["_image"], 'iconselected')
         }
       })
       added.forEach(item => {
-        if (Annotation.is(item)) {
-          if (item.getAttachment()["_icon"]) {
-            DomUtil.addClass(item.getAttachment()["_icon"], 'iconselected')
-          } else {
-            console.log("NO ICON  : " + item.name);
-          }
+        if (MarkerTypeAnnotation.is(item)) {
+          DomUtil.addClass(item.getAttachment()["_icon"], 'iconselected')
+        } else if (ShapeAnnotation.is(item)) {
+          this.addSvgFilters(item)
+          DomUtil.addClass(item.getAttachment()["_path"], 'iconselected')
+        } else if (ImageAnnotation.is(item)) {
+          DomUtil.addClass(item.getAttachment()["_image"], 'iconselected')
         }
       })
       this.currentSelection = sel
@@ -125,7 +131,6 @@ export class MapComponent {
       }
     )
     // L.control.scale().addTo(map)
-
     this.applyPrefs()
 
     this.zone.run(() => {
@@ -133,7 +138,41 @@ export class MapComponent {
     });
   }
 
+  removeSvgFilters(shp: ShapeAnnotation) {
+    // const el: HTMLElement = shp.getAttachment().getElement()
+    // const svg: HTMLElement = el.parentElement.parentElement
+    // let old = svg.getElementsByClassName("svghighlight")
+    // if (old.length > 0) {
+    //   svg.removeChild(old.item(0))
+    // }
+  }
 
+  addSvgFilters(shp: ShapeAnnotation) {
+
+    // const el: HTMLElement = shp.getAttachment().getElement()
+    // const svg: HTMLElement = el.parentElement.parentElement
+    // const len = svg.childNodes.length
+    // let defsFound = false
+    // for (let i = 0; i < len; i++) {
+    //   let elChild = svg.childNodes.item(i)
+    //   if (elChild.nodeName == 'DEFS') {
+    //     defsFound = true;
+    //     break;
+    //   }
+    // }
+    // if (!defsFound) {
+    //   const defs = DomUtil.create('defs', "temp", svg)
+    //   DomUtil.removeClass(defs, 'temp')
+    //   defs.innerHTML = '<filter id="shadow2" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow _ngcontent-c5="" dx="0" dy="0" flood-color="white" flood-opacity="1" stdDeviation="10"></feDropShadow></filter>'
+    // }
+
+    // const g = DomUtil.create('g', 'svghighlight', svg)
+
+    // let shadow = <HTMLElement>el.cloneNode(true)
+    // shadow.setAttribute('filter', "url(#shadow2)")
+    // // DomUtil.addClass(shadow, 'svghighlight')
+    // g.appendChild(shadow)
+  }
 
   applyPrefs() {
     if (this.user.prefs && this.scale) {

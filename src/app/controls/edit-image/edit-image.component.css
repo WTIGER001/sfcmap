@@ -1,0 +1,8 @@
+.spread {
+    display : flex;
+    justify-content: space-between;
+}
+
+.imagepick img {
+    max-height: 150px;
+}

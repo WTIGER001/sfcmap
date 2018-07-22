@@ -1,7 +1,7 @@
 <div class="white">
   <h1>Annotations</h1>
 
-  <div class="buttonbar" *ngIf="edit==false">
+  <div class="buttongrid" *ngIf="edit==false">
     <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a new marker">
       <fa-icon icon="map-marker-alt" size="lg"></fa-icon>
     </button>
@@ -17,8 +17,10 @@
     <button class="btn btn-outline-secondary btn-tool" (click)="newPolygon()" placement="bottom" ngbTooltip="Create a new polygon">
       <img src="./assets/icons/polygon.png">
     </button>
-  </div>
-  <div class="buttonbar" *ngIf="edit==false && !selection.isEmpty()">
+
+    <button class="btn btn-outline-secondary btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Create a new imager">
+      <fa-icon icon="image" size="lg"></fa-icon>
+    </button>
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="editstart()" placement="bottom"
       ngbTooltip="Edit the selected marker(s)">
       <fa-icon icon="pencil-alt" size="lg"></fa-icon>
@@ -49,9 +51,10 @@
     <!-- Display and Item -->
     <ng-container *ngIf="!edit && selection.items.length>=1">
       <div class="marker-container" *ngFor="let item of selection.items">
-        <img *ngIf="itemType(item)=='marker'" [src]="item?._iconUrl" height="40" class="centered mt-2 iconselected">
-
+        <img *ngIf="itemType(item)=='marker'" [src]="item?._iconUrl" height="40" class="centered my-2 iconselected">
+        <img *ngIf="itemType(item)=='image'" [src]="item?.url" height="150" class="centered my-2 iconselected">
         <div *ngIf="itemType(item)=='shape'" class="mt-2">
+
           <app-svgbox [shape]="item" [maxheight]="100" [padding]="10"></app-svgbox>
         </div>
 
@@ -74,6 +77,11 @@
     <!-- Edit a single shape -->
     <div *ngIf="edit && itemType(item) == 'shape' && selection.items.length == 1">
       <app-edit-shape #editshape [shape]='item'></app-edit-shape>
+    </div>
+
+    <!-- Edit a single image -->
+    <div *ngIf="edit && itemType(item) == 'image' && selection.items.length == 1">
+      <app-edit-image #editimage [image]='item'></app-edit-image>
     </div>
 
     <!-- Edit of multiple markers -->

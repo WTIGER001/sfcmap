@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
-import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category } from './models';
+import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category, ImageAnnotation } from './models';
 import { DataService } from './data.service';
 import { mergeMap, concatMap, map, buffer, bufferCount, take } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
@@ -187,6 +187,8 @@ export class MapService {
       groups.forEach(grp => {
         this.buildGroup(grp, user, mapCfg)
       })
+
+      this.reattachSelection(groups)
     });
 
     this.registerAction(new CreateMarkerAction())
@@ -194,6 +196,32 @@ export class MapService {
     this.registerAction(new HiMarkerAction())
   }
 
+  private reattachSelection(groups: MarkerGroup[]) {
+    let sel = this.selection.getValue()
+    if (sel && sel.isEmpty() == false) {
+      let items = sel.items.slice(0)
+      for (let i = 0; i < items.length; i++) {
+        let found = this.findItem(items[i].id, groups)
+        if (found) {
+          items[i] = found
+        } else {
+          console.log("NOT FOUND ", items[i]);
+        }
+      }
+      this.select(...items)
+    }
+  }
+
+  findItem(id: string, groups: MarkerGroup[]): Annotation {
+    for (let i = 0; i < groups.length; i++) {
+      for (let j = 0; j < groups[i]._annotations.length; j++) {
+        if (groups[i]._annotations[j].id == id) {
+          return groups[i]._annotations[j]
+        }
+      }
+    }
+    return undefined
+  }
 
   private makeLayerGroups(mgs: MarkerGroup[]) {
     // Clear out the map
@@ -515,7 +543,11 @@ export class MapService {
     if (m.id == 'TEMP') {
       m.id = UUID.UUID().toString()
     }
-    this.data.save(m)
+    if (ImageAnnotation.is(m) && m._saveImage) {
+      this.data.saveImageAnnotation(m)
+    } else {
+      this.data.save(m)
+    }
   }
 
   deleteAnnotation(m: Annotation) {

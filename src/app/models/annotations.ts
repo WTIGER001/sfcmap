@@ -1,4 +1,4 @@
-import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng } from "leaflet";
+import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer } from "leaflet";
 import { IconZoomLevelCache } from "./icon-cache";
 import { IObjectType } from "./core";
 import { LangUtil } from "../util/LangUtil";
@@ -14,6 +14,11 @@ export enum AnchorPostitionChoice {
     BottomCenter,
     BottomRight,
     Custom
+}
+
+export enum SizeUnit {
+    Map = 0,
+    Grid
 }
 
 /**
@@ -56,6 +61,10 @@ export abstract class Annotation implements IObjectType {
         return this._leafletAttachment
     }
 
+    static fromLeaflet(layer: any): Annotation {
+        return layer.objAttach
+    }
+
     toLeaflet(iconCache: IconZoomLevelCache): any {
         if (!this._leafletAttachment) {
             this._leafletAttachment = this.createLeafletAttachment(iconCache)
@@ -74,10 +83,9 @@ export abstract class Annotation implements IObjectType {
  * a standard Marker Type. This is the preferred way of creating a markers.
  */
 export class MarkerTypeAnnotation extends Annotation {
-
-
     public static readonly SUBTYPE = 'markerType'
     readonly subtype: string = MarkerTypeAnnotation.SUBTYPE
+    _cache: IconZoomLevelCache
 
     static is(obj: any): obj is MarkerTypeAnnotation {
         return obj.objType !== undefined && obj.objType === Annotation.TYPE &&
@@ -92,6 +100,7 @@ export class MarkerTypeAnnotation extends Annotation {
 
     set _iconUrl(url: string) {
         this.toMarker().options.icon.options.iconUrl = url
+
     }
 
     copyOptionsFromShape() {
@@ -99,7 +108,13 @@ export class MarkerTypeAnnotation extends Annotation {
     }
 
     copyOptionsToShape() {
+        this.asItem().setIcon(this._cache.getAnyIcon(this.markerType))
+        this.asItem().options.title = this.name
 
+        let tt = this.asItem().getTooltip()
+        if (tt) {
+            tt.setContent(this.name)
+        }
     }
 
     copyPoints() {
@@ -111,7 +126,12 @@ export class MarkerTypeAnnotation extends Annotation {
         return this._leafletAttachment
     }
 
+    asItem(): Marker {
+        return this._leafletAttachment
+    }
+
     options(iconCache: IconZoomLevelCache): MarkerOptions {
+        this._cache = iconCache
         let icn = iconCache.getAnyIcon(this.markerType)
         return {
             icon: icn
@@ -150,13 +170,20 @@ export class ImageAnnotation extends Annotation {
     opacity: number = 1
     url?: string
     displayRange: [number, number] = [-20, 200]
+    aspect: number // width / height
+    keepAspect: boolean = false
+    _saveImage = false
+    _blob: Blob
 
     copyOptionsFromShape() {
 
     }
 
     copyOptionsToShape() {
-
+        if (this._leafletAttachment) {
+            this.asItem().setUrl(this.url)
+            this.asItem().setOpacity(this.opacity)
+        }
     }
 
     copyPoints() {
@@ -168,22 +195,28 @@ export class ImageAnnotation extends Annotation {
 
     options(): ImageOverlayOptions {
         return {
-            opacity: this.opacity
+            opacity: this.opacity,
+            interactive: true,
+            errorOverlayUrl: "./assets/missing.png",
         }
     }
 
-    private toImage(): ImageOverlay {
-        let bounds = new LatLngBounds(this.points[0], this.points[1])
-        let options = this.options()
-        let img = imageOverlay(this.url, bounds, options)
-        return undefined
+    asItem(): ImageOverlay {
+        return this._leafletAttachment
     }
 
     createLeafletAttachment(iconCache: IconZoomLevelCache): any {
+        console.log("Creating Image Annotation", this);
 
+        let bounds = new LatLngBounds(this.points[0], this.points[1])
+        let options = this.options()
+        let img = imageOverlay(this.url, bounds, options)
+        img.setBounds(bounds)
+        return img
     }
+
     center(): LatLng {
-        return undefined
+        return (<ImageOverlay>this._leafletAttachment).getBounds().getCenter()
     }
 }
 

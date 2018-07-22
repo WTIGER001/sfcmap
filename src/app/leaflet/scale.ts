@@ -124,15 +124,12 @@ class ScaleRuler {
     bars: HTMLElement[] = []
     labels: HTMLElement[] = []
     constructor(private scale: Scale, private type: string) {
-        console.log("Creating Scale Ruler ", type);
 
         this.parent = DomUtil.create('div', 'sfc-scale-ruler', scale.box)
-        console.log("Created Scale Ruler DIV", this.parent);
 
         let divisions = scale.options.divisions
         for (let i = 0; i < divisions; i++) {
             let division = DomUtil.create('div', 'sfc-scale-division', this.parent)
-            // division.style.height = "60px"
 
             let label = DomUtil.create('div', 'sfc-scale-bar-label', division)
             label.style.bottom = (this.scale.options.barHeight + 2) + "px"
@@ -146,7 +143,6 @@ class ScaleRuler {
     }
 
     setBarWidth(width: number, length: number, unit) {
-        console.log("UPDATING BARS", width);
         this.bars.forEach(bar => {
             bar.style.width = width + "px"
         })

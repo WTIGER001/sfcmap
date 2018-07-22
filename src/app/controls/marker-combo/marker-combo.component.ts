@@ -1,7 +1,6 @@
-import { Component, Output, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { MarkerType, MapConfig, MapType } from '../../models';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { typeSourceSpan } from '@angular/compiler';
 import { MapService } from '../../map.service';
 import { DataService } from '../../data.service';
 
@@ -24,6 +23,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
   private touched = [];
   private disabled: boolean;
 
+  @Output() markerchange = new EventEmitter()
 
   all = []
   categories = []
@@ -105,6 +105,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
   select(type: MarkerType) {
     this.value = type.id
     this.selected = type
+    this.markerchange.emit(type.id)
   }
 
   get value(): string {

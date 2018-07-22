@@ -175,25 +175,50 @@ body {
 /* -------------------------------------------- */
 /* Common Button Styles                         */
 /* -------------------------------------------- */
-.buttonbar {
-    display: flex;
-    justify-content: center;
+.buttongrid {
+    /* display: flex; */
+    /* justify-content: center; */
     margin-bottom: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 6px;
 }
-.btn-tool > img {
+.buttongrid .btn-tool > img {
     filter:  brightness(0) invert(.7);
     height: 24px;
 }
 
-.btn-tool:hover > img {
+.buttongrid .btn-tool:hover > img {
     filter:  brightness(0) invert(1);
 }
 
-.btn-tool {
+.buttongrid .btn-tool {
+    padding: 6px 0;
+    min-width: 40px;
+}
+
+.buttonbar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
+    /* display: grid; */
+    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
+    /* grid-gap: 6px; */
+}
+.buttonbar .btn-tool > img {
+    filter:  brightness(0) invert(.7);
+    height: 24px;
+}
+
+.buttonbar .btn-tool:hover > img {
+    filter:  brightness(0) invert(1);
+}
+
+.buttonbar .btn-tool {
     margin-right: 5px;
 }
 
-.btn-tool:last-of-type {
+.buttonbar .btn-tool:last-of-type {
     margin-right: 0;
 }
 
@@ -363,6 +388,59 @@ body {
 
 
 /* -------------------------------------------- */
-/* Toasts and Progress                          */
+/* Slider                                       */
 /* -------------------------------------------- */
 
+.slidecontainer {
+    margin: 7px 0;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    border-radius: 1px;   
+    width: 100%; /* Full-width */
+    height: 3px; /* Specified height */
+    padding: 0;
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; 
+    background: #555;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #555;
+    cursor: pointer;
+}
+
+
+.svghighlight path {
+    stroke: white;
+    stroke-opacity:"1"
+}
+
+.svghighlight {
+    stroke: white;
+    stroke-opacity:"1"
+}

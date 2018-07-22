@@ -51,12 +51,17 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Annotations
 - Marker Snap
 - Marker hover information (tooltip) / click information (popup)
-- Image Annotations
 - Drop support for images
 - Custom Marker Annotations
-- Recent Markers area
 - Map Link should have optional coordinates
 - SVG Annotations (low priority)
+- Image Annotation Fixes: 
+-- Drop Image on tab
+-- File-picker max-height
+-- keep aspect
+-- snap
+- Annotations: CopyToShape() on edit - live preview
+- Cancel needs to revert any changes made
 
 ### Map 
 - Restyle zoom buttons

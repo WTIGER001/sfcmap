@@ -18,6 +18,9 @@
     }
 
 }(function (L) {
+
+
+
     // 🍂miniclass CancelableEvent (Event objects)
     // 🍂method cancel()
     // Cancel any subsequent action.
@@ -77,6 +80,10 @@
             // Class to be used when creating a new Rectangle.
             rectangleClass: L.Rectangle,
 
+            // 🍂option rectangleClass: class = L.Rectangle
+            // Class to be used when creating a new Rectangle.
+            imageClass: L.ImageOverlay,
+
             // 🍂option circleClass: class = L.Circle
             // Class to be used when creating a new Circle.
             circleClass: L.Circle,
@@ -113,6 +120,10 @@
             // Class to be used as Rectangle editor.
             rectangleEditorClass: undefined,
 
+            // 🍂option imageEditorClass: class = ImageEditor
+            // Class to be used as Image editor.
+            imageEditorClass: undefined,
+
             // 🍂option circleEditorClass: class = CircleEditor
             // Class to be used as Circle editor.
             circleEditorClass: undefined,
@@ -128,9 +139,6 @@
         },
 
         initialize: function (map, options) {
-            console.log("initialize Edit Tools");
-            console.log(new Error())
-
             L.setOptions(this, options);
             this._lastZIndex = this.options.zIndex;
             this.map = map;
@@ -340,6 +348,17 @@
             return rectangle;
         },
 
+        // 🍂method startRectangle(latlng: L.LatLng, options: hash): L.Rectangle
+        // Start drawing a Rectangle. If `latlng` is given, the Rectangle anchor will be added. In any case, continuing on user drag.
+        // If `options` is given, it will be passed to the Rectangle class constructor.
+        startImage: function (url, latlng, options) {
+            var corner = latlng || L.latLng([0, 0]);
+            var bounds = new L.LatLngBounds(corner, corner);
+            var image = this.createImage(url, bounds, options);
+            image.enableEdit(this.map).startDrawing();
+            return image;
+        },
+
         // 🍂method startCircle(latlng: L.LatLng, options: hash): L.Circle
         // Start drawing a Circle. If `latlng` is given, the Circle anchor will be added. In any case, continuing on user drag.
         // If `options` is given, it will be passed to the Circle class constructor.
@@ -378,6 +397,16 @@
 
         createRectangle: function (bounds, options) {
             return this.createLayer(options && options.rectangleClass || this.options.rectangleClass, bounds, options);
+        },
+
+        createImage: function (url, bounds, options) {
+            var opts = options || {}
+            opts.interactive = true
+            opts.errorOverlayUrl = "./assets/missing.png"
+            let layer = L.imageOverlay(url, bounds, opts)
+            layer.setBounds(bounds)
+            this.fireAndForward('editable:created', { layer: layer });
+            return layer
         },
 
         createCircle: function (latlng, options) {
@@ -1021,7 +1050,7 @@
 
         initVertexMarkers: function (latlngs) {
             if (!this.enabled()) return;
-            latlngs = latlngs || this.getLatLngs();
+            latlngs = latlngs || this.getLatLngs()
             if (isFlat(latlngs)) this.addVertexMarkers(latlngs);
             else for (var i = 0; i < latlngs.length; i++) this.initVertexMarkers(latlngs[i]);
         },
@@ -1290,7 +1319,9 @@
         },
 
         refresh: function () {
-            this.feature.redraw();
+            if (this.feature.redraw) {
+                this.feature.redraw();
+            }
             this.onEditing();
         },
 
@@ -1585,6 +1616,7 @@
             L.Editable.PathEditor.prototype.onDrawingMouseDown.call(this, e);
             this.connect();
             var latlngs = this.getDefaultLatLngs();
+
             // L.Polygon._convertLatLngs removes last latlng if it equals first point,
             // which is the case here as all latlngs are [0, 0]
             if (latlngs.length === 3) latlngs.push(e.latlng);
@@ -1621,7 +1653,6 @@
             L.Editable.PathEditor.prototype.onDrawingMouseMove.call(this, e);
         },
 
-
         getDefaultLatLngs: function (latlngs) {
             return latlngs || this.feature._latlngs[0];
         },
@@ -1640,6 +1671,102 @@
         }
 
     });
+
+    // 🍂namespace Editable; 🍂class ImageEditor; 🍂aka L.Editable.ImageEditor
+    // 🍂inherits PathEditor
+    L.Editable.ImageEditor = L.Editable.PathEditor.extend({
+
+        CLOSED: true,
+        MIN_VERTEX: 4,
+
+        options: {
+            skipMiddleMarkers: true
+        },
+
+        extendBounds: function (e) {
+            var index = e.vertex.getIndex(),
+                next = e.vertex.getNext(),
+                previous = e.vertex.getPrevious(),
+                oppositeIndex = (index + 2) % 4,
+                opposite = e.vertex.latlngs[oppositeIndex],
+                bounds = new L.LatLngBounds(e.latlng, opposite);
+            // Update latlngs by hand to preserve order.
+            previous.latlng.update([e.latlng.lat, opposite.lng]);
+            next.latlng.update([opposite.lat, e.latlng.lng]);
+            this.updateBounds(bounds);
+            this.refreshVertexMarkers();
+        },
+
+        onDrawingMouseDown: function (e) {
+            L.Editable.PathEditor.prototype.onDrawingMouseDown.call(this, e);
+            this.connect();
+            var latlngs = this.getDefaultLatLngs();
+
+            // L.Polygon._convertLatLngs removes last latlng if it equals first point,
+            // which is the case here as all latlngs are [0, 0]
+            if (latlngs.length === 3) latlngs.push(e.latlng);
+            var bounds = new L.LatLngBounds(e.latlng, e.latlng);
+            this.updateBounds(bounds);
+            this.updateLatLngs(bounds);
+            latlngs = this.getDefaultLatLngs();
+            this.refresh();
+
+            this.reset();
+            // Stop dragging map.
+            // L.Draggable has two workflows:
+            // - mousedown => mousemove => mouseup
+            // - touchstart => touchmove => touchend
+            // Problem: L.Map.Tap does not allow us to listen to touchstart, so we only
+            // can deal with mousedown, but then when in a touch device, we are dealing with
+            // simulated events (actually simulated by L.Map.Tap), which are no more taken
+            // into account by L.Draggable.
+            // Ref.: https://github.com/Leaflet/Leaflet.Editable/issues/103
+            e.originalEvent._simulated = false;
+
+            this.map.dragging._draggable._onUp(e.originalEvent);
+            // Now transfer ongoing drag action to the bottom right corner.
+            // Should we refine which corne will handle the drag according to
+            // drag direction?
+            latlngs[3].__vertex.dragging._draggable._onDown(e.originalEvent);
+
+        },
+
+        onDrawingMouseUp: function (e) {
+            this.commitDrawing(e);
+            e.originalEvent._simulated = false;
+            L.Editable.PathEditor.prototype.onDrawingMouseUp.call(this, e);
+        },
+
+        onDrawingMouseMove: function (e) {
+            e.originalEvent._simulated = false;
+            L.Editable.PathEditor.prototype.onDrawingMouseMove.call(this, e);
+        },
+
+
+        getDefaultLatLngs: function (latlngs) {
+            return latlngs || this.feature._latlngs[0];
+        },
+
+        updateBounds: function (bounds) {
+            // DON'T OVERwrite the latlongs with the verticies here.
+            // this.feature._bounds = bounds;
+            // console.log("Updating Bounds", bounds);
+            // this.feature.setBounds(bounds)
+            this.feature.updateBounds(bounds)
+        },
+
+        updateLatLngs: function (bounds) {
+            var latlngs = this.getDefaultLatLngs(),
+                newLatlngs = this.feature._boundsToLatLngs(bounds);
+            // Keep references.
+            for (var i = 0; i < latlngs.length; i++) {
+                latlngs[i].update(newLatlngs[i]);
+            };
+        }
+
+    });
+
+
 
     // 🍂namespace Editable; 🍂class CircleEditor; 🍂aka L.Editable.CircleEditor
     // 🍂inherits PathEditor
@@ -1873,6 +2000,63 @@
 
     };
 
+    // The idea is to make the image look like a rectangle
+    var ImageMixin = {
+        //#IMAGE_MIXIN
+        getEditorClass: function (tools) {
+            return (tools && tools.options.imageEditorClass) ? tools.options.imageEditorClass : L.Editable.ImageEditor;
+        },
+        getLatLngs: function () {
+            return this._latlngs
+        },
+        setLatLngs: function (latLngs) {
+            this.setBounds(latLngs)
+        },
+        _boundsToLatLngs: function (latLngBounds) {
+            latLngBounds = this.toLatLngBounds(latLngBounds);
+            return [
+                latLngBounds.getSouthWest(),
+                latLngBounds.getNorthWest(),
+                latLngBounds.getNorthEast(),
+                latLngBounds.getSouthEast()
+            ];
+        },
+        updateBounds: function (bounds) {
+            this._bounds = this.toLatLngBounds(bounds);
+            if (this._map) {
+                this._reset();
+            }
+        },
+        updateBoundsFromLatLngs() {
+            this.setBounds(this._latlngs)
+        },
+        setBounds: function (bounds) {
+            this._bounds = this.toLatLngBounds(bounds);
+            this._latlngs = []
+            this._latlngs.push("")
+            this._latlngs[0] = this._boundsToLatLngs(bounds);
+
+            if (this._map) {
+                this._reset();
+            }
+            return this;
+        },
+        toLatLngBounds: function (a, b) {
+            if (a instanceof L.LatLngBounds) {
+                return a;
+            }
+            return new L.LatLngBounds(a, b);
+        },
+        redraw() {
+            if (this._map) {
+                this._reset();
+            }
+        },
+        getCenter() {
+            return this.getBounds().getCenter()
+        }
+    };
+
     var CircleMixin = {
 
         getEditorClass: function (tools) {
@@ -1906,6 +2090,10 @@
     if (L.Rectangle) {
         L.Rectangle.include(EditableMixin);
         L.Rectangle.include(RectangleMixin);
+    }
+    if (L.ImageOverlay) {
+        L.ImageOverlay.include(EditableMixin);
+        L.ImageOverlay.include(ImageMixin);
     }
     if (L.Circle) {
         L.Circle.include(EditableMixin);

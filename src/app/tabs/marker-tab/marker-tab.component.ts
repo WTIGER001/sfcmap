@@ -13,6 +13,7 @@ import { EditShapeComponent } from '../../controls/edit-shape/edit-shape.compone
 import { Annotation, ShapeAnnotation, MarkerTypeAnnotation, ImageAnnotation } from '../../models';
 import { EditMarkerComponent } from '../../controls/edit-marker/edit-marker.component';
 import { GridLayer } from '../../leaflet/grid';
+import { EditImageComponent } from '../../controls/edit-image/edit-image.component';
 
 @Component({
   selector: 'app-marker-tab',
@@ -22,6 +23,7 @@ import { GridLayer } from '../../leaflet/grid';
 export class MarkerTabComponent implements OnInit {
   @ViewChild('editshape') editShape: EditShapeComponent
   @ViewChild('editmarker') editMarker: EditMarkerComponent
+  @ViewChild('editimage') editImage: EditImageComponent
 
 
   item: Annotation
@@ -94,6 +96,7 @@ export class MarkerTabComponent implements OnInit {
     if (ImageAnnotation.is(item)) {
       return 'image'
     }
+    console.log("INVALID ITEM, ", item);
     throw new Error("Invalid Item")
   }
 
@@ -149,7 +152,16 @@ export class MarkerTabComponent implements OnInit {
     this.completeShape(s)
   }
 
-  private completeShape(s: ShapeAnnotation) {
+  public newImage() {
+    let s = new ImageAnnotation()
+    s.url = "./assets/missing.png"
+    s.name = "New Image"
+    let shp = this.mapSvc._map.editTools.startImage(s.url)
+    s.setAttachment(shp)
+    this.completeShape(s)
+  }
+
+  private completeShape(s: ShapeAnnotation | ImageAnnotation) {
     s.id = 'TEMP'
     s.map = this.map.id
     s.copyOptionsFromShape()
@@ -157,10 +169,9 @@ export class MarkerTabComponent implements OnInit {
     s.getAttachment().on('click', event => {
       console.log("CLICKED ON  : ", event);
       this.mapSvc.printLayers()
-      console.log("------>> ", event.target.getLeafletId());
+      console.log("------>> ", event.target._leaflet_id);
 
     }, this)
-
 
     this.selection = new Selection([s])
     this.item = s
@@ -194,7 +205,7 @@ export class MarkerTabComponent implements OnInit {
   public cancel() {
     this.edit = false
     this.disableDragging()
-    if (ShapeAnnotation.is(this.item)) {
+    if (ShapeAnnotation.is(this.item) || ImageAnnotation.is(this.item)) {
       this.item.asItem().disableEdit()
       this.mapSvc._map.editTools.featuresLayer.clearLayers()
     }
@@ -347,7 +358,7 @@ export class MarkerTabComponent implements OnInit {
       if (leafletAttachment.dragging) {
         leafletAttachment.dragging.disable()
       }
-      if (ShapeAnnotation.is(m)) {
+      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
         this.item.getAttachment().disableEdit()
       }
       if (MarkerTypeAnnotation.is(m)) {
@@ -362,18 +373,11 @@ export class MarkerTabComponent implements OnInit {
       if (annotation.getAttachment().dragging) {
         annotation.getAttachment().dragging.enable()
       }
-      if (ShapeAnnotation.is(m)) {
+      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
         m.getAttachment().enableEdit()
       }
       if (MarkerTypeAnnotation.is(m)) {
         console.log("Enabling Marker Snap");
-        // annotation.getAttachment().on('drag', e => {
-        //   console.log('marker drag event', e.latlng);
-        //   let bnds = this.grid.getGridCell(e.latlng)
-        //   let snapPoint = bnds.getCenter()
-        //   console.log('snapping to: ', snapPoint);
-        //   m.toMarker().setLatLng(snapPoint)
-        // });
         annotation.getAttachment().on('drag', this.snapMarkerToGrid, this)
       }
     })

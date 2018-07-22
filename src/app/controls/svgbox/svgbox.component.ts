@@ -19,6 +19,7 @@ export class SvgboxComponent {
 
   svgitem: Element
   svgelement: ElementRef
+  svgelement2: ElementRef
   grpelement: ElementRef
   item: ShapeAnnotation
 
@@ -27,6 +28,11 @@ export class SvgboxComponent {
 
   @ViewChild('svgdisplay') set svgdisplay(content: ElementRef) {
     this.svgelement = content;
+    this.insertSVG()
+  }
+
+  @ViewChild('svgdisplay2') set svgdisplay2(content: ElementRef) {
+    this.svgelement2 = content;
     this.insertSVG()
   }
 
@@ -112,7 +118,7 @@ export class SvgboxComponent {
 
       // Main Copy
       let copy = element.cloneNode(true)
-      this.grpelement.nativeElement.appendChild(copy)
+      this.svgelement2.nativeElement.appendChild(copy)
     }
   }
 

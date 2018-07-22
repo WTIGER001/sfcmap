@@ -6,11 +6,10 @@
   <label for="name">Map Image</label>
 </div>
 <div class="form-group  mb-0">
-  <label for="file" class="custom-file-upload p-0 center" (click)="getFile()">
+  <label for="file2" class="custom-file-upload p-0 center" (click)="getFile()">
     <canvas #mycanvas class="file-div"></canvas>
   </label>
-  <input id="file" #filecontrol type="file" class="inputfile " id="name" accept=".jpg,.png" placeholder="select map image"
-    (change)="setFile($event)">
+  <input id="file2" #filecontrol type="file" class="inputfile " accept=".jpg,.png" placeholder="select map image" (change)="setFile($event)">
 </div>
 <div class="area">
   <div class="form-group">

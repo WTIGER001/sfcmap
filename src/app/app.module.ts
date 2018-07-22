@@ -64,6 +64,8 @@ import { EditMarkerTypeCategoryComponent } from './controls/edit-marker-type-cat
 import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marker-type-manager.component';
 import { GroupManagerComponent } from './controls/group-manager/group-manager.component';
 import { EditMapTypeComponent } from './controls/edit-map-type/edit-map-type.component';
+import { EditImageComponent } from './controls/edit-image/edit-image.component';
+import { FilePickerComponent } from './controls/file-picker/file-picker.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +105,8 @@ import { EditMapTypeComponent } from './controls/edit-map-type/edit-map-type.com
     MarkerTypeManagerComponent,
     GroupManagerComponent,
     EditMapTypeComponent,
+    EditImageComponent,
+    FilePickerComponent,
   ],
   imports: [
     BrowserModule,

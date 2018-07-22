@@ -114,6 +114,8 @@ declare module 'leaflet' {
          */
         startRectangle(latLng?: LatLng, options?: PolylineOptions): L.Rectangle;
 
+        startImage(url: string, latLng?: LatLng, options?: PolylineOptions): L.ImageOverlay;
+
 
         startCircle(latLng?: LatLng, options?: PolylineOptions): L.Circle;
 
@@ -175,6 +177,18 @@ declare module 'leaflet' {
         enable(): void;
         disable(): void;
     }
+
+    interface ImageOverlayOptions extends LayerOptions {
+        opacity?: number;
+        alt?: string;
+        interactive?: boolean;
+        attribution?: string;
+        crossOrigin?: boolean;
+        errorOverlayUrl?: string;
+        zIndex?: number;
+        className?: string;
+    }
+
 
     interface Map {
         /**
@@ -279,4 +293,5 @@ declare module 'leaflet' {
     interface Circle extends EditableMixin, PathDrag { }
     interface Polygon extends EditableMixin, PolygonEditor, PathDrag { }
     interface Rectangle extends EditableMixin, PathDrag { }
+    interface ImageOverlay extends EditableMixin, PathDrag { }
 }

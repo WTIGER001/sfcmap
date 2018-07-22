@@ -9,6 +9,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { User as FireUser } from 'firebase';
 import { LangUtil } from './util/LangUtil';
 import { Annotation, ShapeAnnotation, ImageAnnotation, MarkerTypeAnnotation } from './models';
+import { UUID } from 'angular2-uuid';
 
 
 @Injectable({
@@ -258,6 +259,7 @@ export class DataService {
     // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
     // LangUtil.trimExtraneousFields(toSave, this.sample(item))
+    this.assignId(item)
     const toSave = LangUtil.prepareForStorage(item)
 
     // Get path to the object
@@ -428,6 +430,17 @@ export class DataService {
 
   }
 
+  fillInImageAnnotationUrl(item: ImageAnnotation): Observable<ImageAnnotation> {
+    let path = 'images/' + item.id
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      map(url => {
+        item.url = url
+        return item
+      })
+    )
+  }
+
   fillInMapUrl(item: MapConfig): Observable<MapConfig> {
 
     let path = 'images/' + item.id
@@ -578,27 +591,6 @@ export class DataService {
       let pathThumb = 'images/' + map.id + "_thumb"
       console.log("Preparing to save Map DATA", map);
 
-
-      // const saveImg = this.saveImage(image, pathImage)
-      // const saveThumb = this.saveImage(thumb, pathThumb)
-      // const urlImg = this.fillInMapUrl(map)
-      // const urlThumb = this.fillInMapThumb(map)
-
-      // this.waitForComplete(saveImg, () => {
-      //   console.log("Save IMG COMPLETE");
-      //   this.waitForComplete(saveThumb, () => {
-      //     console.log("Save THUMB COMPLETE");
-      //     this.waitForComplete(urlImg, () => {
-      //       console.log("URL IMG COMPLETE");
-      //       this.waitForComplete(urlThumb, () => {
-      //         console.log("URL IMG THUMB");
-      //         console.log("Saving Map DATA", map);
-      //         this.save(map)
-      //       })
-      //     })
-      //   })
-      // })
-
       forkJoin(this.saveImage(image, pathImage), this.saveImage(thumb, pathThumb)).pipe(
         mergeMap(result => this.fillInMapUrl(map)),
         mergeMap(result => this.fillInMapThumb(map))
@@ -612,37 +604,37 @@ export class DataService {
         this.log.debug("Complete");
       })
 
-
-
-      // const example = source.pipe(concatAll());
-      // example.subscribe(() => {
-      //   console.log("Saving Map DATA", map);
-      //   this.save(map)
-      // }, err => {
-      //   this.log.debug("ERROR");
-      //   this.log.debug(err);
-      // }, () => {
-      //   this.log.debug("Complete");
-      // })
-
-      // concat(
-      //   this.saveImage(image, pathImage),
-      //   this.saveImage(thumb, pathThumb),
-      //   this.fillInMapUrl(map),
-      //   this.fillInMapThumb(map)
-      // ).subscribe(() => {
-      //   console.log("Saving Map DATA", map);
-      //   this.save(map)
-      // }, err => {
-      //   this.log.debug("ERROR");
-      //   this.log.debug(err);
-      // }, () => {
-      //   this.log.debug("Complete");
-      // })
-
     } else {
       this.save(map)
     }
+  }
+
+  saveImageAnnotation(item: ImageAnnotation) {
+    this.assignId(item)
+    const data = item._blob
+    let pathImage = 'images/' + item.id
+    forkJoin(this.saveImage(data, pathImage)).pipe(
+      mergeMap(result => this.fillInImageAnnotationUrl(item)),
+    ).subscribe(() => {
+      console.log(" DATA", item);
+      this.save(item)
+    }, err => {
+      this.log.debug("ERROR");
+      this.log.debug(err);
+    }, () => {
+      this.log.debug("Complete");
+    })
+  }
+
+  saveImageUrl(path: string, url: string): Observable<number> {
+    const ref = this.storage.ref(path)
+    let loadProgress = new Subject<number>()
+    loadProgress.subscribe(this.notify.progress("Loading Image"))
+
+    const task = ref.putString(url)
+    task.percentageChanges().subscribe(loadProgress)
+
+    return loadProgress
   }
 
   waitForComplete(obs: Observable<any>, fn: () => void) {
@@ -892,6 +884,14 @@ export class DataService {
       }
       this.log.debug("Saving");
       this.save(u)
+    }
+  }
+
+  assignId(item: any) {
+    if (!item.id) {
+      item.id = UUID.UUID().toString()
+    } else if (item.id == 'TEMP') {
+      item.id = UUID.UUID().toString()
     }
   }
 
