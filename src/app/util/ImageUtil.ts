@@ -9,6 +9,7 @@ export class ImageResult {
     image: Blob
     dataURL: string
     file: File
+    aspect: number // just w/h
 }
 
 export interface LoadImageOptions {
@@ -56,6 +57,7 @@ export class ImageUtil {
             img.onload = function () {
                 imgResult.width = img.width
                 imgResult.height = img.height
+                imgResult.aspect = img.width / img.height
 
                 if (opts.createThumbnail) {
                     let canvas = document.createElement('canvas')

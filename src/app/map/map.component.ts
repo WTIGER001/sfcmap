@@ -190,10 +190,13 @@ export class MapComponent {
       let bounds = latLngBounds(sw, ne)
       let imgBounds = Rect.limitSize(bounds, this.mapSvc.overlayLayer.getBounds(), .5)
       imgBounds = Rect.centerOn(imgBounds, this.mapSvc.overlayLayer.getBounds())
-      console.log("IMAGE BOUNDS: ", imgBounds);
 
       const a = new ImageAnnotation()
       a.id = 'TEMP'
+      let name = r.file.name
+      name = name.substr(0, name.lastIndexOf("."))
+      a.name = name
+      a.aspect = r.aspect
       a._blob = r.file
       a.url = r.dataURL
       a.map = this.mapCfg.id

@@ -48,6 +48,7 @@ export class EditImageComponent {
   dataChanged(image: ImageResult) {
     this.image._blob = image.file
     this.image.url = image.dataURL
+    this.image.aspect = image.aspect
     this.image.copyOptionsToShape();
   }
 
