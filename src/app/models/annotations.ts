@@ -193,6 +193,13 @@ export class ImageAnnotation extends Annotation {
         ]
     }
 
+    setBounds(bounds: LatLngBounds) {
+        this.points = [
+            bounds.getSouthWest(),
+            bounds.getNorthEast()
+        ]
+    }
+
     options(): ImageOverlayOptions {
         return {
             opacity: this.opacity,

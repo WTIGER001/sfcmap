@@ -328,7 +328,14 @@ export class MarkerTabComponent implements OnInit {
     if (this.item) {
       this.markers = this.item
     }
-    this.edit = false
+
+    if (this.selection.type && this.selection.type == 'edit') {
+      this.edit = true
+      this.enableDragging()
+    } else {
+      this.edit = false
+    }
+
   }
 
   public types(): string {

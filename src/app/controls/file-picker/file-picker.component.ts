@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input, AfterViewInit } from '@angular/core';
 import { UUID } from 'angular2-uuid';
 import { Observable, Subject } from 'rxjs';
+import { ImageUtil, ImageResult } from '../../util/ImageUtil';
 
 @Component({
   selector: 'app-file-picker',
@@ -12,9 +13,12 @@ export class FilePickerComponent implements OnInit {
   @ViewChild('myimage') myimage
 
   @Input() src: string
-  @Output() filechanged = new EventEmitter();
-  @Output() urlchanged = new EventEmitter();
+  // @Output() filechanged = new EventEmitter();
+  @Output() datachanged = new EventEmitter();
+  // @Output() urlchanged = new EventEmitter();
   img: HTMLImageElement
+  data: ImageResult
+  dragging = false
 
   id = UUID.UUID().toString
 
@@ -40,34 +44,53 @@ export class FilePickerComponent implements OnInit {
     this.fileButton.nativeElement.click()
   }
 
-  setFile(event) {
+  uploadFile(event) {
     if (event.target.files) {
-      let f = event.target.files[0]
-      this.getDimensions(f).subscribe(val => {
-        this.filechanged.emit(f)
-      })
+      this.setFile(event.target.files[0])
     }
   }
 
-  getDimensions(f: File): Observable<[number, number]> {
-    // let canvas = <HTMLCanvasElement>this.myimage.nativeElement
-    let val = new Subject<[number, number]>()
-    let reader = new FileReader()
-    reader.readAsDataURL(f)
-    reader.onloadend = () => {
-      this.src = reader.result
-      this.img = new Image()
-      this.img.src = this.src
-
-      this.urlchanged.emit(this.src)
-      this.img.onload = () => {
-        this.myimage.nativeElement.src = this.img.src
-        // this.myimage.nativeElement.width = this.img.width
-        // this.myimage.nativeElement.height = this.img.height
-        val.next([this.img.width, this.img.height])
-        val.complete()
-      }
-    }
-    return val
+  setFile(f) {
+    ImageUtil.loadImg(f).subscribe(r => {
+      this.data = r
+      this.myimage.nativeElement.src = r.dataURL
+      this.datachanged.emit(r)
+    })
   }
+
+  dragOver(e) {
+    // console.log("OVER");
+
+    // e.stopPropagation();
+    e.preventDefault();
+  }
+
+  dragEnter(e) {
+    console.log("ENTER");
+
+    // e.stopPropagation();
+    e.preventDefault();
+    this.dragging = true
+  }
+
+  dragLeave(e) {
+    console.log("LEAVING");
+
+    // e.stopPropagation();
+    e.preventDefault();
+    this.dragging = false
+  }
+
+  drop(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.dragging = false
+
+    const files = e.dataTransfer.files;
+    if (files.length >= 1) {
+      this.setFile(files[0])
+    }
+    return false;
+  }
+
 }

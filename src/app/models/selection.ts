@@ -3,6 +3,7 @@ export class Selection {
     public static readonly MARKER = 'marker'
 
     constructor(public items: any[], public type?: string) {
+
     }
 
     public get first(): any {

@@ -503,6 +503,10 @@ export class MapService {
     this.selection.next(new Selection(items))
   }
 
+  selectForEdit(...items) {
+    this.selection.next(new Selection(items, 'edit'))
+  }
+
   addToSelect(...items: any[]) {
     let old = this.selection.getValue()
     let allItems = old.items.slice(0)

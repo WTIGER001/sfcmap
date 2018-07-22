@@ -1,4 +1,5 @@
-<div class="form-group  mb-0 center-layout file-div">
+<div class="form-group  mb-0 center-layout file-div" [class.drop-target]="dragging" (dragover)="dragOver($event)" (dragenter)="dragEnter($event)"
+  (dragleave)="dragLeave($event)" (drop)="drop($event)">
   <label for="{{id}}" class="custom-file-upload p-0 center">
     <img #myimage [class.hide]="!hasImage()">
     <div *ngIf="!hasImage()" class="border">
@@ -6,5 +7,5 @@
       <h3>Image</h3>
     </div>
   </label>
-  <input id="{{id}}" #filecontrol type="file" class="inputfile border" accept=".jpg,.png" placeholder="select image" (change)="setFile($event)">
+  <input id="{{id}}" #filecontrol type="file" class="inputfile border" accept=".jpg,.png" placeholder="select image" (change)="uploadFile($event)">
 </div>

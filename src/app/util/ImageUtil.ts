@@ -1,14 +1,86 @@
-import { ReplaySubject, Observable, Subscriber } from "rxjs";
+import { ReplaySubject, Observable, Subscriber, Subject } from "rxjs";
 
 export class ImageResult {
     height: number
     width: number
     thumb: Blob
+    thumbHeight: number
+    thumbWidth: number
     image: Blob
+    dataURL: string
+    file: File
+}
+
+export interface LoadImageOptions {
+    // maxWidth?: number
+    // maxHeight?: number
+    // keepAspect?: boolean
+    createThumbnail?: boolean
+    thumbnailMaxHeight?: number
+    thumbnailMaxWidth?: number
+    thumbnailKeepAspect?: boolean
 }
 
 export class ImageUtil {
     public static THUMBNAIL_WIDTH = 242
+
+    private static DefaultOptions: LoadImageOptions = {
+        // keepAspect: true,
+        // maxWidth: 0,
+        // maxHeight: 0,
+        createThumbnail: false,
+        thumbnailMaxHeight: 0,
+        thumbnailMaxWidth: ImageUtil.THUMBNAIL_WIDTH,
+        thumbnailKeepAspect: true
+    }
+
+    public static loadImg(file: File, options?: LoadImageOptions): Observable<ImageResult> {
+        const opts = Object.assign({}, ImageUtil.DefaultOptions)
+        if (options) {
+            Object.assign(opts, options)
+        }
+
+        const result = new Subject<ImageResult>()
+        const imgResult = new ImageResult()
+        imgResult.file = file;
+
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+
+        reader.onloadend = function () {
+            var url = reader.result
+            var img = new Image()
+            img.src = url
+            imgResult.dataURL = url
+
+            img.onload = function () {
+                imgResult.width = img.width
+                imgResult.height = img.height
+
+                if (opts.createThumbnail) {
+                    let canvas = document.createElement('canvas')
+                    // set size proportional to image
+                    let w = ImageUtil.THUMBNAIL_WIDTH * (img.width / img.height);
+                    canvas.width = ImageUtil.THUMBNAIL_WIDTH;
+                    canvas.height = canvas.width * (img.height / img.width);
+
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob(b => imgResult.thumb = b)
+                    imgResult.thumbHeight = canvas.height
+                    imgResult.thumbWidth = canvas.width
+
+                    canvas.remove()
+                }
+
+                // val.next(result)
+                result.next(imgResult)
+                result.complete()
+            }
+        }
+        return result
+    }
+
     public static loadImage(canvas: HTMLCanvasElement, url: string) {
         let img = new Image()
         img.src = url

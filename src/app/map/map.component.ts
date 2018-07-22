@@ -16,6 +16,8 @@ import '../leaflet/image-drag.js';
 import { Trans } from '../util/transformation';
 import { Scale } from '../leaflet/scale';
 import { UrlResolver } from '@angular/compiler';
+import { ImageUtil } from '../util/ImageUtil';
+import { Rect } from '../util/geom';
 
 @Component({
   selector: 'app-map',
@@ -30,6 +32,7 @@ export class MapComponent {
   mainMap = imageOverlay('https://firebasestorage.googleapis.com/v0/b/sfcmap.appspot.com/o/images%2Ff1d8f636-6e8e-bde6-15b0-af7f81571c12?alt=media&token=582b3c4c-f8d5-44bd-a211-f3c609f0b23a', this.bounds);
   crs = Trans.createManualCRS(6)
 
+  dragging = true
   user: User
   coords: L.Control
   scale: Scale
@@ -180,7 +183,63 @@ export class MapComponent {
       this.user.prefs.showCoords ? this.coords.addTo(this.map) : this.coords.remove()
     }
   }
+  setFile(f) {
+    ImageUtil.loadImg(f).subscribe(r => {
+      let sw = L.latLng(0, 0)
+      let ne = L.latLng(r.height, r.width)
+      let bounds = latLngBounds(sw, ne)
+      let imgBounds = Rect.limitSize(bounds, this.mapSvc.overlayLayer.getBounds(), .5)
+      imgBounds = Rect.centerOn(imgBounds, this.mapSvc.overlayLayer.getBounds())
+      console.log("IMAGE BOUNDS: ", imgBounds);
 
+      const a = new ImageAnnotation()
+      a.id = 'TEMP'
+      a._blob = r.file
+      a.url = r.dataURL
+      a.map = this.mapCfg.id
+      a.setBounds(imgBounds)
+
+      console.log("ANNOATION CREATED: ", this.applyPrefs);
+      const shp = <L.ImageOverlay>a.toLeaflet(undefined)
+      shp.addTo(this.mapSvc.newMarkersLayer)
+
+      this.mapSvc.selectForEdit(a)
+    })
+  }
+
+  dragOver(e) {
+    // console.log("OVER");
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  dragEnter(e) {
+    console.log("ENTER");
+
+    e.stopPropagation();
+    e.preventDefault();
+    this.dragging = true
+  }
+
+  dragLeave(e) {
+    console.log("LEAVING");
+
+    e.stopPropagation();
+    e.preventDefault();
+    this.dragging = false
+  }
+
+  drop(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.dragging = false
+
+    const files = e.dataTransfer.files;
+    if (files.length >= 1) {
+      this.setFile(files[0])
+    }
+    return false;
+  }
 
 
 }

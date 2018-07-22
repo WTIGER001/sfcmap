@@ -1,5 +1,5 @@
 <div class="imagepick">
-  <app-file-picker [src]="image.url" (filechanged)="fileChanged($event)" (urlchanged)="urlChanged($event)"></app-file-picker>
+  <app-file-picker [src]="image.url" (datachanged)="dataChanged($event)"></app-file-picker>
 </div>
 <div class="form-group ">
   <label for="name ">Name</label>

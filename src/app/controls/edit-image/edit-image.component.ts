@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core
 import { ImageAnnotation, MergedMapType, MapConfig } from '../../models';
 import { DataService } from '../../data.service';
 import { ReplaySubject, Observable } from 'rxjs';
+import { ImageResult } from '../../util/ImageUtil';
 
 @Component({
   selector: 'app-edit-image',
@@ -44,15 +45,21 @@ export class EditImageComponent {
     // }
   }
 
-  fileChanged($event) {
-    this.image._blob = $event
+  dataChanged(image: ImageResult) {
+    this.image._blob = image.file
+    this.image.url = image.dataURL
+    this.image.copyOptionsToShape();
   }
 
-  urlChanged($event) {
-    this.image.url = $event
-    this.image.copyOptionsToShape();
-    this.image._saveImage = true
-  }
+  // fileChanged($event) {
+  //   this.image._blob = $event
+  // }
+
+  // urlChanged($event) {
+  //   this.image.url = $event
+  //   this.image.copyOptionsToShape();
+  //   this.image._saveImage = true
+  // }
 
   updateImage() {
     this.image.copyOptionsToShape();
