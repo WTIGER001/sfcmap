@@ -55,6 +55,11 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     this.action = ""
   }
 
+  update(e) {
+    console.log("Update Action: ", e)
+
+  }
+
   rollDice(expression: string) {
     let indx = this.expressionHistory.findIndex(item => item.toLowerCase() == expression.toLowerCase())
     if (indx >= 0) {
