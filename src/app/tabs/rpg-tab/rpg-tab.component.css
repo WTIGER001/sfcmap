@@ -1,0 +1,44 @@
+.dice-canvas {
+    /* border: 1px solid white; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 10px;
+    bottom: 30px;
+}
+
+:host {display: block;}
+
+.dice {
+    font-size: 28px;
+}
+.dice-max {
+    color: green;
+}
+.dice-min {
+    color: red;
+}
+
+.prev {
+    position: relative;
+    /* border: 1px solid rgba(127, 127, 127, .5); */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.roll-even {
+
+}
+
+.roll-odd {
+
+}
+
+.chat-area {
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+    height: 90%;
+    max-height: 90%;
+    max-width: 100%;
+}

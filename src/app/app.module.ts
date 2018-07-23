@@ -66,6 +66,7 @@ import { GroupManagerComponent } from './controls/group-manager/group-manager.co
 import { EditMapTypeComponent } from './controls/edit-map-type/edit-map-type.component';
 import { EditImageComponent } from './controls/edit-image/edit-image.component';
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
+import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { FilePickerComponent } from './controls/file-picker/file-picker.componen
     EditMapTypeComponent,
     EditImageComponent,
     FilePickerComponent,
+    RpgTabComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,21 @@
+<h1>RPG </h1>
+
+<div class="chat-area">
+
+    <div #prev class="prev scroller scroller-dark">
+        <div #canvas class="dice-canvas" (resize)="resize()"> </div>
+        <div *ngFor="let roll of rolls">
+            {{roll.expression}}
+            <br>
+            <span class="dice">
+                <ng-container *ngFor="let r of roll.dice; let last = last;">
+                    <i [class]="r.class" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
+                </ng-container>
+                = {{roll.total}}
+            </span>
+        </div>
+    </div>
+    Chat
+    <input type="text" #actionBox class="form-control enterarea" (keyup.enter)="enterAction(actionBox.value)" (keyup.arrowup)="keyup()"
+        (keyup.arrowdown)="keyup()" [(ngModel)]="action" name="action" (blur)="update(actionBox.value)">
+</div>

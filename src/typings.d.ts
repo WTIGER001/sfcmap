@@ -1,5 +1,6 @@
 import * as L from 'leaflet';
 
+
 declare module 'leaflet' {
     interface EditableStatic {
         new(map: Map, options: EditOptions): Editable;
@@ -294,4 +295,8 @@ declare module 'leaflet' {
     interface Polygon extends EditableMixin, PolygonEditor, PathDrag { }
     interface Rectangle extends EditableMixin, PathDrag { }
     interface ImageOverlay extends EditableMixin, PathDrag { }
+}
+
+declare global {
+    interface Window { WebGLRenderingContext: any; }
 }

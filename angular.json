@@ -28,7 +28,10 @@
               "./node_modules/leaflet/dist/leaflet.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/scripts/three.min.js",
+              "src/scripts/cannon.min.js"
+            ]
           },
           "configurations": {
             "production": {

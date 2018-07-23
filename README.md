@@ -51,16 +51,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Annotations
 - Marker Snap
 - Marker hover information (tooltip) / click information (popup)
-- Drop support for images
 - Custom Marker Annotations
 - Map Link should have optional coordinates
-- SVG Annotations (low priority)
 - Image Annotation Fixes: 
--- Drop Image on tab
--- File-picker max-height
 -- keep aspect
 -- snap
-- Annotations: CopyToShape() on edit - live preview
 - Cancel needs to revert any changes made
 
 ### Map 
@@ -86,13 +81,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Mobile Device Support 
 - Tab icons are too small
 - Measure and Calibrate dont work because there is no real 'mouse move' events
-- Managers (map, marker and groups) are in dialogs and are too small - Separate to separate pages with a router - Started on this
-- Auto expansion of tabs is annoying - make this a preference
-- Tab close is too small. I want to swipe to close
 - would be nice to full screen or PWA
-- Clicking on the measure or calibrate should diable the action
-- Wipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
-(actually, the rest of it worked surprisingly well!)
+- swipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
 
 ### RPG Features ( hard stuff /// Out of scope)?
 - Dice Roller

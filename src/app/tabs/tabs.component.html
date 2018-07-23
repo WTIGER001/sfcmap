@@ -15,6 +15,9 @@
     <div class="tab " *ngIf="mapCfg" (click)="toggle('layers')" [class.tab-selected]="selected==='layers'">
       <fa-icon icon="info" [fixedWidth]="true"></fa-icon>
     </div>
+    <div class="tab " (click)="toggle('rpg')" [class.tab-selected]="selected==='rpg'">
+      <fa-icon icon="dice" [fixedWidth]="true"></fa-icon>
+    </div>
     <div class="tab " (click)="toggle('admin')" [class.tab-selected]="selected==='admin'">
       <fa-icon icon="cog" [fixedWidth]="true"></fa-icon>
     </div>
@@ -28,4 +31,5 @@
   <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
   <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>
   <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
+  <app-rpg-tab class="side-container" [class.visible]="selected==='rpg'" [class.hide]="selected!=='rpg'"></app-rpg-tab>
 </div>
