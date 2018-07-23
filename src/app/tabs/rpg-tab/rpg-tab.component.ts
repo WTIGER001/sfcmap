@@ -25,13 +25,13 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
 
   }
 
-  keydown(e) {
+  keydown() {
     this.lastindex = this.lastindex > -1 ? this.lastindex - 1 : 0
     // this.actionbox.nativeElement.value = this.expressionHistory[this.lastindex]
     this.action = this.expressionHistory[this.lastindex]
   }
 
-  keyup(e) {
+  keyup() {
     this.lastindex = this.lastindex < this.expressionHistory.length ? this.lastindex + 1 : 20
     // this.actionbox.nativeElement.value = this.expressionHistory[this.lastindex]
     this.action = this.expressionHistory[this.lastindex]

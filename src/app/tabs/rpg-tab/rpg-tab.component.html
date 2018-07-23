@@ -3,7 +3,7 @@
 <div class="chat-area">
 
     <div #prev class="prev scroller scroller-dark">
-        <div #canvas class="dice-canvas" (resize)="resize()"> </div>
+        <div #canvas class="dice-canvas"> </div>
         <div *ngFor="let roll of rolls">
             {{roll.expression}}
             <br>
