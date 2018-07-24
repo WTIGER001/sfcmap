@@ -1,5 +1,6 @@
 export * from './annotation-group'
 export * from './annotations'
+export * from './chat'
 export * from './core'
 export * from './icon-cache'
 export * from './map-config'

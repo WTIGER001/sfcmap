@@ -103,8 +103,12 @@ export class MapPrefs {
     hiddenMarkers: string[] = []
 }
 
+
 export class Prefs {
     showScale: true
     showCoords: false
     expandTabOnSelect: true
+    use3dDice: true
+    sounds: true
+    savedExpressions: string[] = []
 }

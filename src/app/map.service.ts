@@ -133,7 +133,7 @@ export class MapService {
     let userObs = this.data.user.pipe(
       map(u => this.user = u)
     )
-    userObs.subscribe(user => this.setDefaultMap(user))
+    // userObs.subscribe(user => this.setDefaultMap(user))
 
     // Load the Map Types
     this.data.mapTypes.subscribe(t => this.mapTypes = t)

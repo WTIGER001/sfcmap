@@ -1,59 +1,12 @@
 import * as CANNON from 'src/scripts/cannon.min.js'
 import * as THREE from 'src/scripts/three.min.js'
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
+import { validateArgCount } from '@firebase/util';
+import { map } from 'rxjs/operators';
+import { DiceRoll } from '../models';
 
 
-export class Roll {
-    expression: string
-    values: number[]
-    dice: DiceResult[]
 
-    get total(): number {
-        let t = 0;
-        this.values.forEach(v => { t = t + v })
-        return t
-    }
-
-    get text(): string {
-        let strs = []
-        this.dice.forEach(d => {
-            strs.push("[" + d.type + "] " + d.value)
-        })
-
-        let str = strs.join(" + ")
-        str += " = " + this.total
-        return str
-    }
-
-
-}
-
-export class DiceResult {
-    value: number;
-    type: string;
-    get class(): string {
-        return "df-" + this.type + "-" + this.value
-    }
-    isCriticalFail(): boolean {
-        return this.type == 'd20' && this.value == 1
-    }
-    isCriticalSuccess(): boolean {
-        return this.type == 'd20' && this.value == 20
-    }
-    isMax(): boolean {
-        let max = parseInt(this.type.substr(1))
-        return max == this.value
-    }
-    isMin(): boolean {
-        return this.value == 1
-    }
-}
-
-export class DumbRoller {
-    roll(expression: string) {
-
-    }
-}
 
 export class Dice {
     static readonly known_types = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
@@ -159,30 +112,11 @@ export class Dice {
         this.renderer.render(this.scene, this.camera);
     }
 
-    // prepare_rnd(callback) {
-    //     // if (!random_storage.length && this.use_true_random) {
-    //     //     try {
-    //     //         $t.rpc({ method: "random", n: 512 }, 
-    //     //         function(random_responce) {
-    //     //             if (!random_responce.error)
-    //     //                 random_storage = random_responce.result.random.data;
-    //     //             else this.use_true_random = false;
-    //     //             callback();
-    //     //         });
-    //     //         return;
-    //     //     }
-    //     //     catch (e) { this.use_true_random = false; }
-    //     // }
-    //     callback();
-    // }
-
     rnd() {
         return this.random_storage.length ? this.random_storage.pop() : Math.random();
     }
 
     create_shape(vertices, faces, radius) {
-        console.log("create_shape");
-
         var cv = new Array(vertices.length), cf = new Array(faces.length);
         for (var i = 0; i < vertices.length; ++i) {
             var v = vertices[i];
@@ -195,8 +129,6 @@ export class Dice {
     }
 
     make_geom(vertices, faces, radius, tab, af) {
-        console.log("make_geom");
-
         var geom = new THREE.Geometry();
         for (var i = 0; i < vertices.length; ++i) {
             var vertex = vertices[i].multiplyScalar(radius);
@@ -223,8 +155,6 @@ export class Dice {
     }
 
     chamfer_geom(vectors, faces, chamfer) {
-        console.log("chamfer_geom");
-
         var chamfer_vectors = [], chamfer_faces = [], corner_faces = new Array(vectors.length);
         for (var i = 0; i < vectors.length; ++i) corner_faces[i] = [];
         for (var i = 0; i < faces.length; ++i) {
@@ -285,8 +215,6 @@ export class Dice {
     }
 
     create_geom(vertices, faces, radius, tab, af, chamfer) {
-        console.log("create_geom");
-
         var vectors = new Array(vertices.length);
         for (var i = 0; i < vertices.length; ++i) {
             vectors[i] = (new THREE.Vector3).fromArray(vertices[i]).normalize();
@@ -305,14 +233,10 @@ export class Dice {
         '60', '70', '80', '90'];
 
     calc_texture_size(approx) {
-        console.log("calc_texture_size");
-
         return Math.pow(2, Math.floor(Math.log(approx) / Math.log(2)));
     }
 
     create_dice_materials = function (face_labels, size, margin) {
-        console.log("create_dice_materials");
-
         let that = this
         function create_text_texture(text, color, back_color) {
             if (text == undefined) return null;
@@ -342,8 +266,6 @@ export class Dice {
     }
 
     create_d4_materials = function (size, margin) {
-        console.log("create_d4_materials");
-
         let that = this
         function create_d4_text(text, color, back_color) {
             var canvas = document.createElement("canvas");
@@ -437,7 +359,8 @@ export class Dice {
         specular: 0x172022,
         color: 0xf0f0f0,
         shininess: 40,
-        shading: THREE.FlatShading,
+        // shading: THREE.FlatShading,
+        flatShading: true
     };
     label_color = '#aaaaaa';
     dice_color = '#202020';
@@ -450,79 +373,90 @@ export class Dice {
     scale = 50;
 
     create_d4 = function () {
-        console.log("create_d4");
-
         if (!this.d4_geometry) this.d4_geometry = this.create_d4_geometry(this.scale * 1.2);
-        if (!this.d4_material) this.d4_material = new THREE.MeshFaceMaterial(
-            this.create_d4_materials(this.scale / 2, this.scale * 2));
+        if (!this.d4_material) this.d4_material =
+            this.create_d4_materials(this.scale / 2, this.scale * 2);
+        // if (!this.d4_material) this.d4_material = new THREE.MeshFaceMaterial(
+        //     this.create_d4_materials(this.scale / 2, this.scale * 2));
         return new THREE.Mesh(this.d4_geometry, this.d4_material);
     }
 
     create_d6 = function () {
-        console.log("create_d6");
         if (!this.d6_geometry) this.d6_geometry = this.create_d6_geometry(this.scale * 0.9);
-        if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
-            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
+        if (!this.dice_material) this.dice_material =
+            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
+        // if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
+        //     this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
         return new THREE.Mesh(this.d6_geometry, this.dice_material);
     }
 
     create_d8 = function () {
         if (!this.d8_geometry) this.d8_geometry = this.create_d8_geometry(this.scale);
-        if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
-            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.2));
+        if (!this.dice_material) this.dice_material =
+            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.2);
+        // if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
+        //     this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.2));
         return new THREE.Mesh(this.d8_geometry, this.dice_material);
     }
 
     create_d10 = function () {
         if (!this.d10_geometry) this.d10_geometry = this.create_d10_geometry(this.scale * 0.9);
-        if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
-            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
+        if (!this.dice_material) this.dice_material =
+            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
+        // if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
+        //     this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
         return new THREE.Mesh(this.d10_geometry, this.dice_material);
     }
 
     create_d12 = function () {
         if (!this.d12_geometry) this.d12_geometry = this.create_d12_geometry(this.scale * 0.9);
-        if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
-            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
+        if (!this.dice_material) this.dice_material =
+            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
+        // if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
+        //     this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
         return new THREE.Mesh(this.d12_geometry, this.dice_material);
     }
 
     create_d20 = function () {
         if (!this.d20_geometry) this.d20_geometry = this.create_d20_geometry(this.scale);
-        if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
-            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
+        if (!this.dice_material) this.dice_material =
+            this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
+        // if (!this.dice_material) this.dice_material = new THREE.MeshFaceMaterial(
+        //     this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0));
         return new THREE.Mesh(this.d20_geometry, this.dice_material);
     }
 
     create_d100 = function () {
         if (!this.d10_geometry) this.d10_geometry = this.create_d10_geometry(this.scale * 0.9);
-        if (!this.d100_material) this.d100_material = new THREE.MeshFaceMaterial(
-            this.create_dice_materials(this.standart_d100_dice_face_labels, this.scale / 2, 1.5));
+        if (!this.d100_material) this.d100_material =
+            this.create_dice_materials(this.standart_d100_dice_face_labels, this.scale / 2, 1.5);
+        // if (!this.d100_material) this.d100_material = new THREE.MeshFaceMaterial(
+        //     this.create_dice_materials(this.standart_d100_dice_face_labels, this.scale / 2, 1.5));
         return new THREE.Mesh(this.d10_geometry, this.d100_material);
     }
 
-    static parse_notation(notation) {
-        console.log("parse_notation");
+    // static parse_notation(notation) {
+    //     console.log("parse_notation");
 
-        var no = notation.split('@');
-        var dr0 = /\s*(\d*)([a-z]+)(\d+)(\s*\+\s*(\d+)){0,1}\s*(\+|$)/gi;
-        var dr1 = /(\b)*(\d+)(\b)*/gi;
-        var ret = { set: [], constant: 0, result: [], error: false }, res;
-        while (res = dr0.exec(no[0])) {
-            var command = res[2];
-            if (command != 'd') { ret.error = true; continue; }
-            var count = parseInt(res[1]);
-            if (res[1] == '') count = 1;
-            var type = 'd' + res[3];
-            if (this.known_types.indexOf(type) == -1) { ret.error = true; continue; }
-            while (count--) ret.set.push(type);
-            if (res[5]) ret.constant += parseInt(res[5]);
-        }
-        while (res = dr1.exec(no[1])) {
-            ret.result.push(parseInt(res[2]));
-        }
-        return ret;
-    }
+    //     var no = notation.split('@');
+    //     var dr0 = /\s*(\d*)([a-z]+)(\d+)(\s*\+\s*(\d+)){0,1}\s*(\+|$)/gi;
+    //     var dr1 = /(\b)*(\d+)(\b)*/gi;
+    //     var ret = { set: [], constant: 0, result: [], error: false }, res;
+    //     while (res = dr0.exec(no[0])) {
+    //         var command = res[2];
+    //         if (command != 'd') { ret.error = true; continue; }
+    //         var count = parseInt(res[1]);
+    //         if (res[1] == '') count = 1;
+    //         var type = 'd' + res[3];
+    //         if (this.known_types.indexOf(type) == -1) { ret.error = true; continue; }
+    //         while (count--) ret.set.push(type);
+    //         if (res[5]) ret.constant += parseInt(res[5]);
+    //     }
+    //     while (res = dr1.exec(no[1])) {
+    //         ret.result.push(parseInt(res[2]));
+    //     }
+    //     return ret;
+    // }
 
     stringify_notation = function (nn) {
         var dict = {}, notation = '';
@@ -536,11 +470,7 @@ export class Dice {
         return notation;
     }
 
-
-
     make_random_vector(vector) {
-        console.log("make_random_vector");
-
         var random_angle = this.rnd() * Math.PI / 5 - Math.PI / 5 / 2;
         var vec = {
             x: vector.x * Math.cos(random_angle) - vector.y * Math.sin(random_angle),
@@ -553,8 +483,6 @@ export class Dice {
 
 
     get_dice_value(dice) {
-        console.log("get_dice_value", dice);
-
         var vector = new THREE.Vector3(0, 0, dice.dice_type == 'd4' ? -1 : 1);
         var closest_face, closest_angle = Math.PI * 2;
         for (var i = 0, l = dice.geometry.faces.length; i < l; ++i) {
@@ -572,8 +500,6 @@ export class Dice {
     }
 
     get_dice_values(dices) {
-        console.log("get_dice_values", dices);
-
         var values = [];
         for (var i = 0, l = dices.length; i < l; ++i) {
             values.push(this.get_dice_value(dices[i]));
@@ -583,8 +509,6 @@ export class Dice {
 
 
     shift_dice_faces(dice, value, res) {
-        console.log("shift_dice_faces", dice, value, res);
-
         var r = Dice.dice_face_range[dice.dice_type];
         if (!(value >= r[0] && value <= r[1])) return;
         var num = value - res;
@@ -603,12 +527,8 @@ export class Dice {
 
 
     throw_dices(box: Dice, vector, boost, dist, notation_getter, before_roll, after_roll) {
-        console.log("throw_dices");
-
         var uat = this.use_adapvite_timestep;
         function roll(request_results?: any) {
-            console.log("roll");
-
             if (after_roll) {
                 box.clear();
                 box.roll(vectors, request_results || notation.result, function (result) {
@@ -675,8 +595,6 @@ export class Dice {
     }
 
     __animate(threadid) {
-        // console.log("animate", threadid);
-
         var time = (new Date()).getTime();
         var time_diff = (time - this.last_time) / 1000;
         if (time_diff > 3) time_diff = this.that.frame_rate;
@@ -716,8 +634,6 @@ export class Dice {
     }
 
     clear() {
-        console.log("CLEAR");
-
         this.running = false;
         var dice;
         while (dice = this.dices.pop()) {
@@ -731,8 +647,6 @@ export class Dice {
     }
 
     prepare_dices_for_roll(vectors) {
-        console.log("PREPARE ROLL");
-
         this.clear();
         this.iteration = 0;
         for (var i in vectors) {
@@ -742,8 +656,6 @@ export class Dice {
     }
 
     generate_vectors(notation, vector, boost) {
-        console.log("GENERATE VECTORS");
-
         var vectors = [];
         for (var i in notation.set) {
             var vec = this.make_random_vector(vector);
@@ -769,8 +681,6 @@ export class Dice {
     }
 
     create_dice(type, pos, velocity, angle, axis) {
-        console.log("CREATE DICE");
-
         var dice = this.that['create_' + type]();
         dice.castShadow = true;
         dice.dice_type = type;
@@ -788,8 +698,6 @@ export class Dice {
     }
 
     check_if_throw_finished() {
-        // console.log("check_if_throw_finished");
-
         var res = true;
         var e = 6;
         if (this.iteration < 10 / this.that.frame_rate) {
@@ -820,8 +728,6 @@ export class Dice {
 
 
     reinit(container, dimentions) {
-        console.log("reinit");
-
         this.cw = container.clientWidth / 2;
         this.ch = container.clientHeight / 2;
         if (dimentions) {
@@ -832,15 +738,11 @@ export class Dice {
             this.w = this.cw;
             this.h = this.ch;
         }
-        console.log("WIDTH / HEIGHT", this.w, " ", this.h);
-
 
         this.aspect = Math.min(this.cw / this.w, this.ch / this.h);
         this.that.scale = Math.sqrt(this.w * this.w + this.h * this.h) / 13;
 
         this.renderer.setSize(this.cw * 2, this.ch * 2);
-        console.log("Size : ", this.cw * 2, " ", this.ch * 2);
-
 
         this.wh = this.ch / this.aspect / Math.tan(10 * Math.PI / 180);
         if (this.camera) this.scene.remove(this.camera);
@@ -854,13 +756,13 @@ export class Dice {
         this.light.target.position.set(0, 0, 0);
         this.light.distance = mw * 5;
         this.light.castShadow = true;
-        this.light.shadowCameraNear = mw / 10;
-        this.light.shadowCameraFar = mw * 5;
-        this.light.shadowCameraFov = 50;
-        this.light.shadowBias = 0.001;
-        this.light.shadowDarkness = 1.1;
-        this.light.shadowMapWidth = 1024;
-        this.light.shadowMapHeight = 1024;
+        this.light.shadow.camera.near = mw / 10;
+        this.light.shadow.camera.far = mw * 5;
+        this.light.shadow.camera.fov = 50;
+        this.light.shadow.bias = 0.001;
+        this.light.shadow.darkness = 1.1;
+        this.light.shadow.mapSize.width = 1024;
+        this.light.shadow.mapSize.height = 1024;
         this.scene.add(this.light);
 
         // if (this.desk) this.scene.remove(this.desk);
@@ -873,8 +775,6 @@ export class Dice {
     }
 
     start_throw(notation_getter, before_roll, after_roll) {
-        console.log("START 1");
-
         var box = this;
         if (box.rolling) return;
         // this.prepare_rnd(function () {
@@ -887,8 +787,6 @@ export class Dice {
     }
 
     roll(vectors, values, callback) {
-        console.log("ROLL MAIN");
-
         this.prepare_dices_for_roll(vectors);
         if (values != undefined && values.length) {
             this.use_adapvite_timestep = false;
@@ -904,8 +802,6 @@ export class Dice {
     }
 
     __selector_animate(threadid) {
-        console.log("__selector_animate");
-
         var time = (new Date()).getTime();
         var time_diff = (time - this.last_time) / 1000;
         if (time_diff > 3) time_diff = this.that.frame_rate;
@@ -926,8 +822,6 @@ export class Dice {
     }
 
     search_dice_by_mouse(ev) {
-        console.log("search_dice_by_mouse");
-
         var m = $t.get_mouse_coords(ev);
         var intersects = (new THREE.Raycaster(this.camera.position,
             (new THREE.Vector3((m.x - this.cw) / this.aspect,
@@ -937,8 +831,6 @@ export class Dice {
     }
 
     draw_selector() {
-        console.log("draw_selector");
-
         this.clear();
         var step = this.w / 4.5;
         this.pane = new THREE.Mesh(new THREE.PlaneGeometry(this.w * 6, this.h * 6, 1, 1),
@@ -990,8 +882,6 @@ export class $t {
     }
 
     static element = function (name, props, place) {
-        console.log("element");
-
         var dom = document.createElement(name);
         if (props) for (var i in props) dom.setAttribute(i, props[i]);
         if (place) place.appendChild(dom);
@@ -999,27 +889,19 @@ export class $t {
     }
 
     static inner = function (obj, sel) {
-        console.log("inner");
-
         sel.appendChild(typeof obj == 'string' ? document.createTextNode(obj) : obj);
     }
 
     static id = function (id) {
-        console.log("id");
-
         return document.getElementById(id);
     }
 
     static set = function (sel, props) {
-        console.log("set");
-
         for (var i in props) sel.setAttribute(i, props[i]);
         return sel;
     }
 
     static clas = function (sel, oldclass, newclass) {
-        console.log("cls");
-
         var oc = oldclass ? oldclass.split(/\s+/) : [],
             nc = newclass ? newclass.split(/\s+/) : [],
             classes = (sel.getAttribute('class') || '').split(/\s+/);
@@ -1035,16 +917,12 @@ export class $t {
     }
 
     static empty = function (sel) {
-        console.log("empty");
-
         if (sel.childNodes)
             while (sel.childNodes.length)
                 sel.removeChild(sel.firstChild);
     }
 
     static remove = function (sel) {
-        console.log("remove");
-
         if (sel) {
             if (sel.parentNode) sel.parentNode.removeChild(sel);
             else for (var i = sel.length - 1; i >= 0; --i)
@@ -1053,8 +931,6 @@ export class $t {
     }
 
     static bind = function (sel, eventname, func, bubble) {
-        console.log("bind");
-
         if (eventname.constructor === Array) {
             for (var i in eventname)
                 sel.addEventListener(eventname[i], func, bubble ? bubble : false);
@@ -1064,8 +940,6 @@ export class $t {
     }
 
     static unbind = function (sel, eventname, func, bubble) {
-        console.log("unbind");
-
         if (eventname.constructor === Array) {
             for (var i in eventname)
                 sel.removeEventListener(eventname[i], func, bubble ? bubble : false);
@@ -1075,8 +949,6 @@ export class $t {
     }
 
     static one = function (sel, eventname, func, bubble) {
-        console.log("one");
-
         var one_func = function (e) {
             func.call(this, e);
             $t.unbind(sel, eventname, one_func, bubble);
@@ -1085,38 +957,12 @@ export class $t {
     }
 
     static raise_event = function (sel, eventname, bubble, cancelable) {
-        console.log("raise");
-
         var evt = document.createEvent('UIEvents');
         evt.initEvent(eventname, bubble == undefined ? true : bubble,
             cancelable == undefined ? true : cancelable);
         sel.dispatchEvent(evt);
     }
 
-    // if (!document.getElementsByClassName) {
-    //     teal.get_elements_by_class = function(classes, node) {
-    //         var node = node || document,
-    //             list = node.getElementsByTagName('*'),
-    //             cl = classes.split(/\s+/),
-    //             result = [];
-
-    //         for (var i = list.length - 1; i >= 0; --i) {
-    //             for (var j = cl.length - 1; j >= 0; --j) {
-    //                 var clas = list[i].getAttribute('class');
-    //                 if (clas && clas.search('\\b' + cl[j] + '\\b') != -1) {
-    //                     result.push(list[i]);
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //         return result;
-    //     }
-    // }
-    // else {
-    //     teal.get_elements_by_class = function(classes, node) {
-    //         return (node || document).getElementsByClassName(classes);
-    //     }
-    // }
 
     static rpc = function (params, callback) {
         var ajax = new XMLHttpRequest(), ret;
@@ -1154,49 +1000,144 @@ export class $t {
 
 
 export class DiceRoller {
-    threeDEngine: Dice
-    zeroDEngine: DumbRoller
 
-    constructor(private use3d: boolean, private container: HTMLElement, private dimensions?: any) {
+    threeDEngine: Dice
+
+    constructor(public use3d: boolean, private container: HTMLElement, private dimensions?: any) {
+    }
+
+    clear() {
+        if (this.use3d && this.threeDEngine) {
+            this.threeDEngine.clear()
+        }
     }
 
     initialize() {
         if (this.use3d && this.threeDEngine == undefined) {
             this.threeDEngine = new Dice(this.container, this.dimensions)
-        } else if (!this.zeroDEngine) {
-            this.zeroDEngine = new DumbRoller()
         }
     }
 
-    rollDice(expression: string): Observable<Roll> {
-        let returnval = new Subject<Roll>()
+    parse(exp: string): DiceRoll {
+        let roll = new DiceRoll()
+        roll.expression = exp
 
-        let a = Dice.parse_notation(expression)
-        console.log("EXPRESSION,", expression, a);
+        // Expression to identify dice rolls or modifiers
+        // const regex = /([-+]?[\s]*\d*[d]?\d{1,3})/gi
+        const regex = /([-+]?)[\s]*(\d*)([d]?)(\d{1,10})/gi
 
-        let r = new Roll()
-        r.dice = []
-        r.expression = expression
-        a.set.forEach(type => {
-            let d = new DiceResult()
-            d.type = type
-            r.dice.push(d)
-        })
+        let match;
+        while ((match = regex.exec(exp)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (match.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
 
-        this.initialize()
-        if (this.use3d) {
-            this.threeDEngine.start_throw(() => Dice.parse_notation(expression), () => { }, (_, result) => {
-                r.values = result
-                r.values.forEach((value, i) => {
-                    r.dice[i].value = value
-                })
-                returnval.next(r)
-            })
-        } else {
-            this.zeroDEngine.roll(expression)
+            // Group 1 is the + or - sign
+            let plusMinus = match[1]
+
+            // Group 2 is the number in front of the dice
+            let quantStr = match[2]
+
+            // Group 3 is the 'd' indicator, which signifies a die
+            let dStr = match[3]
+
+            // Group 4 is the modifier or dice classifier
+            let facesStr = match[4]
+
+            if (dStr.length == 0) {
+                // This is a modifier
+                let mod = parseInt(facesStr)
+                if (plusMinus == '-') {
+                    mod = -mod
+                }
+                roll.addModifier(mod)
+            } else {
+                let numberOfDice = quantStr.length == 0 ? 1 : parseInt(quantStr)
+                roll.addDice(numberOfDice, parseInt(facesStr), plusMinus == '-')
+            }
+        }
+        return roll
+    }
+
+    isDiceExpression(expression: string): boolean {
+        return this.parse(expression).dice.length > 0
+    }
+
+    make3dRollRequest(roll: DiceRoll): any {
+        // This is the desired format
+        var ret = { set: [], constant: 0, result: [], error: false }
+        if (roll.dice.length > 25) {
+            return ret
         }
 
-        return returnval;
+        roll.dice.forEach(d => {
+            let type = 'd' + d.type
+            if (Dice.known_types.indexOf(type) >= 0) {
+                d.threeDIndex = ret.set.push(type) - 1;
+                if (type == 'd100') {
+                    d.threeDIndex100 = ret.set.push('d10') - 1;
+                }
+            }
+        })
+
+        return ret
+    }
+
+    fill3dResults(values: number[], roll: DiceRoll) {
+        roll.dice.forEach(d => {
+            if (d.threeDIndex >= 0) {
+                d.value = values[d.threeDIndex]
+            }
+            if (d.threeDIndex100 >= 0) {
+                d.value100 = values[d.threeDIndex100]
+            }
+        })
+    }
+
+    completeMissing(roll: DiceRoll) {
+        roll.dice.forEach(d => {
+            if (d.threeDIndex == -1) {
+                d.value = Math.ceil(Math.random() * d.type)
+            }
+        })
+    }
+
+    rollDice(expression: string): Observable<DiceRoll> {
+        this.initialize()
+
+
+        // Parse the Expression
+        const roll = this.parse(expression)
+
+        // Try to roll 3d dice (and wait for the result)
+        let obsRoll: Observable<DiceRoll>
+        if (this.use3d) {
+            // construct the actual set to roll. This will include only dice that need to be rolled
+            let notation = this.make3dRollRequest(roll)
+            if (notation.set.length > 0) {
+                let obsRollSub = new Subject<DiceRoll>()
+                obsRoll = obsRollSub
+
+                this.threeDEngine.start_throw(() => this.make3dRollRequest(roll), () => { }, (_, result) => {
+                    this.fill3dResults(result, roll)
+                    obsRollSub.next(roll)
+                    obsRollSub.complete()
+                })
+            } else {
+                obsRoll = of(roll)
+            }
+        } else {
+            obsRoll = of(roll)
+        }
+
+        // Now wait for the roll to complete and fill in the missing pieces
+        return obsRoll.pipe(
+            map((r: DiceRoll) => {
+                this.completeMissing(r)
+                return r
+            })
+        )
     }
 
 

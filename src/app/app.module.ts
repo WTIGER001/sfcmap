@@ -14,10 +14,12 @@ import { TreeModule } from 'angular-tree-component';
 import { ToastrModule } from 'ngx-toastr';
 import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { EmojifyModule } from 'angular-emojify';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons'
 
 import { AppComponent } from './app.component';
@@ -130,7 +132,8 @@ import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
       timeOut: 3000
     }),
     DragAndDropModule.forRoot(),
-    ColorPickerModule
+    ColorPickerModule,
+    EmojifyModule
   ],
   providers: [
     MapService,
@@ -153,6 +156,7 @@ import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
 export class AppModule {
   constructor() {
     library.add(faGoogle, faGithub)
+    library.add(faStar)
     library.add(fas);
   }
 }

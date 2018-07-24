@@ -4,18 +4,60 @@
 
     <div #prev class="prev scroller scroller-dark">
         <div #canvas class="dice-canvas"> </div>
-        <div *ngFor="let roll of rolls">
-            {{roll.expression}}
-            <br>
-            <span class="dice">
-                <ng-container *ngFor="let r of roll.dice; let last = last;">
-                    <i [class]="r.class" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
-                </ng-container>
-                = {{roll.total}}
-            </span>
+        <div *ngFor="let rec of records; let odd=odd; let even=even;" [class.roll-odd]="odd" [class.roll-even]="even" class="roll p-1"
+            (dblclick)="dblClick(rec)">
+            <div class="roll-header">
+                <div class="uname">{{username(rec.uid)}}</div>
+                <div class="time">{{rec.toDate() | date:'short'}}</div>
+            </div>
+            <div *ngIf="rec.record.dice">
+                <div class="roll-header-2">
+                    <div> {{rec.record.expression}}</div>
+                    <div class="time" *ngIf="!isFav(rec.record.expression)">
+                        <fa-icon (click)="toggleFav(rec.record.expression)" [icon]="['far', 'star']"></fa-icon>
+                    </div>
+                    <div *ngIf="isFav(rec.record.expression)">
+                        <fa-icon (click)="toggleFav(rec.record.expression)" [icon]="['fas', 'star']"></fa-icon>
+                    </div>
+                </div>
+
+                <div class="dice">
+                    <ng-container *ngFor="let r of rec.record.dice; let last = last;">
+                        <i [class]="r.getClass()" [class.mr-1]="true" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
+                        <span class="empty-die mr-1" *ngIf="r.getNoClass()">{{r.getTotal()}}</span>
+                    </ng-container>
+                    <ng-container *ngIf="rec.record.modifier > 0">
+                        + {{rec.record.modifier}}
+                    </ng-container>
+                    <ng-container *ngIf="rec.record.modifier < 0">
+                        {{rec.record.modifier}}
+                    </ng-container>
+                    = {{rec.record.getTotal()}}
+                </div>
+            </div>
+            <div *ngIf="rec.record.message">
+                {{rec.record.message | emojify}}
+            </div>
         </div>
     </div>
+
     Chat
-    <input type="text" #actionBox class="form-control enterarea" (keyup.enter)="enterAction(actionBox.value)" (keyup.arrowup)="keyup()"
-        (keyup.arrowdown)="keyup()" [(ngModel)]="action" name="action" (blur)="update(actionBox.value)">
+    <div class="input-group">
+        <input type="text" #actionBox #acc="ngbTypeahead" class="form-control enterarea" (keyup.enter)="enterAction(actionBox.value)"
+            (keyup.arrowup)="keyup()" (keyup.arrowdown)="keyup()" [(ngModel)]="action" name="action" (blur)="update(actionBox.value)"
+            [ngbTypeahead]="searchFor" [inputFormatter]="formatter" [resultFormatter]="resultFormatter" placement='top-right'>
+        <div class="input-group-append">
+            <div ngbDropdown placement="top-right">
+                <button class="btn btn-outline-secondary toggle2" id="chat-drop" ngbDropdownToggle>
+                    <fa-icon icon='history'></fa-icon>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="chat-drop">
+                    <h6 class="dropdown-header dh pl-1">Favorites</h6>
+                    <button *ngFor="let e of user.prefs.savedExpressions" class="dropdown-item btn-sm pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
+                    <h6 class="dropdown-header dh pl-1">Recent Rolls</h6>
+                    <button *ngFor="let e of expressionHistory" class="dropdown-item btn-sm  pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

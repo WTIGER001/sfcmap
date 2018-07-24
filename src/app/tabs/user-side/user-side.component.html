@@ -27,6 +27,10 @@
       ngbTooltip="Display the map scale on each of the maps">Show Map Scale</app-checkbox>
     <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.showCoords' (checkchange)="updatePrefs()" placement="bottom"
       ngbTooltip="Display the map coordiantes of the mouse">Show Map Coordinates</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.use3Ddice' (checkchange)="updatePrefs()" placement="bottom"
+      ngbTooltip="Emulate dice rolling using 3D Dice">Roll 3D Dice</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.sounds' (checkchange)="updatePrefs()" placement="bottom"
+      ngbTooltip="Enable sounds for effects (like dice rolling)">Enable Sounds</app-checkbox>
   </div>
 
 </div>

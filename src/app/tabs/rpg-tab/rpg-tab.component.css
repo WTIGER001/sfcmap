@@ -5,18 +5,51 @@
     left: 0;
     right: 10px;
     bottom: 30px;
+    pointer-events: none;
 }
 
 :host {display: block;}
 
+
+.empty-die {
+    /* display: inline-block; */
+    font-size: 16px;
+    border: 2px solid white;
+    height: 28px;
+    width: 28px;
+    text-align: center;
+}
+
 .dice {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     font-size: 28px;
+    justify-content: flex-start;
+    align-items: center;
 }
 .dice-max {
     color: green;
 }
 .dice-min {
     color: red;
+}
+
+.time {
+    color: #515558; /* MUTED */
+    font-size: .9em;
+}
+
+
+.roll-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.roll-header-2 {
+    display: flex;
+    justify-content: space-between;
+    color: #9ed485;
 }
 
 .prev {
@@ -28,11 +61,14 @@
 }
 
 .roll-even {
-
+    background-color: rgba(3, 139, 139, 0.1);
+    border-radius: 2px;
 }
 
-.roll-odd {
-
+.roll:hover {
+    background-color: rgba(82, 82, 129, 0.9);
+    border-radius: 2px;
+    cursor: pointer;
 }
 
 .chat-area {
@@ -41,4 +77,8 @@
     height: 90%;
     max-height: 90%;
     max-width: 100%;
+}
+
+.dropdown-toggle::after {
+    display: none;
 }
