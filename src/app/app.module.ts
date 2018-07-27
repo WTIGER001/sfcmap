@@ -69,6 +69,8 @@ import { EditMapTypeComponent } from './controls/edit-map-type/edit-map-type.com
 import { EditImageComponent } from './controls/edit-image/edit-image.component';
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
 import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
+import { AudioService } from './audio.service';
+import { HotKeyService } from './hot-key.service';
 
 @NgModule({
   declarations: [
@@ -141,7 +143,9 @@ import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
     NotifyService,
     DataService,
     DialogService,
-    RestrictService
+    RestrictService,
+    AudioService,
+    HotKeyService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

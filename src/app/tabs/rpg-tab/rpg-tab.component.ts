@@ -8,6 +8,7 @@ import { DataService } from '../../data.service';
 import { User, ChatRecord, ChatMessage, DiceRoll } from '../../models';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 import { LangUtil } from '../../util/LangUtil';
+import { AudioService, Sounds } from '../../audio.service';
 
 @Component({
   selector: 'app-rpg-tab',
@@ -28,9 +29,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   action: string
   user: User
   users: User[]
-  audio: HTMLAudioElement
-  lastId: number
-  constructor(private data: DataService, private firedb: AngularFireDatabase) {
+  lastId: string
+  constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService) {
     this.data.user.subscribe(u => {
       this.user = u
       if (this.roller) {
@@ -38,15 +38,18 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
       }
     })
 
-    this.data.users.subscribe(u => this.users = u)
+    this.data.users.subscribe(u => {
+      this.users = u
+      this.lastId = this.user.prefs.lastChatId
+    })
 
+    let found = (this.lastId == '')
     this.firedb.list<any>("chat").stateChanges().subscribe(action => {
-      console.log("TYPE ", action.type);
-      console.log("KEY ", action.key);
-      console.log("PAYLOAD ", action.payload.val());
-
       let r = ChatRecord.to(action.payload.val())
-      this.records.push(r)
+      if (found || r.key == this.lastId) {
+        found = true
+        this.records.unshift(r)
+      }
     })
 
     // (events: ChildEvent[]) : Observable<AngularFireAction<DatabaseSnapshot<any>>[])
@@ -86,7 +89,6 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     } else {
       this.user.prefs.savedExpressions.push(expression)
     }
-    console.log("TOGGLED ", expression, " ", this.user.prefs.savedExpressions);
 
     this.data.save(this.user)
   }
@@ -100,13 +102,11 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.audio = new Audio('./assets/audio/dice.mp3');
   }
 
   keydown() {
     if (!this.acc.isPopupOpen()) {
       this.lastindex = this.lastindex > 0 ? this.lastindex - 1 : 0
-      // this.actionbox.nativeElement.value = this.expressionHistory[this.lastindex]
       this.action = this.expressionHistory[this.lastindex]
     }
   }
@@ -129,24 +129,26 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     this.roller = new DiceRoller(true, this.canvas.nativeElement)
   }
 
-  enterAction(e) {
+  enterAction(e: string) {
     console.log("Action: ", e)
     this.lastindex = -1
 
-    if (e.toLowerCase() == "/clear") {
-      this.roller.clear()
+    if (e.toLowerCase().trim().startsWith("/")) {
+      // Then this is a command 
+      if (e.toLowerCase() == "/clear") {
+        this.roller.clear()
 
-      if (this.records.length > 0) {
-        let item = this.records[this.records.length - 1]
+        if (this.records.length > 0) {
+          let item = this.records[this.records.length - 1]
+          // this.user.prefs.lastChatId = item.key
+          this.data.save(this.user)
+        }
 
+        this.records = []
+      } else if (e.toLowerCase() == "/cd") {
+        this.roller.clear()
       }
-      this.records = []
-    } else if (e.toLowerCase() == "/cd") {
-      this.roller.clear()
     } else if (this.roller.isDiceExpression(e)) {
-      if (this.user.prefs.sounds) {
-        this.audio.play();
-      }
       this.rollDice(e)
     } else {
       // this.rolls.push(new ChatMessage(e))
@@ -164,6 +166,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   rollDice(expression: string) {
+    this.audio.play(Sounds.DiceRoll)
+
     let indx = this.expressionHistory.findIndex(item => item.toLowerCase() == expression.toLowerCase())
     if (indx >= 0) {
       this.expressionHistory.splice(indx)

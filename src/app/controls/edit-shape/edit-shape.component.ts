@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../../data.service';
-import { ShapeAnnotation } from '../../models';
+import { ShapeAnnotation, MergedMapType } from '../../models';
 
 @Component({
   selector: 'app-edit-shape',
@@ -10,6 +10,7 @@ import { ShapeAnnotation } from '../../models';
 export class EditShapeComponent implements OnInit {
 
   item: ShapeAnnotation = new ShapeAnnotation('rectangle')
+  merged: MergedMapType[]
 
   @Input() set shape(item: ShapeAnnotation) {
     console.log("SETTING SHAPE");
@@ -17,7 +18,11 @@ export class EditShapeComponent implements OnInit {
     this.item = item
   }
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService) {
+    this.data.mapTypesWithMaps.subscribe(items => {
+      this.merged = items
+    })
+  }
 
   ngOnInit() {
   }

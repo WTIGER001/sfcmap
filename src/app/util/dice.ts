@@ -358,17 +358,18 @@ export class Dice {
     material_options = {
         specular: 0x172022,
         color: 0xf0f0f0,
-        shininess: 40,
+        shininess: 30,
         // shading: THREE.FlatShading,
         flatShading: true
     };
     label_color = '#aaaaaa';
+    // label_color = '#000000';
     dice_color = '#202020';
+    // dice_color = '#007bff';
     ambient_light_color = 0xf0f5fb;
     spot_light_color = 0xefdfd5;
     selector_back_colors = { color: 0x404040, shininess: 0, emissive: 0x858787 };
     desk_color = 0xdfdfdf;
-
 
     scale = 50;
 
@@ -435,29 +436,6 @@ export class Dice {
         return new THREE.Mesh(this.d10_geometry, this.d100_material);
     }
 
-    // static parse_notation(notation) {
-    //     console.log("parse_notation");
-
-    //     var no = notation.split('@');
-    //     var dr0 = /\s*(\d*)([a-z]+)(\d+)(\s*\+\s*(\d+)){0,1}\s*(\+|$)/gi;
-    //     var dr1 = /(\b)*(\d+)(\b)*/gi;
-    //     var ret = { set: [], constant: 0, result: [], error: false }, res;
-    //     while (res = dr0.exec(no[0])) {
-    //         var command = res[2];
-    //         if (command != 'd') { ret.error = true; continue; }
-    //         var count = parseInt(res[1]);
-    //         if (res[1] == '') count = 1;
-    //         var type = 'd' + res[3];
-    //         if (this.known_types.indexOf(type) == -1) { ret.error = true; continue; }
-    //         while (count--) ret.set.push(type);
-    //         if (res[5]) ret.constant += parseInt(res[5]);
-    //     }
-    //     while (res = dr1.exec(no[1])) {
-    //         ret.result.push(parseInt(res[2]));
-    //     }
-    //     return ret;
-    // }
-
     stringify_notation = function (nn) {
         var dict = {}, notation = '';
         for (var i in nn.set)
@@ -480,7 +458,6 @@ export class Dice {
         if (vec.y == 0) vec.y = 0.01;
         return vec;
     }
-
 
     get_dice_value(dice) {
         var vector = new THREE.Vector3(0, 0, dice.dice_type == 'd4' ? -1 : 1);
@@ -523,8 +500,6 @@ export class Dice {
         }
         dice.geometry = geom;
     }
-
-
 
     throw_dices(box: Dice, vector, boost, dist, notation_getter, before_roll, after_roll) {
         var uat = this.use_adapvite_timestep;
@@ -725,8 +700,6 @@ export class Dice {
         return res;
     }
 
-
-
     reinit(container, dimentions) {
         this.cw = container.clientWidth / 2;
         this.ch = container.clientHeight / 2;
@@ -741,7 +714,6 @@ export class Dice {
 
         this.aspect = Math.min(this.cw / this.w, this.ch / this.h);
         this.that.scale = Math.sqrt(this.w * this.w + this.h * this.h) / 13;
-
         this.renderer.setSize(this.cw * 2, this.ch * 2);
 
         this.wh = this.ch / this.aspect / Math.tan(10 * Math.PI / 180);

@@ -1,8 +1,6 @@
 <h1>RPG </h1>
-
 <div class="chat-area">
-
-    <div #prev class="prev scroller scroller-dark">
+    <div #prev class="prev scroller scroller-dark results-area">
         <div #canvas class="dice-canvas"> </div>
         <div *ngFor="let rec of records; let odd=odd; let even=even;" [class.roll-odd]="odd" [class.roll-even]="even" class="roll p-1"
             (dblclick)="dblClick(rec)">
@@ -40,22 +38,23 @@
             </div>
         </div>
     </div>
-
-    Chat
-    <div class="input-group">
-        <input type="text" #actionBox #acc="ngbTypeahead" class="form-control enterarea" (keyup.enter)="enterAction(actionBox.value)"
-            (keyup.arrowup)="keyup()" (keyup.arrowdown)="keyup()" [(ngModel)]="action" name="action" (blur)="update(actionBox.value)"
-            [ngbTypeahead]="searchFor" [inputFormatter]="formatter" [resultFormatter]="resultFormatter" placement='top-right'>
-        <div class="input-group-append">
-            <div ngbDropdown placement="top-right">
-                <button class="btn btn-outline-secondary toggle2" id="chat-drop" ngbDropdownToggle>
-                    <fa-icon icon='history'></fa-icon>
-                </button>
-                <div ngbDropdownMenu aria-labelledby="chat-drop">
-                    <h6 class="dropdown-header dh pl-1">Favorites</h6>
-                    <button *ngFor="let e of user.prefs.savedExpressions" class="dropdown-item btn-sm pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
-                    <h6 class="dropdown-header dh pl-1">Recent Rolls</h6>
-                    <button *ngFor="let e of expressionHistory" class="dropdown-item btn-sm  pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
+    <div class="input-area">
+        Chat
+        <div class="input-group">
+            <input type="text" #actionBox #acc="ngbTypeahead" class="form-control enterarea" (keyup.enter)="enterAction(actionBox.value)"
+                (keyup.arrowup)="keyup()" (keyup.arrowdown)="keyup()" [(ngModel)]="action" name="action" (blur)="update(actionBox.value)"
+                [ngbTypeahead]="searchFor" [inputFormatter]="formatter" [resultFormatter]="resultFormatter" placement='top-right'>
+            <div class="input-group-append">
+                <div ngbDropdown placement="top-right">
+                    <button class="btn btn-outline-secondary toggle2" id="chat-drop" ngbDropdownToggle>
+                        <fa-icon icon='history'></fa-icon>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="chat-drop">
+                        <h6 class="dropdown-header dh pl-1">Favorites</h6>
+                        <button *ngFor="let e of user.prefs.savedExpressions" class="dropdown-item btn-sm pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
+                        <h6 class="dropdown-header dh pl-1">Recent Rolls</h6>
+                        <button *ngFor="let e of expressionHistory" class="dropdown-item btn-sm  pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
+                    </div>
                 </div>
             </div>
         </div>

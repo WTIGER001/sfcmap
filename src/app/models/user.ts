@@ -111,4 +111,5 @@ export class Prefs {
     use3dDice: true
     sounds: true
     savedExpressions: string[] = []
+    lastChatId: string
 }

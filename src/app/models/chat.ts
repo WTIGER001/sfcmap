@@ -171,6 +171,9 @@ export class DiceResult {
     }
 
     getTotal(): number {
+        if (this.type == 100 && this.value == 0 && this.value100 == 0) {
+            return 100
+        }
         return this.value + this.value100
     }
 }

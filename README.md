@@ -57,6 +57,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 -- keep aspect
 -- snap
 - Cancel needs to revert any changes made
+- Cut and paste
 
 ### Map 
 - Restyle zoom buttons
@@ -72,7 +73,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Add validation to group form
 
 ### General Application
-- Project or Game or Collection top level construct (this changes a lot)
+- Project or Game or Collection top level construct. This would probably be a new launch page. You can choose between games. Maybe have some sort of "world" and "Chapter or Module" level structure that can add to the overall game world. Or instead of a fixed heirarchy just used tags.. I think i like that the best. Allow users to tag a map, etc. and then filter by those tags. Keep the concept of a game world. I need to figure out a good way to show an image of each world. Not sure what the "game" object looks like. a game should have members and possibly characters and npcs. 
+
 - Remove the temporary objects like category and mergedmap type
 - move the dbPath functions to the data service
 - explore e2e testing
@@ -85,16 +87,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - swipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
 
 ### RPG Features ( hard stuff /// Out of scope)?
-- Dice Roller
 - Fog / Exposed areas (basically just draw), predefined areas too
 - Character Icons
 - Atlas / Collection
-- Chat window ( can use skype )
 - White Board
-- Hexegon Graticules (bigger issue)
 - Mobile Fog of war based on user vision, but aware of doors and obstacles
 - Auras
-- Ping Graphic
+- Ping Graphic, I have the sound...
 
 ## Design Thoughts
 Still have to figure out how I want to grow the application to support RPGs... How much this could replace
@@ -103,8 +102,6 @@ another type of list on firebase. One that save is called all the time (on a deb
  
 I can see content for a map just for a single game or something...
 
-
-Grid for sizing tabs: Columns with auto and 1fr
 Fix coordinates
 Allow points to be added to line
 
