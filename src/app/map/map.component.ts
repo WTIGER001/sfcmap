@@ -39,7 +39,7 @@ export class MapComponent {
 
   options = {
     zoom: 1,
-    minZoom: -2,
+    minZoom: -5,
     continousWorld: false,
     crs: this.crs,
     attributionControl: false,
@@ -72,7 +72,7 @@ export class MapComponent {
         mapLayer['title'] = "Base Map"
         this.mapSvc.overlayLayer = mapLayer
         this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
-        this.map.setMaxBounds(bounds);
+        this.map.setMaxBounds(Rect.multiply(bounds, 1.25));
 
         this.layers.splice(0, this.layers.length)
         this.layers.push(mapLayer)
@@ -183,13 +183,20 @@ export class MapComponent {
       this.user.prefs.showCoords ? this.coords.addTo(this.map) : this.coords.remove()
     }
   }
-  setFile(f) {
+  setFile(f, center?: L.LatLng) {
     ImageUtil.loadImg(f).subscribe(r => {
       let sw = L.latLng(0, 0)
       let ne = L.latLng(r.height, r.width)
       let bounds = latLngBounds(sw, ne)
       let imgBounds = Rect.limitSize(bounds, this.mapSvc.overlayLayer.getBounds(), .5)
-      imgBounds = Rect.centerOn(imgBounds, this.mapSvc.overlayLayer.getBounds())
+
+      // Get the center lat/long
+      if (center) {
+        imgBounds = Rect.centerOn(imgBounds, center)
+      } else {
+        imgBounds = Rect.centerOn(imgBounds, this.mapSvc.overlayLayer.getBounds().getCenter())
+      }
+
 
       const a = new ImageAnnotation()
       a.id = 'TEMP'
@@ -237,9 +244,13 @@ export class MapComponent {
     e.preventDefault();
     this.dragging = false
 
+    let x = e.clientX
+    let y = e.clientY
+    let center = this.map.mouseEventToLatLng(e)
+
     const files = e.dataTransfer.files;
     if (files.length >= 1) {
-      this.setFile(files[0])
+      this.setFile(files[0], center)
     }
     return false;
   }

@@ -2,6 +2,7 @@
 /* Imports                                      */
 /* -------------------------------------------- */
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+@import './app/styles/tag-input.css';
 
 /* -------------------------------------------- */
 /* Global setuyp and variables                  */
@@ -64,6 +65,10 @@ body {
 .description {
     line-height: 1.3em;
     font-size: .9em;
+}
+
+.acent-font {
+    color: var(--highlight-color)
 }
 
 /*  Scrollbars

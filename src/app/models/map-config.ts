@@ -29,5 +29,6 @@ export class MapConfig implements IObjectType {
     height: number  /// Calculated
     view: string[]
     edit: string[]
+    tags: string[]
     gridOptions: any
 }

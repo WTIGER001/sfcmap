@@ -10,7 +10,6 @@ export class IconZoomLevelCache {
     cache = new Map<string, Icon[]>()
 
     constructor(private log: Debugger, private loadinglog: Debugger) {
-
     }
 
     clear() {
@@ -65,6 +64,7 @@ export class IconZoomLevelCache {
             }
         }
         this.cache.set(type.id, icons)
+
     }
 
     limit(value: number, min: number, max: number) {
@@ -80,6 +80,7 @@ export class IconZoomLevelCache {
     scale(map: LeafletMap, zoom: number, size: [number, number]): [number, number] {
         let simple = CRS.Simple
         let scale = simple.scale(zoom)
+
         return [size[0] * scale, size[1] * scale]
     }
 

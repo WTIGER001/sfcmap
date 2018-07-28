@@ -18,6 +18,10 @@ Opacity
   <label for="type ">Group</label>
   <app-marker-group-combo [(ngModel)]="image.group " [annotation]="image "></app-marker-group-combo>
 </div>
+<div class="form-group">
+  <label for="name">Tags</label>
+  <tag-input [(ngModel)]="image.tags" [separatorKeys]="[',']" [modelAsStrings]="true"></tag-input>
+</div>
 <div class="form-group ">
   <label for="mapLink ">Map Link</label>
   <select class="form-control " id="mapLink " [(ngModel)]="image.mapLink ">

@@ -45,10 +45,16 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
 
     let found = (this.lastId == '')
     this.firedb.list<any>("chat").stateChanges().subscribe(action => {
+      console.log("CHANGE ", action.type);
+
       let r = ChatRecord.to(action.payload.val())
-      if (found || r.key == this.lastId) {
-        found = true
-        this.records.unshift(r)
+      if (action.type == 'child_added') {
+        if (found || r.key == this.lastId) {
+          found = true
+          this.records.unshift(r)
+        }
+      } else if (action.type == 'child_removed') {
+        // this.records.findIndex()
       }
     })
 
@@ -147,6 +153,11 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
         this.records = []
       } else if (e.toLowerCase() == "/cd") {
         this.roller.clear()
+      } else if (e.toLowerCase() == "/clear perm") {
+        this.roller.clear()
+        // this.firedb.list<any>("chat")
+        this.firedb.object("chat").remove()
+        this.records = []
       }
     } else if (this.roller.isDiceExpression(e)) {
       this.rollDice(e)

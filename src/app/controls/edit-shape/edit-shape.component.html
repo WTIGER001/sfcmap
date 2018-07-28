@@ -37,6 +37,10 @@
   </div>
 </ng-container>
 <div class="form-group">
+  <label for="name">Tags</label>
+  <tag-input [(ngModel)]="item.tags" [separatorKeys]="[',']" [modelAsStrings]="true"></tag-input>
+</div>
+<div class="form-group">
   <label for="mapLink">Map Link</label>
   <select class="form-control" id="mapLink" [(ngModel)]="item.mapLink">
     <optgroup *ngFor="let mt of merged" [label]="mt.name">

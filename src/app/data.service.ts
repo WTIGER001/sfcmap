@@ -292,6 +292,14 @@ export class DataService {
     })
   }
 
+  clearChat() {
+    this.db.object("chat").remove().then(() => {
+      this.notify.success("Cleared Chat ")
+    }).catch(reason => {
+      this.notify.showError(reason, "Error Deleting Chat")
+    })
+  }
+
   deleteAll(...items) {
     items.forEach(i => this.delete(i))
   }

@@ -380,11 +380,12 @@ export class MapService {
    * @param zoomLevel The zoom level to use when determining the correct sizing
    */
   private updateMarkerSize(marker: Marker, zoomLevel: number) {
-    let icn = this.iconCache.getIcon(marker['__type'], zoomLevel)
+    let a: MarkerTypeAnnotation = <MarkerTypeAnnotation>Annotation.fromLeaflet(marker)
+    let icn = this.iconCache.getIcon(a.markerType, zoomLevel)
     if (icn) {
       marker.setIcon(icn)
     } else {
-      this.markerZoomLog.debug(`NOT Updating Icon ${marker["__type"]} at zoom : ${zoomLevel}`)
+      this.markerZoomLog.debug(`NOT Updating Icon ${a.markerType} at zoom : ${zoomLevel}`)
     }
   }
 

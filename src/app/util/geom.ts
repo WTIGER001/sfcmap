@@ -18,10 +18,19 @@ export class Rect {
         return new Rect(x, y, x2 - x, y2 - y)
     }
 
-    public static centerOn(bounds: LatLngBounds, inside: LatLngBounds, ): LatLngBounds {
+    public static centerOn(bounds: LatLngBounds, center: LatLng, ): LatLngBounds {
         let halfLat = (bounds.getNorth() - bounds.getSouth()) / 2
         let halfLng = (bounds.getEast() - bounds.getWest()) / 2
-        let center = inside.getCenter()
+
+        let sw = latLng(center.lat - halfLat, center.lng - halfLng)
+        let ne = latLng(center.lat + halfLat, center.lng + halfLng)
+        return latLngBounds(sw, ne)
+    }
+
+    public static multiply(bounds: LatLngBounds, factor: number): LatLngBounds {
+        let center = bounds.getCenter()
+        let halfLat = ((bounds.getNorth() - bounds.getSouth()) * factor) / 2
+        let halfLng = ((bounds.getEast() - bounds.getWest()) * factor) / 2
 
         let sw = latLng(center.lat - halfLat, center.lng - halfLng)
         let ne = latLng(center.lat + halfLat, center.lng + halfLng)

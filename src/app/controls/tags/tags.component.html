@@ -1,0 +1,4 @@
+<div *ngIf="tags && tags.length > 0">
+  <span *ngFor="let tag of tags" class="badge badge-secondary mr-1">
+    <fa-icon icon='tag' size="s" class="acent-font"></fa-icon> {{tag}}</span>
+</div>

@@ -38,6 +38,7 @@
     <div *ngIf="edit==false" class="center-layout">
       <fa-icon icon="map" size="2x"></fa-icon>
       <h2>{{mapCfg.name}}</h2>
+      <app-tags [tags]="mapCfg.tags"></app-tags>
       <app-readmore class="text-muted mb-2 description" [value]="mapCfg?.description"></app-readmore>
     </div>
     <ng-container *ngIf="edit==false">

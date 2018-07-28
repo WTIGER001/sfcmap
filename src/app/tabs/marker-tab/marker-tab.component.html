@@ -54,11 +54,11 @@
         <img *ngIf="itemType(item)=='marker'" [src]="item?._iconUrl" height="40" class="centered my-2 iconselected">
         <img *ngIf="itemType(item)=='image'" [src]="item?.url" height="150" class="centered my-2 iconselected">
         <div *ngIf="itemType(item)=='shape'" class="mt-2">
-
           <app-svgbox [shape]="item" [maxheight]="100" [padding]="10"></app-svgbox>
         </div>
 
         <h3>{{item?.name}}</h3>
+        <app-tags [tags]="item.tags"></app-tags>
         <span *ngIf="item.group" class="type">{{name(item)}}</span>
         <a href="#" class="coords" (click)="pan()">{{coords(item)}}</a>
         <a *ngIf="item.pageUrl" [href]="item.pageurl" target="_blank">

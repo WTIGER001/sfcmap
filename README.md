@@ -49,21 +49,25 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## To Do
 
 ### Annotations
-- Marker Snap
 - Marker hover information (tooltip) / click information (popup)
 - Custom Marker Annotations
 - Map Link should have optional coordinates
+- Need new maplink control that has type ahead and coordinates
 - Image Annotation Fixes: 
 -- keep aspect
 -- snap
 - Cancel needs to revert any changes made
 - Cut and paste
+- Tags / Labels
+- Need to merge marker types and images... I think that they are really the same thing. Images are used to scale with the map and markers are for nonscaled. This will allow me to get rid of that stupid icon cache. MarkerType-Variable = ImageOverlay and MarkerType-Fixed = Marker, ImageAnnotation-variable = Image Overlay, ImageAnnotation-fixed = Marker. I just need to figure out how to edit the marker useing the drag handles... 
 
 ### Map 
 - Restyle zoom buttons
 - Router for maps and 'back button'. Router should also support a coordinate center and zoom
 - Border Decoration for regions (a,b,c, etc)
 - Fixed Marker Size (in map units)
+- New Coordiates control needed
+- Tags / Labels
 
 ### Data Management
 - Export / import marker types 
@@ -79,6 +83,21 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - move the dbPath functions to the data service
 - explore e2e testing
 - clean up the css to the big style sheet
+
+### Chat / Dice Roller
+- Add a cloud function to delete chat messages 
+- Add buttons on the top
+-- Dice Roll
+-- Clear
+--- Everything (/clear)
+--- Dice Rolls (/clear dice)
+--- Pings (/clear pings)
+--- Messages (/clear messages)
+-- Filter
+--- Dice Rolls (/hide|show dice)
+--- Pings (/hide|show pings)
+--- Messages (/hide|show messages)
+--- Player (hide|show playername)
 
 ### Mobile Device Support 
 - Tab icons are too small
@@ -105,3 +124,19 @@ I can see content for a map just for a single game or something...
 Fix coordinates
 Allow points to be added to line
 
+
+### Keyboard Actions
+CTRL+C = Copy (copy an annotation)
+CTRL+X = CUT (cut the annotation and wait for a paste. If the paste never happens then do not delete)
+CTRL+V = PASTE (paste the annotation, centered on the mouse)
+CTRL+M = New Marker
+CTRL+I = Ping where the mouse is
+DEL    = Delete the item that is selected
+CTRL+U = deselect all
+
+Actions are just services... Each gets initialized. the "RUN" method is called and the current context is sent. 
+
+### Biggest planned changes
+- Combine markers and image annotations
+- Insert the router
+- Add the concept of a game or world. or a game and chapter / module

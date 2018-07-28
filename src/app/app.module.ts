@@ -15,6 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
+import { TagInputModule } from 'ngx-chips';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -71,6 +72,7 @@ import { FilePickerComponent } from './controls/file-picker/file-picker.componen
 import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
 import { AudioService } from './audio.service';
 import { HotKeyService } from './hot-key.service';
+import { TagsComponent } from './controls/tags/tags.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,7 @@ import { HotKeyService } from './hot-key.service';
     EditImageComponent,
     FilePickerComponent,
     RpgTabComponent,
+    TagsComponent,
   ],
   imports: [
     BrowserModule,
@@ -135,6 +138,7 @@ import { HotKeyService } from './hot-key.service';
     }),
     DragAndDropModule.forRoot(),
     ColorPickerModule,
+    TagInputModule,
     EmojifyModule
   ],
   providers: [

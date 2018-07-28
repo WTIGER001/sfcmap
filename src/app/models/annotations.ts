@@ -47,6 +47,7 @@ export abstract class Annotation implements IObjectType {
     view: string[]
     mapLink: string
     points: any[]
+    tags: string[]
     snap: false
 
     // Do not save to database
