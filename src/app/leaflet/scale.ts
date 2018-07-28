@@ -11,10 +11,12 @@ export class ScaleOptions {
 }
 
 export class Scale extends Control {
+
     map: LeafletMap
     box: HTMLElement
     imperial: ScaleRuler
     metric: ScaleRuler
+    onMap: boolean
 
     options: ScaleOptions = {
         position: "bottomleft",
@@ -24,6 +26,15 @@ export class Scale extends Control {
         imperial: true,
         updateWhenIdle: true,
         divisions: 4
+    }
+
+
+    show(map: LeafletMap, showMe: boolean): any {
+        if (showMe && !this.onMap) {
+            this.addTo(map)
+        } else if (!showMe && this.onMap) {
+            this.remove()
+        }
     }
 
     onAdd(map: LeafletMap): HTMLElement {
@@ -43,11 +54,12 @@ export class Scale extends Control {
 
         map.on("moveend", this.update, this)
         map.whenReady(this.update, this)
-
+        this.onMap = true
         return this.box
     }
     onRemove(map: LeafletMap) {
         map.off("moveend", this.update, this)
+        this.onMap = false
     }
 
     update() {

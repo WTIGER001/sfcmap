@@ -6,16 +6,20 @@
       <fa-icon icon="map-marker-alt" size="lg"></fa-icon>
     </button>
     <button class="btn btn-outline-secondary btn-tool" (click)="newPolyline()" placement="bottom" ngbTooltip="Create a new line">
-      <img src="./assets/icons/polyline.png">
+      <!-- <img src="./assets/icons/polyline.png"> -->
+      <fa-icon icon="signature" size="lg"></fa-icon>
     </button>
     <button class="btn btn-outline-secondary btn-tool" (click)="newRectangle()" placement="bottom" ngbTooltip="Create a new rectangle">
-      <img src="./assets/icons/rectangle.png">
+      <!-- <img src="./assets/icons/rectangle.png"> -->
+      <fa-icon icon="vector-square" size="lg"></fa-icon>
     </button>
     <button class="btn btn-outline-secondary btn-tool" (click)="newCircle()" placement="bottom" ngbTooltip="Create a new circle">
-      <img src="./assets/icons/circle.png">
+      <!-- <img src="./assets/icons/circle.png"> -->
+      <fa-icon [icon]="['far', 'circle']" size="lg"></fa-icon>
     </button>
     <button class="btn btn-outline-secondary btn-tool" (click)="newPolygon()" placement="bottom" ngbTooltip="Create a new polygon">
-      <img src="./assets/icons/polygon.png">
+      <!-- <img src="./assets/icons/polygon.png"> -->
+      <fa-icon icon="draw-polygon" size="lg"></fa-icon>
     </button>
 
     <button class="btn btn-outline-secondary btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Create a new imager">
@@ -60,10 +64,10 @@
         <h3>{{item?.name}}</h3>
         <app-tags [tags]="item.tags"></app-tags>
         <span *ngIf="item.group" class="type">{{name(item)}}</span>
-        <a href="#" class="coords" (click)="pan()">{{coords(item)}}</a>
+        <button class="btn btn-link coords" (click)="pan()">{{coords(item)}}</button>
         <a *ngIf="item.pageUrl" [href]="item.pageurl" target="_blank">
           <fa-icon icon="globe"></fa-icon> Open Web Link</a>
-        <a *ngIf="item.mapLink" href="#" (click)="openLinkedMap()">
+        <a *ngIf="item.mapLink" routerLink="/map/{{item.mapLink}}">
           <fa-icon icon="map"></fa-icon> Open Linked Map</a>
         <app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>
       </div>

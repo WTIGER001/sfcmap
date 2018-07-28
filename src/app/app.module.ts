@@ -19,11 +19,12 @@ import { TagInputModule } from 'ngx-chips';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
+import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons'
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module'
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './tabs/map-selector/map-selector.component';
@@ -73,6 +74,7 @@ import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
 import { AudioService } from './audio.service';
 import { HotKeyService } from './hot-key.service';
 import { TagsComponent } from './controls/tags/tags.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -116,12 +118,14 @@ import { TagsComponent } from './controls/tags/tags.component';
     FilePickerComponent,
     RpgTabComponent,
     TagsComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
+    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
@@ -164,7 +168,7 @@ import { TagsComponent } from './controls/tags/tags.component';
 export class AppModule {
   constructor() {
     library.add(faGoogle, faGithub)
-    library.add(faStar)
-    library.add(fas);
+    library.add(faStar, faCircle)
+    library.add(fas, faLayerGroup);
   }
 }

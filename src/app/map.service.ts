@@ -3,17 +3,19 @@ import { ReplaySubject, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
 import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category, ImageAnnotation } from './models';
 import { DataService } from './data.service';
-import { mergeMap, concatMap, map, buffer, bufferCount, take } from 'rxjs/operators';
+import { mergeMap, concatMap, map, buffer, bufferCount, take, first, debounceTime } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
 import { NotifyService, Debugger } from './notify.service';
 import * as L from 'leaflet'
 import { Annotation, MarkerTypeAnnotation, IconZoomLevelCache } from './models';
 import { flatten } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
+
   public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>()
 
   /** Observable for the current selection */
@@ -100,7 +102,7 @@ export class MapService {
   mapLoad: Debugger
   markerZoomLog: Debugger
 
-  constructor(private zone: NgZone, private data: DataService, private notify: NotifyService) {
+  constructor(private zone: NgZone, private data: DataService, private notify: NotifyService, private router: Router) {
     this.log = this.notify.newDebugger('Map')
     this.mapLoad = this.notify.newDebugger('Map Loading')
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
@@ -172,7 +174,7 @@ export class MapService {
       })
     )
 
-    combineLatest(this.mapConfig, loadGroups, userObs, makeMarkerTypes).subscribe((value) => {
+    combineLatest(this.mapConfig, loadGroups, userObs, makeMarkerTypes).pipe(debounceTime(100)).subscribe((value) => {
       const mapCfg = value[0]
       const groups = value[1]
       const user = value[2]
@@ -208,7 +210,7 @@ export class MapService {
           console.log("NOT FOUND ", items[i]);
         }
       }
-      this.select(...items)
+      this.selectForReattach(...items)
     }
   }
 
@@ -440,18 +442,24 @@ export class MapService {
    * @param mapId 
    */
   openMap(mapId: string) {
-    let me = this.maps.find(m => m.id == mapId)
-    if (me) {
-      this.setConfig(me)
-    }
+    // let me = this.maps.find(m => m.id == mapId)
+    // if (me) {
+    //   this.setConfig(me)
+    // }
+    this.router.navigate(['/map/' + mapId])
   }
 
   /**
    * Set the map config
    * @param mapCfg 
    */
-  setConfig(mapCfg: MapConfig) {
+  private setConfig(mapCfg: MapConfig) {
     console.log("Setting COnfiguration ", mapCfg);
+
+    // Clear the selection, but only if the map has changed.
+    if (this._mapCfg && this._mapCfg.id != mapCfg.id) {
+      this.select();
+    }
 
     this._mapCfg = mapCfg
     if (mapCfg == null || mapCfg == undefined) {
@@ -459,10 +467,46 @@ export class MapService {
       badmapCfg.id = "BAD"
       this.mapConfig.next(badmapCfg)
     } else {
-
       this.mapConfig.next(mapCfg)
     }
   }
+
+  closeMap() {
+    this.router.navigate(['/'])
+    this.setConfig(null)
+  }
+
+  setConfigId(mapId: string, options?: any) {
+    if (mapId) {
+      let opts = options || {}
+      let center = opts.center;
+      let zoom = opts.zoom;
+      console.log(">>>>> Loading COnfiguration ", mapId, " CENTER ON ", center), " ZOOM TO ", zoom;
+      let sub = this.data.maps.pipe().subscribe(
+        maps => {
+          console.log(">>>>> Checking Maps ", maps.length);
+
+          let mf = maps.find(m => m.id == mapId || m.name.toLowerCase() == mapId.toLowerCase())
+          if (mf) {
+            this.setConfig(mf)
+            if (center) {
+              console.log(">>>>> Trying to center ", center);
+
+              let ll = center.split(',')
+              let lat = parseFloat(ll[0])
+              let lng = parseFloat(ll[1])
+              this.panTo([lat, lng])
+            }
+            if (zoom) {
+              console.log(">>>>> Trying to ZOOM ", zoom);
+              this._map.setZoom(zoom)
+            }
+          }
+        }
+      )
+    }
+  }
+
 
   /**
    * Set the Map (should be called once)
@@ -501,11 +545,16 @@ export class MapService {
   }
 
   select(...items) {
+    console.log("Selection Made, ", items, new Error())
     this.selection.next(new Selection(items))
   }
 
   selectForEdit(...items) {
     this.selection.next(new Selection(items, 'edit'))
+  }
+
+  selectForReattach(...items) {
+    this.selection.next(new Selection(items, 'reattach'))
   }
 
   addToSelect(...items: any[]) {

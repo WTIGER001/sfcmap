@@ -4,7 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { MapService } from '../map.service';
 import { DataService } from '../data.service';
 import { MapConfig, User, Selection, Annotation, MarkerTypeAnnotation, ShapeAnnotation, ImageAnnotation } from '../models';
-import { ReplaySubject, of } from 'rxjs';
+import { ReplaySubject, of, combineLatest } from 'rxjs';
 import { mergeMap, delay } from 'rxjs/operators';
 import * as L from 'leaflet';
 import '../../../node_modules/leaflet.coordinates/dist/Leaflet.Coordinates-0.1.5.src.js';
@@ -18,13 +18,16 @@ import { Scale } from '../leaflet/scale';
 import { UrlResolver } from '@angular/compiler';
 import { ImageUtil } from '../util/ImageUtil';
 import { Rect } from '../util/geom';
+import { ActivatedRoute } from '@angular/router';
+import { ZoomControls } from '../leaflet/zoom-controls';
+import { CoordsControl } from '../leaflet/coords';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   mapCfg: MapConfig
   map: LeafletMap
 
@@ -34,7 +37,7 @@ export class MapComponent {
 
   dragging = true
   user: User
-  coords: L.Control
+  coords: CoordsControl
   scale: Scale
 
   options = {
@@ -46,6 +49,7 @@ export class MapComponent {
     zoomDelta: 0.5,
     editable: true,
     divisions: 4,
+    zoomControl: false,
   };
 
   layers: Layer[] = [this.mainMap];
@@ -53,34 +57,58 @@ export class MapComponent {
   currentSelection: Selection = new Selection([])
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
-    private mapSvc: MapService, private data: DataService) {
+    private mapSvc: MapService, private data: DataService, private route: ActivatedRoute) {
 
     this.data.user.subscribe(u => {
       this.user = u
       this.applyPrefs()
     })
 
-    this.mapSvc.mapConfig.subscribe(m => {
-      this.mapCfg = m
+    let map$ = this.mapSvc.map
+    let mapCfg$ = this.mapSvc.mapConfig
+
+    combineLatest(map$, mapCfg$).subscribe((incoming: [LeafletMap, MapConfig]) => {
+      this.map = incoming[0]
+      const old = this.mapCfg || new MapConfig()
+
+      // Check if this is the same map as before. If so then we dont want to reset the zoom and pan.
+      let sameMap = (old.id == incoming[1].id)
+      this.mapCfg = incoming[1]
+      let m = this.mapCfg
       console.log("Map Changed!", this.crs);
       if (m.id != "BAD") {
+        this.mapSvc.allMarkersLayer.clearLayers()
+        this.mapSvc.newMarkersLayer.clearLayers()
+        if (this.map.editTools) {
+          if (this.map.editTools.editLayer) {
+            this.map.editTools.editLayer.clearLayers()
+          }
+          if (this.map.editTools.featuresLayer) {
+            this.map.editTools.featuresLayer.clearLayers()
+          }
+        }
+
+
         let factor = Trans.computeFactor(m)
         let transformation = Trans.createTransform(m)
         let bounds = latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
 
-        let mapLayer = imageOverlay(m.image, bounds)
-        mapLayer['title'] = "Base Map"
-        this.mapSvc.overlayLayer = mapLayer
+        if (!sameMap || old.image != m.image) {
+          this.mapSvc.overlayLayer = imageOverlay(m.image, bounds)
+        }
+        // let mapLayer = imageOverlay(m.image, bounds)
+        // mapLayer['title'] = "Base Map"
+        // this.mapSvc.overlayLayer = mapLayer
         this.crs.transformation = new L.Transformation(factor, 0, -factor, 0)
         this.map.setMaxBounds(Rect.multiply(bounds, 1.25));
 
-        this.layers.splice(0, this.layers.length)
-        this.layers.push(mapLayer)
-        this.layers.push(this.mapSvc.allMarkersLayer)
-        this.layers.push(this.mapSvc.newMarkersLayer)
-
-        this.mapSvc.fit(bounds)
-
+        if (!sameMap || old.image != m.image) {
+          this.layers.splice(0, this.layers.length)
+          this.layers.push(this.mapSvc.overlayLayer)
+          this.layers.push(this.mapSvc.allMarkersLayer)
+          this.layers.push(this.mapSvc.newMarkersLayer)
+          this.mapSvc.fit(bounds)
+        }
         this.map.editTools.editLayer['title'] = "EDIT LAYER"
         this.map.editTools.featuresLayer['title'] = "FEATURES LAYER"
       } else {
@@ -94,26 +122,40 @@ export class MapComponent {
       let same = sel.same(this.currentSelection)
 
       removed.forEach(item => {
-        if (MarkerTypeAnnotation.is(item)) {
-          DomUtil.removeClass(item.getAttachment()["_icon"], 'iconselected')
-        } else if (ShapeAnnotation.is(item)) {
-          this.removeSvgFilters(item)
-          DomUtil.removeClass(item.getAttachment()["_path"], 'iconselected')
-        } else if (ImageAnnotation.is(item)) {
-          DomUtil.removeClass(item.getAttachment()["_image"], 'iconselected')
+        if (item.getAttachment()) {
+          if (MarkerTypeAnnotation.is(item) && item.getAttachment()["_icon"]) {
+            DomUtil.removeClass(item.getAttachment()["_icon"], 'iconselected')
+          } else if (ShapeAnnotation.is(item) && item.getAttachment()["_path"]) {
+            this.removeSvgFilters(item)
+            DomUtil.removeClass(item.getAttachment()["_path"], 'iconselected')
+          } else if (ImageAnnotation.is(item) && item.getAttachment()["_image"]) {
+            DomUtil.removeClass(item.getAttachment()["_image"], 'iconselected')
+          }
         }
       })
       added.forEach(item => {
-        if (MarkerTypeAnnotation.is(item)) {
-          DomUtil.addClass(item.getAttachment()["_icon"], 'iconselected')
-        } else if (ShapeAnnotation.is(item)) {
-          this.addSvgFilters(item)
-          DomUtil.addClass(item.getAttachment()["_path"], 'iconselected')
-        } else if (ImageAnnotation.is(item)) {
-          DomUtil.addClass(item.getAttachment()["_image"], 'iconselected')
+        if (item.getAttachment()) {
+          if (MarkerTypeAnnotation.is(item) && item.getAttachment()["_icon"]) {
+            DomUtil.addClass(item.getAttachment()["_icon"], 'iconselected')
+          } else if (ShapeAnnotation.is(item) && item.getAttachment()["_path"]) {
+            this.addSvgFilters(item)
+            DomUtil.addClass(item.getAttachment()["_path"], 'iconselected')
+          } else if (ImageAnnotation.is(item) && item.getAttachment()["_image"]) {
+            DomUtil.addClass(item.getAttachment()["_image"], 'iconselected')
+          }
         }
       })
       this.currentSelection = sel
+    })
+  }
+
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      let mapId = params.get('id')
+      let center = params.get('coords')
+      let zoom = parseInt(params.get('zoom'))
+      this.mapSvc.setConfigId(mapId, { center: center, zoom: zoom })
     })
   }
 
@@ -124,15 +166,35 @@ export class MapComponent {
     this.scale = new Scale()
 
     // Install plugins
-    this.coords = L.control.coordinates(
-      {
-        decimals: 2,
-        position: "bottomleft",
-        labelTemplateLat: "Y: {y}",
-        labelTemplateLng: "X: {x}",
-        enableUserInput: false
-      }
-    )
+    this.coords = new CoordsControl({
+      decimals: 2,
+      position: "bottomleft",
+      labelTemplateLat: "Y: {y}",
+      labelTemplateLng: "X: {x}"
+    })
+    // this.coords = L.control.coordinates(
+    //   {
+    //     decimals: 2,
+    //     position: "bottomleft",
+    //     labelTemplateLat: "Y: {y}",
+    //     labelTemplateLng: "X: {x}",
+    //     enableUserInput: false
+    //   }
+    // )
+    // this.coords['_update'] = function (evt) {
+    //   var pos = evt.latlng,
+    //     opts = this.options;
+    //   if (pos) {
+    //     this._currentPos = pos;
+    //     this._label.innerHTML = this._createCoordinateLabel(pos);
+    //   }
+    // }
+
+    let a = new ZoomControls(this.mapSvc, {
+      position: 'topleft'
+    })
+    a.addTo(map)
+
     // L.control.scale().addTo(map)
     this.applyPrefs()
 
@@ -179,8 +241,8 @@ export class MapComponent {
 
   applyPrefs() {
     if (this.user.prefs && this.scale) {
-      this.user.prefs.showScale ? this.scale.addTo(this.map) : this.scale.remove()
-      this.user.prefs.showCoords ? this.coords.addTo(this.map) : this.coords.remove()
+      this.scale.show(this.map, this.user.prefs.showScale)
+      this.coords.show(this.map, this.user.prefs.showCoords)
     }
   }
   setFile(f, center?: L.LatLng) {
@@ -196,7 +258,6 @@ export class MapComponent {
       } else {
         imgBounds = Rect.centerOn(imgBounds, this.mapSvc.overlayLayer.getBounds().getCenter())
       }
-
 
       const a = new ImageAnnotation()
       a.id = 'TEMP'

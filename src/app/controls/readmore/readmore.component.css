@@ -1,6 +1,9 @@
-a.readmore {
-    color: grey
+.readmore {
+    color: grey;
+    font-size: inherit;
+    line-height: inherit;
+    padding: 0;
 }
-a.readmore:hover {
+.readmore:hover {
     color: white
 }

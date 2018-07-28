@@ -214,8 +214,6 @@ export class ImageAnnotation extends Annotation {
     }
 
     createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-        console.log("Creating Image Annotation", this);
-
         let bounds = new LatLngBounds(this.points[0], this.points[1])
         let options = this.options()
         let img = imageOverlay(this.url, bounds, options)
@@ -387,10 +385,8 @@ export class ShapeAnnotation extends Annotation {
         if (this.points && this.points.length > 1) {
             return rectangle(this.points, this.options())
         } else {
-            console.log("BAD RECT ", this)
             return rectangle([[0, 0], [1, 1]], this.options())
         }
-
     }
 
     private toCircle(): Circle {

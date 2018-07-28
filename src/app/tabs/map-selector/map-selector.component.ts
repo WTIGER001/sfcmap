@@ -6,6 +6,7 @@ import { MapService } from '../../map.service';
 import { EditMapComponent } from '../../controls/edit-map/edit-map.component';
 import { EditMapTypeComponent } from '../../controls/edit-map-type/edit-map-type.component';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map-selector',
@@ -26,7 +27,7 @@ export class MapSelectorComponent implements OnInit {
   isCollapsed = {}
   filter = ''
 
-  constructor(private data: DataService, private mapSvc: MapService, private cd: CommonDialogService) {
+  constructor(private data: DataService, private mapSvc: MapService, private cd: CommonDialogService, private router: Router) {
     this.data.mapTypesWithMaps.subscribe(items => {
       this.merged = items
       this.updateList()
@@ -92,7 +93,8 @@ export class MapSelectorComponent implements OnInit {
   }
 
   select(map: MapConfig) {
-    this.mapSvc.setConfig(map)
+    // this.mapSvc.setConfig(map)
+    this.router.navigate(['/map/' + map.id])
     this.data.saveRecentMap(map.id)
   }
 

@@ -22,8 +22,7 @@ export class TabsComponent implements OnInit {
     })
     this.mapSvc.selection.subscribe(sel => {
       if (sel.isEmpty()) {
-
-      } else {
+      } else if (sel.type != 'reattach') {
         if (Annotation.is(sel.first) && this.autoexpand) {
           this.expanded = true
           this.selected = 'marker'
@@ -36,9 +35,11 @@ export class TabsComponent implements OnInit {
         this.mapCfg = undefined
         this.selected = 'mapselect'
       } else {
+        if (!this.mapCfg || this.mapCfg.id != m.id) {
+          this.expanded = true
+          this.selected = 'map'
+        }
         this.mapCfg = m
-        this.expanded = true
-        this.selected = 'map'
       }
     });
   }

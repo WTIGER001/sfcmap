@@ -75,7 +75,8 @@ export class MapTabComponent implements OnInit {
   }
 
   public close() {
-    this.mapSvc.setConfig(null)
+    // this.mapSvc.setConfig(null)
+    this.mapSvc.closeMap()
   }
 
   public delete() {
@@ -84,7 +85,7 @@ export class MapTabComponent implements OnInit {
         if (result) {
           this.data.deleteMap(this.mapCfg)
           this.mapCfg = undefined
-          this.mapSvc.setConfig(null)
+          this.mapSvc.closeMap()
         }
       })
   }

@@ -1,8 +1,8 @@
 /* -------------------------------------------- */
 /* Imports                                      */
 /* -------------------------------------------- */
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
-@import './app/styles/tag-input.css';
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+/* @import './app/styles/tag-input.css'; */
 
 /* -------------------------------------------- */
 /* Global setuyp and variables                  */
@@ -240,6 +240,16 @@ body {
 .toggle2 {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+}
+
+.sfc-map-zoombar {
+ display: grid;
+ grid-template-rows: 1fr 1fr 1fr
+}
+
+.sfc-map-zoombar-item {
+    /* width: 32px;
+    height: 32px; */
 }
 
 /* -------------------------------------------- */

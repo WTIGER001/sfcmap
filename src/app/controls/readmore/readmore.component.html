@@ -1,8 +1,8 @@
 <ng-container *ngIf="trimmed && !expanded">
   {{shorttext}}...
-  <a href="#" (click)="toggle()" class="readmore">[more]</a>
+  <button class="btn btn-link readmore" (click)="toggle()">[more]</button>
 </ng-container>
 <ng-container *ngIf="trimmed && expanded">{{longtext}}
-  <a href="#" (click)="toggle()" class="readmore"> [less]</a>
+  <button class="btn btn-link btn-sm readmore" (click)="toggle()">[less]</button>
 </ng-container>
 <ng-container *ngIf="!trimmed">{{longtext}}</ng-container>

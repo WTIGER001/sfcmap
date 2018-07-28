@@ -1,6 +1,6 @@
 <div class="all">
     <ng-container *ngIf="user.uid!='NOBODY'">
-        <app-map></app-map>
+        <router-outlet></router-outlet>
         <app-tabs></app-tabs>
     </ng-container>
     <ng-container *ngIf="user.uid=='NOBODY'">
