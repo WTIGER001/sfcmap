@@ -21,6 +21,9 @@ import { Rect } from '../util/geom';
 import { ActivatedRoute } from '@angular/router';
 import { ZoomControls } from '../leaflet/zoom-controls';
 import { CoordsControl } from '../leaflet/coords';
+import { Ping } from '../leaflet/ping';
+import { AudioService } from '../audio.service';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-map',
@@ -57,7 +60,7 @@ export class MapComponent implements OnInit {
   currentSelection: Selection = new Selection([])
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
-    private mapSvc: MapService, private data: DataService, private route: ActivatedRoute) {
+    private mapSvc: MapService, private data: DataService, private route: ActivatedRoute, private audio: AudioService, private msg: MessageService) {
 
     this.data.user.subscribe(u => {
       this.user = u
@@ -76,6 +79,7 @@ export class MapComponent implements OnInit {
       this.mapCfg = incoming[1]
       let m = this.mapCfg
       console.log("Map Changed!", this.crs);
+      this.map['mapcfgid'] = m.id
       if (m.id != "BAD") {
         this.mapSvc.allMarkersLayer.clearLayers()
         this.mapSvc.newMarkersLayer.clearLayers()
@@ -87,7 +91,6 @@ export class MapComponent implements OnInit {
             this.map.editTools.featuresLayer.clearLayers()
           }
         }
-
 
         let factor = Trans.computeFactor(m)
         let transformation = Trans.createTransform(m)
@@ -155,7 +158,8 @@ export class MapComponent implements OnInit {
       let mapId = params.get('id')
       let center = params.get('coords')
       let zoom = parseInt(params.get('zoom'))
-      this.mapSvc.setConfigId(mapId, { center: center, zoom: zoom })
+      let flag = params.get('flag')
+      this.mapSvc.setConfigId(mapId, { center: center, zoom: zoom, flag: flag })
     })
   }
 
@@ -190,6 +194,8 @@ export class MapComponent implements OnInit {
     //   }
     // }
 
+    let ping = new Ping(map, this.audio, this.msg);
+
     let a = new ZoomControls(this.mapSvc, {
       position: 'topleft'
     })
@@ -197,6 +203,7 @@ export class MapComponent implements OnInit {
 
     // L.control.scale().addTo(map)
     this.applyPrefs()
+    ping.addHooks()
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);

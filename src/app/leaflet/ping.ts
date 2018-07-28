@@ -1,3 +1,9 @@
+import { Map as LeafletMap, LatLng, Handler, LeafletMouseEvent, marker, icon, latLng } from "leaflet";
+import { MapService } from "../map.service";
+import { AudioService, Sounds } from "../audio.service";
+import { PingMessage } from "../models";
+import { MessageService } from "../message.service";
+
 /**
  * Ping creates a ping for users to see where the other users are pointing. This works by 
  * creating a mouse listener on the map and on a long press the ping is fired. Once fired
@@ -6,7 +12,82 @@
  * The client that recieves the event and shows the ping (and maybe plays the ping sound).
  * 
  */
-
 export class Ping {
+    point: LatLng
+    startTime: number;
+    timeoutHandle: any
 
+    constructor(private _map: LeafletMap, private audio: AudioService, private msg: MessageService) {
+        this.msg.onPing$().subscribe(rec => {
+            console.log("Recieved Ping!", rec);
+            this.triggerPing(<PingMessage>rec.record)
+        })
+    }
+
+    get map(): LeafletMap {
+        return this['_map']
+    }
+
+    addHooks() {
+        this.map.on('mousedown', this.start, this);
+        this.map.on('mouseup', this.clear, this);
+        // this.map.on('mousemove', this.clear, this);
+    }
+
+    removeHooks() {
+        this.map.off('mousedown', this.start, this);
+        this.map.off('mouseup', this.clear, this);
+        // this.map.off('mousemove', this.clear, this);
+    }
+
+    clear(evt) {
+        console.log("Clearing, ", evt);
+        if (this.timeoutHandle) {
+            clearTimeout(this.timeoutHandle)
+        }
+    }
+
+    start(evt: LeafletMouseEvent) {
+        console.log("MOUSE DOWN, ", evt);
+
+        this.point = evt.latlng
+        this.timeoutHandle = setTimeout(() => {
+            this.sendPing()
+            this.timeoutHandle = undefined
+        }, 1000);
+    }
+
+    sendPing() {
+        let png = new PingMessage()
+        png.lat = this.point.lat
+        png.lng = this.point.lng
+        png.map = this.map['mapcfgid']
+
+        this.msg.sendMessage(png)
+        this.triggerPing(png)
+    }
+
+    triggerPing(png: PingMessage) {
+        console.log("Triggering Ping")
+        this.audio.play(Sounds.Beep)
+        let ll = latLng(png.lat, png.lng)
+        Ping.showFlag(this.map, ll, 10000)
+    }
+
+    static showFlag(map: LeafletMap, loc: LatLng, duration: number) {
+        let icn = icon({
+            iconUrl: "./assets/icons/red-flag.png",
+            iconSize: [30, 60],
+            iconAnchor: [15, 60]
+        })
+        let opts = {
+            icon: icn
+        }
+        let m = marker(loc, opts)
+        m.addTo(map)
+        setTimeout(() => {
+            console.log("Removing Ping")
+            m.remove()
+        }, 10000);
+    }
 }

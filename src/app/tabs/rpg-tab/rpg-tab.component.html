@@ -8,7 +8,7 @@
                 <div class="uname">{{username(rec.uid)}}</div>
                 <div class="time">{{rec.toDate() | date:'short'}}</div>
             </div>
-            <div *ngIf="rec.record.dice">
+            <div *ngIf="isDiceRoll(rec.record)">
                 <div class="roll-header-2">
                     <div> {{rec.record.expression}}</div>
                     <div class="time" *ngIf="!isFav(rec.record.expression)">
@@ -18,7 +18,6 @@
                         <fa-icon (click)="toggleFav(rec.record.expression)" [icon]="['fas', 'star']"></fa-icon>
                     </div>
                 </div>
-
                 <div class="dice">
                     <ng-container *ngFor="let r of rec.record.dice; let last = last;">
                         <i [class]="r.getClass()" [class.mr-1]="true" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
@@ -33,8 +32,11 @@
                     = {{rec.record.getTotal()}}
                 </div>
             </div>
-            <div *ngIf="rec.record.message">
+            <div *ngIf="isMessage(rec.record)">
                 {{rec.record.message | emojify}}
+            </div>
+            <div *ngIf="isPing(rec.record)" class="ping noselect">
+                <img src="./assets/icons/red-flag.png" height="40"> Planted a flag on {{rec.record.map | mapname}}!
             </div>
         </div>
     </div>

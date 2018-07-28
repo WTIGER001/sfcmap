@@ -75,6 +75,8 @@ import { AudioService } from './audio.service';
 import { HotKeyService } from './hot-key.service';
 import { TagsComponent } from './controls/tags/tags.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MessageService } from './message.service';
+import { MapnamePipe } from './pipes/mapname.pipe';
 
 @NgModule({
   declarations: [
@@ -119,6 +121,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RpgTabComponent,
     TagsComponent,
     PageNotFoundComponent,
+    MapnamePipe,
   ],
   imports: [
     BrowserModule,
@@ -153,7 +156,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DialogService,
     RestrictService,
     AudioService,
-    HotKeyService
+    HotKeyService,
+    MessageService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

@@ -10,6 +10,7 @@ import * as L from 'leaflet'
 import { Annotation, MarkerTypeAnnotation, IconZoomLevelCache } from './models';
 import { flatten } from '@angular/compiler';
 import { Router } from '@angular/router';
+import { Ping } from './leaflet/ping';
 
 @Injectable({
   providedIn: 'root'
@@ -383,11 +384,13 @@ export class MapService {
    */
   private updateMarkerSize(marker: Marker, zoomLevel: number) {
     let a: MarkerTypeAnnotation = <MarkerTypeAnnotation>Annotation.fromLeaflet(marker)
-    let icn = this.iconCache.getIcon(a.markerType, zoomLevel)
-    if (icn) {
-      marker.setIcon(icn)
-    } else {
-      this.markerZoomLog.debug(`NOT Updating Icon ${a.markerType} at zoom : ${zoomLevel}`)
+    if (a) {
+      let icn = this.iconCache.getIcon(a.markerType, zoomLevel)
+      if (icn) {
+        marker.setIcon(icn)
+      } else {
+        this.markerZoomLog.debug(`NOT Updating Icon ${a.markerType} at zoom : ${zoomLevel}`)
+      }
     }
   }
 
@@ -481,7 +484,7 @@ export class MapService {
       let opts = options || {}
       let center = opts.center;
       let zoom = opts.zoom;
-      console.log(">>>>> Loading COnfiguration ", mapId, " CENTER ON ", center), " ZOOM TO ", zoom;
+      console.log(">>>>> Loading COnfiguration ", opts)
       let sub = this.data.maps.pipe().subscribe(
         maps => {
           console.log(">>>>> Checking Maps ", maps.length);
@@ -493,14 +496,19 @@ export class MapService {
               console.log(">>>>> Trying to center ", center);
 
               let ll = center.split(',')
-              let lat = parseFloat(ll[0])
-              let lng = parseFloat(ll[1])
-              this.panTo([lat, lng])
+              let loc = latLng(parseFloat(ll[0]), parseFloat(ll[1]))
+              this.panTo(loc)
+
+              if (opts.flag) {
+                console.log(">>>>> Trying to showflag ", center);
+                Ping.showFlag(this._map, ll, 10000)
+              }
             }
             if (zoom) {
               console.log(">>>>> Trying to ZOOM ", zoom);
               this._map.setZoom(zoom)
             }
+
           }
         }
       )

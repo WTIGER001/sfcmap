@@ -23,6 +23,11 @@
     font-weight: 300;
 }
 
+.ping {
+    display: flex;
+    align-items: center;
+}
+
 .results-area {
     flex: 1;
 }

@@ -5,10 +5,12 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { emojify, search } from 'node-emoji';
 import { DataService } from '../../data.service';
-import { User, ChatRecord, ChatMessage, DiceRoll } from '../../models';
+import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage } from '../../models';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 import { LangUtil } from '../../util/LangUtil';
 import { AudioService, Sounds } from '../../audio.service';
+import { Ping } from '../../leaflet/ping';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rpg-tab',
@@ -20,6 +22,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   @ViewChild('prev') prev: ElementRef
   @ViewChild('actionBox') actionbox: any
   @ViewChild('acc') acc: any
+
   expressionHistory: string[] = []
   records: ChatRecord[] = []
   box: Dice
@@ -30,7 +33,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   user: User
   users: User[]
   lastId: string
-  constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService) {
+
+  constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService, private router: Router) {
     this.data.user.subscribe(u => {
       this.user = u
       if (this.roller) {
@@ -61,6 +65,18 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     // (events: ChildEvent[]) : Observable<AngularFireAction<DatabaseSnapshot<any>>[])
   }
 
+  isMessage(item: any): boolean {
+    return ChatMessage.is(item)
+  }
+
+  isDiceRoll(item: any): boolean {
+    return DiceRoll.is(item)
+  }
+
+  isPing(item: any): boolean {
+    return PingMessage.is(item)
+  }
+
   saveRollOrChat(item) {
     let c = new ChatRecord()
     c.time = Date.now()
@@ -77,11 +93,19 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   isFav(expression: string): boolean {
-    if (this.user.prefs.savedExpressions) {
+    if (expression && this.user.prefs.savedExpressions) {
       let yes = this.user.prefs.savedExpressions.map(a => a.toLowerCase()).includes(expression.toLowerCase())
       return yes
     }
     return false
+  }
+
+  link(rec: ChatRecord) {
+    let item = rec.record
+    if (PingMessage.is(item)) {
+      let coords = item.lat + "," + item.lng
+      return ['map', item.map, { coords: coords, flag: true }]
+    }
   }
 
   toggleFav(expression: string) {
@@ -120,7 +144,6 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   keyup() {
     if (!this.acc.isPopupOpen()) {
       this.lastindex = this.lastindex < this.expressionHistory.length - 1 ? this.lastindex + 1 : 20
-      // this.actionbox.nativeElement.value = this.expressionHistory[this.lastindex]
       this.action = this.expressionHistory[this.lastindex]
     }
   }
@@ -198,6 +221,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   dblClick(rec: ChatRecord) {
     if (DiceRoll.is(rec.record)) {
       this.rollDice(rec.record.expression)
+    } else if (PingMessage.is(rec.record)) {
+      this.router.navigate(this.link(rec))
     }
   }
 

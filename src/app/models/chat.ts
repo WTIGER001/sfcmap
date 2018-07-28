@@ -6,7 +6,7 @@ export class ChatRecord {
     time: number
     uid: string
     key: string
-    record: ChatMessage | DiceRoll
+    record: ChatMessage | DiceRoll | PingMessage
 
     toDate(): Date {
         return new Date(this.time)
@@ -19,6 +19,8 @@ export class ChatRecord {
         if (ChatMessage.is(obj.record)) {
             obj.record = ChatMessage.to(obj.record)
         } else if (DiceRoll.is(obj.record)) {
+            obj.record = DiceRoll.to(obj.record)
+        } else if (PingMessage.is(obj.record)) {
             obj.record = DiceRoll.to(obj.record)
         }
 
@@ -129,6 +131,7 @@ export class DiceRoll {
 export class DiceResult {
     public static readonly TYPE = 'chat.diceroll'
 
+
     value: number = 0;
     value100: number = 0;
     type: number;
@@ -176,4 +179,22 @@ export class DiceResult {
         }
         return this.value + this.value100
     }
+}
+
+export class PingMessage {
+    public static readonly TYPE = 'chat.ping'
+    static to(item: any): PingMessage {
+        let obj = new PingMessage()
+        Object.assign(obj, item)
+        return obj
+    }
+
+    // TypeScript guard
+    static is(obj: any): obj is PingMessage {
+        return obj.objType !== undefined && obj.objType === PingMessage.TYPE
+    }
+    objType = PingMessage.TYPE
+    lat: number
+    lng: number
+    map: string
 }
