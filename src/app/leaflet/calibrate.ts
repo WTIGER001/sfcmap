@@ -133,7 +133,7 @@ export class CalibrateX implements Handler {
                         this.data.save(m)
                     })
 
-                    this.mapSvc.setConfig(this.mapCfg)
+                    this.mapSvc.setConfigId(this.mapCfg.id)
                 })
             })
         }

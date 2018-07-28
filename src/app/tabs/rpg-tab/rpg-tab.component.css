@@ -8,6 +8,10 @@
     pointer-events: none;
 }
 
+.uname {
+    font-weight: 400;
+}
+
 .chat-area {
     /* display: grid;
     grid-template-rows: 1fr auto auto; */
@@ -16,6 +20,7 @@
     max-width: 100%;
     display: flex;
     flex-direction: column; 
+    font-weight: 300;
 }
 
 .results-area {
