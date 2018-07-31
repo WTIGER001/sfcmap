@@ -244,7 +244,7 @@ export class DataService {
   loadUsers() {
     let sub = this.user.pipe(
       tap(user => this.users.value.splice(0)),
-      mergeMap(user => user.uid === 'NOBODY' ? of([]) : this.db.list<User>('users').stateChanges())
+      mergeMap(user => user.uid === 'NOBODY' ? of({}) : this.db.list<User>('users').stateChanges())
     ).subscribe(
       item => {
         if (isArray(item)) {
