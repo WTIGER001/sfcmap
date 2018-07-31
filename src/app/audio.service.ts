@@ -7,7 +7,7 @@ import { Prefs } from './models';
  */
 export enum Sounds {
   DiceRoll = 'dice.mp3',
-  Beep = 'beep.mp3'
+  Beep = 'ping.mp3'
 }
 
 @Injectable({
@@ -26,7 +26,7 @@ export class AudioService {
 
   play(sound: Sounds) {
     try {
-      if (this.prefs.sounds) {
+      if (this.prefs.sounds == true) {
         this.audioMap.get(sound).play()
       }
     } catch (e) {

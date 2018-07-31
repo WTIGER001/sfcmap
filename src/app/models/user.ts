@@ -186,11 +186,11 @@ export class Prefs extends ObjectType {
   uid: string
   recentMarkers: string[] = []
   recentMaps: string[] = []
-  showScale: true
-  showCoords: false
-  expandTabOnSelect: true
-  use3dDice: true
-  sounds: true
+  showScale: boolean = true
+  showCoords: boolean = false
+  expandTabOnSelect: boolean = true
+  use3dDice: boolean = true
+  sounds: boolean = true
   savedExpressions: string[] = []
   lastChatId: string
 

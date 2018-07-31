@@ -1,5 +1,4 @@
 import { Map as LeafletMap, LatLng, Handler, LeafletMouseEvent, marker, icon, latLng } from "leaflet";
-import { MapService } from "../map.service";
 import { AudioService, Sounds } from "../audio.service";
 import { PingMessage } from "../models";
 import { MessageService } from "../message.service";
@@ -62,11 +61,9 @@ export class Ping {
     png.mapname = this.map['title']
 
     this.msg.sendMessage(png)
-    // this.triggerPing(png)
   }
 
   triggerPing(png: PingMessage) {
-    console.log("Triggering Ping")
     this.audio.play(Sounds.Beep)
     let ll = latLng(png.lat, png.lng)
     Ping.showFlag(this.map, ll, 10000)
