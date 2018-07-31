@@ -84,6 +84,10 @@ export class MapSelectorComponent implements OnInit {
     m.id = 'TEMP'
     m.name = "New Map"
 
+    if (this.folder) {
+      m.mapType = this.folder.id
+    }
+
     this.edit = true
     this.newMapCfg = m
   }
