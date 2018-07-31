@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, ReplaySubject, combineLatest } from 'rxjs';
-import { MapType, MapConfig, MergedMapType, User } from '../../models';
+import { MapType, MapConfig, MergedMapType, User, Prefs } from '../../models';
 import { DataService } from '../../data.service';
 import { MapService } from '../../map.service';
 import { EditMapComponent } from '../../controls/edit-map/edit-map.component';
@@ -33,11 +33,11 @@ export class MapSelectorComponent implements OnInit {
       this.updateList()
     })
 
-    combineLatest(this.data.user, this.data.maps, this.data.mapTypesWithMaps).subscribe(
-      (value: [User, MapConfig[], MergedMapType[]]) => {
+    combineLatest(this.data.user, this.data.maps, this.data.mapTypesWithMaps, this.data.userPrefs).subscribe(
+      (value: [User, MapConfig[], MergedMapType[], Prefs]) => {
         let items = []
-        if (value[0].recentMaps) {
-          value[0].recentMaps.forEach(mapId => {
+        if (value[3].recentMaps) {
+          value[3].recentMaps.forEach(mapId => {
             let map = value[1].find(m => mapId == m.id)
             if (map) {
               items.push(map)

@@ -52,8 +52,6 @@ export class TabsComponent implements OnInit {
   }
 
   public toggle(tab) {
-    console.log("Toggle");
-
     if (this.selected === tab) {
       this.expanded = false
       // this.selected = ""

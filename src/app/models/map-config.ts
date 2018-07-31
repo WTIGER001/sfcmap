@@ -1,22 +1,26 @@
-import { IObjectType } from "./core";
+import { IObjectType, ObjectType } from "./core";
 
 /**
  * A configuration for a map.
  */
-export class MapConfig implements IObjectType {
+export class MapConfig extends ObjectType {
     public static readonly TYPE = 'db.Map'
     public static readonly FOLDER = 'maps'
+    readonly objType: string = MapConfig.TYPE
 
     // TypeScript guard
     static is(obj: any): obj is MapConfig {
         return obj.objType !== undefined && obj.objType === MapConfig.TYPE
     }
 
+    static to(obj: any): MapConfig {
+        return new MapConfig().copyFrom(obj)
+    }
+
     dbPath(): string {
         return MapConfig.FOLDER + "/" + this.id
     }
 
-    readonly objType: string = MapConfig.TYPE
     id: string
     mapType: string
     name: string

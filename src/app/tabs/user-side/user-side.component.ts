@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase';
 import { DataService } from '../../data.service';
-import { User, UserGroup } from '../../models';
+import { User, UserGroup, UserAssumedAccess, Prefs } from '../../models';
 import { zip, combineLatest } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { MapService } from '../../map.service';
@@ -15,14 +15,20 @@ import { MapService } from '../../map.service';
 export class UserSideComponent implements OnInit {
 
   user: User
+  access: UserAssumedAccess
+  prefs: Prefs
   groups: UserGroup[] = []
 
   constructor(public afAuth: AngularFireAuth, private mapSvc: MapService, private data: DataService) {
     combineLatest(
       this.data.user,
+      this.data.userAccess,
+      this.data.userPrefs,
       this.data.groups
-    ).subscribe(([u, g]) => {
+    ).subscribe(([u, ua, p, g]) => {
       this.user = u;
+      this.access = ua
+      this.prefs = p
       let newGroups = []
       g.forEach(grp => {
         if (grp.members.includes(u.uid)) {
@@ -49,10 +55,9 @@ export class UserSideComponent implements OnInit {
     return this.user && this.user.uid != "NOBODY"
   }
   updatePrefs() {
-    this.data.save(this.user)
+    this.data.save(this.prefs)
   }
-
   save() {
-    this.data.save(this.user)
+    this.data.save(this.access)
   }
 }

@@ -1,96 +1,310 @@
-import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable, zip, range, combineLatest, forkJoin, BehaviorSubject, of, interval, Subscription, Subject, concat, timer } from 'rxjs';
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MergedMapType, User, IObjectType, MarkerGroup, Category } from './models';
-import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
-import { NotifyService, Debugger } from './notify.service';
-import { AngularFireStorage } from 'angularfire2/storage';
-import { mergeMap, map, concatMap, bufferCount, tap, first, retry, retryWhen, delayWhen, delay, concatAll } from 'rxjs/operators';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { User as FireUser } from 'firebase';
-import { LangUtil } from './util/LangUtil';
-import { Annotation, ShapeAnnotation, ImageAnnotation, MarkerTypeAnnotation } from './models';
-import { UUID } from 'angular2-uuid';
-
+import { Injectable } from "@angular/core";
+import { AngularFireStorage } from "angularfire2/storage";
+import { NotifyService, Debugger } from "./notify.service";
+import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
+import { AngularFireAuth } from "angularfire2/auth";
+import { User, MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction } from "./models";
+import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
+import { mergeMap, map, tap, first, concatMap } from "rxjs/operators";
+import { DbConfig } from "./models/database-config";
+import { LangUtil } from "./util/LangUtil";
+import { UUID } from "angular2-uuid";
+import { isArray } from "util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  /**
+   * The nobody user
+   */
+  public static readonly NOBODY = new User()
+
+  /**
+   * Name for the groups of items that are not part of any group
+   */
   public static readonly UNCATEGORIZED = "UNGROUPED"
-  public readonly NOBODY = new User()
 
-  ready = new ReplaySubject<boolean>()
+  /**
+   * The logger that is used for items relating to data loading
+   */
+  private log: Debugger
 
-  // The currently logged in user
-  user = new BehaviorSubject<User>(new User())
+  /**
+   * Observables
+   */
+  user = new BehaviorSubject<User>(DataService.NOBODY)
 
-  mapTypes = new ReplaySubject<Array<MapType>>()
-  maps = new ReplaySubject<Array<MapConfig>>()
-  users = new ReplaySubject<Array<User>>()
-  groups = new ReplaySubject<Array<UserGroup>>()
-  markerCategories = new ReplaySubject<Array<MarkerCategory>>()
-  markerTypes = new ReplaySubject<Array<MarkerType>>()
-  // markersWithUrls = new ReplaySubject<Array<MarkerType>>()
-  // mapsWithUrls = new ReplaySubject<Array<MapConfig>>()
-  mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>()
-  categories = new ReplaySubject<Array<Category>>()
+  userPrefs = new BehaviorSubject<Prefs>(new Prefs())
+  userMapPrefs = new BehaviorSubject<MapPrefs>(new MapPrefs())
+  userAccess = new BehaviorSubject<UserAssumedAccess>(new UserAssumedAccess())
+  // mapTypes = new BehaviorSubject<Array<MapType>>([])
+  // maps = new BehaviorSubject<Array<MapConfig>>([])
+  users = new BehaviorSubject<Array<User>>([])
+  // groups = new BehaviorSubject<Array<UserGroup>>([])
+  // markerCategories = new BehaviorSubject<Array<MarkerCategory>>([])
+  // markerTypes = new BehaviorSubject<Array<MarkerType>>([])
+  // mapTypesWithMaps = new BehaviorSubject<Array<MergedMapType>>([])
+  // categories = new BehaviorSubject<Array<Category>>([])
 
-  log: Debugger
+  // userPrefs = new ReplaySubject<Prefs>(1)
+  // userMapPrefs = new ReplaySubject<MapPrefs>(1)
+  // userAccess = new ReplaySubject<UserAssumedAccess>(1)
+  mapTypes = new ReplaySubject<Array<MapType>>(1)
+  maps = new ReplaySubject<Array<MapConfig>>(1)
+  // users = new ReplaySubject<Array<User>>(1)
+  groups = new ReplaySubject<Array<UserGroup>>(1)
+  markerCategories = new ReplaySubject<Array<MarkerCategory>>(1)
+  markerTypes = new ReplaySubject<Array<MarkerType>>(1)
+  mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>(1)
+  categories = new ReplaySubject<Array<Category>>(1)
+
+  mapsCurrent: MapConfig[] = []
+
+  ready = new BehaviorSubject<boolean>(false)
+  saves = new Subject<any>()
+
+  markerTypeChanges$ = new ReplaySubject<ItemAction<MarkerType>>()
+  // markerTypesAll = new BehaviorSubject<Array<MarkerType>>([])
 
   subs: Subscription[] = []
-  _users: Array<User>
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
+  // User & Assumed Groups ->  Map Configs
+  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
     this.log = this.notify.newDebugger("Data")
 
+    this.setUpSubscriptions()
+  }
+
+  setUpSubscriptions() {
+    this.subscribeToUserLogon()
+    this.loadUserExtensions()
+    this.loadDataFromUser()
+    this.loadMaps()
+    this.loadMergedMapTypes()
+    this.loadCategories()
+  }
+
+  /**
+   * Subscribe to the user logon event from firebase and load / create the real user as necessary
+   */
+  subscribeToUserLogon() {
     // Subscribe to the firebase user. This can be null or a firebase user. When we get a user or a null value we reload all the data
-    afAuth.user.subscribe(fireUser => {
-      let user = User.fromFireUser(fireUser)
-      this.onLogon(user)
+    this.afAuth.user.pipe(
+      tap(fireUser => this.log.info("User Logged In: ", fireUser.displayName)),
+      map(fireUser => User.fromFireUser(fireUser)),
+      mergeMap(user => this.getUserInfo(user))
+    ).subscribe(u => {
+      this.log.info("User Completely logged in: ", u.name)
+      this.user.next(u)
     })
 
-    this.users.subscribe(u => this._users = u)
+    this.user.subscribe(u => tap(u => this.log.info("User confirmed : ", u)))
+  }
 
-    // Load the URLS for map
-    // let mapBuffer = new BufferedSubscriber<MapConfig>()
-    // this.maps.pipe(
-    //   map(i => {
-    //     mapBuffer.bufferSize = i.length;
-    //     return i
-    //   }),
-    //   concatMap(i => i),
-    //   mergeMap(m => this.fillInMapUrl(m), 5),
-    //   mergeMap(m => this.fillInMapThumb(m), 5)
-    // ).subscribe(item => {
-    //   mapBuffer.push(item)
-    //   if (mapBuffer.full()) {
-    //     let items = mapBuffer.empty()
-    //     this.log.debug(`Loaded URLS for all maps ... ${items.length}`)
-    //     this.mapsWithUrls.next(items)
-    //   }
-    // })
+  // User -> UserAccess, MapPrefs, Prefs
+  loadUserExtensions() {
+    // Map Prefs
+    this.user.pipe(
+      tap(u => this.log.info("User triggered : ", u)),
+      mergeMap(u => this.getOrCreate(u.uid, new MapPrefs())),
+      tap(p => this.log.info("Map Prefs Loaded: ", p))
+    ).subscribe(p => this.userMapPrefs.next(MapPrefs.to(p)))
 
-    // Load the URLS for the markers
-    // let markerBuffer = new BufferedSubscriber<MarkerType>()
-    // this.markerTypes.pipe(
-    //   map(i => {
-    //     this.log.debug(`Loading URLS for all Markers .. Step 1... ${i.length}`)
-    //     markerBuffer.bufferSize = i.length;
-    //     return i
-    //   }),
-    //   concatMap(i => i),
-    //   mergeMap(m => this.fillInUrl(m), 5)
-    //   // bufferCount(markerCount[0])
-    // ).subscribe(item => {
-    //   markerBuffer.push(item)
-    //   if (markerBuffer.full()) {
-    //     let items = markerBuffer.empty()
-    //     this.log.debug(`Loaded URLS for all Markers ... ${items.length}`)
-    //     this.markersWithUrls.next(items)
-    //   }
-    // })
+    // Prefs
+    this.user.pipe(
+      mergeMap(u => this.getOrCreate(u.uid, new Prefs())),
+      tap(p => this.log.info("Map Prefs Loaded: ", p))
+    ).subscribe(p => this.userPrefs.next(Prefs.to(p)))
 
-    //Load the Categories
+    // Access
+    this.user.pipe(
+      mergeMap(u => this.getOrCreate(u.uid, new UserAssumedAccess)),
+      tap(p => this.log.info("Map Prefs Loaded: ", p))
+    ).subscribe(p => this.userAccess.next(UserAssumedAccess.to(p)))
+  }
+
+  // User -> Map Types, Marker Types, Marker Categories, User Groups, Users
+  loadDataFromUser() {
+    // this.syncArray<UserGroup>(this.groups.value, UserGroup.FOLDER, 'Loading User Groups')
+    // this.syncArray<User>(this.users.value, User.FOLDER, 'Loading Users')
+    // this.syncArray<MapType>(this.mapTypes.value, MapType.FOLDER, 'Loading Map Types', this.mergeMapAndType)
+    // this.syncArray<MarkerType>(this.markerTypes.value, MarkerType.FOLDER, 'Loading Marker Types', this.mergeMarkersAndCategories)
+    // this.syncArray<MarkerCategory>(this.markerCategories.value, MarkerCategory.FOLDER, 'Loading MarkerCategory', this.mergeMarkersAndCategories)
+
+    // this.loadAndNotify<User>(this.users, 'users', 'Loading Users')
+    this.loadUsers()
+    this.loadAndNotify<UserGroup>(this.groups, 'groups', 'Loading User Groups')
+    this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
+    this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
+    this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
+  }
+
+  // private mergeMarkersAndCategories(item: any, type: string) {
+  //   if (MarkerType.is(item)) {
+  //     // Look for the category
+  //     let type = item.category
+  //     const mt = this.categories.value.find(mt => mt.id === type)
+  //     if (type == 'child_added' && mt) {
+  //       mt.types.push(item)
+  //     } else if (type == 'child-removed' && mt) {
+  //       let inx = mt.types.findIndex(m => m.id == item.id)
+  //       if (inx >= 0) {
+  //         mt.types.splice(inx, 1)
+  //       }
+  //     }
+  //     this.markerTypeChanges$.next(new ItemAction(type, item))
+  //   } else if (MarkerCategory.is(item) && type == 'child_added') {
+  //     let merged = this.categories.value.find(mt => mt.id === item.id)
+  //     if (!merged) {
+  //       merged = new Category()
+  //     }
+  //     if (merged.types && merged.types.length > 0) {
+  //       merged.types.splice(0)
+  //     }
+  //     merged.name = item.name
+  //     merged.appliesTo = item.appliesTo
+  //     merged.id = item.id
+  //     merged.types = this.markerTypes.value.filter(m => m.category == merged.id && this.canView(m))
+  //     this.categories.value.push(merged)
+  //   }
+  // }
+
+  // private mergeMapAndType(item: any, type: string) {
+  //   if (MapConfig.is(item)) {
+  //     if (type == 'child_added') {
+  //       // Look for the category
+  //       let type = item.mapType
+  //       const mt = this.mapTypesWithMaps.value.find(mt => mt.id === type)
+  //       if (mt) {
+  //         mt.maps.push(item)
+  //       }
+  //     } else if (type == 'child-removed') {
+  //       let type = item.mapType
+  //       const mt = this.mapTypesWithMaps.value.find(mt => mt.id === type)
+  //       if (mt) {
+  //         let inx = mt.maps.findIndex(m => m.id == item.id)
+  //         if (inx >= 0) {
+  //           mt.maps.splice(inx, 1)
+  //         }
+  //       }
+  //     }
+  //   } else if (MapType.is(item) && type == 'child_added') {
+  //     let merged = this.mapTypesWithMaps.value.find(mt => mt.id === item.id)
+  //     if (!merged) {
+  //       merged = new MergedMapType()
+  //     }
+  //     if (merged.maps && merged.maps.length > 0) {
+  //       merged.maps.splice(0)
+  //     }
+  //     merged.name = item.name
+  //     merged.order = item.order
+  //     merged.id = item.id
+  //     merged.defaultMarker = item.defaultMarker
+  //     merged.maps = this.maps.value.filter(m => m.mapType == merged.id && this.canView(m))
+  //     this.mapTypesWithMaps.value.push(merged)
+  //   }
+  // }
+
+  // syncArray<T extends ObjectType>(arr: Array<T>, folderName: string, errorType: string, mergeFn?: (item: any, type: string) => void) {
+  //   this.log.debug('Begining of SyncArray ' + folderName)
+  //   let sub = this.user.pipe(
+  //     tap(user => this.users.value.splice(0)),
+  //     mergeMap(user => user.uid === 'NOBODY' ? of(undefined) : this.db.list<T>(folderName).stateChanges())
+  //   ).subscribe(
+  //     item => {
+  //       if (!item) {
+  //         return
+  //       }
+  //       try {
+  //         let i = <AngularFireAction<DatabaseSnapshot<T>>>item
+  //         let u = DbConfig.toItem(i.payload.val())
+
+  //         if (i.type == 'child_added') {
+  //           arr.push(u)
+  //           if (mergeFn) {
+  //             mergeFn.call(this, u, i.type)
+  //             // mergeFn(u, i.type)
+  //           }
+  //         } else if (i.type == 'child_removed') {
+  //           const idx = arr.findIndex(me => me['id'] == u.id)
+  //           if (idx >= 0) {
+  //             arr.splice(idx, 1)
+  //           }
+  //         }
+  //       } catch (err) {
+  //         this.log.error("Error Loading ", name, err)
+  //       }
+  //     }
+  //   )
+  //   this.subs.push(sub)
+  // }
+
+
+  loadUsers() {
+    let sub = this.user.pipe(
+      tap(user => this.users.value.splice(0)),
+      mergeMap(user => user.uid === 'NOBODY' ? of([]) : this.db.list<User>('users').stateChanges())
+    ).subscribe(
+      item => {
+        if (isArray(item)) {
+          return
+        }
+        try {
+          let i = <AngularFireAction<DatabaseSnapshot<User>>>item
+          let u = User.to(i.payload.val())
+
+          if (i.type == 'child_added') {
+            this.users.value.push(u)
+          } else if (i.type == 'child_removed') {
+            const idx = this.users.value.findIndex(me => me.uid == u.uid)
+            if (idx >= 0) {
+              this.users.value.splice(idx, 1)
+            }
+          }
+        } catch (err) {
+          this.log.error("Error Loading ", name, err)
+        }
+      }
+    )
+    this.subs.push(sub)
+  }
+
+
+  // Maps
+  loadMaps() {
+    this.userAccess.pipe(
+      mergeMap(ua => ua.uid === 'NOBODY' ? of([]) : this.db.list(MapConfig.FOLDER).valueChanges()),
+      tap(maps => { this.mapsCurrent.splice(0), this.mapsCurrent.push(...maps) })
+    ).subscribe(maps => this.receiveArray(maps, this.maps))
+  }
+
+  // Merged 
+  loadMergedMapTypes() {
+    combineLatest(this.maps, this.mapTypes).subscribe(
+      (value) => {
+        const maps = value[0]
+        const types = value[1]
+        let mergedArr = new Array<MergedMapType>()
+        types.forEach(mt => {
+          let merged = new MergedMapType()
+          merged.name = mt.name
+          merged.order = mt.order
+          merged.id = mt.id
+          merged.defaultMarker = mt.defaultMarker
+          merged.maps = maps.filter(m => m.mapType == merged.id && this.canView(m))
+          mergedArr.push(merged)
+        })
+
+        let items = mergedArr.sort((a, b) => a.order - b.order)
+        this.mapTypesWithMaps.next(items)
+        this.log.debug(`Loaded Map Types With Maps ... ${items.length}`)
+        this.ready.next(true)
+      }
+    )
+  }
+
+  loadCategories() {
     combineLatest(this.markerCategories, this.markerTypes).subscribe(
       (value) => {
         let cats = value[0]
@@ -110,56 +324,129 @@ export class DataService {
         this.categories.next(mycats)
       }
     )
-
-    combineLatest(this.mapTypes, this.maps)
-      .subscribe(([mts, mps]) => {
-        let mergedArr = new Array<MergedMapType>()
-        mts.forEach(mt => {
-          let merged = new MergedMapType()
-          merged.name = mt.name
-          merged.order = mt.order
-          merged.id = mt.id
-          merged.defaultMarker = mt.defaultMarker
-          merged.maps = mps.filter(m => m.mapType == merged.id && this.canView(m))
-          mergedArr.push(merged)
-        })
-        let items = mergedArr.sort((a, b) => a.order - b.order)
-        this.mapTypesWithMaps.next(items)
-        this.log.debug(`Loaded Map Types With Maps ... ${items.length}`)
-      })
-
-    combineLatest(this.user, this.maps, this.mapTypes, this.markerTypes, this.markerCategories)
-      .subscribe(() => {
-        this.ready.next(true)
-      })
   }
 
-  onLogon(user: User) {
-    // Clean up the previous subscriptions
-    this.subs.forEach(sub => {
-      sub.unsubscribe()
+
+  /**
+   * Take an array that was recieved from Firebase and notify everyone
+   */
+  private receiveArray<T>(arr: T[], subject: Subject<T[]>, sorter?: (items: Array<T>) => void) {
+    let items: T[] = []
+    arr.forEach(m => {
+      if (this.canView(m)) {
+        items.push(DbConfig.toItem(m))
+      }
     })
-    this.subs.slice(0)
-
-    // Load the data if there is a real user
-    if (user !== null && user.uid !== 'NOBODY') {
-      let sub = this.getUserInfo(user).subscribe(u => this.user.next(u))
-      this.subs.push(sub)
-      this.loadData()
-    } else {
-      this.user.next(this.NOBODY)
+    if (sorter) {
+      sorter(items)
     }
+    subject.next(items)
+  }
 
+  /**
+   * Get the Users information or create it if needed
+   * @param u user to load
+   */
+  private getUserInfo(u: User): Observable<User> {
+    this.log.debug("Getting User Information for " + u.uid);
+    if (u == null || u.uid == 'NOBODY') {
+      return of(new User())
+    }
+    let path = DbConfig.dbPath(u)
+    return this.db.object(path)
+      .snapshotChanges()
+      .pipe(
+        mergeMap(result => {
+          if (result.payload.exists()) {
+            let u = User.to(result.payload.val())
+            this.log.debug("User Exists: ", u);
+            return of(u)
+          } else {
+            this.log.debug("User doesn't exist");
+            this.save(u)
+            return of(u)
+          }
+        })
+      )
+  }
+
+  private getOrCreate<T extends ObjectType>(uid: string, obj: T): Observable<T> {
+    const name = obj['objType']
+    this.log.debug("Getting User Information for " + name);
+    obj['uid'] = uid
+    if (uid == 'NOBODY') {
+      return of(obj)
+    }
+    let path = DbConfig.dbPath(obj)
+    return this.db.object(path)
+      .snapshotChanges()
+      .pipe(
+        mergeMap(result => {
+          if (result.payload.exists()) {
+            let item = <T>DbConfig.toItem(result.payload.val())
+            this.log.debug(name, " Exists: ", item);
+            return of(item)
+          } else {
+            this.log.debug(name, " doesn't exist");
+            this.save(obj)
+            return of(obj)
+          }
+        })
+      )
   }
 
 
-  loadData() {
-    this.loadAndNotify<MapType>(this.toMapType, this.mapTypes, 'mapTypes', 'Loading Map Types')
-    this.loadAndNotify<MapConfig>(this.toMap, this.maps, 'maps', 'Loading Maps')
-    this.loadAndNotify<User>(this.toUser, this.users, 'users', 'Loading Users')
-    this.loadAndNotify<UserGroup>(this.toGroup, this.groups, 'groups', 'Loading User Groups')
-    this.loadAndNotify<MarkerCategory>(this.toMarkerCategory, this.markerCategories, 'markerCategories', 'Loading Marker Categories')
-    this.loadAndNotify<MarkerType>(this.toMarkerType, this.markerTypes, 'markerTypes', 'Loading Marker Types')
+  private loadAndNotify<T>(subject: Subject<Array<T>>, name: string, errorType: string, current?: Array<T>) {
+    this.log.debug('Base Item loadAndNotify ' + name)
+
+    let sub = this.user.pipe(
+      mergeMap(user => user.uid === 'NOBODY' ? of([]) : this.db.list<T>(name).valueChanges())
+    ).subscribe(
+      inTypes => {
+        this.log.debug('loadAndNotify ' + name)
+        let items = new Array<T>()
+        inTypes.forEach(item => {
+          try {
+            // Convert the item to a real object with methods and all
+            // If something is setup incorrectly then there can be an error
+            items.push(DbConfig.toItem(item))
+          } catch (err) {
+            this.log.error("Error Loading ", name, err)
+          }
+        })
+        this.log.debug("Loaded " + items.length + " " + name);
+
+        if (current) {
+          current.splice(0)
+          current.push(...items)
+        }
+        subject.next(items)
+      },
+      error => {
+        this.notify.showError(error, errorType)
+      }
+    )
+    this.subs.push(sub)
+  }
+
+  getAnnotations$(mapId: string): Observable<ItemAction<Annotation>> {
+    return this.db.list(Annotation.FOLDER + '/' + mapId)
+      .stateChanges()
+      .pipe(
+        map(item => {
+          return new ItemAction(item.type, DbConfig.toItem(item.payload.val()))
+        })
+      )
+  }
+
+  getAnnotationGroups$(mapId: string): Observable<ItemAction<MarkerGroup>> {
+    return this.db.list(MarkerGroup.FOLDER + '/' + mapId)
+      .stateChanges()
+      .pipe(
+        map(item => {
+          return new ItemAction(item.type, DbConfig.toItem(item.payload.val()))
+        })
+      )
   }
 
   getAnnotations(mapid: string): Observable<Array<Annotation>> {
@@ -170,7 +457,7 @@ export class DataService {
           let all = new Array<Annotation>()
           items.forEach(m => {
             let pojo = <Annotation>m.payload.val()
-            let saved = this.toAnnotation(pojo)
+            let saved = Annotation.to(pojo)
             if (this.canView(saved)) {
               all.push(saved)
             }
@@ -182,10 +469,10 @@ export class DataService {
 
   getCompleteAnnotationGroups(mapid: string): Observable<Array<MarkerGroup>> {
     let annotationObs = this.user.pipe(
-      mergeMap(pref => this.getAnnotations(mapid))
+      mergeMap(u => this.getAnnotations(mapid))
     )
     let groupObs = this.user.pipe(
-      mergeMap(pref => this.getMarkerGroups(mapid))
+      mergeMap(u => this.getMarkerGroups(mapid))
     )
 
     return combineLatest(this.markerTypes, groupObs, annotationObs).pipe(
@@ -219,9 +506,9 @@ export class DataService {
         map(items => {
           let markers = new Array<MarkerTypeAnnotation>()
           items.forEach(m => {
-            let saved = <MarkerTypeAnnotation>m.payload.val()
+            let saved = MarkerTypeAnnotation.to(m.payload.val())
             if (this.canView(saved)) {
-              markers.push(saved)
+              markers.push(<MarkerTypeAnnotation>saved)
             }
           })
           return markers;
@@ -236,9 +523,9 @@ export class DataService {
         map(items => {
           let groups = new Array<MarkerGroup>()
           items.forEach(m => {
-            let saved = this.toMarkerGroup(m.payload.val())
+            let saved = MarkerGroup.to(m.payload.val())
             if (this.canView(saved)) {
-              groups.push(saved)
+              groups.push(<MarkerGroup>saved)
             }
           })
           return groups;
@@ -246,15 +533,62 @@ export class DataService {
       )
   }
 
-  toObject(item: IObjectType): MarkerGroup | UserGroup | User | Annotation {
-    if (MarkerGroup.is(item)) { return item }
-    if (UserGroup.is(item)) { return item }
-    if (User.is(item)) { return item }
-    if (Annotation.is(item)) { return item }
+
+  /**
+   * Checks if an item is restricted from viewing
+   * @param obj Item to Check
+   */
+  isRestricted(obj: any): boolean {
+    if (obj.view && obj.view.length > 0) {
+      return true
+    }
+    if (obj.edit && obj.edit.length > 0) {
+      return true
+    }
+    return false
   }
 
+  /**
+    * Determines if the current user can view an item.
+    * @param item The item to check
+    */
+  canView(item: any): any {
+    if (!item['view']) {
+      return true
+    }
+    let view: Array<string> = item['view']
+    if (view.length == 0) {
+      return true
+    }
+    if (this.isReal) {
+      return view.includes(this.user.getValue().uid) || LangUtil.arrayMatch(view, this.user.getValue().assumedGroups)
+    }
+    return false
+  }
 
-  save(item: IObjectType) {
+  /**
+   * Determines if the current user can edit an item.
+   * @param item The item to check
+   */
+  canEdit(item: any): any {
+    if (!item['edit']) {
+      return true
+    }
+    let edit: Array<string> = item['edit']
+    if (edit.length == 0) {
+      return true
+    }
+    if (this.isReal) {
+      return edit.includes(this.user.getValue().uid) || LangUtil.arrayMatch(edit, this.user.getValue().assumedGroups)
+    }
+    return false
+  }
+
+  isReal(): any {
+    return this.user.getValue().uid != "NOBODY"
+  }
+
+  save(item: ObjectType) {
     // Copy the Item so we only save a normal javascript object, and remove all the bad
     // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
@@ -263,7 +597,7 @@ export class DataService {
     const toSave = LangUtil.prepareForStorage(item)
 
     // Get path to the object
-    let path = item.dbPath()
+    let path = DbConfig.dbPath(item)
     this.log.info('Saving Item ', toSave)
 
     this.db.object(path).set(toSave).then(() => {
@@ -271,139 +605,70 @@ export class DataService {
     }).catch(reason => {
       this.notify.showError(reason, "Error Saving " + path)
     })
+    this.saves.next(item)
+  }
+
+  saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
+    this.log.debug('Saving Map ', map.name)
+
+    if (thumb && image) {
+      let pathImage = 'images/' + map.id
+      let pathThumb = 'images/' + map.id + "_thumb"
+      console.log("Preparing to save Map DATA", map);
+
+      forkJoin(this.saveImage(image, pathImage), this.saveImage(thumb, pathThumb)).pipe(
+        mergeMap(result => this.fillInMapUrl(map)),
+        mergeMap(result => this.fillInMapThumb(map))
+      ).subscribe(() => {
+        console.log("Saving Map DATA", map);
+        this.save(map)
+      }, err => {
+        this.log.debug("ERROR");
+        this.log.debug(err);
+      }, () => {
+        this.log.debug("Complete");
+      })
+
+    } else {
+      this.save(map)
+    }
+  }
+
+  saveImageAnnotation(item: ImageAnnotation) {
+    this.log.debug('Saving Image Annotation ', map.name)
+
+    this.assignId(item)
+    const data = item._blob
+    let pathImage = 'images/' + item.id
+    forkJoin(this.saveImage(data, pathImage)).pipe(
+      mergeMap(result => this.fillInImageAnnotationUrl(item)),
+    ).subscribe(() => {
+      console.log(" DATA", item);
+      this.save(item)
+    }, err => {
+      this.log.debug("ERROR");
+      this.log.debug(err);
+    }, () => {
+      this.log.debug("Complete");
+    })
+  }
+
+  saveImage(data: Blob, path: string) {
+    console.log("Saving Map Blob " + path);
+
+    const ref = this.storage.ref(path)
+    let loadProgress = new Subject<number>()
+    loadProgress.subscribe(this.notify.progress("Loading Image"))
+
+    const task = ref.put(data)
+    task.percentageChanges()
+      .subscribe(loadProgress)
+
+    return loadProgress
   }
 
   saveAll(...items) {
     items.forEach(i => this.save(i))
-  }
-
-  delete(item: IObjectType) {
-    if (UserGroup.is(item)) {
-      this.completeUserGroupDelete(item)
-    }
-
-    let path = item.dbPath()
-
-    // let path = this.dbPath(item)
-    this.db.object(path).remove().then(() => {
-      this.notify.success("Removed ")
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Deleting Map")
-    })
-  }
-
-  clearChat() {
-    this.db.object("chat").remove().then(() => {
-      this.notify.success("Cleared Chat ")
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Deleting Chat")
-    })
-  }
-
-  deleteAll(...items) {
-    items.forEach(i => this.delete(i))
-  }
-
-  private toMapType(item: any): MapType {
-    let me = new MapType()
-    Object.assign(me, item)
-
-    return me
-  }
-
-  private toMap(item: any): MapConfig {
-    let me = new MapConfig()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toUser(item: any): User {
-    let me = new User()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toGroup(item: any): UserGroup {
-    let me = new UserGroup()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toMarkerCategory(item: any): MarkerCategory {
-    let me = new MarkerCategory()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toMarkerType(item: any): MarkerType {
-    let me = new MarkerType()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toMarkerGroup(item: any): MarkerGroup {
-    let me = new MarkerGroup()
-    Object.assign(me, item)
-    return me
-  }
-
-  private toAnnotation(item: any): Annotation {
-    // if (MarkerAnnotation.is(item)) {
-    //   let me = new MarkerAnnotation()
-    //   Object.assign(me, item)
-    //   return me
-    // }
-    if (ShapeAnnotation.is(item)) {
-      let me = new ShapeAnnotation(item.subtype)
-      Object.assign(me, item)
-      return me
-    }
-    if (ImageAnnotation.is(item)) {
-      let me = new ImageAnnotation()
-      Object.assign(me, item)
-      return me
-    }
-    if (MarkerTypeAnnotation.is(item)) {
-      let me = new MarkerTypeAnnotation()
-      Object.assign(me, item)
-      return me
-    }
-    console.log("BAD ANNOATION", item);
-    throw new Error("Invalid Annotation")
-  }
-
-  private loadAndNotify<T>(convert: (a: any) => T, subject: ReplaySubject<Array<T>>, name: string, errorType: string, sorter?: (items: Array<T>) => void) {
-    this.log.debug('Base Item loadAndNotify ' + name)
-
-    let sub = this.user.pipe(
-      mergeMap(user => {
-        if (user.uid === 'NOBODY') {
-          return of([])
-        } else {
-          return this.db.list(name).snapshotChanges()
-        }
-      })
-    ).subscribe(
-      inTypes => {
-        let items = new Array<T>()
-        inTypes.forEach(item => {
-          let converted = convert(item.payload.val())
-          if (this.canView(converted)) {
-            items.push(converted)
-          }
-        })
-        this.log.debug("Loaded " + items.length + " " + name);
-
-        if (sorter) {
-          sorter(items)
-        }
-        subject.next(items)
-      },
-      error => {
-        this.notify.showError(error, errorType)
-      }
-    )
-    this.subs.push(sub)
   }
 
   url(item: MapConfig | MarkerType): Observable<string> {
@@ -434,10 +699,6 @@ export class DataService {
     )
   }
 
-  loadMapUrls(maps: MapConfig[]) {
-
-  }
-
   fillInImageAnnotationUrl(item: ImageAnnotation): Observable<ImageAnnotation> {
     let path = 'images/' + item.id
     const ref = this.storage.ref(path);
@@ -446,6 +707,14 @@ export class DataService {
         item.url = url
         return item
       })
+    )
+  }
+
+  fillInImageUrl(item: any): Observable<any> {
+    let path = 'images/' + item.id
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      map(url => { item.url = url; return item })
     )
   }
 
@@ -470,8 +739,7 @@ export class DataService {
         console.log("Thumbnail Complete: ", url, " for ", item.id + " (" + item.name + ") for ", item);
         item.thumb = url
         return item
-      }),
-      retry(5)
+      })
     )
   }
 
@@ -482,70 +750,6 @@ export class DataService {
     return ref.getDownloadURL()
   }
 
-  saveWithImage(item: MarkerType) {
-    let f: File = item["__FILE"]
-
-    this.storage.upload('images/' + item.id, f)
-      .snapshotChanges()
-      .subscribe(v => { }, e => { }, () => {
-        this.saveMarkerTypeNoImage(item)
-      })
-
-  }
-
-  saveMarkerTypeNoImage(item: MarkerType) {
-    this.log.debug("saving")
-
-    let toSave = LangUtil.clean(Object.assign({}, item))
-    this.log.debug(toSave);
-
-    this.db.object('markerTypes/' + item.id).set(toSave).then(() => {
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Marker")
-    })
-  }
-
-  saveMarkerType(item: MarkerType) {
-    let f: File = item["__FILE"]
-    if (f) {
-      this.saveWithImage(item)
-    } else {
-      this.saveMarkerTypeNoImage(item)
-    }
-  }
-
-  saveMarkerCategory(item: MarkerCategory) {
-    let toSave = LangUtil.clean(Object.assign({}, item))
-    this.log.debug(toSave);
-
-    this.db.object('markerCategories/' + item.id).set(toSave).then(() => {
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Group")
-    })
-  }
-
-  saveUserGroup(item: UserGroup) {
-    let toSave = LangUtil.clean(Object.assign({}, item))
-    this.log.debug(toSave);
-
-    this.db.object('groups/' + item.name).set(toSave).then(() => {
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Group")
-    })
-  }
-
-  saveMapType(item: MapType) {
-    let toSave = LangUtil.clean(Object.assign({}, item))
-    this.log.debug(toSave);
-    this.db.object('mapTypes/' + item.id).set(toSave).then(() => {
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Group")
-    })
-  }
 
   updateAllMapUrls() {
     // Load all the maps
@@ -565,7 +769,7 @@ export class DataService {
 
 
   updateMarkerUrls(markerType: MarkerType) {
-    let m = this.toMarkerType(markerType)
+    let m = MarkerType.to(markerType)
     this.fillInUrl(m).subscribe(() => {
       console.log("Updating markerType DATA ");
       this.save(m)
@@ -578,7 +782,7 @@ export class DataService {
   }
 
   updateMapUrls(mapCfg: MapConfig) {
-    let map = this.toMap(mapCfg)
+    let map = MapConfig.to(mapCfg)
     concat(
       this.fillInMapUrl(map),
       this.fillInMapThumb(map)
@@ -593,100 +797,26 @@ export class DataService {
     })
   }
 
-  saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
-    if (thumb && image) {
-      let pathImage = 'images/' + map.id
-      let pathThumb = 'images/' + map.id + "_thumb"
-      console.log("Preparing to save Map DATA", map);
-
-      forkJoin(this.saveImage(image, pathImage), this.saveImage(thumb, pathThumb)).pipe(
-        mergeMap(result => this.fillInMapUrl(map)),
-        mergeMap(result => this.fillInMapThumb(map))
-      ).subscribe(() => {
-        console.log("Saving Map DATA", map);
-        this.save(map)
-      }, err => {
-        this.log.debug("ERROR");
-        this.log.debug(err);
-      }, () => {
-        this.log.debug("Complete");
-      })
-
-    } else {
-      this.save(map)
+  delete(item: ObjectType) {
+    if (UserGroup.is(item)) {
+      this.completeUserGroupDelete(item)
+    } else if (MapConfig.is(item)) {
+      this.deleteImages(item)
     }
-  }
 
-  saveImageAnnotation(item: ImageAnnotation) {
-    this.assignId(item)
-    const data = item._blob
-    let pathImage = 'images/' + item.id
-    forkJoin(this.saveImage(data, pathImage)).pipe(
-      mergeMap(result => this.fillInImageAnnotationUrl(item)),
-    ).subscribe(() => {
-      console.log(" DATA", item);
-      this.save(item)
-    }, err => {
-      this.log.debug("ERROR");
-      this.log.debug(err);
-    }, () => {
-      this.log.debug("Complete");
-    })
-  }
+    let path = DbConfig.dbPath(item)
 
-  saveImageUrl(path: string, url: string): Observable<number> {
-    const ref = this.storage.ref(path)
-    let loadProgress = new Subject<number>()
-    loadProgress.subscribe(this.notify.progress("Loading Image"))
-
-    const task = ref.putString(url)
-    task.percentageChanges().subscribe(loadProgress)
-
-    return loadProgress
-  }
-
-  waitForComplete(obs: Observable<any>, fn: () => void) {
-    obs.subscribe(
-      onNext => { },
-      onError => { },
-      () => {
-        fn()
-      }
-    )
-  }
-
-  private _saveMap(item: MapConfig) {
-    let toSave = LangUtil.clean(Object.assign({}, item))
-    this.log.debug(toSave);
-    this.db.object('maps/' + item.id).set(toSave).then(() => {
-      this.notify.success("Saved " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Saving Map")
-    })
-  }
-
-  saveImage(data: Blob, path: string) {
-    console.log("Saving Map Blob " + path);
-
-    const ref = this.storage.ref(path)
-    let loadProgress = new Subject<number>()
-    loadProgress.subscribe(this.notify.progress("Loading Image"))
-
-    const task = ref.put(data)
-    task.percentageChanges()
-      .subscribe(loadProgress)
-
-    return loadProgress
-
-    // return ref.put(data).percentageChanges()
-  }
-
-  deleteMapType(item: MapType) {
-    this.db.object('mapTypes/' + item.id).remove().then(() => {
-      this.notify.success("Removed " + item.name)
+    // let path = this.dbPath(item)
+    this.db.object(path).remove().then(() => {
+      this.notify.success("Removed ")
     }).catch(reason => {
       this.notify.showError(reason, "Error Deleting Map")
     })
+  }
+
+  private deleteImages(item: MapConfig) {
+    this.storage.ref('images/' + item.id).delete()
+    this.storage.ref('images/' + item.id + "_thumb").delete()
   }
 
   deleteMap(item: MapConfig) {
@@ -700,41 +830,63 @@ export class DataService {
     this.storage.ref('images/' + item.id + "_thumb").delete()
   }
 
-  deleteMarkerCategory(item: MarkerCategory | string) {
-    let dbId = ''
-    let name = 'Category'
-    if (typeof (item) == 'string') {
-      dbId = item
-    } else {
-      dbId = item.id
-      name = item.name
+  assignId(item: any) {
+    if (!item.id) {
+      item.id = UUID.UUID().toString()
+    } else if (item.id == 'TEMP') {
+      item.id = UUID.UUID().toString()
     }
-
-    this.db.object('markerCategories/' + dbId).remove().then(() => {
-      this.notify.success("Removed " + name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Deleteing " + name)
-    })
-
-    this.storage.ref('images/' + dbId).delete()
   }
 
-  deleteMarkerType(item: MarkerType | string) {
-    let dbId = ''
-    let name = 'Marker Type'
-    if (typeof (item) == 'string') {
-      dbId = item
-    } else {
-      dbId = item.id
-      name = item.name
-    }
-    this.db.object('markerTypes/' + dbId).remove().then(() => {
-      this.notify.success("Removed " + name)
+  clearChat() {
+    this.db.object("chat").remove().then(() => {
+      this.notify.success("Cleared Chat ")
     }).catch(reason => {
-      this.notify.showError(reason, "Error Deleteing " + name)
+      this.notify.showError(reason, "Error Deleting Chat")
     })
+  }
 
-    this.storage.ref('images/' + dbId).delete()
+  deleteAll(...items) {
+    items.forEach(i => this.delete(i))
+  }
+
+
+  public saveRecentMarker(markerId: string) {
+    if (this.isReal()) {
+      let u = this.user.getValue()
+      if (u.recentMarkers) {
+        u.recentMarkers.unshift(markerId)
+        if (u.recentMarkers.length > 5) {
+          u.recentMarkers.splice(5, u.recentMarkers.length - 5)
+        }
+      } else {
+        u.recentMarkers = [markerId]
+      }
+      this.save(u)
+    }
+  }
+
+  public saveRecentMap(mapId: string) {
+    this.log.debug("Saving Recent Map");
+
+    if (this.isReal()) {
+      let u = this.userPrefs.getValue()
+      // let u = this.user.getValue()
+      this.log.debug("Found User Prefs");
+
+      if (u.recentMaps) {
+        let recent = u.recentMaps.filter(item => item != mapId)
+        recent.unshift(mapId)
+        if (recent.length > 4) {
+          recent.splice(4, recent.length - 4)
+        }
+        u.recentMaps = recent
+      } else {
+        u.recentMaps = [mapId]
+      }
+      this.log.debug("Saving");
+      this.save(u)
+    }
   }
 
   // Deletes the access id from all the things necessary
@@ -744,29 +896,29 @@ export class DataService {
         let id = this.remove(u.assumedGroups, grp.id)
         let name = this.remove(u.assumedGroups, grp.name)
         if (id || name) {
-          this.save(this.toUser(u))
+          this.save(User.to(u))
         }
       })
     })
 
     this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(first()).subscribe(items => {
       console.log("Checking on Maps");
-      this.removeGroup(items, grp, this.toMap)
+      this.removeGroup(items, grp)
     })
 
     this.db.list<MapType>(MapType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
       console.log("Checking on Map Type");
-      this.removeGroup(items, grp, this.toMapType)
+      this.removeGroup(items, grp)
     })
 
     this.db.list<MarkerType>(MarkerType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
       console.log("Checking on Marker Type");
-      this.removeGroup(items, grp, this.toMarkerType)
+      this.removeGroup(items, grp)
     })
 
     this.db.list<MarkerType>(MarkerCategory.FOLDER).valueChanges().pipe(first()).subscribe(items => {
       console.log("Checking on Marker Category");
-      this.removeGroup(items, grp, this.toMarkerCategory)
+      this.removeGroup(items, grp)
     })
 
     this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(
@@ -776,7 +928,7 @@ export class DataService {
       mergeMap(m => this.db.list<MarkerGroup>(MarkerGroup.FOLDER + "/" + m.id).valueChanges())
     ).subscribe(all => {
       console.log("Checking on Marker Group");
-      this.removeGroup(all, grp, this.toMarkerGroup)
+      this.removeGroup(all, grp)
     })
 
     this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(
@@ -786,14 +938,15 @@ export class DataService {
       mergeMap(m => this.db.list<Annotation>(Annotation.FOLDER + "/" + m.id).valueChanges())
     ).subscribe(all => {
       console.log("Checking on Annotations");
-      this.removeGroup(all, grp, this.toAnnotation)
+      this.removeGroup(all, grp)
     })
 
   }
 
-  private removeGroup(items: any[], grp: UserGroup, convert: (a: any) => any) {
+
+  private removeGroup(items: any[], grp: UserGroup) {
     items.forEach(raw => {
-      let item = convert(raw)
+      let item = DbConfig.toItem(raw)
       let viewId = this.remove(item.view, grp.id)
       let viewName = this.remove(item.view, grp.name)
       let editId = this.remove(item.edit, grp.id)
@@ -815,120 +968,6 @@ export class DataService {
     return false
   }
 
-  isRestricted(obj: any): boolean {
-    if (obj.view && obj.view.length > 0) {
-      return true
-    }
-    if (obj.edit && obj.edit.length > 0) {
-      return true
-    }
-    return false
-  }
-
-  // User Functions
-  canView(item: any): any {
-    if (!item['view']) {
-      return true
-    }
-    let view: Array<string> = item['view']
-    if (view.length == 0) {
-      return true
-    }
-    if (this.isReal) {
-      return view.includes(this.user.getValue().uid) || this.arrayMatch(view, this.user.getValue().assumedGroups)
-    }
-    return false
-  }
-
-  canEdit(item: any): any {
-    if (!item['edit']) {
-      return true
-    }
-    let edit: Array<string> = item['edit']
-    if (edit.length == 0) {
-      return true
-    }
-    if (this.isReal) {
-      return edit.includes(this.user.getValue().uid) || this.arrayMatch(edit, this.user.getValue().assumedGroups)
-    }
-    return false
-  }
-
-  isReal(): any {
-    return this.user.getValue().uid != "NOBODY"
-  }
-
-  public saveRecentMarker(markerId: string) {
-    if (this.isReal()) {
-      let u = this.user.getValue()
-      if (u.recentMarkers) {
-        u.recentMarkers.unshift(markerId)
-        if (u.recentMarkers.length > 5) {
-          u.recentMarkers.splice(5, u.recentMarkers.length - 5)
-        }
-      } else {
-        u.recentMarkers = [markerId]
-      }
-      this.save(u)
-    }
-  }
-
-  public saveRecentMap(mapId: string) {
-    this.log.debug("Saving Recent Map");
-
-    if (this.isReal()) {
-      let u = this.user.getValue()
-      this.log.debug("Found User Prefs");
-
-      if (u.recentMaps) {
-        let recent = u.recentMaps.filter(item => item != mapId)
-        recent.unshift(mapId)
-        if (recent.length > 4) {
-          recent.splice(4, recent.length - 4)
-        }
-        u.recentMaps = recent
-      } else {
-        u.recentMaps = [mapId]
-      }
-      this.log.debug("Saving");
-      this.save(u)
-    }
-  }
-
-  assignId(item: any) {
-    if (!item.id) {
-      item.id = UUID.UUID().toString()
-    } else if (item.id == 'TEMP') {
-      item.id = UUID.UUID().toString()
-    }
-  }
-
-  private getUserInfo(u: User): Observable<User> {
-    this.log.debug("Getting User Information for " + u.uid);
-    if (u == null || u.uid == 'NOBODY') {
-      return of(new User())
-    }
-
-    return this.db.object('users/' + u.uid)
-      .snapshotChanges()
-      .pipe(
-        mergeMap(result => {
-          if (result.payload.exists()) {
-            this.log.debug("User Exists");
-
-            this.log.debug(result.payload.val());
-            let u = this.toUser(result.payload.val())
-            return of(u)
-          } else {
-            this.log.debug("User doesn't exist");
-            this.save(u)
-            return of(u)
-          }
-        })
-      )
-  }
-
-
   restrictSummary(item: any): string {
     let viewUserNames = []
     let viewGroupNames = []
@@ -936,7 +975,7 @@ export class DataService {
     let editGroupNames = []
     if (item.view) {
       item.view.forEach(i => {
-        let match = this._users.find(u => u.uid == i)
+        let match = this.users.getValue().find(u => u.uid == i)
         if (match) {
           viewUserNames.push(match.name)
         } else {
@@ -946,7 +985,7 @@ export class DataService {
     }
     if (item.edit) {
       item.edit.forEach(i => {
-        let match = this._users.find(u => u.uid == i)
+        let match = this.users.getValue().find(u => u.uid == i)
         if (match) {
           editUserNames.push(match.name)
         } else {
@@ -982,83 +1021,7 @@ export class DataService {
 
     return result
   }
-
-
-  private myBuffer<T>(obs: Observable<T>, bufferSize): Observable<T[]> {
-    let rtn = new ReplaySubject<T[]>()
-    let items = new Array[bufferSize]()
-    obs.subscribe(item => {
-      items.push(item)
-      if (items.length == bufferSize) {
-        rtn.next(items)
-        items = []
-      }
-    })
-    return rtn;
-  }
-
-  private arrayMatch(arr1: string[], arr2: string[]): boolean {
-    let result = false
-    let matches = []
-    if (arr1 && arr2) {
-      arr1.forEach(arr1Item => {
-        if (arr2.includes(arr1Item)) {
-          result = true
-        }
-      })
-    }
-    return result
-  }
-
-}
-
-export class BufferedSubscriber<T> {
-  constructor() { }
-  bufferSize: number
-  items = []
-  push(item: T) {
-    this.items.push(item)
-  }
-  full(): boolean {
-    return this.items.length >= this.bufferSize
-  }
-  empty(): T[] {
-    let temp = this.items
-    this.items = []
-    return temp
-  }
 }
 
 
-// export class Sequence {
-//   all: Observable<any>[]
-//   constructor(...obs: Observable<any>[]) {
-//     this.all = obs
-//   }
 
-//   chain(obs : Observable<any>,next : Observable<any>) {
-//     obs.subscribe(
-//        onNext => {},
-//        onError => {},
-//        () => {
-//         next.subscribe()
-//        }
-//     )
-//   }
-
-//   waitForComplete(obs : Observable<any>, fn:  ()=> void) {
-//     obs.subscribe(
-//        onNext => {},
-//        onError => {},
-//        () => {
-//         fn()
-//        }
-//     )
-//   }
-
-//   run(fn: ()=> void) {
-//     this.all.forEach( obs => {
-//       this.waitForComplete(obs)
-//     })
-//   }
-// }

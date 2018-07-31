@@ -77,6 +77,8 @@ import { TagsComponent } from './controls/tags/tags.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MessageService } from './message.service';
 import { MapnamePipe } from './pipes/mapname.pipe';
+import { LoadingComponent } from './loading/loading.component';
+import { DebugObservablesComponent } from './controls/debug-observables/debug-observables.component';
 
 @NgModule({
   declarations: [
@@ -122,6 +124,8 @@ import { MapnamePipe } from './pipes/mapname.pipe';
     TagsComponent,
     PageNotFoundComponent,
     MapnamePipe,
+    LoadingComponent,
+    DebugObservablesComponent,
   ],
   imports: [
     BrowserModule,

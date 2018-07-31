@@ -11,7 +11,6 @@ export class MapnamePipe implements PipeTransform {
     this.data.maps.subscribe(m => this.maps = m)
   }
 
-
   transform(value: any, args?: any): any {
     let found = this.maps.find(m => m.id == value)
     if (found) {

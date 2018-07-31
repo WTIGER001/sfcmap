@@ -1,0 +1,27 @@
+<div class="loading-container">
+  <div class="loading">
+    <fa-icon *ngIf="maps" icon="check-circle" size="3x"></fa-icon>
+    <fa-icon *ngIf="!maps" icon="sync" [spin]="true" size="3x"></fa-icon>
+    <h2>Maps</h2>
+
+    <fa-icon *ngIf="mapTypes" icon="check-circle" size="3x"></fa-icon>
+    <fa-icon *ngIf="!mapTypes" icon="sync" [spin]="true" size="3x"></fa-icon>
+    <h2>Map Types</h2>
+
+    <fa-icon *ngIf="markerCategories" icon="check-circle" size="3x"></fa-icon>
+    <fa-icon *ngIf="!markerCategories" icon="sync" [spin]="true" size="3x"></fa-icon>
+    <h2>Marker Categories</h2>
+
+    <fa-icon *ngIf="markerTypes" icon="check-circle" size="3x"></fa-icon>
+    <fa-icon *ngIf="!markerTypes" icon="sync" [spin]="true" size="3x"></fa-icon>
+    <h2>Marker Types</h2>
+
+    <fa-icon *ngIf="users" icon="check-circle" size="3x"></fa-icon>
+    <fa-icon *ngIf="!users" icon="sync" [spin]="true" size="3x"></fa-icon>
+    <h2>Users</h2>
+
+    <fa-icon *ngIf="groups" icon="check-circle" size="3x"></fa-icon>
+    <fa-icon *ngIf="!groups" icon="sync" [spin]="true" size="3x"></fa-icon>
+    <h2>User Groups</h2>
+  </div>
+</div>

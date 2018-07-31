@@ -1,14 +1,18 @@
-import { IObjectType } from "./core";
+import { ObjectType } from "./core";
 
 /** 
  * A Marker Category is a group that markers are placed into. 
 */
-export class MarkerCategory implements IObjectType {
+export class MarkerCategory extends ObjectType {
     public static readonly TYPE = 'db.MarkerCategory'
     public static readonly FOLDER = 'markerCategories'
     // TypeScript guard
     static is(obj: any): obj is MarkerCategory {
         return obj.objType !== undefined && obj.objType === MarkerCategory.TYPE
+    }
+
+    static to(obj: any): MarkerCategory {
+        return new MarkerCategory().copyFrom(obj)
     }
 
     dbPath(): string {

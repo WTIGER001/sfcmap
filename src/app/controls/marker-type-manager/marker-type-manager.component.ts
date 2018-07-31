@@ -87,18 +87,18 @@ export class MarkerTypeManagerComponent implements OnInit {
         this.cd.confirm("Are you sure you want to delete " + this.selected.name + "? If you do then you will not be able to access the markers in this category any longer. Don't worry existing markers will continue to work.", "Confirm Delete").subscribe(
           r => {
             if (r) {
-              this.data.deleteMarkerCategory(this.selected)
+              this.data.delete(this.selected)
             }
           }
         )
       } else {
-        this.data.deleteMarkerCategory(this.selected)
+        this.data.delete(this.selected)
       }
     } else {
       this.cd.confirm("Are you sure you want to delete " + this.selected.name + "? If you do then you will not be able to display markers of this type.", "Confirm Delete").subscribe(
         r => {
           if (r) {
-            this.data.deleteMarkerType(this.selected)
+            this.data.delete(this.selected)
           }
         }
       )
@@ -140,11 +140,13 @@ export class MarkerTypeManagerComponent implements OnInit {
   save() {
     this.edit = false
     if (this.sType == 'cat') {
-      this.data.saveMarkerCategory(this.selected)
+      // this.data.saveMarkerCategory(this.selected)
+      this.data.save(this.selected)
     } else {
       this.selected.iconSize = this.split(this.selected.iconSize)
       this.selected.iconAnchor = this.split(this.selected.iconAnchor)
-      this.data.saveMarkerType(this.selected)
+      // this.data.saveMarkerType(this.selected)
+      this.data.save(this.selected)
     }
   }
 
@@ -172,11 +174,13 @@ export class MarkerTypeManagerComponent implements OnInit {
   drop(item: MarkerType | Category, cat: Category) {
     if (this.isMarkerType(item) && item.category != cat.id) {
       item.category = cat.id
-      this.data.saveMarkerType(item)
+      // this.data.saveMarkerType(item)
+      this.data.save(item)
     } else if (this.isCategory(item) && item.id != cat.id) {
       item.types.forEach(t => {
         t.category = cat.id
-        this.data.saveMarkerType(t)
+        // this.data.saveMarkerType(t)
+        this.data.save(t)
       })
     }
   }

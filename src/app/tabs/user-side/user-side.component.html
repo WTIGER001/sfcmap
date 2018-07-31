@@ -11,7 +11,7 @@
 
   <div class="group-list">
     <div class="custom-control custom-checkbox" *ngFor="let g of groups">
-      <input type="checkbox" class="custom-control-input" id="ASSUMED_{{g.id}}" [(checklist)]="user.assumedGroups" [checklistValue]="g.id"
+      <input type="checkbox" class="custom-control-input" id="ASSUMED_{{g.id}}" [(checklist)]="access.assumedGroups" [checklistValue]="g.id"
         (checklistChange)="save()">
       <label class="custom-control-label" for="ASSUMED_{{g.id}}">{{g.name}}</label>
       <small *ngIf="g.description" class="form-text text-muted">{{g.description}}</small>
@@ -21,16 +21,12 @@
   <label class="mt-2 mb-0" for="name">My Preferences</label>
   <small class="form-text text-muted mb-2">These are preferences that apply only to your experience and are not shared with others.</small>
   <div class="pref-list">
-    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.expandTabOnSelect' (checkchange)="updatePrefs()" placement="bottom"
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.expandTabOnSelect' (checkchange)="updatePrefs()" placement="bottom"
       ngbTooltip="Automatically expand the annotation tab when you select an item">Expand Tab On Select</app-checkbox>
-    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.showScale' (checkchange)="updatePrefs()" placement="bottom"
-      ngbTooltip="Display the map scale on each of the maps">Show Map Scale</app-checkbox>
-    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.showCoords' (checkchange)="updatePrefs()" placement="bottom"
-      ngbTooltip="Display the map coordiantes of the mouse">Show Map Coordinates</app-checkbox>
-    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.use3Ddice' (checkchange)="updatePrefs()" placement="bottom"
-      ngbTooltip="Emulate dice rolling using 3D Dice">Roll 3D Dice</app-checkbox>
-    <app-checkbox class="mb-1" mode='check' [(ngModel)]='user.prefs.sounds' (checkchange)="updatePrefs()" placement="bottom"
-      ngbTooltip="Enable sounds for effects (like dice rolling)">Enable Sounds</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.showScale' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Display the map scale on each of the maps">Show Map Scale</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.showCoords' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Display the map coordiantes of the mouse">Show Map Coordinates</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.use3Ddice' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Emulate dice rolling using 3D Dice">Roll 3D Dice</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.sounds' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Enable sounds for effects (like dice rolling)">Enable Sounds</app-checkbox>
   </div>
 
 </div>

@@ -60,6 +60,7 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   ngOnInit(): void {
+    // this.all = this.data.categories.value
     this.data.categories.subscribe(categories => {
       this.all = categories
       this.refresh()
@@ -67,6 +68,8 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   refresh() {
+    console.log("REFRESHING, ", this.all);
+
     let mapTypeId = ''
     if (this.mapId) {
       mapTypeId = this.mapId

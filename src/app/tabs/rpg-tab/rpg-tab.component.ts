@@ -2,10 +2,10 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, AfterContentIn
 import { Dice, DiceRoller } from '../../util/dice';
 import * as THREE from 'src/scripts/three.min.js'
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 import { emojify, search } from 'node-emoji';
 import { DataService } from '../../data.service';
-import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage } from '../../models';
+import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig } from '../../models';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 import { LangUtil } from '../../util/LangUtil';
 import { AudioService, Sounds } from '../../audio.service';
@@ -33,6 +33,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   user: User
   users: User[]
   lastId: string
+  maps$
+  keysSeen = new Map<string, boolean>()
 
   constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService, private router: Router) {
     this.data.user.subscribe(u => {
@@ -48,19 +50,30 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     })
 
     let found = (this.lastId == '')
-    this.firedb.list<any>("chat").stateChanges().subscribe(action => {
-      console.log("CHANGE ", action.type);
+    this.maps$ = this.data.maps
 
-      let r = ChatRecord.to(action.payload.val())
-      if (action.type == 'child_added') {
-        if (found || r.key == this.lastId) {
-          found = true
-          this.records.unshift(r)
+    // this.maps = this.data.maps.pipe(
+    //   tap(m => this.records.splice(0)),
+    //   mergeMap(m => this.firedb.list<any>("chat").stateChanges())
+    this.firedb.list<any>("chat").stateChanges()
+      .subscribe(action => {
+        console.log("CHANGE ", action.type, " ", action.key, " ", action.prevKey);
+
+        // if (this.keysSeen.has(action.key)) {
+
+        // } else {
+        this.keysSeen.set(action.key, true)
+        let r = ChatRecord.to(action.payload.val())
+        if (action.type == 'child_added') {
+          if (found || r.key == this.lastId) {
+            found = true
+            this.records.unshift(r)
+          }
+        } else if (action.type == 'child_removed') {
+          // this.records.findIndex()
         }
-      } else if (action.type == 'child_removed') {
-        // this.records.findIndex()
-      }
-    })
+        // }
+      })
 
     // (events: ChildEvent[]) : Observable<AngularFireAction<DatabaseSnapshot<any>>[])
   }

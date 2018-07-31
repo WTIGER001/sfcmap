@@ -97,4 +97,17 @@ export class LangUtil {
         }
         return 1
     }
+
+    public static arrayMatch(arr1: string[], arr2: string[]): boolean {
+        let result = false
+        let matches = []
+        if (arr1 && arr2) {
+            arr1.forEach(arr1Item => {
+                if (arr2.includes(arr1Item)) {
+                    result = true
+                }
+            })
+        }
+        return result
+    }
 }

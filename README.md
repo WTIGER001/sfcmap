@@ -140,3 +140,30 @@ Actions are just services... Each gets initialized. the "RUN" method is called a
 - Combine markers and image annotations
 - Insert the router
 - Add the concept of a game or world. or a game and chapter / module
+
+### Loading Processes
+1.) User - a user has to be signed in to get access to any other features
+2.) Map Types, Maps, Marker Types - These are reference data that needs to be loadede
+
+
+
+### FIx User Loading
+User and user preferences are too coupled. Changing a preference reloads all the map data. Split user and user preferences. Only the user id, and assumed groups should be tied to the user object. The 'Map' and 'Prefs' should be separate. Favor lots of smaller objects. 
+
+Proposed new structure
+- User - uid, name, email, photo
+- Assumed Groups
+- Map preferences (layers) <-- Maybe just make transient
+- General Preferences 
+
+User -> Map Types, Marker Types, Marker Categories, User Groups, Users
+User & Assumed Groups ->  Map Configs
+
+When a map loads
+- subscribe to groups and annotations, both stateChanges()
+- subscribe to userAccesses
+- When a new group comes in then add it to the groups list (unless it is already there)
+- When a group is deleted then remove it
+- When a group is changed then update it
+- When an annotation comes in then add it to the group (or create the group if it is not there)
+

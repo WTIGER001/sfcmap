@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject, combineLatest, BehaviorSubject, of } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
-import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category, ImageAnnotation } from './models';
+import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category, ImageAnnotation, ItemAction, Operation, UserAssumedAccess, MapPrefs } from './models';
 import { DataService } from './data.service';
 import { mergeMap, concatMap, map, buffer, bufferCount, take, first, debounceTime } from 'rxjs/operators';
 import { UUID } from 'angular2-uuid';
@@ -97,6 +97,10 @@ export class MapService {
   /** Observable for when a marker is updated */
   public updates = new ReplaySubject<Marker>()
 
+  access: UserAssumedAccess
+  mapPrefs: MapPrefs
+
+
   mouseCoord
 
   log: Debugger
@@ -122,9 +126,14 @@ export class MapService {
       this.iconCache.maxZoom = m.getMaxZoom()
       this.log.debug(`Map Changed, New Zoom Levels are ${m.getMinZoom()} to ${m.getMaxZoom()}`)
       this.addMapListeners(m)
-      // m.editOptions.featuresLayer = this.allMarkersLayer
-      // m.editOptions.editLayer = layerGroup().addTo(m)
-      // m.editOptions.editLayer['title'] = "Edit Layer"
+    })
+
+    this.data.userAccess.subscribe(ua => {
+      this.access = ua
+    })
+
+    this.data.userMapPrefs.subscribe(prefs => {
+      this.mapPrefs = prefs
     })
 
     // When the array of available maps changes just update
@@ -175,28 +184,56 @@ export class MapService {
       })
     )
 
-    combineLatest(this.mapConfig, loadGroups, userObs, makeMarkerTypes).pipe(debounceTime(100)).subscribe((value) => {
-      const mapCfg = value[0]
-      const groups = value[1]
-      const user = value[2]
+    combineLatest(this.mapConfig, makeMarkerTypes)
+      .pipe().subscribe((value) => {
+        const mapCfg = value[0]
 
-      if (mapCfg.id == 'BAD') {
-        return
-      }
-
-      // this.allMarkersLayer.clearLayers()
-      this.allMarkersLayer.clearLayers()
-
-      groups.forEach(grp => {
-        this.buildGroup(grp, user, mapCfg)
+        this.clearLayerGroups()
+        if (mapCfg.id != 'BAD') {
+          this.getAnnotationsAndGroups()
+          this.reattachSelection(this.groups)
+        }
       })
 
-      this.reattachSelection(groups)
-    });
+    this.data.userMapPrefs.subscribe(prefs => {
+      this.groups.forEach(grp => {
+        this.ensureGroupVisibility(grp, !prefs.isHiddenGroup(this._mapCfg.id, grp.id))
+        grp._annotations.forEach(a => {
+          this.ensureAnnotationVisibility(a, grp, !prefs.isHiddenMarker(this._mapCfg.id, a.id))
+        })
+      })
+    })
 
     this.registerAction(new CreateMarkerAction())
     this.registerAction(new DeleteMarkerAction())
     this.registerAction(new HiMarkerAction())
+  }
+
+  private ensureGroupVisibility(group: MarkerGroup, visible: boolean) {
+    let layer = this.lGroups.get(group.id)
+    if (layer) {
+      if (visible && !this._map.hasLayer(layer)) {
+        layer.addTo(this._map)
+      } else if (!visible && this._map.hasLayer(layer)) {
+        layer.remove()
+      }
+    } else {
+      console.log(">>>No Layer... skipping")
+    }
+  }
+
+  private ensureAnnotationVisibility(annotation: Annotation, group: MarkerGroup, visible: boolean) {
+    let item = annotation.toLeaflet(undefined)
+    let lGrp = this.lGroups.get(group.id)
+    if (lGrp) {
+      if (visible && !lGrp.hasLayer(item)) {
+        this.addAnnotationItem(item, annotation, group, lGrp)
+      } else if (!visible && lGrp.hasLayer(item)) {
+        lGrp.removeLayer(item)
+      }
+    } else {
+      console.log(">>>No Layer... skipping")
+    }
   }
 
   private reattachSelection(groups: MarkerGroup[]) {
@@ -226,6 +263,140 @@ export class MapService {
     return undefined
   }
 
+  private getAnnotationsAndGroups() {
+    const sub1 = this.data.getAnnotations$(this._mapCfg.id).subscribe(
+      action => {
+        if (action.op == Operation.Added || action.op == Operation.Updated) {
+          this.addOrUpdateAnnotation(action.item)
+        } else if (action.op == Operation.Removed) {
+          this.removeAnnotation(action.item)
+        }
+      })
+    const sub2 = this.data.getAnnotationGroups$(this._mapCfg.id).subscribe(
+      action => {
+        if (action.op == Operation.Added || action.op == Operation.Updated) {
+          this.addOrUpdateGroup(action.item)
+        } else if (action.op == Operation.Removed) {
+          this.removeGroup(action.item)
+        }
+      })
+
+  }
+
+  private addOrUpdateAnnotation(item: Annotation) {
+    if (this.mapPrefs.isHiddenMarker(this._mapCfg.id, item.id)) {
+      return
+    }
+
+    let groupId = item.group || DataService.UNCATEGORIZED
+    let group = this.getGroup(groupId)
+    let lGrp = this.lGroups.get(groupId)
+
+    let indx = -1
+
+    if (group._annotations) {
+      indx = group._annotations.findIndex(a => a.id == item.id)
+    }
+    if (indx >= 0) {
+      // remove it from the map
+      let a = group._annotations[indx]
+      if (a.getAttachment()) {
+        a.getAttachment().remove()
+      }
+      // update it in the list
+      group._annotations[indx] = item
+    } else {
+      group._annotations.push(item)
+    }
+
+    if (lGrp) {
+      let mapitem = item.toLeaflet(this.iconCache)
+      this.addAnnotationItem(mapitem, item, group, lGrp);
+    }
+  }
+
+  private addAnnotationItem(mapitem: any, item: Annotation, group: MarkerGroup, lGrp: L.FeatureGroup<any>) {
+    mapitem['title'] = item.name;
+    if (group.showText) {
+      let cls = group.textStyle || 'sfc-tooltip-default';
+      mapitem.bindTooltip(item.name, { permanent: true, direction: "center", className: cls });
+    }
+    mapitem.addTo(lGrp);
+  }
+
+  private getGroup(groupId: string): MarkerGroup {
+    let group = this.groups.find(g => g.id == groupId)
+    if (!group) {
+      group = new MarkerGroup()
+      group.id = groupId
+      this.groups.push(group)
+    }
+
+    let lGrp = this.lGroups.get(groupId)
+    if (!lGrp) {
+      lGrp = L.featureGroup();
+      this.lGroups.set(groupId, lGrp)
+    }
+
+    if (!this._map.hasLayer(lGrp) && !this.mapPrefs.isHiddenGroup(this._mapCfg.id, groupId)) {
+      lGrp.on('click', this.onAnnotationClick, this)
+      lGrp.addTo(this.allMarkersLayer)
+    }
+    return group
+  }
+
+  private removeAnnotation(item: Annotation) {
+    let groupId = item.group || DataService.UNCATEGORIZED
+    let group = this.groups.find(g => g.id == groupId)
+    if (group) {
+      let indx = group._annotations.findIndex(a => a.id == item.id)
+      if (indx >= 0) {
+        let removed = group._annotations.splice(indx, 1)
+        if (removed && removed.length > 0 && removed[0].getAttachment()) {
+          removed[0].getAttachment().remove()
+        }
+      }
+    }
+  }
+
+  private addOrUpdateGroup(grp: MarkerGroup) {
+    // Check that this is not hidden and that the current user can view it
+    if (!this.mapPrefs.isHiddenGroup(this._mapCfg.id, grp.id) && this.data.canView(grp)) {
+      let indx = this.groups.findIndex(g => g.id == grp.id)
+      if (indx >= 0) {
+        this.groups[indx] = grp
+      } else {
+        this.groups.push(grp)
+      }
+
+      let lGrp = this.lGroups.get(grp.id)
+      if (!lGrp) {
+        lGrp = L.featureGroup();
+        this.lGroups.set(grp.id, lGrp)
+      }
+      lGrp['title'] = grp.name
+
+      if (!this._map.hasLayer(lGrp)) {
+        lGrp.addTo(this.allMarkersLayer)
+        lGrp.on('click', this.onAnnotationClick, this)
+      }
+    }
+  }
+
+  private removeGroup(grp: MarkerGroup) {
+    let indx = this.groups.findIndex(g => g.id == grp.id)
+    let lGrp = this.lGroups.get(grp.id)
+    if (lGrp && this._map.hasLayer(lGrp)) {
+      lGrp.remove()
+    }
+  }
+
+  private clearLayerGroups() {
+    this.groups.splice(0)
+    this.allMarkersLayer.clearLayers()
+    this.lGroups.clear()
+  }
+
   private makeLayerGroups(mgs: MarkerGroup[]) {
     // Clear out the map
     this.lGroups.clear()
@@ -237,41 +408,6 @@ export class MapService {
       lg.on('click', this.onAnnotationClick, this)
       this.lGroups.set(g.id, lg);
     });
-  }
-
-  private buildGroup(grp: MarkerGroup, user: User, mapCfg: MapConfig) {
-    if (!user.isHiddenGroup(mapCfg.id, grp.id)) {
-      let lGroup = this.lGroups.get(grp.id)
-      if (lGroup) {
-        lGroup.clearLayers()
-        lGroup.addTo(this.allMarkersLayer)
-
-        grp._annotations.forEach(annotation => {
-          if (!user.isHiddenMarker(mapCfg.id, annotation.id)) {
-            // Create and bind the leaflet type
-            let item = annotation.toLeaflet(this.iconCache)
-            item['title'] = annotation.name
-            if (grp.showText) {
-              let cls = grp.textStyle || 'sfc-tooltip-default'
-              item.bindTooltip(annotation.name, { permanent: true, direction: "center", className: cls })
-            }
-            item.addTo(lGroup)
-          }
-        })
-      }
-    }
-  }
-
-  private setDefaultMap(prefs: User) {
-    if (!this._mapCfg) {
-      if (prefs.recentMaps && prefs.recentMaps.length > 0) {
-        let mapId = prefs.recentMaps[0];
-        let mapConfig = this.maps.find(m => m.id == mapId);
-        if (mapConfig) {
-          this.setConfig(mapConfig);
-        }
-      }
-    }
   }
 
   /**
@@ -445,10 +581,6 @@ export class MapService {
    * @param mapId 
    */
   openMap(mapId: string) {
-    // let me = this.maps.find(m => m.id == mapId)
-    // if (me) {
-    //   this.setConfig(me)
-    // }
     this.router.navigate(['/map/' + mapId])
   }
 
@@ -457,19 +589,16 @@ export class MapService {
    * @param mapCfg 
    */
   private setConfig(mapCfg: MapConfig) {
-    console.log("Setting COnfiguration ", mapCfg);
-
-    // Clear the selection, but only if the map has changed.
-    if (this._mapCfg && this._mapCfg.id != mapCfg.id) {
-      this.select();
-    }
-
-    this._mapCfg = mapCfg
     if (mapCfg == null || mapCfg == undefined) {
       let badmapCfg = new MapConfig()
       badmapCfg.id = "BAD"
+      this._mapCfg = mapCfg
       this.mapConfig.next(badmapCfg)
     } else {
+      if (this._mapCfg && this._mapCfg.id != mapCfg.id) {
+        this.select();
+      }
+      this._mapCfg = mapCfg
       this.mapConfig.next(mapCfg)
     }
   }
@@ -484,28 +613,21 @@ export class MapService {
       let opts = options || {}
       let center = opts.center;
       let zoom = opts.zoom;
-      console.log(">>>>> Loading COnfiguration ", opts)
       let sub = this.data.maps.pipe().subscribe(
         maps => {
-          console.log(">>>>> Checking Maps ", maps.length);
-
           let mf = maps.find(m => m.id == mapId || m.name.toLowerCase() == mapId.toLowerCase())
           if (mf) {
             this.setConfig(mf)
             if (center) {
-              console.log(">>>>> Trying to center ", center);
-
               let ll = center.split(',')
               let loc = latLng(parseFloat(ll[0]), parseFloat(ll[1]))
               this.panTo(loc)
 
               if (opts.flag) {
-                console.log(">>>>> Trying to showflag ", center);
                 Ping.showFlag(this._map, ll, 10000)
               }
             }
-            if (zoom) {
-              console.log(">>>>> Trying to ZOOM ", zoom);
+            if (!isNaN(zoom)) {
               this._map.setZoom(zoom)
             }
 
@@ -553,7 +675,6 @@ export class MapService {
   }
 
   select(...items) {
-    console.log("Selection Made, ", items, new Error())
     this.selection.next(new Selection(items))
   }
 

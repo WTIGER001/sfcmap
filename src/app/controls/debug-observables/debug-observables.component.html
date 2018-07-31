@@ -1,0 +1,45 @@
+<div class="counts">
+  User
+  <span class="badge badge-info">{{countUserUpdates}}</span>
+
+  User Access
+  <span class="badge badge-info">{{countUserAccessUpdates}}</span>
+
+  Map Prefs
+  <span class="badge badge-info">{{countUserMapPrefsUpdates}}</span>
+
+  Prefs
+  <span class="badge badge-info">{{countUserPrefsUpdates}}</span>
+
+  Maps
+  <span class="badge badge-info">{{countMapUpdates}}</span>
+
+  Map Types
+  <span class="badge badge-info">{{countMapTypeUpdates}}</span>
+
+  Users
+  <span class="badge badge-info">{{countUsersUpdates}}</span>
+
+  Marker Types
+  <span class="badge badge-info">{{countMarkerTypesUpdates}}</span>
+
+  User Groups
+  <span class="badge badge-info">{{countUserGroupsUpdates}}</span>
+
+  Marker Cats
+  <span class="badge badge-info">{{countMarkerCategoriesUpdates}}</span>
+
+  Map Changes
+  <span class="badge badge-info">{{countMapConfigUpdates}}</span>
+
+  Leaflet Map
+  <span class="badge badge-info">{{countLeafletMapUpdates}}</span>
+
+</div>
+
+<div class="debug-history scroller scroller-dark">
+  <ng-container *ngFor="let item of history">
+    <span class="badge badge-info">{{item?.action}}</span>
+    <span class="type">{{item.desc}}</span>
+  </ng-container>
+</div>

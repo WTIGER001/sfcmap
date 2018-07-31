@@ -1,7 +1,7 @@
 import { Component, } from '@angular/core';
 import { MapService } from '../../map.service';
-import { Map as LeafletMap, LayerGroup, Marker } from 'leaflet';
-import { map } from 'rxjs/operators';
+import { Map as LeafletMap, LayerGroup, Marker, Map } from 'leaflet';
+import { map, tap, mergeMap } from 'rxjs/operators';
 import { MapConfig, MarkerGroup, User, MapPrefs, Annotation, Selection } from '../../models';
 import { DataService } from '../../data.service';
 import { combineLatest, of } from 'rxjs';
@@ -29,6 +29,7 @@ export class LayersTabComponent {
 
   // The current user
   user: User
+  mapPrefs: MapPrefs
 
   // The current leaflet map
   map: LeafletMap
@@ -56,17 +57,18 @@ export class LayersTabComponent {
   constructor(private mapSvc: MapService, private data: DataService, private dialog: CommonDialogService, private restrict: RestrictService) {
     this.mapSvc.map.subscribe(m => this.map = m)
 
-    let prefObs = this.data.user.pipe(
-      map(user => this.user = user)
-    )
-
     this.mapSvc.selection.subscribe(s => this.selection = s)
 
-    let mapObs = this.mapSvc.mapConfig.pipe(
-      map(mapConfig => this.mapConfig = mapConfig)
-    )
+    this.data.userMapPrefs.pipe(
+      tap(p => this.mapPrefs = p),
+      mergeMap(p => this.mapSvc.mapConfig),
+      tap(m => this.mapConfig = m)
+    ).subscribe(mapCfg => {
+      this._shownGroups = this.mapPrefs.getMapPref(mapCfg.id).hiddenGroups || []
+      this._shownMarkers = this.mapPrefs.getMapPref(mapCfg.id).hiddenMarkers || []
+    })
 
-    let allObs = this.mapSvc.completeMarkerGroups.pipe(
+    this.mapSvc.completeMarkerGroups.pipe(
       map(groups => {
         this.groups = groups
         this.groups.forEach(g => {
@@ -75,14 +77,7 @@ export class LayersTabComponent {
           }
         })
       })
-    )
-
-    combineLatest(prefObs, allObs, mapObs)
-      .subscribe((result) => {
-        let mapCfg = result[2]
-        this._shownGroups = this.user.getMapPref(mapCfg.id).hiddenGroups
-        this._shownMarkers = this.user.getMapPref(mapCfg.id).hiddenMarkers
-      })
+    ).subscribe(() => { })
   }
 
   newLayer() {
@@ -157,10 +152,9 @@ export class LayersTabComponent {
   }
 
   isChecked(item: MarkerGroup): boolean {
-    if (this.user) {
-      return !this.user.isHiddenGroup(this.mapConfig.id, item.id)
+    if (this.mapPrefs) {
+      return !this.mapPrefs.isHiddenGroup(this.mapConfig.id, item.id)
     }
-    return true
   }
 
   cancel() {
@@ -180,11 +174,11 @@ export class LayersTabComponent {
   }
 
   groupCheckChange($event) {
-    if (this.user) {
-      let mPrefs = this.user.getMapPref(this.mapConfig.id)
+    if (this.mapPrefs) {
+      let mPrefs = this.mapPrefs.getMapPref(this.mapConfig.id)
       if ($event) {
         mPrefs.hiddenGroups = $event
-        this.data.save(this.user)
+        this.data.save(this.mapPrefs)
       } else {
         console.log("BADDD - mPrefs.hiddenGroups is undefined");
       }
@@ -192,14 +186,11 @@ export class LayersTabComponent {
   }
 
   markerCheckChange($event) {
-    if (this.user) {
-      if (!this.user.maps) {
-        this.user.maps = new Map<string, MapPrefs>()
-      }
-      let mPrefs = this.user.getMapPref(this.mapConfig.id)
+    if (this.mapPrefs) {
+      let mPrefs = this.mapPrefs.getMapPref(this.mapConfig.id)
       if ($event) {
         mPrefs.hiddenMarkers = $event
-        this.data.save(this.user)
+        this.data.save(this.mapPrefs)
       } else {
         console.log("BADDD - mPrefs.hiddenMarkers is undefined");
       }
@@ -247,12 +238,23 @@ export class LayersTabComponent {
   }
 
   isAnnotationChecked(item: Annotation): boolean {
-    if (this.user) {
-      return !this.user.isHiddenMarker(this.mapConfig.id, item.id)
+    if (this.mapPrefs) {
+      return !this.mapPrefs.isHiddenMarker(this.mapConfig.id, item.id)
     }
+    // const found = this.selections.find(l => l.layerId == item.id)
+    // if (found) {
+    //   return found.visible
+    // }
+    // return true
   }
 
   toggleAnnotation(item: Annotation) {
+    // let result = new LayerSelection()
+    // result.layerId = item.id
+    // result.visible = !this.isAnnotationChecked(item)
+    // this.data.saveLayerSelect(this.user.uid, this.mapConfig.id, result);
+
+
     if (this.isAnnotationChecked(item)) {
       this._shownMarkers.push(item.id)
     } else {
@@ -263,6 +265,10 @@ export class LayersTabComponent {
   }
 
   toggleGroup(item: MarkerGroup) {
+    // let result = new LayerSelection()
+    // result.layerId = item.id
+    // result.visible = !this.isChecked(item)
+    // this.data.saveLayerSelect(this.user.uid, this.mapConfig.id, result);
     if (this.isChecked(item)) {
       this._shownGroups.push(item.id)
     } else {
