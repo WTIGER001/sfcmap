@@ -561,7 +561,7 @@ export class DataService {
       return true
     }
     if (this.isReal) {
-      return view.includes(this.user.getValue().uid) || LangUtil.arrayMatch(view, this.user.getValue().assumedGroups)
+      return view.includes(this.user.getValue().uid) || LangUtil.arrayMatch(view, this.userAccess.getValue().assumedGroups)
     }
     return false
   }
@@ -579,7 +579,7 @@ export class DataService {
       return true
     }
     if (this.isReal) {
-      return edit.includes(this.user.getValue().uid) || LangUtil.arrayMatch(edit, this.user.getValue().assumedGroups)
+      return edit.includes(this.user.getValue().uid) || LangUtil.arrayMatch(edit, this.userAccess.getValue().assumedGroups)
     }
     return false
   }
@@ -852,18 +852,18 @@ export class DataService {
 
 
   public saveRecentMarker(markerId: string) {
-    if (this.isReal()) {
-      let u = this.user.getValue()
-      if (u.recentMarkers) {
-        u.recentMarkers.unshift(markerId)
-        if (u.recentMarkers.length > 5) {
-          u.recentMarkers.splice(5, u.recentMarkers.length - 5)
-        }
-      } else {
-        u.recentMarkers = [markerId]
-      }
-      this.save(u)
-    }
+    // if (this.isReal()) {
+    //   let u = this.user.getValue()
+    //   if (u.recentMarkers) {
+    //     u.recentMarkers.unshift(markerId)
+    //     if (u.recentMarkers.length > 5) {
+    //       u.recentMarkers.splice(5, u.recentMarkers.length - 5)
+    //     }
+    //   } else {
+    //     u.recentMarkers = [markerId]
+    //   }
+    //   this.save(u)
+    // }
   }
 
   public saveRecentMap(mapId: string) {
@@ -891,8 +891,8 @@ export class DataService {
 
   // Deletes the access id from all the things necessary
   completeUserGroupDelete(grp: UserGroup): any {
-    this.db.list<User>(User.FOLDER).valueChanges().pipe(first()).subscribe(users => {
-      users.forEach(u => {
+    this.db.list<UserAssumedAccess>(UserAssumedAccess.FOLDER).valueChanges().pipe(first()).subscribe(ua => {
+      ua.forEach(u => {
         let id = this.remove(u.assumedGroups, grp.id)
         let name = this.remove(u.assumedGroups, grp.name)
         if (id || name) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
-import { User } from './models';
+import { Prefs } from './models';
 
 /**
  * Sounds available
@@ -14,11 +14,11 @@ export enum Sounds {
   providedIn: 'root'
 })
 export class AudioService {
-  private user: User
+  private prefs: Prefs
   private audioMap: Map<string, HTMLAudioElement> = new Map()
 
   constructor(data: DataService) {
-    data.user.subscribe(u => this.user = u)
+    data.userPrefs.subscribe(u => this.prefs = u)
     for (let key in Sounds) {
       this.audioMap.set(Sounds[key], new Audio('./assets/audio/' + Sounds[key]))
     }
@@ -26,7 +26,7 @@ export class AudioService {
 
   play(sound: Sounds) {
     try {
-      if (this.user.prefs.sounds) {
+      if (this.prefs.sounds) {
         this.audioMap.get(sound).play()
       }
     } catch (e) {

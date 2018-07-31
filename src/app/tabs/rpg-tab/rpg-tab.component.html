@@ -53,7 +53,7 @@
           </button>
           <div ngbDropdownMenu aria-labelledby="chat-drop">
             <h6 class="dropdown-header dh pl-1">Favorites</h6>
-            <button *ngFor="let e of user.prefs.savedExpressions" class="dropdown-item btn-sm pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
+            <button *ngFor="let e of prefs.savedExpressions" class="dropdown-item btn-sm pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
             <h6 class="dropdown-header dh pl-1">Recent Rolls</h6>
             <button *ngFor="let e of expressionHistory" class="dropdown-item btn-sm  pointer" placement="bottom" (click)="rollDice(e)">{{e}}</button>
           </div>

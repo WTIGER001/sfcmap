@@ -44,7 +44,7 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run `npm start` to start the application in debug mode
 
 ## Known Issues
-- Annotations get disconnected when they are edited. They show up fine on the map but you have to click them again to have the tab work correctly
+- You have to click on a layer twice the first time to get the effect
 
 ## To Do
 
@@ -62,12 +62,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Need to merge marker types and images... I think that they are really the same thing. Images are used to scale with the map and markers are for nonscaled. This will allow me to get rid of that stupid icon cache. MarkerType-Variable = ImageOverlay and MarkerType-Fixed = Marker, ImageAnnotation-variable = Image Overlay, ImageAnnotation-fixed = Marker. I just need to figure out how to edit the marker useing the drag handles... 
 
 ### Map 
-- Restyle zoom buttons
-- Router for maps and 'back button'. Router should also support a coordinate center and zoom
-- Border Decoration for regions (a,b,c, etc)
-- Fixed Marker Size (in map units)
-- New Coordiates control needed
-- Tags / Labels
+- Support large maps that should be tiled. This will mean that we have to figure out how to image tile (likely in a server function) and then translate it into tile urls that leaflet can understand. Serving it all from firebase storage
 
 ### Data Management
 - Export / import marker types 
@@ -138,32 +133,4 @@ Actions are just services... Each gets initialized. the "RUN" method is called a
 
 ### Biggest planned changes
 - Combine markers and image annotations
-- Insert the router
 - Add the concept of a game or world. or a game and chapter / module
-
-### Loading Processes
-1.) User - a user has to be signed in to get access to any other features
-2.) Map Types, Maps, Marker Types - These are reference data that needs to be loadede
-
-
-
-### FIx User Loading
-User and user preferences are too coupled. Changing a preference reloads all the map data. Split user and user preferences. Only the user id, and assumed groups should be tied to the user object. The 'Map' and 'Prefs' should be separate. Favor lots of smaller objects. 
-
-Proposed new structure
-- User - uid, name, email, photo
-- Assumed Groups
-- Map preferences (layers) <-- Maybe just make transient
-- General Preferences 
-
-User -> Map Types, Marker Types, Marker Categories, User Groups, Users
-User & Assumed Groups ->  Map Configs
-
-When a map loads
-- subscribe to groups and annotations, both stateChanges()
-- subscribe to userAccesses
-- When a new group comes in then add it to the groups list (unless it is already there)
-- When a group is deleted then remove it
-- When a group is changed then update it
-- When an annotation comes in then add it to the group (or create the group if it is not there)
-

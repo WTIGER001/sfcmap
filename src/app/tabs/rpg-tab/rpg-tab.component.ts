@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 import { emojify, search } from 'node-emoji';
 import { DataService } from '../../data.service';
-import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig } from '../../models';
+import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig, Prefs } from '../../models';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 import { LangUtil } from '../../util/LangUtil';
 import { AudioService, Sounds } from '../../audio.service';
@@ -31,22 +31,23 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   result: string
   action: string
   user: User
+  prefs: Prefs
   users: User[]
   lastId: string
   maps$
   keysSeen = new Map<string, boolean>()
 
   constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService, private router: Router) {
-    this.data.user.subscribe(u => {
-      this.user = u
+    this.data.userPrefs.subscribe(u => {
+      this.prefs = u
       if (this.roller) {
-        this.roller.use3d = u.prefs.use3dDice
+        this.roller.use3d = u.use3dDice
+        this.lastId = u.lastChatId
       }
     })
 
     this.data.users.subscribe(u => {
       this.users = u
-      this.lastId = this.user.prefs.lastChatId
     })
 
     let found = (this.lastId == '')
@@ -106,8 +107,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   isFav(expression: string): boolean {
-    if (expression && this.user.prefs.savedExpressions) {
-      let yes = this.user.prefs.savedExpressions.map(a => a.toLowerCase()).includes(expression.toLowerCase())
+    if (expression && this.prefs.savedExpressions) {
+      let yes = this.prefs.savedExpressions.map(a => a.toLowerCase()).includes(expression.toLowerCase())
       return yes
     }
     return false
@@ -122,15 +123,15 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   toggleFav(expression: string) {
-    if (!this.user.prefs.savedExpressions) {
-      this.user.prefs.savedExpressions = []
+    if (!this.prefs.savedExpressions) {
+      this.prefs.savedExpressions = []
     }
 
     if (this.isFav(expression)) {
-      let inx = this.user.prefs.savedExpressions.findIndex(a => a.toLowerCase() == expression.toLowerCase())
-      this.user.prefs.savedExpressions.splice(inx)
+      let inx = this.prefs.savedExpressions.findIndex(a => a.toLowerCase() == expression.toLowerCase())
+      this.prefs.savedExpressions.splice(inx)
     } else {
-      this.user.prefs.savedExpressions.push(expression)
+      this.prefs.savedExpressions.push(expression)
     }
 
     this.data.save(this.user)

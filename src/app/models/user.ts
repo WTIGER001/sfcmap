@@ -26,11 +26,11 @@ export class User extends ObjectType {
   photo?: string
   groups?: string[]
 
-  maps = {}
-  recentMarkers?: string[]
-  recentMaps?: string[]
-  assumedGroups?: string[]
-  prefs: Prefs = new Prefs()
+  // maps = {}
+  // recentMarkers?: string[]
+  // recentMaps?: string[]
+  // assumedGroups?: string[]
+  // prefs: Prefs = new Prefs()
 
   isAdmin(): boolean {
     return this.groups.includes("admin")

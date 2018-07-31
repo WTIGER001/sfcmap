@@ -14,12 +14,10 @@ export class TabsComponent implements OnInit {
   mapCfg: MapConfig
   autoexpand = true
   constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService) {
-    this.data.user.subscribe(u => {
-      if (u.prefs) {
-        console.log("UPDATE PREFS");
-        this.autoexpand = u.prefs.expandTabOnSelect
-      }
+    this.data.userPrefs.subscribe(prefs => {
+      this.autoexpand = prefs.expandTabOnSelect
     })
+
     this.mapSvc.selection.subscribe(sel => {
       if (sel.isEmpty()) {
       } else if (sel.type != 'reattach') {

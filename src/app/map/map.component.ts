@@ -3,7 +3,7 @@ import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MapService } from '../map.service';
 import { DataService } from '../data.service';
-import { MapConfig, User, Selection, Annotation, MarkerTypeAnnotation, ShapeAnnotation, ImageAnnotation } from '../models';
+import { MapConfig, User, Selection, Annotation, MarkerTypeAnnotation, ShapeAnnotation, ImageAnnotation, Prefs } from '../models';
 import { ReplaySubject, of, combineLatest } from 'rxjs';
 import { mergeMap, delay, debounceTime, throttleTime, tap } from 'rxjs/operators';
 import * as L from 'leaflet';
@@ -51,6 +51,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   dragging = true
   user: User
+  prefs: Prefs
   coords: CoordsControl
   scale: Scale
 
@@ -78,6 +79,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.data.user.subscribe(u => {
       this.user = u
+    })
+
+    this.data.userPrefs.subscribe(p => {
+      this.prefs = p
       this.applyPrefs()
     })
 
@@ -220,9 +225,9 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   applyPrefs() {
-    if (this.user.prefs && this.scale) {
-      this.scale.show(this.map, this.user.prefs.showScale)
-      this.coords.show(this.map, this.user.prefs.showCoords)
+    if (this.prefs && this.scale) {
+      this.scale.show(this.map, this.prefs.showScale)
+      this.coords.show(this.map, this.prefs.showCoords)
     }
   }
   setFile(f, center?: L.LatLng) {
