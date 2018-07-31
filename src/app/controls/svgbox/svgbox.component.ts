@@ -88,11 +88,13 @@ export class SvgboxComponent {
   viewbox() {
     if (ShapeAnnotation.is(this.item)) {
       let path = this.svgitem
-      let d = path.getAttribute("d")
-      let bounds = this.pathBounds(d)
-      let padded = Rect.pad(bounds, this.padding)
+      if (path) {
+        let d = path.getAttribute("d")
+        let bounds = this.pathBounds(d)
+        let padded = Rect.pad(bounds, this.padding)
 
-      return padded.x + " " + padded.y + " " + padded.width + " " + padded.height
+        return padded.x + " " + padded.y + " " + padded.width + " " + padded.height
+      }
     }
     return "0 0 200 100"
   }
@@ -100,15 +102,17 @@ export class SvgboxComponent {
   dynamicHeight() {
     if (ShapeAnnotation.is(this.item)) {
       let path = this.svgitem
-      let bb = this.pathBounds(path.getAttribute('d'))
-      let aspect = bb.height / bb.width
-      return Math.min(200 * aspect, this.maxheight)
+      if (path) {
+        let bb = this.pathBounds(path.getAttribute('d'))
+        let aspect = bb.height / bb.width
+        return Math.min(200 * aspect, this.maxheight)
+      }
     }
     return 100
   }
 
   private insertSVG() {
-    if (this.item) {
+    if (this.item && this.item.asItem()) {
       let element = this.item.asItem().getElement()
       this.svgitem = element
 

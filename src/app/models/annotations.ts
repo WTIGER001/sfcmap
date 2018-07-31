@@ -445,7 +445,7 @@ export class ShapeAnnotation extends Annotation {
   }
 
   center(): LatLng {
-    if (this._leafletAttachment._map == undefined) {
+    if (!this._leafletAttachment || !this._leafletAttachment._map) {
       return latLng(0, 0)
     }
 
