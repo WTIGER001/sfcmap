@@ -1,4 +1,4 @@
-import { Map as LeafletMap, LatLng, Handler, LeafletMouseEvent, marker, icon, latLng } from "leaflet";
+import { Map as LeafletMap, LatLng, Handler, LeafletMouseEvent, marker, icon, latLng, Point } from "leaflet";
 import { AudioService, Sounds } from "../audio.service";
 import { PingMessage } from "../models";
 import { MessageService } from "../message.service";
@@ -15,6 +15,8 @@ export class Ping {
   point: LatLng
   startTime: number;
   timeoutHandle: any
+  tolerance: number = 15
+  mousePt: Point
 
   constructor(private _map: LeafletMap, private audio: AudioService, private msg: MessageService) {
     this.msg.onPing$().subscribe(rec => {
@@ -30,14 +32,24 @@ export class Ping {
   addHooks() {
     this.map.on('mousedown', this.start, this);
     this.map.on('mouseup', this.clear, this);
-    // this.map.on('mousemove', this.clear, this);
+    this.map.on('mousemove', this.moveCheck, this);
   }
 
   removeHooks() {
     this.map.off('mousedown', this.start, this);
     this.map.off('mouseup', this.clear, this);
-    // this.map.off('mousemove', this.clear, this);
+    this.map.off('mousemove', this.moveCheck, this);
   }
+
+  moveCheck(evt: LeafletMouseEvent) {
+    if (this.mousePt) {
+      let distance = evt.containerPoint.subtract(this.mousePt)
+      if (Math.abs(distance.x) > this.tolerance || Math.abs(distance.y) > this.tolerance) {
+        this.clear(evt)
+      }
+    }
+  }
+
 
   clear(evt) {
     if (this.timeoutHandle) {
@@ -47,6 +59,7 @@ export class Ping {
 
   start(evt: LeafletMouseEvent) {
     this.point = evt.latlng
+    this.mousePt = evt.containerPoint
     this.timeoutHandle = setTimeout(() => {
       this.sendPing()
       this.timeoutHandle = undefined

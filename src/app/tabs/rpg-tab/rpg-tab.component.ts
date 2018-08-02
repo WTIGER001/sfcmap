@@ -38,6 +38,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   keysSeen = new Map<string, boolean>()
 
   constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService, private router: Router) {
+    this.data.user.subscribe(u => this.user = u)
+
     this.data.userPrefs.subscribe(u => {
       this.prefs = u
       if (this.roller) {
