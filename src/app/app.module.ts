@@ -72,13 +72,13 @@ import { EditImageComponent } from './controls/edit-image/edit-image.component';
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
 import { RpgTabComponent } from './tabs/rpg-tab/rpg-tab.component';
 import { AudioService } from './audio.service';
-import { HotKeyService } from './hot-key.service';
 import { TagsComponent } from './controls/tags/tags.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MessageService } from './message.service';
 import { MapnamePipe } from './pipes/mapname.pipe';
 import { LoadingComponent } from './loading/loading.component';
 import { DebugObservablesComponent } from './controls/debug-observables/debug-observables.component';
+import { CommandService } from './command.service';
 
 @NgModule({
   declarations: [
@@ -160,7 +160,7 @@ import { DebugObservablesComponent } from './controls/debug-observables/debug-ob
     DialogService,
     RestrictService,
     AudioService,
-    HotKeyService,
+    CommandService,
     MessageService
   ],
   bootstrap: [AppComponent],

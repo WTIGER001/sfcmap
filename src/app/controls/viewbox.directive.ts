@@ -10,7 +10,6 @@ export class ViewboxDirective implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Setting viewbox to ", this.viewvalue);
     this.el.nativeElement.setAttribute("viewBox", this.viewvalue)
     this.el.nativeElement.setAttribute("height", this.viewheight)
   }

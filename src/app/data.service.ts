@@ -10,6 +10,7 @@ import { DbConfig } from "./models/database-config";
 import { LangUtil } from "./util/LangUtil";
 import { UUID } from "angular2-uuid";
 import { isArray } from "util";
+import { IUndoableAction } from "./commands/IUndoableAction";
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,6 @@ export class DataService {
   markerTypes = new ReplaySubject<Array<MarkerType>>(1)
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>(1)
   categories = new ReplaySubject<Array<Category>>(1)
-
   mapsCurrent: MapConfig[] = []
 
   ready = new BehaviorSubject<boolean>(false)
@@ -598,7 +598,7 @@ export class DataService {
 
     // Get path to the object
     let path = DbConfig.dbPath(item)
-    this.log.info('Saving Item ', toSave)
+    console.log('Saving Item ', toSave)
 
     this.db.object(path).set(toSave).then(() => {
       // this.notify.success("Saved " + path)
@@ -798,19 +798,24 @@ export class DataService {
   }
 
   delete(item: ObjectType) {
+    console.log("Deleteing ", item);
+
     if (UserGroup.is(item)) {
       this.completeUserGroupDelete(item)
     } else if (MapConfig.is(item)) {
       this.deleteImages(item)
     }
+    console.log("Deleteing 2");
 
     let path = DbConfig.dbPath(item)
 
     // let path = this.dbPath(item)
+    console.log("Deleteing Path ", item, ' ', path);
+
     this.db.object(path).remove().then(() => {
       this.notify.success("Removed ")
     }).catch(reason => {
-      this.notify.showError(reason, "Error Deleting Map")
+      this.notify.showError(reason, "Error Deleting " + path)
     })
   }
 

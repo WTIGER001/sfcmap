@@ -29,6 +29,14 @@ export abstract class Annotation extends ObjectType {
   public static readonly FOLDER = 'annotations'
 
   static is(obj: any): obj is Annotation {
+    console.log("Checking ", obj);
+    console.log("Checking ", obj.objType, Annotation.TYPE);
+    console.log("Checking ", obj.objType !== undefined);
+    console.log("Checking ", obj.objType === Annotation.TYPE);
+    console.log("Checking ", obj.objType == Annotation.TYPE);
+
+
+
     return obj.objType !== undefined && obj.objType === Annotation.TYPE
   }
 

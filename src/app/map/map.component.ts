@@ -25,6 +25,7 @@ import { Ping } from '../leaflet/ping';
 import { AudioService } from '../audio.service';
 import { MessageService } from '../message.service';
 import { ReadyState } from '@angular/http';
+import { CommandService } from '../command.service';
 
 @Component({
   selector: 'app-map',
@@ -73,7 +74,7 @@ export class MapComponent implements OnInit, OnDestroy {
   currentSelection: Selection = new Selection([])
 
   constructor(private zone: NgZone, private afAuth: AngularFireAuth,
-    private mapSvc: MapService, private data: DataService, private route: ActivatedRoute, private audio: AudioService, private msg: MessageService) {
+    private mapSvc: MapService, private data: DataService, private route: ActivatedRoute, private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService) {
 
     this.layers.push(this.placeholder)
 
