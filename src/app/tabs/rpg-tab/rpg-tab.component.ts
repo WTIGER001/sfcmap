@@ -60,7 +60,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     //   mergeMap(m => this.firedb.list<any>("chat").stateChanges())
     this.firedb.list<any>("chat").stateChanges()
       .subscribe(action => {
-        console.log("CHANGE ", action.type, " ", action.key, " ", action.prevKey);
+        // console.log("CHANGE ", action.type, " ", action.key, " ", action.prevKey);
 
         // if (this.keysSeen.has(action.key)) {
 

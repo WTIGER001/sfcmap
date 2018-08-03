@@ -30,10 +30,8 @@ export class CommandService {
 
   constructor(private mapSvc: MapService, private data: DataService, private notify: NotifyService, private dialog: CommonDialogService,
     private msg: MessageService, private audio: AudioService, private undo: UndoRedoService) {
-    console.log("Creating Command Service");
 
     this.mapSvc.map.subscribe(map => {
-      console.log("Registering Command Service");
 
       this.removeHooks()
       this.map = map
@@ -74,15 +72,11 @@ export class CommandService {
       const mapContainer = this.map.getContainer()
       DomEvent.off(mapContainer, ' keyup', this.process, this)
       this.map.off('mousemove', this.saveMouse, this)
-
-      // this.map.off('keydown keyup', this.process, this)
       this.commands.find(c => c.name == 'paste').disable()
     }
   }
 
   private process(event: any) {
-    // console.log("Processing Event ", event);
-
     const stmt = this.buildKeyStatement(event)
     console.log("Keyboard Statement ", stmt);
     if (this.keyBindings.has(stmt)) {

@@ -12,8 +12,6 @@ import { MarkerGroup } from "./annotation-group";
 export class DbConfig {
 
   static dbPath(obj: any): string {
-    console.log("dbPath ", obj);
-
     // Users
     if (User.is(obj)) { return User.FOLDER + "/" + obj.uid }
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER + "/" + obj.uid }
@@ -33,8 +31,6 @@ export class DbConfig {
 
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.FOLDER + "/" + obj.id }
-
-    console.log("dbPath oh shit ", obj);
 
     throw new error("Unable to calculate db path: Invalid Object Type: ", obj)
   }
