@@ -17,6 +17,7 @@ import { ICommand } from './commands/ICommand';
 import { UndoRedoService } from './undo-redo.service';
 import { UndoCommand } from './commands/undo';
 import { RedoCommand } from './commands/redo';
+import { CutCommand } from './commands/cut';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,7 @@ export class CommandService {
     })
 
     this.register(new CopyCommand(mapSvc))
+    this.register(new CutCommand(mapSvc, data))
     this.register(new PasteCommand(mapSvc, data))
     this.register(new DeleteCommand(mapSvc, data, dialog))
     this.register(new UndoCommand(undo))
