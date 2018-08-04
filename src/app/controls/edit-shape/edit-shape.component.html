@@ -2,6 +2,9 @@
   <label for="name">Name</label>
   <input type="text" class="form-control " id="name" placeholder="Enter Name" [(ngModel)]="item.name">
 </div>
+<div class="form-group" *ngIf='item.type=="rectangle"'>
+  <app-checkbox [(ngModel)]="item.snap">Snap to grid</app-checkbox>
+</div>
 <div class="form-group">
   <label for="type">Group</label>
   <app-marker-group-combo [(ngModel)]="item.group" [annotation]="item"></app-marker-group-combo>

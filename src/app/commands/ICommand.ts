@@ -14,3 +14,18 @@ export interface ICommand {
   enable();
   disable();
 }
+
+export abstract class StatelessCommand {
+  canActivate(event?: any) {
+    return false
+  }
+  isActive(event?: any): boolean {
+    return false
+  }
+
+  enable() {
+
+  }
+  disable() {
+  }
+}

@@ -5,7 +5,7 @@ import { MapConfig, MarkerGroup, MergedMapType, Selection } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
-import { Map as LeafletMap, LeafletMouseEvent, circle, Marker, Util } from 'leaflet';
+import { Map as LeafletMap, LeafletMouseEvent, circle, Marker, Util, Path, Rectangle } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Format } from '../../util/format';
@@ -48,6 +48,7 @@ export class MarkerTabComponent implements OnInit {
 
   calibrateX: CalibrateX
   grid: GridLayer
+  lastmouse: LeafletMouseEvent
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
@@ -299,6 +300,28 @@ export class MarkerTabComponent implements OnInit {
     }
   }
 
+  private snapVertexToGrid(e) {
+    const m = e.target
+    const ann = <ShapeAnnotation>m['objAttach']
+    if (((ShapeAnnotation.is(ann) && ann.type == 'rectangle') || ImageAnnotation.is(ann)) && ann.snap) {
+      if (e.vertex) {
+        let vertex = this.grid.getGridVertex(e.latlng)
+        e.vertex.editor.__snap_latLng = vertex
+      }
+    }
+  }
+  private snapShapeToGrid(e) {
+    const m = e.target
+    const ann = <ShapeAnnotation>m['objAttach']
+
+    if (((ShapeAnnotation.is(ann) && ann.type == 'rectangle') || ImageAnnotation.is(ann)) && ann.snap) {
+      const last = this.mapSvc.mouseCoord
+      const ann = <ShapeAnnotation>m['objAttach']
+      const newBounds = this.grid.snapBounds(m.getBounds(), last)
+      m.setBounds(newBounds)
+    }
+  }
+
   public openLinkedMap() {
     if (this.item && this.item.mapLink) {
       this.mapSvc.openMap(this.item.mapLink)
@@ -367,6 +390,8 @@ export class MarkerTabComponent implements OnInit {
       }
       if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
         this.item.getAttachment().disableEdit()
+        this.item.getAttachment().off('editable:drawing:move', this.snapVertexToGrid, this)
+        this.item.getAttachment().off('drag', this.snapShapeToGrid, this)
       }
       if (MarkerTypeAnnotation.is(m)) {
         annotation.getAttachment().off('drag', this.snapMarkerToGrid, this)
@@ -382,6 +407,9 @@ export class MarkerTabComponent implements OnInit {
       }
       if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
         m.getAttachment().enableEdit()
+        m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
+        m.getAttachment().on('drag', this.snapShapeToGrid, this)
+
       }
       if (MarkerTypeAnnotation.is(m)) {
         console.log("Enabling Marker Snap");
