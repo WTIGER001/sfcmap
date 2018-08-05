@@ -2,16 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/map/none', pathMatch: 'full' },
   // { path: 'map', component: MapComponent },
   // { path: 'map/:id', component: MapComponent },
+  { path: 'character/:id', component: EditCharacterComponent },
+  { path: 'new-character', component: EditCharacterComponent },
   { path: 'map/:id', component: MapComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
-
-
 
 export class CustomReuseStrategy implements RouteReuseStrategy {
   routesToCache: string[] = ["map"];

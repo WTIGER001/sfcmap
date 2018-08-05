@@ -12,7 +12,7 @@ export class ChatRecord extends ObjectType {
   time: number
   uid: string
   key: string
-  record: ChatMessage | DiceRoll | PingMessage
+  record: ChatMessage | DiceRoll | PingMessage | any
 
   toDate(): Date {
     return new Date(this.time)

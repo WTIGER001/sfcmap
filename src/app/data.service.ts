@@ -11,11 +11,14 @@ import { LangUtil } from "./util/LangUtil";
 import { UUID } from "angular2-uuid";
 import { isArray } from "util";
 import { IUndoableAction } from "./commands/IUndoableAction";
+import { Character } from "./models/character";
+import { CharacterType } from "./models/character-type";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+
   /**
    * The nobody user
    */
@@ -59,6 +62,9 @@ export class DataService {
   markerTypes = new ReplaySubject<Array<MarkerType>>(1)
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>(1)
   categories = new ReplaySubject<Array<Category>>(1)
+  characters = new ReplaySubject<Array<Character>>(1)
+  characterTypes = new ReplaySubject<Array<CharacterType>>(1)
+
   mapsCurrent: MapConfig[] = []
 
   ready = new BehaviorSubject<boolean>(false)
@@ -138,6 +144,29 @@ export class DataService {
     this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
     this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
+    this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters')
+    this.loadCharacterTypes()
+  }
+
+
+  private loadCharacterTypes() {
+    let chrs: Character[] = []
+    this.characters.pipe(
+      tap(c => chrs = c),
+      mergeMap(c => this.db.list<CharacterType>(CharacterType.FOLDER).valueChanges())
+    ).subscribe(cts => {
+      let items: CharacterType[] = []
+      cts.forEach(ct => {
+        let ct1 = CharacterType.to(ct)
+        ct1._characters = chrs.filter(c => c.type == ct1.id)
+        items.push(ct1)
+      })
+      this.characterTypes.next(items)
+    })
+  }
+
+  private getAll<T>(folder: string): Observable<T[]> {
+    return this.db.list<T>(folder).valueChanges()
   }
 
   // private mergeMarkersAndCategories(item: any, type: string) {
@@ -667,6 +696,18 @@ export class DataService {
     return loadProgress
   }
 
+  uploadFile(path: string, f: File): Observable<number> {
+    const ref = this.storage.ref(path)
+    let loadProgress = new Subject<number>()
+    loadProgress.subscribe(this.notify.progress("Loading File"))
+
+    const task = ref.put(f)
+    task.percentageChanges()
+      .subscribe(loadProgress)
+
+    return loadProgress
+  }
+
   saveAll(...items) {
     items.forEach(i => this.save(i))
   }
@@ -682,6 +723,11 @@ export class DataService {
         return item
       })
     )
+  }
+
+  pathToUrl(path: string): Observable<string> {
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL()
   }
 
   fillInUrl(item: MarkerType): Observable<MarkerType> {

@@ -26,6 +26,7 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 - Display grid lines based on a fixed spacing
 - Drag and drop to change map categories
 - Map images are stored on the firestorage as well as thumbnails
+- Long pressing on the mouse will plant a flag down at a point and notify everyon
 
 ### Annoations
 - Marker Manager allows new types of markers to be created with custom icons
@@ -39,6 +40,16 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 - Annoations can be edited enmass and individually
 - Annoations can be organized into layers
 - Annoations and layers can be toggled from the map
+- Markers, Rectangles and Images can be snapped in place
+
+### Keyboard Actions
+CTRL+C = Copy (copy an annotation)
+CTRL+X = CUT (cut the annotation and wait for a paste. If the paste never happens then do not delete)
+CTRL+V = PASTE (paste the annotation, centered on the mouse)
+CTRL+M = New Marker (not working yet)
+CTRL+I = Ping where the mouse is (not working yet)
+DEL    = Delete the item that is selected
+CTRL+U = deselect all (not working yet)
 
 ## Development
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run `npm start` to start the application in debug mode
@@ -79,21 +90,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - explore e2e testing
 - clean up the css to the big style sheet
 
-### Chat / Dice Roller
-- Add a cloud function to delete chat messages 
-- Add buttons on the top
--- Dice Roll
--- Clear
---- Everything (/clear)
---- Dice Rolls (/clear dice)
---- Pings (/clear pings)
---- Messages (/clear messages)
--- Filter
---- Dice Rolls (/hide|show dice)
---- Pings (/hide|show pings)
---- Messages (/hide|show messages)
---- Player (hide|show playername)
-
 ### Mobile Device Support 
 - Tab icons are too small
 - Measure and Calibrate dont work because there is no real 'mouse move' events
@@ -107,32 +103,33 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - White Board
 - Mobile Fog of war based on user vision, but aware of doors and obstacles
 - Auras
-- Ping Graphic, I have the sound...
-
-## Design Thoughts
-Still have to figure out how I want to grow the application to support RPGs... How much this could replace
-a normal table top simulator. I think i need a 'realtime' layer somehow. That should be nothing more than
-another type of list on firebase. One that save is called all the time (on a debounce).
- 
-I can see content for a map just for a single game or something...
-
-Fix coordinates
-Allow points to be added to line
-
-
-### Keyboard Actions
-CTRL+C = Copy (copy an annotation)
-CTRL+X = CUT (cut the annotation and wait for a paste. If the paste never happens then do not delete)
-CTRL+V = PASTE (paste the annotation, centered on the mouse)
-CTRL+M = New Marker
-CTRL+I = Ping where the mouse is
-DEL    = Delete the item that is selected
-CTRL+U = deselect all
-
-Actions are just services... Each gets initialized. the "RUN" method is called and the current context is sent. 
 
 ### Biggest planned changes
 - Combine markers and image annotations
 - Add the concept of a game or world. or a game and chapter / module
+- Fog of war support, which means support for walls and doors... ick
+- Characters
 
+### Characters / NPCs / People
+- Name
+- Class / Level
+- Description
+- Tags
+- Map Links
+- Image / Picture
+- Rolls       <-- Things like Initiative, Perception, etc
+- Attributes  <-- Hit points, str, ac, etc
+- Web Link
+- Attachment(s)
+- Size        <-- Icon Sizing
+- Reach       <-- Like aura
+- Vision      <-- Needed for fog of war
+- Speed(s)    <-- Means that maps should have terrain types (land, land-difficult, etc..)
+- Status      <-- Just decoration
+- Auras       <-- Just Decoration
 
+-- Actions: Roll Initiative / Perception -- COmmand /roll all initatives, /roll [player name] perception, /party [name1] [name2]
+-- Do I mess with modifiers? 
+-- Abilities? 
+
+BAB = BAB + 1

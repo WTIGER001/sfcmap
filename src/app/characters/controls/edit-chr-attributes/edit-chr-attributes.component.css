@@ -1,0 +1,36 @@
+.attr-table {
+  display: grid;
+  grid-template-columns: 1fr 5em 5em;
+}
+
+.attr-header {
+  background-color: black;
+  color: white;
+  padding: 5px;
+}
+
+.attr-even {
+
+}
+
+.attr-odd {
+  background-color: rgba(233, 251, 233, 0.719)
+}
+
+.attr-table input {
+  border-radius: 0;
+  padding: .15em;
+  background-color: transparent;
+}
+
+.attr-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.attr-footer:hover {
+  background-color: black;
+}

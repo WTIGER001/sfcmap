@@ -6,6 +6,9 @@
     <div class="tab " (click)="toggle('mapselect')" [class.tab-selected]="selected==='mapselect'">
       <fa-icon icon="map" fixedWidth="true"></fa-icon>
     </div>
+    <div class="tab " (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
+      <fa-icon icon="user-shield" fixedWidth="true"></fa-icon>
+    </div>
     <div class="tab " *ngIf="mapCfg" (click)="toggle('map')" [class.tab-selected]="selected==='map'">
       <fa-icon icon="map-marked" fixedWidth="true"></fa-icon>
     </div>
@@ -28,6 +31,7 @@
   <app-user-side class="side-container" [class.visible]="selected==='user'" [class.hide]="selected!=='user'"></app-user-side>
   <app-marker-tab class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-tab>
   <app-map-selector class="side-container" [class.visible]="selected==='mapselect'" [class.hide]="selected!=='mapselect'"></app-map-selector>
+  <app-character-selector class="side-container" [class.visible]="selected==='chrselect'" [class.hide]="selected!=='chrselect'"></app-character-selector>
   <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
   <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>
   <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>

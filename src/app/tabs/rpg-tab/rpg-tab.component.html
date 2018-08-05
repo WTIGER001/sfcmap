@@ -38,6 +38,12 @@
       <div *ngIf="isPing(rec.record)" class="ping noselect">
         <img src="./assets/icons/red-flag.png" height="40"> Planted a flag on {{rec.record.mapname}}!
       </div>
+      <div *ngIf="isHelpMessage(rec.record)" class="helpmessage">
+        <ng-container *ngFor="let h of rec.record.commands">
+          <span class="help-cmd">{{h.cmd}}</span>
+          <span class="help-text">{{h.help}}</span>
+        </ng-container>
+      </div>
     </div>
   </div>
   <div class="input-area">

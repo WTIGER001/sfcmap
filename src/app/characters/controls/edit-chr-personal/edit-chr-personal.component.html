@@ -1,0 +1,41 @@
+<div>
+  <div>
+    <label>Name</label>
+    <input class="form-control" type="text" [(ngModel)]="character.name">
+  </div>
+  <div>
+    <label>Type</label>
+    <app-character-type-combo [character]="character" [(ngModel)]="character.type"></app-character-type-combo>
+  </div>
+  <div>
+    <label>Tags</label>
+    <tag-input [(ngModel)]="character.tags" [separatorKeys]="[',']" [modelAsStrings]="true"></tag-input>
+  </div>
+
+  <div>
+    <label>Page Link</label>
+    <input class="form-control" type="text" [(ngModel)]="character.weblink">
+  </div>
+
+  <div class="double">
+    <div>
+      <label>Size</label>
+      <input class="form-control" type="text" [(ngModel)]="character.size">
+    </div>
+    <div>
+      <label>Speed</label>
+      <input class="form-control" type="text" [(ngModel)]="character.speed">
+    </div>
+  </div>
+
+  <div class="double">
+    <div>
+      <label>Vision</label>
+      <input class="form-control" type="text" [(ngModel)]="character.vision">
+    </div>
+    <div>
+      <label>Reach</label>
+      <input class="form-control" type="text" [(ngModel)]="character.reach">
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<h2>Rolls</h2>
+<div class="attr-table">
+  <div class="attr-header">Name</div>
+  <div class="attr-header">Expression</div>
+  <div class="attr-header"></div>
+  <ng-container *ngFor="let r of character.rolls; let even=even">
+    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+      <input class="form-control" [(ngModel)]="r.name">
+    </div>
+    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+      <input class="form-control " [(ngModel)]="r.expression">
+    </div>
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="btns">
+      <fa-icon icon="trash" class="row-btn" (click)="delete(r)"></fa-icon>
+      <fa-icon icon="dice-six" class="row-btn" (click)="roll(r)"></fa-icon>
+    </div>
+  </ng-container>
+</div>
+<div class="attr-footer" (click)="addRow()">
+  <fa-icon icon="plus"></fa-icon> Add Row
+</div>

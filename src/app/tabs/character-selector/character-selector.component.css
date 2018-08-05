@@ -1,0 +1,124 @@
+
+figure {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 0 3px 20px;
+}
+
+figure:last-of-type {
+    margin: 0 3px 10px;
+}
+
+figure > img {
+    transition: transform ease-in-out 200ms;
+    object-fit: cover;
+    object-position: 50% 0%;
+    max-height: 80px;
+    width: 100%;
+    border-radius: 6px;
+}
+
+figure:hover {
+    filter: drop-shadow(0px 0px 3px white);
+}
+
+.recent {
+    box-sizing: content-box;
+    float: left;
+    height: 0;
+    width: 20%;
+    padding-bottom: 20%;
+    grid-row: 1;
+    margin-left: 3px;
+    margin-right: 8px;
+    margin-bottom: 12px;
+}
+
+.recent figure {
+    border-radius: 40%;
+    margin: 0;
+}
+
+.recent:last-of-type {
+    margin-right: 0
+}
+
+.recent-div::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+figure:hover > img {
+    transform: scale(1.2);
+    border-radius: 6px;
+}
+
+figcaption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: .2em;
+    background-color:  rgba(67, 70, 75, 0.7);
+    text-align: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: .3s ease;
+    background-color:  rgba(0, 140, 186, 0.5);
+    border-radius: 6px;
+  }
+
+  .icon {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  figure:hover .overlay {
+    opacity: 1;
+  }
+
+  .filter-div {
+    position: relative;
+  }
+
+  .filter {
+      background-color: transparent;
+      width: 100%;
+      color: whitesmoke;
+      margin-bottom: .2em;
+  }
+
+  .clear-filter-icon {
+      display: flex;
+      position: absolute;
+      right: 6px;
+      top: 0;
+      bottom: 0;
+      color: rgba(255, 255, 255, .4);
+      cursor: pointer;
+      align-items: center;
+  }
+
+  .clear-filter-icon:hover {
+    color: rgba(255, 255, 255, 1)
+}
+
+.map-scroll {
+    height: calc(100vh - 150px);
+}

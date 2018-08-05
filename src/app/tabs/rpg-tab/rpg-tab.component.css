@@ -23,6 +23,16 @@
     font-weight: 300;
 }
 
+.helpmessage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 15px;
+  padding: 10px 10px 30px 0px;
+}
+.help-cmd {
+  color: #9ed485;
+}
+
 .ping {
     display: flex;
     align-items: center;

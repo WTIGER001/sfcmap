@@ -1,5 +1,7 @@
 export * from './annotation-group'
 export * from './annotations'
+export * from './character'
+export * from './character-type'
 export * from './chat'
 export * from './core'
 export * from './icon-cache'

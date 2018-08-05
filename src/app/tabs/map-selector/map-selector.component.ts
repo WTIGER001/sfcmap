@@ -79,7 +79,7 @@ export class MapSelectorComponent implements OnInit {
     }
   }
 
-  newMap() {
+  newCharacter() {
     let m = new MapConfig()
     m.id = 'TEMP'
     m.name = "New Map"

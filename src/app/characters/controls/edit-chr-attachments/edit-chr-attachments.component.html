@@ -1,0 +1,24 @@
+<h2>Attachments</h2>
+<div>
+  <div class="attachments-tbl" *ngIf="character.attachments.length >0">
+    <div class="att-hdr">Name</div>
+    <div class="att-hdr">Size</div>
+    <div class="att-hdr"></div>
+    <ng-container *ngFor="let a of character.attachments">
+      <div>
+        <a [href]="a.url">{{a.name}}</a>
+      </div>
+      <div>{{a.size | filesize}}</div>
+      <div>
+        <fa-icon icon="trash-alt" (click)="delete(a)"></fa-icon>
+      </div>
+    </ng-container>
+  </div>
+  <div class="drop-area" [class.drop-target]="dragging" (dragover)="dragOver($event)" (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)"
+    (drop)="drop($event)">
+    <label for="chr-att">
+      <fa-icon icon="plus" size="3x"></fa-icon>
+    </label>
+    <input id="chr-att" #filecontrol type="file" class="inputfile" placeholder="select files" (change)="uploadFile($event)">
+  </div>
+</div>

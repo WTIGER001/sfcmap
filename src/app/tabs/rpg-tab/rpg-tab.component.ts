@@ -11,6 +11,7 @@ import { LangUtil } from '../../util/LangUtil';
 import { AudioService, Sounds } from '../../audio.service';
 import { Ping } from '../../leaflet/ping';
 import { Router } from '@angular/router';
+import { ICommand } from '../../commands/ICommand';
 
 @Component({
   selector: 'app-rpg-tab',
@@ -36,8 +37,9 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   lastId: string
   maps$
   keysSeen = new Map<string, boolean>()
+  commands = new Map<string, IChatCommand>()
 
-  constructor(private data: DataService, private firedb: AngularFireDatabase, private audio: AudioService, private router: Router) {
+  constructor(public data: DataService, public firedb: AngularFireDatabase, public audio: AudioService, public router: Router) {
     this.data.user.subscribe(u => this.user = u)
 
     this.data.userPrefs.subscribe(u => {
@@ -52,12 +54,11 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
       this.users = u
     })
 
+    this.initCommands()
+
     let found = (this.lastId == '')
     this.maps$ = this.data.maps
 
-    // this.maps = this.data.maps.pipe(
-    //   tap(m => this.records.splice(0)),
-    //   mergeMap(m => this.firedb.list<any>("chat").stateChanges())
     this.firedb.list<any>("chat").stateChanges()
       .subscribe(action => {
         // console.log("CHANGE ", action.type, " ", action.key, " ", action.prevKey);
@@ -75,10 +76,8 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
         } else if (action.type == 'child_removed') {
           // this.records.findIndex()
         }
-        // }
       })
 
-    // (events: ChildEvent[]) : Observable<AngularFireAction<DatabaseSnapshot<any>>[])
   }
 
   isMessage(item: any): boolean {
@@ -93,10 +92,20 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     return PingMessage.is(item)
   }
 
-  saveRollOrChat(item) {
+  isHelpMessage(item: any): boolean {
+    return item.commands
+  }
+
+  newChatRecord(record?: any): ChatRecord {
     let c = new ChatRecord()
     c.time = Date.now()
     c.uid = this.user.uid
+    c.record = record
+    return c
+  }
+
+  saveRollOrChat(item) {
+    let c = this.newChatRecord()
     c.record = LangUtil.prepareForStorage(item)
 
     if (DiceRoll.is(c.record)) {
@@ -165,9 +174,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   resize(e) {
-    console.log("resize: ", e);
     let r = <ClientRect>this.canvas.nativeElement.getBoundingClientRect()
-    console.log("resize: ", r);
   }
 
   ngAfterViewInit() {
@@ -179,24 +186,12 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     this.lastindex = -1
 
     if (e.toLowerCase().trim().startsWith("/")) {
-      // Then this is a command 
-      if (e.toLowerCase() == "/clear") {
-        this.roller.clear()
+      let cmd = this.commands.get(e.toLowerCase())
+      if (cmd) {
+        cmd.run(this)
+      } else {
+        console.log("Unknown Command ", e.toLowerCase());
 
-        if (this.records.length > 0) {
-          let item = this.records[this.records.length - 1]
-          // this.user.prefs.lastChatId = item.key
-          this.data.save(this.user)
-        }
-
-        this.records = []
-      } else if (e.toLowerCase() == "/cd") {
-        this.roller.clear()
-      } else if (e.toLowerCase() == "/clear perm") {
-        this.roller.clear()
-        // this.firedb.list<any>("chat")
-        this.firedb.object("chat").remove()
-        this.records = []
       }
     } else if (this.roller.isDiceExpression(e)) {
       this.rollDice(e)
@@ -274,6 +269,25 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     }
     return []
   }
+
+  initCommands() {
+    this.addCmd(new Clear())
+    this.addCmd(new ClearPerm())
+    this.addCmd(new ClearDice())
+    this.addCmd(new Help())
+    this.addCmd(new ClearType('me'))
+    this.addCmd(new ClearType('messages'))
+    this.addCmd(new ClearType('dice'))
+    this.addCmd(new ClearType('pings'))
+  }
+
+  addCmd(c: IChatCommand) {
+    this.commands.set(c.cmd, c)
+  }
+
+  addRecord(a: ChatRecord) {
+    this.records.unshift(a)
+  }
 }
 
 
@@ -291,4 +305,94 @@ class FormatResult {
 interface Emoji {
   key: string,
   emoji: string
+}
+
+interface IChatCommand {
+  cmd: string
+  help: string
+  run(chat: RpgTabComponent)
+}
+
+class Help implements IChatCommand {
+  cmd = '/help'
+  help = "List available help commands"
+  run(chat: RpgTabComponent) {
+    let items = []
+    chat.commands.forEach(v => {
+      items.push({ cmd: v.cmd, help: v.help })
+    })
+    items.sort((a, b) => {
+      if (a < b) {
+        return -1;
+      } else if (a > b) {
+        return 1;
+      } else {
+        return 0;
+      }
+    })
+
+    let help = new HelpMessage()
+    help.commands = items
+
+    let c = chat.newChatRecord(help)
+    chat.addRecord(c)
+  }
+}
+
+class Clear implements IChatCommand {
+  cmd = '/clear'
+  help = "Clear chat messages"
+  run(chat: RpgTabComponent) {
+    chat.roller.clear()
+    chat.records = []
+  }
+}
+
+class ClearPerm implements IChatCommand {
+  cmd = '/clear perm'
+  help = "Clear chat messages and delete on server"
+  run(chat: RpgTabComponent) {
+    chat.roller.clear()
+    chat.firedb.object("chat").remove()
+    chat.records = []
+  }
+}
+
+class ClearDice implements IChatCommand {
+  cmd = '/cd'
+  help = "Clear 3D Dice"
+  run(chat: RpgTabComponent) {
+    chat.roller.clear()
+  }
+}
+
+class ClearType implements IChatCommand {
+  constructor(private type: string) { }
+  cmd = '/clear ' + this.type
+  help = "Clear all " + this.type
+  run(chat: RpgTabComponent) {
+    chat.roller.clear()
+    for (let i = chat.records.length - 1; i >= 0; i--) {
+      if (this.type == 'dice' && chat.isDiceRoll(chat.records[i].record)) {
+        chat.records.splice(i, 1)
+      }
+      if (this.type == 'pings' && chat.isPing(chat.records[i].record)) {
+        chat.records.splice(i, 1)
+      }
+      if (this.type == 'me' && chat.records[i].uid == chat.user.uid) {
+        chat.records.splice(i, 1)
+      }
+      if (this.type == 'messages' && chat.isMessage(chat.records[i].record)) {
+        chat.records.splice(i, 1)
+      }
+    }
+  }
+}
+
+class TransientMessage {
+  message: string
+}
+
+class HelpMessage {
+  commands = []
 }

@@ -8,6 +8,8 @@ import { UserGroup } from "./user-group";
 import { ChatRecord } from "./chat";
 import { error } from "util";
 import { MarkerGroup } from "./annotation-group";
+import { CharacterType } from "./character-type";
+import { Character } from "./character";
 
 export class DbConfig {
 
@@ -24,6 +26,8 @@ export class DbConfig {
     if (MarkerType.is(obj)) { return MarkerType.FOLDER + "/" + obj.id }
     if (MarkerCategory.is(obj)) { return MarkerCategory.FOLDER + "/" + obj.id }
     if (UserGroup.is(obj)) { return UserGroup.FOLDER + "/" + obj.id }
+    if (CharacterType.is(obj)) { return CharacterType.FOLDER + "/" + obj.id }
+    if (Character.is(obj)) { return Character.FOLDER + "/" + obj.id }
 
     // Per Map data
     if (Annotation.is(obj)) { return Annotation.FOLDER + "/" + obj.map + "/" + obj.id }
@@ -48,6 +52,8 @@ export class DbConfig {
     if (MarkerType.is(obj)) { return MarkerType.FOLDER }
     if (MarkerCategory.is(obj)) { return MarkerCategory.FOLDER }
     if (UserGroup.is(obj)) { return UserGroup.FOLDER }
+    if (CharacterType.is(obj)) { return CharacterType.FOLDER }
+    if (Character.is(obj)) { return Character.FOLDER }
 
     // Per Map data
     if (Annotation.is(obj)) { return Annotation.FOLDER + "/" + obj.map }
@@ -72,6 +78,8 @@ export class DbConfig {
     if (MarkerType.is(obj)) { return MarkerType.to(obj) }
     if (MarkerCategory.is(obj)) { return MarkerCategory.to(obj) }
     if (UserGroup.is(obj)) { return UserGroup.to(obj) }
+    if (CharacterType.is(obj)) { return CharacterType.to(obj) }
+    if (Character.is(obj)) { return Character.to(obj) }
 
     // Per Map data
     if (Annotation.is(obj)) { return Annotation.to(obj) }
