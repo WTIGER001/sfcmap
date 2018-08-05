@@ -1,0 +1,52 @@
+<h1> {{character.name}}</h1>
+<div class="sfc-row">
+  <img *ngIf="character.picture" [src]="character.picture" class="pic">
+  <div>
+    <app-readmore *ngIf="character.picture" maxLength="1000" class="text-muted mb-2 description" [value]="character?.description"></app-readmore>
+    <a [href]="character.weblink" *ngIf="character?.weblink">{{character.weblink}}</a>
+  </div>
+</div>
+
+<div class="sfc-row-equal">
+  <div>
+    <h2>Attributes</h2>
+    <div class="attr-tbl">
+      <div class="hdr">Attribute</div>
+      <div class="hdr">Max</div>
+      <div class="hdr">Current</div>
+      <ng-container *ngFor="let a of character.attributes">
+        <div>{{a.attr}}</div>
+        <div>{{a.max}}</div>
+        <div>{{a.current}}</div>
+      </ng-container>
+    </div>
+  </div>
+  <div>
+    <h2>Rolls</h2>
+    <div class="roll-tbl">
+      <div class="hdr">Name</div>
+      <div class="hdr">Expression</div>
+      <div class="hdr"></div>
+      <ng-container *ngFor="let a of character.rolls">
+        <div>{{a.name}}</div>
+        <div>{{a.expression}}</div>
+        <div>
+          <fa-icon icon="dice-six" click="roll(a)" class="ml-1 btn-tbl"></fa-icon>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<h2>Attachments</h2>
+<div class="att-tbl">
+  <div class="hdr">Name</div>
+  <div class="hdr">Size</div>
+  <ng-container *ngFor="let a of character.attachments">
+    <div>
+      <fa-icon icon="paperclip"></fa-icon>
+      <a [href]="a.url">{{a.name}}</a>
+    </div>
+    <div class="right-align">{{a.size | filesize}}</div>
+  </ng-container>
+</div>

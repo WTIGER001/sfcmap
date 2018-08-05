@@ -81,12 +81,6 @@ import { DebugObservablesComponent } from './controls/debug-observables/debug-ob
 import { CommandService } from './command.service';
 import { EditChrAttributesComponent } from './characters/controls/edit-chr-attributes/edit-chr-attributes.component';
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
-import { ViewChrPersonalComponent } from './characters/controls/view-chr-personal/view-chr-personal.component';
-import { ViewChrAttributesComponent } from './characters/controls/view-chr-attributes/view-chr-attributes.component';
-import { ViewChrRollsComponent } from './characters/controls/view-chr-rolls/view-chr-rolls.component';
-import { ViewChrAttachmentsComponent } from './characters/controls/view-chr-attachments/view-chr-attachments.component';
-import { ViewChrDescriptionComponent } from './characters/controls/view-chr-description/view-chr-description.component';
-import { ViewChrMapLinksComponent } from './characters/controls/view-chr-map-links/view-chr-map-links.component';
 import { EditChrMapLinksComponent } from './characters/controls/edit-chr-map-links/edit-chr-map-links.component';
 import { EditChrDescriptionComponent } from './characters/controls/edit-chr-description/edit-chr-description.component';
 import { EditChrRollsComponent } from './characters/controls/edit-chr-rolls/edit-chr-rolls.component';
@@ -97,6 +91,7 @@ import { ChrPictureComponent } from './characters/controls/chr-picture/chr-pictu
 import { CharacterSelectorComponent } from './tabs/character-selector/character-selector.component';
 import { EditCharacterTypeComponent } from './characters/controls/edit-character-type/edit-character-type.component';
 import { CharacterTypeComboComponent } from './characters/controls/character-type-combo/character-type-combo.component';
+import { ViewCharacterComponent } from './characters/controls/view-character/view-character.component';
 
 @NgModule({
   declarations: [
@@ -146,12 +141,6 @@ import { CharacterTypeComboComponent } from './characters/controls/character-typ
     DebugObservablesComponent,
     EditChrAttributesComponent,
     EditCharacterComponent,
-    ViewChrPersonalComponent,
-    ViewChrAttributesComponent,
-    ViewChrRollsComponent,
-    ViewChrAttachmentsComponent,
-    ViewChrDescriptionComponent,
-    ViewChrMapLinksComponent,
     EditChrMapLinksComponent,
     EditChrDescriptionComponent,
     EditChrRollsComponent,
@@ -162,6 +151,7 @@ import { CharacterTypeComboComponent } from './characters/controls/character-typ
     CharacterSelectorComponent,
     EditCharacterTypeComponent,
     CharacterTypeComboComponent,
+    ViewCharacterComponent,
   ],
   imports: [
     BrowserModule,

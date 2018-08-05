@@ -1,0 +1,42 @@
+.attr-tbl {
+  display: grid;
+  grid-template-columns: 1fr 5em 5em;
+}
+
+.roll-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}
+
+.att-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.hdr {
+  background-color: rgba(0, 0, 0, .8);
+  color: white;
+  padding: 3px;
+}
+
+h2 {
+  margin-top: 20px;
+}
+.right-align {
+  text-align: end;
+}
+.sfc-row {
+  display: flex;
+}
+.sfc-row-equal {
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.pic {
+  max-height: 300px;
+  max-width: 300px;
+  margin: 0 20px 0 20px;
+}

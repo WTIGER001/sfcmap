@@ -1,14 +1,18 @@
 <div class="character scroller scroller-dark">
-  <!-- <ng-container *ngIf="edit==false">
-    <img [src]="character?.image" class="character-image">
-
-    <app-view-chr-personal [character]="character"></app-view-chr-personal>
-    <app-view-chr-attributes [character]="character"></app-view-chr-attributes>
-    <app-view-chr-rolls [character]="character"></app-view-chr-rolls>
-    <app-view-chr-description class="span2" [character]="character"></app-view-chr-description>
-    <app-view-chr-map-links class="span2" [character]="character"></app-view-chr-map-links>
-    <app-view-chr-attachments class="span2" [character]="character"></app-view-chr-attachments>
-  </ng-container> -->
+  <ng-container *ngIf="edit==false">
+    <div class="buttonbar" *ngIf="edit==true">
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="startEdit()">
+        <fa-icon icon="pencil" size="lg"></fa-icon> Edit
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
+        <fa-icon icon="lock" size="lg"></fa-icon> Restrictions
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
+        <fa-icon icon="trash-alt" size="lg"></fa-icon> Delete
+      </button>
+    </div>
+    <app-view-character [character]='character'></app-view-character>
+  </ng-container>
   <ng-container *ngIf="edit==true">
     <div class="buttonbar" *ngIf="edit==true">
       <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">

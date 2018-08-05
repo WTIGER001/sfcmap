@@ -2,12 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Character } from '../../../models/character';
 
 @Component({
-  selector: 'app-view-chr-map-links',
-  templateUrl: './view-chr-map-links.component.html',
-  styleUrls: ['./view-chr-map-links.component.css']
+  selector: 'app-view-character',
+  templateUrl: './view-character.component.html',
+  styleUrls: ['./view-character.component.css']
 })
-export class ViewChrMapLinksComponent implements OnInit {
+export class ViewCharacterComponent implements OnInit {
   @Input() character: Character
+
   constructor() { }
 
   ngOnInit() {

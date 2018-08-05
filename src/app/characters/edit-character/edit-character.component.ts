@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditCharacterComponent implements OnInit {
 
-  edit = true
+  edit = false
   character = new Character()
 
   constructor(private data: DataService, private route: ActivatedRoute) {
@@ -36,5 +36,18 @@ export class EditCharacterComponent implements OnInit {
 
   save() {
     this.data.save(this.character)
+    this.edit = true
+  }
+
+  cancel() {
+    this.edit = false;
+  }
+
+  startEdit() {
+    this.edit = true
+  }
+
+  delete() {
+
   }
 }
