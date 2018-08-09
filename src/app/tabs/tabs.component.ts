@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { MapService } from '../map.service';
 import { MapConfig, Annotation, User } from '../models';
 import { DataService } from '../data.service';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-tabs',
@@ -13,9 +14,14 @@ export class TabsComponent implements OnInit {
   selected = "mapselect"
   mapCfg: MapConfig
   autoexpand = true
-  constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService) {
+  constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService, private msg: MessageService) {
     this.data.userPrefs.subscribe(prefs => {
       this.autoexpand = prefs.expandTabOnSelect
+    })
+
+    this.msg.rollRequests.subscribe(ex => {
+      this.selected = 'rpg'
+      this.expanded = true
     })
 
     this.mapSvc.selection.subscribe(sel => {

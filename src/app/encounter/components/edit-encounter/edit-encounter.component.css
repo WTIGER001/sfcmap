@@ -1,0 +1,19 @@
+.flex-row {
+    display: flex;
+    justify-content: space-between
+}
+
+.coord-col {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+}
+
+.coord-row {
+    display: flex;
+    align-items: center;
+}
+
+.scroller-encounter {
+    max-height: 100%;
+}

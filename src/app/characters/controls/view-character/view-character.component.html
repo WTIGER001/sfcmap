@@ -4,6 +4,9 @@
   <div>
     <app-readmore *ngIf="character.picture" maxLength="1000" class="text-muted mb-2 description" [value]="character?.description"></app-readmore>
     <a [href]="character.weblink" *ngIf="character?.weblink">{{character.weblink}}</a>
+    <!-- <div class="attrs">
+      <app-attr-value [value]="86"></app-attr-value>
+    </div> -->
   </div>
 </div>
 
@@ -29,9 +32,9 @@
       <div class="hdr"></div>
       <ng-container *ngFor="let a of character.rolls">
         <div>{{a.name}}</div>
-        <div>{{a.expression}}</div>
+        <div>{{evaluate(a)}}</div>
         <div>
-          <fa-icon icon="dice-six" click="roll(a)" class="ml-1 btn-tbl"></fa-icon>
+          <fa-icon icon="dice-six" (click)="roll(a)" class="btn-tbl"></fa-icon>
         </div>
       </ng-container>
     </div>

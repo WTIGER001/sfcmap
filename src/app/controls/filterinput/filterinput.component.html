@@ -1,0 +1,6 @@
+<div class="filter-div">
+  <input type="text" class="form-control form-control-sm filter" placeholder="filter" [ngModel]="filter" (ngModelChange)="filterUpdate($event)">
+  <div class="clear-filter-icon" (click)="clearFilter()" *ngIf='filter.length>0'>
+    <fa-icon icon="times" size="lg"></fa-icon>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+
+
+.filter {
+    background-color: transparent;
+    color: whitesmoke;
+    margin-bottom: .2em;
+    border: 0;
+}
+
+.filter:active, 
+.filter:focus,
+.filter:focus-within {
+    border: 1px solid grey
+}
+
+.filter-holder {
+    width: 100%;
+    margin-top: 10px;
+}
+
+::-webkit-input-placeholder {
+    text-align: center;
+ }
+ 
+ :-moz-placeholder { /* Firefox 18- */
+    text-align: center;  
+ }
+ 
+ ::-moz-placeholder {  /* Firefox 19+ */
+    text-align: center;  
+ }
+ 
+ :-ms-input-placeholder {  
+    text-align: center; 
+ }

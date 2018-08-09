@@ -13,6 +13,7 @@ import { isArray } from "util";
 import { IUndoableAction } from "./commands/IUndoableAction";
 import { Character } from "./models/character";
 import { CharacterType } from "./models/character-type";
+import { Encounter } from "./encounter/model/encounter";
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,8 @@ export class DataService {
   categories = new ReplaySubject<Array<Category>>(1)
   characters = new ReplaySubject<Array<Character>>(1)
   characterTypes = new ReplaySubject<Array<CharacterType>>(1)
+  encounters = new ReplaySubject<Array<Encounter>>(1)
+
 
   mapsCurrent: MapConfig[] = []
 
@@ -145,6 +148,8 @@ export class DataService {
     this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
     this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
     this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters')
+    this.loadAndNotify<Encounter>(this.encounters, Encounter.FOLDER, 'Loading Encounters')
+
     this.loadCharacterTypes()
   }
 
@@ -627,7 +632,7 @@ export class DataService {
 
     // Get path to the object
     let path = DbConfig.dbPath(item)
-    console.log('Saving Item ', toSave)
+    console.log('Saving Item ', toSave, path)
 
     this.db.object(path).set(toSave).then(() => {
       // this.notify.success("Saved " + path)

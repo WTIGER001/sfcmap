@@ -1,0 +1,10 @@
+<div class="input-group filter-holder input-group-sm">
+  <input type="text" #actionBox #acc="ngbTypeahead" [placeholder]="placeholder" class="form-control form-control-smenterarea filter"
+    editable="false" (selectItem)="addCharacter($event)" [ngbTypeahead]="searchFor" [inputFormatter]="formatter" [resultFormatter]="resultFormatter"
+    placement='top-right' (focusout)="clear()" (focus)="onblur()">
+  <!-- <div class=" input-group-append ">
+    <button class="btn btn-outline-secondary toggle2 " (click)="addCharacter() ">
+      <fa-icon size="sm " icon='plus'></fa-icon>
+    </button>
+  </div> -->
+</div>

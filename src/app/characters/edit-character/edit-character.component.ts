@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Character } from '../../models/character';
 import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-edit-character',
@@ -14,8 +15,8 @@ export class EditCharacterComponent implements OnInit {
   character = new Character()
 
   constructor(private data: DataService, private route: ActivatedRoute) {
-    this.character.name = 'HI'
-    this.character.id = 'TEMP'
+    this.character.name = 'New Character'
+    this.character.id = UUID.UUID().toString()
   }
 
   ngOnInit() {

@@ -1,0 +1,26 @@
+
+.filter-div {
+    position: relative;
+}
+
+.filter {
+    background-color: transparent;
+    width: 100%;
+    color: whitesmoke;
+    margin-bottom: .2em;
+}
+
+.clear-filter-icon {
+    display: flex;
+    position: absolute;
+    right: 6px;
+    top: 0;
+    bottom: 0;
+    color: rgba(255, 255, 255, .4);
+    cursor: pointer;
+    align-items: center;
+}
+
+.clear-filter-icon:hover {
+color: rgba(255, 255, 255, 1)
+}

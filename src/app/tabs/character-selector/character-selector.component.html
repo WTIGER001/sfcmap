@@ -61,13 +61,15 @@
         <fa-icon [fixedWidth]="true" size="lg" [icon]="isCollapsed[mt.id] ? 'caret-right' : 'caret-down'"></fa-icon> {{mt.name}}
       </h2> -->
       <div [ngbCollapse]="isCollapsed[mt.id]">
-        <figure (click)="select(m)" class="figure-choice" *ngFor="let m of mt._characters">
-          <img [src]='m.picture'>
-          <figcaption>{{m.name}}</figcaption>
-          <div class="overlay">
-            <fa-icon class="icon" icon="check" size="2x"></fa-icon>
-          </div>
-        </figure>
+        <div class="small">
+          <figure (click)="select(m)" class="figure-choice" *ngFor="let m of mt._characters">
+            <img [src]='m.picture?m.picture:"/assets/missing.png"'>
+            <figcaption>{{m.name}}</figcaption>
+            <div class="overlay">
+              <fa-icon class="icon" icon="check" size="2x"></fa-icon>
+            </div>
+          </figure>
+        </div>
       </div>
     </div>
     <div *ngIf="filtered.length == 0">

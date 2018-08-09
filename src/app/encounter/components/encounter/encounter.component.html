@@ -1,0 +1,19 @@
+<div class="center-layout">
+  <h2>{{selected.name}}</h2>
+  <app-tags *ngIf="selected.tags" [tags]="selected.tags"></app-tags>
+  <app-readmore *ngIf="selected.description" [value]="selected.description"></app-readmore>
+</div>
+<ul class="tab-card-list mt-2" [class.small]="cardSize=='small'" [sortablejs]="selected.characters" [sortablejsOptions]="sortOptions">
+  <li [class.turn]="turn == character" class="tab-card " [class.even-card]="even " *ngFor="let character of selected.characters; let even=even;">
+    <app-character-card [current]="turn==character" (dblclick)="openCharacter(character)" [size]="cardSize " [character]="lookup(character)"></app-character-card>
+  </li>
+</ul>
+<!-- <button class="btn btn-outline-secondary btn-add btn-sm" (click)="findCharacter()">
+  <fa-icon icon="plus" size="sm"> </fa-icon> Add Character
+</button> -->
+<app-find-character (selected)="addCharacter($event)" [ignore]="selected.characters"></app-find-character>
+<ul *ngIf="selected.characters.length > 0" class="delete-area" [sortablejs]="[]" [sortablejsOptions]="sortOptions">
+  <li class="trashcan">
+    <fa-icon icon="trash" size="3x"></fa-icon>
+  </li>
+</ul>

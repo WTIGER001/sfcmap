@@ -14,8 +14,14 @@ import { LangUtil } from './util/LangUtil';
 })
 export class MessageService {
   private user: User
+  public rollRequests = new Subject<string>()
+
   constructor(private firedb: AngularFireDatabase, private data: DataService) {
     this.data.user.subscribe(u => this.user = u)
+  }
+
+  requestRoll(expression: string) {
+    this.rollRequests.next(expression)
   }
 
   sendMessage(msg: ChatMessage | DiceRoll | PingMessage) {

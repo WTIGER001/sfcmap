@@ -1004,6 +1004,7 @@ export class DiceRoller {
             if (match.index === regex.lastIndex) {
                 regex.lastIndex++;
             }
+            let all = match[0]
 
             // Group 1 is the + or - sign
             let plusMinus = match[1]
@@ -1019,10 +1020,10 @@ export class DiceRoller {
 
             if (dStr.length == 0) {
                 // This is a modifier
-                let mod = parseInt(facesStr)
-                if (plusMinus == '-') {
-                    mod = -mod
-                }
+                let mod = parseInt(all)
+                // if (plusMinus == '-') {
+                //     mod = -mod
+                // }
                 roll.addModifier(mod)
             } else {
                 let numberOfDice = quantStr.length == 0 ? 1 : parseInt(quantStr)

@@ -1,0 +1,5 @@
+<select name="badname" class="form-control" id="mapLink" [(ngModel)]="value" (ngChange)="updateSelection()">
+  <optgroup *ngFor="let mt of merged" [label]="mt.name">
+    <option *ngFor="let map of mt.maps" [value]="map.id">{{map.name}}</option>
+  </optgroup>
+</select>

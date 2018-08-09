@@ -11,7 +11,24 @@ import { MarkerGroup } from "./annotation-group";
 import { CharacterType } from "./character-type";
 import { Character } from "./character";
 
+interface DbItem {
+  name: string
+  is: (obj: any) => boolean
+  to: (obj: any) => any
+  folder: (obj: any) => string
+  path: (obj: any) => string
+}
+
 export class DbConfig {
+  static extensions: DbItem[] = []
+
+  static register(name: string, is: (obj: any) => boolean,
+    to: (obj: any) => any,
+    folder: (obj: any) => string,
+    path: (obj: any) => string) {
+
+    this.extensions.push({ name, is, to, folder, path })
+  }
 
   static dbPath(obj: any): string {
     // Users
@@ -35,6 +52,13 @@ export class DbConfig {
 
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.FOLDER + "/" + obj.id }
+
+    // Extensions
+    for (let i = 0; i < this.extensions.length; i++) {
+      if (this.extensions[i].is(obj)) {
+        return this.extensions[i].path(obj)
+      }
+    }
 
     throw new error("Unable to calculate db path: Invalid Object Type: ", obj)
   }
@@ -62,6 +86,13 @@ export class DbConfig {
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.FOLDER }
 
+    // Extensions
+    for (let i = 0; i < this.extensions.length; i++) {
+      if (this.extensions[i].is(obj)) {
+        return this.extensions[i].folder(obj)
+      }
+    }
+
     throw new error("Unable to calculate db folder: Invalid Object Type: ", obj)
   }
 
@@ -88,6 +119,13 @@ export class DbConfig {
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.to(obj) }
 
+    // Extensions
+    for (let i = 0; i < this.extensions.length; i++) {
+      if (this.extensions[i].is(obj)) {
+        return this.extensions[i].to(obj)
+      }
+    }
+
     throw new error("Unable to calculate db folder: Invalid Object Type: ", obj)
   }
 
@@ -96,3 +134,4 @@ export class DbConfig {
   }
 
 }
+

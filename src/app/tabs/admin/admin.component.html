@@ -4,6 +4,8 @@
     <fa-icon icon="map-marker-alt" fixedWidth="true"></fa-icon> Marker Manager</button>
   <button type="button" class="btn btn-outline-secondary admin-btn" (click)="tool='group'">
     <fa-icon icon="user" fixedWidth="true"></fa-icon> Group Manager</button>
+  <button type="button" class="btn btn-outline-secondary admin-btn" (click)="tool='convert-csv'">
+    <fa-icon icon="user" fixedWidth="true"></fa-icon> Convert Monster CSV</button>
   <button type="button" class="btn btn-outline-secondary admin-btn" (click)="tool='debug'">
     <fa-icon icon="wrench" fixedWidth="true"></fa-icon> Debug Tools</button>
 
@@ -33,4 +35,17 @@
     <fa-icon class="pointer" icon="times" size="lg" (click)="tool=undefined"></fa-icon>
   </div>
   <app-debug-observables></app-debug-observables>
+</ng-container>
+
+<ng-container *ngIf="tool=='convert-csv'">
+  <div class="admin-tool-header">
+    <fa-icon icon="wrench" size="lg"></fa-icon> Convert Monster DB
+    <fa-icon class="pointer" icon="times" size="lg" (click)="tool=undefined"></fa-icon>
+  </div>
+  This tool allows you to convert the monster database (as CSV) to JSON and load it for user 1.) Go here:
+  <a href="https://www.d20pfsrd.com/bestiary/tools/monster-filter/" target="_blank">https://www.d20pfsrd.com/bestiary/tools/monster-filter/</a>
+  2.) Open in Google Sheets 3.) Save As CSV 4.) Browse to the file:
+  <input type="file" accept="*.csv" (change)="setCsvFile($event)"> 5.) Click Import:
+  <button [disabled]='csvFile==undefined' class="btn btn-secondary" (click)="importCsv()">Import</button>
+
 </ng-container>

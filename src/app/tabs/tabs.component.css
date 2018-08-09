@@ -5,7 +5,9 @@
     left: -28px;
     width: 28px;
 }
-
+.ra-custom {
+    font-size: 1.1em;
+}
 .close {
     position: absolute;
     right: 2px;

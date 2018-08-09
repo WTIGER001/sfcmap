@@ -12,6 +12,7 @@ import { AudioService, Sounds } from '../../audio.service';
 import { Ping } from '../../leaflet/ping';
 import { Router } from '@angular/router';
 import { ICommand } from '../../commands/ICommand';
+import { MessageService } from '../../message.service';
 
 @Component({
   selector: 'app-rpg-tab',
@@ -39,8 +40,13 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   keysSeen = new Map<string, boolean>()
   commands = new Map<string, IChatCommand>()
 
-  constructor(public data: DataService, public firedb: AngularFireDatabase, public audio: AudioService, public router: Router) {
+  constructor(public data: DataService, public firedb: AngularFireDatabase, public audio: AudioService, public router: Router, public msg: MessageService) {
     this.data.user.subscribe(u => this.user = u)
+
+    this.msg.rollRequests.subscribe(ex => {
+      console.log("Recieved  Roll: ", ex);
+      this.rollDice(ex)
+    })
 
     this.data.userPrefs.subscribe(u => {
       this.prefs = u

@@ -9,6 +9,12 @@
     <div class="tab " (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
       <fa-icon icon="user-shield" fixedWidth="true"></fa-icon>
     </div>
+    <div class="tab " (click)="toggle('encounters')" [class.tab-selected]="selected==='encounters'">
+      <fa-icon icon="paw" fixedWidth="true"></fa-icon>
+    </div>
+    <!-- <div class="tab ra-custom" (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
+      <i class="ra ra-battered-axe"></i>
+    </div> -->
     <div class="tab " *ngIf="mapCfg" (click)="toggle('map')" [class.tab-selected]="selected==='map'">
       <fa-icon icon="map-marked" fixedWidth="true"></fa-icon>
     </div>
@@ -36,4 +42,5 @@
   <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>
   <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
   <app-rpg-tab class="side-container" [class.visible]="selected==='rpg'" [class.hide]="selected!=='rpg'"></app-rpg-tab>
+  <app-encounters-tab class="side-container" [class.visible]="selected==='encounters'" [class.hide]="selected!=='encounters'"></app-encounters-tab>
 </div>

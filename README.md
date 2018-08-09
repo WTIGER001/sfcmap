@@ -111,16 +111,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Characters
 
 ### Characters / NPCs / People
-- Name
+- Name              <-- Done
 - Class / Level
-- Description
-- Tags
-- Map Links
-- Image / Picture
+- Description       <-- Done
+- Tags              <-- Done, needs styling
+- Map Links         
+- Image / Picture   <-- Done
 - Rolls       <-- Things like Initiative, Perception, etc
 - Attributes  <-- Hit points, str, ac, etc
 - Web Link
-- Attachment(s)
+- Attachment(s)     <-- Done, needss styling
 - Size        <-- Icon Sizing
 - Reach       <-- Like aura
 - Vision      <-- Needed for fog of war
@@ -132,4 +132,41 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 -- Do I mess with modifiers? 
 -- Abilities? 
 
-BAB = BAB + 1
+
+Add 'Crit-Range' and 'Fumble-Range' to the dice rolls. 
+request roll {
+    name, expression, crit-range, fumble range, crit message, fumble message, needs confirm?
+}
+Example :
+{
+    name: "Attack",
+    exp : "d20+18",
+    cr : "15-20,
+    fr : "1",
+    crm : "Critical Threat!",
+    frm : "Confirm that fumble!"
+    confirm : 'true'
+}
+
+On chat
+- Minimize message
+- Delete Message
+- Pin Message (Send to the top and don't let it go away... maybe sticky?)
+
+/pm [anything] <--- Whatever is there keep only to this user, dont broadcast
+/gm [group] [anything] <-- Whatever is there keep only to members of the group
+
+Look into the permissions for firebase
+
+Encounters
+-------------------------------------
+
+- Set Restrictiions
+- Roll initiative
+-- Build an interface to the online monster databases
+-- Figure out how to get the center and the zoom level on the nav bar as the user is navigating...
+-- Add Buttons: Group Roll, ?
+-- Count Down or Count up effects (Spell Lasts for x rounds)
+-- Drag and Drop the peron on to the map to generate a properly sized marker
+
+Add Themes to each game (scifi, fanatasy, )

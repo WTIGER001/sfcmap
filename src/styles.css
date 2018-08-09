@@ -189,9 +189,12 @@ body {
     /* display: flex; */
     /* justify-content: center; */
     margin-bottom: 6px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    /* display: grid; */
+    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
     grid-gap: 6px;
+    width: 100%;
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
 }
 .buttongrid .btn-tool > img {
     filter:  brightness(0) invert(.7);
@@ -211,9 +214,6 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 6px;
-    /* display: grid; */
-    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
-    /* grid-gap: 6px; */
 }
 .buttonbar .btn-tool > img {
     filter:  brightness(0) invert(.7);
@@ -226,10 +226,16 @@ body {
 
 .buttonbar .btn-tool {
     margin-right: 5px;
+    /* padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 10px; */
 }
 
 .buttonbar .btn-tool:last-of-type {
     margin-right: 0;
+}
+.buttongrid .btn-tool h2 {
+    margin: 0;
 }
 
 .lockbtn {
@@ -247,9 +253,21 @@ body {
  grid-template-rows: 1fr 1fr 1fr
 }
 
-.sfc-map-zoombar-item {
-    /* width: 32px;
-    height: 32px; */
+/* .sfc-map-zoombar-item {
+     width: 32px;
+    height: 32px; 
+} */
+
+/* Buttons that are small and typically shown in a tablular arrangment */
+.btn-tbl {
+    padding: 4px;
+    cursor: pointer;
+    margin-left: 3px;
+}
+
+.btn-tbl:hover {
+    color: white;
+    background-color: grey;
 }
 
 /* -------------------------------------------- */
@@ -468,4 +486,58 @@ body {
 .svghighlight {
     stroke: white;
     stroke-opacity:"1"
+}
+
+/* -------------------------------------------- */
+/* Cards                                       */
+/* -------------------------------------------- */
+.tab-card-list {
+    display: grid;
+    grid-gap: 10px;
+}
+
+ul.tab-card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.even-card {
+    background-color: rgba(3, 139, 139, 0.1);
+    border-radius: 4px;
+}
+
+.tab-card {
+    position: relative;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+li.tab-card {
+    display: block;
+}
+
+.tab-drop-target, 
+.tab-card:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(82, 82, 129, .4);
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.tab-card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tab-card-header-2 {
+    display: flex;
+    justify-content: space-between;
+    color: #9ed485;
 }

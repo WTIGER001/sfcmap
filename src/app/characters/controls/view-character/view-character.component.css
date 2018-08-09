@@ -38,5 +38,10 @@ h2 {
 .pic {
   max-height: 300px;
   max-width: 300px;
-  margin: 0 20px 0 20px;
+  margin-right: 20px;
+}
+
+.attr-item {
+  height: 40px;
+  width: 40px;
 }

@@ -9,6 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "paths": {
+      "stream": [
+        "node_modules/readable-stream"
+      ]
+    },
     "typeRoots": [
       "node_modules/@types"
     ],

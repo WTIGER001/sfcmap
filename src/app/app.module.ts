@@ -16,7 +16,7 @@ import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { TagInputModule } from 'ngx-chips';
-
+import { SortablejsModule } from 'angular-sortablejs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
@@ -92,6 +92,15 @@ import { CharacterSelectorComponent } from './tabs/character-selector/character-
 import { EditCharacterTypeComponent } from './characters/controls/edit-character-type/edit-character-type.component';
 import { CharacterTypeComboComponent } from './characters/controls/character-type-combo/character-type-combo.component';
 import { ViewCharacterComponent } from './characters/controls/view-character/view-character.component';
+import { EncountersTabComponent } from './tabs/encounters-tab/encounters-tab.component';
+import { EncounterComponent } from './encounter/components/encounter/encounter.component';
+import { CharacterCardComponent } from './encounter/components/character-card/character-card.component';
+import { EditEncounterComponent } from './encounter/components/edit-encounter/edit-encounter.component';
+import { EncounterFeature } from './encounter/encounter.feature';
+import { FilterinputComponent } from './controls/filterinput/filterinput.component';
+import { AttrValueComponent } from './characters/controls/attr-value/attr-value.component';
+import { MapSelectComponent } from './controls/map-select/map-select.component';
+import { FindCharacterComponent } from './characters/controls/find-character/find-character.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +161,14 @@ import { ViewCharacterComponent } from './characters/controls/view-character/vie
     EditCharacterTypeComponent,
     CharacterTypeComboComponent,
     ViewCharacterComponent,
+    EncountersTabComponent,
+    EncounterComponent,
+    CharacterCardComponent,
+    EditEncounterComponent,
+    FilterinputComponent,
+    AttrValueComponent,
+    MapSelectComponent,
+    FindCharacterComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,7 +193,8 @@ import { ViewCharacterComponent } from './characters/controls/view-character/vie
     DragAndDropModule.forRoot(),
     ColorPickerModule,
     TagInputModule,
-    EmojifyModule
+    EmojifyModule,
+    SortablejsModule.forRoot({ animation: 150 }),
   ],
   providers: [
     MapService,
@@ -204,5 +222,7 @@ export class AppModule {
     library.add(faGoogle, faGithub)
     library.add(faStar, faCircle)
     library.add(fas, faLayerGroup);
+
+    EncounterFeature.initialize()
   }
 }
