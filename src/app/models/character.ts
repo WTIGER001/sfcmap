@@ -32,6 +32,12 @@ export class Character extends ObjectType {
   attributes: Attribute[] = []
   rolls: Roll[] = []
 
+  speed: string
+  vision: string
+  reach: string
+  size: string
+
+
 
   resolveExpression(expression: string): string {
     let newexp = expression

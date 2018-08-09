@@ -28,6 +28,9 @@ export class EditEncounterComponent implements OnInit {
     this.data.save(this.selected)
   }
 
+  update() {
+
+  }
   addCharacter($event) {
     console.log("addCharacter, ", $event);
 
