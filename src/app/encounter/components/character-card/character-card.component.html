@@ -1,20 +1,32 @@
-<div class="flex-row" *ngIf="size=='regular'">
+<ng-container *ngIf="character">
+  <div class="flex-row" *ngIf="size=='regular'">
     <img [src]='character.picture?character.picture:"/assets/missing.png"' class="mini-pic">
     <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
     <div class="ml-2">
-        <h2>{{character.name}}</h2>
-        <app-attr-value class="attr" size="3x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
-        <app-attr-value class="attr" size="3x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
+      <h2>{{character.name}}</h2>
+      <app-attr-value class="attr" size="3x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
+      <app-attr-value class="attr" size="3x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
     </div>
-</div>
+  </div>
 
-<div class="sm-card" *ngIf="size=='small'">
+  <div class="sm-card" *ngIf="size=='small'">
     <img *ngIf="character.picture" [src]='character.picture?character.picture:"/assets/missing.png"' class="mini-pic-sm">
     <div *ngIf="!character.picture" class="mini-pic-sm nopic"></div>
     <span class="sm-name">{{character.name}}</span>
     <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
     <div class="sm-attr">
-        <app-attr-value size="2x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
-        <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
+      <app-attr-value size="2x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
+      <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
     </div>
-</div>
+  </div>
+</ng-container>
+<ng-container *ngIf="!character">
+  <div class="flex-row" *ngIf="size=='regular'">
+    <img [src]='"/assets/missing.png"' class="mini-pic-sm">
+    <span class="sm-name">Character Deleted</span>
+  </div>
+  <div class="sm-card" *ngIf="size=='small'">
+    <img [src]='"/assets/missing.png"' class="mini-pic-sm">
+    <span class="sm-name">Character Deleted</span>
+  </div>
+</ng-container>

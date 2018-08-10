@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { Subject, Observable } from "rxjs";
 
 /**
  * Collection of language utils that are useful for all Typescript applications
@@ -111,5 +112,19 @@ export class LangUtil {
       })
     }
     return result
+  }
+
+  public static arrayDiff(arr1: any[], arr2: any[]) {
+    return arr1.filter(item => !arr2.includes(item))
+  }
+
+  public static readFile(f: File): Observable<string> {
+    const rtn = new Subject<string>()
+    const r = new FileReader()
+    r.onload = (ev) => {
+      rtn.next(r.result)
+    }
+    r.readAsText(f)
+    return rtn
   }
 }

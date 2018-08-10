@@ -37,6 +37,22 @@ export class Character extends ObjectType {
   reach: string
   size: string
 
+  race: string
+  classes: string
+  alignment: string
+  //senses
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   resolveExpression(expression: string): string {
@@ -65,12 +81,31 @@ export class Attribute {
   attr: string
   max: number
   current: number
+
+  static from(attr: string, max: any, current?: any) {
+    const a = new Attribute();
+    a.attr = attr
+    a.max = parseInt(max)
+    if (a.current) {
+      a.current = parseInt(current)
+    } else {
+      a.current = a.max
+    }
+    return a
+  }
 }
 
 export class Roll {
   name: string
   expression: string
   value: string
+
+  static from(name: string, exp: string) {
+    const a = new Roll();
+    a.name = name
+    a.expression = exp
+    return a
+  }
 }
 
 export class MapLink {

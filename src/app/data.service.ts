@@ -161,11 +161,23 @@ export class DataService {
       mergeMap(c => this.db.list<CharacterType>(CharacterType.FOLDER).valueChanges())
     ).subscribe(cts => {
       let items: CharacterType[] = []
+      let used: Character[] = []
       cts.forEach(ct => {
         let ct1 = CharacterType.to(ct)
         ct1._characters = chrs.filter(c => c.type == ct1.id)
+        used.push(...ct1._characters)
         items.push(ct1)
       })
+
+      let und: Character[] = LangUtil.arrayDiff(chrs, used)
+      if (und.length > 0) {
+        let ct = new CharacterType()
+        ct.name = "Ungrouped"
+        ct.id = DataService.UNCATEGORIZED
+        ct._characters = und
+        items.push(ct)
+      }
+
       this.characterTypes.next(items)
     })
   }

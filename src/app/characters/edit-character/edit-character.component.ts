@@ -3,6 +3,7 @@ import { Character } from '../../models/character';
 import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { UUID } from 'angular2-uuid';
+import { CommonDialogService } from '../../dialogs/common-dialog.service';
 
 @Component({
   selector: 'app-edit-character',
@@ -14,7 +15,7 @@ export class EditCharacterComponent implements OnInit {
   edit = false
   character = new Character()
 
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService) {
     this.character.name = 'New Character'
     this.character.id = UUID.UUID().toString()
   }
@@ -49,6 +50,12 @@ export class EditCharacterComponent implements OnInit {
   }
 
   delete() {
-
+    this.cd.confirm("Are you sure you want to delete " + this.character.name + "? ", "Confirm Delete").subscribe(
+      r => {
+        if (r) {
+          this.data.delete(this.character)
+        }
+      }
+    )
   }
 }

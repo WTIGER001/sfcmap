@@ -1,4 +1,5 @@
 <h1>Select Character</h1>
+<input type="file" class="inputfile" #filecontrol (change)="setFile($event)">
 <div class="center-layout">
   <div class="buttonbar" *ngIf="edit==false">
     <button class="btn btn-outline-secondary btn-tool" (click)="newFolder()" placement="bottom" ngbTooltip="New Folder for Character">
@@ -6,6 +7,9 @@
     </button>
     <button class="btn btn-outline-secondary btn-tool" (click)="newCharacter()" placement="bottom" ngbTooltip="Crate a new Character">
       <fa-icon icon="plus" size="lg"></fa-icon>
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="importCharacter()" placement="bottom" ngbTooltip="Crate a new Character">
+      <fa-icon icon="file-import" size="lg"></fa-icon>
     </button>
     <button *ngIf="folder" class="btn btn-outline-secondary btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected item">
       <fa-icon icon="pencil-alt" size="lg"></fa-icon>

@@ -8,8 +8,12 @@ import { EditMapTypeComponent } from '../../controls/edit-map-type/edit-map-type
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { Router } from '@angular/router';
 import { CharacterType } from '../../models/character-type';
-import { Character } from '../../models/character';
+import { Character, Attachment } from '../../models/character';
 import { EditCharacterComponent } from '../../characters/edit-character/edit-character.component';
+import { HeroLabCharacter } from '../../characters/hero-lab';
+import { LangUtil } from '../../util/LangUtil';
+import { mergeMap, map } from 'rxjs/operators';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-character-selector',
@@ -19,6 +23,7 @@ import { EditCharacterComponent } from '../../characters/edit-character/edit-cha
 export class CharacterSelectorComponent implements OnInit {
   @ViewChild('editcharacter') editcharacter: EditCharacterComponent
   @ViewChild('editfolder') editfolder: EditMapTypeComponent
+  @ViewChild('filecontrol') fileButton
 
   characters: Array<CharacterType> = []
   filtered: Array<CharacterType> = []
@@ -36,20 +41,6 @@ export class CharacterSelectorComponent implements OnInit {
       this.updateList()
     })
 
-    // combineLatest(this.data.user, this.data.maps, this.data.mapTypesWithMaps, this.data.userPrefs).subscribe(
-    //   (value: [User, MapConfig[], MergedMapType[], Prefs]) => {
-    //     let items = []
-    //     if (value[3].recentMaps) {
-    //       value[3].recentMaps.forEach(mapId => {
-    //         let map = value[1].find(m => mapId == m.id)
-    //         if (map) {
-    //           items.push(map)
-    //         }
-    //       })
-    //       this.recent = items;
-    //     }
-    //   }
-    // )
   }
 
   ngOnInit() {
@@ -82,26 +73,53 @@ export class CharacterSelectorComponent implements OnInit {
     }
   }
 
+  setFile(event) {
+    if (event.target.files[0]) {
+      LangUtil.readFile(event.target.files[0]).pipe(
+        mergeMap(txt => HeroLabCharacter.importData(txt))
+      ).subscribe(chrs => {
+        chrs.forEach(chr => {
+          chr.id = UUID.UUID().toString()
+          console.log("CHARACTER : ", chr);
+          this.saveFile(event.target.files[0], chr)
+        })
+      })
+    }
+  }
+
+  saveFile(f: File, character: Character) {
+    let path = 'attachments/' + character.id + "/" + f.name
+    this.data.uploadFile(path, f).subscribe(
+      progress => { },
+      error => { },
+      () => {
+        this.data.pathToUrl(path)
+          .pipe(map(url => {
+            const att = new Attachment()
+            att.name = f.name
+            att.size = f.size
+            att.url = url
+            character.attachments.push(att)
+          })).subscribe(() => {
+            this.data.save(character)
+          })
+      }
+    )
+  }
+
+  importCharacter() {
+    this.fileButton.nativeElement.click()
+  }
 
   newCharacter() {
     this.router.navigate(['/new-character'])
-    // let m = new MapConfig()
-    // m.id = 'TEMP'
-    // m.name = "New Map"
-
-    // if (this.folder) {
-    //   m.mapType = this.folder.id
-    // }
-
     this.edit = true
-    // this.newMapCfg = m
   }
   selectFolder(cType: CharacterType) {
     this.folder = cType
   }
 
   select(item: Character) {
-    // this.mapSvc.setConfig(map)
     this.router.navigate(['/character/' + item.id])
     // this.data.saveRecentCharacter(item.id)
   }

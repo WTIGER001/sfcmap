@@ -7,7 +7,9 @@ import { Prefs } from './models';
  */
 export enum Sounds {
   DiceRoll = 'dice.mp3',
-  Beep = 'ping.mp3'
+  Beep = 'ping.mp3',
+  Success = 'success.mp3',
+  Fail = 'fail.mp3'
 }
 
 @Injectable({
