@@ -103,6 +103,7 @@ import { MapSelectComponent } from './controls/map-select/map-select.component';
 import { FindCharacterComponent } from './characters/controls/find-character/find-character.component';
 import { ImportCharacterComponent } from './characters/controls/import-character/import-character.component';
 import { FileDropComponent } from './controls/file-drop/file-drop.component';
+import { UserOnlineComponent } from './controls/user-online/user-online.component';
 
 @NgModule({
   declarations: [
@@ -173,6 +174,7 @@ import { FileDropComponent } from './controls/file-drop/file-drop.component';
     FindCharacterComponent,
     ImportCharacterComponent,
     FileDropComponent,
+    UserOnlineComponent,
   ],
   imports: [
     BrowserModule,

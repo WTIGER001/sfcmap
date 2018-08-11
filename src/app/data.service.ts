@@ -3,7 +3,7 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { NotifyService, Debugger } from "./notify.service";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
-import { User, MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction } from "./models";
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
 import { mergeMap, map, tap, first, concatMap } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
@@ -14,6 +14,8 @@ import { IUndoableAction } from "./commands/IUndoableAction";
 import { Character } from "./models/character";
 import { CharacterType } from "./models/character-type";
 import { Encounter } from "./encounter/model/encounter";
+import { User as FireUser } from "firebase";
+
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +68,7 @@ export class DataService {
   characters = new ReplaySubject<Array<Character>>(1)
   characterTypes = new ReplaySubject<Array<CharacterType>>(1)
   encounters = new ReplaySubject<Array<Encounter>>(1)
-
+  online = new ReplaySubject<Array<Online>>(1)
 
   mapsCurrent: MapConfig[] = []
 
@@ -101,6 +103,7 @@ export class DataService {
     // Subscribe to the firebase user. This can be null or a firebase user. When we get a user or a null value we reload all the data
     this.afAuth.user.pipe(
       tap(fireUser => this.log.info("User Logged In: ", fireUser.displayName)),
+      tap(fireUser => this.trackPresence(fireUser)),
       map(fireUser => User.fromFireUser(fireUser)),
       mergeMap(user => this.getUserInfo(user))
     ).subscribe(u => {
@@ -1088,6 +1091,20 @@ export class DataService {
     }
 
     return result
+  }
+
+  trackPresence(u: FireUser) {
+    const online: Online = {
+      login: new Date().toString(),
+      uid: u.uid,
+      image: u.photoURL,
+      name: u.displayName
+    }
+    const path = 'online/' + u.uid
+    this.db.object(path).set(online)
+    this.db.database.ref(path).onDisconnect().remove();
+
+    this.db.list<Online>('online').valueChanges().subscribe(a => this.online.next(a))
   }
 }
 

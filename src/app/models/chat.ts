@@ -222,3 +222,10 @@ export class PingMessage {
   map: string
   mapname: string
 }
+
+export class Online {
+  uid: string
+  login: string
+  image: string
+  name: string
+}

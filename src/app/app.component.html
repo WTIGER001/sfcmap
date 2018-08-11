@@ -1,9 +1,11 @@
 <div class="all">
-    <ng-container *ngIf="user.uid!='NOBODY'">
-        <router-outlet></router-outlet>
-        <app-tabs></app-tabs>
-    </ng-container>
-    <ng-container *ngIf="user.uid=='NOBODY'">
-        <app-login></app-login>
-    </ng-container>
+  <ng-container *ngIf="user.uid!='NOBODY'">
+    <router-outlet></router-outlet>
+    <app-tabs></app-tabs>
+  </ng-container>
+  <ng-container *ngIf="user.uid=='NOBODY'">
+    <app-login></app-login>
+  </ng-container>
 </div>
+
+<app-user-online></app-user-online>

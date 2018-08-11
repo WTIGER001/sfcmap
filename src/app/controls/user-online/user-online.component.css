@@ -1,0 +1,25 @@
+.user img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.user-online {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  background-color: transparent;
+  left: 0;
+  right: 0;
+  justify-content: center;
+}
+
+.user {
+  background-color: transparent;
+  padding: 10px;
+}
+
+.date {
+  color: bisque;
+  font-size: .9em;
+}
