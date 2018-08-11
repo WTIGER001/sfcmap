@@ -9,7 +9,7 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./user-online.component.css']
 })
 export class UserOnlineComponent implements OnInit {
-  private online: Online[] = []
+  online: Online[] = []
   constructor(private data: DataService) {
     this.data.online.subscribe(a => this.online = a)
   }
