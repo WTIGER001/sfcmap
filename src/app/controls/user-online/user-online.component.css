@@ -5,13 +5,15 @@
 }
 
 .user-online {
-  position: absolute;
+  position: fixed;
   display: flex;
   bottom: 0;
   background-color: transparent;
   left: 0;
   right: 0;
   justify-content: center;
+  z-index: 2;
+
 }
 
 .user {
