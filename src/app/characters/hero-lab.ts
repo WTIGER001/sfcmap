@@ -55,15 +55,19 @@ export class HeroLabCharacter {
 
     chr.speed = hero.movement[0].speed[0].$.value
 
-    hero.melee[0].weapon.forEach(w => {
-      HeroLabCharacter.addIfNeeded(chr.rolls, (Roll.from(w.$.name + " Attack", w.$.attack)))
-      HeroLabCharacter.addIfNeeded(chr.rolls, (Roll.from(w.$.name + " Dmg", w.$.damage)))
-    })
+    if (hero.melee && hero.melee[0].weapon) {
+      hero.melee[0].weapon.forEach(w => {
+        HeroLabCharacter.addIfNeeded(chr.rolls, (Roll.from(w.$.name + " Attack", w.$.attack)))
+        HeroLabCharacter.addIfNeeded(chr.rolls, (Roll.from(w.$.name + " Dmg", w.$.damage)))
+      })
+    }
 
-    hero.ranged[0].weapon.forEach(w => {
-      HeroLabCharacter.addIfNeeded(chr.rolls, Roll.from(w.$.name + " Attack", w.$.attack))
-      HeroLabCharacter.addIfNeeded(chr.rolls, (Roll.from(w.$.name + " Dmg", w.$.damage)))
-    })
+    if (hero.ranged && hero.ranged[0].weapon) {
+      hero.ranged[0].weapon.forEach(w => {
+        HeroLabCharacter.addIfNeeded(chr.rolls, Roll.from(w.$.name + " Attack", w.$.attack))
+        HeroLabCharacter.addIfNeeded(chr.rolls, (Roll.from(w.$.name + " Dmg", w.$.damage)))
+      })
+    }
 
     // Add popular Rolls
     HeroLabCharacter.addIfNeeded(chr.rolls, Roll.from("Initiative", "d20 +Initiative"))

@@ -34,6 +34,7 @@ export class CharacterSelectorComponent implements OnInit {
   newMapCfg: Character
   isCollapsed = {}
   filter = ''
+  tool
 
   constructor(private data: DataService, private mapSvc: MapService, private cd: CommonDialogService, private router: Router) {
     this.data.characterTypes.subscribe(items => {

@@ -1,0 +1,34 @@
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.attachments-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}
+
+.drop-area {
+  border: 3px dashed green;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  color: black;
+}
+
+
+.drop-target * {
+  pointer-events: none;
+ }
+
+ .drop-area label {
+  padding: 20px;
+  color: grey;
+  cursor: pointer;
+ }

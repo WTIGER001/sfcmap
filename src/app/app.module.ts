@@ -101,6 +101,8 @@ import { FilterinputComponent } from './controls/filterinput/filterinput.compone
 import { AttrValueComponent } from './characters/controls/attr-value/attr-value.component';
 import { MapSelectComponent } from './controls/map-select/map-select.component';
 import { FindCharacterComponent } from './characters/controls/find-character/find-character.component';
+import { ImportCharacterComponent } from './characters/controls/import-character/import-character.component';
+import { FileDropComponent } from './controls/file-drop/file-drop.component';
 
 @NgModule({
   declarations: [
@@ -169,6 +171,8 @@ import { FindCharacterComponent } from './characters/controls/find-character/fin
     AttrValueComponent,
     MapSelectComponent,
     FindCharacterComponent,
+    ImportCharacterComponent,
+    FileDropComponent,
   ],
   imports: [
     BrowserModule,

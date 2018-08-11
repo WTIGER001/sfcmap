@@ -1,0 +1,267 @@
+PCGVERSION:2.0
+
+# System Information
+CAMPAIGN:Core Rulebook|CAMPAIGN:Advanced Player's Guide|CAMPAIGN:Ultimate Equipment|CAMPAIGN:Ultimate Combat|CAMPAIGN:Ultimate Magic|CAMPAIGN:Pathfinder Unchained|CAMPAIGN:Pathfinder Society Field Guide|CAMPAIGN:Advanced Class Guide|CAMPAIGN:Advanced Race Guide|CAMPAIGN:PF - Hell's Rebels Player's Guide|CAMPAIGN:Occult Adventures|CAMPAIGN:Arcane Anthology|CAMPAIGN:Ultimate Intrigue|CAMPAIGN:Bestiary|CAMPAIGN:Bestiary 2|CAMPAIGN:Bestiary 3|CAMPAIGN:Seekers of Secrets - A Guide to the Pathfinder Society|CAMPAIGN:Dark Markets - A Guide to Katapesh - Conversion|CAMPAIGN:Guide to the River Kingdoms|CAMPAIGN:Heart of the Jungle|CAMPAIGN:Inner Sea World Guide|CAMPAIGN:Lords of Chaos - Book of the Damned - Volume 2|CAMPAIGN:Pathfinder Campaign Setting - Distant Worlds|CAMPAIGN:Princes of Darkness - Book of the Damned - Volume 1|CAMPAIGN:Technology Guide|CAMPAIGN:Dragon Empires Gazetteer|CAMPAIGN:Ultimate Campaign|CAMPAIGN:Council of Thieves Player's Guide|CAMPAIGN:Jade Regent Player's Guide|CAMPAIGN:Kingmaker Player's Guide|CAMPAIGN:Legacy of Fire Player's Guide (Conversion)|CAMPAIGN:Mummys Mask Players Guide|CAMPAIGN:Advanced Class Origins|CAMPAIGN:Adventurer's Armory|CAMPAIGN:Andoran - Spirit of Liberty|CAMPAIGN:Animal Archive|CAMPAIGN:Blood of the Moon|CAMPAIGN:Champions of Purity|CAMPAIGN:Cheliax - Empire of Devils|CAMPAIGN:PF - Demon Hunter's Handbook|CAMPAIGN:Dragon Empires Primer|CAMPAIGN:Dwarves of Golarion|CAMPAIGN:Elves of Golarion|CAMPAIGN:Faiths of Balance|CAMPAIGN:Faiths of Corruption|CAMPAIGN:Faiths of Purity|CAMPAIGN:Gnomes of Golarion|CAMPAIGN:Halflings of Golarion|CAMPAIGN:Humans of Golarion|CAMPAIGN:Inner Sea Primer|CAMPAIGN:Knights of the Inner Sea|CAMPAIGN:Orcs of Golarion|CAMPAIGN:Pathfinder Society Primer|CAMPAIGN:Pirates of the Inner Sea|CAMPAIGN:Qadira - Gateway to the East|CAMPAIGN:PF - Quests and Campaigns|CAMPAIGN:Sargava the Lost Colony|CAMPAIGN:PF - Weapon Master's Handbook|CAMPAIGN:Pathfinder Adventure Path #67|CAMPAIGN:Rise of the Runelords Player's Guide|CAMPAIGN:Second Darkness Player's Guide (Conversion)|CAMPAIGN:Serpent's Skull Player's Guide|CAMPAIGN:Adventure Path #61|CAMPAIGN:Carrion Crown Player's Guide|CAMPAIGN:Cities of Golarion|CAMPAIGN:Critical Fumble Deck|CAMPAIGN:Curse of the Crimson Throne Player's Guide (Conversion)|CAMPAIGN:Faction Guide|CAMPAIGN:Mythic Adventures|CAMPAIGN:Alchemy Manual|CAMPAIGN:Bastards of Golarion|CAMPAIGN:Blood of Angels|CAMPAIGN:Blood of Fiends|CAMPAIGN:Blood of Shadows|CAMPAIGN:Blood of the Elements|CAMPAIGN:Blood of the Night|CAMPAIGN:Champions of Corruption|CAMPAIGN:PF - Dirty Tactics Toolbox|CAMPAIGN:Dragonslayer's Handbook|CAMPAIGN:Dungeoneer's Handbook|CAMPAIGN:Faiths and Philosophies|CAMPAIGN:Goblins of Golarion|CAMPAIGN:Heroes of the Streets|CAMPAIGN:Heroes of the Wild|CAMPAIGN:Kobolds of Golarion|CAMPAIGN:Magical Marketplace|CAMPAIGN:Melee Tactics Toolbox|CAMPAIGN:People of the North|CAMPAIGN:People of the River|CAMPAIGN:People of the Sands|CAMPAIGN:People of the Stars|CAMPAIGN:Ranged Tactics Toolbox|CAMPAIGN:Taldor - Echoes of Glory (Conversion)|CAMPAIGN:Undead Slayer's Handbook|CAMPAIGN:Varisia - Birthplace of Legends|CAMPAIGN:Reign of Winter Player's Guide|CAMPAIGN:Rise of the Runelords Adventure Path|CAMPAIGN:Shattered Star Player's Guide|CAMPAIGN:Skull and Shackles Player's Guide|CAMPAIGN:Inner Sea Bestiary|CAMPAIGN:Inner Sea Combat|CAMPAIGN:Inner Sea Gods|CAMPAIGN:Inner Sea Magic|CAMPAIGN:Inner Sea Races|CAMPAIGN:Champions of Balance|CAMPAIGN:PF - City of Strangers|CAMPAIGN:Hell's Vengeance Player's Guide|CAMPAIGN:Ironfang Invasion Player's Guide|CAMPAIGN:Ironfang Invasion (Trail of the Hunted)|CAMPAIGN:Iron Gods Player's Guide|CAMPAIGN:Second Darkness, Chapter 1 - Shadow in the Sky (Conversion)|CAMPAIGN:Second Darkness, Chapter 2 - Children of the Void (Conversion)|CAMPAIGN:Second Darkness, Chapter 3 - The Armageddon Echo (Conversion)|CAMPAIGN:Second Darkness, Chapter 4 - Endless Night (Conversion)|CAMPAIGN:Second Darkness, Chapter 5 - A Memory of Darkness (Conversion)|CAMPAIGN:Second Darkness, Chapter 6 - Descent into Midnight (Conversion)|CAMPAIGN:Ironfang Invasion (Fangs of War)|CAMPAIGN:Ironfang Invasion (Siege of Stone)|CAMPAIGN:Curse of the Crimson Throne - Chapter 1 - Edge of Anarchy (Conversion)|CAMPAIGN:Curse of the Crimson Throne - Chapter 2 - Seven Days to the Grave (Conversion)|CAMPAIGN:Curse of the Crimson Throne - Chapter 3 - Escape from Old Korvosa (Conversion)|CAMPAIGN:Curse of the Crimson Throne - Chapter 4 - A History of Ashes (Conversion)|CAMPAIGN:Curse of the Crimson Throne - Chapter 5 - Skeletons of Scarwall (Conversion)|CAMPAIGN:Curse of the Crimson Throne - Chapter 6 - Crown of Fangs (Conversion)|CAMPAIGN:Ironfang Invasion (Assault on Longshadow)|CAMPAIGN:Skull and Shackles (The Wormwood Mutiny)
+VERSION:6.07.05
+ROLLMETHOD:2|EXPRESSION:High Fantasy
+PURCHASEPOINTS:Y|TYPE:High Fantasy
+CHARACTERTYPE:PC
+PREVIEWSHEET:Fantasy_Character_Sheet.html
+POOLPOINTS:21
+POOLPOINTSAVAIL:20
+GAMEMODE:Pathfinder_RPG
+TABLABEL:0
+AUTOSPELLS:Y
+USEHIGHERKNOWN:N
+USEHIGHERPREPPED:N
+LOADCOMPANIONS:N
+USETEMPMODS:Y
+AUTOSORTGEAR:Y
+SKILLSOUTPUTORDER:0
+SKILLFILTER:2
+IGNORECOST:N
+ALLOWDEBT:N
+AUTORESIZEGEAR:Y
+
+# Character Bio
+CHARACTERNAME:Grimm Hammerfist
+TABNAME:
+PLAYERNAME:BG
+HEIGHT:50
+WEIGHT:185
+AGE:26
+GENDER:Male
+HANDED:Right
+SKINCOLOR:
+EYECOLOR:
+HAIRCOLOR:
+HAIRSTYLE:
+LOCATION:
+CITY:
+BIRTHDAY:
+BIRTHPLACE:
+PERSONALITYTRAIT1:
+PERSONALITYTRAIT2:
+SPEECHPATTERN:
+PHOBIAS:
+INTERESTS:
+CATCHPHRASE:
+PORTRAIT:
+
+# Character Attributes
+STAT:STR|SCORE:15
+STAT:DEX|SCORE:13
+STAT:CON|SCORE:15
+STAT:INT|SCORE:10
+STAT:WIS|SCORE:16
+STAT:CHA|SCORE:7
+ALIGN:TN
+RACE:Dwarf
+
+# Character Class(es)
+CLASS:Warpriest|LEVEL:6|SKILLPOOL:0
+CLASSABILITIESLEVEL:Warpriest=1|HITPOINTS:8|PRESTAT:WIS=-1|PRESTAT:DEX=3|SKILLSGAINED:2|SKILLSREMAINING:0
+CLASSABILITIESLEVEL:Warpriest=2|HITPOINTS:5|SKILLSGAINED:2|SKILLSREMAINING:0
+CLASSABILITIESLEVEL:Warpriest=3|HITPOINTS:6|SKILLSGAINED:2|SKILLSREMAINING:0
+CLASSABILITIESLEVEL:Warpriest=4|HITPOINTS:2|PRESTAT:WIS=1|SKILLSGAINED:2|SKILLSREMAINING:0
+CLASSABILITIESLEVEL:Warpriest=5|HITPOINTS:8|SKILLSGAINED:2|SKILLSREMAINING:0
+CLASSABILITIESLEVEL:Warpriest=6|HITPOINTS:3|SKILLSGAINED:2|SKILLSREMAINING:0
+
+# Character Experience
+EXPERIENCE:23000
+EXPERIENCETABLE:Medium
+
+# Character Templates
+TEMPLATESAPPLIED:[NAME:Creature with Class Levels]
+TEMPLATESAPPLIED:[NAME:Warpriest ~ Bonus Languages]
+TEMPLATESAPPLIED:[NAME:REACH_10]
+TEMPLATESAPPLIED:[NAME:FACE_10]
+
+# Character Region
+REGION:None
+
+# Character Skills
+SKILL:Acrobatics|OUTPUTORDER:1|
+SKILL:Acrobatics (Perform (Dance))|OUTPUTORDER:2|
+SKILL:Appraise|OUTPUTORDER:3|
+SKILL:Appraise (Natural stones or metals)|OUTPUTORDER:4|
+SKILL:Artistry|OUTPUTORDER:5|
+SKILL:Bluff|OUTPUTORDER:7|
+SKILL:Bluff (Perform (Act))|OUTPUTORDER:8|
+SKILL:Bluff (Perform (Comedy))|OUTPUTORDER:9|
+SKILL:Bluff (Perform (Sing))|OUTPUTORDER:10|
+SKILL:Bluff (Perform (String Instruments))|OUTPUTORDER:11|
+SKILL:Climb|OUTPUTORDER:12|
+SKILL:Consolidated Skill ~ Athletics|OUTPUTORDER:6|
+SKILL:Consolidated Skill ~ Influence|OUTPUTORDER:29|
+SKILL:Consolidated Skill ~ Performance|OUTPUTORDER:40|
+SKILL:Craft (Untrained)|OUTPUTORDER:13|
+SKILL:Diplomacy|OUTPUTORDER:14|
+SKILL:Diplomacy (Perform (Keyboard Instruments))|OUTPUTORDER:15|
+SKILL:Diplomacy (Perform (Oratory))|OUTPUTORDER:16|
+SKILL:Diplomacy (Perform (String Instruments))|OUTPUTORDER:17|
+SKILL:Diplomacy (Perform (Wind Instruments))|OUTPUTORDER:18|
+SKILL:Disguise|OUTPUTORDER:20|
+SKILL:Disguise (Perform (Act))|OUTPUTORDER:21|
+SKILL:Escape Artist|OUTPUTORDER:22|
+SKILL:Fly|OUTPUTORDER:23|
+SKILL:Fly (Perform (Dance))|OUTPUTORDER:24|
+SKILL:Handle Animal (Perform (Percussion Instruments))|OUTPUTORDER:26|
+SKILL:Handle Animal (Perform (Wind Instruments))|OUTPUTORDER:27|
+SKILL:Heal|OUTPUTORDER:28|CLASSBOUGHT:[CLASS:Warpriest|RANKS:1.0|COST:1|CLASSSKILL:Y]
+SKILL:Intimidate|OUTPUTORDER:30|
+SKILL:Intimidate (Perform (Comedy))|OUTPUTORDER:31|
+SKILL:Intimidate (Perform (Keyboard Instruments))|OUTPUTORDER:32|
+SKILL:Intimidate (Perform (Percussion Instruments))|OUTPUTORDER:33|
+SKILL:Knowledge (Religion)|OUTPUTORDER:34|CLASSBOUGHT:[CLASS:Warpriest|RANKS:4.0|COST:1|CLASSSKILL:Y]
+SKILL:Knowledge (Untrained)|OUTPUTORDER:35|
+SKILL:Perception|OUTPUTORDER:37|CLASSBOUGHT:[CLASS:Warpriest|RANKS:6.0|COST:1|CLASSSKILL:N]
+SKILL:Perception (Dim Light)|OUTPUTORDER:38|
+SKILL:Perform (Untrained)|OUTPUTORDER:39|
+SKILL:Profession (Untrained)|OUTPUTORDER:41|
+SKILL:Ride|OUTPUTORDER:42|
+SKILL:Samurai Mount|OUTPUTORDER:43|
+SKILL:Sense Motive|OUTPUTORDER:44|CLASSBOUGHT:[CLASS:Warpriest|RANKS:1.0|COST:1|CLASSSKILL:Y]
+SKILL:Sense Motive (Perform (Oratory))|OUTPUTORDER:45|
+SKILL:Sense Motive (Perform (Sing))|OUTPUTORDER:46|
+SKILL:Stealth|OUTPUTORDER:49|
+SKILL:Stealth (Cane Fields)|OUTPUTORDER:50|
+SKILL:Stealth (Dim Light)|OUTPUTORDER:51|
+SKILL:Stealth (Jungle)|OUTPUTORDER:52|
+SKILL:Survival|OUTPUTORDER:53|
+SKILL:Survival (Find Food)|OUTPUTORDER:54|
+SKILL:Survival (Follow tracks)|OUTPUTORDER:55|
+SKILL:Swim|OUTPUTORDER:56|
+SKILL:Untrained Charisma|OUTPUTORDER:57|
+SKILL:Untrained Dexterity|OUTPUTORDER:58|
+SKILL:Untrained Intelligence|OUTPUTORDER:59|
+SKILL:Untrained Strength|OUTPUTORDER:60|
+SKILL:Untrained Wisdom|OUTPUTORDER:61|
+SKILL:Untrained ~ Disable Device|OUTPUTORDER:19|
+SKILL:Untrained ~ Handle Animal|OUTPUTORDER:25|
+SKILL:Untrained ~ Linguistics|OUTPUTORDER:36|
+SKILL:Untrained ~ Sleight of Hand|OUTPUTORDER:47|
+SKILL:Untrained ~ Spellcraft|OUTPUTORDER:48|
+SKILL:Untrained ~ Use Magic Device|OUTPUTORDER:62|
+
+# Character Languages
+LANGUAGE:Abyssal|LANGUAGE:Common|LANGUAGE:Dwarven
+
+# Character Feats
+FEATPOOL:0.0
+
+# Character Abilities
+ABILITY:*LANGBONUS|TYPE:VIRTUAL|CATEGORY:*LANGBONUS|KEY:*LANGBONUS|APPLIEDTO:Abyssal|TYPE:
+USERPOOL:*LANGBONUS|POOLPOINTS:0.0
+ABILITY:Dwarf Racial Subtype|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Racial Subtype ~ None|TYPE:Universal Subtype|DESC:You have chosen no racial subtype.
+USERPOOL:Dwarf Racial Subtype|POOLPOINTS:0.0
+ABILITY:Dwarf Racial Trait|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Dwarf ~ Relentless|TYPE:RacialTraits.SpecialAttack.Extraordinary.DwarfRacialTrait.DwarfStability|DESC:Dwarves are skilled at pushing their way through a battlefield, tossing aside lesser foes with ease. Dwarves with this racial trait receive a +2 bonus on Combat Maneuver checks made to bull rush or overrun an opponent. This bonus only applies while both the dwarf and his opponent are standing on the ground.
+USERPOOL:Dwarf Racial Trait|POOLPOINTS:0.0
+ABILITY:FEAT|TYPE:NORMAL|CATEGORY:FEAT|KEY:Ironhide|TYPE:General|DESC:Your skin is thicker and more resilient than that of most of your people.
+ABILITY:FEAT|TYPE:NORMAL|CATEGORY:FEAT|KEY:Power Attack|TYPE:Combat.AttackOption.AbyssalBloodline.DraconicBloodline.ElementalBloodline.BorealBloodline.SaurianShamanBonus.DjinniBloodline.EfreetiBloodline.MaridBloodline.ShaitanBloodline.AbyssalBloodragerBloodline.ArcaneBloodragerBloodline.DraconicBloodragerBloodline.ElementalBloodragerBloodline.OniBloodline.OrcBloodline.LifewaterBloodline.ShahzadaBloodline.DivBloodline|DESC:You can make exceptionally deadly melee attacks by sacrificing accuracy for strength.
+ABILITY:FEAT|TYPE:NORMAL|CATEGORY:FEAT|KEY:Weapon Specialization|APPLIEDTO:Scimitar|TYPE:Combat|DESC:You deal extra damage when using your chosen weapon.
+USERPOOL:FEAT|POOLPOINTS:0.0
+ABILITY:Favored Class|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Warpriest|TYPE:FavoredClass
+USERPOOL:Favored Class|POOLPOINTS:0.0
+ABILITY:Favored Class Bonus|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Favored Class Bonus ~ Hit Point|APPLIEDTO:,,,,|TYPE:FavoredClassBonus
+ABILITY:Favored Class Bonus|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Favored Class Bonus ~ Skill Rank|APPLIEDTO:Heal|TYPE:FavoredClassBonus
+USERPOOL:Favored Class Bonus|POOLPOINTS:0.0
+ABILITY:GM Awards|TYPE:NORMAL|CATEGORY:Special Ability|KEY:+1 STR Score Bonus|APPLIEDTO:|TYPE:GM_Award.SpecialQuality|DESC:GM awarded PC with +1 STR bonus.
+USERPOOL:GM Awards|POOLPOINTS:0.0
+ABILITY:Region of Origin|TYPE:NORMAL|CATEGORY:Background|KEY:Region ~ None|TYPE:Region
+USERPOOL:Region of Origin|POOLPOINTS:0.0
+ABILITY:Traits|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Trait ~ Anatomist|TYPE:Trait.BasicTrait.CombatTrait|DESC:You have studied the workings of anatomy, either as a student at university or as an apprentice mortician or necromancer. You gain a +1 trait bonus on all rolls made to confirm critical hits.&pipe;PRERULE&colon;1,DisplayFullAbility
+ABILITY:Traits|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Trait ~ Fate's Favored|TYPE:Trait.BasicTrait.FaithTrait|DESC:The fates watch over you. Whenever you are under the effect of a luck bonus of any kind, that bonus increases by 1.
+USERPOOL:Traits|POOLPOINTS:0.0
+ABILITY:Warpriest Blessing|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Blessings ~ Luck Blessing|TYPE:Blessings
+ABILITY:Warpriest Blessing|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Blessings ~ Magic Blessing|TYPE:Blessings
+USERPOOL:Warpriest Blessing|POOLPOINTS:0.0
+ABILITY:Warpriest Bonus Feat|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Warpriest Bonus Feat ~ Furious Focus|TYPE:Warpriest Bonus Feat|DESC:Even in the midst of fierce and furious blows, you can find focus in the carnage and your seemingly wild blows strike home.|DESC: When you are wielding a two-handed weapon or a one-handed weapon with two hands, and using the Power Attack feat, you do not suffer Power Attack's penalty on melee attack rolls on the first attack you make each turn. You still suffer the penalty on any additional attacks, including attacks of opportunity.
+ABILITY:Warpriest Bonus Feat|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Warpriest Bonus Feat ~ Vital Strike|TYPE:Warpriest Bonus Feat|DESC:You make a single attack that deals significantly more damage than normal.|DESC: When you use the attack action, you can make one attack at your highest base attack bonus that deals additional damage. Roll the weapon's damage dice for the attack twice and add the results together before adding bonuses from Strength, weapon abilities (such as flaming), precision-based damage, and other damage bonuses. These extra damage dice are not multiplied on a critical hit, but are added to the total.
+USERPOOL:Warpriest Bonus Feat|POOLPOINTS:0.0
+ABILITY:Warpriest Channel Energy|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Warpriest ~ Channel Positive Energy|TYPE:Warpriest Class Feature.Warpriest Channel Energy.Supernatural.SpecialAttack.Channel Positive Energy|DESC:You can unleash a wave of positive energy dealing %1d6 (DC %2 for half). This consumes 2 uses of your Fervor Ability.&pipe;1+max(0,min(20,WarpriestLVL)-2)/3&pipe;10+(TL/2)+CHA
+USERPOOL:Warpriest Channel Energy|POOLPOINTS:0.0
+ABILITY:Warpriest Focus Weapon Choice|TYPE:NORMAL|CATEGORY:Special Ability|KEY:Warprist Focus Weapon Choice ~ Focus Weapon|APPLIEDTO:Scimitar|TYPE:WarpriestFocusWeaponChoices
+USERPOOL:Warpriest Focus Weapon Choice|POOLPOINTS:0.0
+ABILITY:Warpriest Unarmed Strike|TYPE:NORMAL|CATEGORY:Internal|KEY:Warpriest ~ IUS No|TYPE:WarpriestIUS
+USERPOOL:Warpriest Unarmed Strike|POOLPOINTS:0.0
+
+# Character Weapon proficiencies
+WEAPONPROF:[WEAPON:Aldori Dueling Sword|WEAPON:Amentum|WEAPON:Ankus|WEAPON:Atlatl|WEAPON:Axe (Boarding)|WEAPON:Axe (Throwing)|WEAPON:Bardiche|WEAPON:Battle Aspergillum|WEAPON:Battle Poi|WEAPON:Battleaxe]
+WEAPONPROF:[WEAPON:Bayonet|WEAPON:Bec de Corbin|WEAPON:Bill|WEAPON:Blade Boot|WEAPON:Blowgun|WEAPON:Boar Spear|WEAPON:Boarding Pike|WEAPON:Brass Knife|WEAPON:Brass Knuckles|WEAPON:Broadsword (Nine Ring)]
+WEAPONPROF:[WEAPON:Butterfly Sword|WEAPON:Cat-O'-Nine-Tails|WEAPON:Cestus|WEAPON:Chakram|WEAPON:Club|WEAPON:Combat Scabbard|WEAPON:Crossbow (Heavy)|WEAPON:Crossbow (Light)|WEAPON:Cutlass|WEAPON:Dagger]
+WEAPONPROF:[WEAPON:Dagger (Chain)|WEAPON:Dagger (Punching)|WEAPON:Dart|WEAPON:Dogslicer|WEAPON:Dorn-Dergar (Dwarven)|WEAPON:Double Chicken Saber|WEAPON:Earth Breaker|WEAPON:Estoc|WEAPON:Falchion|WEAPON:Flail]
+WEAPONPROF:[WEAPON:Flail (Heavy)|WEAPON:Flambard|WEAPON:Gaff|WEAPON:Gandasa|WEAPON:Garrote|WEAPON:Gauntlet|WEAPON:Gauntlet (Spiked)|WEAPON:Gladius|WEAPON:Glaive|WEAPON:Glaive-Guisarme]
+WEAPONPROF:[WEAPON:Grapple|WEAPON:Greataxe|WEAPON:Greatclub|WEAPON:Greatsword|WEAPON:Guisarme|WEAPON:Hair|WEAPON:Halberd|WEAPON:Hammer (Light)|WEAPON:Hanbo|WEAPON:Handaxe]
+WEAPONPROF:[WEAPON:Helmet (Dwarven Boulder)|WEAPON:Hook Hand|WEAPON:Hooked Lance|WEAPON:Horsechopper|WEAPON:Hunga Munga|WEAPON:Hurlbat|WEAPON:Iron Brush|WEAPON:Javelin|WEAPON:Jutte|WEAPON:Katana]
+WEAPONPROF:[WEAPON:Kerambit|WEAPON:Khakkhara|WEAPON:Klar|WEAPON:Klar (as weapon)|WEAPON:Kukri|WEAPON:Kumade|WEAPON:Kunai|WEAPON:Lance|WEAPON:Laser Torch|WEAPON:Longaxe (Dwarven)]
+WEAPONPROF:[WEAPON:Longbow|WEAPON:Longhammer (Dwarven)|WEAPON:Longspear|WEAPON:Longsword|WEAPON:Lucerne Hammer|WEAPON:Lungchuan Tamo|WEAPON:Mace (Heavy)|WEAPON:Mace (Light)|WEAPON:Machete|WEAPON:Manople]
+WEAPONPROF:[WEAPON:Mattock|WEAPON:Mere Club|WEAPON:Monk's Spade|WEAPON:Morningstar|WEAPON:Naginata|WEAPON:Nodachi|WEAPON:Ogre Hook|WEAPON:Pick (Heavy)|WEAPON:Pick (Light)|WEAPON:Pilum]
+WEAPONPROF:[WEAPON:Pitchfork|WEAPON:Planson|WEAPON:Poisoned Sand Tube|WEAPON:Quarterstaff|WEAPON:Ranseur|WEAPON:Rapier|WEAPON:Rhoka|WEAPON:Rhomphaia|WEAPON:Rock|WEAPON:Rope Gauntlet]
+WEAPONPROF:[WEAPON:Sansetsukon|WEAPON:Sap|WEAPON:Scimitar|WEAPON:Scizore|WEAPON:Scythe|WEAPON:Sea-Knife|WEAPON:Shang Gou|WEAPON:Shieldbash|WEAPON:Shortbow|WEAPON:Shortspear]
+WEAPONPROF:[WEAPON:Sibat|WEAPON:Sickle|WEAPON:Sling|WEAPON:Sling Glove|WEAPON:Spear|WEAPON:Spear (Boar)|WEAPON:Spear-Sling|WEAPON:Spells (Ray)|WEAPON:Spells (Touch)|WEAPON:Spiked Armor]
+WEAPONPROF:[WEAPON:Splash Weapon|WEAPON:Stake|WEAPON:Starknife|WEAPON:Stingchuck|WEAPON:Stonebow|WEAPON:Switchblade Knife|WEAPON:Sword (Bastard)|WEAPON:Sword (Short)|WEAPON:Sword (Tri-Point Double-Edged)|WEAPON:Sword Cane]
+WEAPONPROF:[WEAPON:Syringe spear|WEAPON:Tepoztopilli|WEAPON:Terbutje|WEAPON:Terbutje (Great)|WEAPON:Throwing Arrow Cord|WEAPON:Tiger Fork|WEAPON:Tonfa|WEAPON:Trident|WEAPON:Tube Arrow Shooter|WEAPON:Unarmed Strike]
+WEAPONPROF:[WEAPON:Underwater Crossbow (Heavy)|WEAPON:Underwater Crossbow (Light)|WEAPON:Urgrosh (Dwarven)|WEAPON:War Flute|WEAPON:War Razor|WEAPON:Waraxe (Dwarven Double)|WEAPON:Waraxe (Dwarven)|WEAPON:Warhammer|WEAPON:Weighted Spear|WEAPON:Wushu Dart]
+
+# Character Equipment
+MONEY:185.00
+EQUIPNAME:Arrow|OUTPUTORDER:7|COST:0.05|WT:0.15|QUANTITY:12.0|NOTE:|CUSTOMIZATION:[BASEITEM:Arrow|DATA:NAME=Arrow$EQMOD=STEEL.WOOD]
+EQUIPNAME:Backpack|OUTPUTORDER:5|COST:2|WT:2.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Composite Longbow STR +2|OUTPUTORDER:0|COST:8400.0|WT:3.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Longbow (Composite)|DATA:NAME=Composite Longbow STR +2$KEY=Longbow +2 (Composite)$EQMOD=WOOD.PLUS2W]
+EQUIPNAME:Flauros' Unholy Symbol (Silver)|OUTPUTORDER:0|COST:25|WT:1.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Unholy Symbol (Silver)|DATA:NAME=Flauros' Unholy Symbol (Silver)$SPROP=(Unholy Symbol (Silver))]
+EQUIPNAME:Gauntlet|OUTPUTORDER:0|COST:0.0|WT:0.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Gauntlet (Part of Armor Suit)|DATA:NAME=Gauntlet$KEY=Gauntlet (Part of Armor Suit)$EQMOD=STEEL]
+EQUIPNAME:Gauntlet|OUTPUTORDER:0|COST:0.0|WT:0.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Gauntlet (Part of Armor Suit)|DATA:KEY=Gauntlet (Part of Armor Suit)$EQMOD=STEEL]
+EQUIPNAME:Gem|OUTPUTORDER:0|COST:770|WT:0.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Gem|DATA:NAME=Gem$COSTMOD=770]
+EQUIPNAME:Headband of Inspired Wisdom +2|OUTPUTORDER:1|COST:4000|WT:1.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Potion of Cure Serious Wounds|OUTPUTORDER:0|COST:750|WT:0.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Scimitar +1|OUTPUTORDER:2|COST:2315.0|WT:4.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Scimitar|DATA:NAME=Scimitar +1$EQMOD=STEEL.PLUS1W]
+EQUIPNAME:Shield, Light Wooden|OUTPUTORDER:1|COST:3.0|WT:5.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Shield (Light/Wooden)|DATA:NAME=Shield, Light Wooden$KEY=Shield (Light/Wooden)$EQMOD=WOOD]
+EQUIPNAME:Spear|OUTPUTORDER:2|COST:2.0|WT:6.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Spear|DATA:NAME=Spear$EQMOD=BRACE.STEEL.WOOD]
+EQUIPNAME:Spell Component Pouch|OUTPUTORDER:6|COST:5|WT:2.0|QUANTITY:1.0|NOTE:
+EQUIPNAME:Splint Mail +2 (Cloudburst)|OUTPUTORDER:3|COST:9350.0|WT:45.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Splint Mail|DATA:NAME=Splint Mail +2 (Cloudburst)$EQMOD=STEEL.PLUS2A.CLOUDB]
+EQUIPNAME:Uniform (Soldier's)|OUTPUTORDER:4|COST:0|WT:5.0|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Uniform (Soldier's)|DATA:NAME=Uniform (Soldier's)$KEY=Uniform (Soldier_s)$COSTMOD=-1]
+EQUIPNAME:Wand of Cure Light Wounds|OUTPUTORDER:0|COST:120.0|WT:0.0625|QUANTITY:1.0|NOTE:|CUSTOMIZATION:[BASEITEM:Wand|DATA:NAME=Wand of Cure Light Wounds$EQMOD=SPL_CHRG&pipe;SPELLNAME&lbracket;Cure Light Wounds&rbracket;SPELLLEVEL&lbracket;1&rbracket;CASTERLEVEL&lbracket;1&rbracket;CHARGES&lbracket;8&rbracket;$SPROP=When laying your hand upon a living creature, you channel positive energy that cures 1d8+1/level, max 5 points of damage.]
+EQUIPSET:Default Set|ID:0.1|USETEMPMODS:Y
+EQUIPSET:Torso|ID:0.1.01|VALUE:Uniform (Soldier's)|QUANTITY:1.0|USETEMPMODS:Y
+EQUIPSET:Equipped|ID:0.1.03|VALUE:Backpack|QUANTITY:1.0|USETEMPMODS:Y
+EQUIPSET:Equipped|ID:0.1.06|VALUE:Spell Component Pouch|QUANTITY:1.0|USETEMPMODS:Y
+EQUIPSET:Armor|ID:0.1.12|VALUE:Splint Mail +2 (Cloudburst)|QUANTITY:1.0|USETEMPMODS:Y
+EQUIPSET:Equipped|ID:0.1.13|VALUE:Arrow|QUANTITY:12.0|USETEMPMODS:Y
+EQUIPSET:Headband|ID:0.1.14|VALUE:Headband of Inspired Wisdom +2|QUANTITY:1.0|USETEMPMODS:Y
+EQUIPSET:Both Hands|ID:0.1.15|VALUE:Scimitar +1|QUANTITY:1.0|USETEMPMODS:Y
+CALCEQUIPSET:0.1
+
+# Temporary Bonuses
+TEMPBONUS:SPELL=Enlarge Person|TBTARGET:PC|TBBONUS:VAR&pipe;ACTIVATEENLARGEPERSON&pipe;1
+
+# EquipSet Temp Bonuses
+
+# Character Deity/Domain
+DEITY:None|DEITYDOMAINS:[DOMAIN:Aeon Subdomain|DOMAIN:Agathion Subdomain|DOMAIN:Air|DOMAIN:Ambush Subdomain|DOMAIN:Ancestors Subdomain|DOMAIN:Animal|DOMAIN:Aquatic|DOMAIN:Arcane Subdomain|DOMAIN:Archon Subdomain (Good)|DOMAIN:Archon Subdomain (Law)|DOMAIN:Arctic|DOMAIN:Aristocracy Subdomain|DOMAIN:Arson Subdomain|DOMAIN:Artifice|DOMAIN:Ash Subdomain|DOMAIN:Azata Subdomain (Chaos)|DOMAIN:Azata Subdomain (Good)|DOMAIN:Badlands|DOMAIN:Blood Subdomain|DOMAIN:Cannibalism Subdomain|DOMAIN:Catastrophe Subdomain|DOMAIN:Cave|DOMAIN:Caves Subdomain|DOMAIN:Chaos|DOMAIN:Charm|DOMAIN:Cloud Subdomain|DOMAIN:Community|DOMAIN:Competition Subdomain|DOMAIN:Construct Subdomain|DOMAIN:Cooperation Subdomain|DOMAIN:Corruption Subdomain|DOMAIN:Crocodile|DOMAIN:Curse Subdomain|DOMAIN:Daemon Subdomain|DOMAIN:Dark Tapestry Subdomain|DOMAIN:Darkness|DOMAIN:Day Subdomain|DOMAIN:Death|DOMAIN:Death (Pharasma)|DOMAIN:Decay Subdomain|DOMAIN:Deception Subdomain|DOMAIN:Defense Subdomain|DOMAIN:Demodand Subdomain (Chaos)|DOMAIN:Demodand Subdomain (Evil)|DOMAIN:Demon Subdomain (Chaos)|DOMAIN:Demon Subdomain (Evil)|DOMAIN:Desert|DOMAIN:Destruction|DOMAIN:Devil Subdomain (Evil)|DOMAIN:Devil Subdomain (Law)|DOMAIN:Divine Subdomain|DOMAIN:Dragon Subdomain|DOMAIN:Duels Subdomain|DOMAIN:Eagle|DOMAIN:Earth|DOMAIN:Education Subdomain (Community)|DOMAIN:Education Subdomain (Knowledge)|DOMAIN:Entropy Subdomain|DOMAIN:Espionage Subdomain (Knowledge)|DOMAIN:Espionage Subdomain (Trickery)|DOMAIN:Evil|DOMAIN:Exploration Subdomain|DOMAIN:Family Subdomain|DOMAIN:Fate Subdomain|DOMAIN:Fear Subdomain|DOMAIN:Feather Subdomain|DOMAIN:Ferocity Subdomain|DOMAIN:Fire|DOMAIN:Fist Subdomain|DOMAIN:Flotsam Subdomain|DOMAIN:Flowing Subdomain|DOMAIN:Fortifications Subdomain|DOMAIN:Freedom Subdomain|DOMAIN:Friendship Subdomain|DOMAIN:Frog|DOMAIN:Fur Subdomain|DOMAIN:Glory|DOMAIN:Good|DOMAIN:Greed Subdomain|DOMAIN:Growth Subdomain|DOMAIN:Hatred Subdomain|DOMAIN:Healing|DOMAIN:Heroism Subdomain|DOMAIN:Home Subdomain|DOMAIN:Honor Subdomain|DOMAIN:Ice Subdomain|DOMAIN:Imagination Subdomain|DOMAIN:Industry Subdomain|DOMAIN:Inevitable Subdomain|DOMAIN:Innuendo Subdomain|DOMAIN:Insanity Subdomain|DOMAIN:Isolation Subdomain|DOMAIN:Judgment Subdomain|DOMAIN:Jungle|DOMAIN:Knowledge|DOMAIN:Kyton Subdomain (Evil)|DOMAIN:Kyton Subdomain (Law)|DOMAIN:Language Subdomain|DOMAIN:Law|DOMAIN:Leadership Subdomain|DOMAIN:Legislation Subdomain (Law)|DOMAIN:Legislation Subdomain (Rune)|DOMAIN:Liberation|DOMAIN:Light Subdomain|DOMAIN:Loss Subdomain|DOMAIN:Love Subdomain|DOMAIN:Loyalty Subdomain|DOMAIN:Luck|DOMAIN:Lust Subdomain|DOMAIN:Madness|DOMAIN:Magic|DOMAIN:Martyr Subdomain|DOMAIN:Memory Subdomain|DOMAIN:Metal Subdomain|DOMAIN:Monkey|DOMAIN:Moon Subdomain|DOMAIN:Mountain|DOMAIN:Murder Subdomain|DOMAIN:Night Subdomain|DOMAIN:Nightmare Subdomain|DOMAIN:Nobility|DOMAIN:Oceans Subdomain|DOMAIN:Panther|DOMAIN:Plague Subdomain (Death)|DOMAIN:Plague Subdomain (Evil)|DOMAIN:Plains|DOMAIN:Plant|DOMAIN:Protean Subdomain|DOMAIN:Protection|DOMAIN:Psychopomp Subdomain (Death)|DOMAIN:Psychopomp Subdomain (Repose)|DOMAIN:Purity Subdomain|DOMAIN:Radiation Subdomain|DOMAIN:Rage Subdomain|DOMAIN:Redemption Subdomain|DOMAIN:Repose|DOMAIN:Resolve Subdomain|DOMAIN:Restoration Subdomain|DOMAIN:Resurrection Subdomain|DOMAIN:Revelation Subdomain|DOMAIN:Revelry Subdomain|DOMAIN:Revolution Subdomain|DOMAIN:Riot Subdomain|DOMAIN:Rivers Subdomain|DOMAIN:Rune|DOMAIN:Saurian Subdomain|DOMAIN:Scalykind|DOMAIN:Seasons Subdomain|DOMAIN:Serpent|DOMAIN:Shadow Subdomain (Darkness)|DOMAIN:Shadow Subdomain (Death)|DOMAIN:Slavery Subdomain|DOMAIN:Smoke Subdomain|DOMAIN:Solitude Subdomain|DOMAIN:Souls (Pharasma) Subdomain|DOMAIN:Souls Subdomain|DOMAIN:Stars Subdomain|DOMAIN:Storms Subdomain|DOMAIN:Strength|DOMAIN:Sun|DOMAIN:Swamp|DOMAIN:Tactics Subdomain|DOMAIN:Thievery Subdomain|DOMAIN:Thought Subdomain|DOMAIN:Toil Subdomain|DOMAIN:Torture Subdomain|DOMAIN:Trade Subdomain|DOMAIN:Trap Subdomain|DOMAIN:Travel|DOMAIN:Trickery|DOMAIN:Tyranny Subdomain|DOMAIN:Undead Subdomain|DOMAIN:Venom Subdomain|DOMAIN:Void|DOMAIN:Vulture|DOMAIN:War|DOMAIN:Wards Subdomain|DOMAIN:Water|DOMAIN:Weather|DOMAIN:Whimsy Subdomain|DOMAIN:Wind Subdomain|DOMAIN:Wolf]|ALIGNALLOW:|DESC:None|DEITYFAVWEAP:[]|DEITYALIGN:
+
+# Character Spells Information
+SPELLLIST:Warpriest|CLASS.Warpriest|CLASS.Cleric
+
+# Character Description/Bio/History
+CHARACTERBIO:
+CHARACTERDESC:
+CHARACTERCOMP:
+CHARACTERASSET:
+CHARACTERMAGIC:
+CHARACTERDMNOTES:
+
+# Kits
+
+# Character Master/Follower
+
+# Character Notes Tab
+
+# Age Set Selections
+AGESET:1:0:0:0:0:0:0:0:0:0
+
+# Campaign History
+
+# Suppressed Biography Fields
+SUPPRESSBIOFIELDS:HANDED|REGION
+

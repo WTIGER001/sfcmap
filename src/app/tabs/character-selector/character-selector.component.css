@@ -128,3 +128,14 @@ figcaption {
 .map-scroll {
     height: calc(100vh - 150px);
 }
+
+
+.admin-tool-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  padding: .5em;
+}

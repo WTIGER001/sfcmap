@@ -1,0 +1,1772 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+-->
+<character>
+	<export>
+		<date>Aug 10, 2018</date>
+		<time>4:50:08 PM</time>
+		<version>6.07.08</version>
+		<paperinfo>
+			<name>A4</name>
+			<height>297mm</height>
+			<width>210mm</width>
+			<margins>
+				<top>10mm</top>
+				<bottom>15mm</bottom>
+				<left>10mm</left>
+				<right>10mm</right>
+			</margins>
+		</paperinfo>
+		<directories>
+			<pcgen>C:\Users\johnb\AppData\Local\PCGen\6.07.08\system</pcgen>
+			<templates>C:\Users\johnb\AppData\Local\PCGen\6.07.08\outputsheets</templates>
+			<pcg>C:\Users\johnb\AppData\Local\PCGen\6.07.08\characters</pcg>
+			<html>C:\Users\johnb\AppData\Local\PCGen\6.07.08\outputsheets</html>
+			<temp>C:\Users\johnb\AppData\Local\Temp</temp>
+		</directories>
+		<invalidtext>
+			<tohit>null</tohit>
+			<damage>null</damage>
+		</invalidtext>
+	</export>
+	<unit_set>
+		<name>Imperial</name>
+		<height_unit>ftin</height_unit>
+		<distance_unit> ft.</distance_unit>
+		<weight_unit> lbs.</weight_unit>
+	</unit_set>
+	<!--
+	  ====================================
+	  ====================================
+			BIO
+	  ====================================
+	  ====================================-->
+	<basics>
+		<bonuses></bonuses>
+		<bonuses></bonuses>
+		<bonuses></bonuses>
+		<bonuses></bonuses>
+		<name>PCGEN TEST</name>
+		<followerof></followerof>
+		<playername>TEST</playername>
+		<charactertype>PC</charactertype>
+		<hero_points>0</hero_points>
+		<age>0</age>
+		<alignment>
+			<long>None</long>
+			<short>None</short>
+		</alignment>
+		<archetypes>
+			<archetype>
+				<name>Wildblooded</name>
+				<type>ARCHETYPE.SORCERER ARCHETYPE</type>
+			</archetype>
+		</archetypes>
+		<bab>+0</bab>
+		<bio></bio>
+		<birthday></birthday>
+		<birthplace></birthplace>
+		<catchphrase></catchphrase>
+		<classes>
+			<class>
+				<name>Sorcerer</name>
+				<abbreviation>Sor</abbreviation>
+				<level>1</level>
+				<bonuslist>Sorcerer</bonuslist>
+				<sequence>0</sequence>
+				<sequence_shortform>Sor1</sequence_shortform>
+			</class>
+			<levels_total>1</levels_total>
+			<levels_ecl>1</levels_ecl>
+			<!-- shortform below should be removed - it can be derived from class info above -->
+			<shortform>Sor1</shortform>
+			<!-- CLASSLIST is not extracted because we can derive it from the information above -->
+		</classes>
+		<deity>
+			<name>Cayden Cailean</name>
+			<alignment>CG</alignment>
+			<description>God of freedom, wine, bravery</description>
+			<domainlist>Azata Subdomain (Chaos), Azata Subdomain (Good), Chaos, Charm, Exploration Subdomain, Ferocity Subdomain, Good, Love Subdomain, Lust Subdomain, Resolve Subdomain, Strength, Travel</domainlist>
+			<favoredweapon>Rapier</favoredweapon>
+			<holyitem></holyitem>
+			<pantheonlist>Pathfinder Chronicles</pantheonlist>
+			<source>Paizo Inc. - Advanced Player&#39;s Guide, p.91</source>
+			<special_abilities></special_abilities>
+			<appearance></appearance>
+			<title></title>
+			<worshippers></worshippers>
+		</deity>
+		<description></description>
+		<experience>
+			<current>0</current>
+			<next_level>2000</next_level>
+			<factor>100%</factor>
+			<penalty>0%</penalty>
+		</experience>
+		<eyes>
+			<color></color>
+		</eyes>
+		<hair>
+			<color></color>
+			<length></length>
+		</hair>
+		<skin>
+			<color></color>
+		</skin>
+		<cr>1/2</cr>
+		<face>
+			<face>5 ft. by 5 ft.</face>
+			<short>5 ft.</short>
+			<squares>1 x 1</squares>
+		</face>
+		<favoredlist></favoredlist>
+		<followerlist></followerlist>
+		<gender>
+			<long>Male</long>
+			<short>Male</short>
+		</gender>
+		<handed>Right</handed>
+		<height>
+			<total>5&#39; 9&quot;</total>
+			<feet>5</feet>
+			<inches>9</inches>
+		</height>
+		<hitdice>(1d6)-2</hitdice>
+		<image>file:C:\Users\johnb\AppData\Local\PCGen\6.07.08\characters/PCGEN TEST.jpg</image>
+		<interests></interests>
+		<languages>
+			<language>Common</language>
+			<language></language>
+			<all>Common</all>
+		</languages>
+		<location></location>
+		<move>
+			<move>
+				<name>Walk</name>
+				<rate>30 ft.</rate>
+				<squares>6</squares>
+			</move>
+			<all>Walk 30 ft.</all>
+		</move>
+		<personality>
+			<trait></trait>
+			<trait></trait>
+		</personality>
+		<portrait>
+			<portrait></portrait>
+			<portrait_thumb></portrait_thumb>
+		</portrait>
+		<phobias></phobias>
+			<race>Fetchling</race>
+		<race>
+			<racetype>Outsider</racetype>
+		</race>
+		<reach>
+			<reach>5 ft.</reach>
+			<squares>1</squares>
+		</reach>
+		<region>None</region>
+		<reputation>0</reputation>
+		<residence></residence>
+		<size>
+			<long>Medium</long>
+			<short>M</short>
+		</size>
+		<speechtendency></speechtendency>
+		<type>Outsider</type>
+		<vision>
+			<vision>Darkvision (60 ft.)</vision>
+			<vision>Low-Light Vision</vision>
+			<all>Darkvision (60 ft.), Low-Light Vision</all>
+		</vision>
+		<wealth>0</wealth>
+		<gold>0</gold>
+		<weight>
+			<weight_unit>105 lbs.</weight_unit>
+			<weight_nounit>105</weight_nounit>
+		</weight>
+		<poolpoints>
+			<cost>19</cost>
+			<current>19</current>
+		</poolpoints>
+		<notes>
+		</notes>
+	</basics>
+
+	<!-- Use ASPECT.NotesSection.x and ASPECT.Notes.y	-->
+	<!--
+	  ====================================
+	  ====================================
+			ABILITIES
+	  ====================================
+	  ====================================-->
+	<abilities>
+		<ability>
+			<name>
+				<long>Strength</long>
+				<short>STR</short>
+			</name>
+			<score>16</score>
+			<modifier>+3</modifier>
+		<!--
+		Old BASE tag does not give stats with racial, and other permentant adjustments.
+		Use NOTEMP.NOEQUIP instead of BASE gives the correct results.
+
+			<base>16</base>
+			<basemod>+3</basemod>
+		-->
+			<base>16</base>
+			<basemod>+3</basemod>
+
+			<noequip>16</noequip>
+			<noequip_mod>+3</noequip_mod>
+			<no_temp_score>16</no_temp_score>
+			<no_temp_modifier>+3</no_temp_modifier>
+		</ability>
+		<ability>
+			<name>
+				<long>Dexterity</long>
+				<short>DEX</short>
+			</name>
+			<score>13</score>
+			<modifier>+1</modifier>
+		<!--
+		Old BASE tag does not give stats with racial, and other permentant adjustments.
+		Use NOTEMP.NOEQUIP instead of BASE gives the correct results.
+
+			<base>11</base>
+			<basemod>+0</basemod>
+		-->
+			<base>13</base>
+			<basemod>+1</basemod>
+
+			<noequip>13</noequip>
+			<noequip_mod>+1</noequip_mod>
+			<no_temp_score>13</no_temp_score>
+			<no_temp_modifier>+1</no_temp_modifier>
+		</ability>
+		<ability>
+			<name>
+				<long>Constitution</long>
+				<short>CON</short>
+			</name>
+			<score>7</score>
+			<modifier>-2</modifier>
+		<!--
+		Old BASE tag does not give stats with racial, and other permentant adjustments.
+		Use NOTEMP.NOEQUIP instead of BASE gives the correct results.
+
+			<base>7</base>
+			<basemod>-2</basemod>
+		-->
+			<base>7</base>
+			<basemod>-2</basemod>
+
+			<noequip>7</noequip>
+			<noequip_mod>-2</noequip_mod>
+			<no_temp_score>7</no_temp_score>
+			<no_temp_modifier>-2</no_temp_modifier>
+		</ability>
+		<ability>
+			<name>
+				<long>Intelligence</long>
+				<short>INT</short>
+			</name>
+			<score>14</score>
+			<modifier>+2</modifier>
+		<!--
+		Old BASE tag does not give stats with racial, and other permentant adjustments.
+		Use NOTEMP.NOEQUIP instead of BASE gives the correct results.
+
+			<base>14</base>
+			<basemod>+2</basemod>
+		-->
+			<base>14</base>
+			<basemod>+2</basemod>
+
+			<noequip>14</noequip>
+			<noequip_mod>+2</noequip_mod>
+			<no_temp_score>14</no_temp_score>
+			<no_temp_modifier>+2</no_temp_modifier>
+		</ability>
+		<ability>
+			<name>
+				<long>Wisdom</long>
+				<short>WIS</short>
+			</name>
+			<score>10</score>
+			<modifier>+0</modifier>
+		<!--
+		Old BASE tag does not give stats with racial, and other permentant adjustments.
+		Use NOTEMP.NOEQUIP instead of BASE gives the correct results.
+
+			<base>12</base>
+			<basemod>+1</basemod>
+		-->
+			<base>10</base>
+			<basemod>+0</basemod>
+
+			<noequip>10</noequip>
+			<noequip_mod>+0</noequip_mod>
+			<no_temp_score>10</no_temp_score>
+			<no_temp_modifier>+0</no_temp_modifier>
+		</ability>
+		<ability>
+			<name>
+				<long>Charisma</long>
+				<short>CHA</short>
+			</name>
+			<score>16</score>
+			<modifier>+3</modifier>
+		<!--
+		Old BASE tag does not give stats with racial, and other permentant adjustments.
+		Use NOTEMP.NOEQUIP instead of BASE gives the correct results.
+
+			<base>14</base>
+			<basemod>+2</basemod>
+		-->
+			<base>16</base>
+			<basemod>+3</basemod>
+
+			<noequip>16</noequip>
+			<noequip_mod>+3</noequip_mod>
+			<no_temp_score>16</no_temp_score>
+			<no_temp_modifier>+3</no_temp_modifier>
+		</ability>
+	</abilities>
+	<!--
+	  ====================================
+	  ====================================
+			HIT POINTS
+	  ====================================
+	  ====================================-->
+	<hit_points>
+		<usealternatedamage>0</usealternatedamage>
+		<points>4</points>
+		<alternate>14</alternate>
+		<die>(1d6)-2</die>
+		<die_short>1</die_short>
+		<current/>
+		<subdual/>
+		<damage_reduction></damage_reduction>
+		<damage_threshold>0</damage_threshold>
+		<history>
+			<roll>
+				<level>1</level>
+				<roll>6</roll>
+				<stat>-2</stat>
+				<total>4</total>
+			</roll>
+		</history>
+	</hit_points>
+	<!--
+	  ====================================
+	  ====================================
+			ARMOR CLASS
+	  ====================================
+	  ====================================-->
+	<armor_class>
+		<total>11</total>
+		<listing>ABILITY +1, BASE +10</listing>
+		<flat>10</flat>
+		<touch>11</touch>
+		<base>10</base>
+		<armor_bonus>0</armor_bonus>
+		<shield_bonus>0</shield_bonus>
+		<stat_mod>1</stat_mod>
+		<size_mod>0</size_mod>
+		<natural>0</natural>
+		<deflection>0</deflection>
+		<dodge>0</dodge>
+		<dodge_bonus>0</dodge_bonus>
+		<class_bonus>0</class_bonus>
+		<misc>0</misc>
+		<insight>0</insight>
+		<morale>0</morale>
+		<sacred>0</sacred>
+		<profane>0</profane>
+		<miss_chance/>
+		<max_dex></max_dex>
+		<spell_failure>0</spell_failure>
+		<check_penalty>+0</check_penalty>
+		<spell_resistance>0</spell_resistance>
+	</armor_class>
+	<!--
+	  ====================================
+	  ====================================
+			INITIATIVE
+	  ====================================
+	  ====================================-->
+	<initiative>
+		<total>+1</total>
+		<dex_mod>+1</dex_mod>
+		<misc_mod>+0</misc_mod>
+		<spell_failure>0</spell_failure>
+		<check_penalty>+0</check_penalty>
+		<spell_resistance>0</spell_resistance>
+		<hero_points>0</hero_points>
+	</initiative>
+	<!--
+	  ====================================
+	  ====================================
+			SKILLS
+	  ====================================
+	  ====================================-->
+	<skillinfo>
+		<conditional_modifiers>
+		</conditional_modifiers>
+	</skillinfo>
+	<skills>
+		<conditional_modifiers>
+		</conditional_modifiers>
+		<skillpoints>
+			<total>4</total>
+			<used>2</used>
+			<unused>2</unused>
+			<eclipse_total>0</eclipse_total>
+		</skillpoints>
+		<list_mods>Disable Device +4, Fly +5, Stealth +3</list_mods>
+			<max_class_skill_level>1</max_class_skill_level>
+		<max_cross_class_skill_level>1</max_cross_class_skill_level>
+		<skill>
+			<name>Acrobatics</name>
+			<ranks>0.0</ranks>
+			<mod>1<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>1</skill_mod>
+			<ability_mod>1<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>DEX</ability>
+			<synergy>Acrobatics</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>1</trained_total>
+			<exclusive_total>1</exclusive_total>
+			<classes></classes>
+			<type>Dexterity.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Appraise</name>
+			<ranks>0.0</ranks>
+			<mod>2<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>2</skill_mod>
+			<ability_mod>2<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>INT</ability>
+			<synergy>Appraise</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>2</trained_total>
+			<exclusive_total>2</exclusive_total>
+			<classes>Sorcerer</classes>
+			<type>Intelligence.Base</type>
+		</skill>
+		<skill>
+			<name>Bluff</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>CHA</ability>
+			<synergy>Bluff</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes>Sorcerer</classes>
+			<type>Charisma.Base</type>
+		</skill>
+		<skill>
+			<name>Climb</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>STR</ability>
+			<synergy>Climb</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes></classes>
+			<type>Strength.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Craft (Untrained)</name>
+			<ranks>0.0</ranks>
+			<mod>2<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>2</skill_mod>
+			<ability_mod>2<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>INT</ability>
+			<synergy>Craft (Untrained)</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>2</trained_total>
+			<exclusive_total>2</exclusive_total>
+			<classes>Sorcerer</classes>
+			<type>Intelligence.Craft.Base</type>
+		</skill>
+		<skill>
+			<name>Diplomacy</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>CHA</ability>
+			<synergy>Diplomacy</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes></classes>
+			<type>Charisma.Base</type>
+		</skill>
+		<skill>
+			<name>Disable Device</name>
+			<ranks>1.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>4</skill_mod>
+			<ability_mod>1<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>2<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>DEX</ability>
+			<synergy>Disable Device</synergy>
+			<untrained>NO</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>4</trained_total>
+			<exclusive_total>4</exclusive_total>
+			<classes></classes>
+			<type>Dexterity.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Disguise</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>CHA</ability>
+			<synergy>Disguise</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes></classes>
+			<type>Charisma.Base</type>
+		</skill>
+		<skill>
+			<name>Escape Artist</name>
+			<ranks>0.0</ranks>
+			<mod>1<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>1</skill_mod>
+			<ability_mod>1<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>DEX</ability>
+			<synergy>Escape Artist</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>1</trained_total>
+			<exclusive_total>1</exclusive_total>
+			<classes></classes>
+			<type>Dexterity.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Fly</name>
+			<ranks>1.0</ranks>
+			<mod>4<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>5</skill_mod>
+			<ability_mod>1<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>3<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>DEX</ability>
+			<synergy>Fly</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>5</trained_total>
+			<exclusive_total>5</exclusive_total>
+			<classes>Sorcerer</classes>
+			<type>Dexterity.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Heal</name>
+			<ranks>0.0</ranks>
+			<mod>0<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>0</skill_mod>
+			<ability_mod>0<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>WIS</ability>
+			<synergy>Heal</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>0</trained_total>
+			<exclusive_total>0</exclusive_total>
+			<classes></classes>
+			<type>Wisdom.Base</type>
+		</skill>
+		<skill>
+			<name>Intimidate</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>CHA</ability>
+			<synergy>Intimidate</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes>Sorcerer</classes>
+			<type>Charisma.Base</type>
+		</skill>
+		<skill>
+			<name>Perception</name>
+			<ranks>0.0</ranks>
+			<mod>0<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>0</skill_mod>
+			<ability_mod>0<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>WIS</ability>
+			<synergy>Perception</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>0</trained_total>
+			<exclusive_total>0</exclusive_total>
+			<classes></classes>
+			<type>Wisdom.Base</type>
+		</skill>
+		<skill>
+			<name>Perform (Untrained)</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>CHA</ability>
+			<synergy>Perform (Untrained)</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes></classes>
+			<type>Charisma.Perform.Base</type>
+		</skill>
+		<skill>
+			<name>Ride</name>
+			<ranks>0.0</ranks>
+			<mod>1<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>1</skill_mod>
+			<ability_mod>1<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>DEX</ability>
+			<synergy>Ride</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>1</trained_total>
+			<exclusive_total>1</exclusive_total>
+			<classes></classes>
+			<type>Dexterity.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Sense Motive</name>
+			<ranks>0.0</ranks>
+			<mod>0<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>0</skill_mod>
+			<ability_mod>0<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>WIS</ability>
+			<synergy>Sense Motive</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>0</trained_total>
+			<exclusive_total>0</exclusive_total>
+			<classes></classes>
+			<type>Wisdom.Base</type>
+		</skill>
+		<skill>
+			<name>Stealth</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>1<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>2<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>DEX</ability>
+			<synergy>Stealth</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes></classes>
+			<type>Dexterity.ACHECK.Base</type>
+		</skill>
+		<skill>
+			<name>Survival</name>
+			<ranks>0.0</ranks>
+			<mod>0<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>0</skill_mod>
+			<ability_mod>0<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>WIS</ability>
+			<synergy>Survival</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>0</trained_total>
+			<exclusive_total>0</exclusive_total>
+			<classes></classes>
+			<type>Wisdom.Base</type>
+		</skill>
+		<skill>
+			<name>Swim</name>
+			<ranks>0.0</ranks>
+			<mod>3<!-- Mods from abilities, equipment, etc -->
+			</mod>
+			<skill_mod>3</skill_mod>
+			<ability_mod>3<!-- Mod from the key ability -->
+			</ability_mod>
+			<misc_mod>0<!-- This is a calc value of TOTAL-RANK-ABMOD -->
+			</misc_mod>
+			<ability>STR</ability>
+			<synergy>Swim</synergy>
+			<untrained>Y</untrained>
+			<exclusive>N</exclusive>
+			<trained_total>3</trained_total>
+			<exclusive_total>3</exclusive_total>
+			<classes></classes>
+			<type>Strength.ACHECK.Base</type>
+		</skill>
+
+	<!-- Skills -->
+	</skills>
+	<!--
+	  ====================================
+	  ====================================
+			SAVING THROWS
+	  ====================================
+	  ====================================-->
+	<saving_throws>
+		<conditional_modifiers>
+		</conditional_modifiers>
+		<saving_throw>
+			<name>
+				<long>fortitude</long>
+				<short>fort</short>
+			</name>
+				<ability>constitution</ability>
+			<total>-2</total>
+			<base>+0</base>
+			<abil_mod>-2</abil_mod>
+			<feats>+0</feats>
+			<magic_mod>+0</magic_mod>
+			<misc_mod>+0</misc_mod>
+			<misc_w_magic_mod>+0</misc_w_magic_mod>
+			<race>+0</race>
+			<epic_mod>+0</epic_mod>
+			<temp_mod/>
+		</saving_throw>
+		<saving_throw>
+			<name>
+				<long>reflex</long>
+				<short>ref</short>
+			</name>
+				<ability>dexterity</ability>
+			<total>+1</total>
+			<base>+0</base>
+			<abil_mod>+1</abil_mod>
+			<feats>+0</feats>
+			<magic_mod>+0</magic_mod>
+			<misc_mod>+0</misc_mod>
+			<misc_w_magic_mod>+0</misc_w_magic_mod>
+			<race>+0</race>
+			<epic_mod>+0</epic_mod>
+			<temp_mod/>
+		</saving_throw>
+		<saving_throw>
+			<name>
+				<long>will</long>
+				<short>will</short>
+			</name>
+				<ability>wisdom</ability>
+			<total>+2</total>
+			<base>+2</base>
+			<abil_mod>+0</abil_mod>
+			<feats>+0</feats>
+			<magic_mod>+0</magic_mod>
+			<misc_mod>+0</misc_mod>
+			<misc_w_magic_mod>+0</misc_w_magic_mod>
+			<race>+0</race>
+			<epic_mod>+0</epic_mod>
+			<temp_mod/>
+		</saving_throw>
+	</saving_throws>
+	<!--
+	  ====================================
+	  ====================================
+			ATTACK
+	  ====================================
+	  ====================================-->
+	<attack>
+			<conditional_modifiers>
+			</conditional_modifiers>
+
+		<melee>
+			<total>+3</total>
+			<total_short>+3</total_short>
+			<bab>+0</bab>
+			<!-- +0 -->
+			<base_attack_bonus>+0</base_attack_bonus>
+			<stat_mod>+3</stat_mod>
+			<size_mod>+0</size_mod>
+			<misc_mod>+0</misc_mod>
+			<epic_mod>0</epic_mod>
+			<!-- +0 -->
+			<temp_mod/>
+		</melee>
+		<ranged>
+			<total>+1</total>
+			<bab>+0</bab>
+			<!-- +0 -->
+			<base_attack_bonus>+0</base_attack_bonus>
+			<stat_mod>+1</stat_mod>
+			<size_mod>+0</size_mod>
+			<misc_mod>+0</misc_mod>
+			<epic_mod>0</epic_mod>
+			<!-- +0 -->
+			<temp_mod/>
+		</ranged>
+			<!-- Either CMB block, or Grapple Block -->
+			<cmb>
+				<!-- Base stuff for standard block -->
+				<title>CMB</title>
+				<total>+3</total>
+				<bab>+0</bab>
+				<base_attack_bonus>+0</base_attack_bonus>
+				<stat_mod>+3</stat_mod>
+				<size_mod>+0</size_mod>
+				<misc_mod></misc_mod>	
+				<epic_mod/>
+				<temp_mod/>
+				<!-- Base values (not yet used) -->
+				<grapple_base>+3</grapple_base>
+				<trip_base>+3</trip_base>
+				<disarm_base>+3</disarm_base>
+				<sunder_base>+3</sunder_base>
+				<bullrush_base>+0</bullrush_base>
+				<overrun_base>+3</overrun_base>
+				<!-- Defense values -->
+				<!-- Pathfinder (final release) -->
+				<!-- Attack values -->
+				<grapple_attack>+3</grapple_attack>
+				<trip_attack>+3</trip_attack>
+				<disarm_attack>+3</disarm_attack>
+				<sunder_attack>+3</sunder_attack>
+				<bullrush_attack>+3</bullrush_attack>
+				<overrun_attack>+3</overrun_attack>
+				<!-- Defense values -->
+				<defense>14</defense>
+				<grapple_defense>14</grapple_defense>
+				<trip_defense>
+				14
+				</trip_defense>
+				<disarm_defense>14</disarm_defense>
+				<sunder_defense>14</sunder_defense>
+				<bullrush_defense>14</bullrush_defense>
+				<overrun_defense>14</overrun_defense>
+
+			</cmb>
+		<!-- End CMB / Grapple Block -->
+	</attack>
+	<!--
+	  ====================================
+	  ====================================
+			WEAPONS
+	  ====================================
+	  ====================================-->
+
+	<weapons>
+		<unarmed>
+			<total>+3</total>
+			<damage>1d3+3</damage>
+			<critical>20/x2</critical>
+			<!-- Should be changed to a variable due to improved crit -->
+			<reach>5 ft.</reach>
+						<!-- Commenting this out (will need a test as well)
+			3.0 uses "Subdual", 3.5 uses "nonlethal".  We'll need a separate node for both.	-->
+			<type>(nonlethal only)</type>
+		</unarmed>
+		<!-- Spirit Weapon - Melee -->
+
+		<!-- Spirit Weapon - Ranged -->
+	<!-- End Spirit Weapon - Ranged -->
+
+	<!-- Blank Natural Attack -->
+
+	<!-- Natural Attack -->
+
+	</weapons>
+	<!--
+	  ====================================
+	  ====================================
+			ARMOR
+	  ====================================
+	  ====================================-->
+	<protection>
+	</protection>
+	<!--
+	  ====================================
+	  ====================================
+			CLASS-DEPENDANT FEATURES
+	  ====================================
+	  ====================================-->
+	<class_features>
+		<!-- D&D 3.0 -->
+		<!-- D&D 3.5 -->
+	<!-- Bard -->
+
+
+
+
+	<!-- Pathfinder -->
+		<!-- Character Rage -->
+		<!-- Character Rage -->
+
+	<!-- Turning ability -->
+
+
+	<!-- Eclipse Channeling -->
+
+	<!-- Channel Energy -->
+
+	<!-- 3.0 stunning fist -->
+
+	<!-- 3.0 stunning fist -->
+
+	<!-- 3.5 stunning fist -->
+
+	<!-- 3.0 wholeness of body -->
+
+	<!-- 3.5 wholeness of body -->
+
+			<!-- Psionics -->
+
+		
+		
+
+
+	</class_features>
+
+	<!-- Abilites with check lists - master/child abilities -->
+	<checklists>
+	</checklists>
+
+	<!-- Proficiency lists -->
+	<proficiency_specials>
+	</proficiency_specials>
+
+	<!--
+	  ====================================
+	  ====================================
+			EQUIPMENT
+	  ====================================
+	  ====================================-->
+	<equipment>
+		<total>
+			<weight>0 lbs.</weight>
+			<value>0 gp</value>
+			<load>Light</load>
+			<capacity>230</capacity>
+		</total>
+		<equipmentsets>
+		<equipmentset name="Default Set">
+			</equipmentset>
+		</equipmentsets>
+	</equipment>
+	<weight_allowance>
+		<light>76</light>
+		<medium>153</medium>
+		<heavy>230</heavy>
+		<lift_over_head>230</lift_over_head>
+		<lift_off_ground>460</lift_off_ground>
+		<!-- And loses Dex bonus to AC and can only move 5 feet per round as a full-round action -->
+		<push_drag>1150</push_drag>
+	</weight_allowance>
+	<!--
+	  ====================================
+	  ====================================
+			SPECIAL ABILITIES
+	  ====================================
+	  ====================================-->
+	<special_abilities>
+		<race></race>
+		<class>
+			<class>Sorcerer</class>
+			<ability></ability>
+		</class>
+	</special_abilities>
+	<!--
+	  ====================================
+	  ====================================
+			FEATS
+	  ====================================
+	  ====================================-->
+	<feats>
+		<!-- Visible standard feats (not including the auto feats) -->
+		<feat>
+			<name>Deft Hands</name>
+			<description>You have exceptional manual dexterity.</description>
+			<benefit>You get a +2 bonus on Disable Device and Sleight of Hand skill checks. If you have 10 or more ranks in one of these skills, the bonus increases to +4 for that skill.</benefit>
+			<type>GENERAL.SERPENTINEBLOODLINE.CLOAKEDWOLFBONUSFEAT</type>
+			<associated></associated>
+			<count>0</count>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<source>Paizo Inc. - Core Rulebook, p.121</source>
+		</feat>
+
+		<!-- Auto feats -->
+		<feat>
+			<name>Eschew Materials</name>
+			<description>You can cast many spells without needing to utilize minor material components.</description>
+			<benefit>You can cast any spell with a material component costing 1 gp or less without needing that component. The casting of the spell still provokes attacks of opportunity as normal. If the spell requires a material component that costs more than 1 gp, you must have the material component on hand to cast the spell, as normal.</benefit>
+			<type>GENERAL</type>
+			<associated></associated>
+			<count>0</count>
+			<auto>T</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<source>Paizo Inc. - Core Rulebook, p.123</source>
+		</feat>
+
+		<!-- Virtual Feats -->
+		<!-- End Virtual Feats -->
+		<!-- Hidden feats (all feats less the virtual, automatic and visible ones) -->
+		<!-- Hidden VFEATS -->
+		<!-- END Hidden VFEATS -->
+		<feat>
+			<name>CMB Output</name>
+			<description></description>
+			<benefit></benefit>
+			<type>INTERNAL</type>
+			<associated></associated>
+			<count>0</count>
+			<auto>T</auto>
+			<hidden>T</hidden>
+			<virtual>F</virtual>
+			<source>Paizo Inc. - Core Rulebook</source>
+		</feat>
+	</feats>
+
+	<!--
+	  ====================================
+	  ====================================
+			ARCHETYPES
+	  ====================================
+	  ====================================-->
+	<archetypes>
+		<archetype>
+			<name>Wildblooded</name>
+			<description>A wildblooded sorcerer has a mutated version of a more common bloodline, with one arcana and at least one bloodline power that are different from those of an unmutated bloodline.</description>
+			<type>ARCHETYPE.SORCERER ARCHETYPE</type>
+			<associated></associated>
+			<count>0</count>
+			<category>Archetype</category>
+			<source>Paizo Inc. - Ultimate Magic, p.70</source>
+		</archetype>
+	</archetypes>
+	<!--
+	  ====================================
+	  ====================================
+			SPECIAL QUALITIES
+	  ====================================
+	  ====================================-->
+	<special_qualities>
+		<!-- Visible All "Special Ability" Ability Objects -->
+		<special_quality>
+			<name>Cantrips</name>
+			<description>Sorcerers learn a number of cantrips, or 0-level spells. These spells are cast like any other spell, but they do not consume any slots and may be used again.</description>
+			<type>CLASS FEATURE.SORCERER CLASS FEATURE.SPECIALQUALITY</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Core Rulebook, p.71</source>
+		</special_quality>
+		<special_quality>
+			<name>Darkvision (Ex)</name>
+			<description>Range 60 ft.; Darkvision is the extraordinary ability to see with no light source at all, out to a range specified for the creature. Darkvision is black and white only (colors cannot be discerned). It does not allow characters to see anything that they could not see otherwise-invisible objects are still invisible, and illusions are still visible as what they seem to be. Likewise, darkvision subjects a creature to gaze attacks normally. The presence of light does not spoil darkvision.</description>
+			<type>SPECIALQUALITY.EXTRAORDINARY.VISION</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect>Vision: Darkvision 60 ft.</aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Bestiary</source>
+		</special_quality>
+		<special_quality>
+			<name>Low-Light Vision (Ex)</name>
+			<description>You can see x2 as far as humans in low illumination. Characters with low-light vision have eyes that are so sensitive to light that they can see twice as far as normal in dim light. Low-Light Vision is color vision. A spellcaster with low-light vision can read a scroll as long as even the tiniest candle flame is next to her as a source of light. Characters with low-light vision can see outdoors on a moonlit night as well as they can during the day.</description>
+			<type>SPECIALQUALITY.EXTRAORDINARY.VISION</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect>Vision: Low-Light Vision</aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Bestiary</source>
+		</special_quality>
+		<special_quality>
+			<name>Shadow Blending</name>
+			<description>Attacks against a fetchling in dim light have a 50% miss chance instead of the normal 20% miss chance. This ability does not grant total concealment; it just increases the miss chance.</description>
+			<type>FETCHLINGRACIALTRAIT.FETCHLINGRACIALDEFAULT.SPECIALQUALITY</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Advanced Race Guide, p.109</source>
+		</special_quality>
+		<special_quality>
+			<name>Shadowy Resistance</name>
+			<description>Fetchlings have cold resistance 5 and electricity resistance 5.</description>
+			<type>FETCHLINGRACIALTRAIT.FETCHLINGRACIALDEFAULT.SPECIALQUALITY</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Advanced Race Guide, p.109</source>
+		</special_quality>
+		<special_quality>
+			<name>Skilled (Ex)</name>
+			<description>Fetchlings gain a +2 racial bonus on Knowledge (planes) and Stealth checks.</description>
+			<type>RACIALTRAITS.SPECIALQUALITY.EXTRAORDINARY.FETCHLINGRACIALTRAIT.FETCHLINGRACIALDEFAULT</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Advanced Race Guide, p.109</source>
+		</special_quality>
+		<special_quality>
+			<name>Spell-Like Abilities (Sp)</name>
+			<description>Fetchlings can use disguise self 1/day to assume the form of any humanoid creature.</description>
+			<type>RACIALTRAITS.SPECIALQUALITY.SPELLLIKE.FETCHLINGRACIALTRAIT.FETCHLINGRACIALDEFAULT</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Advanced Race Guide, p.103</source>
+		</special_quality>
+		<special_quality>
+			<name>Spells</name>
+			<description>A sorcerer casts arcane spells drawn primarily from the sorcerer/wizard spell list. She can cast any spell she knows without preparing it ahead of time. To learn or cast a spell, a sorcerer must have a Charisma score equal to at least 10 + the spell level. The Difficulty Class for a saving throw against a sorcerer&#39;s spell is 13 + the spell level.</description>
+			<type>CLASS FEATURE.SORCERER CLASS FEATURE.SPECIALQUALITY</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Core Rulebook, p.70</source>
+		</special_quality>
+		<special_quality>
+			<name>Weapon and Armor Proficiency</name>
+			<description>Sorcerers are proficient with all simple weapons. They are not proficient with any type of armor or shield. Armor interferes with a sorcerer&#39;s gestures, which can cause her spells with somatic components to fail.</description>
+			<type>CLASS FEATURE.SORCERER CLASS FEATURE.SPECIALQUALITY</type>
+			<associated></associated>
+			<count>0</count>
+			<aspect></aspect>
+			<auto>F</auto>
+			<hidden>F</hidden>
+			<virtual>F</virtual>
+			<category>Special Ability</category>
+			<source>Paizo Inc. - Core Rulebook, p.70</source>
+		</special_quality>
+	</special_qualities>
+	<!--
+	  ====================================
+	  ====================================
+			SPECIAL ATTACKS
+	  ====================================
+	  ====================================-->
+	<special_attacks>
+	</special_attacks>
+
+		<!--
+	  ====================================
+	  ====================================
+			Resistance Table
+	  ====================================
+	  ====================================-->
+		<resistances>
+		</resistances>
+
+		<!--
+	  ====================================
+	  ====================================
+			Racial Traits
+	  ====================================
+	  ====================================-->
+
+	<racial_traits>
+	</racial_traits>
+
+		<!--
+	  ====================================
+	  ====================================
+			Animal Trick
+	  ====================================
+	  ====================================-->
+	<animal_tricks>
+	</animal_tricks>
+
+	<!--
+	  ====================================
+	  ====================================
+			TALENTS
+	  ====================================
+	  ====================================-->
+	<talents>
+	</talents>
+
+	<!--
+	  ====================================
+	  ====================================
+			Intelligent Item
+	  ====================================
+	  ====================================-->
+	<intelligent_items>
+	</intelligent_items>
+
+	<!--
+	  ====================================
+	  ====================================
+			Words of Power
+	  ====================================
+	  ====================================-->
+	<words_of_powers>
+	</words_of_powers>
+
+	<!--
+	  ====================================
+	  ====================================
+			SALIENT DIVINE ABILITIES
+	  ====================================
+	  ====================================-->
+	<salient_divine_abilities>
+	</salient_divine_abilities>
+	<!--
+	  ====================================
+	  ====================================
+			Occupations
+	  ====================================
+	  ====================================-->
+	<occupations>
+	</occupations>
+
+
+	<!-- Eclipse Section -->
+		<!--
+	  ====================================
+	  ====================================
+			Eclipse Recurring Bonuses
+	  ====================================
+	  ====================================-->
+	<charcreations>
+	</charcreations>
+		<!--
+	  ====================================
+	  ====================================
+			DISADVANTAGES
+	  ====================================
+	  ====================================-->
+	<disadvantages>
+	</disadvantages>
+	<!--
+	  ====================================
+	  ====================================
+			Eclipse Abilities
+	  ====================================
+	  ====================================-->
+	<eclipse_abilities>
+	</eclipse_abilities>
+	<!--
+	  ====================================
+	  ====================================
+			Spell Caster Output
+	  ====================================
+	  ====================================-->
+	<spellcasteroutputs>
+	</spellcasteroutputs>
+	<!--
+	  ====================================
+	  ====================================
+			Martial Arts
+	  ====================================
+	  ====================================-->
+	<martial_arts>
+	</martial_arts>
+	<!--
+	  ====================================
+	  ====================================
+			Mystic Artist
+	  ====================================
+	  ====================================-->
+	<mystic_artists>
+	</mystic_artists>
+	<!--
+	  ====================================
+	  ====================================
+			Witchcraft Abilities
+	  ====================================
+	  ====================================-->
+	<witchcrafts>
+	</witchcrafts>
+	<!--
+	  ====================================
+	  ====================================
+			The Path of the Dragon
+	  ====================================
+	  ====================================-->
+	<path_dragons>
+	</path_dragons>
+		<!--
+	  ====================================
+	  ====================================
+			Dominion and Advanced Dominion
+	  ====================================
+	  ====================================-->
+	<dominions>
+	</dominions>
+	<!--
+	  ====================================
+	  ====================================
+			Channeling
+	  ====================================
+	  ====================================-->
+	<channelings>
+	</channelings>
+	<!-- END ECLIPSE SECION -->
+
+	<!--
+	  ====================================
+	  ====================================
+			POWERS - CLASSFEATURES
+	  ====================================
+	  ====================================-->
+	<powers_classfeatures>
+	</powers_classfeatures>
+
+		<!--
+	  ====================================
+	  ====================================
+			POWERS - CLASSFEATURES
+	  ====================================
+	  ====================================-->
+	<powers_classfeatures>
+	</powers_classfeatures><!--
+	  ====================================
+	  ====================================
+			POWERS - FEATPOWERS
+	  ====================================
+	  ====================================-->
+	<powers_featpowers>
+	</powers_featpowers>
+
+	<!--
+	  ====================================
+	  ====================================
+			4e Powers - At-Will
+	  ====================================
+	  ====================================-->
+	<powers_atwills>
+	</powers_atwills>
+
+	<!--
+	  ====================================
+	  ====================================
+			4e Powers - At-Will
+	  ====================================
+	  ====================================-->
+	<powers_atwills>
+	</powers_atwills>
+
+	<!--
+	  ====================================
+	  ====================================
+			4e Powers - Encounter
+	  ====================================
+	  ====================================-->
+
+	<powers_encounters>
+	</powers_encounters>
+	<!--
+	  ====================================
+	  ====================================
+			4e Powers - Daily
+	  ====================================
+	  ====================================-->
+	<powers_dailies>
+	</powers_dailies>
+	<!--
+	  ====================================
+	  ====================================
+			4e Powers - Utility
+	  ====================================
+	  ====================================-->
+
+	<powers_utilities>
+	</powers_utilities>
+
+	<!--
+	  ====================================
+	  ====================================
+			Demon Cant
+	  ====================================
+	  ====================================-->
+	<demon_cants>
+	</demon_cants>
+	<!--
+	  ====================================
+	  ====================================
+			Mage Gnosis
+	  ====================================
+	  ====================================-->
+	<mage_gnosises>
+	</mage_gnosises>
+	<!--
+	  ====================================
+	  ====================================
+			Vampire Disciplines
+	  ====================================
+	  ====================================-->
+	<vampire_disciplines>
+	</vampire_disciplines>
+	<!--
+	  ====================================
+	  ====================================
+			Werewolf Rites
+	  ====================================
+	  ====================================-->
+	<werewolf_rites>
+	</werewolf_rites>
+
+	<!--
+	  ====================================
+	  ====================================
+			Force Powers
+	  ====================================
+	  ====================================-->
+	<force_powers>
+	</force_powers>
+	<!--
+	  ====================================
+	  ====================================
+			Force Techniques
+	  ====================================
+	  ====================================-->
+	<force_techniques>
+	</force_techniques>
+	<!--
+	  ====================================
+	  ====================================
+			Force Secrets
+	  ====================================
+	  ====================================-->
+	<force_secrets>
+	</force_secrets>
+
+	<!--
+	====================================
+	====================================
+			MUTATIONS
+	====================================
+	====================================	-->
+	<mutations>
+	</mutations>
+
+
+
+
+	<!--
+	  ====================================
+	  ====================================
+			TRAITS
+	  ====================================
+	  ====================================-->
+	<traits>
+	</traits>
+
+	<!--
+	  ====================================
+	  ====================================
+			Afflictions
+	  ====================================
+	  ====================================-->
+	<afflictions>
+	</afflictions>
+
+	<!--
+	  ====================================
+	  ====================================
+			PFS Chronicles
+	  ====================================
+	  ====================================-->
+	<pfs_chronicles>
+	</pfs_chronicles>
+	<!--
+	  ====================================
+	  ====================================
+			PFS Boons
+	  ====================================
+	  ====================================-->
+	<pfs_boons>
+	</pfs_boons>
+	<!--
+	====================================
+	  ====================================
+			Temporary Bonus
+	  ====================================
+	  ====================================-->
+	<tempbonuses>
+	</tempbonuses>
+
+	<!--
+	  ====================================
+	  ====================================
+			MISCELLANEOUS
+	  ====================================
+	  ====================================-->
+
+
+	<!-- Domains -->
+	<weapon_proficiencies>Battle Aspergillum, Bayonet, Blowgun, Boar Spear, Brass Knuckles, Cestus, Club, Heavy Crossbow, Light Crossbow, Dagger, Punching Dagger, Dart, Gauntlet, Spiked Gauntlet, Grapple, Javelin, Longspear, Heavy Mace, Light Mace, Mere Club, Morningstar, Quarterstaff, Rock, Shortspear, Sickle, Sling, Spear, Boar Spear, Ray Spells, Touch Spells, Splash Weapon, Stake, Unarmed Strike, Underwater Heavy Crossbow, Underwater Light Crossbow</weapon_proficiencies>
+	<languages>Common</languages>
+
+
+	<misc>
+			<gold>0</gold>
+
+		<funds>
+			<fund></fund>
+		</funds>
+		<companions>
+			<companion></companion>
+		</companions>
+<!--	This doesn't work - AM
+		-->
+		<magics>
+			<magic></magic>
+		</magics>
+	</misc>
+	<!--
+	  ====================================
+	  ====================================
+			COMPANIONS
+	  ====================================
+	  ====================================-->
+	<companions>
+
+
+	</companions>
+	<!--
+	  ====================================
+	  ====================================
+			SPELLS
+	  ====================================
+	  ====================================-->
+	<spells>
+		<!-- ### BEGIN Innate spells ### -->
+	<spells_innate>
+		<racial_innate>
+			<spell>
+					<name>Disguise Self</name>
+					<outputname>Disguise Self</outputname>
+					<times_memorized>1</times_memorized>
+					<range>Personal</range>
+					<components>V, S</components>
+					<castingtime>1 standard action</castingtime>
+					<casterlevel>1</casterlevel>
+					<concentration>+1</concentration>
+					<times_unit>Day</times_unit>
+					<dc></dc>
+					<duration>10 minutes [D]</duration>
+					<effect>You make yourself--including clothing, armor, weapons, and equipment--look different.</effect>
+					<target>You</target>
+					<saveinfo></saveinfo>
+					<school>
+						<school>Illusion</school>
+						<subschool>Glamer</subschool>
+						<descriptor></descriptor>
+						<fullschool>Illusion (Glamer)</fullschool>
+					</school>
+					<source>
+						<source>Paizo Inc. - Core Rulebook, p.271</source>
+						<sourcelevel>Sor1</sourcelevel>
+						<sourcelink>http://paizo.com/pathfinderRPG/prd/spells/disguiseSelf.html#_disguise-self</sourcelink>
+						<sourcepage>p.271</sourcepage>
+						<sourceshort>CR</sourceshort>
+					</source>
+					<spell_resistance></spell_resistance>
+					<description>You make yourself--including clothing, armor, weapons, and equipment--look different.</description>
+					<bonusspell></bonusspell>
+			</spell>
+		</racial_innate>
+
+		<class_innate>
+		</class_innate>
+		</spells_innate>
+		<!-- ### END Innate spells ### -->
+		<!-- ### BEGIN Known spells ### -->
+		<known_spells>
+		<class number="1" spelllistclass="Sorcerer" spellcasterlevel="1" spellcastertype="Arcane" memorize="false" concentration="+4">
+			<level number="0" known="4" cast="0">
+			</level>
+			<level number="1" known="2" cast="4">
+			</level>
+			<level number="2" known="0" cast="0">
+			</level>
+			<level number="3" known="0" cast="0">
+			</level>
+			<level number="4" known="0" cast="0">
+			</level>
+			<level number="5" known="0" cast="0">
+			</level>
+			<level number="6" known="0" cast="0">
+			</level>
+			<level number="7" known="0" cast="0">
+			</level>
+			<level number="8" known="0" cast="0">
+			</level>
+			<level number="9" known="0" cast="0">
+			</level>
+		</class>
+	</known_spells>
+		<!-- ### END Known spells ### -->
+
+		<!-- ### BEGIN memorized spells ### -->
+	<memorized_spells>
+			<!-- ### BEGIN innate memorized spell section -->
+
+	<!-- ### BEGIN innate memorized spells ### -->
+		<racial_innate_memorized>
+			<spell>
+					<name>Disguise Self</name>
+					<outputname>Disguise Self</outputname>
+					<times_memorized>1</times_memorized>
+					<range>Personal</range>
+					<components>V, S</components>
+					<castingtime>1 standard action</castingtime>
+					<times_unit>Day</times_unit>
+					<casterlevel>1</casterlevel>
+					<concentration>+1</concentration>
+					<dc></dc>
+					<duration>10 minutes [D]</duration>
+					<effect>You make yourself--including clothing, armor, weapons, and equipment--look different.</effect>
+					<target>You</target>
+					<saveinfo></saveinfo>
+					<school>
+						<school>Illusion</school>
+						<subschool>Glamer</subschool>
+						<descriptor></descriptor>
+						<fullschool>Illusion (Glamer)</fullschool>
+					</school>
+					<source>
+						<source>Paizo Inc. - Core Rulebook, p.271</source>
+						<sourcelevel>Sor1</sourcelevel>
+						<sourcelink>http://paizo.com/pathfinderRPG/prd/spells/disguiseSelf.html#_disguise-self</sourcelink>
+						<sourcepage>p.271</sourcepage>
+						<sourceshort>CR</sourceshort>
+					</source>
+					<spell_resistance></spell_resistance>
+					<description>You make yourself--including clothing, armor, weapons, and equipment--look different.</description>
+					<bonusspell></bonusspell>
+				</spell>
+		</racial_innate_memorized>
+			<!-- ### END innate memorized spells ### -->
+			<!-- ### BEGIN class innate memorized spells ### -->
+			<class_innate_memorized>
+		</class_innate_memorized>
+			<!-- ### END class innate memorized spells ### -->
+			<!-- ### END innate memorized spell section -->
+			<!-- ### BEGIN class Spellbook memorized spells ### -->
+	</memorized_spells>
+	<!-- ### END class Spellbook memorized spells ### -->
+	</spells>
+	<!-- ### Additional House Rules for Variables in the xsl:fo code ### -->
+	<house_var>
+		<spelldisplaydc>0.0</spelldisplaydc>
+		<OldStyleAbilityStatBlockDisplay>0.0</OldStyleAbilityStatBlockDisplay>
+	</house_var>
+</character>

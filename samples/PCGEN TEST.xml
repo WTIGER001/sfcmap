@@ -1,0 +1,202 @@
+<nodehandler class="tabber_handler" icon="d20" module="containers" name="PCGEN TEST">
+  <!-- Updated by gawaine42, 2/19/06  -->
+  <nodehandler class="form_handler" icon="form" module="forms" name="Details">
+    <form height="600" width="400"/>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Name">
+      <text multiline="0" send_button="0">PCGEN TEST</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Race">
+      <text multiline="0" send_button="0">Fetchling</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Classes">
+      <text multiline="0" send_button="0">Sorcerer1</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Speed">
+      <text multiline="0" send_button="0">Walk 30 ft.</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="AC: Total / Touch / Flat Footed">
+      <text multiline="0" send_button="0">11 / 11 / 10</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Face / Reach">
+      <text multiline="0" send_button="0">5 ft. by 5 ft./5 ft.</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="XP / For Next">
+      <text multiline="0" send_button="0">0 / 2000</text>
+    </nodehandler>
+    <nodehandler class="rpg_grid_handler" icon="grid" module="rpg_grid" name="Abilities">
+      <grid autosize="1" border="1">
+        <row>
+          <cell>STR</cell>
+          <cell>16</cell>
+          <cell>+3</cell>
+        </row>
+        <row>
+          <cell>DEX</cell>
+          <cell>13</cell>
+          <cell>+1</cell>
+        </row>
+        <row>
+          <cell>CON</cell>
+          <cell>7</cell>
+          <cell>-2</cell>
+        </row>
+        <row>
+          <cell>INT</cell>
+          <cell>14</cell>
+          <cell>+2</cell>
+        </row>
+        <row>
+          <cell>WIS</cell>
+          <cell>10</cell>
+          <cell>+0</cell>
+        </row>
+        <row>
+          <cell>CHA</cell>
+          <cell>16</cell>
+          <cell>+3</cell>
+        </row>
+      </grid>
+      <macros>
+        <macro name=""/>
+      </macros>
+    </nodehandler>
+    <nodehandler class="rpg_grid_handler" icon="grid" module="rpg_grid" name="Skills" version="1.0">
+      <grid autosize="1" border="0">
+        <row><cell>Skill</cell><cell>Total</cell><cell>Rnk</cell><cell>Stat</cell><cell>Msc</cell></row>
+        <row><cell>Acrobatics</cell><cell>1</cell><cell>0.0</cell><cell>1</cell><cell>0</cell></row>        <row><cell>Appraise</cell><cell>2</cell><cell>0.0</cell><cell>2</cell><cell>0</cell></row>        <row><cell>Bluff</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>        <row><cell>Climb</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>        <row><cell>Craft (Untrained)</cell><cell>2</cell><cell>0.0</cell><cell>2</cell><cell>0</cell></row>        <row><cell>Diplomacy</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>        <row><cell>Disable Device</cell><cell>4</cell><cell>1.0</cell><cell>1</cell><cell>2</cell></row>        <row><cell>Disguise</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>        <row><cell>Escape Artist</cell><cell>1</cell><cell>0.0</cell><cell>1</cell><cell>0</cell></row>        <row><cell>Fly</cell><cell>5</cell><cell>1.0</cell><cell>1</cell><cell>3</cell></row>        <row><cell>Heal</cell><cell>0</cell><cell>0.0</cell><cell>0</cell><cell>0</cell></row>        <row><cell>Intimidate</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>        <row><cell>Perception</cell><cell>0</cell><cell>0.0</cell><cell>0</cell><cell>0</cell></row>        <row><cell>Perform (Untrained)</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>        <row><cell>Ride</cell><cell>1</cell><cell>0.0</cell><cell>1</cell><cell>0</cell></row>        <row><cell>Sense Motive</cell><cell>0</cell><cell>0.0</cell><cell>0</cell><cell>0</cell></row>        <row><cell>Stealth</cell><cell>3</cell><cell>0.0</cell><cell>1</cell><cell>2</cell></row>        <row><cell>Survival</cell><cell>0</cell><cell>0.0</cell><cell>0</cell><cell>0</cell></row>        <row><cell>Swim</cell><cell>3</cell><cell>0.0</cell><cell>3</cell><cell>0</cell></row>
+      </grid>
+      <macros>
+        <macro name=""/>
+      </macros>
+    </nodehandler>
+  </nodehandler>
+    
+  <nodehandler class="form_handler" icon="form" module="forms" name="Special Abilities">
+    <form height="600" width="400"/>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Feats" version="1.0">
+      <text multiline="1" send_button="0">
+Deft Hands
+Eschew Materials
+
+</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Special Abilities">
+      <text multiline="1" send_button="0">
+
+      </text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Templates">
+      <text multiline="0" send_button="0"></text>
+    </nodehandler>
+  </nodehandler>
+  
+  <nodehandler class="form_handler" icon="form" module="forms" name="Combat">
+    <form height="600" width="400"/>
+    <nodehandler class="textctrl_handler" icon="d20" module="forms" name="Basic Attack Bonus">
+      <text multiline="0" send_button="1">+0</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="d20" module="forms" name="Temporary To Hit Bonus">
+      <text multiline="0" send_button="1">0</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="d20" module="forms" name="Temporary Damage Bonus">
+      <text multiline="0" send_button="1">0</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="d20" module="forms" name="Temporary AC Bonus">
+      <text multiline="0" send_button="1">0</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="d20" module="forms" name="Initiative">
+      <text multiline="0" send_button="1">[1d20+1]</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Current HP (out of 4)">
+      <text multiline="0" send_button="0"></text>
+    </nodehandler>
+    <nodehandler class="listbox_handler" icon="gear" module="forms" name="Saving Throws">
+      <list send_button="1" type="0">
+        <option selected="0" value="0">Fortitude [-2+1d20]</option>
+        <option selected="0" value="0">Reflex [+1+1d20]</option>
+        <option selected="1" value="0">Will [+2+1d20]</option>
+      </list>
+    </nodehandler>    
+    <nodehandler class="listbox_handler" icon="gear" module="forms" name="Abilities">
+      <list send_button="1" type="0">
+        <option selected="0" value="0">STR [1d20+3]</option>
+        <option selected="0" value="0">DEX [1d20+1]</option>
+        <option selected="0" value="0">CON [1d20-2]</option>
+        <option selected="0" value="0">INT [1d20+2]</option>
+        <option selected="0" value="0">WIS [1d20+0]</option>
+        <option selected="0" value="0">CHA [1d20+3]</option>
+      </list>
+    </nodehandler>
+    <nodehandler class="listbox_handler" icon="gear" module="forms" name="Skills">
+      <list send_button="1" type="0">
+        <option selected="0" value="0">Acrobatics Check: [1+1d20]</option>        <option selected="0" value="0">Appraise Check: [2+1d20]</option>        <option selected="0" value="0">Bluff Check: [3+1d20]</option>        <option selected="0" value="0">Climb Check: [3+1d20]</option>        <option selected="0" value="0">Craft (Untrained) Check: [2+1d20]</option>        <option selected="0" value="0">Diplomacy Check: [3+1d20]</option>        <option selected="0" value="0">Disable Device Check: [4+1d20]</option>        <option selected="0" value="0">Disguise Check: [3+1d20]</option>        <option selected="0" value="0">Escape Artist Check: [1+1d20]</option>        <option selected="0" value="0">Fly Check: [5+1d20]</option>        <option selected="0" value="0">Heal Check: [0+1d20]</option>        <option selected="0" value="0">Intimidate Check: [3+1d20]</option>        <option selected="0" value="0">Perception Check: [0+1d20]</option>        <option selected="0" value="0">Perform (Untrained) Check: [3+1d20]</option>        <option selected="0" value="0">Ride Check: [1+1d20]</option>        <option selected="0" value="0">Sense Motive Check: [0+1d20]</option>        <option selected="0" value="0">Stealth Check: [3+1d20]</option>        <option selected="0" value="0">Survival Check: [0+1d20]</option>        <option selected="0" value="0">Swim Check: [3+1d20]</option>
+      </list>
+    </nodehandler>
+ 
+
+    <nodehandler class="tabber_handler" icon="tabber" module="containers" name="Weapons" version="1.0">
+
+
+  </nodehandler>
+<!-- end combat tab -->
+  </nodehandler>
+  
+  
+  <nodehandler class="tabber_handler" icon="tabber" module="containers" name="Weapon Summary" version="1.0">
+  </nodehandler>
+  <nodehandler class="textctrl_handler" icon="note" module="forms" name="Equipment" version="1.0">
+    <text multiline="1" send_button="0">Name                                            QTY LBS
+Total weight caried: 0
+Current load:        Light
+   Encumbrance
+Light:  76   
+Medium: 153   
+Heavy:  230
+</text>
+  </nodehandler>
+  <nodehandler class="tabber_handler" icon="gear" module="containers" name="Magic">
+
+    <nodehandler class="form_handler" icon="form" module="forms" name="Innate Spells">
+      <form height="600" width="400"/>
+      <nodehandler class="textctrl_handler" icon="note" module="forms" name="Spell List">
+        <text multiline="1" send_button="0">
+</text>
+      </nodehandler>
+    </nodehandler>
+
+
+    <nodehandler class="form_handler" icon="form" module="forms" name="Sorcerer Spells">
+      <form height="600" width="400"/>
+      <nodehandler class="tabber_handler" icon="gear" module="containers" name="Spellbooks">
+                     
+                     
+      </nodehandler>
+    </nodehandler>
+  </nodehandler>
+  <nodehandler class="form_handler" icon="compass" module="forms" name="Description">
+    <form height="600" width="400"/>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Summary">
+      <text multiline="1" send_button="1">Height: 5&#39; 9&quot; Weight: 105 lbs. Gender: Male Dominant Hand: Right
+Eyes:  Hair: , Skin: 
+Quirks: ,  Speech style:  Quotable: </text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Full Description">
+      <text multiline="1" send_button="1">DESCRIPTION,&lt;BR&gt;</text>
+    </nodehandler>
+  </nodehandler>
+  <nodehandler class="form_handler" icon="compass" module="forms" name="Misc.">
+    <form height="600" width="400"/>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Background">
+      <text multiline="1" send_button="1"></text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Notes">
+      <text multiline="1" send_button="0"></text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Languages">
+      <text multiline="0" send_button="0">Common</text>
+    </nodehandler>
+    <nodehandler class="textctrl_handler" icon="note" module="forms" name="Alignment">
+      <text multiline="0" send_button="0">None</text>
+    </nodehandler>
+  </nodehandler>
+</nodehandler>

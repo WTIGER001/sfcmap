@@ -1,6 +1,6 @@
 <h1>Select Character</h1>
-<input type="file" class="inputfile" #filecontrol (change)="setFile($event)">
-<div class="center-layout">
+
+<div class="center-layout" *ngIf="!tool">
   <div class="buttonbar" *ngIf="edit==false">
     <button class="btn btn-outline-secondary btn-tool" (click)="newFolder()" placement="bottom" ngbTooltip="New Folder for Character">
       <fa-icon icon="folder" size="lg"></fa-icon>
@@ -8,7 +8,7 @@
     <button class="btn btn-outline-secondary btn-tool" (click)="newCharacter()" placement="bottom" ngbTooltip="Crate a new Character">
       <fa-icon icon="plus" size="lg"></fa-icon>
     </button>
-    <button class="btn btn-outline-secondary btn-tool" (click)="importCharacter()" placement="bottom" ngbTooltip="Crate a new Character">
+    <button class="btn btn-outline-secondary btn-tool" (click)="tool='import'" placement="bottom" ngbTooltip="Import a Character">
       <fa-icon icon="file-import" size="lg"></fa-icon>
     </button>
     <button *ngIf="folder" class="btn btn-outline-secondary btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected item">
@@ -28,7 +28,7 @@
     </button>
   </div>
 </div>
-<ng-container *ngIf="edit==false">
+<ng-container *ngIf="edit==false && tool==undefined">
   <div class="filter-div">
     <input type="text" class="form-control form-control-sm filter" placeholder="filter" [ngModel]="filter" (ngModelChange)="filterUpdate($event)">
     <div class="clear-filter-icon" (click)="clearFilter()" *ngIf='filter.length>0'>
@@ -82,5 +82,13 @@
     </div>
   </div>
 </ng-container>
-<!-- <app-edit-map #editmap [map]="newMapCfg" *ngIf="edit==true && newMapCfg"></app-edit-map> -->
+<!-- <app-edit-map #editmap [map]="newMapCfg" *ngIf="edit==true && newMapCfg && tool==undefined"></app-edit-map> -->
 <app-edit-character-type #editfolder [selected]="folder" *ngIf="edit==true && folder"></app-edit-character-type>
+
+<ng-container *ngIf="tool=='import'">
+  <div class="admin-tool-header">
+    <fa-icon icon="file-import" size="lg"></fa-icon> Import Character
+    <fa-icon class="pointer" icon="times" size="lg" (click)="tool=undefined"></fa-icon>
+  </div>
+  <app-import-character (done)="show='NONE'; tool=undefined"></app-import-character>
+</ng-container>
