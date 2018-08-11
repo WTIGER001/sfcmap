@@ -42,10 +42,8 @@
     <fa-icon icon="wrench" size="lg"></fa-icon> Convert Monster DB
     <fa-icon class="pointer" icon="times" size="lg" (click)="tool=undefined"></fa-icon>
   </div>
-  This tool allows you to convert the monster database (as CSV) to JSON and load it for user 1.) Go here:
-  <a href="https://www.d20pfsrd.com/bestiary/tools/monster-filter/" target="_blank">https://www.d20pfsrd.com/bestiary/tools/monster-filter/</a>
-  2.) Open in Google Sheets 3.) Save As CSV 4.) Browse to the file:
-  <input type="file" accept="*.csv" (change)="setCsvFile($event)"> 5.) Click Import:
+
+  <input type="file" accept="*.csv" (change)="setCsvFile($event)">
   <button [disabled]='csvFile==undefined' class="btn btn-secondary" (click)="importCsv()">Import</button>
 
 </ng-container>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Character } from '../../../models/character';
 import { DataService } from '../../../data.service';
+import { GoogleImageSearch, ImageSearchResult } from '../../../util/GoogleImageSearch';
 
 @Component({
   selector: 'app-chr-picture',
@@ -27,6 +28,20 @@ export class ChrPictureComponent implements OnInit {
     if (event.target.files) {
       this.setFiles(event.target.files)
     }
+  }
+
+  randomImage() {
+    let term = "fighter human "
+    if (this.character.tags && this.character.tags.length > 0) {
+      term = this.character.tags.join(' ')
+    }
+    term += " fantasy art"
+
+    GoogleImageSearch.searchImage(term).then((results: ImageSearchResult[]) => {
+      console.log("URLS FOUND ", results.length);
+      let index = Math.floor(Math.random() * results.length)
+      this.character.picture = results[index].url
+    })
   }
 
   setFiles(files: FileList) {

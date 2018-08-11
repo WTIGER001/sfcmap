@@ -170,3 +170,20 @@ Encounters
 -- Drag and Drop the peron on to the map to generate a properly sized marker
 
 Add Themes to each game (scifi, fanatasy, )
+
+
+
+Monsters and NPCs
+- Create Object model
+- Determine what info is really needed
+- display the "Full Text"
+- Find a picture using google image search.. Allow the user to choose from 10 images
+- Need an array of id / names / image for type ahead and selection
+- Store the index and the full text for now.... 2 separate database roots
+
+
+Steps
+- "Convert" a monster to a character or generate a similar interface
+- Create a 2nd filter to add to the encounter builder
+- Use an endless scroll diretive
+- Move to a per item observable and use updates

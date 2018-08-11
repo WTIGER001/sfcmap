@@ -1,0 +1,12330 @@
+[
+  {
+    "name": "Aasimar",
+    "id": "20"
+  },
+  {
+    "name": "Aboleth",
+    "id": "21"
+  },
+  {
+    "name": "Astral Deva",
+    "id": "22"
+  },
+  {
+    "name": "Planetar",
+    "id": "23"
+  },
+  {
+    "name": "Solar",
+    "id": "24"
+  },
+  {
+    "name": "Animated Object",
+    "id": "25"
+  },
+  {
+    "name": "Ankheg",
+    "id": "26"
+  },
+  {
+    "name": "Giant Ant",
+    "id": "27"
+  },
+  {
+    "name": "Army Ant Swarm",
+    "id": "28"
+  },
+  {
+    "name": "Gorilla",
+    "id": "29"
+  },
+  {
+    "name": "Dire Ape",
+    "id": "30"
+  },
+  {
+    "name": "Hound Archon",
+    "id": "31"
+  },
+  {
+    "name": "Lantern Archon",
+    "id": "32"
+  },
+  {
+    "name": "Trumpet Archon",
+    "id": "33"
+  },
+  {
+    "name": "Assassin Vine",
+    "id": "34"
+  },
+  {
+    "name": "Barghest",
+    "id": "38"
+  },
+  {
+    "name": "Greater Barghest",
+    "id": "39"
+  },
+  {
+    "name": "Basidirond",
+    "id": "40"
+  },
+  {
+    "name": "Basilisk",
+    "id": "41"
+  },
+  {
+    "name": "Dire Bat",
+    "id": "42"
+  },
+  {
+    "name": "Grizzly Bear",
+    "id": "43"
+  },
+  {
+    "name": "Dire Bear",
+    "id": "44"
+  },
+  {
+    "name": "Bebilith",
+    "id": "45"
+  },
+  {
+    "name": "Fire Beetle",
+    "id": "46"
+  },
+  {
+    "name": "Giant Stag Beetle",
+    "id": "47"
+  },
+  {
+    "name": "Behir",
+    "id": "48"
+  },
+  {
+    "name": "Black Pudding",
+    "id": "49"
+  },
+  {
+    "name": "Boar",
+    "id": "50"
+  },
+  {
+    "name": "Dire Boar",
+    "id": "51"
+  },
+  {
+    "name": "Boggard",
+    "id": "52"
+  },
+  {
+    "name": "Bugbear",
+    "id": "53"
+  },
+  {
+    "name": "Bulette",
+    "id": "54"
+  },
+  {
+    "name": "Cheetah",
+    "id": "55"
+  },
+  {
+    "name": "Leopard",
+    "id": "56"
+  },
+  {
+    "name": "Cave Fisher",
+    "id": "57"
+  },
+  {
+    "name": "Centaur",
+    "id": "58"
+  },
+  {
+    "name": "Giant Centipede",
+    "id": "59"
+  },
+  {
+    "name": "Centipede Swarm",
+    "id": "60"
+  },
+  {
+    "name": "Chimera",
+    "id": "61"
+  },
+  {
+    "name": "Choker",
+    "id": "62"
+  },
+  {
+    "name": "Chuul",
+    "id": "63"
+  },
+  {
+    "name": "Cloaker",
+    "id": "64"
+  },
+  {
+    "name": "Cockatrice",
+    "id": "65"
+  },
+  {
+    "name": "Couatl",
+    "id": "66"
+  },
+  {
+    "name": "Giant Crab",
+    "id": "67"
+  },
+  {
+    "name": "Crab Swarm",
+    "id": "68"
+  },
+  {
+    "name": "Crocodile",
+    "id": "69"
+  },
+  {
+    "name": "Dire Crocodile",
+    "id": "70"
+  },
+  {
+    "name": "Cyclops",
+    "id": "71"
+  },
+  {
+    "name": "Dark Creeper",
+    "id": "72"
+  },
+  {
+    "name": "Dark Stalker",
+    "id": "73"
+  },
+  {
+    "name": "Darkmantle",
+    "id": "74"
+  },
+  {
+    "name": "Babau",
+    "id": "75"
+  },
+  {
+    "name": "Balor",
+    "id": "76"
+  },
+  {
+    "name": "Dretch",
+    "id": "77"
+  },
+  {
+    "name": "Glabrezu",
+    "id": "78"
+  },
+  {
+    "name": "Hezrou",
+    "id": "79"
+  },
+  {
+    "name": "Marilith",
+    "id": "80"
+  },
+  {
+    "name": "Nabasu",
+    "id": "81"
+  },
+  {
+    "name": "Nalfeshnee",
+    "id": "82"
+  },
+  {
+    "name": "Quasit",
+    "id": "83"
+  },
+  {
+    "name": "Succubus",
+    "id": "85"
+  },
+  {
+    "name": "Vrock",
+    "id": "86"
+  },
+  {
+    "name": "Derro",
+    "id": "87"
+  },
+  {
+    "name": "Barbed Devil",
+    "id": "88"
+  },
+  {
+    "name": "Bearded Devil",
+    "id": "89"
+  },
+  {
+    "name": "Bone Devil",
+    "id": "90"
+  },
+  {
+    "name": "Erinyes Devil",
+    "id": "91"
+  },
+  {
+    "name": "Horned Devil",
+    "id": "92"
+  },
+  {
+    "name": "Ice Devil",
+    "id": "93"
+  },
+  {
+    "name": "Imp",
+    "id": "94"
+  },
+  {
+    "name": "Lemure",
+    "id": "95"
+  },
+  {
+    "name": "Pit Fiend",
+    "id": "96"
+  },
+  {
+    "name": "Devourer",
+    "id": "97"
+  },
+  {
+    "name": "Ankylosaurus",
+    "id": "98"
+  },
+  {
+    "name": "Brachiosaurus",
+    "id": "99"
+  },
+  {
+    "name": "Deinonychus",
+    "id": "100"
+  },
+  {
+    "name": "Elasmosaurus",
+    "id": "101"
+  },
+  {
+    "name": "Pteranodon",
+    "id": "102"
+  },
+  {
+    "name": "Stegosaurus",
+    "id": "103"
+  },
+  {
+    "name": "Triceratops",
+    "id": "104"
+  },
+  {
+    "name": "Tyrannosaurus",
+    "id": "105"
+  },
+  {
+    "name": "Dog",
+    "id": "106"
+  },
+  {
+    "name": "Riding Dog",
+    "id": "107"
+  },
+  {
+    "name": "Dolphin",
+    "id": "108"
+  },
+  {
+    "name": "Orca",
+    "id": "109"
+  },
+  {
+    "name": "Doppelganger",
+    "id": "110"
+  },
+  {
+    "name": "Young Black Dragon",
+    "id": "111"
+  },
+  {
+    "name": "Adult Black Dragon",
+    "id": "112"
+  },
+  {
+    "name": "Ancient Black Dragon",
+    "id": "113"
+  },
+  {
+    "name": "Ancient Blue Dragon",
+    "id": "116"
+  },
+  {
+    "name": "Young Blue Dragon",
+    "id": "117"
+  },
+  {
+    "name": "Adult Blue Dragon",
+    "id": "118"
+  },
+  {
+    "name": "Young Green Dragon",
+    "id": "119"
+  },
+  {
+    "name": "Adult Green Dragon",
+    "id": "120"
+  },
+  {
+    "name": "Ancient Green Dragon",
+    "id": "121"
+  },
+  {
+    "name": "Young Red Dragon",
+    "id": "122"
+  },
+  {
+    "name": "Adult Red Dragon",
+    "id": "123"
+  },
+  {
+    "name": "Ancient Red Dragon",
+    "id": "124"
+  },
+  {
+    "name": "Young White Dragon",
+    "id": "125"
+  },
+  {
+    "name": "Adult White Dragon",
+    "id": "126"
+  },
+  {
+    "name": "Ancient White Dragon",
+    "id": "127"
+  },
+  {
+    "name": "Young Brass Dragon",
+    "id": "128"
+  },
+  {
+    "name": "Adult Brass Dragon",
+    "id": "129"
+  },
+  {
+    "name": "Ancient Brass Dragon",
+    "id": "130"
+  },
+  {
+    "name": "Young Bronze Dragon",
+    "id": "131"
+  },
+  {
+    "name": "Adult Bronze Dragon",
+    "id": "132"
+  },
+  {
+    "name": "Ancient Bronze Dragon",
+    "id": "133"
+  },
+  {
+    "name": "Young Copper Dragon",
+    "id": "134"
+  },
+  {
+    "name": "Adult Copper Dragon",
+    "id": "135"
+  },
+  {
+    "name": "Ancient Copper Dragon",
+    "id": "136"
+  },
+  {
+    "name": "Young Gold Dragon",
+    "id": "137"
+  },
+  {
+    "name": "Adult Gold Dragon",
+    "id": "138"
+  },
+  {
+    "name": "Ancient Gold Dragon",
+    "id": "139"
+  },
+  {
+    "name": "Young Silver Dragon",
+    "id": "140"
+  },
+  {
+    "name": "Adult Silver Dragon",
+    "id": "141"
+  },
+  {
+    "name": "Ancient Silver Dragon",
+    "id": "142"
+  },
+  {
+    "name": "Dragon Turtle",
+    "id": "143"
+  },
+  {
+    "name": "Drider",
+    "id": "144"
+  },
+  {
+    "name": "Drow Noble",
+    "id": "146"
+  },
+  {
+    "name": "Drow",
+    "id": "147"
+  },
+  {
+    "name": "Dryad",
+    "id": "148"
+  },
+  {
+    "name": "Duergar",
+    "id": "149"
+  },
+  {
+    "name": "Eagle",
+    "id": "150"
+  },
+  {
+    "name": "Giant Eagle",
+    "id": "151"
+  },
+  {
+    "name": "Electric Eel",
+    "id": "152"
+  },
+  {
+    "name": "Giant Moray Eel",
+    "id": "153"
+  },
+  {
+    "name": "Small Air Elemental",
+    "id": "154"
+  },
+  {
+    "name": "Medium Air Elemental",
+    "id": "155"
+  },
+  {
+    "name": "Large Air Elemental",
+    "id": "156"
+  },
+  {
+    "name": "Huge Air Elemental",
+    "id": "157"
+  },
+  {
+    "name": "Greater Air Elemental",
+    "id": "158"
+  },
+  {
+    "name": "Elder Air Elemental",
+    "id": "159"
+  },
+  {
+    "name": "Small Earth Elemental",
+    "id": "160"
+  },
+  {
+    "name": "Medium Earth Elemental",
+    "id": "161"
+  },
+  {
+    "name": "Large Earth Elemental",
+    "id": "162"
+  },
+  {
+    "name": "Huge Earth Elemental",
+    "id": "163"
+  },
+  {
+    "name": "Greater Earth Elemental",
+    "id": "164"
+  },
+  {
+    "name": "Elder Earth Elemental",
+    "id": "165"
+  },
+  {
+    "name": "Small Fire Elemental",
+    "id": "166"
+  },
+  {
+    "name": "Medium Fire Elemental",
+    "id": "167"
+  },
+  {
+    "name": "Large Fire Elemental",
+    "id": "168"
+  },
+  {
+    "name": "Huge Fire Elemental",
+    "id": "169"
+  },
+  {
+    "name": "Greater Fire Elemental",
+    "id": "170"
+  },
+  {
+    "name": "Elder Fire Elemental",
+    "id": "171"
+  },
+  {
+    "name": "Small Water Elemental",
+    "id": "172"
+  },
+  {
+    "name": "Medium Water Elemental",
+    "id": "173"
+  },
+  {
+    "name": "Large Water Elemental",
+    "id": "174"
+  },
+  {
+    "name": "Huge Water Elemental",
+    "id": "175"
+  },
+  {
+    "name": "Elder Water Elemental",
+    "id": "176"
+  },
+  {
+    "name": "Elephant",
+    "id": "177"
+  },
+  {
+    "name": "Mastodon Elephant",
+    "id": "178"
+  },
+  {
+    "name": "Ettercap",
+    "id": "179"
+  },
+  {
+    "name": "Ettin",
+    "id": "180"
+  },
+  {
+    "name": "Bat",
+    "id": "181"
+  },
+  {
+    "name": "Cat",
+    "id": "182"
+  },
+  {
+    "name": "Hawk",
+    "id": "183"
+  },
+  {
+    "name": "Lizard",
+    "id": "184"
+  },
+  {
+    "name": "Monkey",
+    "id": "185"
+  },
+  {
+    "name": "Owl",
+    "id": "186"
+  },
+  {
+    "name": "Rat",
+    "id": "187"
+  },
+  {
+    "name": "Raven",
+    "id": "188"
+  },
+  {
+    "name": "Toad",
+    "id": "189"
+  },
+  {
+    "name": "Viper",
+    "id": "190"
+  },
+  {
+    "name": "Weasel",
+    "id": "191"
+  },
+  {
+    "name": "Giant Flytrap",
+    "id": "192"
+  },
+  {
+    "name": "Giant Frog",
+    "id": "193"
+  },
+  {
+    "name": "Poison Frog",
+    "id": "194"
+  },
+  {
+    "name": "Froghemoth",
+    "id": "195"
+  },
+  {
+    "name": "Gargoyle",
+    "id": "196"
+  },
+  {
+    "name": "Gelatinous Cube",
+    "id": "197"
+  },
+  {
+    "name": "Djinni",
+    "id": "198"
+  },
+  {
+    "name": "Efreeti",
+    "id": "199"
+  },
+  {
+    "name": "Janni",
+    "id": "200"
+  },
+  {
+    "name": "Marid",
+    "id": "201"
+  },
+  {
+    "name": "Shaitan",
+    "id": "202"
+  },
+  {
+    "name": "Ghost",
+    "id": "203"
+  },
+  {
+    "name": "Ghoul",
+    "id": "204"
+  },
+  {
+    "name": "Cloud Giant",
+    "id": "205"
+  },
+  {
+    "name": "Fire Giant",
+    "id": "206"
+  },
+  {
+    "name": "Frost Giant",
+    "id": "207"
+  },
+  {
+    "name": "Hill Giant",
+    "id": "208"
+  },
+  {
+    "name": "Stone Giant",
+    "id": "209"
+  },
+  {
+    "name": "Storm Giant",
+    "id": "210"
+  },
+  {
+    "name": "Gibbering Mouther",
+    "id": "211"
+  },
+  {
+    "name": "Girallon",
+    "id": "212"
+  },
+  {
+    "name": "Gnoll",
+    "id": "213"
+  },
+  {
+    "name": "Goblin",
+    "id": "214"
+  },
+  {
+    "name": "Goblin Dog",
+    "id": "215"
+  },
+  {
+    "name": "Clay Golem",
+    "id": "216"
+  },
+  {
+    "name": "Flesh Golem",
+    "id": "217"
+  },
+  {
+    "name": "Ice Golem",
+    "id": "218"
+  },
+  {
+    "name": "Iron Golem",
+    "id": "219"
+  },
+  {
+    "name": "Stone Golem",
+    "id": "220"
+  },
+  {
+    "name": "Wood Golem",
+    "id": "221"
+  },
+  {
+    "name": "Gorgon",
+    "id": "222"
+  },
+  {
+    "name": "Gray Ooze",
+    "id": "223"
+  },
+  {
+    "name": "Green Hag",
+    "id": "224"
+  },
+  {
+    "name": "Griffon",
+    "id": "225"
+  },
+  {
+    "name": "Half-Celestial Unicorn",
+    "id": "226"
+  },
+  {
+    "name": "Dracolisk",
+    "id": "227"
+  },
+  {
+    "name": "Half-Fiend Minotaur",
+    "id": "228"
+  },
+  {
+    "name": "Harpy",
+    "id": "229"
+  },
+  {
+    "name": "Hell Hound",
+    "id": "230"
+  },
+  {
+    "name": "Nessian Warhound",
+    "id": "231"
+  },
+  {
+    "name": "Aurochs",
+    "id": "232"
+  },
+  {
+    "name": "Bison",
+    "id": "233"
+  },
+  {
+    "name": "Hobgoblin",
+    "id": "234"
+  },
+  {
+    "name": "Homunculus",
+    "id": "235"
+  },
+  {
+    "name": "Horse",
+    "id": "236"
+  },
+  {
+    "name": "Pony",
+    "id": "238"
+  },
+  {
+    "name": "Hydra",
+    "id": "239"
+  },
+  {
+    "name": "Hyena",
+    "id": "240"
+  },
+  {
+    "name": "Dire Hyena",
+    "id": "241"
+  },
+  {
+    "name": "Intellect Devourer",
+    "id": "242"
+  },
+  {
+    "name": "Invisible Stalker",
+    "id": "243"
+  },
+  {
+    "name": "Iron Cobra",
+    "id": "244"
+  },
+  {
+    "name": "Kobold",
+    "id": "245"
+  },
+  {
+    "name": "Kraken",
+    "id": "246"
+  },
+  {
+    "name": "Kyton",
+    "id": "247"
+  },
+  {
+    "name": "Lamia",
+    "id": "248"
+  },
+  {
+    "name": "Giant Leech",
+    "id": "249"
+  },
+  {
+    "name": "Leech Swarm",
+    "id": "250"
+  },
+  {
+    "name": "Lich",
+    "id": "251"
+  },
+  {
+    "name": "Crag Linnorm",
+    "id": "252"
+  },
+  {
+    "name": "Ice Linnorm",
+    "id": "253"
+  },
+  {
+    "name": "Tarn Linnorm",
+    "id": "254"
+  },
+  {
+    "name": "Lion",
+    "id": "255"
+  },
+  {
+    "name": "Monitor Lizard",
+    "id": "257"
+  },
+  {
+    "name": "Giant Frilled Lizard",
+    "id": "258"
+  },
+  {
+    "name": "Lizardfolk",
+    "id": "259"
+  },
+  {
+    "name": "Wererat",
+    "id": "260"
+  },
+  {
+    "name": "Wererat",
+    "id": "261"
+  },
+  {
+    "name": "Werewolf",
+    "id": "262"
+  },
+  {
+    "name": "Werewolf",
+    "id": "263"
+  },
+  {
+    "name": "Manticore",
+    "id": "264"
+  },
+  {
+    "name": "Giant Mantis",
+    "id": "265"
+  },
+  {
+    "name": "Medusa",
+    "id": "266"
+  },
+  {
+    "name": "Mephit",
+    "id": "267"
+  },
+  {
+    "name": "Merfolk",
+    "id": "268"
+  },
+  {
+    "name": "Mimic",
+    "id": "269"
+  },
+  {
+    "name": "Minotaur",
+    "id": "270"
+  },
+  {
+    "name": "Mite",
+    "id": "271"
+  },
+  {
+    "name": "Mohrg",
+    "id": "272"
+  },
+  {
+    "name": "Morlock",
+    "id": "273"
+  },
+  {
+    "name": "Mummy",
+    "id": "274"
+  },
+  {
+    "name": "Dark Naga",
+    "id": "275"
+  },
+  {
+    "name": "Guardian Naga",
+    "id": "276"
+  },
+  {
+    "name": "Spirit Naga",
+    "id": "277"
+  },
+  {
+    "name": "Neothelid",
+    "id": "278"
+  },
+  {
+    "name": "Night Hag",
+    "id": "279"
+  },
+  {
+    "name": "Nightmare",
+    "id": "280"
+  },
+  {
+    "name": "Cauchemar",
+    "id": "281"
+  },
+  {
+    "name": "Nymph",
+    "id": "282"
+  },
+  {
+    "name": "Ochre Jelly",
+    "id": "283"
+  },
+  {
+    "name": "Octopus",
+    "id": "284"
+  },
+  {
+    "name": "Giant Octopus",
+    "id": "286"
+  },
+  {
+    "name": "Ogre",
+    "id": "287"
+  },
+  {
+    "name": "Ogre Mage",
+    "id": "288"
+  },
+  {
+    "name": "Orc",
+    "id": "289"
+  },
+  {
+    "name": "Otyugh",
+    "id": "290"
+  },
+  {
+    "name": "Owlbear",
+    "id": "291"
+  },
+  {
+    "name": "Pegasus",
+    "id": "292"
+  },
+  {
+    "name": "Phase Spider",
+    "id": "293"
+  },
+  {
+    "name": "Phoenix",
+    "id": "294"
+  },
+  {
+    "name": "Pixie",
+    "id": "295"
+  },
+  {
+    "name": "Pseudodragon",
+    "id": "296"
+  },
+  {
+    "name": "Purple Worm",
+    "id": "297"
+  },
+  {
+    "name": "Rakshasa",
+    "id": "298"
+  },
+  {
+    "name": "Dire Rat",
+    "id": "299"
+  },
+  {
+    "name": "Rat Swarm",
+    "id": "300"
+  },
+  {
+    "name": "Remorhaz",
+    "id": "301"
+  },
+  {
+    "name": "Retriever",
+    "id": "302"
+  },
+  {
+    "name": "Rhinoceros",
+    "id": "303"
+  },
+  {
+    "name": "Woolly Rhinoceros",
+    "id": "304"
+  },
+  {
+    "name": "Roc",
+    "id": "305"
+  },
+  {
+    "name": "Roper",
+    "id": "306"
+  },
+  {
+    "name": "Rust Monster",
+    "id": "307"
+  },
+  {
+    "name": "Sahuagin",
+    "id": "308"
+  },
+  {
+    "name": "Salamander",
+    "id": "309"
+  },
+  {
+    "name": "Satyr",
+    "id": "310"
+  },
+  {
+    "name": "Giant Scorpion",
+    "id": "311"
+  },
+  {
+    "name": "Sea Hag",
+    "id": "312"
+  },
+  {
+    "name": "Sea Serpent",
+    "id": "313"
+  },
+  {
+    "name": "Shadow",
+    "id": "314"
+  },
+  {
+    "name": "Greater Shadow",
+    "id": "315"
+  },
+  {
+    "name": "Shambling Mound",
+    "id": "316"
+  },
+  {
+    "name": "Shark",
+    "id": "317"
+  },
+  {
+    "name": "Dire Shark (Megalodon)",
+    "id": "318"
+  },
+  {
+    "name": "Shocker Lizard",
+    "id": "319"
+  },
+  {
+    "name": "Shoggoth",
+    "id": "320"
+  },
+  {
+    "name": "Human Skeleton",
+    "id": "321"
+  },
+  {
+    "name": "Skeletal Champion",
+    "id": "322"
+  },
+  {
+    "name": "Skum (Ulat-Kini)",
+    "id": "323"
+  },
+  {
+    "name": "Giant Slug",
+    "id": "324"
+  },
+  {
+    "name": "Constrictor Snake",
+    "id": "325"
+  },
+  {
+    "name": "Venomous Snake",
+    "id": "326"
+  },
+  {
+    "name": "Spectre",
+    "id": "327"
+  },
+  {
+    "name": "Giant Spider",
+    "id": "329"
+  },
+  {
+    "name": "Squid",
+    "id": "330"
+  },
+  {
+    "name": "Giant Squid",
+    "id": "331"
+  },
+  {
+    "name": "Stirge",
+    "id": "332"
+  },
+  {
+    "name": "Svirfneblin",
+    "id": "333"
+  },
+  {
+    "name": "Tarrasque",
+    "id": "334"
+  },
+  {
+    "name": "Tengu",
+    "id": "335"
+  },
+  {
+    "name": "Tiefling",
+    "id": "336"
+  },
+  {
+    "name": "Tiger",
+    "id": "337"
+  },
+  {
+    "name": "Treant",
+    "id": "339"
+  },
+  {
+    "name": "Troglodyte",
+    "id": "340"
+  },
+  {
+    "name": "Troll",
+    "id": "341"
+  },
+  {
+    "name": "Unicorn",
+    "id": "342"
+  },
+  {
+    "name": "Vampire",
+    "id": "343"
+  },
+  {
+    "name": "Vargouille",
+    "id": "344"
+  },
+  {
+    "name": "Vegepygmy",
+    "id": "345"
+  },
+  {
+    "name": "Violet Fungus",
+    "id": "346"
+  },
+  {
+    "name": "Giant Wasp",
+    "id": "347"
+  },
+  {
+    "name": "Wasp Swarm",
+    "id": "348"
+  },
+  {
+    "name": "Wight",
+    "id": "349"
+  },
+  {
+    "name": "Will-o'-Wisp",
+    "id": "350"
+  },
+  {
+    "name": "Wolf",
+    "id": "351"
+  },
+  {
+    "name": "Dire Wolf",
+    "id": "352"
+  },
+  {
+    "name": "Wolverine",
+    "id": "353"
+  },
+  {
+    "name": "Dire Wolverine",
+    "id": "354"
+  },
+  {
+    "name": "Worg",
+    "id": "355"
+  },
+  {
+    "name": "Winter Wolf",
+    "id": "356"
+  },
+  {
+    "name": "Wraith",
+    "id": "357"
+  },
+  {
+    "name": "Wyvern",
+    "id": "358"
+  },
+  {
+    "name": "Xill",
+    "id": "359"
+  },
+  {
+    "name": "Xorn",
+    "id": "360"
+  },
+  {
+    "name": "Yellow Musk Creeper",
+    "id": "361"
+  },
+  {
+    "name": "Yeth Hound",
+    "id": "362"
+  },
+  {
+    "name": "Yeti",
+    "id": "363"
+  },
+  {
+    "name": "Human Zombie",
+    "id": "364"
+  },
+  {
+    "name": "Shadowgarm",
+    "id": "367"
+  },
+  {
+    "name": "Ukobach",
+    "id": "369"
+  },
+  {
+    "name": "Salikotal",
+    "id": "370"
+  },
+  {
+    "name": "Hand of the Inheritor",
+    "id": "372"
+  },
+  {
+    "name": "Stymphalides Swarm",
+    "id": "373"
+  },
+  {
+    "name": "Giant Stymphalides",
+    "id": "374"
+  },
+  {
+    "name": "Aspidochelone",
+    "id": "398"
+  },
+  {
+    "name": "Chortov",
+    "id": "399"
+  },
+  {
+    "name": "Bone Idol",
+    "id": "403"
+  },
+  {
+    "name": "Jade Idol",
+    "id": "404"
+  },
+  {
+    "name": "Wood Idol",
+    "id": "405"
+  },
+  {
+    "name": "Stone Idol",
+    "id": "406"
+  },
+  {
+    "name": "Lar",
+    "id": "407"
+  },
+  {
+    "name": "Apostate Devil",
+    "id": "410"
+  },
+  {
+    "name": "Heresy Devil",
+    "id": "411"
+  },
+  {
+    "name": "Lesser Host Devil",
+    "id": "412"
+  },
+  {
+    "name": "Greater Host Devil",
+    "id": "413"
+  },
+  {
+    "name": "Warmonger Devil",
+    "id": "414"
+  },
+  {
+    "name": "Malbolgian Cerberi",
+    "id": "443"
+  },
+  {
+    "name": "Uniila",
+    "id": "444"
+  },
+  {
+    "name": "Spartolos",
+    "id": "445"
+  },
+  {
+    "name": "Basileus",
+    "id": "476"
+  },
+  {
+    "name": "Possession Lesser",
+    "id": "478"
+  },
+  {
+    "name": "Devil, Possession Greater",
+    "id": "479"
+  },
+  {
+    "name": "Nihiloi",
+    "id": "481"
+  },
+  {
+    "name": "Vrykolakas",
+    "id": "482"
+  },
+  {
+    "name": "Behemoth, Ravener",
+    "id": "502"
+  },
+  {
+    "name": "Advodaza Devil",
+    "id": "503"
+  },
+  {
+    "name": "Ebon Acolytus",
+    "id": "504"
+  },
+  {
+    "name": "Hell Gigas",
+    "id": "505"
+  },
+  {
+    "name": "Ephialtes Kyton",
+    "id": "506"
+  },
+  {
+    "name": "Drekavac",
+    "id": "524"
+  },
+  {
+    "name": "River Elk",
+    "id": "526"
+  },
+  {
+    "name": "Megaloceros Elk",
+    "id": "527"
+  },
+  {
+    "name": "Thawn",
+    "id": "529"
+  },
+  {
+    "name": "Brush Thylacine",
+    "id": "531"
+  },
+  {
+    "name": "Rorkoun",
+    "id": "685"
+  },
+  {
+    "name": "Golden Guardian",
+    "id": "698"
+  },
+  {
+    "name": "Blodeuwedd",
+    "id": "709"
+  },
+  {
+    "name": "Clawbat",
+    "id": "710"
+  },
+  {
+    "name": "Stygira",
+    "id": "713"
+  },
+  {
+    "name": "Bralani Azata",
+    "id": "714"
+  },
+  {
+    "name": "Ghaele Azata",
+    "id": "715"
+  },
+  {
+    "name": "Lillend Azata",
+    "id": "716"
+  },
+  {
+    "name": "Bat Swarm",
+    "id": "718"
+  },
+  {
+    "name": "Dire Tiger",
+    "id": "719"
+  },
+  {
+    "name": "Shadow Demon",
+    "id": "721"
+  },
+  {
+    "name": "Spider Swarm",
+    "id": "722"
+  },
+  {
+    "name": "Greater Water Elemental",
+    "id": "723"
+  },
+  {
+    "name": "Angazhani (High Girallon)",
+    "id": "804"
+  },
+  {
+    "name": "Giant Botfly",
+    "id": "805"
+  },
+  {
+    "name": "Botfly Swarm",
+    "id": "806"
+  },
+  {
+    "name": "Tobongo",
+    "id": "808"
+  },
+  {
+    "name": "Bog Strider",
+    "id": "832"
+  },
+  {
+    "name": "Calathgar",
+    "id": "833"
+  },
+  {
+    "name": "First Blade",
+    "id": "866"
+  },
+  {
+    "name": "Irlgaunt",
+    "id": "867"
+  },
+  {
+    "name": "Verdurous Ooze",
+    "id": "868"
+  },
+  {
+    "name": "Greater Verduous Ooze",
+    "id": "869"
+  },
+  {
+    "name": "Adamantine Cobra",
+    "id": "871"
+  },
+  {
+    "name": "Plague Zombie",
+    "id": "872"
+  },
+  {
+    "name": "Dweomercat Cub",
+    "id": "894"
+  },
+  {
+    "name": "Dweomercat",
+    "id": "895"
+  },
+  {
+    "name": "Skrik Nettle",
+    "id": "897"
+  },
+  {
+    "name": "Ochre Eurypterid",
+    "id": "916"
+  },
+  {
+    "name": "Common Eurypterid",
+    "id": "917"
+  },
+  {
+    "name": "Bluetip Eurypterid",
+    "id": "918"
+  },
+  {
+    "name": "Spiny Eurypterid",
+    "id": "919"
+  },
+  {
+    "name": "Spitting Eurypterid",
+    "id": "920"
+  },
+  {
+    "name": "Undead Ningyo",
+    "id": "922"
+  },
+  {
+    "name": "Rhamphorhynchus",
+    "id": "924"
+  },
+  {
+    "name": "Quetzalcoatlus",
+    "id": "926"
+  },
+  {
+    "name": "Hunter Urchin",
+    "id": "928"
+  },
+  {
+    "name": "Spear Urchin",
+    "id": "929"
+  },
+  {
+    "name": "Glass Urchin",
+    "id": "930"
+  },
+  {
+    "name": "Tuyewera",
+    "id": "931"
+  },
+  {
+    "name": "Biloko",
+    "id": "957"
+  },
+  {
+    "name": "Bloodhaze Mosquito Swarm",
+    "id": "958"
+  },
+  {
+    "name": "Chemosit",
+    "id": "959"
+  },
+  {
+    "name": "Personification of Fury",
+    "id": "960"
+  },
+  {
+    "name": "Abyss Gigas",
+    "id": "970"
+  },
+  {
+    "name": "Aerial Servant",
+    "id": "971"
+  },
+  {
+    "name": "Algoid",
+    "id": "972"
+  },
+  {
+    "name": "Al-Mi'raj",
+    "id": "973"
+  },
+  {
+    "name": "Camulatz",
+    "id": "1011"
+  },
+  {
+    "name": "Piranha Swarm",
+    "id": "1014"
+  },
+  {
+    "name": "Megapiranha Swarm",
+    "id": "1015"
+  },
+  {
+    "name": "Vireseed Swarm",
+    "id": "1016"
+  },
+  {
+    "name": "Tribal Totem",
+    "id": "1018"
+  },
+  {
+    "name": "Umasi",
+    "id": "1019"
+  },
+  {
+    "name": "Delver",
+    "id": "1021"
+  },
+  {
+    "name": "Lava Child",
+    "id": "1026"
+  },
+  {
+    "name": "Impundulu",
+    "id": "1059"
+  },
+  {
+    "name": "Obambo",
+    "id": "1060"
+  },
+  {
+    "name": "Sabosan",
+    "id": "1062"
+  },
+  {
+    "name": "Tikoloshe",
+    "id": "1063"
+  },
+  {
+    "name": "Skull Spider",
+    "id": "1064"
+  },
+  {
+    "name": "Rune Guardian",
+    "id": "1075"
+  },
+  {
+    "name": "Vermlek",
+    "id": "1076"
+  },
+  {
+    "name": "Brimorak",
+    "id": "1077"
+  },
+  {
+    "name": "Seraptis",
+    "id": "1078"
+  },
+  {
+    "name": "Vavakia",
+    "id": "1079"
+  },
+  {
+    "name": "Achaierai",
+    "id": "1080"
+  },
+  {
+    "name": "Akhana",
+    "id": "1081"
+  },
+  {
+    "name": "Bythos",
+    "id": "1082"
+  },
+  {
+    "name": "Paracletus",
+    "id": "1083"
+  },
+  {
+    "name": "Pleroma",
+    "id": "1084"
+  },
+  {
+    "name": "Theletos",
+    "id": "1085"
+  },
+  {
+    "name": "Avoral",
+    "id": "1086"
+  },
+  {
+    "name": "Cetaceal",
+    "id": "1087"
+  },
+  {
+    "name": "Draconal",
+    "id": "1088"
+  },
+  {
+    "name": "Leonal",
+    "id": "1089"
+  },
+  {
+    "name": "Silvanshee",
+    "id": "1090"
+  },
+  {
+    "name": "Vulpinal",
+    "id": "1091"
+  },
+  {
+    "name": "Akata",
+    "id": "1092"
+  },
+  {
+    "name": "Amoeba, Giant",
+    "id": "1093"
+  },
+  {
+    "name": "Amoeba Swarm",
+    "id": "1094"
+  },
+  {
+    "name": "Amphisbaena",
+    "id": "1095"
+  },
+  {
+    "name": "Cassisian",
+    "id": "1096"
+  },
+  {
+    "name": "Monadic Deva",
+    "id": "1097"
+  },
+  {
+    "name": "Movanic Deva",
+    "id": "1098"
+  },
+  {
+    "name": "Animate Dream",
+    "id": "1099"
+  },
+  {
+    "name": "Aranea",
+    "id": "1100"
+  },
+  {
+    "name": "Shield Archon",
+    "id": "1101"
+  },
+  {
+    "name": "Star Archon",
+    "id": "1102"
+  },
+  {
+    "name": "Athach",
+    "id": "1103"
+  },
+  {
+    "name": "Attic Whisperer",
+    "id": "1104"
+  },
+  {
+    "name": "Aurumvorax",
+    "id": "1105"
+  },
+  {
+    "name": "Axiomite",
+    "id": "1106"
+  },
+  {
+    "name": "Lyrakien",
+    "id": "1108"
+  },
+  {
+    "name": "Brijidine",
+    "id": "1109"
+  },
+  {
+    "name": "Azer",
+    "id": "1110"
+  },
+  {
+    "name": "Badger",
+    "id": "1111"
+  },
+  {
+    "name": "Badger, Dire",
+    "id": "1112"
+  },
+  {
+    "name": "Banshee",
+    "id": "1113"
+  },
+  {
+    "name": "Mobat",
+    "id": "1114"
+  },
+  {
+    "name": "Skaveling",
+    "id": "1115"
+  },
+  {
+    "name": "Giant Bee",
+    "id": "1116"
+  },
+  {
+    "name": "Giant Queen Bee",
+    "id": "1117"
+  },
+  {
+    "name": "Goliath Stag Beetle",
+    "id": "1118"
+  },
+  {
+    "name": "Slicer Beetle",
+    "id": "1119"
+  },
+  {
+    "name": "Belker",
+    "id": "1120"
+  },
+  {
+    "name": "Blindheim",
+    "id": "1121"
+  },
+  {
+    "name": "Blink Dog",
+    "id": "1122"
+  },
+  {
+    "name": "Bodak",
+    "id": "1123"
+  },
+  {
+    "name": "Brownie",
+    "id": "1124"
+  },
+  {
+    "name": "Bunyip",
+    "id": "1125"
+  },
+  {
+    "name": "Carnivorous Blob",
+    "id": "1126"
+  },
+  {
+    "name": "Catoblepas",
+    "id": "1127"
+  },
+  {
+    "name": "Giant Whiptail Centipede",
+    "id": "1128"
+  },
+  {
+    "name": "Titan Centipede",
+    "id": "1129"
+  },
+  {
+    "name": "Chaos Beast",
+    "id": "1130"
+  },
+  {
+    "name": "Charda",
+    "id": "1131"
+  },
+  {
+    "name": "Charybdis",
+    "id": "1132"
+  },
+  {
+    "name": "Chupacabra",
+    "id": "1133"
+  },
+  {
+    "name": "Giant Cockroach",
+    "id": "1134"
+  },
+  {
+    "name": "Cockroach Swarm",
+    "id": "1135"
+  },
+  {
+    "name": "Crawling Hand",
+    "id": "1136"
+  },
+  {
+    "name": "Giant Crawling Hand",
+    "id": "1137"
+  },
+  {
+    "name": "Crypt Thing",
+    "id": "1138"
+  },
+  {
+    "name": "Crysmal",
+    "id": "1139"
+  },
+  {
+    "name": "Astradaemon",
+    "id": "1140"
+  },
+  {
+    "name": "Cacodaemon",
+    "id": "1141"
+  },
+  {
+    "name": "Ceustodaemon",
+    "id": "1142"
+  },
+  {
+    "name": "Derghodaemon",
+    "id": "1143"
+  },
+  {
+    "name": "Hydrodaemon",
+    "id": "1144"
+  },
+  {
+    "name": "Leukodaemon",
+    "id": "1145"
+  },
+  {
+    "name": "Meladaemon",
+    "id": "1146"
+  },
+  {
+    "name": "Olethrodaemon",
+    "id": "1147"
+  },
+  {
+    "name": "Piscodaemon",
+    "id": "1148"
+  },
+  {
+    "name": "Purrodaemon",
+    "id": "1149"
+  },
+  {
+    "name": "Thanadaemon",
+    "id": "1150"
+  },
+  {
+    "name": "Dark Slayer",
+    "id": "1151"
+  },
+  {
+    "name": "Death Worm",
+    "id": "1152"
+  },
+  {
+    "name": "Decapus",
+    "id": "1153"
+  },
+  {
+    "name": "Kalavakus",
+    "id": "1154"
+  },
+  {
+    "name": "Omox",
+    "id": "1155"
+  },
+  {
+    "name": "Shemhazian",
+    "id": "1156"
+  },
+  {
+    "name": "Vrolikai",
+    "id": "1157"
+  },
+  {
+    "name": "Denizen of Leng",
+    "id": "1158"
+  },
+  {
+    "name": "Destrachan",
+    "id": "1159"
+  },
+  {
+    "name": "Accuser",
+    "id": "1160"
+  },
+  {
+    "name": "Belier Devil",
+    "id": "1161"
+  },
+  {
+    "name": "Handmaiden Devil",
+    "id": "1162"
+  },
+  {
+    "name": "Immolation Devil",
+    "id": "1163"
+  },
+  {
+    "name": "Devilfish",
+    "id": "1164"
+  },
+  {
+    "name": "Dhampir",
+    "id": "1165"
+  },
+  {
+    "name": "Allosaurus",
+    "id": "1166"
+  },
+  {
+    "name": "Compsognathus",
+    "id": "1167"
+  },
+  {
+    "name": "Parasaurolophus",
+    "id": "1168"
+  },
+  {
+    "name": "Tylosaurus",
+    "id": "1169"
+  },
+  {
+    "name": "Young Brine Dragon",
+    "id": "1170"
+  },
+  {
+    "name": "Adult Brine Dragon",
+    "id": "1171"
+  },
+  {
+    "name": "Ancient Brine Dragon",
+    "id": "1172"
+  },
+  {
+    "name": "Young Cloud Dragon",
+    "id": "1173"
+  },
+  {
+    "name": "Adult Cloud Dragon",
+    "id": "1174"
+  },
+  {
+    "name": "Ancient Cloud Dragon",
+    "id": "1175"
+  },
+  {
+    "name": "Young Crystal Dragon",
+    "id": "1176"
+  },
+  {
+    "name": "Adult Crystal Dragon",
+    "id": "1177"
+  },
+  {
+    "name": "Ancient Crystal Dragon",
+    "id": "1178"
+  },
+  {
+    "name": "Young Magma Dragon",
+    "id": "1179"
+  },
+  {
+    "name": "Adult Magma Dragon",
+    "id": "1180"
+  },
+  {
+    "name": "Ancient Magma Dragon",
+    "id": "1181"
+  },
+  {
+    "name": "Young Umbral Dragon",
+    "id": "1182"
+  },
+  {
+    "name": "Ancient Umbral Dragon",
+    "id": "1183"
+  },
+  {
+    "name": "Dragon Horse",
+    "id": "1184"
+  },
+  {
+    "name": "Giant Dragonfly",
+    "id": "1185"
+  },
+  {
+    "name": "Giant Dragonfly Nymph",
+    "id": "1186"
+  },
+  {
+    "name": "Flame Drake",
+    "id": "1187"
+  },
+  {
+    "name": "Forest Drake",
+    "id": "1188"
+  },
+  {
+    "name": "Frost Drake",
+    "id": "1189"
+  },
+  {
+    "name": "Sea Drake",
+    "id": "1190"
+  },
+  {
+    "name": "Draugr",
+    "id": "1191"
+  },
+  {
+    "name": "Dullahan",
+    "id": "1192"
+  },
+  {
+    "name": "Dust Digger",
+    "id": "1193"
+  },
+  {
+    "name": "D'ziriak",
+    "id": "1194"
+  },
+  {
+    "name": "Small Ice Elemental",
+    "id": "1195"
+  },
+  {
+    "name": "Medium Ice Elemental",
+    "id": "1196"
+  },
+  {
+    "name": "Large Ice Elemental",
+    "id": "1197"
+  },
+  {
+    "name": "Huge Ice Elemental",
+    "id": "1198"
+  },
+  {
+    "name": "Greater Ice Elemental",
+    "id": "1199"
+  },
+  {
+    "name": "Elder Ice Elemental",
+    "id": "1200"
+  },
+  {
+    "name": "Small Lightning Elemental",
+    "id": "1201"
+  },
+  {
+    "name": "Medium Lightning Elemental",
+    "id": "1202"
+  },
+  {
+    "name": "Large Lightning Elemental",
+    "id": "1203"
+  },
+  {
+    "name": "Huge Lightning Elemental",
+    "id": "1204"
+  },
+  {
+    "name": "Greater Lightning Elemental",
+    "id": "1205"
+  },
+  {
+    "name": "Elder Lightning Elemental",
+    "id": "1206"
+  },
+  {
+    "name": "Small Magma Elemental",
+    "id": "1207"
+  },
+  {
+    "name": "Medium Magma Elemental",
+    "id": "1208"
+  },
+  {
+    "name": "Large Magma Elemental",
+    "id": "1209"
+  },
+  {
+    "name": "Huge Magma Elemental",
+    "id": "1210"
+  },
+  {
+    "name": "Greater Magma Elemental",
+    "id": "1211"
+  },
+  {
+    "name": "Elder Magma Elemental",
+    "id": "1212"
+  },
+  {
+    "name": "Small Mud Elemental",
+    "id": "1213"
+  },
+  {
+    "name": "Medium Mud Elemental",
+    "id": "1214"
+  },
+  {
+    "name": "Large Mud Elemental",
+    "id": "1215"
+  },
+  {
+    "name": "Huge Mud Elemental",
+    "id": "1216"
+  },
+  {
+    "name": "Greater Mud Elemental",
+    "id": "1217"
+  },
+  {
+    "name": "Elder Mud Elemental",
+    "id": "1218"
+  },
+  {
+    "name": "Giant Fly",
+    "id": "1221"
+  },
+  {
+    "name": "Giant Maggot",
+    "id": "1222"
+  },
+  {
+    "name": "Forlarren",
+    "id": "1223"
+  },
+  {
+    "name": "Frost Worm",
+    "id": "1224"
+  },
+  {
+    "name": "Fungal Crawler",
+    "id": "1225"
+  },
+  {
+    "name": "Gar",
+    "id": "1226"
+  },
+  {
+    "name": "Giant Gar",
+    "id": "1227"
+  },
+  {
+    "name": "Marsh Giant",
+    "id": "1228"
+  },
+  {
+    "name": "Rune Giant",
+    "id": "1229"
+  },
+  {
+    "name": "Taiga Giant",
+    "id": "1230"
+  },
+  {
+    "name": "Wood Giant",
+    "id": "1231"
+  },
+  {
+    "name": "Gloomwing",
+    "id": "1232"
+  },
+  {
+    "name": "Adamantine Golem",
+    "id": "1233"
+  },
+  {
+    "name": "Alchemical Golem",
+    "id": "1234"
+  },
+  {
+    "name": "Carrion Golem",
+    "id": "1235"
+  },
+  {
+    "name": "Clockwork Golem",
+    "id": "1236"
+  },
+  {
+    "name": "Glass Golem",
+    "id": "1237"
+  },
+  {
+    "name": "Mithral Golem",
+    "id": "1238"
+  },
+  {
+    "name": "Gray Render",
+    "id": "1239"
+  },
+  {
+    "name": "Jinkin",
+    "id": "1240"
+  },
+  {
+    "name": "Nuglub",
+    "id": "1241"
+  },
+  {
+    "name": "Pugwampi",
+    "id": "1242"
+  },
+  {
+    "name": "Vexgit",
+    "id": "1243"
+  },
+  {
+    "name": "Grick",
+    "id": "1244"
+  },
+  {
+    "name": "Grig",
+    "id": "1245"
+  },
+  {
+    "name": "Grindylow",
+    "id": "1246"
+  },
+  {
+    "name": "Grippli",
+    "id": "1247"
+  },
+  {
+    "name": "Gryph",
+    "id": "1248"
+  },
+  {
+    "name": "Gug",
+    "id": "1249"
+  },
+  {
+    "name": "Hangman Tree",
+    "id": "1250"
+  },
+  {
+    "name": "Hellcat",
+    "id": "1251"
+  },
+  {
+    "name": "Camel",
+    "id": "1252"
+  },
+  {
+    "name": "Ram",
+    "id": "1253"
+  },
+  {
+    "name": "Hippocampus",
+    "id": "1254"
+  },
+  {
+    "name": "Hippogriff",
+    "id": "1255"
+  },
+  {
+    "name": "Hippopotamus",
+    "id": "1257"
+  },
+  {
+    "name": "Behemoth Hippopotamus",
+    "id": "1258"
+  },
+  {
+    "name": "Hound of Tindalos",
+    "id": "1259"
+  },
+  {
+    "name": "Howler",
+    "id": "1260"
+  },
+  {
+    "name": "Ifrit",
+    "id": "1261"
+  },
+  {
+    "name": "Arbiter",
+    "id": "1262"
+  },
+  {
+    "name": "Kolyarut",
+    "id": "1263"
+  },
+  {
+    "name": "Lhaksharut",
+    "id": "1264"
+  },
+  {
+    "name": "Marut",
+    "id": "1265"
+  },
+  {
+    "name": "Zelekhut",
+    "id": "1266"
+  },
+  {
+    "name": "Jabberwock",
+    "id": "1267"
+  },
+  {
+    "name": "Giant Jellyfish",
+    "id": "1268"
+  },
+  {
+    "name": "Jellyfish Swarm",
+    "id": "1269"
+  },
+  {
+    "name": "Jyoti",
+    "id": "1270"
+  },
+  {
+    "name": "Kelpie",
+    "id": "1271"
+  },
+  {
+    "name": "Korred",
+    "id": "1272"
+  },
+  {
+    "name": "Krenshar",
+    "id": "1273"
+  },
+  {
+    "name": "Lamia Matriarch",
+    "id": "1274"
+  },
+  {
+    "name": "Leng Spider",
+    "id": "1275"
+  },
+  {
+    "name": "Leprechaun",
+    "id": "1276"
+  },
+  {
+    "name": "Leucrotta",
+    "id": "1277"
+  },
+  {
+    "name": "Locathah",
+    "id": "1278"
+  },
+  {
+    "name": "Lurker In Light",
+    "id": "1279"
+  },
+  {
+    "name": "Werebear",
+    "id": "1280"
+  },
+  {
+    "name": "Werebear",
+    "id": "1281"
+  },
+  {
+    "name": "Wereboar",
+    "id": "1282"
+  },
+  {
+    "name": "Wereboar",
+    "id": "1283"
+  },
+  {
+    "name": "Weretiger",
+    "id": "1284"
+  },
+  {
+    "name": "Weretiger",
+    "id": "1285"
+  },
+  {
+    "name": "Magma Ooze",
+    "id": "1286"
+  },
+  {
+    "name": "Mandragora",
+    "id": "1287"
+  },
+  {
+    "name": "Arsinoitherium",
+    "id": "1288"
+  },
+  {
+    "name": "Gylptodon",
+    "id": "1289"
+  },
+  {
+    "name": "Megaloceros",
+    "id": "1290"
+  },
+  {
+    "name": "Megatherium",
+    "id": "1291"
+  },
+  {
+    "name": "Mercane",
+    "id": "1292"
+  },
+  {
+    "name": "Freshwater Merrow",
+    "id": "1293"
+  },
+  {
+    "name": "Saltwater Merrow",
+    "id": "1294"
+  },
+  {
+    "name": "Mihstu",
+    "id": "1295"
+  },
+  {
+    "name": "Mongrelman",
+    "id": "1296"
+  },
+  {
+    "name": "Moonflower",
+    "id": "1297"
+  },
+  {
+    "name": "Giant Mosquito",
+    "id": "1298"
+  },
+  {
+    "name": "Mosquito Swarm",
+    "id": "1299"
+  },
+  {
+    "name": "Mothman",
+    "id": "1300"
+  },
+  {
+    "name": "Mu Spore",
+    "id": "1301"
+  },
+  {
+    "name": "Necrophidius",
+    "id": "1302"
+  },
+  {
+    "name": "Neh-thalggu",
+    "id": "1303"
+  },
+  {
+    "name": "Nereid",
+    "id": "1304"
+  },
+  {
+    "name": "Nightcrawler",
+    "id": "1305"
+  },
+  {
+    "name": "Nightwalker",
+    "id": "1306"
+  },
+  {
+    "name": "Nightwave",
+    "id": "1307"
+  },
+  {
+    "name": "Nightwing",
+    "id": "1308"
+  },
+  {
+    "name": "Ogrekin",
+    "id": "1309"
+  },
+  {
+    "name": "Oread",
+    "id": "1310"
+  },
+  {
+    "name": "Pech",
+    "id": "1311"
+  },
+  {
+    "name": "Peryton",
+    "id": "1312"
+  },
+  {
+    "name": "Petitioner",
+    "id": "1313"
+  },
+  {
+    "name": "Phycomid",
+    "id": "1314"
+  },
+  {
+    "name": "Poltergeist",
+    "id": "1315"
+  },
+  {
+    "name": "Baboon",
+    "id": "1316"
+  },
+  {
+    "name": "Monkey Swarm",
+    "id": "1317"
+  },
+  {
+    "name": "Imentesh",
+    "id": "1318"
+  },
+  {
+    "name": "Keketar",
+    "id": "1319"
+  },
+  {
+    "name": "Naunet",
+    "id": "1320"
+  },
+  {
+    "name": "Voidworm",
+    "id": "1321"
+  },
+  {
+    "name": "Augnagar",
+    "id": "1322"
+  },
+  {
+    "name": "Chernobue",
+    "id": "1323"
+  },
+  {
+    "name": "Cythnigot",
+    "id": "1324"
+  },
+  {
+    "name": "Iathavos",
+    "id": "1325"
+  },
+  {
+    "name": "Nyogoth",
+    "id": "1326"
+  },
+  {
+    "name": "Shoggti",
+    "id": "1327"
+  },
+  {
+    "name": "Thulgant",
+    "id": "1328"
+  },
+  {
+    "name": "Quickling",
+    "id": "1329"
+  },
+  {
+    "name": "Quickwood",
+    "id": "1330"
+  },
+  {
+    "name": "Rast",
+    "id": "1331"
+  },
+  {
+    "name": "Red Wyrm Ravener",
+    "id": "1332"
+  },
+  {
+    "name": "Manta Ray",
+    "id": "1333"
+  },
+  {
+    "name": "Stingray",
+    "id": "1334"
+  },
+  {
+    "name": "Redcap",
+    "id": "1335"
+  },
+  {
+    "name": "Reefclaw",
+    "id": "1336"
+  },
+  {
+    "name": "Revenant",
+    "id": "1337"
+  },
+  {
+    "name": "Sandman",
+    "id": "1338"
+  },
+  {
+    "name": "Sard",
+    "id": "1339"
+  },
+  {
+    "name": "Scarecrow",
+    "id": "1340"
+  },
+  {
+    "name": "Sceaduinar",
+    "id": "1341"
+  },
+  {
+    "name": "Black Scorpion",
+    "id": "1342"
+  },
+  {
+    "name": "Cave Scorpion",
+    "id": "1343"
+  },
+  {
+    "name": "Scylla",
+    "id": "1344"
+  },
+  {
+    "name": "Serpentfolk",
+    "id": "1345"
+  },
+  {
+    "name": "Seugathi",
+    "id": "1346"
+  },
+  {
+    "name": "Shantak",
+    "id": "1347"
+  },
+  {
+    "name": "Shining Child",
+    "id": "1348"
+  },
+  {
+    "name": "Sinspawn",
+    "id": "1349"
+  },
+  {
+    "name": "Siren",
+    "id": "1350"
+  },
+  {
+    "name": "Skulk",
+    "id": "1351"
+  },
+  {
+    "name": "Slime Mold",
+    "id": "1352"
+  },
+  {
+    "name": "Slithering Tracker",
+    "id": "1353"
+  },
+  {
+    "name": "Slurk",
+    "id": "1354"
+  },
+  {
+    "name": "Emperor Cobra",
+    "id": "1355"
+  },
+  {
+    "name": "Giant Anaconda",
+    "id": "1356"
+  },
+  {
+    "name": "Giant Solifugid",
+    "id": "1357"
+  },
+  {
+    "name": "Albino Cave Solifugid",
+    "id": "1358"
+  },
+  {
+    "name": "Soul Eater",
+    "id": "1359"
+  },
+  {
+    "name": "Soulbound Doll",
+    "id": "1360"
+  },
+  {
+    "name": "Giant Black Widow Spider",
+    "id": "1361"
+  },
+  {
+    "name": "Giant Tarantula",
+    "id": "1362"
+  },
+  {
+    "name": "Spriggan",
+    "id": "1363"
+  },
+  {
+    "name": "Large Spriggan",
+    "id": "1364"
+  },
+  {
+    "name": "Sylph",
+    "id": "1365"
+  },
+  {
+    "name": "Tendriculos",
+    "id": "1366"
+  },
+  {
+    "name": "Tenebrous Worm",
+    "id": "1367"
+  },
+  {
+    "name": "Tentamort",
+    "id": "1368"
+  },
+  {
+    "name": "Thoqqua",
+    "id": "1369"
+  },
+  {
+    "name": "Thrasfyr",
+    "id": "1370"
+  },
+  {
+    "name": "Thunderbird",
+    "id": "1371"
+  },
+  {
+    "name": "Giant Tick",
+    "id": "1372"
+  },
+  {
+    "name": "Tick Swarm",
+    "id": "1373"
+  },
+  {
+    "name": "Elysian Titan",
+    "id": "1374"
+  },
+  {
+    "name": "Thanatotic Titan",
+    "id": "1375"
+  },
+  {
+    "name": "Giant Toad",
+    "id": "1376"
+  },
+  {
+    "name": "Glacier Toad",
+    "id": "1377"
+  },
+  {
+    "name": "Totenmaske",
+    "id": "1378"
+  },
+  {
+    "name": "Triton",
+    "id": "1379"
+  },
+  {
+    "name": "Ice Troll",
+    "id": "1380"
+  },
+  {
+    "name": "Rock Troll",
+    "id": "1381"
+  },
+  {
+    "name": "Snapping Turtle",
+    "id": "1382"
+  },
+  {
+    "name": "Giant Snapping Turtle",
+    "id": "1383"
+  },
+  {
+    "name": "Twigjack",
+    "id": "1384"
+  },
+  {
+    "name": "Undine",
+    "id": "1385"
+  },
+  {
+    "name": "Urdefhan",
+    "id": "1386"
+  },
+  {
+    "name": "Vampiric Mist",
+    "id": "1387"
+  },
+  {
+    "name": "Vemerak",
+    "id": "1388"
+  },
+  {
+    "name": "Viper Vine",
+    "id": "1389"
+  },
+  {
+    "name": "Water Orm",
+    "id": "1390"
+  },
+  {
+    "name": "Wendigo",
+    "id": "1391"
+  },
+  {
+    "name": "Whale",
+    "id": "1392"
+  },
+  {
+    "name": "Great White Whale",
+    "id": "1393"
+  },
+  {
+    "name": "Winterwight",
+    "id": "1394"
+  },
+  {
+    "name": "Witchfire",
+    "id": "1395"
+  },
+  {
+    "name": "Witchwyrd",
+    "id": "1396"
+  },
+  {
+    "name": "Worm That Walks",
+    "id": "1397"
+  },
+  {
+    "name": "Xacarba",
+    "id": "1398"
+  },
+  {
+    "name": "Xtabay",
+    "id": "1399"
+  },
+  {
+    "name": "Yrthak",
+    "id": "1400"
+  },
+  {
+    "name": "Human Juju Zombie",
+    "id": "1401"
+  },
+  {
+    "name": "Tear of Nuruu'gal",
+    "id": "1407"
+  },
+  {
+    "name": "Arcanotheign",
+    "id": "1438"
+  },
+  {
+    "name": "Inkanyamba",
+    "id": "1439"
+  },
+  {
+    "name": "Umdhlebi",
+    "id": "1441"
+  },
+  {
+    "name": "Emperor of Scales",
+    "id": "1468"
+  },
+  {
+    "name": "Lesser Hollow Serpent",
+    "id": "1471"
+  },
+  {
+    "name": "Sanguine Ooze Swarm",
+    "id": "1492"
+  },
+  {
+    "name": "Phlegmatic Ooze Swarm",
+    "id": "1493"
+  },
+  {
+    "name": "Melancholic Ooze Swarm",
+    "id": "1494"
+  },
+  {
+    "name": "Choleric Ooze Swarm",
+    "id": "1495"
+  },
+  {
+    "name": "Severed Head",
+    "id": "1500"
+  },
+  {
+    "name": "Flaming Skull",
+    "id": "1501"
+  },
+  {
+    "name": "Skull Swarm",
+    "id": "1502"
+  },
+  {
+    "name": "Giant Beheaded",
+    "id": "1503"
+  },
+  {
+    "name": "Medusa Head",
+    "id": "1504"
+  },
+  {
+    "name": "Changeling",
+    "id": "1505"
+  },
+  {
+    "name": "Aluum",
+    "id": "1508"
+  },
+  {
+    "name": "Calikang",
+    "id": "1509"
+  },
+  {
+    "name": "Charau-Ka",
+    "id": "1510"
+  },
+  {
+    "name": "Daughter of Urgathoa",
+    "id": "1511"
+  },
+  {
+    "name": "Gillman",
+    "id": "1512"
+  },
+  {
+    "name": "Spine Dragon",
+    "id": "1514"
+  },
+  {
+    "name": "Strix",
+    "id": "1515"
+  },
+  {
+    "name": "Treerazer",
+    "id": "1516"
+  },
+  {
+    "name": "Wyrmling Black Dragon",
+    "id": "1517"
+  },
+  {
+    "name": "Very Young Black Dragon",
+    "id": "1518"
+  },
+  {
+    "name": "Juvenile Black Dragon",
+    "id": "1519"
+  },
+  {
+    "name": "Young Adult Black Dragon",
+    "id": "1520"
+  },
+  {
+    "name": "Mature Adult Black Dragon",
+    "id": "1521"
+  },
+  {
+    "name": "Old Black Dragon",
+    "id": "1522"
+  },
+  {
+    "name": "Very Old Black Dragon",
+    "id": "1523"
+  },
+  {
+    "name": "Wyrm Black Dragon",
+    "id": "1524"
+  },
+  {
+    "name": "Great Wyrm Black Dragon",
+    "id": "1525"
+  },
+  {
+    "name": "Wyrmling Blue Dragon",
+    "id": "1526"
+  },
+  {
+    "name": "Very Young Blue Dragon",
+    "id": "1527"
+  },
+  {
+    "name": "Juvenile Blue Dragon",
+    "id": "1528"
+  },
+  {
+    "name": "Young Adult Blue Dragon",
+    "id": "1529"
+  },
+  {
+    "name": "Mature Adult Blue Dragon",
+    "id": "1530"
+  },
+  {
+    "name": "Old Blue Dragon",
+    "id": "1531"
+  },
+  {
+    "name": "Very Old Blue Dragon",
+    "id": "1532"
+  },
+  {
+    "name": "Wyrm Blue Dragon",
+    "id": "1533"
+  },
+  {
+    "name": "Great Wyrm Blue Dragon",
+    "id": "1534"
+  },
+  {
+    "name": "Wyrmling Green Dragon",
+    "id": "1535"
+  },
+  {
+    "name": "Very Young Green Dragon",
+    "id": "1536"
+  },
+  {
+    "name": "Juvenile Green Dragon",
+    "id": "1537"
+  },
+  {
+    "name": "Young Adult Green Dragon",
+    "id": "1538"
+  },
+  {
+    "name": "Mature Adult Green Dragon",
+    "id": "1539"
+  },
+  {
+    "name": "Old Green Dragon",
+    "id": "1540"
+  },
+  {
+    "name": "Very Old Green Dragon",
+    "id": "1541"
+  },
+  {
+    "name": "Wyrm Green Dragon",
+    "id": "1542"
+  },
+  {
+    "name": "Great Wyrm Green Dragon",
+    "id": "1543"
+  },
+  {
+    "name": "Wyrmling Red Dragon",
+    "id": "1544"
+  },
+  {
+    "name": "Very Young Red Dragon",
+    "id": "1545"
+  },
+  {
+    "name": "Juvenile Red Dragon",
+    "id": "1546"
+  },
+  {
+    "name": "Young Adult Red Dragon",
+    "id": "1547"
+  },
+  {
+    "name": "Mature Adult Red Dragon",
+    "id": "1548"
+  },
+  {
+    "name": "Old Red Dragon",
+    "id": "1549"
+  },
+  {
+    "name": "Very Old Red Dragon",
+    "id": "1550"
+  },
+  {
+    "name": "Wyrm Red Dragon",
+    "id": "1551"
+  },
+  {
+    "name": "Great Wyrm Red Dragon",
+    "id": "1552"
+  },
+  {
+    "name": "Wyrmling White Dragon",
+    "id": "1553"
+  },
+  {
+    "name": "Very Young White Dragon",
+    "id": "1554"
+  },
+  {
+    "name": "Juvenile White Dragon",
+    "id": "1555"
+  },
+  {
+    "name": "Young Adult White Dragon",
+    "id": "1556"
+  },
+  {
+    "name": "Mature Adult White Dragon",
+    "id": "1557"
+  },
+  {
+    "name": "Old White Dragon",
+    "id": "1558"
+  },
+  {
+    "name": "Very Old White Dragon",
+    "id": "1559"
+  },
+  {
+    "name": "Wyrm White Dragon",
+    "id": "1560"
+  },
+  {
+    "name": "Great Wyrm White Dragon",
+    "id": "1561"
+  },
+  {
+    "name": "Wyrmling Brass Dragon",
+    "id": "1562"
+  },
+  {
+    "name": "Very Young Brass Dragon",
+    "id": "1563"
+  },
+  {
+    "name": "Juvenile Brass Dragon",
+    "id": "1564"
+  },
+  {
+    "name": "Young Adult Brass Dragon",
+    "id": "1565"
+  },
+  {
+    "name": "Mature Adult Brass Dragon",
+    "id": "1566"
+  },
+  {
+    "name": "Old Brass Dragon",
+    "id": "1567"
+  },
+  {
+    "name": "Very Old Brass Dragon",
+    "id": "1568"
+  },
+  {
+    "name": "Wyrm Brass Dragon",
+    "id": "1569"
+  },
+  {
+    "name": "Great Wyrm Brass Dragon",
+    "id": "1570"
+  },
+  {
+    "name": "Wyrmling Bronze Dragon",
+    "id": "1571"
+  },
+  {
+    "name": "Very Young Bronze Dragon",
+    "id": "1572"
+  },
+  {
+    "name": "Juvenile Bronze Dragon",
+    "id": "1573"
+  },
+  {
+    "name": "Young Adult Bronze Dragon",
+    "id": "1574"
+  },
+  {
+    "name": "Mature Adult Bronze Dragon",
+    "id": "1575"
+  },
+  {
+    "name": "Very Old Bronze Dragon",
+    "id": "1576"
+  },
+  {
+    "name": "Wyrm Bronze Dragon",
+    "id": "1577"
+  },
+  {
+    "name": "Great Wyrm Bronze Dragon",
+    "id": "1578"
+  },
+  {
+    "name": "Wyrmling Copper Dragon",
+    "id": "1579"
+  },
+  {
+    "name": "Very Young Copper Dragon",
+    "id": "1580"
+  },
+  {
+    "name": "Juvenile Copper Dragon",
+    "id": "1581"
+  },
+  {
+    "name": "Young Adult Copper Dragon",
+    "id": "1582"
+  },
+  {
+    "name": "Mature Adult Copper Dragon",
+    "id": "1583"
+  },
+  {
+    "name": "Old Copper Dragon",
+    "id": "1584"
+  },
+  {
+    "name": "Very Old Copper Dragon",
+    "id": "1585"
+  },
+  {
+    "name": "Wyrm Copper Dragon",
+    "id": "1586"
+  },
+  {
+    "name": "Great Wyrm Copper Dragon",
+    "id": "1587"
+  },
+  {
+    "name": "Wyrmling Gold Dragon",
+    "id": "1588"
+  },
+  {
+    "name": "Very Young Gold Dragon",
+    "id": "1589"
+  },
+  {
+    "name": "Juvenile Gold Dragon",
+    "id": "1590"
+  },
+  {
+    "name": "Young Adult Gold Dragon",
+    "id": "1591"
+  },
+  {
+    "name": "Mature Adult Gold Dragon",
+    "id": "1592"
+  },
+  {
+    "name": "Old Gold Dragon",
+    "id": "1593"
+  },
+  {
+    "name": "Boruta",
+    "id": "1610"
+  },
+  {
+    "name": "Skin Stealer",
+    "id": "1616"
+  },
+  {
+    "name": "Steward of the Skein",
+    "id": "1617"
+  },
+  {
+    "name": "Nemhain",
+    "id": "1624"
+  },
+  {
+    "name": "Vilkacis",
+    "id": "1641"
+  },
+  {
+    "name": "Weaverworm",
+    "id": "1642"
+  },
+  {
+    "name": "Dark Young of Shub-Niggurath",
+    "id": "1703"
+  },
+  {
+    "name": "Dimensional Shambler",
+    "id": "1704"
+  },
+  {
+    "name": "Gnoph-Keh",
+    "id": "1706"
+  },
+  {
+    "name": "Spawning Canker",
+    "id": "1708"
+  },
+  {
+    "name": "Garipan",
+    "id": "1715"
+  },
+  {
+    "name": "Nightskitter",
+    "id": "1721"
+  },
+  {
+    "name": "Wight Lord",
+    "id": "1725"
+  },
+  {
+    "name": "Mother's Maw",
+    "id": "1754"
+  },
+  {
+    "name": "Hollow Helm",
+    "id": "1755"
+  },
+  {
+    "name": "Phantom Lancer",
+    "id": "1758"
+  },
+  {
+    "name": "Sentient Wax Golem",
+    "id": "1762"
+  },
+  {
+    "name": "Ghast",
+    "id": "1768"
+  },
+  {
+    "name": "Cairn Wight",
+    "id": "1773"
+  },
+  {
+    "name": "Mute hag",
+    "id": "1781"
+  },
+  {
+    "name": "Blue-Ringed Octopus",
+    "id": "1782"
+  },
+  {
+    "name": "Donkey Rat",
+    "id": "1783"
+  },
+  {
+    "name": "Greensting Scorpion",
+    "id": "1786"
+  },
+  {
+    "name": "Hedgehog",
+    "id": "1787"
+  },
+  {
+    "name": "House Centipede",
+    "id": "1788"
+  },
+  {
+    "name": "King Crab",
+    "id": "1789"
+  },
+  {
+    "name": "Scarlet Spider",
+    "id": "1791"
+  },
+  {
+    "name": "Thrush",
+    "id": "1792"
+  },
+  {
+    "name": "Turtle",
+    "id": "1793"
+  },
+  {
+    "name": "Forsaken Lich",
+    "id": "1810"
+  },
+  {
+    "name": "Gargoyle Guardian",
+    "id": "1814"
+  },
+  {
+    "name": "Grim Reaper",
+    "id": "1815"
+  },
+  {
+    "name": "Minor Grim Reaper",
+    "id": "1816"
+  },
+  {
+    "name": "Belostomatid",
+    "id": "1834"
+  },
+  {
+    "name": "Water Strider Swarm",
+    "id": "1835"
+  },
+  {
+    "name": "Giant Hellgrammite",
+    "id": "1836"
+  },
+  {
+    "name": "Hala",
+    "id": "1837"
+  },
+  {
+    "name": "Yamabushi Tengu",
+    "id": "1839"
+  },
+  {
+    "name": "Aberrant",
+    "id": "1840"
+  },
+  {
+    "name": "Abyssal Harvester",
+    "id": "1841"
+  },
+  {
+    "name": "Abyssal Larva",
+    "id": "1842"
+  },
+  {
+    "name": "Adherer",
+    "id": "1843"
+  },
+  {
+    "name": "Aerial Servant",
+    "id": "1844"
+  },
+  {
+    "name": "Afanc",
+    "id": "1845"
+  },
+  {
+    "name": "Ahlinni",
+    "id": "1846"
+  },
+  {
+    "name": "Algoid",
+    "id": "1847"
+  },
+  {
+    "name": "Al-mi'raj",
+    "id": "1848"
+  },
+  {
+    "name": "Amphisbaena",
+    "id": "1849"
+  },
+  {
+    "name": "Great Sea Anemone",
+    "id": "1850"
+  },
+  {
+    "name": "Chalkydri",
+    "id": "1851"
+  },
+  {
+    "name": "Empyreal",
+    "id": "1852"
+  },
+  {
+    "name": "Monadic Deva",
+    "id": "1853"
+  },
+  {
+    "name": "Movanic Deva",
+    "id": "1854"
+  },
+  {
+    "name": "Cat Lord",
+    "id": "1855"
+  },
+  {
+    "name": "Mouse Lord",
+    "id": "1857"
+  },
+  {
+    "name": "Ant Lion",
+    "id": "1859"
+  },
+  {
+    "name": "Apparition",
+    "id": "1860"
+  },
+  {
+    "name": "Gare Linnorm",
+    "id": "1883"
+  },
+  {
+    "name": "Nogitsune",
+    "id": "1884"
+  },
+  {
+    "name": "Spirit of Adoration",
+    "id": "1886"
+  },
+  {
+    "name": "Blightspawn of Ghlaunder",
+    "id": "1890"
+  },
+  {
+    "name": "Arach",
+    "id": "1891"
+  },
+  {
+    "name": "Berserker Cannibal",
+    "id": "1901"
+  },
+  {
+    "name": "Blackraven Scout",
+    "id": "1902"
+  },
+  {
+    "name": "Fafnheir",
+    "id": "1903"
+  },
+  {
+    "name": "Fey Wolverine",
+    "id": "1904"
+  },
+  {
+    "name": "Longboat Captain",
+    "id": "1906"
+  },
+  {
+    "name": "Mountain Troll",
+    "id": "1908"
+  },
+  {
+    "name": "Ulfen Raider",
+    "id": "1909"
+  },
+  {
+    "name": "Frostfallen Mammoth",
+    "id": "1916"
+  },
+  {
+    "name": "Atamahuta",
+    "id": "1917"
+  },
+  {
+    "name": "Saumen Kar",
+    "id": "1919"
+  },
+  {
+    "name": "Dosojin",
+    "id": "1932"
+  },
+  {
+    "name": "Fukujin",
+    "id": "1933"
+  },
+  {
+    "name": "Kaminari",
+    "id": "1934"
+  },
+  {
+    "name": "Suijin",
+    "id": "1935"
+  },
+  {
+    "name": "Ja Noi",
+    "id": "1936"
+  },
+  {
+    "name": "Erodaemon",
+    "id": "1937"
+  },
+  {
+    "name": "Lacridaemon",
+    "id": "1938"
+  },
+  {
+    "name": "Obcisidaemon",
+    "id": "1939"
+  },
+  {
+    "name": "Phasmadaemon",
+    "id": "1940"
+  },
+  {
+    "name": "Sangudaemon",
+    "id": "1941"
+  },
+  {
+    "name": "Suspiridaemon",
+    "id": "1942"
+  },
+  {
+    "name": "Temerdaemon",
+    "id": "1943"
+  },
+  {
+    "name": "Venedaemon",
+    "id": "1944"
+  },
+  {
+    "name": "Human",
+    "id": "1946"
+  },
+  {
+    "name": "Half-Elf",
+    "id": "1947"
+  },
+  {
+    "name": "Adaro",
+    "id": "1958"
+  },
+  {
+    "name": "Adherer",
+    "id": "1959"
+  },
+  {
+    "name": "Adlet",
+    "id": "1960"
+  },
+  {
+    "name": "Ahuizotl",
+    "id": "1961"
+  },
+  {
+    "name": "Akhlut",
+    "id": "1962"
+  },
+  {
+    "name": "Allip",
+    "id": "1963"
+  },
+  {
+    "name": "Alraune",
+    "id": "1964"
+  },
+  {
+    "name": "Cat Lord",
+    "id": "1965"
+  },
+  {
+    "name": "Annis Hag",
+    "id": "1966"
+  },
+  {
+    "name": "Giant Ant Lion",
+    "id": "1967"
+  },
+  {
+    "name": "Giant Adult Ant Lion",
+    "id": "1968"
+  },
+  {
+    "name": "Harbinger Archon",
+    "id": "1969"
+  },
+  {
+    "name": "Legion Archon",
+    "id": "1970"
+  },
+  {
+    "name": "Ascomoid",
+    "id": "1971"
+  },
+  {
+    "name": "Adhukait",
+    "id": "1972"
+  },
+  {
+    "name": "Aghasura",
+    "id": "1973"
+  },
+  {
+    "name": "Asurendra",
+    "id": "1974"
+  },
+  {
+    "name": "Tripurasura",
+    "id": "1975"
+  },
+  {
+    "name": "Upasunda",
+    "id": "1976"
+  },
+  {
+    "name": "Atomie",
+    "id": "1977"
+  },
+  {
+    "name": "Axe Beak",
+    "id": "1978"
+  },
+  {
+    "name": "Azruverda",
+    "id": "1979"
+  },
+  {
+    "name": "Baku",
+    "id": "1980"
+  },
+  {
+    "name": "Bandersnatch",
+    "id": "1981"
+  },
+  {
+    "name": "Baregara",
+    "id": "1982"
+  },
+  {
+    "name": "Baykok",
+    "id": "1983"
+  },
+  {
+    "name": "Tempest Behemoth",
+    "id": "1984"
+  },
+  {
+    "name": "Thalassic Behemoth",
+    "id": "1985"
+  },
+  {
+    "name": "Thunder Behemoth",
+    "id": "1986"
+  },
+  {
+    "name": "Berbalang",
+    "id": "1987"
+  },
+  {
+    "name": "Bhuta",
+    "id": "1988"
+  },
+  {
+    "name": "Bogeyman",
+    "id": "1989"
+  },
+  {
+    "name": "Brain Ooze",
+    "id": "1990"
+  },
+  {
+    "name": "Carbuncle",
+    "id": "1991"
+  },
+  {
+    "name": "Carnivorous Crystal",
+    "id": "1992"
+  },
+  {
+    "name": "Caryatid Column",
+    "id": "1993"
+  },
+  {
+    "name": "Catfolk",
+    "id": "1994"
+  },
+  {
+    "name": "Caulborn",
+    "id": "1995"
+  },
+  {
+    "name": "Cecaelia",
+    "id": "1996"
+  },
+  {
+    "name": "Ceratioidi",
+    "id": "1997"
+  },
+  {
+    "name": "Cerberi",
+    "id": "1998"
+  },
+  {
+    "name": "Cerebric Fungus",
+    "id": "1999"
+  },
+  {
+    "name": "Clockwork Goliath",
+    "id": "2000"
+  },
+  {
+    "name": "Clockwork Leviathan",
+    "id": "2001"
+  },
+  {
+    "name": "Clockwork Servant",
+    "id": "2002"
+  },
+  {
+    "name": "Clockwork Soldier",
+    "id": "2003"
+  },
+  {
+    "name": "Clockwork Spy",
+    "id": "2004"
+  },
+  {
+    "name": "Cold Rider",
+    "id": "2005"
+  },
+  {
+    "name": "Shark-Eating Crab",
+    "id": "2006"
+  },
+  {
+    "name": "Shipwrecker Crab",
+    "id": "2007"
+  },
+  {
+    "name": "Great Cyclops",
+    "id": "2008"
+  },
+  {
+    "name": "Crucidaemon",
+    "id": "2009"
+  },
+  {
+    "name": "Vulnudaemon",
+    "id": "2010"
+  },
+  {
+    "name": "Deathtrap Ooze",
+    "id": "2011"
+  },
+  {
+    "name": "Deathweb",
+    "id": "2012"
+  },
+  {
+    "name": "Demilich",
+    "id": "2013"
+  },
+  {
+    "name": "Shaggy Demodand",
+    "id": "2014"
+  },
+  {
+    "name": "Slimy Demodand",
+    "id": "2015"
+  },
+  {
+    "name": "Tarry Demodand",
+    "id": "2016"
+  },
+  {
+    "name": "Coloxus",
+    "id": "2017"
+  },
+  {
+    "name": "Incubus",
+    "id": "2018"
+  },
+  {
+    "name": "Schir",
+    "id": "2019"
+  },
+  {
+    "name": "Derhii",
+    "id": "2020"
+  },
+  {
+    "name": "Contract Devil",
+    "id": "2021"
+  },
+  {
+    "name": "Dimetrodon",
+    "id": "2022"
+  },
+  {
+    "name": "Iguanodon",
+    "id": "2023"
+  },
+  {
+    "name": "Pachycephalosaurus",
+    "id": "2024"
+  },
+  {
+    "name": "Spinosaurus",
+    "id": "2025"
+  },
+  {
+    "name": "Dire Corby",
+    "id": "2026"
+  },
+  {
+    "name": "Disenchanter",
+    "id": "2027"
+  },
+  {
+    "name": "Aghash",
+    "id": "2028"
+  },
+  {
+    "name": "Akvan",
+    "id": "2029"
+  },
+  {
+    "name": "Doru",
+    "id": "2030"
+  },
+  {
+    "name": "Ghawwas",
+    "id": "2031"
+  },
+  {
+    "name": "Pairaka",
+    "id": "2032"
+  },
+  {
+    "name": "Sepid",
+    "id": "2033"
+  },
+  {
+    "name": "Shira",
+    "id": "2034"
+  },
+  {
+    "name": "Faerie Dragon",
+    "id": "2035"
+  },
+  {
+    "name": "Young Forest Dragon",
+    "id": "2036"
+  },
+  {
+    "name": "Adult Forest Dragon",
+    "id": "2037"
+  },
+  {
+    "name": "Ancient Forest Dragon",
+    "id": "2038"
+  },
+  {
+    "name": "Young Sea Dragon",
+    "id": "2039"
+  },
+  {
+    "name": "Adult Sea Dragon",
+    "id": "2040"
+  },
+  {
+    "name": "Ancient Sea Dragon",
+    "id": "2041"
+  },
+  {
+    "name": "Young Sky Dragon",
+    "id": "2042"
+  },
+  {
+    "name": "Adult Sky Dragon",
+    "id": "2043"
+  },
+  {
+    "name": "Ancient Sky Dragon",
+    "id": "2044"
+  },
+  {
+    "name": "Young Sovereign Dragon",
+    "id": "2045"
+  },
+  {
+    "name": "Adult Sovereign Dragon",
+    "id": "2046"
+  },
+  {
+    "name": "Ancient Sovereign Dragon",
+    "id": "2047"
+  },
+  {
+    "name": "Young Underworld Dragon",
+    "id": "2048"
+  },
+  {
+    "name": "Adult Underworld Dragon",
+    "id": "2049"
+  },
+  {
+    "name": "Ancient Underworld Dragon",
+    "id": "2050"
+  },
+  {
+    "name": "Dragonne",
+    "id": "2051"
+  },
+  {
+    "name": "Desert Drake",
+    "id": "2052"
+  },
+  {
+    "name": "Rift Drake",
+    "id": "2053"
+  },
+  {
+    "name": "River Drake",
+    "id": "2054"
+  },
+  {
+    "name": "Dybbuk",
+    "id": "2055"
+  },
+  {
+    "name": "Ecorche",
+    "id": "2056"
+  },
+  {
+    "name": "Unfettered Eidolon",
+    "id": "2057"
+  },
+  {
+    "name": "Flying Squirrel",
+    "id": "2058"
+  },
+  {
+    "name": "Fox",
+    "id": "2059"
+  },
+  {
+    "name": "Goat",
+    "id": "2060"
+  },
+  {
+    "name": "Otter",
+    "id": "2061"
+  },
+  {
+    "name": "Pig",
+    "id": "2062"
+  },
+  {
+    "name": "Raccoon",
+    "id": "2063"
+  },
+  {
+    "name": "Faun",
+    "id": "2064"
+  },
+  {
+    "name": "Festrog",
+    "id": "2065"
+  },
+  {
+    "name": "Fey Giant Toad",
+    "id": "2066"
+  },
+  {
+    "name": "Flail Snail",
+    "id": "2067"
+  },
+  {
+    "name": "Flumph",
+    "id": "2068"
+  },
+  {
+    "name": "Foo Dog",
+    "id": "2069"
+  },
+  {
+    "name": "Garden Ooze",
+    "id": "2071"
+  },
+  {
+    "name": "Garuda",
+    "id": "2072"
+  },
+  {
+    "name": "Ghorazagh",
+    "id": "2073"
+  },
+  {
+    "name": "Ghul",
+    "id": "2074"
+  },
+  {
+    "name": "Ash Giant",
+    "id": "2075"
+  },
+  {
+    "name": "Cave Giant",
+    "id": "2076"
+  },
+  {
+    "name": "Desert Giant",
+    "id": "2077"
+  },
+  {
+    "name": "Jungle Giant",
+    "id": "2078"
+  },
+  {
+    "name": "Girtablilu",
+    "id": "2079"
+  },
+  {
+    "name": "Globster",
+    "id": "2080"
+  },
+  {
+    "name": "Goblin Snake",
+    "id": "2081"
+  },
+  {
+    "name": "Bone Golem",
+    "id": "2082"
+  },
+  {
+    "name": "Brass Golem",
+    "id": "2083"
+  },
+  {
+    "name": "Cannon Golem",
+    "id": "2084"
+  },
+  {
+    "name": "Fossil Golem",
+    "id": "2085"
+  },
+  {
+    "name": "Gorynych",
+    "id": "2086"
+  },
+  {
+    "name": "Graveknight",
+    "id": "2087"
+  },
+  {
+    "name": "Graven Guardian",
+    "id": "2088"
+  },
+  {
+    "name": "Fuath",
+    "id": "2089"
+  },
+  {
+    "name": "Grodair",
+    "id": "2090"
+  },
+  {
+    "name": "Grootslang",
+    "id": "2091"
+  },
+  {
+    "name": "Guecubu",
+    "id": "2092"
+  },
+  {
+    "name": "Hellwasp Swarm",
+    "id": "2093"
+  },
+  {
+    "name": "Antelope",
+    "id": "2094"
+  },
+  {
+    "name": "Elk",
+    "id": "2095"
+  },
+  {
+    "name": "Hodag",
+    "id": "2096"
+  },
+  {
+    "name": "Hollow Serpent",
+    "id": "2097"
+  },
+  {
+    "name": "Huecuva",
+    "id": "2098"
+  },
+  {
+    "name": "Humbaba",
+    "id": "2099"
+  },
+  {
+    "name": "Hungry Fog",
+    "id": "2100"
+  },
+  {
+    "name": "Iku-Turso",
+    "id": "2101"
+  },
+  {
+    "name": "Jackalwere",
+    "id": "2102"
+  },
+  {
+    "name": "Death's Head Jellyfish",
+    "id": "2103"
+  },
+  {
+    "name": "Sapphire Jellyfish",
+    "id": "2104"
+  },
+  {
+    "name": "Jorogumo",
+    "id": "2105"
+  },
+  {
+    "name": "Jubjub Bird",
+    "id": "2106"
+  },
+  {
+    "name": "Kamadan",
+    "id": "2107"
+  },
+  {
+    "name": "Jinushigami",
+    "id": "2108"
+  },
+  {
+    "name": "Kodama",
+    "id": "2109"
+  },
+  {
+    "name": "Shikigami",
+    "id": "2110"
+  },
+  {
+    "name": "Toshigami",
+    "id": "2111"
+  },
+  {
+    "name": "Zuishin",
+    "id": "2112"
+  },
+  {
+    "name": "Kappa",
+    "id": "2113"
+  },
+  {
+    "name": "Kech",
+    "id": "2114"
+  },
+  {
+    "name": "Kirin",
+    "id": "2115"
+  },
+  {
+    "name": "Kongamato",
+    "id": "2116"
+  },
+  {
+    "name": "Augur",
+    "id": "2117"
+  },
+  {
+    "name": "Eremite",
+    "id": "2118"
+  },
+  {
+    "name": "Interlocutor",
+    "id": "2119"
+  },
+  {
+    "name": "Lammasu",
+    "id": "2120"
+  },
+  {
+    "name": "Fungus Leshy",
+    "id": "2121"
+  },
+  {
+    "name": "Gourd Leshy",
+    "id": "2122"
+  },
+  {
+    "name": "Leaf Leshy",
+    "id": "2123"
+  },
+  {
+    "name": "Seaweed Leshy",
+    "id": "2124"
+  },
+  {
+    "name": "Cairn Linnorm",
+    "id": "2125"
+  },
+  {
+    "name": "Fjord Linnorm",
+    "id": "2126"
+  },
+  {
+    "name": "Taiga Linnorm",
+    "id": "2127"
+  },
+  {
+    "name": "Tor Linnorm",
+    "id": "2128"
+  },
+  {
+    "name": "Giant Gecko",
+    "id": "2129"
+  },
+  {
+    "name": "Giant Chameleon",
+    "id": "2130"
+  },
+  {
+    "name": "Lukwata",
+    "id": "2131"
+  },
+  {
+    "name": "Maftet",
+    "id": "2132"
+  },
+  {
+    "name": "Magmin",
+    "id": "2133"
+  },
+  {
+    "name": "Manananggal",
+    "id": "2134"
+  },
+  {
+    "name": "Kangaroo",
+    "id": "2135"
+  },
+  {
+    "name": "Thylacine",
+    "id": "2136"
+  },
+  {
+    "name": "Archelon",
+    "id": "2137"
+  },
+  {
+    "name": "Baluchitherium",
+    "id": "2138"
+  },
+  {
+    "name": "Basilosaurus",
+    "id": "2139"
+  },
+  {
+    "name": "Megalania",
+    "id": "2140"
+  },
+  {
+    "name": "Mobogo",
+    "id": "2141"
+  },
+  {
+    "name": "Moon-Beast",
+    "id": "2142"
+  },
+  {
+    "name": "Myceloid",
+    "id": "2143"
+  },
+  {
+    "name": "Lunar Naga",
+    "id": "2144"
+  },
+  {
+    "name": "Royal Naga",
+    "id": "2145"
+  },
+  {
+    "name": "Water Naga",
+    "id": "2146"
+  },
+  {
+    "name": "Nephilim",
+    "id": "2147"
+  },
+  {
+    "name": "Nixie",
+    "id": "2148"
+  },
+  {
+    "name": "Norn",
+    "id": "2149"
+  },
+  {
+    "name": "Nuckelavee",
+    "id": "2150"
+  },
+  {
+    "name": "Nue",
+    "id": "2151"
+  },
+  {
+    "name": "Fire Yai",
+    "id": "2152"
+  },
+  {
+    "name": "Ice Yai",
+    "id": "2153"
+  },
+  {
+    "name": "Kuwa",
+    "id": "2154"
+  },
+  {
+    "name": "Spirit Oni",
+    "id": "2155"
+  },
+  {
+    "name": "Void Yai",
+    "id": "2156"
+  },
+  {
+    "name": "Water Yai",
+    "id": "2157"
+  },
+  {
+    "name": "Giant Owl",
+    "id": "2158"
+  },
+  {
+    "name": "Great Horned Owl",
+    "id": "2159"
+  },
+  {
+    "name": "Pale Stranger",
+    "id": "2160"
+  },
+  {
+    "name": "Rot Grub Swarm",
+    "id": "2161"
+  },
+  {
+    "name": "Giant Rot Grub",
+    "id": "2162"
+  },
+  {
+    "name": "Penanggalen",
+    "id": "2163"
+  },
+  {
+    "name": "Peri",
+    "id": "2164"
+  },
+  {
+    "name": "Phantom Fungus",
+    "id": "2165"
+  },
+  {
+    "name": "Plasma Ooze",
+    "id": "2166"
+  },
+  {
+    "name": "Popobala",
+    "id": "2167"
+  },
+  {
+    "name": "Porcupine",
+    "id": "2168"
+  },
+  {
+    "name": "Giant Porcupine",
+    "id": "2169"
+  },
+  {
+    "name": "Pukwudgie",
+    "id": "2170"
+  },
+  {
+    "name": "Dandasuka",
+    "id": "2171"
+  },
+  {
+    "name": "Maharaja",
+    "id": "2172"
+  },
+  {
+    "name": "Marai",
+    "id": "2173"
+  },
+  {
+    "name": "Raktavarna",
+    "id": "2174"
+  },
+  {
+    "name": "Tataka",
+    "id": "2175"
+  },
+  {
+    "name": "Ratfolk",
+    "id": "2176"
+  },
+  {
+    "name": "Rusalka",
+    "id": "2177"
+  },
+  {
+    "name": "Sagari",
+    "id": "2178"
+  },
+  {
+    "name": "Sargassum Fiend",
+    "id": "2179"
+  },
+  {
+    "name": "Sasquatch",
+    "id": "2180"
+  },
+  {
+    "name": "Deadfall Scorpion",
+    "id": "2181"
+  },
+  {
+    "name": "Ghost Scorpion",
+    "id": "2182"
+  },
+  {
+    "name": "Giant Sea Anemone",
+    "id": "2183"
+  },
+  {
+    "name": "Sea Bonze",
+    "id": "2184"
+  },
+  {
+    "name": "Deep Sea Serpent",
+    "id": "2185"
+  },
+  {
+    "name": "Shadow Mastiff",
+    "id": "2186"
+  },
+  {
+    "name": "Shae",
+    "id": "2187"
+  },
+  {
+    "name": "Shedu",
+    "id": "2188"
+  },
+  {
+    "name": "Shinigami",
+    "id": "2189"
+  },
+  {
+    "name": "Simurgh",
+    "id": "2190"
+  },
+  {
+    "name": "Siyokoy",
+    "id": "2191"
+  },
+  {
+    "name": "Skunk",
+    "id": "2192"
+  },
+  {
+    "name": "Giant Skunk",
+    "id": "2193"
+  },
+  {
+    "name": "Sleipnir",
+    "id": "2194"
+  },
+  {
+    "name": "Snake Swarm",
+    "id": "2195"
+  },
+  {
+    "name": "Venomous Snake Swarm",
+    "id": "2196"
+  },
+  {
+    "name": "Androsphinx",
+    "id": "2197"
+  },
+  {
+    "name": "Criosphinx",
+    "id": "2198"
+  },
+  {
+    "name": "Hieracosphinx",
+    "id": "2199"
+  },
+  {
+    "name": "Giant Crab Spider",
+    "id": "2200"
+  },
+  {
+    "name": "Ogre Spider",
+    "id": "2201"
+  },
+  {
+    "name": "Spider Eater",
+    "id": "2202"
+  },
+  {
+    "name": "Sprite",
+    "id": "2203"
+  },
+  {
+    "name": "Stymphalidies",
+    "id": "2204"
+  },
+  {
+    "name": "Suli",
+    "id": "2205"
+  },
+  {
+    "name": "Tanuki",
+    "id": "2206"
+  },
+  {
+    "name": "Taotieh",
+    "id": "2207"
+  },
+  {
+    "name": "Tatzlwyrm",
+    "id": "2208"
+  },
+  {
+    "name": "Terra-Cotta Soldier",
+    "id": "2209"
+  },
+  {
+    "name": "Thriae Queen",
+    "id": "2210"
+  },
+  {
+    "name": "Thriae Seer",
+    "id": "2211"
+  },
+  {
+    "name": "Thriae Soldier",
+    "id": "2212"
+  },
+  {
+    "name": "Hekatonkheires",
+    "id": "2213"
+  },
+  {
+    "name": "Tojanida",
+    "id": "2214"
+  },
+  {
+    "name": "Tophet",
+    "id": "2215"
+  },
+  {
+    "name": "Jotund Troll",
+    "id": "2216"
+  },
+  {
+    "name": "Moss Troll",
+    "id": "2217"
+  },
+  {
+    "name": "Trollhound",
+    "id": "2218"
+  },
+  {
+    "name": "Tupilaq",
+    "id": "2219"
+  },
+  {
+    "name": "Tzitzimitl",
+    "id": "2220"
+  },
+  {
+    "name": "Valkyrie",
+    "id": "2221"
+  },
+  {
+    "name": "Jiang-Shi",
+    "id": "2222"
+  },
+  {
+    "name": "Vanara",
+    "id": "2223"
+  },
+  {
+    "name": "Vishkanya",
+    "id": "2224"
+  },
+  {
+    "name": "Vodyanoi",
+    "id": "2225"
+  },
+  {
+    "name": "Voonith",
+    "id": "2226"
+  },
+  {
+    "name": "Vulture",
+    "id": "2227"
+  },
+  {
+    "name": "Giant Vulture",
+    "id": "2228"
+  },
+  {
+    "name": "Wolf-In-Sheep's-Clothing",
+    "id": "2229"
+  },
+  {
+    "name": "Yithian",
+    "id": "2230"
+  },
+  {
+    "name": "Yuki-onna",
+    "id": "2231"
+  },
+  {
+    "name": "Zoog",
+    "id": "2232"
+  },
+  {
+    "name": "Zuvembie",
+    "id": "2233"
+  },
+  {
+    "name": "Arcanoplasm",
+    "id": "2234"
+  },
+  {
+    "name": "Archer Bush",
+    "id": "2235"
+  },
+  {
+    "name": "Ascomoid",
+    "id": "2236"
+  },
+  {
+    "name": "Asrai",
+    "id": "2237"
+  },
+  {
+    "name": "Giant Assassin Bug",
+    "id": "2238"
+  },
+  {
+    "name": "Astral Shark",
+    "id": "2239"
+  },
+  {
+    "name": "Atomie",
+    "id": "2240"
+  },
+  {
+    "name": "Aurumvorax",
+    "id": "2241"
+  },
+  {
+    "name": "Babbler",
+    "id": "2242"
+  },
+  {
+    "name": "Baccae",
+    "id": "2243"
+  },
+  {
+    "name": "Banderlog",
+    "id": "2244"
+  },
+  {
+    "name": "Baobhan Sith",
+    "id": "2245"
+  },
+  {
+    "name": "Barbegazi",
+    "id": "2246"
+  },
+  {
+    "name": "Baric",
+    "id": "2247"
+  },
+  {
+    "name": "Basidirond",
+    "id": "2248"
+  },
+  {
+    "name": "Crimson Basilisk",
+    "id": "2249"
+  },
+  {
+    "name": "Greater Basilisk",
+    "id": "2250"
+  },
+  {
+    "name": "Doombat Bat",
+    "id": "2251"
+  },
+  {
+    "name": "Mobat Bat",
+    "id": "2252"
+  },
+  {
+    "name": "Bedlam",
+    "id": "2253"
+  },
+  {
+    "name": "Giant Blister Beetle",
+    "id": "2254"
+  },
+  {
+    "name": "Giant Boring Beetle",
+    "id": "2255"
+  },
+  {
+    "name": "Giant Death Watch Beetle",
+    "id": "2256"
+  },
+  {
+    "name": "Giant Rhinoceros Beetle",
+    "id": "2257"
+  },
+  {
+    "name": "Giant Saw-toothed Beetle",
+    "id": "2258"
+  },
+  {
+    "name": "Giant Slicer Beetle",
+    "id": "2259"
+  },
+  {
+    "name": "Giant Water Beetle",
+    "id": "2260"
+  },
+  {
+    "name": "Requiem Beetle",
+    "id": "2261"
+  },
+  {
+    "name": "Belabra",
+    "id": "2262"
+  },
+  {
+    "name": "Bhuta",
+    "id": "2263"
+  },
+  {
+    "name": "Biclops",
+    "id": "2264"
+  },
+  {
+    "name": "Blindheim",
+    "id": "2266"
+  },
+  {
+    "name": "Blood Bush",
+    "id": "2267"
+  },
+  {
+    "name": "Blood Hawk",
+    "id": "2268"
+  },
+  {
+    "name": "Bloodsuckle",
+    "id": "2269"
+  },
+  {
+    "name": "Bloody Bones",
+    "id": "2270"
+  },
+  {
+    "name": "Boalisk",
+    "id": "2271"
+  },
+  {
+    "name": "Bog Beast",
+    "id": "2272"
+  },
+  {
+    "name": "Bog Creeper",
+    "id": "2273"
+  },
+  {
+    "name": "Bog Mummy",
+    "id": "2274"
+  },
+  {
+    "name": "Bogeyman",
+    "id": "2275"
+  },
+  {
+    "name": "Boggart",
+    "id": "2276"
+  },
+  {
+    "name": "Bone Cobbler",
+    "id": "2277"
+  },
+  {
+    "name": "Greater Boneneedle",
+    "id": "2278"
+  },
+  {
+    "name": "Lesser Boneneedle",
+    "id": "2279"
+  },
+  {
+    "name": "Bonesnapper",
+    "id": "2280"
+  },
+  {
+    "name": "Bonesucker",
+    "id": "2281"
+  },
+  {
+    "name": "Brass Man",
+    "id": "2282"
+  },
+  {
+    "name": "Brownie",
+    "id": "2283"
+  },
+  {
+    "name": "Brume",
+    "id": "2284"
+  },
+  {
+    "name": "Brykolakas",
+    "id": "2285"
+  },
+  {
+    "name": "Buckawn",
+    "id": "2286"
+  },
+  {
+    "name": "Giant Bumblebee, Queen",
+    "id": "2287"
+  },
+  {
+    "name": "Giant Bumblebee, Worker",
+    "id": "2288"
+  },
+  {
+    "name": "Bunyip",
+    "id": "2289"
+  },
+  {
+    "name": "Burning Dervish",
+    "id": "2290"
+  },
+  {
+    "name": "Cadaver",
+    "id": "2291"
+  },
+  {
+    "name": "Carbuncle",
+    "id": "2292"
+  },
+  {
+    "name": "Carrion Moth",
+    "id": "2293"
+  },
+  {
+    "name": "Caryatid Column",
+    "id": "2294"
+  },
+  {
+    "name": "Caterprism",
+    "id": "2295"
+  },
+  {
+    "name": "Caterwaul",
+    "id": "2296"
+  },
+  {
+    "name": "Cave Cricket",
+    "id": "2297"
+  },
+  {
+    "name": "Cave Fisher",
+    "id": "2298"
+  },
+  {
+    "name": "Cave Leech",
+    "id": "2299"
+  },
+  {
+    "name": "Cave Moray",
+    "id": "2300"
+  },
+  {
+    "name": "Cerberus",
+    "id": "2301"
+  },
+  {
+    "name": "Cerebral Stalker",
+    "id": "2302"
+  },
+  {
+    "name": "Chain Worm",
+    "id": "2303"
+  },
+  {
+    "name": "Cherum",
+    "id": "2304"
+  },
+  {
+    "name": "Chrystone",
+    "id": "2305"
+  },
+  {
+    "name": "Chupacabra",
+    "id": "2306"
+  },
+  {
+    "name": "Church Grim",
+    "id": "2307"
+  },
+  {
+    "name": "Churr",
+    "id": "2308"
+  },
+  {
+    "name": "Giant Clam",
+    "id": "2309"
+  },
+  {
+    "name": "Clamor",
+    "id": "2310"
+  },
+  {
+    "name": "Clockwork Brain Gear",
+    "id": "2311"
+  },
+  {
+    "name": "Clockwork Drone",
+    "id": "2312"
+  },
+  {
+    "name": "Clockwork Overseer",
+    "id": "2313"
+  },
+  {
+    "name": "Clockwork Parasite",
+    "id": "2314"
+  },
+  {
+    "name": "Clockwork Scout",
+    "id": "2315"
+  },
+  {
+    "name": "Clockwork Swarm",
+    "id": "2316"
+  },
+  {
+    "name": "Clockwork Titan",
+    "id": "2317"
+  },
+  {
+    "name": "Clockwork Warrior",
+    "id": "2318"
+  },
+  {
+    "name": "Clubnek",
+    "id": "2319"
+  },
+  {
+    "name": "Cobra Flower",
+    "id": "2320"
+  },
+  {
+    "name": "Coffer Corpse",
+    "id": "2321"
+  },
+  {
+    "name": "Chon Chon",
+    "id": "2344"
+  },
+  {
+    "name": "Chon Chon Swarm",
+    "id": "2345"
+  },
+  {
+    "name": "Kijimuna",
+    "id": "2346"
+  },
+  {
+    "name": "The Old Man",
+    "id": "2347"
+  },
+  {
+    "name": "Oni, Earth Yai",
+    "id": "2348"
+  },
+  {
+    "name": "Raiju",
+    "id": "2349"
+  },
+  {
+    "name": "Shenzuzhou",
+    "id": "2372"
+  },
+  {
+    "name": "Jade Colossus",
+    "id": "2396"
+  },
+  {
+    "name": "Cooshee",
+    "id": "2397"
+  },
+  {
+    "name": "Corpse Candle",
+    "id": "2398"
+  },
+  {
+    "name": "Corpse Orgy",
+    "id": "2399"
+  },
+  {
+    "name": "Corpse Rook",
+    "id": "2400"
+  },
+  {
+    "name": "Corpsespinner",
+    "id": "2401"
+  },
+  {
+    "name": "Monstrous Crab",
+    "id": "2402"
+  },
+  {
+    "name": "Crabman",
+    "id": "2403"
+  },
+  {
+    "name": "Crag Man",
+    "id": "2404"
+  },
+  {
+    "name": "Monstrous Crayfish",
+    "id": "2405"
+  },
+  {
+    "name": "Crucifixion Spirit",
+    "id": "2406"
+  },
+  {
+    "name": "Crypt Thing",
+    "id": "2407"
+  },
+  {
+    "name": "Crystalline Horror",
+    "id": "2408"
+  },
+  {
+    "name": "Crystallis",
+    "id": "2409"
+  },
+  {
+    "name": "Cacodaemon",
+    "id": "2410"
+  },
+  {
+    "name": "Charon",
+    "id": "2411"
+  },
+  {
+    "name": "Charonodaemon",
+    "id": "2412"
+  },
+  {
+    "name": "Derghodaemon",
+    "id": "2413"
+  },
+  {
+    "name": "Guardian Daemon",
+    "id": "2414"
+  },
+  {
+    "name": "Hydrodaemon",
+    "id": "2415"
+  },
+  {
+    "name": "The Oinodaemon",
+    "id": "2416"
+  },
+  {
+    "name": "Piscodaemon",
+    "id": "2417"
+  },
+  {
+    "name": "Dakon",
+    "id": "2418"
+  },
+  {
+    "name": "Dark Creeper",
+    "id": "2419"
+  },
+  {
+    "name": "Dark Stalker",
+    "id": "2420"
+  },
+  {
+    "name": "Darnoc",
+    "id": "2421"
+  },
+  {
+    "name": "Death Dog",
+    "id": "2422"
+  },
+  {
+    "name": "Death Worm",
+    "id": "2423"
+  },
+  {
+    "name": "Decapus",
+    "id": "2424"
+  },
+  {
+    "name": "Demi-lich",
+    "id": "2425"
+  },
+  {
+    "name": "Demiurge",
+    "id": "2426"
+  },
+  {
+    "name": "Shaggy Demodand",
+    "id": "2427"
+  },
+  {
+    "name": "Slime Demodand",
+    "id": "2428"
+  },
+  {
+    "name": "Terry Demodand",
+    "id": "2429"
+  },
+  {
+    "name": "Aeshma Demon",
+    "id": "2430"
+  },
+  {
+    "name": "Alu-Demon",
+    "id": "2431"
+  },
+  {
+    "name": "Balban Demon",
+    "id": "2432"
+  },
+  {
+    "name": "Cambion Demon",
+    "id": "2433"
+  },
+  {
+    "name": "Chaaor Demon",
+    "id": "2434"
+  },
+  {
+    "name": "Choronzon Demon",
+    "id": "2435"
+  },
+  {
+    "name": "Azizou Demon",
+    "id": "2436"
+  },
+  {
+    "name": "Barizou Demon",
+    "id": "2437"
+  },
+  {
+    "name": "Geruzou Demon",
+    "id": "2438"
+  },
+  {
+    "name": "Daraka Demon",
+    "id": "2439"
+  },
+  {
+    "name": "Gallu-Demon",
+    "id": "2440"
+  },
+  {
+    "name": "Gharros Demon",
+    "id": "2441"
+  },
+  {
+    "name": "Greruor Demon",
+    "id": "2442"
+  },
+  {
+    "name": "Mallor Demon",
+    "id": "2443"
+  },
+  {
+    "name": "Mehrim Demon",
+    "id": "2444"
+  },
+  {
+    "name": "Mezzalorn Demon",
+    "id": "2445"
+  },
+  {
+    "name": "Nabasu Demonling",
+    "id": "2446"
+  },
+  {
+    "name": "Nabasu Demon",
+    "id": "2447"
+  },
+  {
+    "name": "Nerizo Demon",
+    "id": "2448"
+  },
+  {
+    "name": "Nysrock Demon",
+    "id": "2449"
+  },
+  {
+    "name": "Greater Ooze Demon",
+    "id": "2450"
+  },
+  {
+    "name": "Lesser Ooze Demon",
+    "id": "2451"
+  },
+  {
+    "name": "Shadow Demon",
+    "id": "2452"
+  },
+  {
+    "name": "Shrroth Demon",
+    "id": "2453"
+  },
+  {
+    "name": "Skitterdark Demon",
+    "id": "2454"
+  },
+  {
+    "name": "Stirge Demon",
+    "id": "2455"
+  },
+  {
+    "name": "Baphomet",
+    "id": "2456"
+  },
+  {
+    "name": "Beluiri",
+    "id": "2457"
+  },
+  {
+    "name": "Caizel",
+    "id": "2458"
+  },
+  {
+    "name": "Dagon",
+    "id": "2459"
+  },
+  {
+    "name": "Fraz-urb'luu",
+    "id": "2460"
+  },
+  {
+    "name": "Jubilex",
+    "id": "2461"
+  },
+  {
+    "name": "Kostchtchie",
+    "id": "2462"
+  },
+  {
+    "name": "Maphistal",
+    "id": "2463"
+  },
+  {
+    "name": "Orcus",
+    "id": "2464"
+  },
+  {
+    "name": "Pazuzu",
+    "id": "2465"
+  },
+  {
+    "name": "Sonechard",
+    "id": "2466"
+  },
+  {
+    "name": "Tsathogga",
+    "id": "2467"
+  },
+  {
+    "name": "Vepar",
+    "id": "2468"
+  },
+  {
+    "name": "Demonic Knight",
+    "id": "2469"
+  },
+  {
+    "name": "Amaimon Devil",
+    "id": "2470"
+  },
+  {
+    "name": "Blood Reaver Devil",
+    "id": "2471"
+  },
+  {
+    "name": "Flayer Devil",
+    "id": "2472"
+  },
+  {
+    "name": "Ghaddar Devil",
+    "id": "2473"
+  },
+  {
+    "name": "Hellstoker Devil",
+    "id": "2474"
+  },
+  {
+    "name": "Lilin Devil",
+    "id": "2475"
+  },
+  {
+    "name": "Nupperibo Devil",
+    "id": "2476"
+  },
+  {
+    "name": "Tormentor Devil",
+    "id": "2477"
+  },
+  {
+    "name": "Amon",
+    "id": "2478"
+  },
+  {
+    "name": "Alastor",
+    "id": "2479"
+  },
+  {
+    "name": "Wind Yai",
+    "id": "2499"
+  },
+  {
+    "name": "Aballonian",
+    "id": "2501"
+  },
+  {
+    "name": "Contemplative Of Ashok",
+    "id": "2503"
+  },
+  {
+    "name": "Dragonkin",
+    "id": "2504"
+  },
+  {
+    "name": "Baal",
+    "id": "2507"
+  },
+  {
+    "name": "Baaphel",
+    "id": "2508"
+  },
+  {
+    "name": "Caasimolar",
+    "id": "2509"
+  },
+  {
+    "name": "Demoriel",
+    "id": "2510"
+  },
+  {
+    "name": "Geryon",
+    "id": "2511"
+  },
+  {
+    "name": "Gorson",
+    "id": "2512"
+  },
+  {
+    "name": "Hutijin",
+    "id": "2513"
+  },
+  {
+    "name": "Lilith",
+    "id": "2514"
+  },
+  {
+    "name": "Lucifer",
+    "id": "2515"
+  },
+  {
+    "name": "Moloch",
+    "id": "2516"
+  },
+  {
+    "name": "Titivilus",
+    "id": "2517"
+  },
+  {
+    "name": "Xaphan",
+    "id": "2518"
+  },
+  {
+    "name": "Devil Dog",
+    "id": "2519"
+  },
+  {
+    "name": "Diger",
+    "id": "2520"
+  },
+  {
+    "name": "Dire Corby",
+    "id": "2521"
+  },
+  {
+    "name": "Disenchanter",
+    "id": "2522"
+  },
+  {
+    "name": "Dracolisk",
+    "id": "2523"
+  },
+  {
+    "name": "Draconid",
+    "id": "2524"
+  },
+  {
+    "name": "Young Cloud Dragon",
+    "id": "2525"
+  },
+  {
+    "name": "Adult Cloud Dragon",
+    "id": "2526"
+  },
+  {
+    "name": "Ancient Cloud Dragon",
+    "id": "2527"
+  },
+  {
+    "name": "Young Dungeon Dragon",
+    "id": "2528"
+  },
+  {
+    "name": "Adult Dungeon Dragon",
+    "id": "2529"
+  },
+  {
+    "name": "Ancient Dungeon Dragon",
+    "id": "2530"
+  },
+  {
+    "name": "Faerie Dragon",
+    "id": "2532"
+  },
+  {
+    "name": "Young Mist Dragon",
+    "id": "2533"
+  },
+  {
+    "name": "Adult Mist Dragon",
+    "id": "2534"
+  },
+  {
+    "name": "Ancient Mist Dragon",
+    "id": "2535"
+  },
+  {
+    "name": "Smoke Dragon",
+    "id": "2536"
+  },
+  {
+    "name": "Wrath Dragon",
+    "id": "2537"
+  },
+  {
+    "name": "Dragon Horse",
+    "id": "2538"
+  },
+  {
+    "name": "Giant Dragonfly",
+    "id": "2539"
+  },
+  {
+    "name": "Dragonnel",
+    "id": "2540"
+  },
+  {
+    "name": "Dragonship",
+    "id": "2541"
+  },
+  {
+    "name": "Fire Drake",
+    "id": "2542"
+  },
+  {
+    "name": "Ice Drake",
+    "id": "2543"
+  },
+  {
+    "name": "Salt Drake",
+    "id": "2544"
+  },
+  {
+    "name": "Splinter Drake",
+    "id": "2545"
+  },
+  {
+    "name": "Draug",
+    "id": "2547"
+  },
+  {
+    "name": "Dream Spectre",
+    "id": "2548"
+  },
+  {
+    "name": "Drelb",
+    "id": "2549"
+  },
+  {
+    "name": "Dust Digger",
+    "id": "2550"
+  },
+  {
+    "name": "Eblis",
+    "id": "2551"
+  },
+  {
+    "name": "Ectoplasm",
+    "id": "2552"
+  },
+  {
+    "name": "Small Gravity Elemental",
+    "id": "2553"
+  },
+  {
+    "name": "Medium Gravity Elemental",
+    "id": "2554"
+  },
+  {
+    "name": "Large Gravity Elemental",
+    "id": "2555"
+  },
+  {
+    "name": "Huge Gravity Elemental",
+    "id": "2556"
+  },
+  {
+    "name": "Greater Gravity Elemental",
+    "id": "2557"
+  },
+  {
+    "name": "Elder Gravity Elemental",
+    "id": "2558"
+  },
+  {
+    "name": "Small Negative Energy Elemental",
+    "id": "2559"
+  },
+  {
+    "name": "Medium Negative Energy Elemental",
+    "id": "2560"
+  },
+  {
+    "name": "Large Negative Energy Elemental",
+    "id": "2561"
+  },
+  {
+    "name": "Huge Negative Energy Elemental",
+    "id": "2562"
+  },
+  {
+    "name": "Greater Negative Energy Elemental",
+    "id": "2563"
+  },
+  {
+    "name": "Elder Negative Energy Elemental",
+    "id": "2564"
+  },
+  {
+    "name": "Small Positive Energy Elemental",
+    "id": "2565"
+  },
+  {
+    "name": "Medium Positive Energy Elemental",
+    "id": "2566"
+  },
+  {
+    "name": "Large Positive Energy Elemental",
+    "id": "2567"
+  },
+  {
+    "name": "Huge Positive Energy Elemental",
+    "id": "2568"
+  },
+  {
+    "name": "Greater Positive Energy Elemental",
+    "id": "2569"
+  },
+  {
+    "name": "Elder Positive Energy Elemental",
+    "id": "2570"
+  },
+  {
+    "name": "Common Time Elemental",
+    "id": "2571"
+  },
+  {
+    "name": "Noble Time Elemental",
+    "id": "2572"
+  },
+  {
+    "name": "Royal Time Elemental",
+    "id": "2573"
+  },
+  {
+    "name": "Air Elemental Construct",
+    "id": "2574"
+  },
+  {
+    "name": "Earth Elemental Construct",
+    "id": "2575"
+  },
+  {
+    "name": "Fire Elemental Construct",
+    "id": "2576"
+  },
+  {
+    "name": "Water Elemental Construct",
+    "id": "2577"
+  },
+  {
+    "name": "Elemental Air Dragon",
+    "id": "2578"
+  },
+  {
+    "name": "Elemental Earth Dragon",
+    "id": "2579"
+  },
+  {
+    "name": "Elemental Fire Dragon",
+    "id": "2580"
+  },
+  {
+    "name": "Elemental Water Dragon",
+    "id": "2581"
+  },
+  {
+    "name": "Elusa Hound",
+    "id": "2582"
+  },
+  {
+    "name": "Encephalon Gorger",
+    "id": "2583"
+  },
+  {
+    "name": "Executioner's Hood",
+    "id": "2584"
+  },
+  {
+    "name": "Eye Killer",
+    "id": "2585"
+  },
+  {
+    "name": "Eye Of The Deep",
+    "id": "2586"
+  },
+  {
+    "name": "Pedipalp",
+    "id": "2587"
+  },
+  {
+    "name": "Solifugid",
+    "id": "2588"
+  },
+  {
+    "name": "Fear Guard",
+    "id": "2589"
+  },
+  {
+    "name": "Fen Witch",
+    "id": "2590"
+  },
+  {
+    "name": "Fetch",
+    "id": "2591"
+  },
+  {
+    "name": "Greater Fire Crab",
+    "id": "2592"
+  },
+  {
+    "name": "Lesser Fire Crab",
+    "id": "2593"
+  },
+  {
+    "name": "Fire Nymph",
+    "id": "2594"
+  },
+  {
+    "name": "Fire Phantom",
+    "id": "2595"
+  },
+  {
+    "name": "Fire Snake",
+    "id": "2596"
+  },
+  {
+    "name": "Fire Whale",
+    "id": "2597"
+  },
+  {
+    "name": "Flail Snail",
+    "id": "2598"
+  },
+  {
+    "name": "Giant Flea",
+    "id": "2599"
+  },
+  {
+    "name": "Flind",
+    "id": "2600"
+  },
+  {
+    "name": "Floating Eye",
+    "id": "2601"
+  },
+  {
+    "name": "Flumph",
+    "id": "2602"
+  },
+  {
+    "name": "Giant Fly",
+    "id": "2603"
+  },
+  {
+    "name": "Fogwarden",
+    "id": "2604"
+  },
+  {
+    "name": "Forester's Bane",
+    "id": "2605"
+  },
+  {
+    "name": "Forgotten One",
+    "id": "2606"
+  },
+  {
+    "name": "Forlarren",
+    "id": "2607"
+  },
+  {
+    "name": "Giant Abyssal Dire Frog",
+    "id": "2608"
+  },
+  {
+    "name": "Froghemoth",
+    "id": "2609"
+  },
+  {
+    "name": "Frost Man",
+    "id": "2610"
+  },
+  {
+    "name": "Fungoid",
+    "id": "2611"
+  },
+  {
+    "name": "Fye",
+    "id": "2612"
+  },
+  {
+    "name": "Fyr",
+    "id": "2613"
+  },
+  {
+    "name": "Gallows Tree",
+    "id": "2614"
+  },
+  {
+    "name": "Gallows Tree Zombie",
+    "id": "2615"
+  },
+  {
+    "name": "Gambado",
+    "id": "2616"
+  },
+  {
+    "name": "Four-armed Gargoyle",
+    "id": "2617"
+  },
+  {
+    "name": "Fungus Gargoyle",
+    "id": "2618"
+  },
+  {
+    "name": "Green Guardian Gargoyle",
+    "id": "2619"
+  },
+  {
+    "name": "Margoyle Gargoyle",
+    "id": "2620"
+  },
+  {
+    "name": "Greater Gelid Beetle",
+    "id": "2621"
+  },
+  {
+    "name": "Lesser Gelid Beetle",
+    "id": "2622"
+  },
+  {
+    "name": "Abasheen Genie",
+    "id": "2623"
+  },
+  {
+    "name": "Hawanar Genie",
+    "id": "2624"
+  },
+  {
+    "name": "Marid Genie",
+    "id": "2625"
+  },
+  {
+    "name": "Geon",
+    "id": "2626"
+  },
+  {
+    "name": "Cinder Ghoul",
+    "id": "2627"
+  },
+  {
+    "name": "Dust Ghoul",
+    "id": "2628"
+  },
+  {
+    "name": "Ghoul-stirge",
+    "id": "2629"
+  },
+  {
+    "name": "Bronze Giant",
+    "id": "2630"
+  },
+  {
+    "name": "Cave Giant",
+    "id": "2631"
+  },
+  {
+    "name": "Ferrous Giant",
+    "id": "2632"
+  },
+  {
+    "name": "Jack-in-irons Giant",
+    "id": "2633"
+  },
+  {
+    "name": "Sand Giant",
+    "id": "2634"
+  },
+  {
+    "name": "Sea Giant",
+    "id": "2635"
+  },
+  {
+    "name": "Volcano Giant",
+    "id": "2636"
+  },
+  {
+    "name": "Wood Giant",
+    "id": "2637"
+  },
+  {
+    "name": "Glass Wyrm",
+    "id": "2638"
+  },
+  {
+    "name": "Gloom Crawler",
+    "id": "2639"
+  },
+  {
+    "name": "Gloomwing",
+    "id": "2640"
+  },
+  {
+    "name": "Gnarlwood",
+    "id": "2641"
+  },
+  {
+    "name": "Gohl",
+    "id": "2642"
+  },
+  {
+    "name": "Golden Cat",
+    "id": "2643"
+  },
+  {
+    "name": "Blood Golem",
+    "id": "2644"
+  },
+  {
+    "name": "Flagstone Golem",
+    "id": "2645"
+  },
+  {
+    "name": "Furnace Golem",
+    "id": "2646"
+  },
+  {
+    "name": "Gelatinous Golem",
+    "id": "2647"
+  },
+  {
+    "name": "Ice Golem",
+    "id": "2648"
+  },
+  {
+    "name": "Iron Maiden Golem",
+    "id": "2649"
+  },
+  {
+    "name": "Magnesium Golem",
+    "id": "2650"
+  },
+  {
+    "name": "Mummy Golem",
+    "id": "2651"
+  },
+  {
+    "name": "Ooze Golem",
+    "id": "2652"
+  },
+  {
+    "name": "Rope Golem",
+    "id": "2653"
+  },
+  {
+    "name": "Stone Guardian Golem",
+    "id": "2654"
+  },
+  {
+    "name": "Tallow Golem",
+    "id": "2655"
+  },
+  {
+    "name": "Witch-doll Golem",
+    "id": "2656"
+  },
+  {
+    "name": "Wood Golem",
+    "id": "2657"
+  },
+  {
+    "name": "Gorbel",
+    "id": "2658"
+  },
+  {
+    "name": "Gorgimera",
+    "id": "2659"
+  },
+  {
+    "name": "Euryale",
+    "id": "2660"
+  },
+  {
+    "name": "Sthenno",
+    "id": "2661"
+  },
+  {
+    "name": "Gorilla Bear",
+    "id": "2662"
+  },
+  {
+    "name": "Grave Risen",
+    "id": "2663"
+  },
+  {
+    "name": "Gray Nisp",
+    "id": "2664"
+  },
+  {
+    "name": "Slinker",
+    "id": "2665"
+  },
+  {
+    "name": "Tether",
+    "id": "2666"
+  },
+  {
+    "name": "Gremlin",
+    "id": "2667"
+  },
+  {
+    "name": "Filcher Gremlin",
+    "id": "2668"
+  },
+  {
+    "name": "Grimm",
+    "id": "2669"
+  },
+  {
+    "name": "Grimstalker",
+    "id": "2670"
+  },
+  {
+    "name": "Grippli",
+    "id": "2671"
+  },
+  {
+    "name": "Gronk",
+    "id": "2672"
+  },
+  {
+    "name": "Gryph",
+    "id": "2673"
+  },
+  {
+    "name": "Gutlslug",
+    "id": "2674"
+  },
+  {
+    "name": "Half-ogre",
+    "id": "2676"
+  },
+  {
+    "name": "Hanged Man",
+    "id": "2677"
+  },
+  {
+    "name": "Hangman Tree",
+    "id": "2678"
+  },
+  {
+    "name": "Haunt",
+    "id": "2679"
+  },
+  {
+    "name": "Larva Helix Moth",
+    "id": "2680"
+  },
+  {
+    "name": "Mature Helix Moth",
+    "id": "2681"
+  },
+  {
+    "name": "Hell Moth",
+    "id": "2682"
+  },
+  {
+    "name": "Herald Of Tsathogga",
+    "id": "2683"
+  },
+  {
+    "name": "Hippocampus",
+    "id": "2684"
+  },
+  {
+    "name": "Hoar Fox",
+    "id": "2685"
+  },
+  {
+    "name": "Hoar Spirit",
+    "id": "2686"
+  },
+  {
+    "name": "Giant Hornet",
+    "id": "2687"
+  },
+  {
+    "name": "Giant Horsefly",
+    "id": "2688"
+  },
+  {
+    "name": "Huecuva",
+    "id": "2689"
+  },
+  {
+    "name": "Huggermugger",
+    "id": "2690"
+  },
+  {
+    "name": "Cobra-back Inphidian",
+    "id": "2691"
+  },
+  {
+    "name": "Common Inphidian",
+    "id": "2692"
+  },
+  {
+    "name": "Dancer Inphidian",
+    "id": "2693"
+  },
+  {
+    "name": "Night Adder Inphidian",
+    "id": "2694"
+  },
+  {
+    "name": "Rattler Inphidian",
+    "id": "2696"
+  },
+  {
+    "name": "Iron Cobra",
+    "id": "2697"
+  },
+  {
+    "name": "Jack-o-lantern",
+    "id": "2698"
+  },
+  {
+    "name": "Jaculi",
+    "id": "2699"
+  },
+  {
+    "name": "Marsh Jelly",
+    "id": "2700"
+  },
+  {
+    "name": "Jubilex-touched Marsh Jelly",
+    "id": "2701"
+  },
+  {
+    "name": "Mustard Jelly",
+    "id": "2702"
+  },
+  {
+    "name": "Stunjelly",
+    "id": "2703"
+  },
+  {
+    "name": "Whip Jelly",
+    "id": "2704"
+  },
+  {
+    "name": "Monstrous Jellyfish",
+    "id": "2705"
+  },
+  {
+    "name": "Jupiter Bloodsucker",
+    "id": "2706"
+  },
+  {
+    "name": "Tidepool Dragon",
+    "id": "2720"
+  },
+  {
+    "name": "Kelpie's Wrath",
+    "id": "2722"
+  },
+  {
+    "name": "Dwarf Caiman",
+    "id": "2724"
+  },
+  {
+    "name": "Giant Isopod",
+    "id": "2725"
+  },
+  {
+    "name": "Seal",
+    "id": "2726"
+  },
+  {
+    "name": "Aashaq's Wyvern",
+    "id": "2727"
+  },
+  {
+    "name": "Besmaran Priest",
+    "id": "2728"
+  },
+  {
+    "name": "Blood Queen",
+    "id": "2729"
+  },
+  {
+    "name": "Chickcharney",
+    "id": "2730"
+  },
+  {
+    "name": "Duppy",
+    "id": "2732"
+  },
+  {
+    "name": "Jinx Eater",
+    "id": "2734"
+  },
+  {
+    "name": "Kuru",
+    "id": "2735"
+  },
+  {
+    "name": "Larabay",
+    "id": "2736"
+  },
+  {
+    "name": "Lusca",
+    "id": "2737"
+  },
+  {
+    "name": "Nirento",
+    "id": "2740"
+  },
+  {
+    "name": "Elder Nirento",
+    "id": "2741"
+  },
+  {
+    "name": "Pirate Captains",
+    "id": "2742"
+  },
+  {
+    "name": "Pirate Officers",
+    "id": "2743"
+  },
+  {
+    "name": "Sailors",
+    "id": "2744"
+  },
+  {
+    "name": "Smugglers",
+    "id": "2745"
+  },
+  {
+    "name": "Sea Scourge",
+    "id": "2746"
+  },
+  {
+    "name": "Sea Snake",
+    "id": "2747"
+  },
+  {
+    "name": "Giant Sea Snake",
+    "id": "2748"
+  },
+  {
+    "name": "Shackled Sorcerers",
+    "id": "2749"
+  },
+  {
+    "name": "Soucouyant",
+    "id": "2750"
+  },
+  {
+    "name": "Kamadan",
+    "id": "2765"
+  },
+  {
+    "name": "Kampfult",
+    "id": "2766"
+  },
+  {
+    "name": "Kathlin",
+    "id": "2767"
+  },
+  {
+    "name": "Kech",
+    "id": "2768"
+  },
+  {
+    "name": "Kelp Devil",
+    "id": "2769"
+  },
+  {
+    "name": "Kelpie",
+    "id": "2770"
+  },
+  {
+    "name": "Khargra",
+    "id": "2771"
+  },
+  {
+    "name": "Killmoulis",
+    "id": "2772"
+  },
+  {
+    "name": "Korred",
+    "id": "2773"
+  },
+  {
+    "name": "Kuah-lij",
+    "id": "2774"
+  },
+  {
+    "name": "Land Lamprey",
+    "id": "2775"
+  },
+  {
+    "name": "Lantern Goat",
+    "id": "2776"
+  },
+  {
+    "name": "Lava Child",
+    "id": "2778"
+  },
+  {
+    "name": "Giant Leech",
+    "id": "2779"
+  },
+  {
+    "name": "Leprechaun",
+    "id": "2780"
+  },
+  {
+    "name": "Lich Shade",
+    "id": "2781"
+  },
+  {
+    "name": "Livestone",
+    "id": "2782"
+  },
+  {
+    "name": "Living Lake",
+    "id": "2783"
+  },
+  {
+    "name": "Cavern Lizard",
+    "id": "2784"
+  },
+  {
+    "name": "Fire Lizard",
+    "id": "2785"
+  },
+  {
+    "name": "Gnasher Lizard",
+    "id": "2786"
+  },
+  {
+    "name": "Lurker Above",
+    "id": "2787"
+  },
+  {
+    "name": "Lythic",
+    "id": "2788"
+  },
+  {
+    "name": "Magmoid",
+    "id": "2789"
+  },
+  {
+    "name": "Magnesium Spirit",
+    "id": "2790"
+  },
+  {
+    "name": "Mandragora",
+    "id": "2791"
+  },
+  {
+    "name": "Mantari",
+    "id": "2792"
+  },
+  {
+    "name": "Mantidrake",
+    "id": "2807"
+  },
+  {
+    "name": "Marble Snake",
+    "id": "2808"
+  },
+  {
+    "name": "Mawler",
+    "id": "2809"
+  },
+  {
+    "name": "Greater Medusa",
+    "id": "2810"
+  },
+  {
+    "name": "Memory Child",
+    "id": "2811"
+  },
+  {
+    "name": "Lightning Mephit",
+    "id": "2812"
+  },
+  {
+    "name": "Smoke Mephit",
+    "id": "2813"
+  },
+  {
+    "name": "Midnight Peddler",
+    "id": "2814"
+  },
+  {
+    "name": "Mihstu",
+    "id": "2815"
+  },
+  {
+    "name": "Mimi",
+    "id": "2816"
+  },
+  {
+    "name": "Mire Brute",
+    "id": "2830"
+  },
+  {
+    "name": "Mite",
+    "id": "2831"
+  },
+  {
+    "name": "Pestie",
+    "id": "2832"
+  },
+  {
+    "name": "Mongrelman",
+    "id": "2833"
+  },
+  {
+    "name": "Moon Dog",
+    "id": "2834"
+  },
+  {
+    "name": "Mortuary Cyclone",
+    "id": "2835"
+  },
+  {
+    "name": "Giant Mosquito",
+    "id": "2836"
+  },
+  {
+    "name": "Muckdweller",
+    "id": "2837"
+  },
+  {
+    "name": "Mudbog",
+    "id": "2838"
+  },
+  {
+    "name": "Mudman",
+    "id": "2839"
+  },
+  {
+    "name": "Mummy Of The Deep",
+    "id": "2840"
+  },
+  {
+    "name": "Murder Crow",
+    "id": "2841"
+  },
+  {
+    "name": "Murder-born",
+    "id": "2842"
+  },
+  {
+    "name": "Nazalor",
+    "id": "2843"
+  },
+  {
+    "name": "Necrophidius",
+    "id": "2844"
+  },
+  {
+    "name": "Nereid",
+    "id": "2845"
+  },
+  {
+    "name": "Netherspark",
+    "id": "2846"
+  },
+  {
+    "name": "Nilbog",
+    "id": "2847"
+  },
+  {
+    "name": "Niln",
+    "id": "2848"
+  },
+  {
+    "name": "Nuckalavee",
+    "id": "2849"
+  },
+  {
+    "name": "Oakman",
+    "id": "2850"
+  },
+  {
+    "name": "Canopy Creeper",
+    "id": "2870"
+  },
+  {
+    "name": "Tiger Fish",
+    "id": "2871"
+  },
+  {
+    "name": "Varisian Hagfish",
+    "id": "2872"
+  },
+  {
+    "name": "Swordfish",
+    "id": "2873"
+  },
+  {
+    "name": "Giant Blowfish",
+    "id": "2874"
+  },
+  {
+    "name": "Dunkleosteus",
+    "id": "2875"
+  },
+  {
+    "name": "Malenti",
+    "id": "2876"
+  },
+  {
+    "name": "Four-armed",
+    "id": "2877"
+  },
+  {
+    "name": "Black Spot",
+    "id": "2879"
+  },
+  {
+    "name": "Ravenous Urchin Swarm",
+    "id": "2880"
+  },
+  {
+    "name": "Great Diadem Urchin",
+    "id": "2881"
+  },
+  {
+    "name": "Cytillipede",
+    "id": "2904"
+  },
+  {
+    "name": "Obsidian Minotaur",
+    "id": "2905"
+  },
+  {
+    "name": "Ogren",
+    "id": "2906"
+  },
+  {
+    "name": "Ogrillon",
+    "id": "2907"
+  },
+  {
+    "name": "Oil Shark",
+    "id": "2908"
+  },
+  {
+    "name": "Onyx Deer",
+    "id": "2909"
+  },
+  {
+    "name": "Amber Ooze",
+    "id": "2910"
+  },
+  {
+    "name": "Crystal Ooze",
+    "id": "2911"
+  },
+  {
+    "name": "Entropic Ooze",
+    "id": "2912"
+  },
+  {
+    "name": "Dark Matter Entropic Ooze",
+    "id": "2913"
+  },
+  {
+    "name": "Glacial Ooze",
+    "id": "2914"
+  },
+  {
+    "name": "Magma Ooze",
+    "id": "2915"
+  },
+  {
+    "name": "Mercury Ooze",
+    "id": "2916"
+  },
+  {
+    "name": "Metallic Ooze",
+    "id": "2917"
+  },
+  {
+    "name": "Undead Ooze",
+    "id": "2918"
+  },
+  {
+    "name": "Vampiric Ooze",
+    "id": "2919"
+  },
+  {
+    "name": "Black Orc",
+    "id": "2920"
+  },
+  {
+    "name": "Blood Orc",
+    "id": "2922"
+  },
+  {
+    "name": "Ghost-faced Orc",
+    "id": "2923"
+  },
+  {
+    "name": "Greenskin Orc",
+    "id": "2924"
+  },
+  {
+    "name": "Orog",
+    "id": "2925"
+  },
+  {
+    "name": "Pech",
+    "id": "2926"
+  },
+  {
+    "name": "Phantasm",
+    "id": "2927"
+  },
+  {
+    "name": "Phantom Stalker",
+    "id": "2928"
+  },
+  {
+    "name": "Phasma",
+    "id": "2929"
+  },
+  {
+    "name": "Phlogiston",
+    "id": "2930"
+  },
+  {
+    "name": "Phooka",
+    "id": "2931"
+  },
+  {
+    "name": "Phycomid",
+    "id": "2932"
+  },
+  {
+    "name": "Pit Hag",
+    "id": "2933"
+  },
+  {
+    "name": "Poltergeist",
+    "id": "2934"
+  },
+  {
+    "name": "Proscriber",
+    "id": "2935"
+  },
+  {
+    "name": "Protector",
+    "id": "2936"
+  },
+  {
+    "name": "Blood Pudding",
+    "id": "2937"
+  },
+  {
+    "name": "Brown Pudding",
+    "id": "2938"
+  },
+  {
+    "name": "Dun Pudding",
+    "id": "2939"
+  },
+  {
+    "name": "Stone Pudding",
+    "id": "2940"
+  },
+  {
+    "name": "White Pudding",
+    "id": "2941"
+  },
+  {
+    "name": "Pyrolisk",
+    "id": "2942"
+  },
+  {
+    "name": "Quantum",
+    "id": "2943"
+  },
+  {
+    "name": "Small Acid Quasi-elemental",
+    "id": "2944"
+  },
+  {
+    "name": "Medium Acid Quasi-elemental",
+    "id": "2945"
+  },
+  {
+    "name": "Large Acid Quasi-elemental",
+    "id": "2946"
+  },
+  {
+    "name": "Huge Acid Quasi-elemental",
+    "id": "2947"
+  },
+  {
+    "name": "Greater Acid Quasi-elemental",
+    "id": "2948"
+  },
+  {
+    "name": "Elder Acid Quasi-elemental",
+    "id": "2949"
+  },
+  {
+    "name": "Small Lightning Quasi-elemental",
+    "id": "2950"
+  },
+  {
+    "name": "Medium Lightning Quasi-elemental",
+    "id": "2951"
+  },
+  {
+    "name": "Large Lightning Quasi-elemental",
+    "id": "2952"
+  },
+  {
+    "name": "Small Obsidian Quasi-elemental",
+    "id": "2953"
+  },
+  {
+    "name": "Medium Obsidian Quasi-elemental",
+    "id": "2954"
+  },
+  {
+    "name": "Large Obsidian Quasi-elemental",
+    "id": "2955"
+  },
+  {
+    "name": "Huge Obsidian Quasi-elemental",
+    "id": "2956"
+  },
+  {
+    "name": "Greater Obsidian Quasi-elemental",
+    "id": "2957"
+  },
+  {
+    "name": "Elder Obsidian Quasi-elemental",
+    "id": "2958"
+  },
+  {
+    "name": "Quickling",
+    "id": "2959"
+  },
+  {
+    "name": "Quickwood",
+    "id": "2960"
+  },
+  {
+    "name": "Raggoth",
+    "id": "2961"
+  },
+  {
+    "name": "Rakklethorn Toad",
+    "id": "2962"
+  },
+  {
+    "name": "Barrow Rat",
+    "id": "2963"
+  },
+  {
+    "name": "Ethereal Rat",
+    "id": "2964"
+  },
+  {
+    "name": "Shadow Rat",
+    "id": "2965"
+  },
+  {
+    "name": "Dire Shadow Rat",
+    "id": "2966"
+  },
+  {
+    "name": "Spore Rat",
+    "id": "2967"
+  },
+  {
+    "name": "Rawbones",
+    "id": "2968"
+  },
+  {
+    "name": "Red Jester",
+    "id": "2969"
+  },
+  {
+    "name": "Redcap",
+    "id": "2970"
+  },
+  {
+    "name": "Reliquary Guardian",
+    "id": "2971"
+  },
+  {
+    "name": "Renzer",
+    "id": "2972"
+  },
+  {
+    "name": "Retch Hound",
+    "id": "2973"
+  },
+  {
+    "name": "Riptide Horror",
+    "id": "2974"
+  },
+  {
+    "name": "Rock Reptile",
+    "id": "2975"
+  },
+  {
+    "name": "Ronus",
+    "id": "2976"
+  },
+  {
+    "name": "Stone Roper",
+    "id": "2977"
+  },
+  {
+    "name": "Ryven",
+    "id": "2978"
+  },
+  {
+    "name": "Sabrewing",
+    "id": "2979"
+  },
+  {
+    "name": "Sand Kraken",
+    "id": "2980"
+  },
+  {
+    "name": "Sand Stalker",
+    "id": "2981"
+  },
+  {
+    "name": "Sandling",
+    "id": "2982"
+  },
+  {
+    "name": "Sandman",
+    "id": "2983"
+  },
+  {
+    "name": "Scarecrow",
+    "id": "2984"
+  },
+  {
+    "name": "Screaming Devilkin",
+    "id": "2985"
+  },
+  {
+    "name": "Screaming Skull",
+    "id": "2986"
+  },
+  {
+    "name": "Scylla",
+    "id": "2987"
+  },
+  {
+    "name": "Scythe Tree",
+    "id": "2988"
+  },
+  {
+    "name": "Deep Hunter Sea Serpent",
+    "id": "2989"
+  },
+  {
+    "name": "Fanged Sea Serpent",
+    "id": "2990"
+  },
+  {
+    "name": "Gilded Sea Serpent",
+    "id": "2991"
+  },
+  {
+    "name": "Shipbreaker Sea Serpent",
+    "id": "2992"
+  },
+  {
+    "name": "Spitting Sea Serpent",
+    "id": "2993"
+  },
+  {
+    "name": "Giant Sea Slug",
+    "id": "2994"
+  },
+  {
+    "name": "Sea Spider",
+    "id": "2995"
+  },
+  {
+    "name": "Pelagos Sea Spider",
+    "id": "2996"
+  },
+  {
+    "name": "Tiny Monstrous Sea Wasp",
+    "id": "2997"
+  },
+  {
+    "name": "Small Monstrous Sea Wasp",
+    "id": "2998"
+  },
+  {
+    "name": "Medium Monstrous Sea Wasp",
+    "id": "2999"
+  },
+  {
+    "name": "Large Monstrous Sea Wasp",
+    "id": "3000"
+  },
+  {
+    "name": "Huge Monstrous Sea Wasp",
+    "id": "3001"
+  },
+  {
+    "name": "Gargantuan Monstrous Sea Wasp",
+    "id": "3002"
+  },
+  {
+    "name": "Sepia Snake",
+    "id": "3003"
+  },
+  {
+    "name": "Sepulchral Guardian",
+    "id": "3004"
+  },
+  {
+    "name": "Lesser Shadow",
+    "id": "3005"
+  },
+  {
+    "name": "Shedu",
+    "id": "3006"
+  },
+  {
+    "name": "Greater Shedu",
+    "id": "3007"
+  },
+  {
+    "name": "Sheet Fungus",
+    "id": "3008"
+  },
+  {
+    "name": "Silid",
+    "id": "3009"
+  },
+  {
+    "name": "Black Skeleton",
+    "id": "3010"
+  },
+  {
+    "name": "Lead Skeleton",
+    "id": "3011"
+  },
+  {
+    "name": "Skin Stitcher",
+    "id": "3012"
+  },
+  {
+    "name": "Skulk",
+    "id": "3013"
+  },
+  {
+    "name": "Skulleton",
+    "id": "3014"
+  },
+  {
+    "name": "Slaad Lord Of Entropy",
+    "id": "3015"
+  },
+  {
+    "name": "Slaad Lord Of The Insane",
+    "id": "3016"
+  },
+  {
+    "name": "Slag Worm",
+    "id": "3017"
+  },
+  {
+    "name": "Slaughterford",
+    "id": "3018"
+  },
+  {
+    "name": "Sleeping Willow",
+    "id": "3019"
+  },
+  {
+    "name": "Larval Slime Crawler",
+    "id": "3020"
+  },
+  {
+    "name": "Mature Slime Crawler",
+    "id": "3021"
+  },
+  {
+    "name": "Slime Mold",
+    "id": "3022"
+  },
+  {
+    "name": "Slithering Tracker",
+    "id": "3023"
+  },
+  {
+    "name": "Slorath",
+    "id": "3024"
+  },
+  {
+    "name": "Sloth Viper",
+    "id": "3025"
+  },
+  {
+    "name": "Giant Slug",
+    "id": "3026"
+  },
+  {
+    "name": "Soul Eater",
+    "id": "3027"
+  },
+  {
+    "name": "Soul Nibbler",
+    "id": "3028"
+  },
+  {
+    "name": "Soul Reaper",
+    "id": "3029"
+  },
+  {
+    "name": "Skull Spider",
+    "id": "3030"
+  },
+  {
+    "name": "Normal Spriggan",
+    "id": "3031"
+  },
+  {
+    "name": "Sprite",
+    "id": "3032"
+  },
+  {
+    "name": "Squealer",
+    "id": "3033"
+  },
+  {
+    "name": "Stegocentipede",
+    "id": "3034"
+  },
+  {
+    "name": "Stench Kow",
+    "id": "3035"
+  },
+  {
+    "name": "Stone Maiden",
+    "id": "3036"
+  },
+  {
+    "name": "Stormwarden",
+    "id": "3037"
+  },
+  {
+    "name": "Strangle Weed",
+    "id": "3038"
+  },
+  {
+    "name": "Stroke Lad",
+    "id": "3039"
+  },
+  {
+    "name": "Stygian Leviathan",
+    "id": "3040"
+  },
+  {
+    "name": "Stymphalian Bird",
+    "id": "3041"
+  },
+  {
+    "name": "Sudoth",
+    "id": "3042"
+  },
+  {
+    "name": "Adamantine Wasp Swarm",
+    "id": "3043"
+  },
+  {
+    "name": "Grig Swarm",
+    "id": "3044"
+  },
+  {
+    "name": "Heat Swarm",
+    "id": "3045"
+  },
+  {
+    "name": "Piranha Swarm",
+    "id": "3046"
+  },
+  {
+    "name": "Poisonous Frog Swarm",
+    "id": "3047"
+  },
+  {
+    "name": "Raven Swarm",
+    "id": "3048"
+  },
+  {
+    "name": "Undead Raven Swarm",
+    "id": "3049"
+  },
+  {
+    "name": "Scarlet Spider Swarm",
+    "id": "3050"
+  },
+  {
+    "name": "Shadow Rat Swarm",
+    "id": "3051"
+  },
+  {
+    "name": "Velvet Ant Swarm",
+    "id": "3052"
+  },
+  {
+    "name": "Warden Jack Swarm",
+    "id": "3053"
+  },
+  {
+    "name": "T'shann",
+    "id": "3054"
+  },
+  {
+    "name": "Tabaxi",
+    "id": "3055"
+  },
+  {
+    "name": "Taer",
+    "id": "3056"
+  },
+  {
+    "name": "Tangtal",
+    "id": "3057"
+  },
+  {
+    "name": "Angustiden",
+    "id": "3074"
+  },
+  {
+    "name": "Hammerhead Shark",
+    "id": "3076"
+  },
+  {
+    "name": "Helicoprion",
+    "id": "3077"
+  },
+  {
+    "name": "Jigsaw Shark",
+    "id": "3078"
+  },
+  {
+    "name": "Ship In A Bottle",
+    "id": "3079"
+  },
+  {
+    "name": "Bottled Armada",
+    "id": "3080"
+  },
+  {
+    "name": "Ship Sentinel",
+    "id": "3081"
+  },
+  {
+    "name": "Voidstick Zombie",
+    "id": "3082"
+  },
+  {
+    "name": "Ubashki Swarm",
+    "id": "3085"
+  },
+  {
+    "name": "Ubashki Lynx",
+    "id": "3086"
+  },
+  {
+    "name": "Ngoga",
+    "id": "3087"
+  },
+  {
+    "name": "Behemoth Golem",
+    "id": "3088"
+  },
+  {
+    "name": "Vescavor Swarm",
+    "id": "3089"
+  },
+  {
+    "name": "Inverted Giant",
+    "id": "3090"
+  },
+  {
+    "name": "Tazelwurm",
+    "id": "3100"
+  },
+  {
+    "name": "Temporal Crawler",
+    "id": "3101"
+  },
+  {
+    "name": "Tendrul",
+    "id": "3102"
+  },
+  {
+    "name": "Tentacled Horror",
+    "id": "3103"
+  },
+  {
+    "name": "Tentamort",
+    "id": "3104"
+  },
+  {
+    "name": "Queen Thermite",
+    "id": "3105"
+  },
+  {
+    "name": "Soldier Thermite",
+    "id": "3106"
+  },
+  {
+    "name": "Worker Thermite",
+    "id": "3107"
+  },
+  {
+    "name": "Thorny",
+    "id": "3108"
+  },
+  {
+    "name": "Thunder Beast",
+    "id": "3109"
+  },
+  {
+    "name": "Thundershrike",
+    "id": "3110"
+  },
+  {
+    "name": "Giant Tick",
+    "id": "3111"
+  },
+  {
+    "name": "Time Flayer",
+    "id": "3112"
+  },
+  {
+    "name": "Tombstone Fairy",
+    "id": "3113"
+  },
+  {
+    "name": "Transposer",
+    "id": "3114"
+  },
+  {
+    "name": "Trapper",
+    "id": "3115"
+  },
+  {
+    "name": "Lightning Treant",
+    "id": "3116"
+  },
+  {
+    "name": "Tri-flower Frond",
+    "id": "3117"
+  },
+  {
+    "name": "Troblin",
+    "id": "3118"
+  },
+  {
+    "name": "Cave Troll",
+    "id": "3119"
+  },
+  {
+    "name": "Ice Troll",
+    "id": "3120"
+  },
+  {
+    "name": "Savage Great Cyclops",
+    "id": "3138"
+  },
+  {
+    "name": "Oracular Cyclops",
+    "id": "3139"
+  },
+  {
+    "name": "Coral Capuchin",
+    "id": "3140"
+  },
+  {
+    "name": "Deinosuchus",
+    "id": "3141"
+  },
+  {
+    "name": "Marine Crocodile",
+    "id": "3142"
+  },
+  {
+    "name": "Saltwater Crocodile",
+    "id": "3143"
+  },
+  {
+    "name": "Tetrolimulus",
+    "id": "3145"
+  },
+  {
+    "name": "Scrag",
+    "id": "3161"
+  },
+  {
+    "name": "Blue Whale",
+    "id": "3171"
+  },
+  {
+    "name": "Crimson Whale",
+    "id": "3172"
+  },
+  {
+    "name": "Narwhal",
+    "id": "3173"
+  },
+  {
+    "name": "Stabbing Beast",
+    "id": "3175"
+  },
+  {
+    "name": "Stabbing Beast",
+    "id": "3176"
+  },
+  {
+    "name": "Angelic Guardian",
+    "id": "3177"
+  },
+  {
+    "name": "Aspis Agents",
+    "id": "3178"
+  },
+  {
+    "name": "City Guards",
+    "id": "3185"
+  },
+  {
+    "name": "City Watch Captains",
+    "id": "3187"
+  },
+  {
+    "name": "Mystery Cultists",
+    "id": "3189"
+  },
+  {
+    "name": "Night Scale Assassins",
+    "id": "3191"
+  },
+  {
+    "name": "Sczarni Thugs",
+    "id": "3192"
+  },
+  {
+    "name": "Shifty Nobles",
+    "id": "3195"
+  },
+  {
+    "name": "Shoanti Gladiators",
+    "id": "3197"
+  },
+  {
+    "name": "Swamp Barracuda",
+    "id": "3200"
+  },
+  {
+    "name": "Vydrarch",
+    "id": "3201"
+  },
+  {
+    "name": "Yamah",
+    "id": "3202"
+  },
+  {
+    "name": "Frost Wight",
+    "id": "3243"
+  },
+  {
+    "name": "Black Magga",
+    "id": "3296"
+  },
+  {
+    "name": "Carrionstorm",
+    "id": "3297"
+  },
+  {
+    "name": "Forgefiend",
+    "id": "3298"
+  },
+  {
+    "name": "Hungerer",
+    "id": "3299"
+  },
+  {
+    "name": "Kuchrima",
+    "id": "3300"
+  },
+  {
+    "name": "Old Bronze Dragon",
+    "id": "3310"
+  },
+  {
+    "name": "Ifestus",
+    "id": "3322"
+  },
+  {
+    "name": "Gigas Clam",
+    "id": "3323"
+  },
+  {
+    "name": "Ugash-iram",
+    "id": "3324"
+  },
+  {
+    "name": "Addu",
+    "id": "3326"
+  },
+  {
+    "name": "Faceless Whale",
+    "id": "3328"
+  },
+  {
+    "name": "Gargiya",
+    "id": "3329"
+  },
+  {
+    "name": "Kronosaurus",
+    "id": "3331"
+  },
+  {
+    "name": "Nothosaur",
+    "id": "3332"
+  },
+  {
+    "name": "Zeuglodon",
+    "id": "3333"
+  },
+  {
+    "name": "Lacedon",
+    "id": "3345"
+  },
+  {
+    "name": "Agathion",
+    "id": "3352"
+  },
+  {
+    "name": "Fleshdreg Swarm",
+    "id": "3354"
+  },
+  {
+    "name": "Melfesh Monster",
+    "id": "3355"
+  },
+  {
+    "name": "Skvader",
+    "id": "3356"
+  },
+  {
+    "name": "Wolpertinger",
+    "id": "3357"
+  },
+  {
+    "name": "Somalcygot",
+    "id": "3369"
+  },
+  {
+    "name": "Runeslave Hill Giant",
+    "id": "3370"
+  },
+  {
+    "name": "Scarlet Walker",
+    "id": "3371"
+  },
+  {
+    "name": "Skull Ripper",
+    "id": "3372"
+  },
+  {
+    "name": "Bogwid",
+    "id": "3386"
+  },
+  {
+    "name": "Bogwiggle",
+    "id": "3387"
+  },
+  {
+    "name": "Grand Defender",
+    "id": "3388"
+  },
+  {
+    "name": "Bronze Sentinel",
+    "id": "3389"
+  },
+  {
+    "name": "Marble Sentinel",
+    "id": "3390"
+  },
+  {
+    "name": "Dancing Hut Of Baba Yaga",
+    "id": "3394"
+  },
+  {
+    "name": "Devil, Handmaiden",
+    "id": "3395"
+  },
+  {
+    "name": "Adult Umbral Dragon",
+    "id": "3396"
+  },
+  {
+    "name": "Fetchling",
+    "id": "3397"
+  },
+  {
+    "name": "Rock Troll",
+    "id": "3398"
+  },
+  {
+    "name": "Swamp Troll",
+    "id": "3399"
+  },
+  {
+    "name": "Two-headed Troll",
+    "id": "3400"
+  },
+  {
+    "name": "Tsathar",
+    "id": "3401"
+  },
+  {
+    "name": "Tsathar Scourge",
+    "id": "3402"
+  },
+  {
+    "name": "Tunnel Worm",
+    "id": "3403"
+  },
+  {
+    "name": "Giant Bog Turtle",
+    "id": "3404"
+  },
+  {
+    "name": "Turtle-shark",
+    "id": "3405"
+  },
+  {
+    "name": "Stygian Turtle-shark",
+    "id": "3406"
+  },
+  {
+    "name": "Ubue",
+    "id": "3407"
+  },
+  {
+    "name": "Vampire Rose",
+    "id": "3408"
+  },
+  {
+    "name": "Vapor Dire Rat",
+    "id": "3409"
+  },
+  {
+    "name": "Vapor Wasp",
+    "id": "3410"
+  },
+  {
+    "name": "Vegepygmy Commoner",
+    "id": "3411"
+  },
+  {
+    "name": "Vegepygmy Worker",
+    "id": "3412"
+  },
+  {
+    "name": "Vegepygmy Guard",
+    "id": "3413"
+  },
+  {
+    "name": "Vegepygmy Bodyguard",
+    "id": "3414"
+  },
+  {
+    "name": "Vegepygmy Subchief",
+    "id": "3415"
+  },
+  {
+    "name": "Vegepygmy Chief",
+    "id": "3416"
+  },
+  {
+    "name": "Vilstrak",
+    "id": "3417"
+  },
+  {
+    "name": "Volt",
+    "id": "3418"
+  },
+  {
+    "name": "Vorin",
+    "id": "3419"
+  },
+  {
+    "name": "Vulchling",
+    "id": "3420"
+  },
+  {
+    "name": "Wang Liang",
+    "id": "3421"
+  },
+  {
+    "name": "Blood Weird",
+    "id": "3423"
+  },
+  {
+    "name": "Fungus Weird",
+    "id": "3424"
+  },
+  {
+    "name": "Lava Weird",
+    "id": "3425"
+  },
+  {
+    "name": "Lightning Weird",
+    "id": "3426"
+  },
+  {
+    "name": "Well Lurker",
+    "id": "3427"
+  },
+  {
+    "name": "Widow Creeper",
+    "id": "3428"
+  },
+  {
+    "name": "Barrow Wight",
+    "id": "3429"
+  },
+  {
+    "name": "Blood Wight",
+    "id": "3430"
+  },
+  {
+    "name": "Willow Dusk",
+    "id": "3431"
+  },
+  {
+    "name": "Wind Walker",
+    "id": "3432"
+  },
+  {
+    "name": "Witch Tree",
+    "id": "3433"
+  },
+  {
+    "name": "Witherstench",
+    "id": "3434"
+  },
+  {
+    "name": "Witherweed",
+    "id": "3435"
+  },
+  {
+    "name": "Wizard's Shackle",
+    "id": "3436"
+  },
+  {
+    "name": "Abyssal Wolf",
+    "id": "3437"
+  },
+  {
+    "name": "Ghoul Wolf",
+    "id": "3438"
+  },
+  {
+    "name": "Ghoul Dire Wolf",
+    "id": "3439"
+  },
+  {
+    "name": "Shadow Wolf",
+    "id": "3440"
+  },
+  {
+    "name": "Wolf-in-sheep's-clothing",
+    "id": "3441"
+  },
+  {
+    "name": "Wolf-spider",
+    "id": "3442"
+  },
+  {
+    "name": "Woodwose",
+    "id": "3443"
+  },
+  {
+    "name": "Yellow Musk Creeper",
+    "id": "3444"
+  },
+  {
+    "name": "Giant Yellowjacket",
+    "id": "3445"
+  },
+  {
+    "name": "Yeti",
+    "id": "3446"
+  },
+  {
+    "name": "Brine Zombie",
+    "id": "3447"
+  },
+  {
+    "name": "Giant Archerfish",
+    "id": "3448"
+  },
+  {
+    "name": "Axe Beak",
+    "id": "3449"
+  },
+  {
+    "name": "Small Barracuda",
+    "id": "3450"
+  },
+  {
+    "name": "Medium Barracuda",
+    "id": "3451"
+  },
+  {
+    "name": "Giant Barracuda",
+    "id": "3452"
+  },
+  {
+    "name": "Brontotherium",
+    "id": "3453"
+  },
+  {
+    "name": "Giant Caribe",
+    "id": "3454"
+  },
+  {
+    "name": "Giant Electric Catfish",
+    "id": "3455"
+  },
+  {
+    "name": "Giant Chameleon",
+    "id": "3456"
+  },
+  {
+    "name": "Deer",
+    "id": "3457"
+  },
+  {
+    "name": "Dragonfish",
+    "id": "3458"
+  },
+  {
+    "name": "Electric Eel",
+    "id": "3459"
+  },
+  {
+    "name": "Giant Moray Eel",
+    "id": "3460"
+  },
+  {
+    "name": "Gulper Eel",
+    "id": "3461"
+  },
+  {
+    "name": "Giant Falcon",
+    "id": "3462"
+  },
+  {
+    "name": "Fox",
+    "id": "3463"
+  },
+  {
+    "name": "Giant Frog",
+    "id": "3464"
+  },
+  {
+    "name": "Giant Dire Frog",
+    "id": "3465"
+  },
+  {
+    "name": "Killer Frog",
+    "id": "3466"
+  },
+  {
+    "name": "Poisonous Frog",
+    "id": "3467"
+  },
+  {
+    "name": "Giant Hamster",
+    "id": "3468"
+  },
+  {
+    "name": "Hippopotamus",
+    "id": "3469"
+  },
+  {
+    "name": "Hyaenodon",
+    "id": "3470"
+  },
+  {
+    "name": "Jaguar",
+    "id": "3471"
+  },
+  {
+    "name": "Snow Leopard",
+    "id": "3472"
+  },
+  {
+    "name": "Cave Lion",
+    "id": "3473"
+  },
+  {
+    "name": "Mountain Lion",
+    "id": "3474"
+  },
+  {
+    "name": "Giant Rock-horned Lizard",
+    "id": "3475"
+  },
+  {
+    "name": "Lynx",
+    "id": "3476"
+  },
+  {
+    "name": "Mammoth",
+    "id": "3477"
+  },
+  {
+    "name": "Mandrill",
+    "id": "3478"
+  },
+  {
+    "name": "Margay",
+    "id": "3479"
+  },
+  {
+    "name": "Giant Marmoset",
+    "id": "3480"
+  },
+  {
+    "name": "Mastodon",
+    "id": "3481"
+  },
+  {
+    "name": "Moose",
+    "id": "3482"
+  },
+  {
+    "name": "Oliphant",
+    "id": "3483"
+  },
+  {
+    "name": "Giant Pike",
+    "id": "3484"
+  },
+  {
+    "name": "Quipper",
+    "id": "3485"
+  },
+  {
+    "name": "Racoon",
+    "id": "3486"
+  },
+  {
+    "name": "Dire Racoon",
+    "id": "3487"
+  },
+  {
+    "name": "Woolly Rhinoceros",
+    "id": "3488"
+  },
+  {
+    "name": "Woolly Rhinoceros Elasmotherium",
+    "id": "3489"
+  },
+  {
+    "name": "Scythe Horn",
+    "id": "3490"
+  },
+  {
+    "name": "Giant Seahorse",
+    "id": "3491"
+  },
+  {
+    "name": "Sheep",
+    "id": "3492"
+  },
+  {
+    "name": "Ram",
+    "id": "3493"
+  },
+  {
+    "name": "Skunk",
+    "id": "3494"
+  },
+  {
+    "name": "Smilodon",
+    "id": "3495"
+  },
+  {
+    "name": "Dire Smilodon",
+    "id": "3496"
+  },
+  {
+    "name": "Homotherium",
+    "id": "3497"
+  },
+  {
+    "name": "Small Stingray",
+    "id": "3498"
+  },
+  {
+    "name": "Medium Stingray",
+    "id": "3499"
+  },
+  {
+    "name": "Large Stingray",
+    "id": "3500"
+  },
+  {
+    "name": "Giant Tiger Barb",
+    "id": "3501"
+  },
+  {
+    "name": "Giant Tuatara",
+    "id": "3502"
+  },
+  {
+    "name": "Giant Snapping Turtle",
+    "id": "3503"
+  },
+  {
+    "name": "Chrestomath",
+    "id": "3517"
+  },
+  {
+    "name": "Clockwork Familiar",
+    "id": "3518"
+  },
+  {
+    "name": "Polevik",
+    "id": "3520"
+  },
+  {
+    "name": "Panotti",
+    "id": "3529"
+  },
+  {
+    "name": "Yamasoth",
+    "id": "3545"
+  },
+  {
+    "name": "End's Voice",
+    "id": "3547"
+  },
+  {
+    "name": "Kere",
+    "id": "3549"
+  },
+  {
+    "name": "Gongorinan",
+    "id": "3550"
+  },
+  {
+    "name": "Android",
+    "id": "3551"
+  },
+  {
+    "name": "Apostasy Wraith",
+    "id": "3552"
+  },
+  {
+    "name": "Scarab Beetle",
+    "id": "3553"
+  },
+  {
+    "name": "Stalk Beetle",
+    "id": "3554"
+  },
+  {
+    "name": "Blighted Fey",
+    "id": "3555"
+  },
+  {
+    "name": "Cayhound",
+    "id": "3556"
+  },
+  {
+    "name": "Ceru",
+    "id": "3557"
+  },
+  {
+    "name": "Charnel Colossus",
+    "id": "3558"
+  },
+  {
+    "name": "Fungus Queen",
+    "id": "3559"
+  },
+  {
+    "name": "Ghoran",
+    "id": "3560"
+  },
+  {
+    "name": "Shadow Giant",
+    "id": "3561"
+  },
+  {
+    "name": "Monkey Goblin",
+    "id": "3562"
+  },
+  {
+    "name": "Marrowstone Golem",
+    "id": "3563"
+  },
+  {
+    "name": "Noqual Golem",
+    "id": "3564"
+  },
+  {
+    "name": "Quantium Golem",
+    "id": "3565"
+  },
+  {
+    "name": "Kakuen-taka",
+    "id": "3566"
+  },
+  {
+    "name": "Khaei",
+    "id": "3567"
+  },
+  {
+    "name": "Korir-kokembe",
+    "id": "3568"
+  },
+  {
+    "name": "Termagant",
+    "id": "3569"
+  },
+  {
+    "name": "Lashunta",
+    "id": "3570"
+  },
+  {
+    "name": "Lorthact",
+    "id": "3571"
+  },
+  {
+    "name": "Gnoll Mutant",
+    "id": "3572"
+  },
+  {
+    "name": "Deadly Mantis",
+    "id": "3573"
+  },
+  {
+    "name": "Mockingfey",
+    "id": "3574"
+  },
+  {
+    "name": "Moxix",
+    "id": "3575"
+  },
+  {
+    "name": "Nightripper",
+    "id": "3576"
+  },
+  {
+    "name": "Oronci",
+    "id": "3577"
+  },
+  {
+    "name": "Petrified Maiden",
+    "id": "3578"
+  },
+  {
+    "name": "Memitim",
+    "id": "3579"
+  },
+  {
+    "name": "Shoki",
+    "id": "3580"
+  },
+  {
+    "name": "Viduus",
+    "id": "3581"
+  },
+  {
+    "name": "Chemnosit",
+    "id": "3582"
+  },
+  {
+    "name": "Volnagur",
+    "id": "3583"
+  },
+  {
+    "name": "Spellscar Fext",
+    "id": "3584"
+  },
+  {
+    "name": "Star Monarch",
+    "id": "3585"
+  },
+  {
+    "name": "Syrinx",
+    "id": "3586"
+  },
+  {
+    "name": "Thin Man",
+    "id": "3587"
+  },
+  {
+    "name": "Umbral Shepherd",
+    "id": "3588"
+  },
+  {
+    "name": "Vetala",
+    "id": "3589"
+  },
+  {
+    "name": "Veiled Master",
+    "id": "3590"
+  },
+  {
+    "name": "Vespergaunt",
+    "id": "3591"
+  },
+  {
+    "name": "Water Wraith",
+    "id": "3592"
+  },
+  {
+    "name": "Whirlmaw",
+    "id": "3593"
+  },
+  {
+    "name": "Woundwyrm",
+    "id": "3594"
+  },
+  {
+    "name": "Zelishkar",
+    "id": "3595"
+  },
+  {
+    "name": "Gug Savant",
+    "id": "3703"
+  },
+  {
+    "name": "Kurshu The Undying",
+    "id": "3709"
+  },
+  {
+    "name": "Death Worm Leviathan",
+    "id": "3713"
+  },
+  {
+    "name": "Mokele-Mbembe",
+    "id": "3714"
+  },
+  {
+    "name": "Sandpoint Devil",
+    "id": "3716"
+  },
+  {
+    "name": "Dread Wraith",
+    "id": "3850"
+  },
+  {
+    "name": "Raelis",
+    "id": "3860"
+  },
+  {
+    "name": "Living Rune",
+    "id": "3862"
+  },
+  {
+    "name": "Mezlan",
+    "id": "3863"
+  },
+  {
+    "name": "Black Rider",
+    "id": "3864"
+  },
+  {
+    "name": "Red Rider",
+    "id": "3865"
+  },
+  {
+    "name": "White Rider",
+    "id": "3866"
+  },
+  {
+    "name": "Boreal Creature",
+    "id": "3870"
+  },
+  {
+    "name": "Guardian Doll",
+    "id": "3871"
+  },
+  {
+    "name": "Khala",
+    "id": "3872"
+  },
+  {
+    "name": "Sentinel Hut",
+    "id": "3873"
+  },
+  {
+    "name": "Ved",
+    "id": "3874"
+  },
+  {
+    "name": "Arctic Fox",
+    "id": "3995"
+  },
+  {
+    "name": "Arctic Hare",
+    "id": "3996"
+  },
+  {
+    "name": "Arctic Tern",
+    "id": "3997"
+  },
+  {
+    "name": "Ermine",
+    "id": "3998"
+  },
+  {
+    "name": "Lemming",
+    "id": "3999"
+  },
+  {
+    "name": "Ptarmigan",
+    "id": "4000"
+  },
+  {
+    "name": "Puffin",
+    "id": "4001"
+  },
+  {
+    "name": "Snowy Owl",
+    "id": "4002"
+  },
+  {
+    "name": "Polar Bear",
+    "id": "4020"
+  },
+  {
+    "name": "Timber Wolf",
+    "id": "4022"
+  },
+  {
+    "name": "Frost Fir",
+    "id": "4023"
+  },
+  {
+    "name": "Domovoi",
+    "id": "4024"
+  },
+  {
+    "name": "Dvorovoi",
+    "id": "4025"
+  },
+  {
+    "name": "Ovinnik",
+    "id": "4026"
+  },
+  {
+    "name": "Witchcrow",
+    "id": "4027"
+  },
+  {
+    "name": "Greater Witchcrow",
+    "id": "4028"
+  },
+  {
+    "name": "Llama",
+    "id": "4029"
+  },
+  {
+    "name": "Moose",
+    "id": "4030"
+  },
+  {
+    "name": "Panda",
+    "id": "4031"
+  },
+  {
+    "name": "Armadillo",
+    "id": "4033"
+  },
+  {
+    "name": "Rabbit",
+    "id": "4035"
+  },
+  {
+    "name": "Squirrel",
+    "id": "4036"
+  },
+  {
+    "name": "Mask Golem",
+    "id": "4063"
+  },
+  {
+    "name": "Fast Zombie",
+    "id": "4092"
+  },
+  {
+    "name": "Vampire Spawn",
+    "id": "4249"
+  },
+  {
+    "name": "Courage Heart",
+    "id": "4320"
+  },
+  {
+    "name": "Dawn Piper",
+    "id": "4321"
+  },
+  {
+    "name": "Mirror Man",
+    "id": "4322"
+  },
+  {
+    "name": "Winter Fey",
+    "id": "4323"
+  },
+  {
+    "name": "Yaenit",
+    "id": "4338"
+  },
+  {
+    "name": "Azgenzak",
+    "id": "4359"
+  },
+  {
+    "name": "Andrazku",
+    "id": "4360"
+  },
+  {
+    "name": "Kokogiak",
+    "id": "4361"
+  },
+  {
+    "name": "Sangoi",
+    "id": "4362"
+  },
+  {
+    "name": "Svathurim",
+    "id": "4363"
+  },
+  {
+    "name": "Stormghost",
+    "id": "4396"
+  },
+  {
+    "name": "Triaxian",
+    "id": "4397"
+  },
+  {
+    "name": "Ursikka",
+    "id": "4398"
+  },
+  {
+    "name": "Wolliped",
+    "id": "4399"
+  },
+  {
+    "name": "Wolliped",
+    "id": "4400"
+  },
+  {
+    "name": "Blackwood Satyr",
+    "id": "4409"
+  },
+  {
+    "name": "Sprite Swarm",
+    "id": "4410"
+  },
+  {
+    "name": "Cervinal",
+    "id": "4411"
+  },
+  {
+    "name": "Balisse Angel",
+    "id": "4412"
+  },
+  {
+    "name": "Choral Angel",
+    "id": "4413"
+  },
+  {
+    "name": "Spyglass Archon",
+    "id": "4414"
+  },
+  {
+    "name": "Veranallia",
+    "id": "4415"
+  },
+  {
+    "name": "Animated Tank",
+    "id": "4442"
+  },
+  {
+    "name": "Genthodaemon",
+    "id": "4443"
+  },
+  {
+    "name": "Fext",
+    "id": "4444"
+  },
+  {
+    "name": "Trench Mist",
+    "id": "4445"
+  },
+  {
+    "name": "Trench Zombie",
+    "id": "4446"
+  },
+  {
+    "name": "Great Wyrm Umbral Dragon",
+    "id": "4453"
+  },
+  {
+    "name": "Great Wyrm Gold Dragon",
+    "id": "4455"
+  },
+  {
+    "name": "Mature Adult Forest Dragon",
+    "id": "4463"
+  },
+  {
+    "name": "Juvenile Sovereign Dragon",
+    "id": "4465"
+  },
+  {
+    "name": "Dire Lion",
+    "id": "4540"
+  },
+  {
+    "name": "Crone Queen",
+    "id": "4660"
+  },
+  {
+    "name": "Hag Ooze",
+    "id": "4661"
+  },
+  {
+    "name": "Coven Ooze",
+    "id": "4662"
+  },
+  {
+    "name": "Poludnica",
+    "id": "4663"
+  },
+  {
+    "name": "Storm Hag",
+    "id": "4664"
+  },
+  {
+    "name": "Abrikandilu",
+    "id": "4665"
+  },
+  {
+    "name": "Derakni",
+    "id": "4666"
+  },
+  {
+    "name": "Gallu",
+    "id": "4667"
+  },
+  {
+    "name": "Gibrileth",
+    "id": "4668"
+  },
+  {
+    "name": "Kithangian",
+    "id": "4669"
+  },
+  {
+    "name": "Lilitu",
+    "id": "4670"
+  },
+  {
+    "name": "Oolioddroo",
+    "id": "4671"
+  },
+  {
+    "name": "Demonic Deadfall Scorpion",
+    "id": "4672"
+  },
+  {
+    "name": "Dwiergeth",
+    "id": "4674"
+  },
+  {
+    "name": "Grimslake",
+    "id": "4675"
+  },
+  {
+    "name": "Plagued Steed",
+    "id": "4676"
+  },
+  {
+    "name": "Riftcreeper",
+    "id": "4677"
+  },
+  {
+    "name": "Siabrae",
+    "id": "4678"
+  },
+  {
+    "name": "Urannag",
+    "id": "4679"
+  },
+  {
+    "name": "Warmonger Wasp",
+    "id": "4680"
+  },
+  {
+    "name": "Warped One",
+    "id": "4681"
+  },
+  {
+    "name": "Grioth",
+    "id": "4692"
+  },
+  {
+    "name": "Yangethe",
+    "id": "4693"
+  },
+  {
+    "name": "Addath",
+    "id": "4699"
+  },
+  {
+    "name": "Algidarch",
+    "id": "4700"
+  },
+  {
+    "name": "Amalgamation",
+    "id": "4701"
+  },
+  {
+    "name": "Amber Skeleton",
+    "id": "4712"
+  },
+  {
+    "name": "Fire Crab, Small",
+    "id": "4730"
+  },
+  {
+    "name": "Fire Crab, Medium",
+    "id": "4731"
+  },
+  {
+    "name": "Fire Fish",
+    "id": "4732"
+  },
+  {
+    "name": "Argos",
+    "id": "4733"
+  },
+  {
+    "name": "Astral Spider",
+    "id": "4734"
+  },
+  {
+    "name": "Aswang",
+    "id": "4735"
+  },
+  {
+    "name": "Northlands Aurochs",
+    "id": "4736"
+  },
+  {
+    "name": "Baba Yaga",
+    "id": "4737"
+  },
+  {
+    "name": "Baboonwere",
+    "id": "4738"
+  },
+  {
+    "name": "Lesser Banshee",
+    "id": "4739"
+  },
+  {
+    "name": "Battlehulk",
+    "id": "4740"
+  },
+  {
+    "name": "Shadow Dire Bear",
+    "id": "4742"
+  },
+  {
+    "name": "Ravager Beetle",
+    "id": "4743"
+  },
+  {
+    "name": "Stench Beetle",
+    "id": "4744"
+  },
+  {
+    "name": "Blaze Boa",
+    "id": "4745"
+  },
+  {
+    "name": "Blood Orchid",
+    "id": "4746"
+  },
+  {
+    "name": "Bloodsoaker Vine",
+    "id": "4749"
+  },
+  {
+    "name": "Bloodworm",
+    "id": "4750"
+  },
+  {
+    "name": "Boarfolk",
+    "id": "4751"
+  },
+  {
+    "name": "Bone Crawler",
+    "id": "4752"
+  },
+  {
+    "name": "Bone Delver",
+    "id": "4753"
+  },
+  {
+    "name": "Boobrie",
+    "id": "4754"
+  },
+  {
+    "name": "Borsin",
+    "id": "4755"
+  },
+  {
+    "name": "Bronze Minotaur",
+    "id": "4756"
+  },
+  {
+    "name": "Bucentaur",
+    "id": "4757"
+  },
+  {
+    "name": "Burning Ghat",
+    "id": "4758"
+  },
+  {
+    "name": "Carrion Claw",
+    "id": "4759"
+  },
+  {
+    "name": "Cavern Crawler",
+    "id": "4760"
+  },
+  {
+    "name": "Char Shambler",
+    "id": "4761"
+  },
+  {
+    "name": "Chike",
+    "id": "4762"
+  },
+  {
+    "name": "Chuul-Ttaen",
+    "id": "4763"
+  },
+  {
+    "name": "Cimota",
+    "id": "4764"
+  },
+  {
+    "name": "Guardian Cimota",
+    "id": "4765"
+  },
+  {
+    "name": "High Cimota",
+    "id": "4766"
+  },
+  {
+    "name": "Cinder Knight",
+    "id": "4767"
+  },
+  {
+    "name": "Cobalt Viper",
+    "id": "4768"
+  },
+  {
+    "name": "Giant Cobalt Viper",
+    "id": "4769"
+  },
+  {
+    "name": "Conshee",
+    "id": "4770"
+  },
+  {
+    "name": "Crimson Death",
+    "id": "4771"
+  },
+  {
+    "name": "Crysolax",
+    "id": "4772"
+  },
+  {
+    "name": "Daochyn",
+    "id": "4773"
+  },
+  {
+    "name": "Dark Custodian",
+    "id": "4774"
+  },
+  {
+    "name": "Deathstroke Serpent",
+    "id": "4775"
+  },
+  {
+    "name": "Defender Globe",
+    "id": "4776"
+  },
+  {
+    "name": "Ciratto",
+    "id": "4777"
+  },
+  {
+    "name": "Kytha",
+    "id": "4778"
+  },
+  {
+    "name": "Demonic Mist",
+    "id": "4779"
+  },
+  {
+    "name": "Dantalion",
+    "id": "4780"
+  },
+  {
+    "name": "Devouring Mist",
+    "id": "4781"
+  },
+  {
+    "name": "Euparkeria",
+    "id": "4782"
+  },
+  {
+    "name": "Gorgosaurus",
+    "id": "4783"
+  },
+  {
+    "name": "Nothosaurus",
+    "id": "4784"
+  },
+  {
+    "name": "Podokesaurus",
+    "id": "4785"
+  },
+  {
+    "name": "Dire Fox",
+    "id": "4786"
+  },
+  {
+    "name": "Dire Mastiff",
+    "id": "4787"
+  },
+  {
+    "name": "Dire Stag",
+    "id": "4788"
+  },
+  {
+    "name": "Dobie",
+    "id": "4789"
+  },
+  {
+    "name": "Domovoi",
+    "id": "4790"
+  },
+  {
+    "name": "Dracohydra",
+    "id": "4791"
+  },
+  {
+    "name": "Wyrmling Gray Dragon",
+    "id": "4792"
+  },
+  {
+    "name": "Very Young Gray Dragon",
+    "id": "4793"
+  },
+  {
+    "name": "Young Gray Dragon",
+    "id": "4794"
+  },
+  {
+    "name": "Juvenile Gray Dragon",
+    "id": "4795"
+  },
+  {
+    "name": "Young Adult Gray Dragon",
+    "id": "4796"
+  },
+  {
+    "name": "Adult Gray Dragon",
+    "id": "4797"
+  },
+  {
+    "name": "Mature Gray Dragon",
+    "id": "4798"
+  },
+  {
+    "name": "Old Gray Dragon",
+    "id": "4799"
+  },
+  {
+    "name": "Very Old Gray Dragon",
+    "id": "4800"
+  },
+  {
+    "name": "Ancient Gray Dragon",
+    "id": "4801"
+  },
+  {
+    "name": "Wyrm Gray Dragon",
+    "id": "4802"
+  },
+  {
+    "name": "Great Wyrm Gray Dragon",
+    "id": "4803"
+  },
+  {
+    "name": "Brine Drake",
+    "id": "4804"
+  },
+  {
+    "name": "Storm Drake",
+    "id": "4805"
+  },
+  {
+    "name": "Vile Drake",
+    "id": "4806"
+  },
+  {
+    "name": "Flame Drakeling",
+    "id": "4807"
+  },
+  {
+    "name": "Frost Drakeling",
+    "id": "4808"
+  },
+  {
+    "name": "Dreadweed",
+    "id": "4809"
+  },
+  {
+    "name": "Dune Horror",
+    "id": "4810"
+  },
+  {
+    "name": "Frost Dwarf",
+    "id": "4811"
+  },
+  {
+    "name": "Ebony Horse",
+    "id": "4812"
+  },
+  {
+    "name": "Edon",
+    "id": "4813"
+  },
+  {
+    "name": "Fire Eel",
+    "id": "4814"
+  },
+  {
+    "name": "Ekimmu",
+    "id": "4815"
+  },
+  {
+    "name": "Inder",
+    "id": "4816"
+  },
+  {
+    "name": "Lypso",
+    "id": "4817"
+  },
+  {
+    "name": "Onyst",
+    "id": "4818"
+  },
+  {
+    "name": "Susir",
+    "id": "4819"
+  },
+  {
+    "name": "Small Salt Elemental",
+    "id": "4820"
+  },
+  {
+    "name": "Medium Salt Elemental",
+    "id": "4821"
+  },
+  {
+    "name": "Large Salt Elemental",
+    "id": "4822"
+  },
+  {
+    "name": "Huge Salt Elemental",
+    "id": "4823"
+  },
+  {
+    "name": "Greater Salt Elemental",
+    "id": "4824"
+  },
+  {
+    "name": "Elder Salt Elemental",
+    "id": "4825"
+  },
+  {
+    "name": "Ulkreth",
+    "id": "4841"
+  },
+  {
+    "name": "Xoveron",
+    "id": "4842"
+  },
+  {
+    "name": "Herne",
+    "id": "4843"
+  },
+  {
+    "name": "Sin Seeker",
+    "id": "4844"
+  },
+  {
+    "name": "Balor Lord",
+    "id": "4846"
+  },
+  {
+    "name": "Mythic Aboleth",
+    "id": "4856"
+  },
+  {
+    "name": "Mythic Greater Barghest",
+    "id": "4857"
+  },
+  {
+    "name": "Mythic Cockatrice",
+    "id": "4858"
+  },
+  {
+    "name": "Mythic Great Cyclops",
+    "id": "4859"
+  },
+  {
+    "name": "Mythic Marilith",
+    "id": "4860"
+  },
+  {
+    "name": "Mythic Nalfeshnee",
+    "id": "4861"
+  },
+  {
+    "name": "Mythic Vrock",
+    "id": "4862"
+  },
+  {
+    "name": "Mythic Bone Devil",
+    "id": "4863"
+  },
+  {
+    "name": "Mythic Ice Devil",
+    "id": "4864"
+  },
+  {
+    "name": "Mythic Mature Adult Black Dragon",
+    "id": "4865"
+  },
+  {
+    "name": "Mythic Mature Adult Blue Dragon",
+    "id": "4866"
+  },
+  {
+    "name": "Mythic Very Old Green Dragon",
+    "id": "4867"
+  },
+  {
+    "name": "Mythic Young Red Dragon",
+    "id": "4868"
+  },
+  {
+    "name": "Mythic Wyrm Red Dragon",
+    "id": "4869"
+  },
+  {
+    "name": "Mythic Juvenile White Dragon",
+    "id": "4870"
+  },
+  {
+    "name": "Mythic Elder Air Elemental",
+    "id": "4871"
+  },
+  {
+    "name": "Mythic Elder Earth Elemental",
+    "id": "4872"
+  },
+  {
+    "name": "Mythic Elder Fire Elemental",
+    "id": "4873"
+  },
+  {
+    "name": "Mythic Elder Water Elemental",
+    "id": "4874"
+  },
+  {
+    "name": "Mythic Ettin",
+    "id": "4875"
+  },
+  {
+    "name": "Mythic Gargoyle",
+    "id": "4876"
+  },
+  {
+    "name": "Mythic Fire Giant",
+    "id": "4877"
+  },
+  {
+    "name": "Mythic Hill Giant",
+    "id": "4878"
+  },
+  {
+    "name": "Mythic Flesh Golem",
+    "id": "4879"
+  },
+  {
+    "name": "Mythic Griffon",
+    "id": "4880"
+  },
+  {
+    "name": "Mythic Hell Hound",
+    "id": "4881"
+  },
+  {
+    "name": "Mythic Nessian Warhound",
+    "id": "4882"
+  },
+  {
+    "name": "Mythic Hydra",
+    "id": "4883"
+  },
+  {
+    "name": "Mythic Lamia",
+    "id": "4884"
+  },
+  {
+    "name": "Mythic Lich",
+    "id": "4885"
+  },
+  {
+    "name": "Mythic Manticore",
+    "id": "4886"
+  },
+  {
+    "name": "Mythic Medusa",
+    "id": "4887"
+  },
+  {
+    "name": "Mythic Minotaur",
+    "id": "4888"
+  },
+  {
+    "name": "Mythic Mummy",
+    "id": "4889"
+  },
+  {
+    "name": "Mythic Ogre",
+    "id": "4890"
+  },
+  {
+    "name": "Mythic Owlbear",
+    "id": "4891"
+  },
+  {
+    "name": "The First Owlbear",
+    "id": "4892"
+  },
+  {
+    "name": "Mythic Phoenix",
+    "id": "4893"
+  },
+  {
+    "name": "Mythic Rakshasa",
+    "id": "4894"
+  },
+  {
+    "name": "Mythic Human Skeleton",
+    "id": "4895"
+  },
+  {
+    "name": "Mythic Sphinx",
+    "id": "4896"
+  },
+  {
+    "name": "Mythic Treant",
+    "id": "4897"
+  },
+  {
+    "name": "Mythic Troll",
+    "id": "4898"
+  },
+  {
+    "name": "Mythic Vampire",
+    "id": "4899"
+  },
+  {
+    "name": "Mythic Worg",
+    "id": "4900"
+  },
+  {
+    "name": "Mythic Winter Wolf",
+    "id": "4901"
+  },
+  {
+    "name": "Mythic Wyvern",
+    "id": "4902"
+  },
+  {
+    "name": "Half-Orc",
+    "id": "4916"
+  },
+  {
+    "name": "Demon Lord, Shax",
+    "id": "4921"
+  },
+  {
+    "name": "Thoxel",
+    "id": "4922"
+  },
+  {
+    "name": "Man-Eating Aurochs",
+    "id": "4923"
+  },
+  {
+    "name": "Vescavor Queen",
+    "id": "4924"
+  },
+  {
+    "name": "Small Smoke Elemental",
+    "id": "4934"
+  },
+  {
+    "name": "Medium Smoke Elemental",
+    "id": "4935"
+  },
+  {
+    "name": "Large Smoke Elemental",
+    "id": "4936"
+  },
+  {
+    "name": "Huge Smoke Elemental",
+    "id": "4937"
+  },
+  {
+    "name": "Greater Smoke Elemental",
+    "id": "4938"
+  },
+  {
+    "name": "Elder Smoke Elemental",
+    "id": "4939"
+  },
+  {
+    "name": "Wood Elemental",
+    "id": "4940"
+  },
+  {
+    "name": "Emberleaf",
+    "id": "4941"
+  },
+  {
+    "name": "Fachan",
+    "id": "4942"
+  },
+  {
+    "name": "Firebird",
+    "id": "4943"
+  },
+  {
+    "name": "Fisherman",
+    "id": "4944"
+  },
+  {
+    "name": "Flayed Angel",
+    "id": "4945"
+  },
+  {
+    "name": "Fountain Fungus",
+    "id": "4946"
+  },
+  {
+    "name": "Fungus Man",
+    "id": "4947"
+  },
+  {
+    "name": "Fungus Man King",
+    "id": "4948"
+  },
+  {
+    "name": "Galley Beggar",
+    "id": "4949"
+  },
+  {
+    "name": "Spitting Gargoyle",
+    "id": "4950"
+  },
+  {
+    "name": "Gelatinous Emperor",
+    "id": "4951"
+  },
+  {
+    "name": "Seraph Genie",
+    "id": "4952"
+  },
+  {
+    "name": "Ghaggurath",
+    "id": "4953"
+  },
+  {
+    "name": "Ghirru",
+    "id": "4954"
+  },
+  {
+    "name": "Coral Giant",
+    "id": "4955"
+  },
+  {
+    "name": "Crag Giant",
+    "id": "4956"
+  },
+  {
+    "name": "Jotun",
+    "id": "4957"
+  },
+  {
+    "name": "Gibbering Abomination",
+    "id": "4958"
+  },
+  {
+    "name": "Gibbering Orb",
+    "id": "4959"
+  },
+  {
+    "name": "Lesser Gibbering Orb",
+    "id": "4960"
+  },
+  {
+    "name": "Glacial Haunt",
+    "id": "4961"
+  },
+  {
+    "name": "Gloom Haunt",
+    "id": "4962"
+  },
+  {
+    "name": "Crystalline Golem",
+    "id": "4963"
+  },
+  {
+    "name": "Necromantic Golem",
+    "id": "4964"
+  },
+  {
+    "name": "Philosopher Golem",
+    "id": "4965"
+  },
+  {
+    "name": "Skiff Golem",
+    "id": "4966"
+  },
+  {
+    "name": "Ossuary Golem",
+    "id": "4967"
+  },
+  {
+    "name": "Grave Mount",
+    "id": "4968"
+  },
+  {
+    "name": "Grey Spirit",
+    "id": "4969"
+  },
+  {
+    "name": "Gribbon",
+    "id": "4970"
+  },
+  {
+    "name": "Grimlock",
+    "id": "4971"
+  },
+  {
+    "name": "Grimshrike",
+    "id": "4972"
+  },
+  {
+    "name": "Hag Nymph",
+    "id": "4973"
+  },
+  {
+    "name": "Hedon",
+    "id": "4974"
+  },
+  {
+    "name": "Hellwidow",
+    "id": "4975"
+  },
+  {
+    "name": "Hooded Horror",
+    "id": "4976"
+  },
+  {
+    "name": "Zombie Horde",
+    "id": "4977"
+  },
+  {
+    "name": "Horse, Rhianna",
+    "id": "4978"
+  },
+  {
+    "name": "Death's Head Inphidian",
+    "id": "4979"
+  },
+  {
+    "name": "Gray-Scale Inphidian",
+    "id": "4980"
+  },
+  {
+    "name": "Jolly Jelly",
+    "id": "4981"
+  },
+  {
+    "name": "Jynx",
+    "id": "4982"
+  },
+  {
+    "name": "Kamarupa",
+    "id": "4983"
+  },
+  {
+    "name": "Kapre",
+    "id": "4984"
+  },
+  {
+    "name": "Knight Gaunt",
+    "id": "4985"
+  },
+  {
+    "name": "Korog",
+    "id": "4986"
+  },
+  {
+    "name": "Kulgreer",
+    "id": "4988"
+  },
+  {
+    "name": "Burrowing Lamprey",
+    "id": "4989"
+  },
+  {
+    "name": "Leonine",
+    "id": "4990"
+  },
+  {
+    "name": "Leviathan",
+    "id": "4991"
+  },
+  {
+    "name": "Lightning Bladder",
+    "id": "4992"
+  },
+  {
+    "name": "Lightning Lamprey",
+    "id": "4993"
+  },
+  {
+    "name": "Festering Lung",
+    "id": "4994"
+  },
+  {
+    "name": "Black Rot",
+    "id": "4995"
+  },
+  {
+    "name": "Living Monolith",
+    "id": "4996"
+  },
+  {
+    "name": "Crawling Offspring",
+    "id": "4997"
+  },
+  {
+    "name": "Giant Forest Lizard",
+    "id": "4998"
+  },
+  {
+    "name": "Lava Lizard",
+    "id": "4999"
+  },
+  {
+    "name": "Lupin",
+    "id": "5000"
+  },
+  {
+    "name": "Lurker Wraith",
+    "id": "5001"
+  },
+  {
+    "name": "Werewolverine",
+    "id": "5002"
+  },
+  {
+    "name": "Werewolverine",
+    "id": "5003"
+  },
+  {
+    "name": "Malkeen",
+    "id": "5004"
+  },
+  {
+    "name": "Deadly Mandrake",
+    "id": "5005"
+  },
+  {
+    "name": "Dire Rat Megaswarm",
+    "id": "5006"
+  },
+  {
+    "name": "Dretch Megaswarm",
+    "id": "5007"
+  },
+  {
+    "name": "Undead Mimic",
+    "id": "5008"
+  },
+  {
+    "name": "Ghoul Monkey",
+    "id": "5009"
+  },
+  {
+    "name": "Spire Monkey",
+    "id": "5010"
+  },
+  {
+    "name": "Mordnaissant",
+    "id": "5011"
+  },
+  {
+    "name": "Asp Mummy",
+    "id": "5012"
+  },
+  {
+    "name": "Death Naga",
+    "id": "5013"
+  },
+  {
+    "name": "Ha-Naga",
+    "id": "5014"
+  },
+  {
+    "name": "Hanu-Naga",
+    "id": "5015"
+  },
+  {
+    "name": "Narwhal",
+    "id": "5016"
+  },
+  {
+    "name": "Necro-Phantom",
+    "id": "5017"
+  },
+  {
+    "name": "Neomimic",
+    "id": "5018"
+  },
+  {
+    "name": "Niserie",
+    "id": "5019"
+  },
+  {
+    "name": "Nithu",
+    "id": "5020"
+  },
+  {
+    "name": "Noble Steed",
+    "id": "5021"
+  },
+  {
+    "name": "Ommoth",
+    "id": "5022"
+  },
+  {
+    "name": "Ebon Ooze",
+    "id": "5023"
+  },
+  {
+    "name": "Spawn Of Juiblex",
+    "id": "5024"
+  },
+  {
+    "name": "Oozeanderthal",
+    "id": "5025"
+  },
+  {
+    "name": "Peg Powler",
+    "id": "5026"
+  },
+  {
+    "name": "Pestilential Cadaver",
+    "id": "5027"
+  },
+  {
+    "name": "Petrified Horror",
+    "id": "5028"
+  },
+  {
+    "name": "Giant Flying Piranha",
+    "id": "5029"
+  },
+  {
+    "name": "Piranha Swarm",
+    "id": "5030"
+  },
+  {
+    "name": "Algant",
+    "id": "5031"
+  },
+  {
+    "name": "Banyant",
+    "id": "5032"
+  },
+  {
+    "name": "Cactant",
+    "id": "5033"
+  },
+  {
+    "name": "Plantoid",
+    "id": "5034"
+  },
+  {
+    "name": "Plantoid Servitor",
+    "id": "5035"
+  },
+  {
+    "name": "Proto-Creature",
+    "id": "5036"
+  },
+  {
+    "name": "Giant Proto-Creature",
+    "id": "5037"
+  },
+  {
+    "name": "Rakewood",
+    "id": "5038"
+  },
+  {
+    "name": "Rat-Ghouls",
+    "id": "5039"
+  },
+  {
+    "name": "The Ravager",
+    "id": "5040"
+  },
+  {
+    "name": "The Ravager",
+    "id": "5041"
+  },
+  {
+    "name": "The Ravager",
+    "id": "5042"
+  },
+  {
+    "name": "Ravager Spawn",
+    "id": "5043"
+  },
+  {
+    "name": "Ravager Spawn",
+    "id": "5044"
+  },
+  {
+    "name": "Ravager Spawn",
+    "id": "5045"
+  },
+  {
+    "name": "Ice Salamander",
+    "id": "5046"
+  },
+  {
+    "name": "Sciurian",
+    "id": "5047"
+  },
+  {
+    "name": "Scorpionfolk",
+    "id": "5048"
+  },
+  {
+    "name": "Screamer",
+    "id": "5049"
+  },
+  {
+    "name": "Serpent Creeper",
+    "id": "5050"
+  },
+  {
+    "name": "Sewer Sludge",
+    "id": "5051"
+  },
+  {
+    "name": "Shadow Hunter",
+    "id": "5052"
+  },
+  {
+    "name": "Shadow Hunter Hatchling",
+    "id": "5053"
+  },
+  {
+    "name": "Shadow Wing",
+    "id": "5054"
+  },
+  {
+    "name": "Swordtooth Shark",
+    "id": "5055"
+  },
+  {
+    "name": "Impaled Spirit",
+    "id": "5056"
+  },
+  {
+    "name": "Giant Silverfish",
+    "id": "5057"
+  },
+  {
+    "name": "Silverfish Swarm",
+    "id": "5058"
+  },
+  {
+    "name": "Sirine Flower",
+    "id": "5059"
+  },
+  {
+    "name": "Skin Feaster",
+    "id": "5060"
+  },
+  {
+    "name": "Skull Child",
+    "id": "5061"
+  },
+  {
+    "name": "Slitherrat",
+    "id": "5062"
+  },
+  {
+    "name": "Dimensional Slug",
+    "id": "5063"
+  },
+  {
+    "name": "Sojourner Of The Sea",
+    "id": "5064"
+  },
+  {
+    "name": "Soul Knight",
+    "id": "5065"
+  },
+  {
+    "name": "Dromosphinx",
+    "id": "5066"
+  },
+  {
+    "name": "Albino Cave Spider",
+    "id": "5067"
+  },
+  {
+    "name": "Giant Funnel-Web Spider",
+    "id": "5068"
+  },
+  {
+    "name": "Shard Spider",
+    "id": "5069"
+  },
+  {
+    "name": "Spider Lich",
+    "id": "5070"
+  },
+  {
+    "name": "Frog Stone Idol",
+    "id": "5071"
+  },
+  {
+    "name": "Gargoyle Stone Idol",
+    "id": "5072"
+  },
+  {
+    "name": "Shedu Stone Idol",
+    "id": "5073"
+  },
+  {
+    "name": "Sphinx Stone Idol",
+    "id": "5074"
+  },
+  {
+    "name": "Stygian Spawn",
+    "id": "5075"
+  },
+  {
+    "name": "Bladecoin Swarm",
+    "id": "5076"
+  },
+  {
+    "name": "Bone Swarm",
+    "id": "5077"
+  },
+  {
+    "name": "Lamprey Swarm",
+    "id": "5078"
+  },
+  {
+    "name": "Sparksting Swarm",
+    "id": "5079"
+  },
+  {
+    "name": "Stirge Swarm",
+    "id": "5080"
+  },
+  {
+    "name": "Sword Spider",
+    "id": "5081"
+  },
+  {
+    "name": "Talorani",
+    "id": "5082"
+  },
+  {
+    "name": "Thought Eater",
+    "id": "5083"
+  },
+  {
+    "name": "Tombotu",
+    "id": "5084"
+  },
+  {
+    "name": "Razor Treant",
+    "id": "5085"
+  },
+  {
+    "name": "Stone Treant",
+    "id": "5086"
+  },
+  {
+    "name": "Black Troll",
+    "id": "5087"
+  },
+  {
+    "name": "River Troll",
+    "id": "5088"
+  },
+  {
+    "name": "Undead Troll",
+    "id": "5089"
+  },
+  {
+    "name": "Uggoth",
+    "id": "5090"
+  },
+  {
+    "name": "Undead Fire Elemental",
+    "id": "5091"
+  },
+  {
+    "name": "Valeany",
+    "id": "5092"
+  },
+  {
+    "name": "Feral Vampire Spawn",
+    "id": "5093"
+  },
+  {
+    "name": "Voltar",
+    "id": "5094"
+  },
+  {
+    "name": "War Flower",
+    "id": "5095"
+  },
+  {
+    "name": "Elven Wasp",
+    "id": "5096"
+  },
+  {
+    "name": "Water Leaper",
+    "id": "5097"
+  },
+  {
+    "name": "Wichtlein",
+    "id": "5098"
+  },
+  {
+    "name": "Sword Wight",
+    "id": "5099"
+  },
+  {
+    "name": "Elder Witchlights",
+    "id": "5100"
+  },
+  {
+    "name": "Dire Worg",
+    "id": "5101"
+  },
+  {
+    "name": "Xacon",
+    "id": "5102"
+  },
+  {
+    "name": "Xothotak",
+    "id": "5103"
+  },
+  {
+    "name": "Yhakkor",
+    "id": "5104"
+  },
+  {
+    "name": "Pyre Zombie",
+    "id": "5105"
+  },
+  {
+    "name": "Zombyre",
+    "id": "5106"
+  },
+  {
+    "name": "Shachath",
+    "id": "5124"
+  },
+  {
+    "name": "Sifkesh",
+    "id": "5125"
+  },
+  {
+    "name": "Drocha Swarm",
+    "id": "5126"
+  },
+  {
+    "name": "Fallen",
+    "id": "5127"
+  },
+  {
+    "name": "Abaia",
+    "id": "5134"
+  },
+  {
+    "name": "Almiraj",
+    "id": "5135"
+  },
+  {
+    "name": "Alpluachra",
+    "id": "5136"
+  },
+  {
+    "name": "Ankou",
+    "id": "5137"
+  },
+  {
+    "name": "Aoandon",
+    "id": "5138"
+  },
+  {
+    "name": "Apocalypse Locust",
+    "id": "5139"
+  },
+  {
+    "name": "Argus",
+    "id": "5140"
+  },
+  {
+    "name": "Astral Leviathan",
+    "id": "5141"
+  },
+  {
+    "name": "Bakekujira",
+    "id": "5142"
+  },
+  {
+    "name": "Barometz",
+    "id": "5143"
+  },
+  {
+    "name": "Beheaded",
+    "id": "5144"
+  },
+  {
+    "name": "Bhole",
+    "id": "5145"
+  },
+  {
+    "name": "Blood Hag",
+    "id": "5146"
+  },
+  {
+    "name": "Bodythief",
+    "id": "5147"
+  },
+  {
+    "name": "Pod-Spawned Guard Captain",
+    "id": "5148"
+  },
+  {
+    "name": "Boilborn",
+    "id": "5149"
+  },
+  {
+    "name": "Brethedan",
+    "id": "5150"
+  },
+  {
+    "name": "Broken Soul Lillend",
+    "id": "5151"
+  },
+  {
+    "name": "Buggane",
+    "id": "5152"
+  },
+  {
+    "name": "Cephalophore",
+    "id": "5153"
+  },
+  {
+    "name": "Chaneque",
+    "id": "5154"
+  },
+  {
+    "name": "Changeling",
+    "id": "5155"
+  },
+  {
+    "name": "Clockwork Dragon",
+    "id": "5156"
+  },
+  {
+    "name": "Clockwork Mage",
+    "id": "5157"
+  },
+  {
+    "name": "Clockwork Steed",
+    "id": "5158"
+  },
+  {
+    "name": "Flesh Colossus",
+    "id": "5159"
+  },
+  {
+    "name": "Iron Colossus",
+    "id": "5160"
+  },
+  {
+    "name": "Stone Colossus",
+    "id": "5161"
+  },
+  {
+    "name": "Colour Out Of Space",
+    "id": "5162"
+  },
+  {
+    "name": "Comozant Wyrd",
+    "id": "5163"
+  },
+  {
+    "name": "Contemplative",
+    "id": "5164"
+  },
+  {
+    "name": "Dark Caller",
+    "id": "5165"
+  },
+  {
+    "name": "Dark Dancer",
+    "id": "5166"
+  },
+  {
+    "name": "Death Dog",
+    "id": "5167"
+  },
+  {
+    "name": "Dagon",
+    "id": "5168"
+  },
+  {
+    "name": "Kostchtchie",
+    "id": "5169"
+  },
+  {
+    "name": "Pazuzu",
+    "id": "5170"
+  },
+  {
+    "name": "Drowning Devil",
+    "id": "5171"
+  },
+  {
+    "name": "Host Devil",
+    "id": "5172"
+  },
+  {
+    "name": "Nemesis Devil",
+    "id": "5173"
+  },
+  {
+    "name": "Devilbound Sorcerer",
+    "id": "5174"
+  },
+  {
+    "name": "Dimorphodon",
+    "id": "5175"
+  },
+  {
+    "name": "Diplodocus",
+    "id": "5176"
+  },
+  {
+    "name": "Styracosaurus",
+    "id": "5177"
+  },
+  {
+    "name": "Velociraptor",
+    "id": "5178"
+  },
+  {
+    "name": "Divine Guardian Hydra",
+    "id": "5179"
+  },
+  {
+    "name": "Dorvae",
+    "id": "5180"
+  },
+  {
+    "name": "Dossenus",
+    "id": "5181"
+  },
+  {
+    "name": "Young Lunar Dragon",
+    "id": "5182"
+  },
+  {
+    "name": "Adult Lunar Dragon",
+    "id": "5183"
+  },
+  {
+    "name": "Ancient Lunar Dragon",
+    "id": "5184"
+  },
+  {
+    "name": "Young Solar Dragon",
+    "id": "5185"
+  },
+  {
+    "name": "Adult Solar Dragon",
+    "id": "5186"
+  },
+  {
+    "name": "Ancient Solar Dragon",
+    "id": "5187"
+  },
+  {
+    "name": "Young Time Dragon",
+    "id": "5188"
+  },
+  {
+    "name": "Adult Time Dragon",
+    "id": "5189"
+  },
+  {
+    "name": "Ancient Time Dragon",
+    "id": "5190"
+  },
+  {
+    "name": "Young Void Dragon",
+    "id": "5191"
+  },
+  {
+    "name": "Adult Void Dragon",
+    "id": "5192"
+  },
+  {
+    "name": "Ancient Void Dragon",
+    "id": "5193"
+  },
+  {
+    "name": "Young Vortex Dragon",
+    "id": "5194"
+  },
+  {
+    "name": "Adult Vortex Dragon",
+    "id": "5195"
+  },
+  {
+    "name": "Ancient Vortex Dragon",
+    "id": "5196"
+  },
+  {
+    "name": "Drakainia",
+    "id": "5197"
+  },
+  {
+    "name": "Lava Drake",
+    "id": "5198"
+  },
+  {
+    "name": "Mist Drake",
+    "id": "5199"
+  },
+  {
+    "name": "Shadow Drake",
+    "id": "5200"
+  },
+  {
+    "name": "Spire Drake",
+    "id": "5201"
+  },
+  {
+    "name": "Ectoplasmic Human",
+    "id": "5202"
+  },
+  {
+    "name": "Einherji",
+    "id": "5203"
+  },
+  {
+    "name": "Elder Thing",
+    "id": "5204"
+  },
+  {
+    "name": "Elohim",
+    "id": "5205"
+  },
+  {
+    "name": "Cernunnos",
+    "id": "5206"
+  },
+  {
+    "name": "Korada",
+    "id": "5207"
+  },
+  {
+    "name": "Vildeis",
+    "id": "5208"
+  },
+  {
+    "name": "Erlking",
+    "id": "5209"
+  },
+  {
+    "name": "Fachen",
+    "id": "5210"
+  },
+  {
+    "name": "Archaeopteryx",
+    "id": "5211"
+  },
+  {
+    "name": "Dodo",
+    "id": "5212"
+  },
+  {
+    "name": "Platypus",
+    "id": "5213"
+  },
+  {
+    "name": "Sloth",
+    "id": "5214"
+  },
+  {
+    "name": "Tuatara",
+    "id": "5215"
+  },
+  {
+    "name": "Festering Spirit",
+    "id": "5216"
+  },
+  {
+    "name": "Giant Flea",
+    "id": "5217"
+  },
+  {
+    "name": "Mammoth Flea",
+    "id": "5218"
+  },
+  {
+    "name": "Fleshdreg",
+    "id": "5219"
+  },
+  {
+    "name": "Ghonhatine",
+    "id": "5220"
+  },
+  {
+    "name": "Grothlut",
+    "id": "5221"
+  },
+  {
+    "name": "Halsora",
+    "id": "5222"
+  },
+  {
+    "name": "Irnakurse",
+    "id": "5223"
+  },
+  {
+    "name": "Flying Polyp",
+    "id": "5224"
+  },
+  {
+    "name": "Formian Myrmarch",
+    "id": "5225"
+  },
+  {
+    "name": "Formian Queen",
+    "id": "5226"
+  },
+  {
+    "name": "Formian Taskmaster",
+    "id": "5227"
+  },
+  {
+    "name": "Formian Warrior",
+    "id": "5228"
+  },
+  {
+    "name": "Formian Worker",
+    "id": "5229"
+  },
+  {
+    "name": "Fossegrim",
+    "id": "5230"
+  },
+  {
+    "name": "Freezing Flow",
+    "id": "5231"
+  },
+  {
+    "name": "Fungal Nymph",
+    "id": "5232"
+  },
+  {
+    "name": "Gaki",
+    "id": "5233"
+  },
+  {
+    "name": "Gallowdead",
+    "id": "5234"
+  },
+  {
+    "name": "Galvo",
+    "id": "5235"
+  },
+  {
+    "name": "Gashadokuro",
+    "id": "5236"
+  },
+  {
+    "name": "Gathlain",
+    "id": "5237"
+  },
+  {
+    "name": "Gearghost",
+    "id": "5238"
+  },
+  {
+    "name": "Geist",
+    "id": "5239"
+  },
+  {
+    "name": "Gholdako",
+    "id": "5240"
+  },
+  {
+    "name": "Cliff Giant",
+    "id": "5241"
+  },
+  {
+    "name": "Ocean Giant",
+    "id": "5242"
+  },
+  {
+    "name": "River Giant",
+    "id": "5243"
+  },
+  {
+    "name": "Slag Giant",
+    "id": "5244"
+  },
+  {
+    "name": "Blood Golem",
+    "id": "5245"
+  },
+  {
+    "name": "Coral Golem",
+    "id": "5246"
+  },
+  {
+    "name": "Junk Golem",
+    "id": "5247"
+  },
+  {
+    "name": "Wax Golem",
+    "id": "5248"
+  },
+  {
+    "name": "Graeae",
+    "id": "5249"
+  },
+  {
+    "name": "Bokrug",
+    "id": "5250"
+  },
+  {
+    "name": "Cthulhu",
+    "id": "5251"
+  },
+  {
+    "name": "Hastur",
+    "id": "5252"
+  },
+  {
+    "name": "Grimple",
+    "id": "5253"
+  },
+  {
+    "name": "Haniver",
+    "id": "5254"
+  },
+  {
+    "name": "Monaciello",
+    "id": "5255"
+  },
+  {
+    "name": "Grendel",
+    "id": "5256"
+  },
+  {
+    "name": "Guardian Dragon",
+    "id": "5257"
+  },
+  {
+    "name": "Hamadryad",
+    "id": "5258"
+  },
+  {
+    "name": "Harionago",
+    "id": "5259"
+  },
+  {
+    "name": "Giraffe",
+    "id": "5260"
+  },
+  {
+    "name": "Stag",
+    "id": "5261"
+  },
+  {
+    "name": "Huldra",
+    "id": "5262"
+  },
+  {
+    "name": "Hungry Flesh",
+    "id": "5263"
+  },
+  {
+    "name": "Hyakume",
+    "id": "5264"
+  },
+  {
+    "name": "Hypnalis",
+    "id": "5265"
+  },
+  {
+    "name": "Ijiraq",
+    "id": "5266"
+  },
+  {
+    "name": "Immortal Ichor",
+    "id": "5267"
+  },
+  {
+    "name": "Incutilis",
+    "id": "5268"
+  },
+  {
+    "name": "Irminsul",
+    "id": "5269"
+  },
+  {
+    "name": "Isitoq",
+    "id": "5270"
+  },
+  {
+    "name": "Jack-O'-Lantern",
+    "id": "5271"
+  },
+  {
+    "name": "Jinmenju",
+    "id": "5272"
+  },
+  {
+    "name": "Juggernaut",
+    "id": "5273"
+  },
+  {
+    "name": "Julunggali",
+    "id": "5274"
+  },
+  {
+    "name": "Agyra",
+    "id": "5275"
+  },
+  {
+    "name": "Bezravnis",
+    "id": "5276"
+  },
+  {
+    "name": "Mogaru",
+    "id": "5277"
+  },
+  {
+    "name": "Kapre",
+    "id": "5278"
+  },
+  {
+    "name": "Karkinoi",
+    "id": "5279"
+  },
+  {
+    "name": "Kasatha",
+    "id": "5280"
+  },
+  {
+    "name": "Kitsune",
+    "id": "5281"
+  },
+  {
+    "name": "Ostiarius",
+    "id": "5282"
+  },
+  {
+    "name": "Sacristan",
+    "id": "5283"
+  },
+  {
+    "name": "Lampad",
+    "id": "5284"
+  },
+  {
+    "name": "Leaf Ray",
+    "id": "5285"
+  },
+  {
+    "name": "Leanan Sidhe",
+    "id": "5286"
+  },
+  {
+    "name": "Living Topiary",
+    "id": "5287"
+  },
+  {
+    "name": "Living Wall",
+    "id": "5288"
+  },
+  {
+    "name": "Giant Locust",
+    "id": "5289"
+  },
+  {
+    "name": "Locust Swarm",
+    "id": "5290"
+  },
+  {
+    "name": "Lorelei",
+    "id": "5291"
+  },
+  {
+    "name": "Lunarma",
+    "id": "5292"
+  },
+  {
+    "name": "Executioner's Hood",
+    "id": "5293"
+  },
+  {
+    "name": "Lurker Above",
+    "id": "5294"
+  },
+  {
+    "name": "Trapper",
+    "id": "5295"
+  },
+  {
+    "name": "Werebat",
+    "id": "5296"
+  },
+  {
+    "name": "Werebat",
+    "id": "5297"
+  },
+  {
+    "name": "Werecrocodile",
+    "id": "5298"
+  },
+  {
+    "name": "Werecrocodile",
+    "id": "5299"
+  },
+  {
+    "name": "Wereshark",
+    "id": "5300"
+  },
+  {
+    "name": "Wereshark",
+    "id": "5301"
+  },
+  {
+    "name": "Maenad",
+    "id": "5302"
+  },
+  {
+    "name": "Manitou",
+    "id": "5303"
+  },
+  {
+    "name": "Mi-Go",
+    "id": "5304"
+  },
+  {
+    "name": "Mindslaver Mold",
+    "id": "5305"
+  },
+  {
+    "name": "Mudlord",
+    "id": "5306"
+  },
+  {
+    "name": "Mummified Gynosphinx",
+    "id": "5307"
+  },
+  {
+    "name": "Myrmecoleon",
+    "id": "5308"
+  },
+  {
+    "name": "Nagaji",
+    "id": "5309"
+  },
+  {
+    "name": "Necrocraft",
+    "id": "5310"
+  },
+  {
+    "name": "Nependis",
+    "id": "5311"
+  },
+  {
+    "name": "Nightgaunt",
+    "id": "5312"
+  },
+  {
+    "name": "Nightmare Ettercap",
+    "id": "5313"
+  },
+  {
+    "name": "Ningyo",
+    "id": "5314"
+  },
+  {
+    "name": "Nycar",
+    "id": "5315"
+  },
+  {
+    "name": "Oceanid",
+    "id": "5316"
+  },
+  {
+    "name": "Oma",
+    "id": "5317"
+  },
+  {
+    "name": "Owb",
+    "id": "5318"
+  },
+  {
+    "name": "Pard",
+    "id": "5319"
+  },
+  {
+    "name": "Peluda",
+    "id": "5320"
+  },
+  {
+    "name": "Guardian Phantom Armor",
+    "id": "5321"
+  },
+  {
+    "name": "Giant Phantom Armor",
+    "id": "5322"
+  },
+  {
+    "name": "Pickled Punk",
+    "id": "5323"
+  },
+  {
+    "name": "Pipefox",
+    "id": "5324"
+  },
+  {
+    "name": "Pooka",
+    "id": "5325"
+  },
+  {
+    "name": "Catrina",
+    "id": "5326"
+  },
+  {
+    "name": "Morrigna",
+    "id": "5327"
+  },
+  {
+    "name": "Nosoi",
+    "id": "5328"
+  },
+  {
+    "name": "Vanth",
+    "id": "5329"
+  },
+  {
+    "name": "Yamaraj",
+    "id": "5330"
+  },
+  {
+    "name": "Qallupilluk",
+    "id": "5331"
+  },
+  {
+    "name": "Rat King",
+    "id": "5332"
+  },
+  {
+    "name": "Ratling",
+    "id": "5333"
+  },
+  {
+    "name": "Rokurokubi",
+    "id": "5334"
+  },
+  {
+    "name": "Rukh",
+    "id": "5335"
+  },
+  {
+    "name": "Juvenile Rukh",
+    "id": "5336"
+  },
+  {
+    "name": "Saguaroi",
+    "id": "5337"
+  },
+  {
+    "name": "Samsaran",
+    "id": "5338"
+  },
+  {
+    "name": "Sayona",
+    "id": "5339"
+  },
+  {
+    "name": "Giant Emperor Scorpion",
+    "id": "5340"
+  },
+  {
+    "name": "Greensting Scorpion",
+    "id": "5341"
+  },
+  {
+    "name": "Sea Cat",
+    "id": "5342"
+  },
+  {
+    "name": "Giant Seahorse",
+    "id": "5343"
+  },
+  {
+    "name": "Killer Seahorse",
+    "id": "5344"
+  },
+  {
+    "name": "Seaweed Siren",
+    "id": "5345"
+  },
+  {
+    "name": "Selkie",
+    "id": "5346"
+  },
+  {
+    "name": "Seps",
+    "id": "5347"
+  },
+  {
+    "name": "Juvenile Seps",
+    "id": "5348"
+  },
+  {
+    "name": "Shadow Roper",
+    "id": "5349"
+  },
+  {
+    "name": "Shard Slag",
+    "id": "5350"
+  },
+  {
+    "name": "Bull Shark",
+    "id": "5351"
+  },
+  {
+    "name": "Great White Shark",
+    "id": "5352"
+  },
+  {
+    "name": "Shobhad",
+    "id": "5353"
+  },
+  {
+    "name": "Shredskin",
+    "id": "5354"
+  },
+  {
+    "name": "Shriezyx",
+    "id": "5355"
+  },
+  {
+    "name": "Shulsaga",
+    "id": "5356"
+  },
+  {
+    "name": "Skinstitch",
+    "id": "5357"
+  },
+  {
+    "name": "Snallygaster",
+    "id": "5358"
+  },
+  {
+    "name": "Soulbound Mannequin",
+    "id": "5359"
+  },
+  {
+    "name": "Soulbound Shell",
+    "id": "5360"
+  },
+  {
+    "name": "Soulsliver",
+    "id": "5361"
+  },
+  {
+    "name": "Spawn Of Yog-Sothoth",
+    "id": "5362"
+  },
+  {
+    "name": "Goliath Spider",
+    "id": "5363"
+  },
+  {
+    "name": "Scarlet Spider",
+    "id": "5364"
+  },
+  {
+    "name": "Spring-Heeled Jack",
+    "id": "5365"
+  },
+  {
+    "name": "Star-Spawn Of Cthulhu",
+    "id": "5366"
+  },
+  {
+    "name": "Svartalfar",
+    "id": "5367"
+  },
+  {
+    "name": "Swan Maiden",
+    "id": "5368"
+  },
+  {
+    "name": "Trumpeter Swan",
+    "id": "5369"
+  },
+  {
+    "name": "Taniniver",
+    "id": "5370"
+  },
+  {
+    "name": "Tiberolith",
+    "id": "5371"
+  },
+  {
+    "name": "Tikbalang",
+    "id": "5372"
+  },
+  {
+    "name": "Fomorian Titan",
+    "id": "5373"
+  },
+  {
+    "name": "Tooth Fairy",
+    "id": "5374"
+  },
+  {
+    "name": "Giant Tortoise",
+    "id": "5375"
+  },
+  {
+    "name": "Immense Tortoise",
+    "id": "5376"
+  },
+  {
+    "name": "Trox",
+    "id": "5377"
+  },
+  {
+    "name": "Tunche",
+    "id": "5378"
+  },
+  {
+    "name": "Tyrant Jelly",
+    "id": "5379"
+  },
+  {
+    "name": "Udaeus",
+    "id": "5380"
+  },
+  {
+    "name": "Nosferatu",
+    "id": "5381"
+  },
+  {
+    "name": "Vouivre",
+    "id": "5382"
+  },
+  {
+    "name": "Walrus",
+    "id": "5383"
+  },
+  {
+    "name": "Emperor Walrus",
+    "id": "5384"
+  },
+  {
+    "name": "Warsworn",
+    "id": "5385"
+  },
+  {
+    "name": "Giant Water Strider",
+    "id": "5386"
+  },
+  {
+    "name": "Nymph Water Strider",
+    "id": "5387"
+  },
+  {
+    "name": "Wayang",
+    "id": "5388"
+  },
+  {
+    "name": "Dire Weasel",
+    "id": "5389"
+  },
+  {
+    "name": "Giant Weasel",
+    "id": "5390"
+  },
+  {
+    "name": "Weedwhip",
+    "id": "5391"
+  },
+  {
+    "name": "Wickerman",
+    "id": "5392"
+  },
+  {
+    "name": "Wikkawak",
+    "id": "5393"
+  },
+  {
+    "name": "Winter Hag",
+    "id": "5394"
+  },
+  {
+    "name": "Wyrwood",
+    "id": "5395"
+  },
+  {
+    "name": "Wyvaran",
+    "id": "5396"
+  },
+  {
+    "name": "Xanthos",
+    "id": "5397"
+  },
+  {
+    "name": "Xenopterid",
+    "id": "5398"
+  },
+  {
+    "name": "Yaoguai",
+    "id": "5399"
+  },
+  {
+    "name": "Ypotryll",
+    "id": "5400"
+  },
+  {
+    "name": "Zombie Lord",
+    "id": "5401"
+  },
+  {
+    "name": "Zomok",
+    "id": "5402"
+  },
+  {
+    "name": "Cambion",
+    "id": "5405"
+  },
+  {
+    "name": "Old Umbral Dragon",
+    "id": "5417"
+  },
+  {
+    "name": "Shamira",
+    "id": "5424"
+  },
+  {
+    "name": "Nocticula",
+    "id": "5425"
+  },
+  {
+    "name": "Lamhigyn",
+    "id": "5426"
+  },
+  {
+    "name": "Putrid Ooze",
+    "id": "5427"
+  },
+  {
+    "name": "Capramace",
+    "id": "5446"
+  },
+  {
+    "name": "Clockwork Snail",
+    "id": "5447"
+  },
+  {
+    "name": "Gunpowder Ooze",
+    "id": "5448"
+  },
+  {
+    "name": "Stringy Demodand",
+    "id": "5566"
+  },
+  {
+    "name": "Vilsteth",
+    "id": "5567"
+  },
+  {
+    "name": "Baphomet",
+    "id": "5568"
+  },
+  {
+    "name": "Labyrinth Minotaur",
+    "id": "5569"
+  },
+  {
+    "name": "Hetkoshu",
+    "id": "5570"
+  },
+  {
+    "name": "Jackal",
+    "id": "5571"
+  },
+  {
+    "name": "Ostrich",
+    "id": "5572"
+  },
+  {
+    "name": "Asp",
+    "id": "5573"
+  },
+  {
+    "name": "Sphinx Colossus",
+    "id": "5574"
+  },
+  {
+    "name": "Desert Hermit",
+    "id": "5575"
+  },
+  {
+    "name": "Living Mirage",
+    "id": "5576"
+  },
+  {
+    "name": "Osirionologist",
+    "id": "5577"
+  },
+  {
+    "name": "Pharaonic Guardian",
+    "id": "5578"
+  },
+  {
+    "name": "Risen Guard",
+    "id": "5579"
+  },
+  {
+    "name": "River Cleric",
+    "id": "5580"
+  },
+  {
+    "name": "Uraeus",
+    "id": "5585"
+  },
+  {
+    "name": "Noble Marid",
+    "id": "5658"
+  },
+  {
+    "name": "Faceless Stalker",
+    "id": "5688"
+  },
+  {
+    "name": "Gynosphinx",
+    "id": "5701"
+  },
+  {
+    "name": "Corpse Lotus",
+    "id": "5725"
+  },
+  {
+    "name": "Katpaskir",
+    "id": "5726"
+  },
+  {
+    "name": "Deskari",
+    "id": "5727"
+  },
+  {
+    "name": "Devastator",
+    "id": "5728"
+  },
+  {
+    "name": "Ahkhat",
+    "id": "5774"
+  },
+  {
+    "name": "Guardian Scroll",
+    "id": "5775"
+  },
+  {
+    "name": "Shasalqu",
+    "id": "5776"
+  },
+  {
+    "name": "Sun Falcon",
+    "id": "5777"
+  },
+  {
+    "name": "Ground Wasp Swarm",
+    "id": "5778"
+  },
+  {
+    "name": "Plague Locust Swarm",
+    "id": "5779"
+  },
+  {
+    "name": "Scarab Swarm",
+    "id": "5780"
+  },
+  {
+    "name": "Abandoned One",
+    "id": "5797"
+  },
+  {
+    "name": "Caliban",
+    "id": "5798"
+  },
+  {
+    "name": "Deadfall Dweller",
+    "id": "5799"
+  },
+  {
+    "name": "Delgeth",
+    "id": "5800"
+  },
+  {
+    "name": "Embalming Bear",
+    "id": "5801"
+  },
+  {
+    "name": "Ephemeral Echo",
+    "id": "5802"
+  },
+  {
+    "name": "Leechroot",
+    "id": "5803"
+  },
+  {
+    "name": "Tizheruk",
+    "id": "5804"
+  },
+  {
+    "name": "Elf",
+    "id": "5924"
+  },
+  {
+    "name": "Juvenile Crystal Dragon",
+    "id": "5965"
+  },
+  {
+    "name": "Esobok",
+    "id": "5974"
+  },
+  {
+    "name": "Sha",
+    "id": "5975"
+  },
+  {
+    "name": "Sunbaked Zombie",
+    "id": "5976"
+  },
+  {
+    "name": "Tekenu",
+    "id": "5977"
+  },
+  {
+    "name": "Lawgiver",
+    "id": "5978"
+  },
+  {
+    "name": "Orsheval",
+    "id": "5979"
+  },
+  {
+    "name": "Basileus",
+    "id": "5980"
+  },
+  {
+    "name": "Accomplice Devil",
+    "id": "5981"
+  },
+  {
+    "name": "The Menotherian",
+    "id": "5982"
+  },
+  {
+    "name": "Vendenopterix",
+    "id": "5983"
+  },
+  {
+    "name": "Thais",
+    "id": "5984"
+  },
+  {
+    "name": "Ataxian",
+    "id": "5985"
+  },
+  {
+    "name": "Night Monarch",
+    "id": "5986"
+  },
+  {
+    "name": "Thyrlien",
+    "id": "5987"
+  },
+  {
+    "name": "The Grim White Stag",
+    "id": "5988"
+  },
+  {
+    "name": "Stag Archon",
+    "id": "5989"
+  },
+  {
+    "name": "The First Blade",
+    "id": "5990"
+  },
+  {
+    "name": "Zentragt",
+    "id": "5991"
+  },
+  {
+    "name": "Personification Of Fury",
+    "id": "5992"
+  },
+  {
+    "name": "Xocothian",
+    "id": "5993"
+  },
+  {
+    "name": "Hand Of The Inheritor",
+    "id": "5994"
+  },
+  {
+    "name": "Iophanite",
+    "id": "5995"
+  },
+  {
+    "name": "The Old Man",
+    "id": "5996"
+  },
+  {
+    "name": "Pavbagha",
+    "id": "5997"
+  },
+  {
+    "name": "Yethazmari",
+    "id": "5998"
+  },
+  {
+    "name": "Swaithe",
+    "id": "5999"
+  },
+  {
+    "name": "Arcanotheign",
+    "id": "6000"
+  },
+  {
+    "name": "Burleev",
+    "id": "6001"
+  },
+  {
+    "name": "The Stabbing Beast",
+    "id": "6002"
+  },
+  {
+    "name": "Karumzek",
+    "id": "6003"
+  },
+  {
+    "name": "Steward Of The Skein",
+    "id": "6004"
+  },
+  {
+    "name": "Ahmuuth",
+    "id": "6005"
+  },
+  {
+    "name": "Tarrasque",
+    "id": "6006"
+  },
+  {
+    "name": "Thognorok",
+    "id": "6007"
+  },
+  {
+    "name": "Sunlord Thalachos",
+    "id": "6008"
+  },
+  {
+    "name": "Yhohm",
+    "id": "6009"
+  },
+  {
+    "name": "The Spirit Of Adoration",
+    "id": "6010"
+  },
+  {
+    "name": "Dapsara",
+    "id": "6011"
+  },
+  {
+    "name": "The Grand Defender",
+    "id": "6012"
+  },
+  {
+    "name": "Chalkost",
+    "id": "6013"
+  },
+  {
+    "name": "Mother's Maw",
+    "id": "6014"
+  },
+  {
+    "name": "Sarcovalt",
+    "id": "6015"
+  },
+  {
+    "name": "Th E Prince In Chains",
+    "id": "6016"
+  },
+  {
+    "name": "Lamp Adarius",
+    "id": "6017"
+  },
+  {
+    "name": "Giant Assassin Bug",
+    "id": "6034"
+  },
+  {
+    "name": "Giant Ground Wasp",
+    "id": "6035"
+  },
+  {
+    "name": "Giant Walking Stick",
+    "id": "6036"
+  },
+  {
+    "name": "Mummified Baboon",
+    "id": "6037"
+  },
+  {
+    "name": "Mummified Crocodile",
+    "id": "6038"
+  },
+  {
+    "name": "Mummified Elephant",
+    "id": "6039"
+  },
+  {
+    "name": "Mummified Hippopotamus",
+    "id": "6040"
+  },
+  {
+    "name": "Serpopard",
+    "id": "6041"
+  },
+  {
+    "name": "Shalkeshka",
+    "id": "6042"
+  },
+  {
+    "name": "Thriae Dancer",
+    "id": "6043"
+  },
+  {
+    "name": "Noble Efreeti",
+    "id": "6064"
+  },
+  {
+    "name": "Cynosphinx",
+    "id": "6082"
+  },
+  {
+    "name": "Estuarine Worm",
+    "id": "6083"
+  },
+  {
+    "name": "Estuarine Worm",
+    "id": "6084"
+  },
+  {
+    "name": "Panthereon",
+    "id": "6085"
+  },
+  {
+    "name": "Stranglereed",
+    "id": "6086"
+  },
+  {
+    "name": "Android Impostor",
+    "id": "6087"
+  },
+  {
+    "name": "Bloodbrush",
+    "id": "6088"
+  },
+  {
+    "name": "Capacitor Ooze",
+    "id": "6089"
+  },
+  {
+    "name": "Robot Golem",
+    "id": "6090"
+  },
+  {
+    "name": "Gray Goo",
+    "id": "6091"
+  },
+  {
+    "name": "Machine Slayer",
+    "id": "6092"
+  },
+  {
+    "name": "Mutant Orc",
+    "id": "6094"
+  },
+  {
+    "name": "Numerian Fluid Scavenger",
+    "id": "6095"
+  },
+  {
+    "name": "Numerian Gunslinger",
+    "id": "6097"
+  },
+  {
+    "name": "Arachnid Robot",
+    "id": "6099"
+  },
+  {
+    "name": "Mannequin Robot",
+    "id": "6100"
+  },
+  {
+    "name": "Scrapyard Robot",
+    "id": "6101"
+  },
+  {
+    "name": "Torturer Robot",
+    "id": "6102"
+  },
+  {
+    "name": "Targotha",
+    "id": "6103"
+  },
+  {
+    "name": "Technic League Hireling",
+    "id": "6104"
+  },
+  {
+    "name": "Wayward Crusader",
+    "id": "6106"
+  },
+  {
+    "name": "Zhen Worm",
+    "id": "6109"
+  },
+  {
+    "name": "Degenerate Serpentfolk",
+    "id": "6115"
+  },
+  {
+    "name": "Bone Priest",
+    "id": "6132"
+  },
+  {
+    "name": "Caustic Stalker",
+    "id": "6133"
+  },
+  {
+    "name": "Emerald Automaton",
+    "id": "6134"
+  },
+  {
+    "name": "Lava Lurker",
+    "id": "6135"
+  },
+  {
+    "name": "Moon Spider",
+    "id": "6136"
+  },
+  {
+    "name": "Large Shadowfire Fire Elemental",
+    "id": "6137"
+  },
+  {
+    "name": "Xiomorn",
+    "id": "6138"
+  },
+  {
+    "name": "Mythic Xiomorn",
+    "id": "6139"
+  },
+  {
+    "name": "Black Jinni",
+    "id": "6226"
+  },
+  {
+    "name": "Hanshepsu",
+    "id": "6232"
+  },
+  {
+    "name": "Living Sandstorm",
+    "id": "6233"
+  },
+  {
+    "name": "Living Sandstorm",
+    "id": "6234"
+  },
+  {
+    "name": "Ossumental",
+    "id": "6235"
+  },
+  {
+    "name": "Ossumental",
+    "id": "6236"
+  },
+  {
+    "name": "Ossumental",
+    "id": "6237"
+  },
+  {
+    "name": "Ossumental",
+    "id": "6238"
+  },
+  {
+    "name": "Elder Sphinx",
+    "id": "6239"
+  },
+  {
+    "name": "Festering Ulunat, The Unholy First",
+    "id": "6255"
+  },
+  {
+    "name": "Ammut",
+    "id": "6257"
+  },
+  {
+    "name": "Mummy Lord",
+    "id": "6258"
+  },
+  {
+    "name": "Neshmaal",
+    "id": "6259"
+  },
+  {
+    "name": "Set Guardian",
+    "id": "6260"
+  },
+  {
+    "name": "Shabti",
+    "id": "6261"
+  },
+  {
+    "name": "Annihilator Robot",
+    "id": "6279"
+  },
+  {
+    "name": "Gearsman Robot",
+    "id": "6280"
+  },
+  {
+    "name": "Myrmidon Robot",
+    "id": "6281"
+  },
+  {
+    "name": "Petromin",
+    "id": "6286"
+  },
+  {
+    "name": "Pilo",
+    "id": "6287"
+  },
+  {
+    "name": "Sorico",
+    "id": "6288"
+  },
+  {
+    "name": "Collector Robot",
+    "id": "6289"
+  },
+  {
+    "name": "Ghelarn",
+    "id": "6290"
+  },
+  {
+    "name": "Tsaalgrend",
+    "id": "6291"
+  },
+  {
+    "name": "Latten Mechanism",
+    "id": "6330"
+  },
+  {
+    "name": "Rhu-Chalik",
+    "id": "6331"
+  },
+  {
+    "name": "Observer Robot",
+    "id": "6332"
+  },
+  {
+    "name": "Observer Robot Swarm",
+    "id": "6333"
+  },
+  {
+    "name": "Rust-Risen",
+    "id": "6334"
+  },
+  {
+    "name": "Irradiated Dead",
+    "id": "6365"
+  },
+  {
+    "name": "Thought Harvester Robot",
+    "id": "6366"
+  },
+  {
+    "name": "Warden Robot",
+    "id": "6367"
+  },
+  {
+    "name": "Thorgothrel",
+    "id": "6368"
+  },
+  {
+    "name": "Bogwiggle",
+    "id": "6397"
+  },
+  {
+    "name": "Frightful Haunter",
+    "id": "6407"
+  },
+  {
+    "name": "Abrakarn Viper",
+    "id": "6416"
+  },
+  {
+    "name": "Dark Spitter Beetle",
+    "id": "6428"
+  },
+  {
+    "name": "Juggernaut Beetle",
+    "id": "6429"
+  },
+  {
+    "name": "Steam Hog",
+    "id": "6437"
+  },
+  {
+    "name": "Svathurim",
+    "id": "6445"
+  },
+  {
+    "name": "Sootwing Bat",
+    "id": "6454"
+  },
+  {
+    "name": "Ghoul Hound",
+    "id": "6455"
+  },
+  {
+    "name": "Reclamation Robot",
+    "id": "6481"
+  },
+  {
+    "name": "Shipmind",
+    "id": "6482"
+  },
+  {
+    "name": "Ugothokra",
+    "id": "6483"
+  },
+  {
+    "name": "Yah-Thelgaad",
+    "id": "6484"
+  },
+  {
+    "name": "Calcified Creature",
+    "id": "6489"
+  },
+  {
+    "name": "Incutilis Lord",
+    "id": "6495"
+  },
+  {
+    "name": "Karkinoi Brood Swarm",
+    "id": "6496"
+  },
+  {
+    "name": "Onwu Azu",
+    "id": "6497"
+  },
+  {
+    "name": "Flind",
+    "id": "6502"
+  },
+  {
+    "name": "Mutant Goblin",
+    "id": "6513"
+  },
+  {
+    "name": "Yzobu",
+    "id": "6523"
+  },
+  {
+    "name": "Kyrana",
+    "id": "6535"
+  },
+  {
+    "name": "Lizard Scion",
+    "id": "6545"
+  },
+  {
+    "name": "Troggle",
+    "id": "6557"
+  },
+  {
+    "name": "Gorthek",
+    "id": "6569"
+  },
+  {
+    "name": "Kirrix",
+    "id": "6579"
+  },
+  {
+    "name": "Feeder In The Depths",
+    "id": "6592"
+  },
+  {
+    "name": "Seru",
+    "id": "6598"
+  },
+  {
+    "name": "Gammenore",
+    "id": "6616"
+  },
+  {
+    "name": "Gravedragger",
+    "id": "6617"
+  },
+  {
+    "name": "Juggernaut Robot",
+    "id": "6618"
+  },
+  {
+    "name": "Surgeon Robot",
+    "id": "6619"
+  },
+  {
+    "name": "Champion Of The Gilded Host",
+    "id": "6620"
+  },
+  {
+    "name": "Slaugrak",
+    "id": "6630"
+  },
+  {
+    "name": "Sewer Troll",
+    "id": "6640"
+  },
+  {
+    "name": "Halfling",
+    "id": "6642"
+  },
+  {
+    "name": "Vampire Spawn",
+    "id": "6649"
+  },
+  {
+    "name": "Sabosan",
+    "id": "6650"
+  },
+  {
+    "name": "Old Underworld Dragon",
+    "id": "6655"
+  },
+  {
+    "name": "Gnome",
+    "id": "6657"
+  },
+  {
+    "name": "Feranth",
+    "id": "6721"
+  },
+  {
+    "name": "Yarahkut",
+    "id": "6722"
+  },
+  {
+    "name": "Marax",
+    "id": "6723"
+  },
+  {
+    "name": "Director Robot",
+    "id": "6724"
+  },
+  {
+    "name": "Evaluator Robot",
+    "id": "6725"
+  },
+  {
+    "name": "Chicken",
+    "id": "6726"
+  },
+  {
+    "name": "Mole",
+    "id": "6727"
+  },
+  {
+    "name": "Pufferfish",
+    "id": "6728"
+  },
+  {
+    "name": "Popoto",
+    "id": "6729"
+  },
+  {
+    "name": "Koala",
+    "id": "6730"
+  },
+  {
+    "name": "Peacock",
+    "id": "6731"
+  },
+  {
+    "name": "Penguin",
+    "id": "6732"
+  },
+  {
+    "name": "Wallaby",
+    "id": "6733"
+  },
+  {
+    "name": "Cat Sith",
+    "id": "6734"
+  },
+  {
+    "name": "Caypup",
+    "id": "6735"
+  },
+  {
+    "name": "Pseudosphinx",
+    "id": "6736"
+  },
+  {
+    "name": "Ioun Wyrd",
+    "id": "6737"
+  },
+  {
+    "name": "Leopard Slug",
+    "id": "6738"
+  },
+  {
+    "name": "Petrifern",
+    "id": "6739"
+  },
+  {
+    "name": "Mindspin Ram",
+    "id": "6772"
+  },
+  {
+    "name": "Skittergoat",
+    "id": "6773"
+  },
+  {
+    "name": "Blackwisp Egret",
+    "id": "6774"
+  },
+  {
+    "name": "Exoskeleton Giant Cockroach",
+    "id": "6775"
+  },
+  {
+    "name": "Chalicotherium",
+    "id": "6776"
+  },
+  {
+    "name": "Deinotherium",
+    "id": "6777"
+  },
+  {
+    "name": "Embolotherium",
+    "id": "6778"
+  },
+  {
+    "name": "Flood Troll",
+    "id": "6779"
+  },
+  {
+    "name": "Bristle Boar",
+    "id": "6780"
+  },
+  {
+    "name": "Whisperfall Vulture",
+    "id": "6781"
+  },
+  {
+    "name": "Ankhrav",
+    "id": "6782"
+  },
+  {
+    "name": "Burning Child",
+    "id": "6783"
+  },
+  {
+    "name": "Dahzagan",
+    "id": "6784"
+  },
+  {
+    "name": "Floodslain Arsinoitherium",
+    "id": "6785"
+  },
+  {
+    "name": "Juggerloathe",
+    "id": "6786"
+  },
+  {
+    "name": "Bull Of Zagresh",
+    "id": "6787"
+  },
+  {
+    "name": "Warcat Of Rull",
+    "id": "6788"
+  },
+  {
+    "name": "Chimney Troll",
+    "id": "6802"
+  },
+  {
+    "name": "Curse Devil",
+    "id": "6803"
+  },
+  {
+    "name": "Dunagh",
+    "id": "6804"
+  },
+  {
+    "name": "Immured",
+    "id": "6805"
+  },
+  {
+    "name": "Toy Golem",
+    "id": "6832"
+  },
+  {
+    "name": "Gravitic Globe",
+    "id": "6841"
+  },
+  {
+    "name": "Prismatic Orrery",
+    "id": "6842"
+  },
+  {
+    "name": "Dwarf",
+    "id": "6880"
+  },
+  {
+    "name": "Brambleblight",
+    "id": "6893"
+  },
+  {
+    "name": "Ourdivar",
+    "id": "6895"
+  },
+  {
+    "name": "Skapraun",
+    "id": "6896"
+  },
+  {
+    "name": "Skeltercat",
+    "id": "6897"
+  },
+  {
+    "name": "Benaioh",
+    "id": "6913"
+  },
+  {
+    "name": "Benaioh",
+    "id": "6914"
+  },
+  {
+    "name": "Great Elder Iuu",
+    "id": "6915"
+  },
+  {
+    "name": "Living Cave Painting",
+    "id": "6916"
+  },
+  {
+    "name": "Mongrel Cave Giant",
+    "id": "6917"
+  },
+  {
+    "name": "Cervapral",
+    "id": "6918"
+  },
+  {
+    "name": "Bee-Man Of Bellis",
+    "id": "6919"
+  },
+  {
+    "name": "Candlestone Courtier",
+    "id": "6920"
+  },
+  {
+    "name": "Corrupt Politician",
+    "id": "6921"
+  },
+  {
+    "name": "Eagle Knight",
+    "id": "6923"
+  },
+  {
+    "name": "Fellsig",
+    "id": "6925"
+  },
+  {
+    "name": "Erinat Gremlin",
+    "id": "6926"
+  },
+  {
+    "name": "Lumber Consortium Enforcer",
+    "id": "6927"
+  },
+  {
+    "name": "Ragewight",
+    "id": "6929"
+  },
+  {
+    "name": "Sawdust Slough",
+    "id": "6930"
+  },
+  {
+    "name": "Silverblood Werewolf",
+    "id": "6931"
+  },
+  {
+    "name": "Silverblood Werewolf",
+    "id": "6932"
+  },
+  {
+    "name": "Talmandor",
+    "id": "6933"
+  },
+  {
+    "name": "Birelu",
+    "id": "6951"
+  },
+  {
+    "name": "Tomb Giant",
+    "id": "6952"
+  },
+  {
+    "name": "Indarugant",
+    "id": "6953"
+  },
+  {
+    "name": "Living Effigy",
+    "id": "6954"
+  },
+  {
+    "name": "Thremindyr",
+    "id": "6955"
+  },
+  {
+    "name": "Ember Weaver",
+    "id": "6957"
+  },
+  {
+    "name": "Guardian Spirit Imp",
+    "id": "6958"
+  },
+  {
+    "name": "Old Magma Dragon",
+    "id": "7026"
+  },
+  {
+    "name": "Calpina",
+    "id": "7028"
+  },
+  {
+    "name": "Ikelos",
+    "id": "7029"
+  },
+  {
+    "name": "Iron Rhinoceros",
+    "id": "7030"
+  },
+  {
+    "name": "Magnetite Golem",
+    "id": "7031"
+  },
+  {
+    "name": "Pyropiscis",
+    "id": "7032"
+  },
+  {
+    "name": "Abysogh",
+    "id": "7055"
+  },
+  {
+    "name": "Abaddon Gigas",
+    "id": "7056"
+  },
+  {
+    "name": "Nixudaemon",
+    "id": "7057"
+  },
+  {
+    "name": "Storm Aurochs",
+    "id": "7058"
+  },
+  {
+    "name": "Benabak",
+    "id": "7059"
+  },
+  {
+    "name": "Furcas",
+    "id": "7065"
+  }
+]

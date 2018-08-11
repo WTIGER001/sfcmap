@@ -10,6 +10,7 @@ import { error } from "util";
 import { MarkerGroup } from "./annotation-group";
 import { CharacterType } from "./character-type";
 import { Character } from "./character";
+import { MonsterIndex, MonsterText } from "./monsterdb";
 
 interface DbItem {
   name: string
@@ -53,6 +54,10 @@ export class DbConfig {
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.FOLDER + "/" + obj.id }
 
+    // Monsters and Characters
+    if (MonsterIndex.is(obj)) { return MonsterIndex.FOLDER + "/" + obj.id }
+    if (MonsterText.is(obj)) { return MonsterText.FOLDER + "/" + obj.id }
+
     // Extensions
     for (let i = 0; i < this.extensions.length; i++) {
       if (this.extensions[i].is(obj)) {
@@ -86,6 +91,10 @@ export class DbConfig {
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.FOLDER }
 
+    // Monsters
+    if (MonsterIndex.is(obj)) { return MonsterIndex.FOLDER }
+    if (MonsterText.is(obj)) { return MonsterText.FOLDER }
+
     // Extensions
     for (let i = 0; i < this.extensions.length; i++) {
       if (this.extensions[i].is(obj)) {
@@ -118,6 +127,9 @@ export class DbConfig {
 
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.to(obj) }
+
+    if (MonsterIndex.is(obj)) { return MonsterIndex.to(obj) }
+    if (MonsterText.is(obj)) { return MonsterText.to(obj) }
 
     // Extensions
     for (let i = 0; i < this.extensions.length; i++) {

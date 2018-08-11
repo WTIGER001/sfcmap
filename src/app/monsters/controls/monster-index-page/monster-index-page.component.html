@@ -1,0 +1,37 @@
+<h1 class="title"> Monster Index</h1>
+
+<div class="filter-area">
+  <div class="input-grp">
+    <input type="text" class="form-control form-control-lg search" [(ngModel)]="filter" (ngModelChange)="updateFilter($event)">
+    <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
+  </div>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button [class.active]="sort=='name'" type="button" class="btn btn-secondary" (click)="sortBy('name')">Name</button>
+    <button [class.active]="sort=='cr'" type="button" class="btn btn-secondary" (click)="sortBy('cr')">CR</button>
+    <button [class.active]="sort=='type'" type="button" class="btn btn-secondary" (click)="sortBy('type')">Type</button>
+  </div>
+</div>
+
+<div class="results scroller scroller-dark">
+  <div *ngFor="let m of filtered">
+    <figure class="result-item" (click)="goto(m)">
+      <img [src]='m.thumb?m.thumb:" /assets/missing.png "'>
+      <figcaption>
+        {{m.name}}
+        <br>
+        <small>{{m.type}}</small>
+      </figcaption>
+      <div class="item-cr ">
+        CR {{m.cr}}
+      </div>
+      <div class="overlay">
+        <fa-icon class="icon" icon="check" size="3x"></fa-icon>
+      </div>
+    </figure>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading">
+  <sk-cube-grid color="#9ed485"></sk-cube-grid>
+  <h1> LOADING PLEASE WAIT</h1>
+</div>

@@ -3,6 +3,7 @@ import { DialogService } from '../../dialogs/dialog.service';
 import { DataService } from '../../data.service';
 import { MapService } from '../../map.service';
 import { parse } from 'papaparse'
+import { MonsterDB } from '../../models/monsterdb';
 
 @Component({
   selector: 'app-admin',
@@ -33,44 +34,16 @@ export class AdminComponent implements OnInit {
   }
 
   importCsv() {
-    console.log("IMPORTING")
 
-    // {
-    //   delimiter: "",	// auto-detect
-    //   newline: "",	// auto-detect
-    //   quoteChar: '"',
-    //   escapeChar: '"',
-    //   header: false,
-    //   trimHeaders: false,
-    //   dynamicTyping: false,
-    //   preview: 0,
-    //   encoding: "",
-    //   worker: false,
-    //   comments: false,
-    //   step: undefined,
-    //   complete: undefined,
-    //   error: undefined,
-    //   download: false,
-    //   skipEmptyLines: false,
-    //   chunk: undefined,
-    //   fastMode: undefined,
-    //   beforeFirstChunk: undefined,
-    //   withCredentials: undefined,
-    //   transform: undefined
-    // }
+    MonsterDB.loadme(this.csvFile).then(r => {
+      this.data.loadMonsters(r.index, r.text, false)
+    })
 
-
-    parse(this.csvFile, {
-      header: true,
-      complete: function (results) {
-        console.log(results.data, length);
-
-        let sample = {}
-        results.data.forEach(d => Object.assign(sample, d))
-
-        console.log(sample)
-        console.log(JSON.stringify(sample, undefined, 4))
-      }
-    });
+    // console.log("IMPORTING")
+    // MonsterDB.parseCsvFile(this.csvFile).subscribe(r => {
+    //   // this.data.loadMonsters(r.index, r.text, false)
+    //   console.log("Index: ", r.index);
+    //   console.log("Text: ", r.text);
+    // })
   }
 }

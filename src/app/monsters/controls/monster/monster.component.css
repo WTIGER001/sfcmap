@@ -1,0 +1,116 @@
+.monster-page {
+  height: 100%;
+  width: 70%;
+  background-color: white;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 30px;
+  padding-left: 0px;
+  overflow: auto;
+}
+
+/* Please include proper OGL citation if redistributed. */
+/* OGL Section 15 Notice at end of file. */
+
+::ng-deep div.monster {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  padding-left: 30px;
+  }
+  
+  ::ng-deep div.heading  {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-color: #663300;
+  height: 30px;
+  font-size: 1.4em;
+  }
+  
+  ::ng-deep h1.monster {
+  margin-bottom: 0;
+  margin-top: 0;
+  text-indent: -20px;
+  font-size: 1.2em;
+  }
+  
+  ::ng-deep h2.monster {
+  margin-bottom: 0;
+  margin-top: 0;
+  text-indent: -20px;
+  font-size: 1.2em;
+  text-align:left;
+  }
+  
+  ::ng-deep  h3.monster {
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-left: -20px;
+  text-indent: 0px;
+  font-size: 1.1em;
+  font-weight: 400;
+  }
+  
+  ::ng-deep h4.monster {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-left: -20px;
+  text-indent: 0px;
+  text-align: justify;
+  font-size: 1.1em;
+  font-weight: 400;
+  }
+  
+  ::ng-deep h5.monster {
+  margin-bottom: 0;
+  margin-top: 0;
+  text-indent: -20px;
+  font-size: 1.1em;
+  font-weight: 400;
+  }
+  
+  ::ng-deep h6.monster {
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-left: 30px;
+  text-indent: -20px;
+  font-size: 1.1em;
+  font-weight: 400;
+  }
+  
+  ::ng-deep p.monster {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 1px;
+  padding-left: 0px;
+  }
+  
+  ::ng-deep p.alignleft {
+  margin-left: 0px;
+  text-indent: 10px;
+  float: left;
+  text-align:left;
+  font-weight: 900;
+  font-size: 1.2em;
+  color: white;
+  }
+  
+  ::ng-deep p.alignright {
+  float: right;
+  text-align:right;
+  font-weight: 900;
+  font-size: 1.3em;
+  color: white;
+  }
+
+  ::ng-deep .monster-img {
+    /* margin-bottom: 10px; */
+    padding: 20px;
+    max-height: 400px;
+  }

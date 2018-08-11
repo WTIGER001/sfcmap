@@ -16,12 +16,13 @@ import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { TagInputModule } from 'ngx-chips';
-import { SortablejsModule } from 'angular-sortablejs';
+import { SortablejsModule } from 'angular-sortablejs/dist';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
-import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons'
+import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
+import { NgSpinKitModule } from 'ng-spin-kit';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module'
@@ -104,6 +105,9 @@ import { FindCharacterComponent } from './characters/controls/find-character/fin
 import { ImportCharacterComponent } from './characters/controls/import-character/import-character.component';
 import { FileDropComponent } from './controls/file-drop/file-drop.component';
 import { UserOnlineComponent } from './controls/user-online/user-online.component';
+import { MonsterComponent } from './monsters/controls/monster/monster.component';
+import { KeepStylePipe } from './pipes/keep-style.pipe';
+import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
 
 @NgModule({
   declarations: [
@@ -175,6 +179,9 @@ import { UserOnlineComponent } from './controls/user-online/user-online.componen
     ImportCharacterComponent,
     FileDropComponent,
     UserOnlineComponent,
+    MonsterComponent,
+    KeepStylePipe,
+    MonsterIndexPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -201,6 +208,7 @@ import { UserOnlineComponent } from './controls/user-online/user-online.componen
     TagInputModule,
     EmojifyModule,
     SortablejsModule.forRoot({ animation: 150 }),
+    NgSpinKitModule,
   ],
   providers: [
     MapService,

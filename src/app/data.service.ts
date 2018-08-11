@@ -5,7 +5,7 @@ import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angula
 import { AngularFireAuth } from "angularfire2/auth";
 import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
-import { mergeMap, map, tap, first, concatMap } from "rxjs/operators";
+import { mergeMap, map, tap, first, concatMap, take } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
 import { LangUtil } from "./util/LangUtil";
 import { UUID } from "angular2-uuid";
@@ -15,6 +15,7 @@ import { Character } from "./models/character";
 import { CharacterType } from "./models/character-type";
 import { Encounter } from "./encounter/model/encounter";
 import { User as FireUser } from "firebase";
+import { MonsterIndex, MonsterText } from "./models/monsterdb";
 
 
 @Injectable({
@@ -69,6 +70,8 @@ export class DataService {
   characterTypes = new ReplaySubject<Array<CharacterType>>(1)
   encounters = new ReplaySubject<Array<Encounter>>(1)
   online = new ReplaySubject<Array<Online>>(1)
+  monsters = new BehaviorSubject<Array<MonsterIndex>>([])
+  monstersLoading = new BehaviorSubject<boolean>(true)
 
   mapsCurrent: MapConfig[] = []
 
@@ -152,7 +155,8 @@ export class DataService {
     this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
     this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters')
     this.loadAndNotify<Encounter>(this.encounters, Encounter.FOLDER, 'Loading Encounters')
-
+    // this.loadAndNotify<MonsterIndex>(this.monsters, MonsterIndex.FOLDER, 'Loading Monsters')
+    this.pageMonsters()
     this.loadCharacterTypes()
   }
 
@@ -1106,6 +1110,53 @@ export class DataService {
 
     this.db.list<Online>('online').valueChanges().subscribe(a => this.online.next(a))
   }
+
+  getMonsterText(id: string): Observable<MonsterText> {
+    return this.db.object<MonsterText>(MonsterText.FOLDER + "/" + id).valueChanges()
+  }
+
+  loadMonsters(index: MonsterIndex[], text: MonsterText[], deleteOld?: boolean) {
+    if (deleteOld) {
+
+    }
+
+    // Load the index
+    this.saveAll(...index)
+    this.saveAll(...text)
+
+  }
+
+  getMonsters(): Observable<MonsterIndex> {
+    return this.db.list<MonsterIndex>(MonsterIndex.FOLDER).stateChanges().pipe(
+      map(a => a.payload.val())
+    )
+  }
+
+  getMonstersPaged(limit: number, startAt: string): Observable<MonsterIndex[]> {
+    console.log("PAGING ", startAt)
+
+    return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
+      ref => ref.orderByChild('id').startAt(startAt).limitToFirst(limit + 1)).valueChanges().pipe(take(1))
+  }
+
+  monsterStart = undefined
+  pageMonsters() {
+    this.getMonstersPaged(300, this.monsterStart).subscribe(items => {
+      console.log("ITEMS:", items);
+      if (items.length > 1) {
+        this.monsterStart = items[items.length - 1].id
+        this.pageMonsters()
+      } else {
+        this.monstersLoading.next(false)
+      }
+      let current = this.monsters.getValue()
+      let next = []
+      next.push(...current)
+      next.push(...items.slice(0, 300))
+      this.monsters.next(next)
+    })
+  }
+
 }
 
 
