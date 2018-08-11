@@ -39,8 +39,8 @@ export class PCGenXml {
 
     const chr = new Character()
 
-    chr.name = hero.basics[0].name
-    chr.alignment = hero.basics[0].alignment[0].long
+    chr.name = hero.basics[0].name[0]
+    chr.alignment = hero.basics[0].alignment[0].long[0]
     chr.classes = PCGenXml.classes(hero)
 
     chr.size = hero.basics[0].size[0].long[0]
