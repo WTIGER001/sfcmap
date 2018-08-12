@@ -1,0 +1,9 @@
+<div class="bg">
+  <h1>{{selected.name}}</h1>
+  <div class="rows">
+    <app-edit-picture *ngIf="selected" [picture]="selected.image" [searchTerm]="getSearchTerm()" (choice)="updatePicture($event)">
+    </app-edit-picture>
+    <div class="other">
+    </div>
+  </div>
+</div>

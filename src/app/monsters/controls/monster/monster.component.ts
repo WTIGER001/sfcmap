@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MonsterText } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
+import { EditMonsterComponent } from '../edit-monster/edit-monster.component';
 
 @Component({
   selector: 'app-monster',
@@ -10,8 +11,31 @@ import { DataService } from '../../../data.service';
   styleUrls: ['./monster.component.css']
 })
 export class MonsterComponent implements OnInit {
+  @ViewChild('edit') editCtrl: EditMonsterComponent
+  edit = false
   monster: MonsterText
   constructor(private router: Router, private route: ActivatedRoute, private data: DataService) { }
+
+  startEdit() {
+    this.edit = true
+  }
+
+  delete() {
+
+  }
+
+  restrictions() {
+
+  }
+
+  save() {
+    this.editCtrl.save()
+    this.edit = false
+  }
+
+  cancel() {
+    this.edit = false
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -20,12 +44,9 @@ export class MonsterComponent implements OnInit {
 
       if (id) {
         this.data.getMonsterText(id).subscribe(mt => {
-          this.insertImage(mt)
           this.fixStyles(mt)
+          this.insertImage(mt)
           this.monster = mt;
-          console.log("TEXT", mt.fulltext);
-          console.log("ALL", mt);
-
         })
       }
     })
@@ -45,6 +66,8 @@ export class MonsterComponent implements OnInit {
   }
 
   fixStyles(mt: MonsterText) {
+    const imgExp = /<img([A-Za-z0-9"'_ ]*)\b[^>]*>/g
+
     let text = mt.fulltext
     text = text.replace(new RegExp("<h1>", 'g'), "<h1 class='monster'>")
     text = text.replace(new RegExp("<h2>", 'g'), "<h2 class='monster'>")
@@ -54,6 +77,7 @@ export class MonsterComponent implements OnInit {
     text = text.replace(new RegExp("<h6>", 'g'), "<h6 class='monster'>")
     text = text.replace(new RegExp("<p>", 'g'), "<p class='monster'>")
     text = text.replace(new RegExp("<div>", 'g'), "<div class='monster'>")
+    text = text.replace(imgExp, "")
     mt.fulltext = text
   }
 

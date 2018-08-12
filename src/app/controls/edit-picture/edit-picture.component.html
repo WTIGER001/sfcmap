@@ -1,0 +1,13 @@
+<div class="drop-area" [class.drop-target]="dragging" [class.outlined]="picture == undefined" (dragover)="dragOver($event)"
+  (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)">
+  <label for="chr-att">
+    <img [src]="picture" *ngIf="picture">
+    <div *ngIf='picture == undefined' class="centered">
+      <fa-icon icon="plus" size="3x"></fa-icon>
+      <div>Drop a picture here or click to select</div>
+    </div>
+  </label>
+  <fa-icon (click)="randomImage()" icon="random" class="pointer" placement="bottom" ngbTooltip="Search for random image" size="3x"></fa-icon>
+
+  <input id="chr-att" #filecontrol type="file" class="inputfile" placeholder="select files" (change)="uploadFile($event)">
+</div>

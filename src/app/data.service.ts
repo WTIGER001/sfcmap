@@ -16,6 +16,7 @@ import { CharacterType } from "./models/character-type";
 import { Encounter } from "./encounter/model/encounter";
 import { User as FireUser } from "firebase";
 import { MonsterIndex, MonsterText } from "./models/monsterdb";
+import { ImageSearchResult } from "./util/GoogleImageSearch";
 
 
 @Injectable({
@@ -754,6 +755,17 @@ export class DataService {
     return ref.getDownloadURL()
   }
 
+  setUrl(path: string, ir: ImageSearchResult, isThumb?: boolean): Observable<ImageSearchResult> {
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      map(url => {
+        isThumb ? ir.thumb = url : ir.url = url
+        return ir
+      })
+    )
+  }
+
+
   fillInUrl(item: MarkerType): Observable<MarkerType> {
     let path = 'images/' + item.id
     // console.log(`Marker Type URL for ${item.id}-${item.name} is ${path}`);
@@ -1123,7 +1135,6 @@ export class DataService {
     // Load the index
     this.saveAll(...index)
     this.saveAll(...text)
-
   }
 
   getMonsters(): Observable<MonsterIndex> {
@@ -1133,8 +1144,6 @@ export class DataService {
   }
 
   getMonstersPaged(limit: number, startAt: string): Observable<MonsterIndex[]> {
-    console.log("PAGING ", startAt)
-
     return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
       ref => ref.orderByChild('id').startAt(startAt).limitToFirst(limit + 1)).valueChanges().pipe(take(1))
   }
@@ -1142,7 +1151,6 @@ export class DataService {
   monsterStart = undefined
   pageMonsters() {
     this.getMonstersPaged(300, this.monsterStart).subscribe(items => {
-      console.log("ITEMS:", items);
       if (items.length > 1) {
         this.monsterStart = items[items.length - 1].id
         this.pageMonsters()

@@ -1,0 +1,71 @@
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.attachments-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.drop-area {
+  height: 100%;
+  widows: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: black;
+  margin: 5px;
+  position: relative;
+}
+
+.drop-target * {
+  pointer-events: none;
+}
+
+.drop-area label {
+  /* padding: 20px; */
+  color: grey;
+  cursor: pointer;
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.outlined {
+  border: 3px dashed green;
+  border-radius: 4px;
+}
+
+.drop-area img {
+  max-height: 400px;
+  max-width: 350px;
+}
+
+.infront {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  color: lightgray;
+  height: 75px;
+  margin: auto;
+  /* background-color: rgba(127, 127, 127, .2); */
+  /* text-shadow: 1px 1px black */
+}

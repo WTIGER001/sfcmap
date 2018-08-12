@@ -45,4 +45,8 @@ export class GoogleImageSearch {
 export class ImageSearchResult {
   url: string
   thumb: string
+
+  public static is(obj: any): obj is ImageSearchResult {
+    return obj.url && obj.thumb
+  }
 }

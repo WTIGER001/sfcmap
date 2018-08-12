@@ -1,5 +1,27 @@
 <div class="monster-page scroller-dark">
-  <ng-container *ngIf="monster">
+  <ng-container *ngIf="monster && edit==true">
+    <div class="buttonbar">
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+        <fa-icon icon="save" size="lg"></fa-icon> Save
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
+        <fa-icon icon="times" size="lg"></fa-icon> Cancel
+      </button>
+    </div>
+    <app-edit-monster #edit [selected]="monster"></app-edit-monster>
+  </ng-container>
+  <ng-container *ngIf="monster && edit==false">
+    <div class="buttonbar">
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="startEdit()">
+        <fa-icon icon="pencil-alt" size="lg"></fa-icon> Edit
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
+        <fa-icon icon="lock" size="lg"></fa-icon> Restrictions
+      </button>
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
+        <fa-icon icon="trash-alt" size="lg"></fa-icon> Delete
+      </button>
+    </div>
     <div [innerHTML]="monster.fulltext"></div>
   </ng-container>
 </div>

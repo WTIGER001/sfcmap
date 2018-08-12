@@ -109,6 +109,8 @@ import { MonsterComponent } from './monsters/controls/monster/monster.component'
 import { KeepStylePipe } from './pipes/keep-style.pipe';
 import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
 import { RandomImageComponent } from './dialogs/random-image/random-image.component';
+import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-monster.component';
+import { EditPictureComponent } from './controls/edit-picture/edit-picture.component';
 
 @NgModule({
   declarations: [
@@ -184,6 +186,8 @@ import { RandomImageComponent } from './dialogs/random-image/random-image.compon
     KeepStylePipe,
     MonsterIndexPageComponent,
     RandomImageComponent,
+    EditMonsterComponent,
+    EditPictureComponent,
   ],
   imports: [
     BrowserModule,
