@@ -38,7 +38,7 @@ figure:hover > img {
 
 .bg {
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto 1fr;
   max-height: 100vh;
   height: 100vh;
 }
@@ -126,6 +126,17 @@ figure:hover > img {
 
 .loading h1 {
   margin-left: 20px;
+}
+
+.indx-btn {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+.indx-btn .btn-link {
+  color: whitesmoke;
+  text-decoration: none;
 }
 
 @media(max-width: 700px) {

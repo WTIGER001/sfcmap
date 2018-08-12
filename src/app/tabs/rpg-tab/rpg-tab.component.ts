@@ -255,7 +255,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
 
   searchFor = (text$: Observable<string>) =>
     text$.pipe(
-      debounceTime(200),
+      debounceTime(400),
       distinctUntilChanged(),
       map(term => RpgTabComponent.getResults(term))
     );

@@ -204,23 +204,46 @@ export class MonsterDB {
 
   static matchesFilter(a: MonsterIndex, filter: string): boolean {
 
-    const regex = /CR([<>=]*)([\d])([\/]?)([\d*])/i
+    const regex = /CR[<>=]*[\d][\/]?[\d]*/i
 
     let realFilter = filter.replace(regex, '').trim()
-    let cr = "CR" + a.cr
+
     let realMatch = false
-    let hasCR = filter.match(regex) != undefined
-    let crMatch = this.matchCR(a, filter)
     if (realFilter.length > 0) {
-      if (a.name.toLowerCase().includes(realFilter.toLowerCase())) {
-        realMatch = true
-      }
-      if (a.type.toLowerCase().includes(realFilter.toLowerCase())) {
-        realMatch = true
+      realMatch = true
+
+      // All the filters are ANDed
+      const filterParts = this.getCleanMatches(realFilter)
+      for (let i = 0; i < filterParts.length; i++) {
+        // Check if this is specific to a field
+        const fields = filterParts[i].split(":")
+        if (fields.length == 1) {
+          // No Fields
+          const m1 = this.matchText(a.name, fields[0])
+          const m2 = this.matchText(a.type, fields[0])
+          realMatch = realMatch && (m1 || m2)
+        } else if (fields.length == 2) {
+          // Valid field
+          if (fields[0].toLowerCase() == 'name') {
+            const m1 = this.matchText(a.name, fields[1])
+            realMatch = realMatch && m1
+          } else if (fields[0].toLowerCase() == 'type') {
+            const m1 = this.matchText(a.type, fields[1])
+            realMatch = realMatch && m1
+          } else {
+            realMatch = false
+          }
+        } else {
+          realMatch = false
+        }
       }
     }
 
-    // console.log("MATCHING ", filter, hasCR, crMatch, realFilter);
+    let cr = "CR" + a.cr
+    let r = this.matchCR(a, filter)
+    let hasCR = r.applies
+    let crMatch = r.matches
+    // console.log("CR ", hasCR, crMatch);
 
     if (crMatch && realFilter.length == 0) {
       return crMatch
@@ -235,7 +258,58 @@ export class MonsterDB {
     return false
   }
 
-  static matchCR(a: MonsterIndex, filter: string): boolean {
+  static getCleanMatches(filter: string): string[] {
+    const ex = /([a-z]*)(:)?([$=])/ig
+
+    let match: RegExpExecArray;
+    let indecies: number[] = []
+    while ((match = ex.exec(filter)) !== null) {
+
+      // This is necessary to avoid infinite loops with zero-width matches
+      if (match.index === ex.lastIndex) {
+        ex.lastIndex++;
+      }
+      let all = match[0]
+      let field = match[1]
+      let colon = match[2]
+      let divide = match[3]
+      let inx = match.index
+      indecies.push(match.index)
+    }
+
+    const parts: string[] = []
+    // Do the split
+    for (let i = 0; i < indecies.length - 1; i++) {
+      parts.push(filter.substring(indecies[i], indecies[i + 1] - 1))
+    }
+    if (indecies.length > 0 && indecies[0] - 1 > 0) {
+      parts.push(filter.substring(0, indecies[0] - 1))
+    }
+    if (indecies.length > 0 && indecies[indecies.length - 1] < filter.length) {
+      parts.push(filter.substring(indecies[indecies.length - 1]))
+    }
+
+    if (parts.length == 0) {
+      parts.push(filter)
+    }
+
+    // console.log("PARTS FROM CLEAN MATCH,", indecies, parts);
+
+    return parts
+  }
+
+  static matchText(txt: string, filter: string): boolean {
+    if (filter.startsWith("$")) {
+      return txt.toLowerCase().startsWith(filter.substr(1).toLowerCase())
+    } else if (filter.startsWith("=")) {
+      return txt.toLowerCase() == filter.substr(1).toLowerCase()
+    }
+    return txt.toLowerCase().includes(filter.toLowerCase())
+  }
+
+  static cleanMatch
+
+  static matchCR(a: MonsterIndex, filter: string): { applies: boolean, matches: boolean } {
     const regex = /CR([<>=]*)([\d])([\/]?)([\d]*)/i
     let match;
 
@@ -262,8 +336,9 @@ export class MonsterDB {
       // Convert our CR to a real number
       let cr: number = this.crToNumber(a.cr)
       if (isNaN(cr)) {
-        return false
+        return { applies: true, matches: false }
       }
+
 
       let crCompare = 0
       if (divide == "/") {
@@ -272,27 +347,34 @@ export class MonsterDB {
         crCompare = parseInt(digit1 + digit2)
       }
 
+      // console.log("CR MATCHING ", all, digit1, digit2, crCompare, cr);
+
+
       if (cmp == '' || cmp == '=') {
-        return crCompare == cr
+        return { applies: true, matches: crCompare == cr }
       }
       if (cmp == '<') {
-        return cr < crCompare
+        return { applies: true, matches: cr < crCompare }
       }
       if (cmp == '<=') {
-        return cr <= crCompare
+        return { applies: true, matches: cr <= crCompare }
       }
       if (cmp == '>') {
-        return cr > crCompare
+        return { applies: true, matches: cr > crCompare }
       }
       if (cmp == '>=') {
-        return cr >= crCompare
+        return { applies: true, matches: cr >= crCompare }
       }
       if (cmp == '<>') {
-        return cr != crCompare
+        return { applies: true, matches: cr != crCompare }
       }
-      return false
+      return { applies: true, matches: false }
     }
+    return { applies: false, matches: false }
+
   }
+
+
 
   static compare(a: MonsterIndex, b: MonsterIndex, compare: string) {
     if (compare == 'name') {
@@ -300,7 +382,7 @@ export class MonsterDB {
       if (a.name > b.name) return 1;
       return 0;
     } else if (compare = 'cr') {
-      return this.crToNumber(b.cr) - this.crToNumber(a.cr)
+      return this.crToNumber(a.cr) - this.crToNumber(b.cr)
     } else if (compare = 'type') {
       if (a.type < b.type) return -1;
       if (a.type > b.type) return 1;
@@ -308,7 +390,7 @@ export class MonsterDB {
     }
   }
 
-  static crToNumber(cr: string): number {
+  public static crToNumber(cr: string): number {
     let crNum = parseInt(cr)
     if (cr.includes("/")) {
       let parts = cr.split("/")

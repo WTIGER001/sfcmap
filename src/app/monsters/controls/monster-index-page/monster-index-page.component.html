@@ -11,8 +11,12 @@
       <button [class.active]="sort=='cr'" type="button" class="btn btn-secondary" (click)="sortBy('cr')">CR</button>
       <button [class.active]="sort=='type'" type="button" class="btn btn-secondary" (click)="sortBy('type')">Type</button>
     </div>
-  </div>
 
+
+  </div>
+  <div class="indx-btn">
+    <button *ngFor="let item of getIndexButtons()" (click)="find(item)" class="btn btn-sm btn-link">{{item}}</button>
+  </div>
   <div class="results scroller scroller-dark">
     <div *ngFor="let m of filtered">
       <a routerLink="/monster/{{m.id}}">

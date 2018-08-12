@@ -20,6 +20,10 @@ export class MonsterIndexPageComponent implements OnInit {
   filtered$ = new ReplaySubject<MonsterIndex>()
   loading = false
   startAt = null
+  names = new Map<string, number>()
+  types = new Map<string, number>()
+  crs = new Map<string, number>()
+
 
   filter$ = new BehaviorSubject<string>('')
 
@@ -35,6 +39,52 @@ export class MonsterIndexPageComponent implements OnInit {
 
   }
 
+  find(value: string) {
+    if (this.sort == 'name') {
+      return this.filter = "name:$" + value
+    }
+    if (this.sort == 'cr') {
+      return this.filter = "CR" + value
+    }
+    if (this.sort == 'type') {
+      return this.filter = "type:=" + value
+    }
+  }
+
+  getIndexButtons() {
+    if (this.sort == 'name') {
+      return Array.from(this.names.keys())
+    }
+    if (this.sort == 'cr') {
+      return Array.from(this.crs.keys()).sort((cr1, cr2) => {
+        const c1 = MonsterDB.crToNumber(cr1)
+        const c2 = MonsterDB.crToNumber(cr2)
+        return c1 - c2
+      })
+    }
+    if (this.sort == 'type') {
+      return Array.from(this.types.keys())
+    }
+
+  }
+
+  calcIndexButtons() {
+    const b = new Map<string, number>()
+    this.all.forEach(a => {
+      this.increment(this.names, a.name.substr(0, 1).toUpperCase())
+      this.increment(this.crs, a.cr.toUpperCase())
+      this.increment(this.types, a.type)
+    })
+  }
+
+  increment(m: Map<string, number>, key: string) {
+    if (!m.has(key)) {
+      m.set(key, 1)
+    } else {
+      m.set(key, m.get(key) + 1)
+    }
+  }
+
   ngOnInit() {
     this.data.monsters.pipe(throttleTime(2000)).subscribe(a => {
       console.log("Got some data");
@@ -43,6 +93,9 @@ export class MonsterIndexPageComponent implements OnInit {
       this.applyFilter()
     })
     this.data.monstersLoading.subscribe(v => {
+      if (v == false) {
+        this.calcIndexButtons()
+      }
       this.loading = v
     })
     this.filter$.pipe(throttleTime(700)).subscribe(txt => {
