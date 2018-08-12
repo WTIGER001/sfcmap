@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Character } from '../../../models/character';
 import { DataService } from '../../../data.service';
 import { GoogleImageSearch, ImageSearchResult } from '../../../util/GoogleImageSearch';
+import { ImagesService } from '../../../dialogs/images.service';
 
 @Component({
   selector: 'app-chr-picture',
@@ -14,7 +15,7 @@ export class ChrPictureComponent implements OnInit {
   dragging = false
 
   maxSize = 10000000
-  constructor(private data: DataService) { }
+  constructor(private data: DataService, private imgSvc: ImagesService) { }
 
   ngOnInit() {
   }
@@ -37,11 +38,15 @@ export class ChrPictureComponent implements OnInit {
     }
     term += " fantasy art"
 
-    GoogleImageSearch.searchImage(term).then((results: ImageSearchResult[]) => {
-      console.log("URLS FOUND ", results.length);
-      let index = Math.floor(Math.random() * results.length)
-      this.character.picture = results[index].url
+    this.imgSvc.openRandomImage(term).subscribe(result => {
+      this.character.picture = result.url
     })
+    // GoogleImageSearch.searchImage(term).then((results: ImageSearchResult[]) => {
+    //   console.log("URLS FOUND ", results.length);
+    //   let index = Math.floor(Math.random() * results.length)
+    //   this.character.picture = results[index].url
+    // })
+
   }
 
   setFiles(files: FileList) {

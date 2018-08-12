@@ -78,6 +78,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
           if (found || r.key == this.lastId) {
             found = true
             this.records.unshift(r)
+            this.audio.play(Sounds.Message)
           }
         } else if (action.type == 'child_removed') {
           // this.records.findIndex()

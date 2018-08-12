@@ -1,0 +1,22 @@
+<div class="bg">
+  <div class="header">
+    <h1>Choose an image</h1>
+    <fa-icon class="close" icon="times" size="4" (click)="close()"> </fa-icon>
+  </div>
+
+  <div class="search">
+    <input type="text" (ngModelChange)="updateSearch($event)" [(ngModel)]="searchTerm" placeholder="Enter Search" class="form-control form-control-lg">
+  </div>
+
+  <div class="results-area scroller scroller-dark">
+    <div *ngFor="let me of items">
+      <img (dblclick)="pick(me)" [src]="me.url">
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <sk-cube-grid color="#9ed485"></sk-cube-grid>
+    <h1> LOADING PLEASE WAIT</h1>
+  </div>
+
+</div>

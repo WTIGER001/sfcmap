@@ -61,7 +61,7 @@
 .tab-icon {
     position: absolute;
     left: -28px;
-    z-index: 2;
+    z-index: 20;
 }
 
 .tab {

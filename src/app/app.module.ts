@@ -108,6 +108,7 @@ import { UserOnlineComponent } from './controls/user-online/user-online.componen
 import { MonsterComponent } from './monsters/controls/monster/monster.component';
 import { KeepStylePipe } from './pipes/keep-style.pipe';
 import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
+import { RandomImageComponent } from './dialogs/random-image/random-image.component';
 
 @NgModule({
   declarations: [
@@ -182,6 +183,7 @@ import { MonsterIndexPageComponent } from './monsters/controls/monster-index-pag
     MonsterComponent,
     KeepStylePipe,
     MonsterIndexPageComponent,
+    RandomImageComponent,
   ],
   imports: [
     BrowserModule,
@@ -227,7 +229,8 @@ import { MonsterIndexPageComponent } from './monsters/controls/monster-index-pag
     MessageDialogComponent,
     ConfirmDialogComponent,
     AccessDialogComponent,
-    DistanceEntryComponent
+    DistanceEntryComponent,
+    RandomImageComponent
   ],
   exports: [CheckboxComponent]
 })

@@ -69,7 +69,16 @@ export class MonsterIndex extends ObjectType {
 }
 
 export class MonsterDB {
-  public static toCharacter(monsterJson): Character {
+  public static toCharacter(m: MonsterIndex | MonsterText): Character {
+
+    const c = new Character()
+    c.id = "MONSTER-" + m.id
+    c.name = m.name
+    c.picture = m.image
+    c.size = m.size
+    c.speed = m.speed
+
+
     return undefined
   }
 
@@ -139,7 +148,6 @@ export class MonsterDB {
 
     return arr
   }
-
 
   public static async getRandomPictures(index: MonsterIndex[], text: MonsterText[]) {
     for (let ind = 0; ind < index.length; ind++) {

@@ -48,6 +48,13 @@ export class EditCharacterComponent implements OnInit {
   startEdit() {
     this.edit = true
   }
+  getSearchTerm() {
+    if (this.character.tags) {
+      return this.character.tags.join(' ') + " fatansy art"
+    } else {
+      return "human fighter fantasy art"
+    }
+  }
 
   delete() {
     this.cd.confirm("Are you sure you want to delete " + this.character.name + "? ", "Confirm Delete").subscribe(

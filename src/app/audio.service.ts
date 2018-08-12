@@ -9,7 +9,8 @@ export enum Sounds {
   DiceRoll = 'dice.mp3',
   Beep = 'ping.mp3',
   Success = 'success.mp3',
-  Fail = 'fail.mp3'
+  Fail = 'fail.mp3',
+  Message = 'message1.mp3'
 }
 
 @Injectable({

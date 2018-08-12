@@ -13,7 +13,7 @@
   right: 0;
   justify-content: center;
   z-index: 1;
-
+  pointer-events: none;
 }
 
 .user {

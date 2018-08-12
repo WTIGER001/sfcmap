@@ -3,7 +3,7 @@ import { MonsterIndex, MonsterDB } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { Router } from '@angular/router';
 import { splitStringBySize } from '@firebase/database/dist/src/core/util/util';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, BehaviorSubject } from 'rxjs';
 import { debounce, tap, throttleTime } from 'rxjs/operators';
 
 @Component({
@@ -15,20 +15,28 @@ export class MonsterIndexPageComponent implements OnInit {
   sort = 'name'
   cnt = 0;
   sortDir = 1
-  filter: string
   filtered: MonsterIndex[] = []
   all: MonsterIndex[] = []
   filtered$ = new ReplaySubject<MonsterIndex>()
   loading = false
   startAt = null
 
+  filter$ = new BehaviorSubject<string>('')
+
+  set filter(f: string) {
+    this.filter$.next(f)
+  }
+
+  get filter(): string {
+    return this.filter$.getValue()
+  }
 
   constructor(private data: DataService, private router: Router) {
 
   }
 
   ngOnInit() {
-    this.data.monsters.pipe(throttleTime(500)).subscribe(a => {
+    this.data.monsters.pipe(throttleTime(2000)).subscribe(a => {
       console.log("Got some data");
 
       this.all = a
@@ -37,42 +45,16 @@ export class MonsterIndexPageComponent implements OnInit {
     this.data.monstersLoading.subscribe(v => {
       this.loading = v
     })
-    // this.data.getMonsters().pipe(tap(a => {
-    //   if (this.all.length % 25 == 0) {
-    //     this.applyFilter()
-    //     console.log(this.cnt);
-    //   }
-    // })).subscribe(a => {
-    //   // console.log("Add Monsters: ", a.name);
-    //   this.all.push(a)
-    //   this.cnt++
-    // })
-
-
-    // this.submitNext()
-  }
-
-
-  submitNext() {
-    this.loading = true
-    this.data.getMonstersPaged(300, this.startAt).subscribe(items => {
-      console.log("ITEMS:", items);
-      if (items.length > 1) {
-        this.startAt = items[items.length - 1].id
-        this.submitNext()
-      } else {
-        this.applyFilter()
-        this.loading = false
-      }
-      this.all.push(...items.slice(0, 300))
-      this.noFilter()
-
+    this.filter$.pipe(throttleTime(700)).subscribe(txt => {
+      console.log("In Observable");
+      this.applyFilter()
     })
   }
 
   noFilter() {
     this.filtered = this.all
   }
+
   applyFilter() {
     console.log("Applying filter");
 
@@ -96,7 +78,7 @@ export class MonsterIndexPageComponent implements OnInit {
 
   updateFilter(text: string) {
     this.filter = text
-    this.applyFilter()
+    // this.applyFilter()
   }
 
   sortBy(type: string) {
