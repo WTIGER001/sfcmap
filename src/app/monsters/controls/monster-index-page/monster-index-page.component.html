@@ -21,7 +21,7 @@
     <div *ngFor="let m of filtered">
       <a routerLink="/monster/{{m.id}}">
         <figure class="result-item">
-          <img [src]='m.thumb?m.thumb:" /assets/missing.png "'>
+          <img [src]='m.thumb?m.thumb:"/assets/missing.png"'>
           <figcaption>
             {{m.name}}
             <br>

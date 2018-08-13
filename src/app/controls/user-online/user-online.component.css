@@ -19,6 +19,7 @@
 .user {
   background-color: transparent;
   padding: 10px;
+  pointer-events:all;
 }
 
 .date {

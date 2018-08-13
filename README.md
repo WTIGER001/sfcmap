@@ -58,6 +58,35 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - You have to click on a layer twice the first time to get the effect
 
 ## To Do
+-------------------------------------------------------------------------------------------------------------------------------
+### Ideas and Musings
+- Add 'Cards' (think magic or pokemon) for charcters and monsters. Make a card table to show the cards. Allow groups of 2, and 4. Tap the card to show that it is his turn
+- This allows us to see lots of monsters and people at the same time. Use a carosel concept to go between views,
+- Can use cards for monsters and characters, doesnt make sense for maps or encounters... Spells too I guess (how to get picture)
+
+### Monsters 
+- Figure out the cr - bug
+- Look at a solution for not putting thousands of images on a screen
+- Look at making "Type" pages (an image for a category). This could be cool. Basicially search would kick in on 'enter' and categories of 'type', 'cr' and 'Alphabetical' can be used to limit the number of results. Card can b made programttically for each.
+<link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet"> or Lobster Two, Oleo
+- Convert monsters to characters (for encounters)
+- Drop on encounter
+- Edit
+- Smarter import that does not overwrite
+- Duplicate detection
+- Add restrictions and restriction filtering
+
+### Encounters
+- Add restrictions and restriction filtering
+- Add an encouter screen with the maps a side piece and then other stuff on the sides
+
+### Characters
+- Get more information from the character import, maybe categories of attributes, maybe abilities
+- Character Browse Screen
+- Change the side panel to be ones in your cart?  
+- Move to character cards
+
+
 
 ### Annotations
 - Marker hover information (tooltip) / click information (popup)
@@ -73,7 +102,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Need to merge marker types and images... I think that they are really the same thing. Images are used to scale with the map and markers are for nonscaled. This will allow me to get rid of that stupid icon cache. MarkerType-Variable = ImageOverlay and MarkerType-Fixed = Marker, ImageAnnotation-variable = Image Overlay, ImageAnnotation-fixed = Marker. I just need to figure out how to edit the marker useing the drag handles... 
 
 ### Map 
+- Add map browser just like the monster browser
 - Support large maps that should be tiled. This will mean that we have to figure out how to image tile (likely in a server function) and then translate it into tile urls that leaflet can understand. Serving it all from firebase storage
+- Figure out the buggy loading issues
 
 ### Data Management
 - Export / import marker types 

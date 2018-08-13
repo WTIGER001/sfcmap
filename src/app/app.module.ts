@@ -95,7 +95,7 @@ import { CharacterTypeComboComponent } from './characters/controls/character-typ
 import { ViewCharacterComponent } from './characters/controls/view-character/view-character.component';
 import { EncountersTabComponent } from './tabs/encounters-tab/encounters-tab.component';
 import { EncounterComponent } from './encounter/components/encounter/encounter.component';
-import { CharacterCardComponent } from './encounter/components/character-card/character-card.component';
+import { EncounterCardComponent } from './encounter/components/encounter-card/encounter-card.component';
 import { EditEncounterComponent } from './encounter/components/edit-encounter/edit-encounter.component';
 import { EncounterFeature } from './encounter/encounter.feature';
 import { FilterinputComponent } from './controls/filterinput/filterinput.component';
@@ -111,6 +111,9 @@ import { MonsterIndexPageComponent } from './monsters/controls/monster-index-pag
 import { RandomImageComponent } from './dialogs/random-image/random-image.component';
 import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-monster.component';
 import { EditPictureComponent } from './controls/edit-picture/edit-picture.component';
+import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
+import { CharacterCardComponent } from './characters/controls/character-card/character-card.component';
+import { DiceCanvasComponent } from './controls/dice-canvas/dice-canvas.component';
 
 @NgModule({
   declarations: [
@@ -173,7 +176,7 @@ import { EditPictureComponent } from './controls/edit-picture/edit-picture.compo
     ViewCharacterComponent,
     EncountersTabComponent,
     EncounterComponent,
-    CharacterCardComponent,
+    EncounterCardComponent,
     EditEncounterComponent,
     FilterinputComponent,
     AttrValueComponent,
@@ -188,6 +191,9 @@ import { EditPictureComponent } from './controls/edit-picture/edit-picture.compo
     RandomImageComponent,
     EditMonsterComponent,
     EditPictureComponent,
+    CharacterIndexComponent,
+    CharacterCardComponent,
+    DiceCanvasComponent,
   ],
   imports: [
     BrowserModule,

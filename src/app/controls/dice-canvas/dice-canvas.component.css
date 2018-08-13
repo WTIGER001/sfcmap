@@ -1,0 +1,45 @@
+
+
+ :host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0px;
+  bottom: 0px;
+  pointer-events: none;
+ }
+
+.dice-canvas {
+  /* border: 1px solid white; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0px;
+  bottom: 0px;
+  pointer-events: none;
+}
+
+.dice {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-size: 28px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dice-max {
+  color: green;
+}
+.dice-min {
+  color: red;
+}
+
+.empty-die {
+  /* display: inline-block; */
+  font-size: 16px;
+  border: 2px solid white;
+  height: 28px;
+  width: 28px;
+  text-align: center;
+}

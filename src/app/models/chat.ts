@@ -84,6 +84,23 @@ export class DiceRoll {
     return obj
   }
 
+  static copy(r: DiceRoll): DiceRoll {
+    let obj = new DiceRoll()
+    obj.modifier = r.modifier
+    obj.expression = r.expression
+    r.dice.forEach(die => {
+      let d = new DiceResult()
+      d.negative = die.negative
+      d.threeDIndex = die.threeDIndex
+      d.threeDIndex100 = die.threeDIndex100
+      d.type = die.type
+      d.value = die.value
+      d.value100 = die.value100
+      obj.dice.push(d)
+    })
+    return obj
+  }
+
   // TypeScript guard
   static is(obj: any): obj is DiceRoll {
     return obj.objType !== undefined && obj.objType === DiceRoll.TYPE

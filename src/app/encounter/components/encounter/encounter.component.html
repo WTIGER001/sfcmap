@@ -5,7 +5,7 @@
 </div>
 <ul class="tab-card-list mt-2" [class.small]="cardSize=='small'" [sortablejs]="selected.characters" [sortablejsOptions]="sortOptions">
   <li [class.turn]="turn == character" class="tab-card " [class.even-card]="even " *ngFor="let character of selected.characters; let even=even;">
-    <app-character-card [current]="turn==character" (dblclick)="openCharacter(character)" [size]="cardSize " [character]="lookup(character)"></app-character-card>
+    <app-encounter-card [current]="turn==character" (dblclick)="openCharacter(character)" [size]="cardSize " [character]="lookup(character)"></app-encounter-card>
   </li>
 </ul>
 <!-- <button class="btn btn-outline-secondary btn-add btn-sm" (click)="findCharacter()">

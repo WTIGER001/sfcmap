@@ -72,7 +72,9 @@ export class DataService {
   encounters = new ReplaySubject<Array<Encounter>>(1)
   online = new ReplaySubject<Array<Online>>(1)
   monsters = new BehaviorSubject<Array<MonsterIndex>>([])
+
   monstersLoading = new BehaviorSubject<boolean>(true)
+  charactersLoading = new BehaviorSubject<boolean>(true)
 
   mapsCurrent: MapConfig[] = []
 
@@ -154,7 +156,7 @@ export class DataService {
     this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
     this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
-    this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters')
+    this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters', undefined, this.charactersLoading)
     this.loadAndNotify<Encounter>(this.encounters, Encounter.FOLDER, 'Loading Encounters')
     // this.loadAndNotify<MonsterIndex>(this.monsters, MonsterIndex.FOLDER, 'Loading Monsters')
     this.pageMonsters()
@@ -450,7 +452,7 @@ export class DataService {
   }
 
 
-  private loadAndNotify<T>(subject: Subject<Array<T>>, name: string, errorType: string, current?: Array<T>) {
+  private loadAndNotify<T>(subject: Subject<Array<T>>, name: string, errorType: string, current?: Array<T>, loading?: BehaviorSubject<boolean>) {
     this.log.debug('Base Item loadAndNotify ' + name)
 
     let sub = this.user.pipe(
@@ -474,6 +476,7 @@ export class DataService {
           current.splice(0)
           current.push(...items)
         }
+        if (loading) { loading.next(false) }
         subject.next(items)
       },
       error => {

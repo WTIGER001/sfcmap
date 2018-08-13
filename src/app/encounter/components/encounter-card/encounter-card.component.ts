@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Character } from '../../../models';
 
 @Component({
-  selector: 'app-character-card',
-  templateUrl: './character-card.component.html',
-  styleUrls: ['./character-card.component.css']
+  selector: 'app-encounter-card',
+  templateUrl: './encounter-card.component.html',
+  styleUrls: ['./encounter-card.component.css']
 })
-export class CharacterCardComponent implements OnInit {
+export class EncounterCardComponent implements OnInit {
   @Input() character: Character
   @Input() current: boolean
   @Input() size: 'small' | 'regular' | 'extended' = 'regular'

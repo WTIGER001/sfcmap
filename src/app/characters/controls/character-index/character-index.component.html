@@ -1,0 +1,22 @@
+<div class="bg">
+  <h1 class="title"> Character Index</h1>
+
+  <div class="filter-area">
+    <div class="input-grp">
+      <input type="text" class="form-control form-control-lg search" [(ngModel)]="filter" (ngModelChange)="updateFilter($event)"
+        placeholder="Search for characters">
+      <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
+    </div>
+  </div>
+
+  <div class="results scroller scroller-dark crd-table">
+    <div *ngFor="let m of filtered">
+      <app-character-card [character]="m"></app-character-card>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <sk-cube-grid color="#9ed485"></sk-cube-grid>
+    <h1> LOADING PLEASE WAIT</h1>
+  </div>
+</div>

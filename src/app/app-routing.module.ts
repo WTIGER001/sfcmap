@@ -5,12 +5,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
 import { MonsterComponent } from './monsters/controls/monster/monster.component';
 import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
+import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/map/none', pathMatch: 'full' },
   // { path: 'map', component: MapComponent },
   // { path: 'map/:id', component: MapComponent },
   { path: 'character/:id', component: EditCharacterComponent },
+  { path: 'characters', component: CharacterIndexComponent },
   { path: 'monster/:id', component: MonsterComponent },
   { path: 'monsters', component: MonsterIndexPageComponent },
   { path: 'new-character', component: EditCharacterComponent },

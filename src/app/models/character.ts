@@ -43,18 +43,6 @@ export class Character extends ObjectType {
   //senses
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   resolveExpression(expression: string): string {
     let newexp = expression
     this.attributes.forEach(attr => {
