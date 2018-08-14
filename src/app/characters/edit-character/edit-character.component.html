@@ -4,8 +4,9 @@
       <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="startEdit()">
         <fa-icon icon="pencil-alt" size="lg"></fa-icon> Edit
       </button>
-      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
-        <fa-icon icon="lock" size="lg"></fa-icon> Restrictions
+      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="permissions()">
+        <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
+        <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>Restrictions
       </button>
       <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
         <fa-icon icon="trash-alt" size="lg"></fa-icon> Delete

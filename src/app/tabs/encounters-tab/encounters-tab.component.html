@@ -4,9 +4,13 @@
     <button *ngIf="selected" class="btn btn-outline-secondary btn-tool" (click)="startEdit()" placement="bottom" ngbTooltip="Edit this Encounter">
       <fa-icon icon="pencil-alt" size="lg"></fa-icon>
     </button>
-    <button *ngIf="selected && selected.map" class="btn btn-outline-secondary btn-tool" (click)="openMap()" placement="bottom"
+    <!-- <button *ngIf="selected && selected.map" class="btn btn-outline-secondary btn-tool" (click)="openMap()" placement="bottom"
       ngbTooltip="Open the linked map">
       <fa-icon icon="map-marked-alt" size="lg"></fa-icon>
+    </button> -->
+    <button *ngIf="selected" class="btn btn-outline-secondary btn-tool" (click)="permissions()" placement="bottom" ngbTooltip="Set the access permissions">
+      <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
+      <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
     </button>
     <button *ngIf="selected " class="btn btn-outline-secondary btn-tool" (click)="toggleCardSize()" placement="bottom" ngbTooltip="Toggle Card Size">
       <fa-icon *ngIf="cardSize=='regular' " [fixedWidth]="true" icon="th-list" size="lg"></fa-icon>

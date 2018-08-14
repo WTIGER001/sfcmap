@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { MonsterText } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { EditMonsterComponent } from '../edit-monster/edit-monster.component';
+import { RestrictService } from '../../../dialogs/restrict.service';
 
 @Component({
   selector: 'app-monster',
@@ -14,7 +15,8 @@ export class MonsterComponent implements OnInit {
   @ViewChild('edit') editCtrl: EditMonsterComponent
   edit = false
   monster: MonsterText
-  constructor(private router: Router, private route: ActivatedRoute, private data: DataService) { }
+  restricted = false
+  constructor(private router: Router, private route: ActivatedRoute, private data: DataService, private restrict: RestrictService) { }
 
   startEdit() {
     this.edit = true
@@ -81,4 +83,16 @@ export class MonsterComponent implements OnInit {
     mt.fulltext = text
   }
 
+  permissions() {
+    if (this.monster) {
+      this.restrict.openRestrict(this.monster.view, this.monster.edit).subscribe(([view, edit]) => {
+        if (this.data.canEdit(this.monster)) {
+          this.monster.edit = edit
+          this.monster.view = view
+          this.data.save(this.monster)
+          this.restricted = this.data.isRestricted(this.monster)
+        }
+      })
+    }
+  }
 }

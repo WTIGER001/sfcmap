@@ -3,6 +3,7 @@ import { Encounter } from '../../encounter/model/encounter';
 import { DataService } from '../../data.service';
 import { EditEncounterComponent } from '../../encounter/components/edit-encounter/edit-encounter.component';
 import { Router } from '@angular/router';
+import { RestrictService } from '../../dialogs/restrict.service';
 
 const CardSizes = ['small', 'regular']
 
@@ -23,8 +24,9 @@ export class EncountersTabComponent implements OnInit {
   cardSize = CardSizes[0]
   round = 1
   turn: string
+  restricted = false
 
-  constructor(private data: DataService, private router: Router) {
+  constructor(private data: DataService, private router: Router, private restrict: RestrictService) {
     this.data.encounters.subscribe(encounters => {
       this.all = encounters
       this.applyFilter()
@@ -134,6 +136,19 @@ export class EncountersTabComponent implements OnInit {
   startEdit() {
     if (this.selected) {
       this.edit = true
+    }
+  }
+
+  permissions() {
+    if (this.selected) {
+      this.restrict.openRestrict(this.selected.view, this.selected.edit).subscribe(([view, edit]) => {
+        if (this.data.canEdit(this.selected)) {
+          this.selected.edit = edit
+          this.selected.view = view
+          this.data.save(this.selected)
+          this.restricted = this.data.isRestricted(this.selected)
+        }
+      })
     }
   }
 }

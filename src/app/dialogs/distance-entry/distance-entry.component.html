@@ -1,25 +1,22 @@
-<div class="modal-header">
-  <h4 class="modal-title">
-    <fa-icon icon="ruler"></fa-icon> Distance Calibrate</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  <form>
-    <div class="form-group">
-      <small id="emailHelp" class="form-text text-muted">Enter the distance and units for the line you measured. This will be used to calibrate the map</small>
-
+<div class="dlg">
+  <div class="header">
+    <h1> Distance Calibrate </h1>
+  </div>
+  <div class="bdy">
+    Enter the distance and units for the line you measured.
+    <div class="limit500 mt-2">
       <label for="pName">Distance</label>
       <input #input type="text" class="form-control" id="pName" placeholder="Distance" [(ngModel)]="value" name="name">
-      <label for="pUnits">Units</label>
+      <label for="pUnits mt-2">Units</label>
       <select class="form-control" id="pUnits" [(ngModel)]="unit" name="units2">
         <option *ngFor="let u of units" [value]="u.abbr">{{u.name}}</option>
       </select>
     </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-success dialog" (click)="ok()">OK</button>
-  <button type="button" class="btn btn-outline-dark dialog" (click)="activeModal.dismiss('Cancel')">Cancel</button>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()"><fa-icon icon="check" size="lg" class="mr-2"></fa-icon>OK</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')"><fa-icon icon="times"
+        size="lg" class="mr-2">
+      </fa-icon>Cancel</button>
+  </div>
 </div>

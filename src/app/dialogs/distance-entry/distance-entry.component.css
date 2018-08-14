@@ -1,0 +1,5 @@
+.limit500 {
+  display: grid;
+  grid-template-columns: minmax(auto, 500px);
+  text-align: left;
+}

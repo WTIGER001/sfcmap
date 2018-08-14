@@ -4,6 +4,7 @@ import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
+import { RestrictService } from '../../dialogs/restrict.service';
 
 @Component({
   selector: 'app-edit-character',
@@ -14,8 +15,9 @@ export class EditCharacterComponent implements OnInit {
 
   edit = false
   character = new Character()
+  restricted = false
 
-  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService) {
+  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private restrict: RestrictService) {
     this.character.name = 'New Character'
     this.character.id = UUID.UUID().toString()
   }
@@ -64,5 +66,18 @@ export class EditCharacterComponent implements OnInit {
         }
       }
     )
+  }
+
+  permissions() {
+    if (this.character) {
+      this.restrict.openRestrict(this.character.view, this.character.edit).subscribe(([view, edit]) => {
+        if (this.data.canEdit(this.character)) {
+          this.character.edit = edit
+          this.character.view = view
+          this.data.save(this.character)
+          this.restricted = this.data.isRestricted(this.character)
+        }
+      })
+    }
   }
 }

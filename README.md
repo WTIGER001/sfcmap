@@ -58,11 +58,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - You have to click on a layer twice the first time to get the effect
 
 ## To Do
--------------------------------------------------------------------------------------------------------------------------------
-### Ideas and Musings
-- Add 'Cards' (think magic or pokemon) for charcters and monsters. Make a card table to show the cards. Allow groups of 2, and 4. Tap the card to show that it is his turn
-- This allows us to see lots of monsters and people at the same time. Use a carosel concept to go between views,
-- Can use cards for monsters and characters, doesnt make sense for maps or encounters... Spells too I guess (how to get picture)
 
 ### Monsters 
 - Figure out the cr - bug
@@ -82,10 +77,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Characters
 - Get more information from the character import, maybe categories of attributes, maybe abilities
-- Character Browse Screen
 - Change the side panel to be ones in your cart?  
-- Move to character cards
-
+- Fix line spacing for small text
+- Fix small screen size artifacts
+- Improve the editor
+- Drop onto an encounter
+- More sort and filter options
 
 
 ### Annotations

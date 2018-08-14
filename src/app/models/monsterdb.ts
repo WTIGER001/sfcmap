@@ -17,6 +17,9 @@ export class MonsterText extends ObjectType {
     return obj
   }
 
+  edit: string[]
+  view: string[]
+
   id: string
   name: string
   fulltext: string

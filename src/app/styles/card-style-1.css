@@ -1,0 +1,155 @@
+/* -------------------------------------------- */
+/* Cards                                        */
+/* -------------------------------------------- */
+:root {
+  --crd-bg: black;
+  --crd-body-bg: #e8dab490;
+  --crd-body-fg: black;
+  --crd-border-color: grey;
+}
+
+.crd-table {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-around;
+}
+/* Cards are containers that hold information. They are a fixed size . 1.4Xw = h */
+.crd  {
+  position: relative;
+  height: 450px;
+  width:  320px;
+  background-color: var(--crd-bg);
+  border-radius: 15px;
+  padding: 15px;
+}
+
+/* A Card Title is the title area for a card. There can be a few of these. */
+.crd-title {
+  position: absolute;
+  background-color: var(--crd-bg);
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  height: 30px;
+  font-size: 1.2em;
+  font-weight: 900;
+   left: 10;
+  width: 290px;
+}
+
+.p1 .crd-title-top {
+  bottom: 45px;
+}
+
+.p1 .crd-title-middle {
+  bottom: 15px;
+}
+
+.p2 .crd-title-top {
+  bottom: 50%;
+}
+
+.p2 .crd-title-middle {
+  top: 50%;
+}
+
+.p3 .crd-title-top {
+  top: 15px;
+}
+
+.p3 .crd-title-middle {
+  top: 45px;
+}
+
+/* A Card Picture is the central picture */
+.crd-picture {
+  position: absolute;
+  object-fit: cover;
+  object-position: 50% 0%;
+  margin: 0;
+  left:15px;
+  top: 15px;
+  width: 290px;
+  height: 420px;
+  border-radius: 14px;
+}
+
+.p3 .crd-picture {
+  display: none;
+}
+
+/* A Card Body is the area where the text and other description goes*/
+.crd-body {
+  border: 2px solid var(--crd-border-color);
+  position: absolute;
+  bottom: 15px;
+  width:290px;
+  background-color: var(--crd-body-bg);
+  color: var(--crd-body-fg);
+  padding: 5px;
+  margin: 0;
+  font-size: .85rem;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 10px;
+  margin: 0;
+}
+.p1 .crd-body {
+  height: 0;
+}
+.p2 .crd-body {
+  height: 180px;
+}
+.p3 .crd-body {
+  height: 365px;
+}
+
+/* A Card HP is the area on a card for health tracking */
+/* Clicking on it allow you to change the value.  */
+.crd-hp {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
+/* A Card AC is area for tracking defense */
+/* Hovering should show the */
+.crd-ac {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+}
+
+.crd-hover-info {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgba(0,0,0,.6)
+}
+
+.p1 .crd-hover-info {
+    bottom: 70px;
+}
+.p2 .crd-hover-info {
+    bottom: 255px;
+}
+.p3 .crd-hover-info {
+    display: none;
+}
+
+.crd-hover-info h1 {
+  font-weight: 900;
+  font-size: 1em;
+  padding:  0;
+  margin:0;
+}
+.crd-hover-info p {
+  font-weight: 400;
+  font-size: .9em;
+  padding:  0;
+  margin: 5px 0 0 0;
+}
