@@ -56,6 +56,11 @@ body {
   overflow: hidden;
 }
 
+.crd-title-middle {
+  font-weight: 400;
+  font-size: 1em;
+}
+
 .p1 .crd-title-middle {
   bottom: 15px;
 }
@@ -168,7 +173,7 @@ body {
     bottom: 45px;
 }
 .p3 .crd-hover-info {
-  bottom: 210px;
+  bottom: 15px;
 }
 
 .crd-hover-info h1 {
