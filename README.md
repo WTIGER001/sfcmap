@@ -59,6 +59,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## To Do
 
+
+
 ### Monsters 
 - Figure out the cr - bug
 - Look at a solution for not putting thousands of images on a screen
@@ -70,6 +72,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Smarter import that does not overwrite
 - Duplicate detection
 - Add restrictions and restriction filtering
+- Add filtering criteria to the url
 
 ### Encounters
 - Add restrictions and restriction filtering
@@ -83,7 +86,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Improve the editor
 - Drop onto an encounter
 - More sort and filter options
-
+- Add known associates
+- Search by group (just like type)
+- add filtering criteria to the url
+- Add 'anchor' points to the image picker. 9 points in all. 
 
 ### Annotations
 - Marker hover information (tooltip) / click information (popup)
@@ -199,8 +205,6 @@ Encounters
 
 Add Themes to each game (scifi, fanatasy, )
 
-
-
 Monsters and NPCs
 - Create Object model
 - Determine what info is really needed
@@ -209,9 +213,29 @@ Monsters and NPCs
 - Need an array of id / names / image for type ahead and selection
 - Store the index and the full text for now.... 2 separate database roots
 
-
 Steps
 - "Convert" a monster to a character or generate a similar interface
 - Create a 2nd filter to add to the encounter builder
 - Use an endless scroll diretive
 - Move to a per item observable and use updates
+
+
+Front Page
+- What should the front page have on it? 
+- Intro to the tool and some way to sign in
+- Find Games
+
+
+Index Page
+
+- Filter Control
+-- Text box
+-- New Item 
+-- Filter
+-- View Toggle
+-- Sort
+- Display Area
+-- Scrollable
+-- Card Display (wxh)
+-- Small Card Disaply (wxh)
+-- Table (columns)

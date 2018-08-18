@@ -1,0 +1,98 @@
+
+.item-card {
+  width: 300px;
+  height: 200px;
+  position: relative;
+  background-color: black;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.item-card .image {
+  border-radius: 13px;
+  height: 100%;
+  width: 100%;
+  object-fit : cover;
+  object-position: 50% 50%
+}
+
+.item-card h1 {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  text-align: center;
+  color: white;
+  background-color: rgba(0,0,0,.7);
+  padding: 5px;
+  margin: 0;
+}
+
+.item-card-body {
+  overflow: auto;
+  position: absolute;
+  border: 1px solid green;
+  background-color: rgba(218, 227, 243, .6);
+  bottom: 10px;
+  left: 10px;
+  right:10px;
+}
+
+.p1 .item-card-body{
+  display: none;
+}
+
+.p2 .item-card-body{
+  top: 40%;
+}
+
+.p1 h1 {
+    bottom: 10px;
+}
+
+.p2 h1 {
+    bottom: 60%;
+}
+
+.item-card h2 {
+  font-size: 1.1em;
+  font-weight: 400;
+  width: 100%;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.item-small-card {
+  position: relative;
+  margin: 10px;
+  background-color: black;
+  padding: 5px;
+  height: 150px;
+  width: 200px;
+  border-radius: 20px;
+
+}
+
+.item-small-card .image {
+  border-radius: 13px;
+  object-fit : cover;
+  object-position: 50% 50%;
+  height: 100%;
+  width: 100%;
+}
+
+.item-small-card h1 {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  color: white;
+  background-color: rgba(0,0,0,.8);
+  padding: 5px 10px;
+  margin: 0;
+  font-size: .9em;
+
+  
+}

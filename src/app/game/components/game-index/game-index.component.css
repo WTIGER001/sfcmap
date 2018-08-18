@@ -1,0 +1,105 @@
+
+.outer {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    max-height: 100vh;
+    height: 100vh;
+    color : white;
+}
+
+.topbar {
+  background-color: rgba(0,0,0,.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.topbar h1 {
+ font-size: 2.5em;
+ margin:0;
+}
+
+.card-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 500px);
+  gap:20px;
+  justify-content: space-around;
+}
+
+.newgame {
+  width: 500px;
+  height: 350px;
+  position: relative;
+  background-color: black;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.newgame img {
+  border-radius: 13px;
+  height: 100%;
+  width: 100%;
+  object-fit : cover;
+  object-position: 50% 50%
+}
+
+.newgame .title {
+  color: white;
+  position: absolute;
+  height: 100px;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  margin: auto;
+  background-color: rgba(0,0,0,.8);
+  font-size: 1.6em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.topbar li {
+  color: white;
+  margin: 0px 5px 0px 5px;
+  list-style: none;
+  padding: 5px;
+}
+
+.topbar a {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
+}
+
+.topbar li:hover {
+  background-color:   rgb(128,128,128);
+}
+
+.icon {
+  display: block;
+}
+
+.tool-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.usr-logout {
+
+}

@@ -1,0 +1,29 @@
+.maps {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  max-height: 100vh;
+  height: 100vh;
+}
+
+.cards {
+  /* 500 x350 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  gap:20px;
+  justify-content: space-around;
+}
+
+.cards-small {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap:20px;
+  justify-content: space-evenly;
+}
+
+.cards-line {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap:20px;
+  justify-content: center;
+  align-items: center;
+}

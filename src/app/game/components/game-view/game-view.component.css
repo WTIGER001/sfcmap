@@ -1,0 +1,102 @@
+
+.outer {
+  padding-top: 50px;
+}
+
+.topbar {
+  background-color: rgba(0,0,0,.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.topbar h1 {
+ font-size: 2.5em;
+ margin:0;
+}
+
+.card-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 400px);
+  gap:20px;
+  justify-content: center;
+}
+
+.choice-card {
+  width: 400px;
+  height: 300px;
+  position: relative;
+  background-color: black;
+  /* border-radius: 20px; */
+  /* padding: 10px; */
+  margin: 10px;
+}
+
+.choice-card img {
+  /* border-radius: 13px; */
+  height: 100%;
+  width: 100%;
+  object-fit : cover;
+  object-position: 50% 50%
+}
+
+.choice-card figcaption {
+  color: white;
+  position: absolute;
+  height: 60px;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  background-color: rgba(0,0,0,.8);
+  font-size: 1.6em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.topbar li {
+  color: white;
+  margin: 0px 5px 0px 5px;
+  list-style: none;
+  padding: 5px;
+}
+
+.topbar a {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
+}
+
+.topbar li:hover {
+  background-color:   rgb(128,128,128);
+}
+
+.icon {
+  display: block;
+}
+
+.tool-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.usr-logout {
+
+}

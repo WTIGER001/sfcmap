@@ -1,0 +1,20 @@
+<div class="dlg">
+  <div class="header">
+    <h1> Sort By</h1>
+  </div>
+  <div class="bdy">
+    <div class="sort-list">
+      <ng-container *ngFor="let item of sortFields">
+        <fa-icon icon="sort-amount-up" class="sort-item" (click)="setSort(item, 1)" (dblclick)="ok()" [class.sort-item-active]="selection && selection.direction ==1 && selection.field == item"></fa-icon>
+        <fa-icon icon="sort-amount-down" class="sort-item" (click)="setSort(item, -1)" (dblclick)="ok()" [class.sort-item-active]="selection && selection.direction ==-1 && selection.field == item"></fa-icon>
+        {{item}}
+      </ng-container>
+    </div>
+  </div>
+  <div class="footer">
+    <button [disabled]="!selection" type="button" class="btn btn-outline-secondary" (click)="ok()"><fa-icon icon="check"
+        size="lg" class="mr-2"></fa-icon>OK</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')"><fa-icon icon="times"
+        size="lg" class="mr-2">
+      </fa-icon>Cancel</button>
+  </div>

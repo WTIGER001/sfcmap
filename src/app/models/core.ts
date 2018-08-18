@@ -45,3 +45,12 @@ export class ItemAction<T> {
     }
   }
 }
+
+export class SortData {
+  field: string;
+  direction: number;
+}
+
+export class FilterData {
+  filters: Map<string, string[]>
+}

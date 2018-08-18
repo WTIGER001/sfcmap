@@ -6,17 +6,36 @@ import { EditCharacterComponent } from './characters/edit-character/edit-charact
 import { MonsterComponent } from './monsters/controls/monster/monster.component';
 import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
 import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
+import { GameIndexComponent } from './game/components/game-index/game-index.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { GameEditComponent } from './game/components/game-edit/game-edit.component';
+import { GameViewComponent } from './game/components/game-view/game-view.component';
+import { EditMapComponent } from './controls/edit-map/edit-map.component';
+import { MapIndexComponent } from './maps/controls/map-index/map-index.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/map/none', pathMatch: 'full' },
+  { path: '', redirectTo: '/games', pathMatch: 'full' },
+  { path: 'home', redirectTo: '/games', pathMatch: 'full' },
   // { path: 'map', component: MapComponent },
   // { path: 'map/:id', component: MapComponent },
+  { path: 'game/:id', component: GameViewComponent },
+  { path: 'game/:id/edit', component: GameEditComponent },
+  { path: 'games', component: GameIndexComponent },
+  { path: 'new-game', component: GameEditComponent },
   { path: 'character/:id', component: EditCharacterComponent },
+  { path: 'game/:gameid/characters', component: CharacterIndexComponent },
+  { path: 'game/:gameid/character/:id', component: EditCharacterComponent },
   { path: 'characters', component: CharacterIndexComponent },
   { path: 'monster/:id', component: MonsterComponent },
   { path: 'monsters', component: MonsterIndexPageComponent },
   { path: 'new-character', component: EditCharacterComponent },
   { path: 'map/:id', component: MapComponent },
+  { path: 'game/:gameid/maps', component: MapIndexComponent },
+  { path: 'game/:gameid/map/:id', component: MapComponent },
+  { path: 'game/:gameid/map/:id/edit', component: EditMapComponent },
+  { path: 'admin', component: AdminComponent },
+  { path: 'settings', component: SettingsComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

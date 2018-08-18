@@ -1,0 +1,14 @@
+<div class="game-card" [class.p1]="!expanded" [class.p2]="expanded">
+  <!-- <img *ngIf="game.systemlogo" class="logo" [src]="game.systemlogo"> -->
+  <img class="logo" src="http://www.wolflair.com/wp-content/uploads/2013/12/pathfinder.png">
+  <a [routerLink]="['/','game',game.id]">
+    <img class="image" [src]="game.image?game.image:'/assets/icons/game.png'">
+  </a>
+  <h1 class="pointer" (click)="expanded=!expanded">{{game.name}}</h1>
+  <div class="game-card-body scroller-dark">
+    <h2><i>Created By: </i>John Bauer</h2>
+    <span class="description">
+      {{game.description}}
+    </span>
+  </div>
+</div>

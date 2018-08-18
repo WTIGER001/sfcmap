@@ -3,7 +3,7 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { NotifyService, Debugger } from "./notify.service";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online } from "./models";
+import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
 import { mergeMap, map, tap, first, concatMap, take } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
@@ -43,6 +43,7 @@ export class DataService {
    * Observables
    */
   user = new BehaviorSubject<User>(DataService.NOBODY)
+  game = new BehaviorSubject<Game>(undefined)
 
   userPrefs = new BehaviorSubject<Prefs>(new Prefs())
   userMapPrefs = new BehaviorSubject<MapPrefs>(new MapPrefs())
@@ -59,6 +60,8 @@ export class DataService {
   // userPrefs = new ReplaySubject<Prefs>(1)
   // userMapPrefs = new ReplaySubject<MapPrefs>(1)
   // userAccess = new ReplaySubject<UserAssumedAccess>(1)
+  games = new ReplaySubject<Array<Game>>(1)
+
   mapTypes = new ReplaySubject<Array<MapType>>(1)
   maps = new ReplaySubject<Array<MapConfig>>(1)
   // users = new ReplaySubject<Array<User>>(1)
@@ -152,6 +155,7 @@ export class DataService {
 
     // this.loadAndNotify<User>(this.users, 'users', 'Loading Users')
     this.loadUsers()
+    this.loadAndNotify<Game>(this.games, 'games', 'Loading Games')
     this.loadAndNotify<UserGroup>(this.groups, 'groups', 'Loading User Groups')
     this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')

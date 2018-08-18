@@ -1,0 +1,92 @@
+<div class="outer">
+  <div class="topbar">
+    <ul class="buttons">
+      <a routerLink="/games">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="home" size="lg"></fa-icon> Home
+        </li>
+      </a>
+      <a routerLink="/admin">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="cog" size="lg"></fa-icon> Admin
+        </li>
+      </a>
+      <a routerLink="/settings">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
+        </li>
+      </a>
+      <a routerLink="edit">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="pencil-alt" size="lg"></fa-icon> Edit
+        </li>
+      </a>
+      <li class="tool-item" (click)="permissions()">
+        <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class=" iconlockbtn"></fa-icon>
+        <fa-icon *ngIf="restricted == false" icon="unlock" size="lg" class="icon"></fa-icon>Restrictions
+      </li>
+      <li class="tool-item" (click)="delete()">
+        <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon> Delete
+      </li>
+    </ul>
+    <h1>{{game.name}}</h1>
+    <div>
+      {{user.name}}
+      <fa-icon class="pointer" icon="sign-out-alt" size="lg" (click)="logout()"></fa-icon>
+    </div>
+  </div>
+
+  <div class="scroller scroller-dark">
+    <div class="recent">
+
+    </div>
+
+    <div class="card-area">
+      <a [routerLink]="['characters']">
+        <figure class="choice-card">
+          <img src="./assets/icons/characters.png">
+          <figcaption>Characters</figcaption>
+        </figure>
+      </a>
+      <a [routerLink]="['maps']">
+        <figure class="choice-card">
+          <img src="./assets/icons/maps.png">
+          <figcaption>Maps</figcaption>
+        </figure>
+      </a>
+      <a [routerLink]="['encounters']">
+        <figure class="choice-card">
+          <img src="./assets/icons/encounters.png">
+          <figcaption>Encounters</figcaption>
+        </figure>
+      </a>
+    </div>
+
+    <div class="card-area">
+      <a [routerLink]="['/', game.system, 'monsters']">
+        <figure class="choice-card">
+          <img src="./assets/icons/monsters.png">
+          <figcaption>Monsters</figcaption>
+        </figure>
+      </a>
+      <a [routerLink]="[game.system, 'npcs']">
+        <figure class="choice-card">
+          <img src="./assets/icons/npcs.png">
+          <figcaption>NPCs</figcaption>
+        </figure>
+      </a>
+      <a [routerLink]="[game.system, 'items']">
+        <figure class="choice-card">
+          <img src="./assets/icons/items.png">
+          <figcaption>Magic Items</figcaption>
+        </figure>
+      </a>
+      <a [routerLink]="[game.system, 'spells']">
+        <figure class="choice-card">
+          <img src="./assets/icons/spells.png">
+          <figcaption>Spells</figcaption>
+        </figure>
+      </a>
+    </div>
+  </div>
+</div>

@@ -64,7 +64,7 @@
       <fa-icon class="crd-next" icon="caret-right" (click)="nextPage($event)"></fa-icon>
     </div>
     <app-attr-value class="crd-hp" size="4x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
-    <app-attr-value class="crd-ac" size="4x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
+    <app-attr-value class="crd-ac" size="4x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
     <div class="crd-hover-info" *ngIf="diceResult">
       <div class="dice">
         <ng-container *ngFor="let r of diceResult.dice">

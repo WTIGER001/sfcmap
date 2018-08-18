@@ -1,0 +1,25 @@
+<div class="center-layout">
+  <div class="edit-area">
+    <div class="buttonbar">
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+        <fa-icon icon="save" size="lg"></fa-icon> Save
+      </button>
+      <button [routerLink]="['/game', game.id]" type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close">
+        <fa-icon icon="times" size="lg"></fa-icon> Cancel
+      </button>
+    </div>
+    <app-edit-picture [picture]="game.image" (choice)="setPicture($event)"></app-edit-picture>
+    <div class="form-control-group">
+      <label>Name</label>
+      <input class="form-control form-control-lg" [(ngModel)]="game.name" placeholder="Game Name">
+    </div>
+    <div>
+      <label class="form-control-group">Tags</label>
+      <tag-input [(ngModel)]="game.tags" [separatorKeys]="[',']" [modelAsStrings]="true"></tag-input>
+    </div>
+    <div>
+      <label class="form-control-group">Description</label>
+      <textarea class="form-control" [(ngModel)]="game.description"></textarea>
+    </div>
+  </div>
+</div>

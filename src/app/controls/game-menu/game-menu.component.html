@@ -1,0 +1,32 @@
+<div id="game-menu-overlay" [class.game-menu-overlay]="expanded" [class.game-menu-overlay-gone]="expanded==false" (click)="toggleMenu()"></div>
+<div class="area">
+  <div class="game-menu-area" [class.game-menu-area-expanded]="expanded">
+    <ul class="game-tab">
+      <a (click)="toggleMenu()" [routerLink]="[gameid, 'maps']" routerLinkActive="router-link-active"><li><img src="/assets/icons/maps-sm.png">Maps</li></a>
+      <a (click)="toggleMenu()" [routerLink]="['characters']" routerLinkActive="router-link-active"><li><img src="/assets/icons/characters-sm.png">Characters</li></a>
+      <a (click)="toggleMenu()" [routerLink]="[gameid, 'maps']" routerLinkActive="router-link-active"><li><img src="/assets/icons/encounters-sm.png">Encounters</li></a>
+    </ul>
+    <ul class="reference-tab">
+      <a (click)="toggleMenu()" [routerLink]="['monsters']" routerLinkActive="router-link-active"><li><img src="/assets/icons/monsters.png">Monsters
+        </li></a>
+      <a [routerLink]="[gamesytemid, 'npcs']" routerLinkActive="router-link-active"> <li><img src="/assets/icons/npcs-sm.png">NPCs
+        </li></a>
+      <a [routerLink]="[gamesytemid , 'magic-items']" routerLinkActive="router-link-active">
+        <li> <img src="/assets/icons/items-sm.png">Magic Items </li>
+      </a>
+      <a [routerLink]="[gamesytemid , 'spells']" routerLinkActive="router-link-active">
+        <li><img src="/assets/icons/spells-sm.png">Spells</li>
+      </a>
+    </ul>
+  </div>
+
+  <ul class="game-menu-aux-tools" [class.game-menu-aux-tools-expanded]="expanded">
+    <li><a [routerLink]="['home']" routerLinkActive="router-link-active">
+        <fa-icon class="icon" icon="home" size="lg"></fa-icon>Home</a></li>
+    <li><a [routerLink]="[gameid, 'maps']" routerLinkActive="router-link-active"><fa-icon class="icon" icon="cog" size="lg"></fa-icon>Admin</a></li>
+    <li><a [routerLink]="[gameid, 'maps']" routerLinkActive="router-link-active"><fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon>Settings</a></li>
+  </ul>
+</div>
+<div *ngIf="game" class="game-menu" (click)="toggleMenu()" [class.game-menu-expanded]="expanded">
+  <fa-icon icon="bars" size="2x"></fa-icon>
+</div>

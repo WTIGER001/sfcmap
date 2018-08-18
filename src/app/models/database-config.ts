@@ -11,6 +11,8 @@ import { MarkerGroup } from "./annotation-group";
 import { CharacterType } from "./character-type";
 import { Character } from "./character";
 import { MonsterIndex, MonsterText } from "./monsterdb";
+import { GameSystem } from "./game-system";
+import { Game } from "./game";
 
 interface DbItem {
   name: string
@@ -37,6 +39,9 @@ export class DbConfig {
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER + "/" + obj.uid }
     if (MapPrefs.is(obj)) { return MapPrefs.FOLDER + "/" + obj.uid }
     if (Prefs.is(obj)) { return Prefs.FOLDER + "/" + obj.uid }
+
+    if (Game.is(obj)) { return Game.FOLDER + "/" + obj.id }
+    if (GameSystem.is(obj)) { return GameSystem.FOLDER + "/" + obj.id }
 
     // Reference level data
     if (MapType.is(obj)) { return MapType.FOLDER + "/" + obj.id }
@@ -75,6 +80,9 @@ export class DbConfig {
     if (MapPrefs.is(obj)) { return MapPrefs.FOLDER }
     if (Prefs.is(obj)) { return Prefs.FOLDER }
 
+    if (Game.is(obj)) { return Game.FOLDER }
+    if (GameSystem.is(obj)) { return GameSystem.FOLDER }
+
     // Reference level data
     if (MapType.is(obj)) { return MapType.FOLDER }
     if (MapConfig.is(obj)) { return MapConfig.FOLDER }
@@ -111,6 +119,9 @@ export class DbConfig {
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.to(obj) }
     if (MapPrefs.is(obj)) { return MapPrefs.to(obj) }
     if (Prefs.is(obj)) { return Prefs.to(obj) }
+
+    if (Game.is(obj)) { return Game.to(obj) }
+    if (GameSystem.is(obj)) { return GameSystem.to(obj) }
 
     // Reference level data
     if (MapType.is(obj)) { return MapType.to(obj) }

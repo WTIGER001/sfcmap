@@ -1,4 +1,4 @@
-<div class="side-nav" [class.sideshow]="expanded==true" [class.sideshow-hide]="expanded==false">
+<div class="side-nav" [class.sideshow]="expanded==true" [class.sideshow-hide]="expanded==false" *ngIf="game">
   <div class="tab-set" (swiperight)="expanded=false" (panright)="expanded=false">
     <div class="tab" (click)="toggle('user')" [class.tab-selected]="selected==='user'">
       <fa-icon icon="user" fixedWidth="true"></fa-icon>

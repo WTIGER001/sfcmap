@@ -1,0 +1,82 @@
+.bar {
+  background-color: rgba(0,0,0,.7);
+  padding: 5px;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tool-bar {
+  list-style: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  margin: 0;
+}
+
+
+.tool-bar li {
+  margin: 0px 5px 0px 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tool-bar li:hover {
+  background-color:   rgb(128,128,128);
+}
+
+.icon {
+  display: block;
+}
+
+.filters {
+  position: relative;
+  width: 50%
+}
+
+.filters input {
+}
+
+.icon-help {
+  color: grey;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 7px;
+  cursor: pointer;
+
+}
+.icon-help:hover {
+  color:black;
+}
+
+.icon-clear {
+  color: grey;
+  position: absolute;
+  bottom: 0px;
+  right: 40px;
+  padding: 7px;
+  cursor: pointer;
+}
+.icon-clear:hover {
+  color:black;
+}
+.new a {
+  color: white;
+  text-decoration: none;
+  padding: 15px 5px;
+  margin: 0 10px;
+}
+
+.new a:hover {
+  text-decoration: none;
+  background-color:   rgb(128,128,128);
+}

@@ -1,0 +1,24 @@
+<div *ngIf="size=='card'" class="item-card" [class.p1]="!expanded" [class.p2]="expanded">
+  <a [routerLink]="['/','game', map.game, 'map', map.id]">
+    <img class="image" [src]="map.thumb?map.thumb:'/assets/icons/maps.png'">
+  </a>
+  <h1 class="pointer" (click)="expanded=!expanded">{{map.name}}</h1>
+  <div class="item-card-body scroller-dark">
+    <span class="description">
+      {{map.description}}
+    </span>
+  </div>
+</div>
+
+<div *ngIf="size=='small'" class="item-small-card">
+  <a [routerLink]="['/','game',map.game, 'map', map.id]">
+    <img class="image" [src]="map.thumb?map.thumb:'/assets/icons/maps.png'">
+    <h1>{{map.name}}</h1>
+  </a>
+</div>
+
+<ng-container *ngIf="size=='line'" class="item-line">
+  <div><a [routerLink]="['/','game',map.game, 'map', map.id]">{{map.name}}</a></div>
+  <div>{{map.type}}</div>
+  <div>size</div>
+</ng-container>

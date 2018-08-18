@@ -1,0 +1,21 @@
+<div class="bar">
+  <ul class="tool-bar">
+    <li *ngIf="hasViews" (click)="toggleView()">
+      <fa-icon class="icon" [icon]="getViewIcon() " size="lg"></fa-icon>View
+    </li>
+    <li *ngIf="hasFilters" (click)="toggleFilter()">
+      <fa-icon class="icon" icon="filter" size="lg"></fa-icon>Filter
+    </li>
+    <li *ngIf="hasSorts" (click)="toggleSort()">
+      <fa-icon class="icon" icon="sort" size="lg"></fa-icon>Sort
+    </li>
+  </ul>
+  <div class="filters">
+    <input type="text" [(ngModel)]="search" (ngChanges)="updateSearch($event)" class="form-control form-control-lg">
+    <fa-icon icon="times" (click)="clearSearch()" size="2x" class="icon-clear"></fa-icon>
+    <fa-icon icon="question-circle" (click)="showFilterHelp()" size="2x" class="icon-help"></fa-icon>
+  </div>
+  <div class="new">
+    <a [routerLink]="newLink"><fa-icon icon="plus" size="lg"></fa-icon> {{newText}}</a>
+  </div>
+</div>

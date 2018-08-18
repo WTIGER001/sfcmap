@@ -1,0 +1,35 @@
+<div class="outer">
+  <h1>Game</h1>
+
+  <div class="topbar">
+    <ul class="buttons">
+      <a routerLink="/admin">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="cog" size="lg"></fa-icon> Admin
+        </li>
+      </a>
+      <a routerLink="/settings">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
+        </li>
+      </a>
+    </ul>
+    <h1>Choose a Game or Create One!</h1>
+    <div>
+      {{user.name}}
+      <fa-icon class="pointer" icon="sign-out-alt" size="lg" (click)="logout()"></fa-icon>
+    </div>
+  </div>
+
+  <div class="card-area scroller scroller-dark">
+    <app-game-card *ngFor="let game of games" [game]="game"></app-game-card>
+    <a routerLink="/new-game">
+      <div class="newgame">
+        <img src="/assets/icons/game.png">
+        <div class="title">
+          <fa-icon class="icon my-2" icon="plus" size="2x"></fa-icon>Create a New Game
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

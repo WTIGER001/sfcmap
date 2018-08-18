@@ -1,0 +1,32 @@
+.sort-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 600px;
+  overflow: auto;
+  font-size: 2em;
+
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.sort-list li {
+  padding: 10px;
+}
+
+.sort-item {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.sort-item:hover {
+  background-color: rgb(128,128,128)
+}
+
+.sort-item-active {
+  background-color: rgb(128,128,128)
+}

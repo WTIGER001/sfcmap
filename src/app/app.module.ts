@@ -29,7 +29,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './tabs/map-selector/map-selector.component';
-import { AdminComponent } from './tabs/admin/admin.component';
+// import { AdminComponent } from './tabs/admin/admin.component';
+import { AdminComponent } from './components/admin/admin.component';
 import { UserSideComponent } from './tabs/user-side/user-side.component';
 import { MarkerTabComponent } from './tabs/marker-tab/marker-tab.component';
 import { TabsComponent } from './tabs/tabs.component';
@@ -114,6 +115,25 @@ import { EditPictureComponent } from './controls/edit-picture/edit-picture.compo
 import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
 import { CharacterCardComponent } from './characters/controls/character-card/character-card.component';
 import { DiceCanvasComponent } from './controls/dice-canvas/dice-canvas.component';
+import { GameMenuComponent } from './controls/game-menu/game-menu.component';
+import { MapIndexComponent } from './maps/controls/map-index/map-index.component';
+import { NpcIndexComponent } from './npcs/components/npc-index/npc-index.component';
+import { NpcCardComponent } from './npcs/components/npc-card/npc-card.component';
+import { SpellIndexComponent } from './spells/components/spell-index/spell-index.component';
+import { SpellCardComponent } from './spells/components/spell-card/spell-card.component';
+import { ItemIndexComponent } from './items/components/item-index/item-index.component';
+import { ItemCardComponent } from './items/components/item-card/item-card.component';
+import { GameIndexComponent } from './game/components/game-index/game-index.component';
+import { GameCardComponent } from './game/components/game-card/game-card.component';
+import { GameEditComponent } from './game/components/game-edit/game-edit.component';
+import { GamesystemEditComponent } from './game/components/gamesystem-edit/gamesystem-edit.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { GameViewComponent } from './game/components/game-view/game-view.component';
+import { PageToolbarComponent } from './controls/page-toolbar/page-toolbar.component';
+import { SearchBarComponent } from './controls/search-bar/search-bar.component';
+import { SortDialogComponent } from './dialogs/sort-dialog/sort-dialog.component';
+import { FilterDialogComponent } from './dialogs/filter-dialog/filter-dialog.component';
+import { MapCardComponent } from './maps/controls/map-card/map-card.component';
 
 @NgModule({
   declarations: [
@@ -194,6 +214,25 @@ import { DiceCanvasComponent } from './controls/dice-canvas/dice-canvas.componen
     CharacterIndexComponent,
     CharacterCardComponent,
     DiceCanvasComponent,
+    GameMenuComponent,
+    MapIndexComponent,
+    NpcIndexComponent,
+    NpcCardComponent,
+    SpellIndexComponent,
+    SpellCardComponent,
+    ItemIndexComponent,
+    ItemCardComponent,
+    GameIndexComponent,
+    GameCardComponent,
+    GameEditComponent,
+    GamesystemEditComponent,
+    SettingsComponent,
+    GameViewComponent,
+    PageToolbarComponent,
+    SearchBarComponent,
+    SortDialogComponent,
+    FilterDialogComponent,
+    MapCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -240,7 +279,9 @@ import { DiceCanvasComponent } from './controls/dice-canvas/dice-canvas.componen
     ConfirmDialogComponent,
     AccessDialogComponent,
     DistanceEntryComponent,
-    RandomImageComponent
+    RandomImageComponent,
+    SortDialogComponent,
+    FilterDialogComponent
   ],
   exports: [CheckboxComponent]
 })

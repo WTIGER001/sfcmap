@@ -1,0 +1,18 @@
+<div class="maps">
+  <h1>Map Index</h1>
+  <app-search-bar [items]="all" [sortFields]="['name', 'type']" [filterFields]="['name', 'type', 'tags']" newText="New Map"
+    [newLink]="['/', gameid, 'new-map']" (itemsUpdated)="updateItems($event)" (viewChanged)="view=$event">
+  </app-search-bar>
+
+  <div class="display scroller scroller-dark">
+    <div *ngIf="view == 'card'" class="cards">
+      <app-map-card *ngFor="let map of filtered" [map]="map"></app-map-card>
+    </div>
+    <div *ngIf="view == 'small'" class="cards-small">
+      <app-map-card *ngFor="let map of filtered" [map]="map" size="small"></app-map-card>
+    </div>
+    <div *ngIf="view == 'line'" class="cards-line">
+      <app-map-card *ngFor="let map of filtered" [map]="map" size="line"></app-map-card>
+    </div>
+  </div>
+</div>
