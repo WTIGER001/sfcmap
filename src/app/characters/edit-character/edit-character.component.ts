@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Character } from '../../models/character';
 import { DataService } from '../../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UUID } from 'angular2-uuid';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { RestrictService } from '../../dialogs/restrict.service';
+import { RouteUtil } from '../../util/route-util';
 
 @Component({
   selector: 'app-edit-character',
@@ -17,7 +18,7 @@ export class EditCharacterComponent implements OnInit {
   character = new Character()
   restricted = false
 
-  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private restrict: RestrictService) {
+  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private restrict: RestrictService, private router: Router) {
     this.character.name = 'New Character'
     this.character.id = UUID.UUID().toString()
 
@@ -46,11 +47,13 @@ export class EditCharacterComponent implements OnInit {
 
   cancel() {
     this.edit = false;
+    RouteUtil.goUpOneLevel(this.router)
   }
 
   startEdit() {
     this.edit = true
   }
+
   getSearchTerm() {
     if (this.character.tags) {
       return this.character.tags.join(' ') + " fatansy art"
@@ -64,6 +67,7 @@ export class EditCharacterComponent implements OnInit {
       r => {
         if (r) {
           this.data.delete(this.character)
+          RouteUtil.goUpTwoLevels(this.router)
         }
       }
     )

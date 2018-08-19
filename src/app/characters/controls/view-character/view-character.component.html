@@ -1,56 +1,76 @@
-<h1> {{character.name}}</h1>
-<div class="sfc-row">
-  <img *ngIf="character.picture" [src]="character.picture" class="pic">
-  <div>
-    <app-readmore *ngIf="character.picture" maxLength="1000" class="text-muted mb-2 description" [value]="character?.description"></app-readmore>
-    <a [href]="character.weblink" *ngIf="character?.weblink">{{character.weblink}}</a>
-    <!-- <div class="attrs">
+<div class="character scroller scroller-dark" *ngIf="character">
+
+  <ul class="tool-bar tool-bar--wide tool-bar--light tool-bar--right">
+    <a routerLink="edit">
+      <li>
+        <fa-icon class="icon" icon="pencil-alt" size="lg"></fa-icon>Edit
+      </li>
+    </a>
+    <app-restrict-tool [item]="character"></app-restrict-tool>
+    <li (click)="delete()">
+      <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon>Delete
+    </li>
+    <a [routerLink]="backUrl()">
+      <li>
+        <fa-icon class="icon" icon="times" size="lg"></fa-icon>Cancel
+      </li>
+    </a>
+  </ul>
+
+  <h1> {{character.name}}</h1>
+  <div class="sfc-row">
+    <img *ngIf="character.picture" [src]="character.picture" class="pic">
+    <div>
+      <app-readmore *ngIf="character.picture" maxLength="1000" class="text-muted mb-2 description" [value]="character?.description"></app-readmore>
+      <a [href]="character.weblink" *ngIf="character?.weblink">{{character.weblink}}</a>
+      <!-- <div class="attrs">
       <app-attr-value [value]="86"></app-attr-value>
     </div> -->
-  </div>
-</div>
-
-<div class="sfc-row-equal">
-  <div>
-    <h2>Attributes</h2>
-    <div class="attr-tbl">
-      <div class="hdr">Attribute</div>
-      <div class="hdr">Max</div>
-      <div class="hdr">Current</div>
-      <ng-container *ngFor="let a of character.attributes">
-        <div>{{a.attr}}</div>
-        <div>{{a.max}}</div>
-        <div>{{a.current}}</div>
-      </ng-container>
     </div>
   </div>
-  <div>
-    <h2>Rolls</h2>
-    <div class="roll-tbl">
-      <div class="hdr">Name</div>
-      <div class="hdr">Expression</div>
-      <div class="hdr"></div>
-      <ng-container *ngFor="let a of character.rolls">
-        <div>{{a.name}}</div>
-        <div>{{evaluate(a)}}</div>
-        <div>
-          <fa-icon icon="dice-six" (click)="roll(a)" class="btn-tbl"></fa-icon>
-        </div>
-      </ng-container>
-    </div>
-    <app-dice-canvas #dice (diceroll)="diceRolled($event)"></app-dice-canvas>
-  </div>
-</div>
 
-<h2>Attachments</h2>
-<div class="att-tbl">
-  <div class="hdr">Name</div>
-  <div class="hdr">Size</div>
-  <ng-container *ngFor="let a of character.attachments">
+  <div class="sfc-row-equal">
     <div>
-      <fa-icon icon="paperclip"></fa-icon>
-      <a [href]="a.url">{{a.name}}</a>
+      <h2>Attributes</h2>
+      <div class="attr-tbl">
+        <div class="hdr">Attribute</div>
+        <div class="hdr">Max</div>
+        <div class="hdr">Current</div>
+        <ng-container *ngFor="let a of character.attributes">
+          <div>{{a.attr}}</div>
+          <div>{{a.max}}</div>
+          <div>{{a.current}}</div>
+        </ng-container>
+      </div>
     </div>
-    <div class="right-align">{{a.size | filesize}}</div>
-  </ng-container>
+    <div>
+      <h2>Rolls</h2>
+      <div class="roll-tbl">
+        <div class="hdr">Name</div>
+        <div class="hdr">Expression</div>
+        <div class="hdr"></div>
+        <ng-container *ngFor="let a of character.rolls">
+          <div>{{a.name}}</div>
+          <div>{{evaluate(a)}}</div>
+          <div>
+            <fa-icon icon="dice-six" (click)="roll(a)" class="btn-tbl"></fa-icon>
+          </div>
+        </ng-container>
+      </div>
+      <app-dice-canvas #dice (diceroll)="diceRolled($event)"></app-dice-canvas>
+    </div>
+  </div>
+
+  <h2>Attachments</h2>
+  <div class="att-tbl">
+    <div class="hdr">Name</div>
+    <div class="hdr">Size</div>
+    <ng-container *ngFor="let a of character.attachments">
+      <div>
+        <fa-icon icon="paperclip"></fa-icon>
+        <a [href]="a.url">{{a.name}}</a>
+      </div>
+      <div class="right-align">{{a.size | filesize}}</div>
+    </ng-container>
+  </div>
 </div>

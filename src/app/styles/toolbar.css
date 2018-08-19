@@ -1,0 +1,61 @@
+
+.tool-bar {
+    background-color: transparent;  
+    list-style: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    margin: 0;
+  }
+
+  .tool-bar--wide {
+    width: 100%;
+  }
+
+  .tool-bar--bg {
+    background-color: rgba(0,0,0,.8);
+
+  }
+
+  .tool-bar--light {
+    color: rgba(0,0,0,1);
+  }
+
+  .tool-bar--right{
+    justify-content: flex-end;
+  }
+
+  .tool-bar--left{
+    justify-content: flex-start;
+  }
+
+  .tool-bar li {
+    margin: 0px 5px 0px 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .tool-bar a {
+      text-decoration: none;
+      color: white;
+  }
+
+  .tool-bar--light  a  {
+    color: rgba(0,0,0,1);
+  }
+  
+  .tool-bar li:hover {
+    background-color:   rgb(128,128,128);
+  }
+  
+  
+  .tool-bar li .icon {
+    display: block;
+  }
+  

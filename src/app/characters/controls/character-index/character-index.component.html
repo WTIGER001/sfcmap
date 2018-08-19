@@ -1,13 +1,6 @@
 <div class="bg">
   <h1 class="title"> Character Index</h1>
 
-  <!-- <div class="filter-area">
-    <div class="input-grp">
-      <input type="text" class="form-control form-control-lg search" [(ngModel)]="filter" (ngModelChange)="updateFilter($event)"
-        placeholder="Search for characters">
-      <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
-    </div>
-  </div> -->
   <app-search-bar #search [items]="all" [fields]="fields" newText="New Character" [newLink]="['/', gameid, 'new-character']"
     (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event">
   </app-search-bar>

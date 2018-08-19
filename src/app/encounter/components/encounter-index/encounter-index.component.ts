@@ -56,4 +56,4 @@ export class EncounterIndexComponent implements OnInit {
       this.listElement.nativeElement.querySelector("#ENCOUNTER_" + $event.id).scrollIntoView()
     }
   }
-
+}

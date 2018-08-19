@@ -32,7 +32,7 @@ const routes: Routes = [
   // CHARACTERS
   { path: 'game/:gameid/new-character', component: EditCharacterComponent },
   { path: 'game/:gameid/characters', component: CharacterIndexComponent },
-  { path: 'game/:gameid/characters/:id', component: EditCharacterComponent },
+  { path: 'game/:gameid/characters/:id', component: ViewCharacterComponent },
   { path: 'game/:gameid/characters/:id/edit', component: EditCharacterComponent },
 
   { path: 'game/:gameid/new-map', component: PageNotFoundComponent },

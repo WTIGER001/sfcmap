@@ -1,0 +1,13 @@
+<ng-container *ngIf="style=='li'">
+  <li aria-label="Close" (click)="permissions()">
+    <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
+    <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>Restrictions
+  </li>
+</ng-container>
+
+<ng-container *ngIf="style=='button'">
+  <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="permissions()">
+    <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
+    <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>Restrictions
+  </button>
+</ng-container>

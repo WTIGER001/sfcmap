@@ -309,11 +309,3 @@ Index Page
 - New Game Page / Edit Game Page
 - Games Page (new home page)
 
-
-Steps to implement a new index page
-- Create the component
--- Basic layout - container, h1, search bar, card are
-- Add the Search bar and the methods to support i
-- Create the fields for the search bar
-
-

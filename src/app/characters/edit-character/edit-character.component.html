@@ -1,37 +1,25 @@
 <div class="character scroller scroller-dark">
-  <ng-container *ngIf="edit==false">
-    <div class="buttonbar" *ngIf="edit==false">
-      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="startEdit()">
-        <fa-icon icon="pencil-alt" size="lg"></fa-icon> Edit
-      </button>
-      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="permissions()">
-        <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
-        <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>Restrictions
-      </button>
-      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="delete()">
-        <fa-icon icon="trash-alt" size="lg"></fa-icon> Delete
-      </button>
-    </div>
-    <app-view-character [character]='character'></app-view-character>
-  </ng-container>
-  <ng-container *ngIf="edit==true">
-    <div class="buttonbar" *ngIf="edit==true">
-      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
-        <fa-icon icon="save" size="lg"></fa-icon> Save
-      </button>
-      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
-        <fa-icon icon="times" size="lg"></fa-icon> Cancel
-      </button>
-    </div>
-    <div class="rows">
-      <app-chr-picture [character]="character"></app-chr-picture>
-      <app-edit-chr-personal [character]="character"></app-edit-chr-personal>
+  <ul class="tool-bar tool-bar--wide tool-bar--bg">
+    <li (click)="save()">
+      <fa-icon class="icon" icon="save" size="lg"></fa-icon>Save
+    </li>
+    <app-restrict-tool [item]="character" [saveOnChange]="false"></app-restrict-tool>
+    <li (click)="delete()">
+      <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon>Delete
+    </li>
+    <li (click)="cancel()">
+      <fa-icon class="icon" icon="times" size="lg"></fa-icon>Cancel
+    </li>
+  </ul>
 
-      <app-edit-chr-attributes [character]="character"></app-edit-chr-attributes>
-      <app-edit-chr-rolls [character]="character"></app-edit-chr-rolls>
-    </div>
-    <app-edit-chr-description class="span2" [character]="character"></app-edit-chr-description>
-    <!-- <app-edit-chr-map-links class="span2" [character]="character"></app-edit-chr-map-links> -->
-    <app-edit-chr-attachments class="span2" [character]="character"></app-edit-chr-attachments>
-  </ng-container>
+  <div class="rows">
+    <app-chr-picture [character]="character"></app-chr-picture>
+    <app-edit-chr-personal [character]="character"></app-edit-chr-personal>
+
+    <app-edit-chr-attributes [character]="character"></app-edit-chr-attributes>
+    <app-edit-chr-rolls [character]="character"></app-edit-chr-rolls>
+  </div>
+  <app-edit-chr-description class="span2" [character]="character"></app-edit-chr-description>
+  <!-- <app-edit-chr-map-links class="span2" [character]="character"></app-edit-chr-map-links> -->
+  <app-edit-chr-attachments class="span2" [character]="character"></app-edit-chr-attachments>
 </div>

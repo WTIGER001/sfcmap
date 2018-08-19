@@ -8,6 +8,19 @@
   grid-template-columns: 1fr auto auto;
 }
 
+.character {
+  padding: 20px 50px;
+  max-width: 800px;
+  background-color: white;
+  max-height: 100%;
+  overflow: auto;
+  margin-left: 10%;
+}
+
+.character h2 {
+  margin-top: 15px;
+}
+
 .att-tbl {
   display: grid;
   grid-template-columns: 1fr auto;
