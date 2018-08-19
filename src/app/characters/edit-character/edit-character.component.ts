@@ -20,6 +20,7 @@ export class EditCharacterComponent implements OnInit {
   constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private restrict: RestrictService) {
     this.character.name = 'New Character'
     this.character.id = UUID.UUID().toString()
+
   }
 
   ngOnInit() {

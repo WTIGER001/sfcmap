@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, AfterContentInit } from
 import { BehaviorSubject } from 'rxjs';
 import { isArray } from 'util';
 import { DialogService } from '../../dialogs/dialog.service';
-import { SortData } from '../../models';
+import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
+import { SortFilterUtil, SortFilterData, SortFilterField } from '../../util/sort-filter';
 
 @Component({
   selector: 'app-search-bar',
@@ -12,25 +13,27 @@ import { SortData } from '../../models';
 export class SearchBarComponent implements OnInit, AfterContentInit {
   search$ = new BehaviorSubject<string>('')
   view: string = ''
-  filterValues = new Map<string, Map<string, number>>()
-  sort: SortData
+  filter = new SortFilterData()
 
   @Output() viewChanged = new EventEmitter()
   @Output() sortChanged = new EventEmitter()
   @Output() filterChanged = new EventEmitter()
   @Output() searchChanged = new EventEmitter()
+  @Output() itemsUpdated = new EventEmitter()
+  @Output() scrollRequest = new EventEmitter()
 
+  @Input() hasIndex = true
   @Input() hasViews = true
   @Input() hasFilters = true
   @Input() hasSorts = true
-  @Input() filterFields: string[] = []
-  @Input() sortFields: string[] = []
+  @Input() fields: SortFilterField[] = []
   @Input() newText = "New Item"
   @Input() newLink = "/new-item"
   @Input() submitOnChange = false
   @Input() views: string[] = ['card', 'small'] //, 'line'
   @Input() viewIcons: string[] = ['th-large', 'th', 'th-list']
 
+  filtered: any[] = []
   _items: any[] = []
 
   @Input() set searchPhrase(s: string) {
@@ -50,10 +53,16 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     return this._items;
   }
 
-
   constructor(private dialog: DialogService) { }
 
   ngOnInit() {
+    this.search$.pipe(
+      distinctUntilChanged(),
+      throttleTime(250)
+    ).subscribe(text => {
+      this.filter.textfilter = text
+      this.applyFilters()
+    })
   }
 
   getViewIcon() {
@@ -67,39 +76,8 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   processFilterValues() {
-    console.log("Fields ", this.filterFields);
-
-    // Get all the filter values
-    this.filterValues.clear()
-    this.filterFields.forEach(filterField => {
-      console.log("Processing ", filterField);
-
-      const valMap = new Map<string, number>()
-      this._items.forEach(item => {
-        const v = item[filterField]
-        console.log("Checking Value ", v);
-
-        if (isArray(v)) {
-          v.forEach(v2 => {
-            if (valMap.has(v2)) {
-              valMap.set(v2, valMap.get(v2) + 1)
-            } else {
-              valMap.set(v2, 1)
-            }
-          })
-        } else {
-          if (valMap.has(v)) {
-            valMap.set(v, valMap.get(v) + 1)
-          } else {
-            valMap.set(v, 1)
-          }
-        }
-
-        console.log("Map Now ", valMap);
-      })
-      this.filterValues.set(filterField, valMap)
-    })
-    console.log("Processed Items ", this.items, this.filterValues);
+    this.filter.fields = this.fields
+    this.filter.calcFilterValues(this._items);
   }
 
   toggleView() {
@@ -116,23 +94,25 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     this.view = this.views[indx]
     this.viewChanged.emit(this.view)
     console.log("View: ", this.view);
-
   }
 
   toggleSort() {
-    this.dialog.openSort(this.sortFields, this.sort).subscribe(s => {
-      this.sort = s
-      this.applyFilers()
+    this.dialog.openSort(this.filter).subscribe(s => {
+      this.filter = s
+      this.applyFilters()
     })
   }
 
   toggleFilter() {
-
+    this.dialog.openFilter(this.filter).subscribe(f => {
+      this.filter = f
+      this.applyFilters()
+    })
   }
 
-
-  applyFilers() {
-
+  applyFilters() {
+    this.filtered = SortFilterUtil.sortAndFilter(this._items, this.filter)
+    this.itemsUpdated.emit(this.filtered)
   }
 
   updateSearch($event: string) {
@@ -141,8 +121,23 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     }
   }
 
+  forceUpdateSearch($event) {
+    this.searchPhrase = $event.target.value
+  }
+
   clearSearch() {
     this.searchPhrase = ''
+  }
+
+  goto(indexValue) {
+    console.log("GOTO ", indexValue);
+
+    let first = this.filtered.find(item => this.filter.sortField.indexFn(item) == indexValue)
+    console.log("FIRST FIND  ", first);
+
+    if (first) {
+      this.scrollRequest.emit(first)
+    }
   }
 
 }

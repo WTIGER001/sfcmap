@@ -5,6 +5,12 @@
   height: 100vh;
 }
 
+.maps h1 {
+  color: white;
+  padding: 10px;
+  margin: 0;
+}
+
 .cards {
   /* 500 x350 */
   display: grid;

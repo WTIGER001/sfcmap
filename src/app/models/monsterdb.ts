@@ -72,6 +72,7 @@ export class MonsterIndex extends ObjectType {
 }
 
 export class MonsterDB {
+
   public static toCharacter(m: MonsterIndex | MonsterText): Character {
 
     const c = new Character()
@@ -402,6 +403,23 @@ export class MonsterDB {
       }
     }
     return crNum
+  }
+
+  static formatCR(cr: number): string {
+    if (cr > .3 && cr < .4) {
+      return "CR1/3"
+    } else if (cr > .49 && cr < .51) {
+      return "CR1/2"
+    } else if (cr > .120 && cr < .130) {
+      return "CR1/8"
+    } else if (cr > .24 && cr < .26) {
+      return "CR1/4"
+    } else if (cr > .16 && cr < .17) {
+      return "CR1/6"
+    } else if (isNaN(cr)) {
+      return "CR - "
+    }
+    return "CR" + cr
   }
 
 }

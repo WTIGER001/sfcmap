@@ -92,6 +92,9 @@
   /* transition: transform 250ms ease-in-out;*/
   /* transform-origin: 50% 100%;  */
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .game-menu-area-expanded {

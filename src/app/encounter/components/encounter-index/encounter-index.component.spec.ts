@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilterDialogComponent } from './filter-dialog.component';
+import { EncounterIndexComponent } from './encounter-index.component';
 
-describe('FilterDialogComponent', () => {
-  let component: FilterDialogComponent;
-  let fixture: ComponentFixture<FilterDialogComponent>;
+describe('EncounterIndexComponent', () => {
+  let component: EncounterIndexComponent;
+  let fixture: ComponentFixture<EncounterIndexComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FilterDialogComponent ]
+      declarations: [ EncounterIndexComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FilterDialogComponent);
+    fixture = TestBed.createComponent(EncounterIndexComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

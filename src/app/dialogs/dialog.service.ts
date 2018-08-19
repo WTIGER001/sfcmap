@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { from, Observable, Subject } from 'rxjs';
-import { Distance, FilterData, SortData } from '../models';
+import { Distance } from '../models';
 import { DistanceEntryComponent } from './distance-entry/distance-entry.component';
 import { SortDialogComponent } from './sort-dialog/sort-dialog.component';
+import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
+import { SortFilterData } from '../util/sort-filter';
 
 @Injectable()
 export class DialogService {
@@ -19,20 +21,17 @@ export class DialogService {
     return modalRef.componentInstance.result
   }
 
-  public openSort(sortFields: string[], current?: SortData): Observable<SortData> {
+  public openSort(config: SortFilterData): Observable<SortFilterData> {
     const modalRef = this.modalSvc.open(SortDialogComponent);
-    modalRef.componentInstance.result = new Subject<SortData>()
-    modalRef.componentInstance.sortFields = sortFields
-    modalRef.componentInstance.selection = current
+    modalRef.componentInstance.result = new Subject<SortFilterData>()
+    modalRef.componentInstance.config = config
     return modalRef.componentInstance.result
   }
 
-  public openFilter(filterFields: string, filterValues: FilterData, current: FilterData): Observable<FilterData> {
-    const modalRef = this.modalSvc.open(SortDialogComponent);
-    modalRef.componentInstance.result = new Subject<FilterData>()
-    modalRef.componentInstance.filterFields = filterFields
-    modalRef.componentInstance.filterValues = filterValues
-    modalRef.componentInstance.current = current
+  public openFilter(config: SortFilterData): Observable<SortFilterData> {
+    const modalRef = this.modalSvc.open(FilterDialogComponent);
+    modalRef.componentInstance.result = new Subject<SortFilterData>()
+    modalRef.componentInstance.config = config
     return modalRef.componentInstance.result
   }
 }

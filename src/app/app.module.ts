@@ -134,6 +134,7 @@ import { SearchBarComponent } from './controls/search-bar/search-bar.component';
 import { SortDialogComponent } from './dialogs/sort-dialog/sort-dialog.component';
 import { FilterDialogComponent } from './dialogs/filter-dialog/filter-dialog.component';
 import { MapCardComponent } from './maps/controls/map-card/map-card.component';
+import { EncounterIndexComponent } from './encounter/components/encounter-index/encounter-index.component';
 
 @NgModule({
   declarations: [
@@ -233,6 +234,7 @@ import { MapCardComponent } from './maps/controls/map-card/map-card.component';
     SortDialogComponent,
     FilterDialogComponent,
     MapCardComponent,
+    EncounterIndexComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Game } from '../../../models';
 import { DataService } from '../../../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-game-edit',
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class GameEditComponent implements OnInit {
   game: Game
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
     this.game = new Game()
     this.game.name = "New Game"
   }
@@ -37,6 +37,7 @@ export class GameEditComponent implements OnInit {
 
   save() {
     this.data.save(this.game)
+    this.router.navigate(['/game', this.game.id])
   }
 
   delete() {

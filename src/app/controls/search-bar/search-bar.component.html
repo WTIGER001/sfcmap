@@ -11,11 +11,18 @@
     </li>
   </ul>
   <div class="filters">
-    <input type="text" [(ngModel)]="search" (ngChanges)="updateSearch($event)" class="form-control form-control-lg">
-    <fa-icon icon="times" (click)="clearSearch()" size="2x" class="icon-clear"></fa-icon>
+    <input type="text" [ngModel]="searchPhrase" (ngChange)="updateSearch($event)" (blur)="forceUpdateSearch($event)" (keyup.enter)="forceUpdateSearch($event)"
+      class="form-control form-control-lg">
+    <fa-icon *ngIf="searchPhrase!=''" icon="times" (click)="clearSearch()" size="2x" class="icon-clear"></fa-icon>
     <fa-icon icon="question-circle" (click)="showFilterHelp()" size="2x" class="icon-help"></fa-icon>
+    <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
   </div>
   <div class="new">
-    <a [routerLink]="newLink"><fa-icon icon="plus" size="lg"></fa-icon> {{newText}}</a>
+    <div class="new2">
+      <a [routerLink]="newLink"><fa-icon icon="plus" size="lg" class="icon2"></fa-icon> {{newText}}</a>
+    </div>
   </div>
 </div>
+<ul *ngIf="hasIndex" class="index-bar">
+  <li *ngFor="let indexValue of filter.indexValues" (click)="goto(indexValue)"> {{indexValue}}</li>
+</ul>

@@ -239,3 +239,77 @@ Index Page
 -- Card Display (wxh)
 -- Small Card Disaply (wxh)
 -- Table (columns)
+
+
+# BIG REFACTOR
+## NOT DONE
+- Data Migration (Last thing I think... this will break the current site)
+- Update Restrictions tab
+- Make 3 "mandatory" groups for each game
+- Filter DIalog - Remove Check boxes and use toggle buttons. 
+- Send To Button for items / copy
+
+### Tabs
+
+### Encounters
+- Move encounter to the encounter index page
+- Encounter Cards (large and small)
+- Encounter Table 
+- Search for monsters and NPCs
+
+## Game System
+- Update the game menu to know when you are only on a system
+- Game System Page for Pathfinder... Not sure how much should / can be genericized
+- GAme System Edit Page (maybe)
+
+## Game
+- Tie in game logos
+- Better edit page... the current one is ugly
+- Players, Owner, GMs list
+- GM Notes
+
+## Character
+- Fix pcgen import
+- Import dialog
+- Add search bar
+- small cards
+- List Style? 
+- Group By Folder Name
+- Add "favorite" star feautre
+- Send to encounter or bag
+- Incorporate a text editor maybe?
+- Make a better edit area
+- Make a better view page (one that I render myself)
+- Tied to games
+
+## Maps
+- Fix the bugs with switching
+- Load when the game loads
+- Move the scale and coordinates over ~100px
+- 'real time' annotations
+- Fog of war---- yeah right!
+- Combat simulator? Maybe.. Need to talk to ben about this 
+- Data Migration (Last thing I think... this will break the current site)
+
+### NEW PAGES NEEDED
+- Admin
+- Settings
+- Encounter Index 
+- NPCs
+- Spells
+- Items
+- About
+- 'Cart'
+
+## DONE
+- Reusable Search Bar and Index pattern
+- Game FAB
+- New Game Page / Edit Game Page
+- Games Page (new home page)
+
+
+Steps to implement a new index page
+- Create the component
+-- Basic layout - container, h1, search bar, card are
+- Add the Search bar and the methods to support i
+- Create the fields for the search bar

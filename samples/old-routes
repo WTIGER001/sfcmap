@@ -22,42 +22,73 @@ import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-mons
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
   { path: 'home', redirectTo: '/games', pathMatch: 'full' },
-
-  // GAMES
+  // { path: 'map', component: MapComponent },
+  // { path: 'map/:id', component: MapComponent },
+  /* GAMES */
   { path: 'new-game', component: GameEditComponent },
   { path: 'games', component: GameIndexComponent },
-  { path: 'game/:gameid', component: GameViewComponent },
-  { path: 'game/:gameid/edit', component: GameEditComponent },
+  { path: 'game/:id', component: GameViewComponent },
+  { path: 'game/:id/edit', component: GameEditComponent },
 
-  // CHARACTERS
-  { path: 'game/:gameid/new-character', component: EditCharacterComponent },
-  { path: 'game/:gameid/characters', component: CharacterIndexComponent },
-  { path: 'game/:gameid/character/:id', component: EditCharacterComponent },
-  { path: 'game/:gameid/character/:id/edit', component: EditCharacterComponent },
+  // /* CHARACTERS */
+  // { path: 'game/:gameid/new-character', component: EditCharacterComponent },
+  // { path: 'game/:gameid/characters', component: CharacterIndexComponent },
+  // { path: 'game/:gameid/character/:id', component: ViewCharacterComponent },
+  // { path: 'game/:gameid/character/:id/edit', component: EditCharacterComponent },
 
+  // /* MAPS  */
   { path: 'game/:gameid/new-map', component: PageNotFoundComponent },
   { path: 'game/:gameid/maps', component: MapIndexComponent },
   { path: 'game/:gameid/map/:id', component: MapComponent },
   { path: 'game/:gameid/map/:id/edit', component: EditMapComponent },
 
-  { path: 'game/:gameid/new-encounter', component: EditEncounterComponent },
-  { path: 'game/:gameid/encounters', component: EncounterIndexComponent },
-  { path: 'game/:gameid/encounter/:id', component: EncounterComponent },
-  { path: 'game/:gameid/encounter/:id/edit', component: EditEncounterComponent },
+  // /* ENCOUNTERS  */
+  // { path: 'game/:gameid/new-encounter', component: EditEncounterComponent },
+  // { path: 'game/:gameid/encounters', component: EncounterIndexComponent },
+  // { path: 'game/:gameid/encounter/:id', component: EncounterComponent },
+  // { path: 'game/:gameid/encounter/:id/edit', component: EditEncounterComponent },
 
-  { path: 'monster/:id', component: MonsterComponent },
-  { path: 'monsters', component: MonsterIndexPageComponent },
-  { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
-  { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
-  { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
-  { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
+  // /* MONSTERS  */
+  // { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
+  // { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
+  // { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
+  // { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
 
+  /* NPCS  */
+  //  { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
+  //  { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
+  //  { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
+  //  { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
 
+  /* ITEMS  */
+  // { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
+  // { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
+  // { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
+  // { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
 
-  { path: 'map/:id', component: MapComponent },
+  /* SPELLS  */
+  // { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
+  // { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
+  // { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
+  // { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
+
+  /* FEATS  */
+  // { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
+  // { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
+  // { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
+  // { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
+
   { path: 'admin', component: AdminComponent },
   { path: 'settings', component: SettingsComponent },
   { path: '**', component: PageNotFoundComponent }
+
+
+  // { path: 'monster/:id', component: MonsterComponent },
+  // { path: 'monsters', component: MonsterIndexPageComponent },
+  // { path: 'map/:id', component: MapComponent },
+  // { path: 'game/:gameid/maps', component: MapIndexComponent },
+  // { path: 'game/:gameid/map/:id', component: MapComponent },
+  // { path: 'game/:gameid/map/:id/edit', component: EditMapComponent },
 ];
 
 export class CustomReuseStrategy implements RouteReuseStrategy {

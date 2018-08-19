@@ -1,17 +1,32 @@
 <div class="bg">
   <h1 class="title"> Character Index</h1>
 
-  <div class="filter-area">
+  <!-- <div class="filter-area">
     <div class="input-grp">
       <input type="text" class="form-control form-control-lg search" [(ngModel)]="filter" (ngModelChange)="updateFilter($event)"
         placeholder="Search for characters">
       <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
     </div>
+  </div> -->
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Character" [newLink]="['/', gameid, 'new-character']"
+    (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event">
+  </app-search-bar>
+
+  <div #list class="results scroller scroller-dark crd-table">
+    <div *ngFor="let m of filtered">
+      <app-character-card [character]="m" id="CHARACTER_{{m.id}}"></app-character-card>
+    </div>
   </div>
 
-  <div class="results scroller scroller-dark crd-table">
-    <div *ngFor="let m of filtered">
-      <app-character-card [character]="m"></app-character-card>
+  <div #list class="results scroller scroller-dark ">
+    <div *ngIf="view=='card' " class="cards ">
+      <app-character-card *ngFor="let m of filtered" [character]="m" id="CHARACTER_{{m.id}}" size='card'></app-character-card>
+    </div>
+    <div *ngIf="view=='small' " class="cards-small ">
+      <app-character-card *ngFor="let m of filtered" [character]="m" id="CHARACTER_{{m.id}}" size='small'></app-character-card>
+    </div>
+    <div *ngIf="view=='line' " class="cards-line ">
+      <app-character-card *ngFor="let m of filtered" [character]="m" id="CHARACTER_{{m.id}}" size='line'></app-character-card>
     </div>
   </div>
 

@@ -4,10 +4,10 @@
   </div>
   <div class="bdy">
     <div class="sort-list">
-      <ng-container *ngFor="let item of sortFields">
-        <fa-icon icon="sort-amount-up" class="sort-item" (click)="setSort(item, 1)" (dblclick)="ok()" [class.sort-item-active]="selection && selection.direction ==1 && selection.field == item"></fa-icon>
-        <fa-icon icon="sort-amount-down" class="sort-item" (click)="setSort(item, -1)" (dblclick)="ok()" [class.sort-item-active]="selection && selection.direction ==-1 && selection.field == item"></fa-icon>
-        {{item}}
+      <ng-container *ngFor="let item of selection.sortFields">
+        <fa-icon icon="sort-amount-up" class="sort-item" (click)="setSort(item, 1)" (dblclick)="ok()" [class.sort-item-active]="selection && selection.direction ==1 && selection.sortField == item"></fa-icon>
+        <fa-icon icon="sort-amount-down" class="sort-item" (click)="setSort(item, -1)" (dblclick)="ok()" [class.sort-item-active]="selection && selection.direction ==-1 && selection.sortField == item"></fa-icon>
+        {{item.name}}
       </ng-container>
     </div>
   </div>

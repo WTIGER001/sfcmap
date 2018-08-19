@@ -1,26 +1,14 @@
 <div class="bg">
   <h1 class="title"> Monster Index</h1>
 
-  <div class="filter-area">
-    <div class="input-grp">
-      <input type="text" class="form-control form-control-lg search" [(ngModel)]="filter" (ngModelChange)="updateFilter($event)">
-      <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
-    </div>
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button [class.active]="sort=='name'" type="button" class="btn btn-secondary" (click)="sortBy('name')">Name</button>
-      <button [class.active]="sort=='cr'" type="button" class="btn btn-secondary" (click)="sortBy('cr')">CR</button>
-      <button [class.active]="sort=='type'" type="button" class="btn btn-secondary" (click)="sortBy('type')">Type</button>
-    </div>
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Monster" [newLink]="['/', gameid, 'new-map']" (itemsUpdated)="updateItems($event)"
+    (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event">
+  </app-search-bar>
 
-
-  </div>
-  <div class="indx-btn">
-    <button *ngFor="let item of getIndexButtons()" (click)="find(item)" class="btn btn-sm btn-link">{{item}}</button>
-  </div>
-  <div class="results scroller scroller-dark">
+  <div class="results scroller scroller-dark" #list>
     <div *ngFor="let m of filtered">
       <a routerLink="/monster/{{m.id}}">
-        <figure class="result-item">
+        <figure class="result-item" id="MONSTER_{{m.id}}">
           <img [src]='m.thumb?m.thumb:"/assets/missing.png"'>
           <figcaption>
             {{m.name}}

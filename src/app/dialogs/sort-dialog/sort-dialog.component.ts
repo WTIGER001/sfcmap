@@ -1,29 +1,32 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { SortData } from '../../models';
+import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SortData, SortFilterData, SortFilterField } from '../../util/sort-filter';
 
 @Component({
   selector: 'app-sort-dialog',
   templateUrl: './sort-dialog.component.html',
   styleUrls: ['./sort-dialog.component.css']
 })
-export class SortDialogComponent implements OnInit {
-  result: Subject<SortData>
-  sortFields: string[]
-
-  selection: SortData = undefined
+export class SortDialogComponent implements OnInit, AfterContentInit {
+  result: Subject<SortFilterData>
+  config: SortFilterData
+  selection: SortFilterData = new SortFilterData()
 
   constructor(private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
   }
 
-  setSort(item: string, direction: number) {
-    const i = new SortData()
-    i.direction = direction
-    i.field = item
-    this.selection = i
+  ngAfterContentInit() {
+    console.log("CONFIGURING SORT ", this.config, this.selection);
+
+    this.selection.copyFrom(this.config)
+  }
+
+  setSort(field: SortFilterField, direction: number) {
+    this.selection.sortField = field
+    this.selection.direction = direction
   }
 
   ok() {
