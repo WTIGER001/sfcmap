@@ -267,6 +267,7 @@ Index Page
 - Better edit page... the current one is ugly
 - Players, Owner, GMs list
 - GM Notes
+- Zoom in effect on hover for game cards
 
 ## Character
 - Fix pcgen import
@@ -300,6 +301,7 @@ Index Page
 - Items
 - About
 - 'Cart'
+- Tag Asset
 
 ## DONE
 - Reusable Search Bar and Index pattern
@@ -313,3 +315,5 @@ Steps to implement a new index page
 -- Basic layout - container, h1, search bar, card are
 - Add the Search bar and the methods to support i
 - Create the fields for the search bar
+
+

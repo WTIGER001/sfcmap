@@ -1,3 +1,18 @@
-<p>
-  encounter-index works!
-</p>
+<div class="bg">
+  <h1>Encounters</h1>
+  <app-search-bar [items]="all" [fields]='fields' newText="New Encounter" [newLink]="[ '/game', gameid, 'new-encounter'] "
+    (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event ">
+  </app-search-bar>
+
+  <div #list class="display scroller scroller-dark ">
+    <div *ngIf="view=='card' " class="cards ">
+      <app-encounter *ngFor="let m of filtered" [selected]="m" id="ENCOUNTER_{{m.id}}"></app-encounter>
+    </div>
+    <div *ngIf="view=='small' " class="cards-small ">
+      <app-encounter *ngFor="let m of filtered " [selected]="m" size="small " id="ENCOUNTER_{{m.id}}"></app-encounter>
+    </div>
+    <div *ngIf="view=='line' " class="cards-line ">
+      <app-encounter *ngFor="let m of filtered " [selected]="m" size="line " id="ENCOUNTER_{{m.id}}"></app-encounter>
+    </div>
+  </div>
+</div>

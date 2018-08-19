@@ -7,6 +7,7 @@ import { MapConfig } from '../../../models';
   styleUrls: ['./map-card.component.css']
 })
 export class MapCardComponent implements OnInit {
+  @Input() gameid: string
   @Input() map: MapConfig
   @Input() size: 'card' | 'small' | 'line' = 'card'
 

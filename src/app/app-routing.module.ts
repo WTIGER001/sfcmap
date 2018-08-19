@@ -32,25 +32,25 @@ const routes: Routes = [
   // CHARACTERS
   { path: 'game/:gameid/new-character', component: EditCharacterComponent },
   { path: 'game/:gameid/characters', component: CharacterIndexComponent },
-  { path: 'game/:gameid/character/:id', component: EditCharacterComponent },
-  { path: 'game/:gameid/character/:id/edit', component: EditCharacterComponent },
+  { path: 'game/:gameid/characters/:id', component: EditCharacterComponent },
+  { path: 'game/:gameid/characters/:id/edit', component: EditCharacterComponent },
 
   { path: 'game/:gameid/new-map', component: PageNotFoundComponent },
   { path: 'game/:gameid/maps', component: MapIndexComponent },
-  { path: 'game/:gameid/map/:id', component: MapComponent },
-  { path: 'game/:gameid/map/:id/edit', component: EditMapComponent },
+  { path: 'game/:gameid/maps/:id', component: MapComponent },
+  { path: 'game/:gameid/maps/:id/edit', component: EditMapComponent },
 
   { path: 'game/:gameid/new-encounter', component: EditEncounterComponent },
   { path: 'game/:gameid/encounters', component: EncounterIndexComponent },
-  { path: 'game/:gameid/encounter/:id', component: EncounterComponent },
-  { path: 'game/:gameid/encounter/:id/edit', component: EditEncounterComponent },
+  { path: 'game/:gameid/encounters/:id', component: EncounterComponent },
+  { path: 'game/:gameid/encounters/:id/edit', component: EditEncounterComponent },
 
   { path: 'monster/:id', component: MonsterComponent },
   { path: 'monsters', component: MonsterIndexPageComponent },
   { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
   { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
-  { path: 'gs/:gsid/monster/:id', component: MonsterComponent },
-  { path: 'gs/:gsid/monster/:id/edit', component: EditMonsterComponent },
+  { path: 'gs/:gsid/monsters/:id', component: MonsterComponent },
+  { path: 'gs/:gsid/monsters/:id/edit', component: EditMonsterComponent },
 
 
 

@@ -7,7 +7,7 @@
 
   <div class="results scroller scroller-dark" #list>
     <div *ngFor="let m of filtered">
-      <a routerLink="/monster/{{m.id}}">
+      <a routerLink="{{m.id}}">
         <figure class="result-item" id="MONSTER_{{m.id}}">
           <img [src]='m.thumb?m.thumb:"/assets/missing.png"'>
           <figcaption>

@@ -83,7 +83,7 @@ export class MapIndexComponent implements OnInit {
 
   scrollTo($event: MonsterIndex) {
     if (this.listElement) {
-      this.listElement.nativeElement.querySelector("#" + $event.id).scrollTo()
+      this.listElement.nativeElement.querySelector("#MAP_" + $event.id).scrollIntoView()
     }
   }
 

@@ -6,13 +6,13 @@
 
   <div #list class="display scroller scroller-dark ">
     <div *ngIf="view=='card' " class="cards ">
-      <app-map-card *ngFor="let map of filtered, let index=index " [map]="map" id="map.id"></app-map-card>
+      <app-map-card *ngFor="let map of filtered, let index=index " [map]="map" [gameid]='gameid' id="MAP_{{map.id}}"></app-map-card>
     </div>
     <div *ngIf="view=='small' " class="cards-small ">
-      <app-map-card *ngFor="let map of filtered " [map]="map " size="small "></app-map-card>
+      <app-map-card *ngFor="let map of filtered " [map]="map " size="small " [gameid]='gameid' id="MAP_{{map.id}}"></app-map-card>
     </div>
     <div *ngIf="view=='line' " class="cards-line ">
-      <app-map-card *ngFor="let map of filtered " [map]="map " size="line "></app-map-card>
+      <app-map-card *ngFor="let map of filtered " [map]="map " size="line " [gameid]='gameid' id="MAP_{{map.id}}"></app-map-card>
     </div>
   </div>
 </div>

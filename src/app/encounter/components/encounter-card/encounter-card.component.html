@@ -5,7 +5,7 @@
     <div class="ml-2">
       <h2>{{character.name}}</h2>
       <app-attr-value class="attr" size="3x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
-      <app-attr-value class="attr" size="3x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
+      <app-attr-value class="attr" size="3x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
     </div>
   </div>
 
@@ -15,7 +15,7 @@
     <span class="sm-name">{{character.name}}</span>
     <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
     <div class="sm-attr">
-      <app-attr-value size="2x" [value]="getAttrValue('AC')" type="square"></app-attr-value>
+      <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
       <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
     </div>
   </div>
