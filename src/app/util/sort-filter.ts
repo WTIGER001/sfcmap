@@ -2,11 +2,15 @@ import { isArray } from "util";
 
 export class SortFilterUtil {
   static sortAndFilter(items: any[], config: SortFilterData) {
+    // console.log("Pre Filter", items.length);
     const filtered = this.filter(items, config)
+    // console.log("Pre Sort", filtered.length);
     const sorted = this.sort(filtered, config)
+    // console.log("Preindex", sorted.length);
     if (config.indexed) {
       config.calcIndex(sorted)
     }
+    // console.log("Post INdex", sorted.length);
     return sorted
   }
 

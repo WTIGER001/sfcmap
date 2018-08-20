@@ -4,6 +4,9 @@ import { isArray } from 'util';
 import { DialogService } from '../../dialogs/dialog.service';
 import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 import { SortFilterUtil, SortFilterData, SortFilterField } from '../../util/sort-filter';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { RouteUtil } from '../../util/route-util';
 
 @Component({
   selector: 'app-search-bar',
@@ -53,7 +56,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     return this._items;
   }
 
-  constructor(private dialog: DialogService) { }
+  constructor(private dialog: DialogService, private router: Router, private location: Location, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.search$.pipe(
@@ -72,7 +75,15 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     this.processFilterValues();
+
     this.view = this.views[0]
+    this.route.queryParamMap.subscribe(p => {
+      const v = p.get("view")
+      if (v) {
+        this.view = v;
+        this.viewChanged.emit(this.view)
+      }
+    })
   }
 
   processFilterValues() {
@@ -81,8 +92,6 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   toggleView() {
-    console.log("Toggling View");
-
     let indx = this.views.indexOf(this.view)
     if (indx == -1 && this.views && this.views.length > 0) {
       indx = 0
@@ -92,8 +101,8 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
       indx = indx + 1
     }
     this.view = this.views[indx]
+    RouteUtil.setParamsNoReload(this.router, this.location, { view: this.view })
     this.viewChanged.emit(this.view)
-    console.log("View: ", this.view);
   }
 
   toggleSort() {

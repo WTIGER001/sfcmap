@@ -1,88 +1,118 @@
-<div class="crd" [class.p1]="position==1" [class.p2]="position==2" [class.p3]="position==3">
-  <ng-container *ngIf="canView() == true">
-    <a routerLink="{{character.id}}">
-      <img class="crd-picture" [src]="character.picture?character.picture:'/assets/cards/character.png'">
-    </a>
-    <div class="crd-body crd-body scroller-dark">
-      <ng-container *ngIf="page=='personal'">
-        <div class="center-text">
-          <div class="crd-page-title">Personal</div>
-        </div>
-        <div>{{lookupType()}}</div>
-        <app-tags [tags]="character.tags"></app-tags>
-        <div>Size: {{character?.size}}</div>
-        <div>Speed: {{character?.speed}}</div>
-        <div>Vision: {{character?.vision}}</div>
-        <div>Reach: {{character?.reach}}</div>
-      </ng-container>
+<ng-container *ngIf="size=='card'">
+  <div class="crd" [class.p1]="position==1" [class.p2]="position==2" [class.p3]="position==3">
+    <ng-container *ngIf="canView() == true">
+      <a routerLink="{{character.id}}">
+        <img class="crd-picture" [src]="character.picture?character.picture:'/assets/cards/character.png'">
+      </a>
+      <div class="crd-body crd-body scroller-dark">
+        <ng-container *ngIf="page=='personal'">
+          <div class="center-text">
+            <div class="crd-page-title">Personal</div>
+          </div>
+          <div>{{lookupType()}}</div>
+          <app-tags [tags]="character.tags"></app-tags>
+          <div>Size: {{character?.size}}</div>
+          <div>Speed: {{character?.speed}}</div>
+          <div>Vision: {{character?.vision}}</div>
+          <div>Reach: {{character?.reach}}</div>
+        </ng-container>
 
-      <ng-container *ngIf="page=='description'">
-        <div class="center-text">
-          <div class="crd-page-title">Description</div>
-        </div>
+        <ng-container *ngIf="page=='description'">
+          <div class="center-text">
+            <div class="crd-page-title">Description</div>
+          </div>
 
-        <small>
-          <i>{{character.description}}</i>
-        </small>
-      </ng-container>
+          <small>
+            <i>{{character.description}}</i>
+          </small>
+        </ng-container>
 
-      <ng-container *ngIf="page=='rolls'">
-        <div class="center-text">
-          <div class="crd-page-title">Rolls</div>
-        </div>
-        <div class="roll-tbl">
-          <ng-container *ngFor="let a of character.rolls">
-            <div>{{a.name}}</div>
-            <div>{{evaluate(a)}}</div>
-            <div>
-              <fa-icon icon="dice-six" (click)="roll($event,a)" class="btn-tbl"></fa-icon>
-            </div>
+        <ng-container *ngIf="page=='rolls'">
+          <div class="center-text">
+            <div class="crd-page-title">Rolls</div>
+          </div>
+          <div class="roll-tbl">
+            <ng-container *ngFor="let a of character.rolls">
+              <div>{{a.name}}</div>
+              <div>{{evaluate(a)}}</div>
+              <div>
+                <fa-icon icon="dice-six" (click)="roll($event,a)" class="btn-tbl"></fa-icon>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="page=='stats'">
+          <div class="center-text">
+            <div class="crd-page-title">Stats</div>
+          </div>
+          <div class="attr-tbl">
+            <ng-container *ngFor="let a of character.attributes">
+              <div>{{a.attr}}</div>
+              <div>{{a.max}}</div>
+              <div>{{a.current}}</div>
+            </ng-container>
+          </div>
+        </ng-container>
+
+      </div>
+      <div class="crd-title pointer">
+        <span class="crd-txt" (click)="togglePositionMax()"> {{character.name}}</span>
+      </div>
+      <div class="crd-title crd-title-middle pointer">
+        <fa-icon class="crd-prev" icon="caret-left" (click)="prevPage($event)"></fa-icon>
+        <span class="crd-txt" (click)="togglePosition()">{{character.classes}}</span>
+        <fa-icon class="crd-next" icon="caret-right" (click)="nextPage($event)"></fa-icon>
+      </div>
+      <app-attr-value class="crd-hp" size="4x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
+      <app-attr-value class="crd-ac" size="4x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
+      <div class="crd-hover-info" *ngIf="diceResult">
+        <div class="dice">
+          <ng-container *ngFor="let r of diceResult.dice">
+            <i [class]="r.getClass()" [class.mr-1]="true" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
+            <span class="empty-die mr-1" *ngIf="r.getNoClass()">{{r.getTotal()}}</span>
           </ng-container>
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="page=='stats'">
-        <div class="center-text">
-          <div class="crd-page-title">Stats</div>
-        </div>
-        <div class="attr-tbl">
-          <ng-container *ngFor="let a of character.attributes">
-            <div>{{a.attr}}</div>
-            <div>{{a.max}}</div>
-            <div>{{a.current}}</div>
+          <ng-container *ngIf="diceResult.modifier > 0">
+            + {{diceResult.modifier}}
           </ng-container>
+          <ng-container *ngIf="diceResult.modifier < 0">
+            {{diceResult.modifier}}
+          </ng-container>
+          = {{diceResult.getTotal()}}
         </div>
-      </ng-container>
+      </div>
+      <app-dice-canvas #dice (diceroll)="rolled($event)" (cleared)="cleared($event)"></app-dice-canvas>
+    </ng-container>
+    <ng-container *ngIf="canView() == false">
+      <img class="crd-back" src="/assets/cards/character.png">
+    </ng-container>
+  </div>
+</ng-container>
 
-    </div>
-    <div class="crd-title pointer">
-      <span class="crd-txt" (click)="togglePositionMax()"> {{character.name}}</span>
-    </div>
-    <div class="crd-title crd-title-middle pointer">
-      <fa-icon class="crd-prev" icon="caret-left" (click)="prevPage($event)"></fa-icon>
-      <span class="crd-txt" (click)="togglePosition()">{{character.classes}}</span>
-      <fa-icon class="crd-next" icon="caret-right" (click)="nextPage($event)"></fa-icon>
-    </div>
-    <app-attr-value class="crd-hp" size="4x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
-    <app-attr-value class="crd-ac" size="4x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
-    <div class="crd-hover-info" *ngIf="diceResult">
-      <div class="dice">
-        <ng-container *ngFor="let r of diceResult.dice">
-          <i [class]="r.getClass()" [class.mr-1]="true" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
-          <span class="empty-die mr-1" *ngIf="r.getNoClass()">{{r.getTotal()}}</span>
-        </ng-container>
-        <ng-container *ngIf="diceResult.modifier > 0">
-          + {{diceResult.modifier}}
-        </ng-container>
-        <ng-container *ngIf="diceResult.modifier < 0">
-          {{diceResult.modifier}}
-        </ng-container>
-        = {{diceResult.getTotal()}}
+
+<ng-container *ngIf="size=='small'">
+  <a routerLink="{{character.id}}">
+    <div class="sm-card">
+      <img [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-sm">
+      <span class="sm-name">{{character.name}}</span>
+      <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
+      <div class="sm-attr">
+        <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
+        <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
       </div>
     </div>
-    <app-dice-canvas #dice (diceroll)="rolled($event)" (cleared)="cleared($event)"></app-dice-canvas>
-  </ng-container>
-  <ng-container *ngIf="canView() == false">
-    <img class="crd-back" src="/assets/cards/character.png">
-  </ng-container>
-</div>
+  </a>
+</ng-container>
+
+<ng-container *ngIf="size=='tiny'">
+  <div class="tiny-card">
+    <img *ngIf="character.picture" [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-tiny">
+    <div *ngIf="!character.picture" class="mini-pic-sm nopic"></div>
+    <span class="sm-name">{{character.name}}</span>
+    <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
+    <div class="sm-attr">
+      <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
+      <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
+    </div>
+  </div>
+</ng-container>

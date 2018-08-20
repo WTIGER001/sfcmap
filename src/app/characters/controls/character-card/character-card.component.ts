@@ -13,7 +13,7 @@ import { DiceCanvasComponent } from '../../../controls/dice-canvas/dice-canvas.c
 export class CharacterCardComponent implements OnInit {
   static pages = ['personal', 'description', 'rolls', 'stats']
   @ViewChild('dice') dice: DiceCanvasComponent
-
+  @Input() size: string = 'card'
   @Input() character: Character
   @Input() position = 1
   direction = 0
