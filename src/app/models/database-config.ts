@@ -155,6 +155,5 @@ export class DbConfig {
   static prepareForSave(obj: any) {
 
   }
-
 }
 

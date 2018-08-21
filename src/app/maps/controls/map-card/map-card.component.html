@@ -10,15 +10,15 @@
   </div>
 </div>
 
-<div *ngIf="size=='small'" class="item-small-card">
-  <a [routerLink]="[map.id]">
-    <img class="image" [src]="map.thumb?map.thumb:'/assets/icons/maps.png'">
-    <h1>{{map.name}}</h1>
-  </a>
-</div>
+<a *ngIf="size=='small'" [routerLink]="[map.id]">
+  <figure class="item-small-card">
+    <img class="image " [src]="map.thumb?map.thumb: '/assets/icons/maps.png' ">
+    <figcaption>{{map.name}}</figcaption>
+  </figure>
+</a>
 
-<ng-container *ngIf="size=='line'" class="item-line">
-  <div><a [routerLink]="[map.id]">{{map.name}}</a></div>
+<ng-container *ngIf="size=='line' " class="item-line ">
+  <div><a [routerLink]="[map.id] ">{{map.name}}</a></div>
   <div>{{map.type}}</div>
   <div>size</div>
 </ng-container>

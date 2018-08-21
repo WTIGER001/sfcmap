@@ -18,16 +18,17 @@ export class GameSystem extends ObjectType {
   name: string
   description: string
   logo: string
-  logoSm: string
-  tags: string
-  theme: string
-  edit: string[]
-  view: string[]
-  weblink: string
+  tags: string[]
+  theme?: string
+  edit?: string[]
+  view?: string[]
+  weblink?: string
 
-  primaryAttributes: string[] = []
-  commonAttributes: string[] = []
-  commonRolls: Roll[] = []
+  supports?: string[]
+  health: string
+  defense: string
+  commonAttributes?: string[]
+  commonRolls?: string[]
 
   // has
   /*
@@ -36,6 +37,11 @@ export class GameSystem extends ObjectType {
   spells
   items
   */
+  static build(obj: any): GameSystem {
+    const gs = new GameSystem()
+    Object.assign(this, obj)
+    return gs
+  }
 }
 
 export class PrimaryAttribute {
@@ -44,3 +50,17 @@ export class PrimaryAttribute {
 
 }
 
+
+// export const Pathfinder: GameSystem = GameSystem.build({
+//   objType: GameSystem.TYPE,
+//   id: "pathfinder",
+//   name: "Pathfinder",
+//   description: "Pathfinder Role-Playing Game by Piazo",
+//   tags: ['Fantasy', 'Paizo'],
+//   logo: "/assets/logos/pathfinder.png",
+//   supports: ['monsters', 'spells', 'feats', 'npcs', 'items'],
+//   health: 'HP',
+//   defense: 'AC',
+//   commonAttributes: ['HP', 'AC', 'Initative', 'STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA', 'Fort', 'Ref', 'Will', 'Touch AC', 'Flat AC', 'BAB', 'CMB', 'CMD'],
+//   commonRolls: ['Perception', 'Attack - Melee', 'Initative', 'Attack - Ranged']
+// })

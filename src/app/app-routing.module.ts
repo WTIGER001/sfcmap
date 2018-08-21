@@ -18,6 +18,9 @@ import { EditEncounterComponent } from './encounter/components/edit-encounter/ed
 import { EncounterIndexComponent } from './encounter/components/encounter-index/encounter-index.component';
 import { EncounterComponent } from './encounter/components/encounter/encounter.component';
 import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-monster.component';
+import { GamesystemEditComponent } from './gamesystem/components/gamesystem-edit/gamesystem-edit.component';
+import { GamesystemIndexComponent } from './gamesystem/components/gamesystem-index/gamesystem-index.component';
+import { GamesystemViewComponent } from './gamesystem/components/gamesystem-view/gamesystem-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
@@ -44,6 +47,13 @@ const routes: Routes = [
   { path: 'game/:gameid/encounters', component: EncounterIndexComponent },
   { path: 'game/:gameid/encounters/:id', component: EncounterComponent },
   { path: 'game/:gameid/encounters/:id/edit', component: EditEncounterComponent },
+
+
+  { path: 'new-gamesystem', component: GamesystemEditComponent },
+  { path: 'gs', component: GamesystemIndexComponent },
+  { path: 'gs/:gsid', component: GamesystemViewComponent },
+  { path: 'gs/:gsid/edit', component: GamesystemEditComponent },
+
 
   { path: 'monster/:id', component: MonsterComponent },
   { path: 'monsters', component: MonsterIndexPageComponent },

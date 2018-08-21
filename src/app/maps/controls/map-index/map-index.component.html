@@ -4,7 +4,11 @@
     (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event ">
   </app-search-bar>
 
-  <div #list class="display scroller scroller-dark ">
+  <div #list class="display scroller scroller-dark" [class.cards]='view==="card"' [class.cards-small]="view=='small'">
+    <app-map-card *ngFor="let map of filtered " [map]="map " [size]="view " [gameid]='gameid' id="MAP_{{map.id}}"></app-map-card>
+  </div>
+
+  <!-- <div #list class="display scroller scroller-dark">
     <div *ngIf="view=='card' " class="cards ">
       <app-map-card *ngFor="let map of filtered, let index=index " [map]="map" [gameid]='gameid' id="MAP_{{map.id}}"></app-map-card>
     </div>
@@ -14,5 +18,5 @@
     <div *ngIf="view=='line' " class="cards-line ">
       <app-map-card *ngFor="let map of filtered " [map]="map " size="line " [gameid]='gameid' id="MAP_{{map.id}}"></app-map-card>
     </div>
-  </div>
+  </div> -->
 </div>

@@ -1,0 +1,14 @@
+<a [routerLink]="[gs.id]">
+  <div class='base card' *ngIf="size=='card'">
+    <figure>
+      <img [src]="gs.logo" alt="{{gs.name}} logo">
+      <figcaption>{{gs.name}}</figcaption>
+    </figure>
+  </div>
+  <div class='base small' *ngIf="size=='small'">
+    <figure>
+      <img [src]="gs.logo" alt="{{gs.name}} logo">
+      <figcaption>{{gs.name}}</figcaption>
+    </figure>
+  </div>
+</a>

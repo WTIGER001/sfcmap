@@ -32,15 +32,16 @@
 }
 
 .game-menu-aux-tools {
+  overflow: hidden;
+  width: 0px;
   background-color:   rgb(64,64,64);
   height: 64px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 250px;
   margin: 0;
   transform: scale(0,1);
-  transition: transform  250ms ease-in-out 300ms;
+  transition: all  250ms ease-in-out 300ms;
   transform-origin: 0% 50%;
   border-bottom-right-radius: 32px;
   border-top-right-radius: 32px;
@@ -49,8 +50,9 @@
 
 .game-menu-aux-tools-expanded {
   transform: scale(1,1);
+  width: 250px;
   transform-origin: 0% 50%;
-  transition: transform  250ms ease-in-out;
+  transition: all  250ms ease-in-out;
 }
 
 .game-menu-aux-tools li {
@@ -74,8 +76,8 @@
   background-color:   rgb(128,128,128);
 }
 
-.game-menu-aux-tools .icon {
-  display: block;
+.game-menu-aux-tools-expanded li {
+  display:block;
 }
 
 .game-menu-aux-tools .icon {

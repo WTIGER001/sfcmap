@@ -1,0 +1,39 @@
+.bg {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  max-height: 100vh;
+  height: 100vh;
+}
+
+.bg h1 {
+  padding: 10px;
+  color : white;
+  font-size: 1.5em
+}
+
+
+.results {
+  margin: 20px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-gap: 20px;
+  justify-content: space-around;
+}
+
+.cards-small {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-gap: 20px;
+  justify-content: space-around;
+}
+
+
+@media(max-width: 700px) {
+  .results  {
+    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fill, 125px);
+  }
+}

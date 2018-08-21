@@ -8,6 +8,7 @@ import { MonsterDB } from '../../../models/monsterdb';
 import { SearchBarComponent } from '../../../controls/search-bar/search-bar.component';
 import { SortFilterField } from '../../../util/sort-filter';
 import { Location } from '@angular/common';
+import { CharacterService } from '../../dialogs/character.service';
 
 @Component({
   selector: 'app-character-index',
@@ -18,10 +19,10 @@ export class CharacterIndexComponent implements OnInit, AfterContentInit {
   @ViewChild('list') listElement: ElementRef
   @ViewChild('search') search: SearchBarComponent
   view = 'card'
-
+  gameid: string
   filtered: Character[] = []
   all: Character[] = []
-  loading = false
+  loading = true
   types: CharacterType[] = []
 
   lookup = (id: string): string => {
@@ -50,41 +51,39 @@ export class CharacterIndexComponent implements OnInit, AfterContentInit {
     { name: "Folder", sort: true, filter: true, text: true, valueFn: (item) => this.lookup(item.type), indexFn: (item) => this.lookup(item.type), compareFn: this.compareTypes }
   ]
 
-  constructor(private data: DataService, private router: Router, private location: Location, private route: ActivatedRoute) {
+  constructor(private data: DataService, private router: Router, private location: Location, private route: ActivatedRoute, private chrSvc: CharacterService) {
 
   }
 
   ngOnInit() {
 
-
     this.data.characters.pipe().subscribe(a => {
-      console.log("Got some data characters ", a.length);
       this.all = a
+      this.loading = false
       if (this.search) {
-        console.log("Sertting Items ", a.length);
         this.search.items = a
         this.search.applyFilters()
       }
     })
 
-    this.data.charactersLoading.subscribe(v => {
-      this.loading = v
+    this.route.paramMap.subscribe(p => {
+      this.gameid = p.get("gameid")
     })
+
+    // this.data.charactersLoading.subscribe(v => {
+    //   this.loading = v
+    // })
 
     this.data.characterTypes.subscribe(t => this.types = t)
   }
 
   ngAfterContentInit() {
-    console.log("Initing View!!!!");
-
     if (this.search) {
-      console.log("applyFilters!!!!");
       this.search.applyFilters()
     }
   }
 
   updateItems($event: Character[]) {
-    console.log("Receiving Updated Items", $event.length);
     this.filtered = $event
   }
 
@@ -94,4 +93,7 @@ export class CharacterIndexComponent implements OnInit, AfterContentInit {
     }
   }
 
+  importCharacter() {
+    this.chrSvc.openImport()
+  }
 }

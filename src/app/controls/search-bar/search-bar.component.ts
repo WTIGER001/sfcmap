@@ -24,11 +24,14 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   @Output() searchChanged = new EventEmitter()
   @Output() itemsUpdated = new EventEmitter()
   @Output() scrollRequest = new EventEmitter()
+  @Output() clickImport = new EventEmitter()
 
   @Input() hasIndex = true
   @Input() hasViews = true
   @Input() hasFilters = true
   @Input() hasSorts = true
+  @Input() hasNew = true
+  @Input() hasImport = true
   @Input() fields: SortFilterField[] = []
   @Input() newText = "New Item"
   @Input() newLink = "/new-item"
@@ -86,6 +89,10 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     })
   }
 
+  clkImport() {
+    this.clickImport.emit()
+  }
+
   processFilterValues() {
     this.filter.fields = this.fields
     this.filter.calcFilterValues(this._items);
@@ -125,6 +132,8 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   updateSearch($event: string) {
+    console.log("Updating : ", this.submitOnChange, $event);
+
     if (this.submitOnChange) {
       this.searchPhrase = $event
     }

@@ -103,7 +103,7 @@ import { FilterinputComponent } from './controls/filterinput/filterinput.compone
 import { AttrValueComponent } from './characters/controls/attr-value/attr-value.component';
 import { MapSelectComponent } from './controls/map-select/map-select.component';
 import { FindCharacterComponent } from './characters/controls/find-character/find-character.component';
-import { ImportCharacterComponent } from './characters/controls/import-character/import-character.component';
+import { ImportCharacterComponent } from './characters/dialogs/import-character/import-character.component';
 import { FileDropComponent } from './controls/file-drop/file-drop.component';
 import { UserOnlineComponent } from './controls/user-online/user-online.component';
 import { MonsterComponent } from './monsters/controls/monster/monster.component';
@@ -126,7 +126,7 @@ import { ItemCardComponent } from './items/components/item-card/item-card.compon
 import { GameIndexComponent } from './game/components/game-index/game-index.component';
 import { GameCardComponent } from './game/components/game-card/game-card.component';
 import { GameEditComponent } from './game/components/game-edit/game-edit.component';
-import { GamesystemEditComponent } from './game/components/gamesystem-edit/gamesystem-edit.component';
+import { GamesystemEditComponent } from './gamesystem/components/gamesystem-edit/gamesystem-edit.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { GameViewComponent } from './game/components/game-view/game-view.component';
 import { PageToolbarComponent } from './controls/page-toolbar/page-toolbar.component';
@@ -136,6 +136,13 @@ import { FilterDialogComponent } from './dialogs/filter-dialog/filter-dialog.com
 import { MapCardComponent } from './maps/controls/map-card/map-card.component';
 import { EncounterIndexComponent } from './encounter/components/encounter-index/encounter-index.component';
 import { RestrictToolComponent } from './controls/restrict-tool/restrict-tool.component';
+import { CharacterService } from './characters/dialogs/character.service';
+import { GamesystemCardComponent } from './gamesystem/components/gamesystem-card/gamesystem-card.component';
+import { GamesystemIndexComponent } from './gamesystem/components/gamesystem-index/gamesystem-index.component';
+import { GamesystemViewComponent } from './gamesystem/components/gamesystem-view/gamesystem-view.component';
+import { CancelViewToolComponent } from './controls/cancel-view-tool/cancel-view-tool.component';
+import { DeleteToolComponent } from './controls/delete-tool/delete-tool.component';
+import { EditToolComponent } from './controls/edit-tool/edit-tool.component';
 
 @NgModule({
   declarations: [
@@ -237,6 +244,12 @@ import { RestrictToolComponent } from './controls/restrict-tool/restrict-tool.co
     MapCardComponent,
     EncounterIndexComponent,
     RestrictToolComponent,
+    GamesystemCardComponent,
+    GamesystemIndexComponent,
+    GamesystemViewComponent,
+    CancelViewToolComponent,
+    DeleteToolComponent,
+    EditToolComponent,
   ],
   imports: [
     BrowserModule,
@@ -274,7 +287,8 @@ import { RestrictToolComponent } from './controls/restrict-tool/restrict-tool.co
     RestrictService,
     AudioService,
     CommandService,
-    MessageService
+    MessageService,
+    CharacterService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -285,7 +299,8 @@ import { RestrictToolComponent } from './controls/restrict-tool/restrict-tool.co
     DistanceEntryComponent,
     RandomImageComponent,
     SortDialogComponent,
-    FilterDialogComponent
+    FilterDialogComponent,
+    ImportCharacterComponent
   ],
   exports: [CheckboxComponent]
 })

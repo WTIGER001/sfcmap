@@ -1,0 +1,12 @@
+.bg {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  margin-left: 20%;
+  width: 600px;
+}
+
+@media (max-width:600px) {
+  width: 100%;
+  margin-left: 0;
+}

@@ -1,0 +1,11 @@
+<div class="bg">
+  <h1 class="title"> Game Systems</h1>
+
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Game System" [newLink]="['/new-gamesystem']" [submitOnChange]="true"
+    (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event" [hasImport]="false">
+  </app-search-bar>
+
+  <div #list class="results scroller scroller-dark" [class.cards]="view=='card'" [class.cards-small]="view=='small'">
+    <app-gamesystem-card *ngFor="let m of filtered" [gs]="m" id="GS_{{m.id}}" [size]='view '></app-gamesystem-card>
+  </div>
+</div>

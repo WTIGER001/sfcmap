@@ -1,0 +1,25 @@
+<div class="bg" *ngIf="gs">
+  <ul class="tool-bar tool-bar--wide tool-bar--bg">
+    <li (click)="save()">
+      <fa-icon class="icon" icon="save" size="lg"></fa-icon>Save
+    </li>
+    <app-restrict-tool [item]="gs" saveOnChange="false"></app-restrict-tool>
+    <app-delete-tool [item]="gs" type='edit'></app-delete-tool>
+    <app-cancel-view-tool type='edit'></app-cancel-view-tool>
+  </ul>
+
+  <div>
+    <label>Id</label>
+    <input type="text" [(ngModel)]="gs.id" class="form-control">
+  </div>
+  <div>
+    <label>Name</label>
+    <input type="text" [(ngModel)]="gs.name" class="form-control">
+  </div>
+  <app-edit-picture [picture]="gs.logo" [searchTerm]="gs.name + 'logo'" (choice)="updatePicture($event)"></app-edit-picture>
+  <div>
+    <label>Description</label>
+    <textarea [(ngModel)]="gs.description" class="form-control"></textarea>
+  </div>
+
+</div>

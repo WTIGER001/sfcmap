@@ -1,0 +1,46 @@
+<div class="dlg">
+  <div class="header">
+    <h1>
+      Import Character
+    </h1>
+  </div>
+  <div class="bdy">
+    <img src="/assets/logos/herolab.png" class="imp" (click)="toggle('hero')" [class.hidden]="show == 'pcgen'">
+    <div [class.hidden]="show!='hero'" class="left">
+      <p>Import XML Characters from Hero Lab. Please follow the instructions below.</p>
+      <p>In Hero Lab:</p>
+
+      <ol class="steps">
+        <li> Open your portfolio</li>
+        <li> Select the File Menu</li>
+        <li> Select ‘Save Custom Output’</li>
+        <li> Select ‘Generate XML File’</li>
+      </ol>
+
+      <app-file-drop (fileschanged)="setFile($event)"></app-file-drop>
+    </div>
+
+    <img src="/assets/logos/pcgen.png" class="imp" (click)="toggle('pcgen')" [class.hidden]="show=='hero'">
+    <div [class.hidden]="show!='pcgen'" class="left">
+      <p>Import XML Characters from PC Gen. Please follow the instructions below.</p>
+      <p>In Hero Lab:</p>
+
+      <ol class="steps">
+        <li> Open your character</li>
+        <li> Select the File Menu</li>
+        <li> Select ‘Export’</li>
+        <li> Select ‘csheet_fantasy_generic_export.xml.ftl’</li>
+        <li> Click on the export button</li>
+        <li> Select the export file and click save</li>
+      </ol>
+
+      <app-file-drop (fileschanged)="setFile($event)"></app-file-drop>
+
+    </div>
+  </div>
+  <div class="footer">
+    <button *ngIf="show!='NONE'" type="button" class="btn btn-outline-secondary" (click)="show='NONE'"><fa-icon icon="arrow-left"
+        size="lg" class="mr-2 "></fa-icon>Back</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()"><fa-icon icon="times" size="lg" class="mr-2 "></fa-icon>Cancel</button>
+  </div>
+</div>

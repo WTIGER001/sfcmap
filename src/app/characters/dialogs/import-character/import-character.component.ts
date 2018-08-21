@@ -1,11 +1,12 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { HeroLabCharacter } from '../../hero-lab';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { DataService } from '../../../data.service';
 import { LangUtil } from '../../../util/LangUtil';
 import { mergeMap, map } from 'rxjs/operators';
-import { UUID } from 'angular2-uuid';
+import { HeroLabCharacter } from '../../hero-lab';
 import { PCGenXml } from '../../pcgen-xml';
+import { UUID } from 'angular2-uuid';
 import { Character, Attachment } from '../../../models';
-import { DataService } from '../../../data.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-import-character',
@@ -16,9 +17,13 @@ export class ImportCharacterComponent implements OnInit {
   show = "NONE"
   @Output() done = new EventEmitter()
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService, private modal: NgbActiveModal) { }
 
   ngOnInit() {
+  }
+
+  cancel() {
+    this.modal.dismiss()
   }
 
   toggle(type: string) {
@@ -65,6 +70,7 @@ export class ImportCharacterComponent implements OnInit {
             character.attachments.push(att)
           })).subscribe(() => {
             this.data.save(character)
+            this.modal.dismiss()
           })
       }
     )

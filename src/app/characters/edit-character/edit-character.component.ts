@@ -13,12 +13,9 @@ import { RouteUtil } from '../../util/route-util';
   styleUrls: ['./edit-character.component.css']
 })
 export class EditCharacterComponent implements OnInit {
-
-  edit = false
   character = new Character()
-  restricted = false
 
-  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private restrict: RestrictService, private router: Router) {
+  constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private router: Router) {
     this.character.name = 'New Character'
     this.character.id = UUID.UUID().toString()
 
@@ -42,16 +39,11 @@ export class EditCharacterComponent implements OnInit {
 
   save() {
     this.data.save(this.character)
-    this.edit = true
-  }
-
-  cancel() {
-    this.edit = false;
     RouteUtil.goUpOneLevel(this.router)
   }
 
-  startEdit() {
-    this.edit = true
+  cancel() {
+    RouteUtil.goUpOneLevel(this.router)
   }
 
   getSearchTerm() {
@@ -71,18 +63,5 @@ export class EditCharacterComponent implements OnInit {
         }
       }
     )
-  }
-
-  permissions() {
-    if (this.character) {
-      this.restrict.openRestrict(this.character.view, this.character.edit).subscribe(([view, edit]) => {
-        if (this.data.canEdit(this.character)) {
-          this.character.edit = edit
-          this.character.view = view
-          this.data.save(this.character)
-          this.restricted = this.data.isRestricted(this.character)
-        }
-      })
-    }
   }
 }

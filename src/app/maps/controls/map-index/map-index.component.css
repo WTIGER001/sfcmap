@@ -15,6 +15,7 @@
   /* 500 x350 */
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
+  grid-template-rows: repeat(auto-fit, 200px);
   gap:20px;
   justify-content: space-around;
 }
@@ -22,8 +23,10 @@
 .cards-small {
   display: grid;
   grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-rows: repeat(auto-fit, 150px);
   gap:20px;
   justify-content: space-evenly;
+  margin: 20px;
 }
 
 .cards-line {

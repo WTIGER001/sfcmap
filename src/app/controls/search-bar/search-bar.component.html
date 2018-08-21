@@ -11,17 +11,25 @@
     </li>
   </ul>
   <div class="filters">
-    <input type="text" [ngModel]="searchPhrase" (ngChange)="updateSearch($event)" (blur)="forceUpdateSearch($event)" (keyup.enter)="forceUpdateSearch($event)"
+    <input type="text" [ngModel]="searchPhrase" (ngModelChange)="updateSearch($event)" (blur)="forceUpdateSearch($event)" (keyup.enter)="forceUpdateSearch($event)"
       class="form-control form-control-lg">
     <fa-icon *ngIf="searchPhrase!=''" icon="times" (click)="clearSearch()" size="2x" class="icon-clear"></fa-icon>
     <fa-icon icon="question-circle" (click)="showFilterHelp()" size="2x" class="icon-help"></fa-icon>
     <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
   </div>
-  <div class="new">
+  <!-- <div class="new">
     <div class="new2">
       <a [routerLink]="newLink"><fa-icon icon="plus" size="lg" class="icon2"></fa-icon> {{newText}}</a>
     </div>
-  </div>
+  </div> -->
+  <ul class="tool-bar">
+    <li *ngIf="hasImport" (click)="clkImport()">
+      <fa-icon class="icon" icon="file-import" size="lg"></fa-icon>Import
+    </li>
+    <li *ngIf="hasNew">
+      <a class="newLink" [routerLink]="newLink"><fa-icon icon="plus" size="lg" class="icon2"></fa-icon> {{newText}}</a>
+    </li>
+  </ul>
 </div>
 <ul *ngIf="hasIndex" class="index-bar">
   <li *ngFor="let indexValue of filter.indexValues" (click)="goto(indexValue)"> {{indexValue}}</li>

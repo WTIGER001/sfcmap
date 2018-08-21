@@ -47,7 +47,9 @@ export class PCGenXml {
     chr.speed = hero.basics[0].move[0].all[0]
     chr.race = hero.basics[0].race[0]
     chr.reach = hero.basics[0].reach[0].reach[0]
-    chr.vision = hero.basics[0].vision[0].vision[0]
+    if (hero.basics[0].vision[0] && hero.basics[0].vision[0].vision) {
+      chr.vision = hero.basics[0].vision[0].vision[0]
+    }
 
     chr.attributes.push(Attribute.from("HP", hero.hit_points[0].points[0]))
     chr.attributes.push(Attribute.from("AC", hero.armor_class[0].total[0]))

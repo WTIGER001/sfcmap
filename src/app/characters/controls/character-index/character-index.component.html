@@ -1,8 +1,9 @@
 <div class="bg">
   <h1 class="title"> Character Index</h1>
 
-  <app-search-bar #search [items]="all" [fields]="fields" newText="New Character" [newLink]="['/', gameid, 'new-character']"
-    (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event">
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Character" [newLink]="['/game', gameid, 'new-character']"
+    [submitOnChange]="true" (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event"
+    (clickImport)="importCharacter()">
   </app-search-bar>
 
   <div #list class="results scroller scroller-dark" [class.cards]="view=='card'" [class.cards-small]="view=='small'">
