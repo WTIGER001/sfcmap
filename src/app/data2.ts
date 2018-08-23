@@ -1,5 +1,5 @@
 import { AngularFirestore, AngularFirestoreDocument } from "angularfire2/firestore";
-import { Game, User, GameSystem, MapConfig, Character, MapType, CharacterType, Prefs, MapPrefs, UserAssumedAccess, Online, UserGroup, MarkerType, MarkerCategory, MergedMapType, Category } from "./models";
+import { Game, User, GameSystem, MapConfig, Character, MapType, CharacterType, Prefs, MapPrefs, UserAssumedAccess, Online, UserGroup, MarkerType, MarkerCategory, MergedMapType, Category, Restricition } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, of, Subscription } from "rxjs";
 import { DbConfig } from "./models/database-config";
 import { tap, mergeMap } from "rxjs/operators";
@@ -82,12 +82,7 @@ export class Data2 {
     const game$ = doc.valueChanges().subscribe(g => this.game.next(g))
   }
 
-  private loadGames() {
-    this.db.collection<Game>(Game.FOLDER).valueChanges().subscribe(games => {
-      const available = games.filter(game => this.canView(game))
-      this.games.next(available)
-    })
-  }
+
 
   private loadGamesystems() {
     this.db.collection<GameSystem>(GameSystem.FOLDER).valueChanges().subscribe(gs => {
@@ -144,10 +139,46 @@ export class Data2 {
     this.subs.push(sub)
   }
 
+  private loadGames() {
+    let sub = this.user.pipe(
+      mergeMap(u => u.uid === 'NOBODY' ? of([]) : this.db.collection<Game>('games', ref => ref.where('players', 'array-contains', u.uid)).valueChanges()),
+      tap(games => this.games.next(games))
+    ).subscribe()
+  }
 
-  private loadMapResources(map: MapConfig) {
+  // private loadGames() {
+  //   this.db.collection<Game>(Game.FOLDER).valueChanges().subscribe(games => {
+  //     const available = games.filter(game => this.canView(game))
+  //     this.games.next(available)
+  //   })
+  // }
+
+  private loadItems<T>(gameDoc: AngularFirestoreDocument, subject: Subject<Array<T>>, folder: string, errorType: string, current?: Array<T>, loading?: BehaviorSubject<boolean>) {
+    let sub = this.game.pipe(
+      // This query only retrieves data for what the user can see.... I am not sure if this is neccessary
+      mergeMap(game => game.id === 'NOBODY' ? of([]) : gameDoc.collection<T>(name, ref => this.getConditions(ref, game)).valueChanges())
+    ).subscribe(
+
+    )
 
   }
+
+  private getConditions(ref, game) {
+    if (this.isGM(game)) {
+      return undefined
+    } else {
+      return ref.where('restrictions', '<', Restricition.None)
+    }
+  }
+
+  private isGM(game: Game | GameSystem): boolean {
+    return false
+  }
+
+  private isPlayer(game: Game | GameSystem): boolean {
+    return false
+  }
+
 
   /**
     * Determines if the current user can view an item.

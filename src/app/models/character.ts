@@ -1,4 +1,4 @@
-import { ObjectType } from "./core";
+import { ObjectType, RestrictedContent } from "./core";
 import { Distance } from "./units";
 
 export class Character extends ObjectType {
@@ -40,6 +40,7 @@ export class Character extends ObjectType {
   race: string
   classes: string
   alignment: string
+  // alignment : RestrictedContent<string>
   //senses
 
 

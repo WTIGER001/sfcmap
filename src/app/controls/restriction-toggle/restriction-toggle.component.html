@@ -1,0 +1,18 @@
+<div class="lines">
+  <div class="item" [class.item-green]="value<2" [class.item-checked]="value==2" (click)="value=2">
+    <fa-icon icon="check" size="2x" *ngIf="value==2"></fa-icon>
+  </div>
+  <div class="line" [class.line-white]="value < 2"></div>
+  <div class="item" [class.item-green]="value < 1" [class.item-checked]="value==1" [class.item-unchecked]="value > 1" (click)="value=1">
+    <fa-icon icon="check" size="2x" *ngIf="value==1"></fa-icon>
+  </div>
+  <div class="line" [class.line-white]="value<1"></div>
+  <div class="item" [class.item-checked]="value==0" [class.item-unchecked]="value>0" (click)="value=0">
+    <fa-icon icon="check" size="2x" *ngIf="value==0"></fa-icon>
+  </div>
+  <span>None</span>
+  <label></label>
+  <span>View</span>
+  <label></label>
+  <span>Write</span>
+</div>

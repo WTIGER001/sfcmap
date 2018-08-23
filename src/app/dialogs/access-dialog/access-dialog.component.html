@@ -1,68 +1,16 @@
 <div class="dlg">
   <div class="header">
-    <h1> Restrictions</h1>
+    <h1>Player Permissions</h1>
   </div>
   <div class="bdy">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-6">
-          <label for="checkView">Viewing Restrictions</label>
-          <select id="checkView" class="form-control" [(ngModel)]="viewRestrict">
-            <option value="false">Everyone</option>
-            <option value="true">Only Some People / Groups</option>
-          </select>
-          <hr>
-          <div *ngIf="viewRestrict=='true'" class="choices">
-            <h6>
-              <fa-icon icon="users"></fa-icon> Groups
-            </h6>
-            <div class="member-list">
-              <div class="custom-control custom-checkbox" *ngFor="let opt of groups">
-                <input type="checkbox" class="custom-control-input" id="ACCESS_{{opt.id}}" [(checklist)]="view" [checklistValue]="opt.id">
-                <label class="custom-control-label ml-2" for="ACCESS_{{opt.id}}"> {{opt.name}}</label>
-              </div>
-            </div>
-            <h6 class="mt-2">
-              <fa-icon icon="user"></fa-icon> Users
-            </h6>
-            <div class="member-list">
-              <div class="custom-control custom-checkbox" *ngFor="let opt of users">
-                <input type="checkbox" class="custom-control-input" id="ACCESS_{{opt.uid}}" [(checklist)]="view" [checklistValue]="opt.uid">
-                <label class="custom-control-label ml-2" for="ACCESS_{{opt.uid}}"> {{opt.name}}</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-          <label for="checkEdit">Editing Restrictions</label>
-          <select id="checkEdit" class="form-control" [(ngModel)]="editRestrict">
-            <option value="false">Everyone</option>
-            <option value="true">Only Some People / Groups</option>
-          </select>
-          <hr />
-          <div *ngIf="editRestrict=='true'" class="choices">
-            <h6>
-              <fa-icon icon="users"></fa-icon> Groups
-            </h6>
-            <div class="member-list">
-              <div class="custom-control custom-checkbox" *ngFor="let opt of groups">
-                <input type="checkbox" class="custom-control-input" id="E{{opt.id}}" [(checklist)]="edit" [checklistValue]="opt.id">
-                <label class="custom-control-label" for="E{{opt.id}}"> {{opt.name}}</label>
-              </div>
-            </div>
-            <h6 class="mt-2">
-              <fa-icon icon="user"></fa-icon> Users
-            </h6>
-            <div class="member-list">
-              <div class="custom-control custom-checkbox" *ngFor="let opt of users">
-                <input type="checkbox" class="custom-control-input" id="E{{opt.uid}}" [(checklist)]="edit" [checklistValue]="opt.uid">
-                <label class="custom-control-label" for="E{{opt.uid}}"> {{opt.name}}</label>
-              </div>
-            </div>
-          </div>
-        </div>
+    <h2>Whole Document</h2>
+    <app-restriction-toggle [(ngModel)]="item.restrict"></app-restriction-toggle>
+    <ng-container *ngIf="fields.length>0">
+      <div *ngFor="let fld of fields">
+        <h2>{{fld.name}}</h2>
+        <app-restriction-toggle [(ngModel)]="fld.value.restriction"></app-restriction-toggle>
       </div>
-    </div>
+    </ng-container>
   </div>
   <div class="footer">
     <button type="button" class="btn btn-outline-secondary" (click)="ok()"><fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Ok</button>

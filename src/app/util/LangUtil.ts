@@ -122,7 +122,7 @@ export class LangUtil {
     const rtn = new Subject<string>()
     const r = new FileReader()
     r.onload = (ev) => {
-      rtn.next(r.result)
+      rtn.next(r.result.toString())
     }
     r.readAsText(f)
     return rtn

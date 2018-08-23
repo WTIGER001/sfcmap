@@ -12,3 +12,8 @@
   align-items: start;
 }
 
+h2 {
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+

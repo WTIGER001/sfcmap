@@ -23,6 +23,8 @@ export class Game extends ObjectType {
   edit: string[]
   view: string[]
   image: string
+  players: string[]
+  gms: string[]
 
 
   // Has

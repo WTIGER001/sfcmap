@@ -143,6 +143,7 @@ import { GamesystemViewComponent } from './gamesystem/components/gamesystem-view
 import { CancelViewToolComponent } from './controls/cancel-view-tool/cancel-view-tool.component';
 import { DeleteToolComponent } from './controls/delete-tool/delete-tool.component';
 import { EditToolComponent } from './controls/edit-tool/edit-tool.component';
+import { RestrictionToggleComponent } from './controls/restriction-toggle/restriction-toggle.component';
 
 @NgModule({
   declarations: [
@@ -250,6 +251,7 @@ import { EditToolComponent } from './controls/edit-tool/edit-tool.component';
     CancelViewToolComponent,
     DeleteToolComponent,
     EditToolComponent,
+    RestrictionToggleComponent,
   ],
   imports: [
     BrowserModule,

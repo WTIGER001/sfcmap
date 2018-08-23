@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserGroup, User } from '../../models';
+import { UserGroup, User, RestrictedContent } from '../../models';
 import { DataService } from '../../data.service';
 import { ReplaySubject } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,20 +13,26 @@ import { INHERITED_CLASS_WITH_CTOR } from '@angular/core/src/reflection/reflecti
 export class AccessDialogComponent implements OnInit {
   @Input() inEdit: string[]
   @Input() inView: string[]
+  item = {
+    restrict: 0,
+    alignment: new RestrictedContent()
 
-  edit : string[] = []
-  view : string[] = []
+  }
+  fields: any[] = []
+
+  edit: string[] = []
+  view: string[] = []
   viewRestrict
   editRestrict
-  users : User[] = []
-  groups :UserGroup[] =[]
+  users: User[] = []
+  groups: UserGroup[] = []
 
   result = new ReplaySubject<[string[], string[]]>()
 
-  constructor(private data : DataService, public activeModal: NgbActiveModal) {
-    this.data.users.subscribe( u => this.users = u)
-    this.data.groups.subscribe( g => this.groups = g)
-   }
+  constructor(private data: DataService, public activeModal: NgbActiveModal) {
+    this.data.users.subscribe(u => this.users = u)
+    this.data.groups.subscribe(g => this.groups = g)
+  }
 
   ngOnInit() {
     if (this.inEdit) {
@@ -36,6 +42,23 @@ export class AccessDialogComponent implements OnInit {
       this.view = this.inView.slice(0)
     }
     this.update()
+    this.calcFields()
+
+
+  }
+
+  calcFields() {
+
+    Object.keys(this.item).forEach(key => {
+      const val = this.item[key]
+      if (val instanceof RestrictedContent) {
+        const v: any = {
+          name: key,
+          value: val
+        }
+        this.fields.push(v)
+      }
+    })
   }
 
   update() {
@@ -53,11 +76,11 @@ export class AccessDialogComponent implements OnInit {
   }
 
   ok() {
-    let myView : string[] = []
+    let myView: string[] = []
     if (this.viewRestrict == 'true') {
       myView = this.view
     }
-    let myEdit : string[] = []
+    let myEdit: string[] = []
     if (this.editRestrict == 'true') {
       myEdit = this.edit
     }

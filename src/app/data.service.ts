@@ -17,6 +17,7 @@ import { Encounter } from "./encounter/model/encounter";
 import { User as FireUser } from "firebase";
 import { MonsterIndex, MonsterText } from "./models/monsterdb";
 import { ImageSearchResult } from "./util/GoogleImageSearch";
+import { Pathfinder } from "./models/gamesystems/pathfinder";
 
 
 @Injectable({
@@ -61,7 +62,7 @@ export class DataService {
   // userMapPrefs = new ReplaySubject<MapPrefs>(1)
   // userAccess = new ReplaySubject<UserAssumedAccess>(1)
   games = new ReplaySubject<Array<Game>>(1)
-  gamesystems = new ReplaySubject<Array<GameSystem>>(1)
+  gamesystems = new BehaviorSubject<Array<GameSystem>>([])
 
   mapTypes = new ReplaySubject<Array<MapType>>(1)
   maps = new ReplaySubject<Array<MapConfig>>(1)
@@ -95,6 +96,7 @@ export class DataService {
     this.log = this.notify.newDebugger("Data")
 
     this.setUpSubscriptions()
+    this.loadGamesystems()
   }
 
   setUpSubscriptions() {
@@ -146,6 +148,13 @@ export class DataService {
     ).subscribe(p => this.userAccess.next(UserAssumedAccess.to(p)))
   }
 
+  loadGamesystems() {
+    const gs = []
+    gs.push(Pathfinder.make())
+
+    this.gamesystems.next(gs)
+  }
+
   // User -> Map Types, Marker Types, Marker Categories, User Groups, Users
   loadDataFromUser() {
     // this.syncArray<UserGroup>(this.groups.value, UserGroup.FOLDER, 'Loading User Groups')
@@ -157,7 +166,6 @@ export class DataService {
     // this.loadAndNotify<User>(this.users, 'users', 'Loading Users')
     this.loadUsers()
     this.loadAndNotify<Game>(this.games, 'games', 'Loading Games')
-    this.loadAndNotify<GameSystem>(this.gamesystems, GameSystem.FOLDER, 'Loading Gamesystems')
     this.loadAndNotify<UserGroup>(this.groups, 'groups', 'Loading User Groups')
     this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
     this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')

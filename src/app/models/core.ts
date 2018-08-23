@@ -46,3 +46,19 @@ export class ItemAction<T> {
     }
   }
 }
+
+export enum Restricition {
+  PlayerReadWrite = 0,
+  PlayerRead = 1,
+  None = 2
+}
+
+export interface IRestrictedContent<T> {
+  restriction: Restricition
+  item: T
+}
+
+export class RestrictedContent<T> implements IRestrictedContent<T> {
+  restriction: Restricition = Restricition.PlayerReadWrite
+  item: T
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
 import { DataService } from '../../../data.service';
 import { GameSystem } from '../../../models';
 import { SortFilterField } from '../../../util/sort-filter';
@@ -9,7 +9,7 @@ import { SearchBarComponent } from '../../../controls/search-bar/search-bar.comp
   templateUrl: './gamesystem-index.component.html',
   styleUrls: ['./gamesystem-index.component.css']
 })
-export class GamesystemIndexComponent implements OnInit {
+export class GamesystemIndexComponent implements AfterContentInit {
   @ViewChild('list') listElement: ElementRef
   @ViewChild('search') search: SearchBarComponent
   all: GameSystem[] = []
@@ -23,12 +23,13 @@ export class GamesystemIndexComponent implements OnInit {
     { name: "Tag", sort: true, filter: true, text: true, valueFn: (item) => item.tags, indexFn: (item) => item.tags }
   ]
 
-  ngOnInit() {
+  ngAfterContentInit() {
     this.data.gamesystems.subscribe(items => {
       console.log("GOT GAMESYSTEMS", items);
 
       this.all = items;
       if (this.search) {
+        console.log("SEARCH IS THERE", items);
         this.search.items = items;
         this.search.applyFilters()
       }
@@ -36,6 +37,7 @@ export class GamesystemIndexComponent implements OnInit {
   }
 
   updateItems(items: GameSystem[]) {
+    console.log("updateItems", items);
     this.filtered = items
   }
 

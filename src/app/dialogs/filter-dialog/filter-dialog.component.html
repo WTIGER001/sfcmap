@@ -7,15 +7,20 @@
       <h1>
         <fa-icon icon="check-double" class="pointer p-2" (click)="toggleAll(field)"></fa-icon> {{field.name}}
       </h1>
-      <div class="filter-list scroller-dark">
+      <!-- <div class="filter-list scroller-dark">
         <app-checkbox *ngFor="let v of config.values(field)" [checked]="isChecked(field, v)" (checkchange)="toggle(field, v)">{{format(field,
           v)}}</app-checkbox>
+      </div> -->
+      <div class="filter-list">
+        <button class="btn btn-outline-secondary mb-2 mr-2 " *ngFor="let v of config.values(field)" [class.active]="isChecked(field, v)"
+          (click)="toggle(field, v) ">{{format(field,v)}}</button>
       </div>
+
     </div>
   </div>
-  <div class="footer">
-    <button [disabled]="!selection" type="button" class="btn btn-outline-secondary" (click)="ok()"><fa-icon icon="check"
-        size="lg" class="mr-2"></fa-icon>OK</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="cancel()"><fa-icon icon="times" size="lg" class="mr-2">
+  <div class="footer ">
+    <button [disabled]="!selection " type="button " class="btn btn-outline-secondary " (click)="ok() "><fa-icon icon="check"
+        size="lg" class="mr-2 "></fa-icon>OK</button>
+    <button type="button " class="btn btn-outline-secondary " (click)="cancel() "><fa-icon icon="times" size="lg" class="mr-2 ">
       </fa-icon>Cancel</button>
   </div>

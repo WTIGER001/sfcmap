@@ -1,7 +1,7 @@
 <div class="bg">
   <h1 class="title"> Game Systems</h1>
 
-  <app-search-bar #search [items]="all" [fields]="fields" newText="New Game System" [newLink]="['/new-gamesystem']" [submitOnChange]="true"
+  <app-search-bar #search [fields]="fields" newText="New Game System" [newLink]="['/new-gamesystem']" [submitOnChange]="true"
     (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event" [hasImport]="false">
   </app-search-bar>
 
