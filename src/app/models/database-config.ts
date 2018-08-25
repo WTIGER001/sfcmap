@@ -13,6 +13,7 @@ import { Character } from "./character";
 import { MonsterIndex, MonsterText } from "./monsterdb";
 import { GameSystem } from "./game-system";
 import { Game } from "./game";
+import { Encounter } from "../encounter/model/encounter";
 
 interface DbItem {
   name: string
@@ -23,6 +24,7 @@ interface DbItem {
 }
 
 export class DbConfig {
+  public static readonly ASSET_FOLDER = "assets"
   static extensions: DbItem[] = []
 
   static register(name: string, is: (obj: any) => boolean,
@@ -33,12 +35,68 @@ export class DbConfig {
     this.extensions.push({ name, is, to, folder, path })
   }
 
+
+  static queryFields(objType: string) {
+    if (objType == MapConfig.TYPE) {
+      return ["name", "tags"]
+    }
+    if (objType == Character.TYPE) {
+      return ["name", "type", "race", "tags"]
+    }
+    if (objType == MonsterIndex.TYPE) {
+      return ['name', 'type', 'cr', "tags"]
+    }
+    if (objType == Encounter.TYPE) {
+      return ['name', "tags"]
+    }
+    return ['name', "tags"]
+  }
+
+
+  static pathFolderTo(objType: string, parentId?: string): string {
+
+    // Users
+    if (objType == User.TYPE) { return User.FOLDER }
+    if (objType == UserAssumedAccess.TYPE) { return UserAssumedAccess.FOLDER }
+    if (objType == MapPrefs.TYPE) { return MapPrefs.FOLDER }
+    if (objType == Prefs.TYPE) { return Prefs.FOLDER }
+
+    // Game Level
+    if (objType == Game.TYPE) { return Game.FOLDER }
+
+    // Game level data
+    if (objType == MapType.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MapType.FOLDER }
+    if (objType == MapConfig.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MapConfig.FOLDER }
+    if (objType == MarkerType.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerType.FOLDER }
+    if (objType == MarkerCategory.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerCategory.FOLDER }
+    if (objType == CharacterType.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + CharacterType.FOLDER }
+    if (objType == Character.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Character.FOLDER }
+    if (objType == MonsterIndex.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterIndex.FOLDER }
+    if (objType == MonsterText.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterText.FOLDER }
+    if (objType == ChatRecord.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + ChatRecord.FOLDER }
+
+    // Map Level Data
+    if (objType == Annotation.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Annotation.FOLDER }
+    if (objType == MarkerGroup.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerGroup.FOLDER }
+
+    throw new error("Unable to calculate db Folder: Invalid Object Type: ", objType)
+  }
+
+  static pathTo(objType: string, parentId: string, myId?: string): string {
+    const folder = this.pathFolderTo(objType, parentId)
+    if (folder) {
+      return myId ? folder + "/" + myId : folder
+    }
+
+    throw new error("Unable to calculate db path: Invalid Object Type: ", objType)
+  }
+
   static dbPath(obj: any): string {
     // Users
-    if (User.is(obj)) { return User.FOLDER + "/" + obj.uid }
-    if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER + "/" + obj.uid }
-    if (MapPrefs.is(obj)) { return MapPrefs.FOLDER + "/" + obj.uid }
-    if (Prefs.is(obj)) { return Prefs.FOLDER + "/" + obj.uid }
+    if (User.is(obj)) { return User.FOLDER + "/" + obj.id }
+    if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER + "/" + obj.id }
+    if (MapPrefs.is(obj)) { return MapPrefs.FOLDER + "/" + obj.id }
+    if (Prefs.is(obj)) { return Prefs.FOLDER + "/" + obj.id }
 
     if (Game.is(obj)) { return Game.FOLDER + "/" + obj.id }
     if (GameSystem.is(obj)) { return GameSystem.FOLDER + "/" + obj.id }

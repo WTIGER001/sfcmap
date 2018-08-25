@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
-import { Character, CharacterType } from '../../../models';
+import { Character, CharacterType, Game } from '../../../models';
 import { BehaviorSubject } from 'rxjs';
 import { DataService } from '../../../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,10 +20,12 @@ export class CharacterIndexComponent implements OnInit, AfterContentInit {
   @ViewChild('search') search: SearchBarComponent
   view = 'card'
   gameid: string
+  game: Game
   filtered: Character[] = []
   all: Character[] = []
   loading = true
   types: CharacterType[] = []
+  type = Character.TYPE
 
   lookup = (id: string): string => {
     const type = this.types.find(a => a.id == id)
@@ -56,8 +58,8 @@ export class CharacterIndexComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-
-    this.data.characters.pipe().subscribe(a => {
+    this.data.gameAssets.characters.items$.subscribe(a => {
+      // this.data.characters.pipe().subscribe(a => {
       this.all = a
       this.loading = false
       if (this.search) {
@@ -66,15 +68,14 @@ export class CharacterIndexComponent implements OnInit, AfterContentInit {
       }
     })
 
+    this.data.game.subscribe(g => this.game = g)
+
     this.route.paramMap.subscribe(p => {
       this.gameid = p.get("gameid")
+      this.data.setCurrentGame(this.gameid)
     })
 
-    // this.data.charactersLoading.subscribe(v => {
-    //   this.loading = v
-    // })
-
-    this.data.characterTypes.subscribe(t => this.types = t)
+    this.data.gameAssets.characterTypes.items$.subscribe(t => this.types = t)
   }
 
   ngAfterContentInit() {

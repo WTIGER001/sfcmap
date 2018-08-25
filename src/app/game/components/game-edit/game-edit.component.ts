@@ -13,8 +13,8 @@ export class GameEditComponent implements OnInit {
   constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
     this.game = new Game()
     this.game.name = "New Game"
-    this.game.players = [this.data.user.getValue().uid]
-    this.game.gms = [this.data.user.getValue().uid]
+    this.game.players = [this.data.user.getValue().id]
+    this.game.gms = [this.data.user.getValue().id]
     this.game.system = 'pathfinder'
 
   }

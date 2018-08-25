@@ -23,6 +23,9 @@
     </div>
   </div> -->
   <ul class="tool-bar">
+    <li (click)="clkLinks()">
+      <fa-icon class="icon" icon="link" size="lg" placement="bottom" ngbTooltip="Manage content links from other games and gamesystems"></fa-icon>Links
+    </li>
     <li *ngIf="hasImport" (click)="clkImport()">
       <fa-icon class="icon" icon="file-import" size="lg"></fa-icon>Import
     </li>

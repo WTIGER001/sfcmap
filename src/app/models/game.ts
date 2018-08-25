@@ -1,5 +1,9 @@
 import { ObjectType } from "./core";
 import { MapSelectComponent } from "../controls/map-select/map-select.component";
+import { AssetLink } from "./asset-collection";
+import { Character } from "./character";
+import { MapConfig } from "./map-config";
+import { Encounter } from "../encounter/model/encounter";
 
 export class Game extends ObjectType {
   public static readonly TYPE = 'db.Game'
@@ -26,7 +30,7 @@ export class Game extends ObjectType {
   players: string[]
   gms: string[]
 
-
+  assetLinks: Map<string, AssetLink[]> = new Map()
   // Has
   /*
   maps

@@ -31,7 +31,7 @@ export class UserSideComponent implements OnInit {
       this.prefs = p
       let newGroups = []
       g.forEach(grp => {
-        if (grp.members.includes(u.uid)) {
+        if (grp.members.includes(u.id)) {
           newGroups.push(grp)
         }
       })
@@ -52,7 +52,7 @@ export class UserSideComponent implements OnInit {
     this.afAuth.auth.signOut();
   }
   isValid() {
-    return this.user && this.user.uid != "NOBODY"
+    return this.user && this.user.id != "NOBODY"
   }
   updatePrefs() {
     this.data.save(this.prefs)

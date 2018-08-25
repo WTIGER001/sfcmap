@@ -48,6 +48,10 @@ const routes: Routes = [
   { path: 'game/:gameid/encounters/:id', component: EncounterComponent },
   { path: 'game/:gameid/encounters/:id/edit', component: EditEncounterComponent },
 
+  { path: 'game/:gameid/new-monster', component: PageNotFoundComponent },
+  { path: 'game/:gameid/monsters', component: MonsterIndexPageComponent },
+  { path: 'game/:gameid/monsters/:id', component: MonsterComponent },
+  { path: 'game/:gameid/monsters/:id/edit', component: EditMonsterComponent },
 
   { path: 'new-gamesystem', component: GamesystemEditComponent },
   { path: 'gs', component: GamesystemIndexComponent },
@@ -55,8 +59,6 @@ const routes: Routes = [
   { path: 'gs/:gsid/edit', component: GamesystemEditComponent },
 
 
-  { path: 'monster/:id', component: MonsterComponent },
-  { path: 'monsters', component: MonsterIndexPageComponent },
   { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
   { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
   { path: 'gs/:gsid/monsters/:id', component: MonsterComponent },

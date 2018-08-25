@@ -33,7 +33,7 @@ export class MapSelectorComponent implements OnInit {
       this.updateList()
     })
 
-    combineLatest(this.data.user, this.data.maps, this.data.mapTypesWithMaps, this.data.userPrefs).subscribe(
+    combineLatest(this.data.user, this.data.gameAssets.maps.items$, this.data.mapTypesWithMaps, this.data.userPrefs).subscribe(
       (value: [User, MapConfig[], MergedMapType[], Prefs]) => {
         let items = []
         if (value[3].recentMaps) {

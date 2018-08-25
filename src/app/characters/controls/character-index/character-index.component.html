@@ -1,17 +1,20 @@
-<div class="bg">
+<div class="bg" *ngIf="game">
   <h1 class="title"> Character Index</h1>
 
   <app-search-bar #search [items]="all" [fields]="fields" newText="New Character" [newLink]="['/game', gameid, 'new-character']"
     [submitOnChange]="true" (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event"
-    (clickImport)="importCharacter()">
+    (clickImport)="importCharacter()" [game]="game" [type]="type">
   </app-search-bar>
 
-  <div #list class="results scroller scroller-dark" [class.cards]="view=='card'" [class.cards-small]="view=='small'">
-    <app-character-card *ngFor="let m of filtered" [character]="m" id="CHARACTER_{{m.id}}" [size]='view '></app-character-card>
+  <div #list class=" results scroller scroller-dark " [class.cards]="view=='card' " [class.cards-small]="view=='small' ">
+    <app-character-card *ngFor="let m of filtered " [character]="m " id="CHARACTER_{{m.id}} " [size]='view '></app-character-card>
   </div>
 
-  <div class="loading" *ngIf="loading">
-    <sk-cube-grid color="#9ed485"></sk-cube-grid>
+  <div class="loading " *ngIf="loading ">
+    <sk-cube-grid color="#9ed485 "></sk-cube-grid>
     <h1> LOADING PLEASE WAIT</h1>
   </div>
+</div>
+<div class="bg " *ngIf="!game ">
+  Loading GAME
 </div>

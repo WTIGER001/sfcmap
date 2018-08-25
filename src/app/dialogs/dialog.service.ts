@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { from, Observable, Subject } from 'rxjs';
-import { Distance } from '../models';
+import { Distance, Game } from '../models';
 import { DistanceEntryComponent } from './distance-entry/distance-entry.component';
 import { SortDialogComponent } from './sort-dialog/sort-dialog.component';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { SortFilterData } from '../util/sort-filter';
+import { LinksComponent } from './links/links.component';
 
 @Injectable()
 export class DialogService {
@@ -34,4 +35,13 @@ export class DialogService {
     modalRef.componentInstance.config = config
     return modalRef.componentInstance.result
   }
+
+  public openLinks(game: Game, type: string): Observable<boolean> {
+    const modalRef = this.modalSvc.open(LinksComponent);
+    modalRef.componentInstance.result = new Subject<boolean>()
+    modalRef.componentInstance.game = game
+    modalRef.componentInstance.type = type
+    return modalRef.componentInstance.result
+  }
+
 }

@@ -1,0 +1,68 @@
+<div class="dlg">
+  <div class="header">
+    <h1>Manage Links</h1>
+  </div>
+  <div class="bdy" *ngIf="mode=='list'">
+    <div class=" links ">
+      <ng-container *ngIf="links.length > 0">
+        <div class="tbl-hdr"></div>
+        <div class="tbl-hdr">Source</div>
+        <div class="tbl-hdr">Field</div>
+        <div class="tbl-hdr">Value</div>
+        <div class="tbl-hdr"></div>
+        <div class="tbl-hdr"></div>
+      </ng-container>
+      <ng-container *ngFor="let item of links">
+        <div>
+          <fa-icon icon="plus"></fa-icon>
+        </div>
+        <div>{{name(item.owner)}}</div>
+        <div>{{item.field}}</div>
+        <div>  <app-readmore [value]="values(item.values)" maxLength="50"></app-readmore></div>
+        <div class="btndiv">
+          <fa-icon icon="pencil-alt" (click)="edit(item)"></fa-icon>
+        </div>
+        <div class="btndiv">
+          <fa-icon icon="unlink" (click)="unlink(item)"></fa-icon>
+        </div>
+      </ng-container>
+    </div>
+    <button type="button" class="btn btn-outline-secondary mt-3" (click)="newLink() "><fa-icon icon="plus" size="lg" class="mr-2 "></fa-icon>Add
+      Link
+    </button>
+  </div>
+  <div class="bdy editmode" *ngIf="mode=='edit'">
+    <div>Import From</div>
+    <div>
+      <select class="form-control" [(ngModel)]="item.owner" (ngModelChange)="getChoices()">
+        <optgroup label="Game Systems"></optgroup>
+        <option *ngFor="let gs of gamesystems" [value]="gs.id">{{gs.name}}</option>
+        <optgroup label="Games"></optgroup>
+        <option *ngFor="let g of games" [value]="g.id">{{g.name}}</option>
+      </select>
+    </div>
+
+    <div>Import Criteria</div>
+    <div>
+      <select class="form-control" [(ngModel)]="item.field" (ngModelChange)="getChoices()">
+        <option *ngFor="let field of fields" [value]="field">{{field}}</option>
+      </select>
+    </div>
+    <div>Items to Import</div>
+    <div class="choices scroller-dark">
+      <button class="btn btn-outline-secondary mb-2 mr-2 " (click)="toggleAll()"><fa-icon icon="check-double" size="lg"></fa-icon></button>
+      <button class="btn btn-outline-secondary mb-2 mr-2 " *ngFor="let c of choices" [class.active]="isChecked(c)" (click)="toggle(c) ">{{c}}</button>
+    </div>
+  </div>
+
+  <div class="footer ">
+    <button type="button " class="btn btn-outline-secondary " (click)="ok() "><fa-icon icon="check" size="lg" class="mr-2 "></fa-icon>OK</button>
+    <button type="button " class="btn btn-outline-secondary " (click)="cancel() "><fa-icon icon="times" size="lg" class="mr-2 ">
+      </fa-icon>Cancel</button>
+  </div>
+  <div class="loading" *ngIf="loading">
+    <sk-cube-grid color="#9ed485"></sk-cube-grid>
+    <h1> LOADING PLEASE WAIT</h1>
+  </div>
+
+</div>

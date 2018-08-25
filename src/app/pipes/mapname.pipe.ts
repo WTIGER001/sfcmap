@@ -8,7 +8,7 @@ import { MapConfig } from '../models';
 export class MapnamePipe implements PipeTransform {
   maps: MapConfig[]
   constructor(private data: DataService) {
-    this.data.maps.subscribe(m => this.maps = m)
+    this.data.gameAssets.maps.items$.subscribe(m => this.maps = m)
   }
 
   transform(value: any, args?: any): any {

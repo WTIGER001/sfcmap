@@ -42,7 +42,7 @@ export class MapTypeComboComponent implements ControlValueAccessor {
   }
 
   refresh() {
-    this.data.mapTypes
+    this.data.gameAssets.mapTypes.items$
       .subscribe(v => {
         this.all = v
         if (this.innerValue) {

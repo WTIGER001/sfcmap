@@ -1,0 +1,63 @@
+.links {
+  display : grid;
+  grid-template-columns: repeat( 6, auto);
+  justify-content: center;
+  gap:10px;
+  font-size: 1.3em;
+  max-height : 70vh;
+  overflow: auto;
+}
+
+.btndiv {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.btndiv:hover {
+  background-color: rgb(128, 128, 128)
+}
+
+.spanall {
+  grid-column: span 6;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.editmode {
+  display : grid;
+  grid-template-columns: repeat( 1, auto);
+  justify-content: center;
+  gap:10px;
+  font-size: 1.3em;
+  text-align: start;
+}
+
+.choices {
+  max-height: 50vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.loading  {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba( 0,0,0,.9);
+  z-index: 10000;
+}
+
+@media (max-width: 700px) {
+  .loading {
+    flex-direction: column;
+  }
+}

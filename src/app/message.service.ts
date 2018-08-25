@@ -27,7 +27,7 @@ export class MessageService {
   sendMessage(msg: ChatMessage | DiceRoll | PingMessage) {
     let c = new ChatRecord()
     c.time = Date.now()
-    c.uid = this.user.uid
+    c.id = this.user.id
     c.record = LangUtil.prepareForStorage(msg)
 
     if (DiceRoll.is(c.record)) {

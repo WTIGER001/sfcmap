@@ -57,7 +57,7 @@ export class GroupManagerComponent implements OnInit {
     g.name = "New Group"
     g.id = 'TEMP'
     g.members = []
-    g.members.push(this.user.uid)
+    g.members.push(this.user.id)
     this.selected = g
     this.edit = true
     this.restricted = false

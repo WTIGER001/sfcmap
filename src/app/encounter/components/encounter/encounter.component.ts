@@ -30,7 +30,7 @@ export class EncounterComponent implements OnInit {
   };
 
   constructor(private data: DataService, private router: Router) {
-    data.characters.subscribe(chrs => this.characters = chrs)
+    data.gameAssets.characters.items$.subscribe(chrs => this.characters = chrs)
   }
 
   ngOnInit() {

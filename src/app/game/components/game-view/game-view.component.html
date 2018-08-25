@@ -46,45 +46,45 @@
         <figure class="choice-card">
           <img src="./assets/icons/characters.png">
           <figcaption>Characters</figcaption>
+          <span class="badge badge-info">{{cntCharacters}}</span>
         </figure>
       </a>
       <a [routerLink]="['maps']">
         <figure class="choice-card">
           <img src="./assets/icons/maps.png">
           <figcaption>Maps</figcaption>
+          <span class="badge badge-info">{{cntMaps}}</span>
         </figure>
       </a>
       <a [routerLink]="['encounters']">
         <figure class="choice-card">
           <img src="./assets/icons/encounters.png">
+          <span class="badge badge-info">{{cntEncounters}}</span>
           <figcaption>Encounters</figcaption>
         </figure>
       </a>
     </div>
 
     <div class="card-area">
-      <a [routerLink]="['/gs', gamesystem, 'monsters']">
+      <a [routerLink]="['monsters']">
         <figure class="choice-card">
           <img src="./assets/icons/monsters.png">
           <figcaption>Monsters</figcaption>
+          <span class="badge badge-info">{{cntMonsters}}</span>
         </figure>
       </a>
-      <a [routerLink]="['/gs', gamesystem, 'npcs']">
-        <figure class="choice-card">
-          <img src="./assets/icons/npcs.png">
-          <figcaption>NPCs</figcaption>
-        </figure>
-      </a>
-      <a [routerLink]="['/gs',gamesystem, 'items']">
+      <a [routerLink]="['items']">
         <figure class="choice-card">
           <img src="./assets/icons/items.png">
           <figcaption>Magic Items</figcaption>
+          <span class="badge badge-info">{{cntItems}}</span>
         </figure>
       </a>
-      <a [routerLink]="['/gs',gamesystem, 'spells']">
+      <a [routerLink]="['spells']">
         <figure class="choice-card">
           <img src="./assets/icons/spells.png">
           <figcaption>Spells</figcaption>
+          <span class="badge badge-info">{{cntSpells}}</span>
         </figure>
       </a>
     </div>

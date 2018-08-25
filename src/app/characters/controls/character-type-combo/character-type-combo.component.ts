@@ -42,7 +42,7 @@ export class CharacterTypeComboComponent implements ControlValueAccessor {
   }
 
   refresh() {
-    this.data.characterTypes
+    this.data.gameAssets.characterTypes.items$
       .subscribe(v => {
         this.all = v
         if (this.innerValue) {

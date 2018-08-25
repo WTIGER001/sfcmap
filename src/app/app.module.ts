@@ -78,7 +78,6 @@ import { TagsComponent } from './controls/tags/tags.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MessageService } from './message.service';
 import { MapnamePipe } from './pipes/mapname.pipe';
-import { LoadingComponent } from './loading/loading.component';
 import { DebugObservablesComponent } from './controls/debug-observables/debug-observables.component';
 import { CommandService } from './command.service';
 import { EditChrAttributesComponent } from './characters/controls/edit-chr-attributes/edit-chr-attributes.component';
@@ -144,6 +143,7 @@ import { CancelViewToolComponent } from './controls/cancel-view-tool/cancel-view
 import { DeleteToolComponent } from './controls/delete-tool/delete-tool.component';
 import { EditToolComponent } from './controls/edit-tool/edit-tool.component';
 import { RestrictionToggleComponent } from './controls/restriction-toggle/restriction-toggle.component';
+import { LinksComponent } from './dialogs/links/links.component';
 
 @NgModule({
   declarations: [
@@ -189,7 +189,6 @@ import { RestrictionToggleComponent } from './controls/restriction-toggle/restri
     TagsComponent,
     PageNotFoundComponent,
     MapnamePipe,
-    LoadingComponent,
     DebugObservablesComponent,
     EditChrAttributesComponent,
     EditCharacterComponent,
@@ -252,6 +251,7 @@ import { RestrictionToggleComponent } from './controls/restriction-toggle/restri
     DeleteToolComponent,
     EditToolComponent,
     RestrictionToggleComponent,
+    LinksComponent,
   ],
   imports: [
     BrowserModule,
@@ -262,7 +262,7 @@ import { RestrictionToggleComponent } from './controls/restriction-toggle/restri
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     LeafletModule.forRoot(),
     FontAwesomeModule,
@@ -302,7 +302,8 @@ import { RestrictionToggleComponent } from './controls/restriction-toggle/restri
     RandomImageComponent,
     SortDialogComponent,
     FilterDialogComponent,
-    ImportCharacterComponent
+    ImportCharacterComponent,
+    LinksComponent,
   ],
   exports: [CheckboxComponent]
 })

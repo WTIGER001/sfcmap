@@ -1,8 +1,8 @@
 <div class="bg">
   <h1 class="title"> Monster Index</h1>
 
-  <app-search-bar #search [items]="all" [fields]="fields" newText="New Monster" [newLink]="['/', gameid, 'new-map']" (itemsUpdated)="updateItems($event)"
-    (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event">
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Monster" [newLink]="['/', gameid, 'new-monster']" (itemsUpdated)="updateItems($event)"
+    (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event" [game]="game" [type]="type">
   </app-search-bar>
 
   <div class="results scroller scroller-dark" #list>

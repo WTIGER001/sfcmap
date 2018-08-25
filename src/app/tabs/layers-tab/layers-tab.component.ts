@@ -241,20 +241,9 @@ export class LayersTabComponent {
     if (this.mapPrefs) {
       return !this.mapPrefs.isHiddenMarker(this.mapConfig.id, item.id)
     }
-    // const found = this.selections.find(l => l.layerId == item.id)
-    // if (found) {
-    //   return found.visible
-    // }
-    // return true
   }
 
   toggleAnnotation(item: Annotation) {
-    // let result = new LayerSelection()
-    // result.layerId = item.id
-    // result.visible = !this.isAnnotationChecked(item)
-    // this.data.saveLayerSelect(this.user.uid, this.mapConfig.id, result);
-
-
     if (this.isAnnotationChecked(item)) {
       this._shownMarkers.push(item.id)
     } else {
@@ -265,10 +254,6 @@ export class LayersTabComponent {
   }
 
   toggleGroup(item: MarkerGroup) {
-    // let result = new LayerSelection()
-    // result.layerId = item.id
-    // result.visible = !this.isChecked(item)
-    // this.data.saveLayerSelect(this.user.uid, this.mapConfig.id, result);
     if (this.isChecked(item)) {
       this._shownGroups.push(item.id)
     } else {

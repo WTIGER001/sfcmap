@@ -5,7 +5,7 @@
     <div *ngFor="let rec of records; let odd=odd; let even=even;" [class.roll-odd]="odd" [class.roll-even]="even" class="roll p-1"
       (dblclick)="dblClick(rec)">
       <div class="roll-header">
-        <div class="uname">{{username(rec.uid)}}</div>
+        <div class="uname">{{username(rec.id)}}</div>
         <div class="time">{{rec.toDate() | date:'short'}}</div>
       </div>
       <div *ngIf="isDiceRoll(rec.record)">

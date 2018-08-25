@@ -69,12 +69,14 @@ export class MapIndexComponent implements OnInit {
         })
       }
     })
-    this.data.maps.subscribe(m => {
+
+    this.data.gameAssets.maps.items$.subscribe(m => {
+      // this.data.maps.subscribe(m => {
       console.log("GOT MAPS: ", m);
       this.all = m
       this.filtered = m
     })
-    this.data.mapTypes.subscribe(a => this.types = a)
+    this.data.gameAssets.mapTypes.items$.subscribe(a => this.types = a)
   }
 
   updateItems($event: MapConfig[]) {

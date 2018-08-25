@@ -16,11 +16,24 @@ export class GameViewComponent implements OnInit {
   user: User
   restricted = false;
 
+  cntCharacters = 0
+  cntMaps = 0
+  cntEncounters = 0
+  cntMonsters = 0
+  cntItems = 0
+  cntSpells = 0
+
   constructor(private data: DataService, private route: ActivatedRoute, private restrict: RestrictService, private cd: CommonDialogService, private router: Router) {
     this.data.user.subscribe(u => this.user = u);
   }
 
   ngOnInit() {
+
+    this.data.gameAssets.characters.items$.subscribe(items => this.cntCharacters = items.length)
+    this.data.gameAssets.monsters.items$.subscribe(items => this.cntMonsters = items.length)
+    this.data.gameAssets.maps.items$.subscribe(items => this.cntMaps = items.length)
+    this.data.gameAssets.encounters.items$.subscribe(items => this.cntEncounters = items.length)
+
     this.route.paramMap.subscribe(params => {
       let id = params.get('gameid')
       let edit = params.get('edit')

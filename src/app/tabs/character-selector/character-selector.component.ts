@@ -37,7 +37,7 @@ export class CharacterSelectorComponent implements OnInit {
   tool
 
   constructor(private data: DataService, private mapSvc: MapService, private cd: CommonDialogService, private router: Router) {
-    this.data.characterTypes.subscribe(items => {
+    this.data.gameAssets.characterTypes.items$.subscribe(items => {
       this.characters = items
       this.updateList()
     })

@@ -18,7 +18,7 @@ export class FindCharacterComponent implements OnInit {
 
   characters: Character[] = []
   constructor(private data: DataService) {
-    data.characters.subscribe(a => this.characters = a)
+    data.gameAssets.characters.items$.subscribe(a => this.characters = a)
     this.searchFor.bind(this)
   }
 

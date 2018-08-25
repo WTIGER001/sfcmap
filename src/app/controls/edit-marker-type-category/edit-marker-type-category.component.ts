@@ -12,7 +12,7 @@ export class EditMarkerTypeCategoryComponent implements OnInit {
   mapTypes: MapType[] = []
 
   constructor(private data: DataService) {
-    this.data.mapTypes.subscribe(types => this.mapTypes = types)
+    this.data.gameAssets.mapTypes.items$.subscribe(types => this.mapTypes = types)
   }
 
   ngOnInit() {

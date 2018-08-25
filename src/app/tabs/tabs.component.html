@@ -3,7 +3,7 @@
     <div class="tab" (click)="toggle('user')" [class.tab-selected]="selected==='user'">
       <fa-icon icon="user" fixedWidth="true"></fa-icon>
     </div>
-    <div class="tab " (click)="toggle('mapselect')" [class.tab-selected]="selected==='mapselect'">
+    <!-- <div class="tab " (click)="toggle('mapselect')" [class.tab-selected]="selected==='mapselect'">
       <fa-icon icon="map" fixedWidth="true"></fa-icon>
     </div>
     <div class="tab " (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
@@ -11,7 +11,7 @@
     </div>
     <div class="tab " (click)="toggle('encounters')" [class.tab-selected]="selected==='encounters'">
       <fa-icon icon="paw" fixedWidth="true"></fa-icon>
-    </div>
+    </div> -->
     <!-- <div class="tab ra-custom" (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
       <i class="ra ra-battered-axe"></i>
     </div> -->
@@ -27,20 +27,20 @@
     <div class="tab " (click)="toggle('rpg')" [class.tab-selected]="selected==='rpg'">
       <fa-icon icon="dice" [fixedWidth]="true"></fa-icon>
     </div>
-    <div class="tab " (click)="toggle('admin')" [class.tab-selected]="selected==='admin'">
+    <!-- <div class="tab " (click)="toggle('admin')" [class.tab-selected]="selected==='admin'">
       <fa-icon icon="cog" [fixedWidth]="true"></fa-icon>
-    </div>
+    </div> -->
   </div>
   <button type="button" class="close" aria-label="Close" (click)="expanded=false" [class.hide]="expanded==false">
     <span aria-hidden="true">&times;</span>
   </button>
   <app-user-side class="side-container" [class.visible]="selected==='user'" [class.hide]="selected!=='user'"></app-user-side>
   <app-marker-tab class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-tab>
-  <app-map-selector class="side-container" [class.visible]="selected==='mapselect'" [class.hide]="selected!=='mapselect'"></app-map-selector>
-  <app-character-selector class="side-container" [class.visible]="selected==='chrselect'" [class.hide]="selected!=='chrselect'"></app-character-selector>
+  <!-- <app-map-selector class="side-container" [class.visible]="selected==='mapselect'" [class.hide]="selected!=='mapselect'"></app-map-selector>
+  <app-character-selector class="side-container" [class.visible]="selected==='chrselect'" [class.hide]="selected!=='chrselect'"></app-character-selector> -->
   <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
-  <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin>
+  <!-- <app-admin class="side-container" [class.visible]="selected==='admin'" [class.hide]="selected!=='admin'"></app-admin> -->
   <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
   <app-rpg-tab class="side-container" [class.visible]="selected==='rpg'" [class.hide]="selected!=='rpg'"></app-rpg-tab>
-  <app-encounters-tab class="side-container" [class.visible]="selected==='encounters'" [class.hide]="selected!=='encounters'"></app-encounters-tab>
+  <!-- <app-encounters-tab class="side-container" [class.visible]="selected==='encounters'" [class.hide]="selected!=='encounters'"></app-encounters-tab> -->
 </div>

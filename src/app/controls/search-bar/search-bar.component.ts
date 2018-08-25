@@ -7,6 +7,7 @@ import { SortFilterUtil, SortFilterData, SortFilterField } from '../../util/sort
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { RouteUtil } from '../../util/route-util';
+import { Game } from '../../models';
 
 @Component({
   selector: 'app-search-bar',
@@ -32,12 +33,16 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   @Input() hasSorts = true
   @Input() hasNew = true
   @Input() hasImport = true
+  @Input() hasLinks = true
   @Input() fields: SortFilterField[] = []
   @Input() newText = "New Item"
   @Input() newLink = "/new-item"
   @Input() submitOnChange = false
   @Input() views: string[] = ['card', 'small'] //, 'line'
   @Input() viewIcons: string[] = ['th-large', 'th', 'th-list']
+
+  @Input() game: Game
+  @Input() type: string
 
   filtered: any[] = []
   _items: any[] = []
@@ -91,6 +96,12 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
 
   clkImport() {
     this.clickImport.emit()
+  }
+
+  clkLinks() {
+    // if (this.game && this.type) {
+    this.dialog.openLinks(this.game, this.type)
+    // }
   }
 
   processFilterValues() {

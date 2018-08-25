@@ -137,7 +137,7 @@ export class MapService {
     })
 
     // When the array of available maps changes just update
-    this.data.maps.subscribe(
+    this.data.gameAssets.maps.items$.subscribe(
       maps => this.maps = maps
     )
 
@@ -148,7 +148,7 @@ export class MapService {
     // userObs.subscribe(user => this.setDefaultMap(user))
 
     // Load the Map Types
-    this.data.mapTypes.subscribe(t => this.mapTypes = t)
+    this.data.gameAssets.mapTypes.items$.subscribe(t => this.mapTypes = t)
 
     // Load the Categories
     this.data.categories.subscribe(cats => {
@@ -156,7 +156,7 @@ export class MapService {
       this.categories = cats
     })
 
-    let makeMarkerTypes = this.data.markerTypes.pipe(map(
+    let makeMarkerTypes = this.data.gameAssets.markerTypes.items$.pipe(map(
       markertypes => {
         this.mapLoad.debug("Loading Marker Types")
         this.iconCache.load(markertypes, this._map)
@@ -613,7 +613,7 @@ export class MapService {
       let opts = options || {}
       let center = opts.center;
       let zoom = opts.zoom;
-      let sub = this.data.maps.pipe().subscribe(
+      let sub = this.data.gameAssets.maps.items$.pipe().subscribe(
         maps => {
           let mf = maps.find(m => m.id == mapId || m.name.toLowerCase() == mapId.toLowerCase())
           if (mf) {

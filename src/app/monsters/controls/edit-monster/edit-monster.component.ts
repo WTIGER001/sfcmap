@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MonsterComponent } from '../monster/monster.component';
-import { MonsterText } from '../../../models/monsterdb';
+import { MonsterText, MonsterIndex } from '../../../models/monsterdb';
 import { ImageSearchResult } from '../../../util/GoogleImageSearch';
 import { isArray } from 'util';
 import { ImageUtil, LoadImageOptions } from '../../../util/ImageUtil';
@@ -15,21 +15,30 @@ import { mergeMap } from 'rxjs/operators';
 })
 export class EditMonsterComponent implements OnInit {
   @Input() selected: MonsterText
+  index: MonsterIndex
 
   constructor(private data: DataService) {
-
   }
 
   ngOnInit() {
+
+  }
+
+  ngAfterContentInit() {
+    this.data.gameAssets.monsters.items$.subscribe(all => {
+      this.index = all.find(item => item.id == this.selected.id)
+    })
   }
 
   save() {
-    const mi = this.data.monsters.getValue().find(a => a.id == this.selected.id)
-    mi.image = this.selected.image
-    mi.thumb = this.selected.thumb
 
+    if (this.index) {
+      this.index.image = this.selected.image
+      this.index.thumb = this.selected.thumb
+      this.data.save(this.index)
+    }
     this.data.save(this.selected)
-    this.data.save(mi)
+
   }
 
   getSearchTerm() {

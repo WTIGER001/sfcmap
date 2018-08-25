@@ -5,7 +5,6 @@ import { MonsterIndex } from "./monsterdb";
 import { CharacterType } from "./character-type";
 import { MapConfig } from "./map-config";
 import { MapType } from "./map-type";
-// import { Encounter } from "../encounter/model/encounter";
 import { LangUtil } from "../util/LangUtil";
 import { AngularFireDatabase } from "angularfire2/database";
 
@@ -75,10 +74,10 @@ export class DataLike {
   // spells = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
   // items = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
   characters = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
-  characterTypes = new AssetTracker<CharacterType>('Character Types', CharacterType.FOLDER, this.db)
-  maps = new AssetTracker<MapConfig>('Maps', MapConfig.FOLDER, this.db)
-  mapType = new AssetTracker<MapType>('Map Types', MapType.FOLDER, this.db)
-  encounters = new AssetTracker<Encounter>('Encounters', Encounter.FOLDER, this.db)
+  // characterTypes = new AssetTracker<CharacterType>('Character Types', CharacterType.FOLDER, this.db)
+  // maps = new AssetTracker<MapConfig>('Maps', MapConfig.FOLDER, this.db)
+  // mapType = new AssetTracker<MapType>('Map Types', MapType.FOLDER, this.db)
+  // encounters = new AssetTracker<Encounter>('Encounters', Encounter.FOLDER, this.db)
 
   focusOnAsset(id: string) {
     const ids: string[] = []

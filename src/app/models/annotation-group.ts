@@ -4,7 +4,7 @@ import { FeatureGroup, Map, Layer, featureGroup } from "leaflet";
 
 export class MarkerGroup extends ObjectType implements IRestrictedItem, IDbItem, IObjectType {
   public static readonly TYPE = 'db.MarkerGroup'
-  public static readonly FOLDER = 'markerGroups'
+  public static readonly FOLDER = 'annotationGroups'
   public static readonly SAMPLE = {
     objType: '',
     id: 'string',

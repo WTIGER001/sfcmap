@@ -27,7 +27,7 @@ export class EditCharacterComponent implements OnInit {
       let edit = params.get('edit')
 
       if (id) {
-        this.data.characters.subscribe(all => {
+        this.data.gameAssets.characters.items$.subscribe(all => {
           let chr = all.find(c => c.id == id)
           if (chr) {
             this.character = chr

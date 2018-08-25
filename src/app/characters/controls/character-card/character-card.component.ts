@@ -26,7 +26,7 @@ export class CharacterCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.data.characterTypes.subscribe(a => this.types = a)
+    this.data.gameAssets.characterTypes.items$.subscribe(a => this.types = a)
   }
 
   nextPage($event) {

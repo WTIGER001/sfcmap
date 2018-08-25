@@ -63,7 +63,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     this.initCommands()
 
     let found = (this.lastId == '')
-    this.maps$ = this.data.maps
+    this.maps$ = this.data.gameAssets.maps.items$
 
     this.firedb.list<any>("chat").stateChanges()
       .subscribe(action => {
@@ -106,7 +106,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   newChatRecord(record?: any): ChatRecord {
     let c = new ChatRecord()
     c.time = Date.now()
-    c.uid = this.user.uid
+    c.id = this.user.id
     c.record = record
     return c
   }
@@ -156,7 +156,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   username(uid): string {
-    let u = this.users.find(u => u.uid == uid)
+    let u = this.users.find(u => u.id == uid)
     if (u) {
       return u.name
     }
@@ -185,7 +185,9 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.roller = new DiceRoller(true, this.canvas.nativeElement)
+    if (this.canvas) {
+      this.roller = new DiceRoller(true, this.canvas.nativeElement)
+    }
   }
 
   enterAction(e: string) {
@@ -386,7 +388,7 @@ class ClearType implements IChatCommand {
       if (this.type == 'pings' && chat.isPing(chat.records[i].record)) {
         chat.records.splice(i, 1)
       }
-      if (this.type == 'me' && chat.records[i].uid == chat.user.uid) {
+      if (this.type == 'me' && chat.records[i].id == chat.user.id) {
         chat.records.splice(i, 1)
       }
       if (this.type == 'messages' && chat.isMessage(chat.records[i].record)) {

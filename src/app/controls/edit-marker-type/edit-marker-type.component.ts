@@ -49,7 +49,7 @@ export class EditMarkerTypeComponent implements AfterViewInit {
       this.hasImage = true
       var url = reader.result
       var img = new Image()
-      img.src = url
+      img.src = url.toString()
       img.onload = () => {
         this.myimage.nativeElement.src = img.src
         this.myimage.nativeElement.width = img.width

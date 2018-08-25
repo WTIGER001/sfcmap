@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { Subject, Observable } from "rxjs";
+import { isArray, isObject } from "util";
 
 /**
  * Collection of language utils that are useful for all Typescript applications
@@ -35,6 +36,9 @@ export class LangUtil {
 
   public static prepareForStorage(obj: any, sample?: any): any {
     const copy = LangUtil.shallowCopy(obj, sample)
+    if (obj.preSave) {
+      obj.preSave()
+    }
     // LangUtil.removeTransients(copy)
     LangUtil.removeTransients(copy)
     LangUtil.clean(copy)
@@ -126,5 +130,27 @@ export class LangUtil {
     }
     r.readAsText(f)
     return rtn
+  }
+
+
+  public static array2Map(arr: any[]): any {
+    const rtn = {}
+    arr.forEach((value, index) => {
+      rtn["" + index] = isArray(value) ? this.array2Map(value) : value
+    })
+    return rtn
+  }
+
+  public static map2Array(map: any): any[] {
+    const len = map.size
+    const arr = [len]
+    Object.keys(map).forEach(key => {
+      const v = map[key]
+      const indx = parseInt(key)
+      const obj = isObject(v) ? this.map2Array(v) : v
+      arr[indx] = v instanceof Map ? this.map2Array(v) : v
+    })
+
+    return arr
   }
 }

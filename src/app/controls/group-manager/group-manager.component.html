@@ -48,8 +48,8 @@
     <label for="name">Members</label>
     <div class="member-list">
       <div class="custom-control custom-checkbox" *ngFor="let opt of users">
-        <input type="checkbox" class="custom-control-input" id="{{opt.uid}}" [(checklist)]="selected.members" [checklistValue]="opt.uid">
-        <label class="custom-control-label" for="{{opt.uid}}"> {{opt.name}}</label>
+        <input type="checkbox" class="custom-control-input" id="{{opt.id}}" [(checklist)]="selected.members" [checklistValue]="opt.id">
+        <label class="custom-control-label" for="{{opt.id}}"> {{opt.name}}</label>
       </div>
     </div>
   </div>

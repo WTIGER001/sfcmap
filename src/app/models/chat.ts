@@ -241,7 +241,7 @@ export class PingMessage {
 }
 
 export class Online {
-  uid: string
+  id: string
   login: string
   image: string
   name: string

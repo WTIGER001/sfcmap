@@ -1,0 +1,60 @@
+
+
+
+
+
+
+Firebase
+
+monsters/{ID}
+
+
+Reference Owners {
+  id: string, 
+  name : string,
+  description : string
+}
+
+
+RefImmport {
+  ownerId : 234
+  '------------
+  refIds  : [12313,123123,123123,123123,123123,123123,123123,123123]
+  '------------ OR -------------------
+  refMatch('source', 'PFB')
+  exclude: [2134124,1234,1234,1234,]
+}
+
+RefImmportCategory {
+  ownerId : 234
+  '------------
+  refIds  : [12313,123123,123123,123123,123123,123123,123123,123123]
+  '------------ OR -------------------
+  refMatch('source', 'PFB')
+  exclude: [2134124,1234,1234,1234,]
+}
+
+Refs {
+  RefImport[]
+
+
+
+}
+
+
+im.subscribe(db) {
+  // Handle Includes
+  include.map( item => db.doc(pathTo(item).subscribe( item => merge(item))))
+
+  // Handle by category
+  match.map( match => db.collection('collection', ref => ref.where(match.field, '==', ref.value).subscribe( )))
+}
+
+subscribe()  {
+  // Load all the imports and merge them into a single list. Page them as needed
+  imports.forEach( im => {
+    im.subscribe(this.db)
+  })
+
+
+}

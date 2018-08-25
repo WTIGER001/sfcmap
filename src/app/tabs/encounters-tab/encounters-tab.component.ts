@@ -27,7 +27,7 @@ export class EncountersTabComponent implements OnInit {
   restricted = false
 
   constructor(private data: DataService, private router: Router, private restrict: RestrictService) {
-    this.data.encounters.subscribe(encounters => {
+    this.data.gameAssets.encounters.items$.subscribe(encounters => {
       this.all = encounters
       this.applyFilter()
     })

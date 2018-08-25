@@ -1,4 +1,4 @@
-import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map } from "leaflet";
+import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map as LeafletMap } from "leaflet";
 import { IconZoomLevelCache } from "./icon-cache";
 import { IObjectType, ObjectType } from "./core";
 import { LangUtil } from "../util/LangUtil";
@@ -33,14 +33,22 @@ export abstract class Annotation extends ObjectType {
   }
 
   static to(obj: any): Annotation {
+    let rtn: Annotation
     if (MarkerTypeAnnotation.is(obj)) {
-      return new MarkerTypeAnnotation().copyFrom(obj)
+      rtn = new MarkerTypeAnnotation().copyFrom(obj)
     }
     if (ShapeAnnotation.is(obj)) {
-      return new ShapeAnnotation(obj.type).copyFrom(obj)
+      rtn = new ShapeAnnotation(obj.type).copyFrom(obj)
     }
     if (ImageAnnotation.is(obj)) {
-      return new ImageAnnotation().copyFrom(obj)
+      rtn = new ImageAnnotation().copyFrom(obj)
+    }
+
+    if (rtn) {
+      if (rtn.points) {
+        rtn._points = LangUtil.map2Array(rtn.points)
+      }
+      return rtn
     }
 
     throw new Error("Unable to convert to a type of annotation: Invalid Object")
@@ -60,7 +68,9 @@ export abstract class Annotation extends ObjectType {
   edit: string[]
   view: string[]
   mapLink: string
-  points: any[]
+  // points: any[]
+  points: any
+  _points: any[]
   tags: string[]
   snap: false
 
@@ -76,6 +86,10 @@ export abstract class Annotation extends ObjectType {
     return this._leafletAttachment
   }
 
+  preSave() {
+    this.points = LangUtil.array2Map(this._points)
+  }
+
   static fromLeaflet(layer: any): Annotation {
     return layer.objAttach
   }
@@ -88,7 +102,7 @@ export abstract class Annotation extends ObjectType {
     return this._leafletAttachment
   }
 
-  static findInLeaflet(map: Map, id: string): Annotation {
+  static findInLeaflet(map: LeafletMap, id: string): Annotation {
     let result = undefined
     map.eachLayer(layer => {
       let sfcId = layer['sfcId']
@@ -102,6 +116,7 @@ export abstract class Annotation extends ObjectType {
   abstract copyPoints()
   abstract createLeafletAttachment(iconCache: IconZoomLevelCache): any
   abstract center(): LatLng
+
 }
 
 /**
@@ -145,7 +160,7 @@ export class MarkerTypeAnnotation extends Annotation {
 
   copyPoints() {
     let ll = this.toMarker().getLatLng()
-    this.points = [ll]
+    this._points = [ll]
   }
 
   toMarker(): Marker {
@@ -165,7 +180,7 @@ export class MarkerTypeAnnotation extends Annotation {
   }
 
   createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-    const m = marker(this.points[0], this.options(iconCache))
+    const m = marker(this._points[0], this.options(iconCache))
     m['iconUrl'] = () => {
       return m.options.icon.options.iconUrl
     }
@@ -213,14 +228,14 @@ export class ImageAnnotation extends Annotation {
   }
 
   copyPoints() {
-    this.points = [
+    this._points = [
       this._leafletAttachment.getBounds().getSouthWest(),
       this._leafletAttachment.getBounds().getNorthEast()
     ]
   }
 
   setBounds(bounds: LatLngBounds) {
-    this.points = [
+    this._points = [
       bounds.getSouthWest(),
       bounds.getNorthEast()
     ]
@@ -352,18 +367,18 @@ export class ShapeAnnotation extends Annotation {
   copyPoints() {
     if (this.type == 'polygon') {
       let item: Polygon = <Polygon>this._leafletAttachment
-      this.points = item.getLatLngs()
+      this._points = item.getLatLngs()
     } else if (this.type == 'polyline') {
       let item: Polyline = <Polyline>this._leafletAttachment
-      this.points = item.getLatLngs()
+      this._points = item.getLatLngs()
     } else if (this.type == 'rectangle') {
       let item: Rectangle = <Rectangle>this._leafletAttachment
       let sw = item.getBounds().getSouthWest()
       let ne = item.getBounds().getNorthEast()
-      this.points = [sw, ne]
+      this._points = [sw, ne]
     } else if (this.type === 'circle') {
       let item: Circle = <Circle>this._leafletAttachment
-      this.points = [item.getLatLng(), item.getRadius()]
+      this._points = [item.getLatLng(), item.getRadius()]
     }
   }
 
@@ -399,16 +414,16 @@ export class ShapeAnnotation extends Annotation {
   }
 
   private toPolygon(): Polygon {
-    return polygon(this.points, this.options())
+    return polygon(this._points, this.options())
   }
 
   private toPolyline(): Polyline {
-    return polyline(this.points, this.options())
+    return polyline(this._points, this.options())
   }
 
   private toRectangle(): Rectangle {
-    if (this.points && this.points.length > 1) {
-      return rectangle(this.points, this.options())
+    if (this.points && this._points.length > 1) {
+      return rectangle(this._points, this.options())
     } else {
       return rectangle([[0, 0], [1, 1]], this.options())
     }

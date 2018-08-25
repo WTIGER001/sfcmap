@@ -30,12 +30,12 @@ export class DebugObservablesComponent implements OnInit {
     this.data.userMapPrefs.subscribe(i => { this.countUserMapPrefsUpdates += 1; this.record(i, 'r', "Map Prefs") })
     this.data.userPrefs.subscribe(i => { this.countUserPrefsUpdates += 1; this.record(i, 'r', "Prefs") })
 
-    this.data.maps.subscribe(i => { this.countMapUpdates += 1; this.record(i, 'r', "Maps") })
-    this.data.mapTypes.subscribe(i => { this.countMapTypeUpdates += 1; this.record(i, 'r', "Map Types") })
+    this.data.gameAssets.maps.items$.subscribe(i => { this.countMapUpdates += 1; this.record(i, 'r', "Maps") })
+    this.data.gameAssets.mapTypes.items$.subscribe(i => { this.countMapTypeUpdates += 1; this.record(i, 'r', "Map Types") })
     this.data.users.subscribe(i => { this.countUsersUpdates += 1; this.record(i, 'r', "Users") })
-    this.data.markerTypes.subscribe(i => { this.countMarkerTypesUpdates += 1; this.record(i, 'r', "Marker Types") })
-    this.data.groups.subscribe(i => { this.countUserGroupsUpdates += 1; this.record(i, 'r', "Groups") })
-    this.data.markerCategories.subscribe(i => { this.countMarkerCategoriesUpdates += 1; this.record(i, 'r', "Marker Categories") })
+    this.data.gameAssets.markerTypes.items$.subscribe(i => { this.countMarkerTypesUpdates += 1; this.record(i, 'r', "Marker Types") })
+    // this.data.groups.subscribe(i => { this.countUserGroupsUpdates += 1; this.record(i, 'r', "Groups") })
+    this.data.gameAssets.markerCategories.items$.subscribe(i => { this.countMarkerCategoriesUpdates += 1; this.record(i, 'r', "Marker Categories") })
 
     this.mapSvc.mapConfig.subscribe(i => { this.countMapConfigUpdates += 1; this.record(i, 'r', "Map Changes") })
     this.mapSvc.map.subscribe(i => { this.countLeafletMapUpdates += 1; this.record(i, 'r', "Leaflet Map Changes") })

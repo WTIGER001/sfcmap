@@ -22,15 +22,10 @@ export class User extends ObjectType {
 
   name: string
   email?: string
-  uid: string
+  id: string
   photo?: string
   groups?: string[]
 
-  // maps = {}
-  // recentMarkers?: string[]
-  // recentMaps?: string[]
-  // assumedGroups?: string[]
-  // prefs: Prefs = new Prefs()
 
   isAdmin(): boolean {
     return this.groups.includes("admin")
@@ -39,13 +34,13 @@ export class User extends ObjectType {
   constructor() {
     super()
     this.name = "no one"
-    this.uid = "NOBODY"
+    this.id = "NOBODY"
   }
 
   static fromFireUser(fireUser: FireUser) {
     var u = new User()
     if (fireUser !== null) {
-      u.uid = fireUser.uid
+      u.id = fireUser.uid
       u.name = fireUser.displayName
       u.email = fireUser.email
       u.photo = fireUser.photoURL
@@ -63,7 +58,7 @@ export class User extends ObjectType {
   }
 
   dbPath(): string {
-    return User.FOLDER + '/' + this.uid
+    return User.FOLDER + '/' + this.id
   }
 
   static pathTo(userId: string): string {
@@ -116,7 +111,7 @@ export class UserAssumedAccess extends ObjectType {
     return new UserAssumedAccess().copyFrom(obj)
   }
 
-  uid: string
+  id: string
   assumedGroups?: string[]
 
 }
@@ -126,7 +121,7 @@ export class MapPrefs extends ObjectType {
   public static readonly FOLDER = 'user-map-prefs'
 
   readonly objType: string = MapPrefs.TYPE
-  uid: string
+  id: string
   maps = {}
 
   static is(obj: any): obj is User {
@@ -182,8 +177,8 @@ export class Prefs extends ObjectType {
   public static readonly TYPE = 'db.UserPrefs'
   public static readonly FOLDER = 'user-prefs'
   readonly objType: string = Prefs.TYPE
-
-  uid: string
+  id: string
+  // uid: string
   recentMarkers: string[] = []
   recentMaps: string[] = []
   showScale: boolean = true

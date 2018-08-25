@@ -40,7 +40,7 @@ export class EncounterIndexComponent implements OnInit {
         })
       }
     })
-    this.data.encounters.subscribe(m => {
+    this.data.gameAssets.encounters.items$.subscribe(m => {
       console.log("GOT MAPS: ", m);
       this.all = m
       this.filtered = m

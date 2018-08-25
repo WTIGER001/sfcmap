@@ -5,7 +5,7 @@ import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angula
 import { AngularFireAuth } from "angularfire2/auth";
 import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
-import { mergeMap, map, tap, first, concatMap, take, distinct } from "rxjs/operators";
+import { mergeMap, map, tap, first, concatMap, take } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
 import { LangUtil } from "./util/LangUtil";
 import { UUID } from "angular2-uuid";
@@ -21,28 +21,20 @@ import { Pathfinder } from "./models/gamesystems/pathfinder";
 import { DataAsset } from "./data-asset";
 
 export class GameAssets {
-  annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.FOLDER)
-  annotations = new DataAsset<Annotation>(Annotation.FOLDER)
-  characterTypes = new DataAsset<CharacterType>(CharacterType.FOLDER)
   characters = new DataAsset<Character>(Character.FOLDER)
   encounters = new DataAsset<Encounter>(Encounter.FOLDER)
+  characterTypes = new DataAsset<CharacterType>(CharacterType.FOLDER)
   maps = new DataAsset<MapConfig>(MapConfig.FOLDER)
   mapTypes = new DataAsset<MapType>(MapType.FOLDER)
-  markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.FOLDER)
-  markerTypes = new DataAsset<MarkerType>(MarkerType.FOLDER)
   monsters = new DataAsset<MonsterIndex>(MonsterIndex.FOLDER)
 
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
-    this.annotationFolders.subscribe(game$, notify, data)
-    this.annotations.subscribe(game$, notify, data)
-    this.characterTypes.subscribe(game$, notify, data)
-    this.characters.subscribe(game$, notify, data)
-    this.encounters.subscribe(game$, notify, data)
-    this.maps.subscribe(game$, notify, data)
-    this.mapTypes.subscribe(game$, notify, data)
-    this.markerCategories.subscribe(game$, notify, data)
-    this.markerTypes.subscribe(game$, notify, data)
-    this.monsters.subscribe(game$, notify, data)
+    // this.characters.subscribe(game$, notify, data)
+    // this.encounters.subscribe(game$, notify, data)
+    // this.characterTypes.subscribe(game$, notify, data)
+    // this.maps.subscribe(game$, notify, data)
+    // this.mapTypes.subscribe(game$, notify, data)
+    // this.monsters.subscribe(game$, notify, data)
   }
 }
 
@@ -50,7 +42,6 @@ export class GameAssets {
   providedIn: 'root'
 })
 export class DataService {
-
 
   /**
    * The nobody user
@@ -67,33 +58,43 @@ export class DataService {
    */
   private log: Debugger
 
-  // User Level Observables
+  /**
+   * Observables
+   */
   user = new BehaviorSubject<User>(DataService.NOBODY)
+  game = new BehaviorSubject<Game>(undefined)
+
   userPrefs = new BehaviorSubject<Prefs>(new Prefs())
   userMapPrefs = new BehaviorSubject<MapPrefs>(new MapPrefs())
   userAccess = new BehaviorSubject<UserAssumedAccess>(new UserAssumedAccess())
-  online = new ReplaySubject<Array<Online>>(1)
-
-  // System Level Observables
+  // mapTypes = new BehaviorSubject<Array<MapType>>([])
+  // maps = new BehaviorSubject<Array<MapConfig>>([])
   users = new BehaviorSubject<Array<User>>([])
-  gamesystems = new BehaviorSubject<Array<GameSystem>>([])
+  // groups = new BehaviorSubject<Array<UserGroup>>([])
+  // markerCategories = new BehaviorSubject<Array<MarkerCategory>>([])
+  // markerTypes = new BehaviorSubject<Array<MarkerType>>([])
+  // mapTypesWithMaps = new BehaviorSubject<Array<MergedMapType>>([])
+  // categories = new BehaviorSubject<Array<Category>>([])
+
+  // userPrefs = new ReplaySubject<Prefs>(1)
+  // userMapPrefs = new ReplaySubject<MapPrefs>(1)
+  // userAccess = new ReplaySubject<UserAssumedAccess>(1)
   games = new ReplaySubject<Array<Game>>(1)
+  gamesystems = new BehaviorSubject<Array<GameSystem>>([])
 
-  // Game Level Observablaes
-  game = new BehaviorSubject<Game>(undefined)
-  gameAssets = new GameAssets()
-
-  // mapTypes = new ReplaySubject<Array<MapType>>(1)
-  // maps = new ReplaySubject<Array<MapConfig>>(1)
+  mapTypes = new ReplaySubject<Array<MapType>>(1)
+  maps = new ReplaySubject<Array<MapConfig>>(1)
+  // users = new ReplaySubject<Array<User>>(1)
   groups = new ReplaySubject<Array<UserGroup>>(1)
-  // markerCategories = new ReplaySubject<Array<MarkerCategory>>(1)
-  // markerTypes = new ReplaySubject<Array<MarkerType>>(1)
+  markerCategories = new ReplaySubject<Array<MarkerCategory>>(1)
+  markerTypes = new ReplaySubject<Array<MarkerType>>(1)
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>(1)
   categories = new ReplaySubject<Array<Category>>(1)
-  // characters = new ReplaySubject<Array<Character>>(1)
-  // characterTypes = new ReplaySubject<Array<CharacterType>>(1)
-  // encounters = new ReplaySubject<Array<Encounter>>(1)
-  // monsters = new BehaviorSubject<Array<MonsterIndex>>([])
+  characters = new ReplaySubject<Array<Character>>(1)
+  characterTypes = new ReplaySubject<Array<CharacterType>>(1)
+  encounters = new ReplaySubject<Array<Encounter>>(1)
+  online = new ReplaySubject<Array<Online>>(1)
+  monsters = new BehaviorSubject<Array<MonsterIndex>>([])
 
   monstersLoading = new BehaviorSubject<boolean>(true)
   charactersLoading = new BehaviorSubject<boolean>(true)
@@ -109,7 +110,7 @@ export class DataService {
   subs: Subscription[] = []
 
   // User & Assumed Groups ->  Map Configs
-  constructor(private afAuth: AngularFireAuth, private notify: NotifyService, private storage: AngularFireStorage, public db: AngularFireDatabase) {
+  constructor(private afAuth: AngularFireAuth, public db: AngularFireDatabase, private notify: NotifyService, private storage: AngularFireStorage) {
     this.log = this.notify.newDebugger("Data")
 
     this.setUpSubscriptions()
@@ -120,10 +121,9 @@ export class DataService {
     this.subscribeToUserLogon()
     this.loadUserExtensions()
     this.loadDataFromUser()
-    // this.loadMaps()
-    this.loadGameAssets()
-    // this.loadMergedMapTypes()
-    // this.loadCategories()
+    this.loadMaps()
+    this.loadMergedMapTypes()
+    this.loadCategories()
   }
 
   /**
@@ -185,19 +185,149 @@ export class DataService {
     this.loadUsers()
     this.loadAndNotify<Game>(this.games, 'games', 'Loading Games')
     this.loadAndNotify<UserGroup>(this.groups, 'groups', 'Loading User Groups')
-    // this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
-    // this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
-    // this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
-    // this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters', undefined, this.charactersLoading)
-    // this.loadAndNotify<Encounter>(this.encounters, Encounter.FOLDER, 'Loading Encounters')
+    this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
+    this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
+    this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
+    this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters', undefined, this.charactersLoading)
+    this.loadAndNotify<Encounter>(this.encounters, Encounter.FOLDER, 'Loading Encounters')
     // this.loadAndNotify<MonsterIndex>(this.monsters, MonsterIndex.FOLDER, 'Loading Monsters')
-    // this.pageMonsters()
-    // this.loadCharacterTypes()
+    this.pageMonsters()
+    this.loadCharacterTypes()
+  }
+
+
+  private loadCharacterTypes() {
+    let chrs: Character[] = []
+    this.characters.pipe(
+      tap(c => chrs = c),
+      mergeMap(c => this.db.list<CharacterType>(CharacterType.FOLDER).valueChanges())
+    ).subscribe(cts => {
+      let items: CharacterType[] = []
+      let used: Character[] = []
+      cts.forEach(ct => {
+        let ct1 = CharacterType.to(ct)
+        ct1._characters = chrs.filter(c => c.type == ct1.id)
+        used.push(...ct1._characters)
+        items.push(ct1)
+      })
+
+      let und: Character[] = LangUtil.arrayDiff(chrs, used)
+      if (und.length > 0) {
+        let ct = new CharacterType()
+        ct.name = "Ungrouped"
+        ct.id = DataService.UNCATEGORIZED
+        ct._characters = und
+        items.push(ct)
+      }
+
+      this.characterTypes.next(items)
+    })
   }
 
   private getAll<T>(folder: string): Observable<T[]> {
     return this.db.list<T>(folder).valueChanges()
   }
+
+  // private mergeMarkersAndCategories(item: any, type: string) {
+  //   if (MarkerType.is(item)) {
+  //     // Look for the category
+  //     let type = item.category
+  //     const mt = this.categories.value.find(mt => mt.id === type)
+  //     if (type == 'child_added' && mt) {
+  //       mt.types.push(item)
+  //     } else if (type == 'child-removed' && mt) {
+  //       let inx = mt.types.findIndex(m => m.id == item.id)
+  //       if (inx >= 0) {
+  //         mt.types.splice(inx, 1)
+  //       }
+  //     }
+  //     this.markerTypeChanges$.next(new ItemAction(type, item))
+  //   } else if (MarkerCategory.is(item) && type == 'child_added') {
+  //     let merged = this.categories.value.find(mt => mt.id === item.id)
+  //     if (!merged) {
+  //       merged = new Category()
+  //     }
+  //     if (merged.types && merged.types.length > 0) {
+  //       merged.types.splice(0)
+  //     }
+  //     merged.name = item.name
+  //     merged.appliesTo = item.appliesTo
+  //     merged.id = item.id
+  //     merged.types = this.markerTypes.value.filter(m => m.category == merged.id && this.canView(m))
+  //     this.categories.value.push(merged)
+  //   }
+  // }
+
+  // private mergeMapAndType(item: any, type: string) {
+  //   if (MapConfig.is(item)) {
+  //     if (type == 'child_added') {
+  //       // Look for the category
+  //       let type = item.mapType
+  //       const mt = this.mapTypesWithMaps.value.find(mt => mt.id === type)
+  //       if (mt) {
+  //         mt.maps.push(item)
+  //       }
+  //     } else if (type == 'child-removed') {
+  //       let type = item.mapType
+  //       const mt = this.mapTypesWithMaps.value.find(mt => mt.id === type)
+  //       if (mt) {
+  //         let inx = mt.maps.findIndex(m => m.id == item.id)
+  //         if (inx >= 0) {
+  //           mt.maps.splice(inx, 1)
+  //         }
+  //       }
+  //     }
+  //   } else if (MapType.is(item) && type == 'child_added') {
+  //     let merged = this.mapTypesWithMaps.value.find(mt => mt.id === item.id)
+  //     if (!merged) {
+  //       merged = new MergedMapType()
+  //     }
+  //     if (merged.maps && merged.maps.length > 0) {
+  //       merged.maps.splice(0)
+  //     }
+  //     merged.name = item.name
+  //     merged.order = item.order
+  //     merged.id = item.id
+  //     merged.defaultMarker = item.defaultMarker
+  //     merged.maps = this.maps.value.filter(m => m.mapType == merged.id && this.canView(m))
+  //     this.mapTypesWithMaps.value.push(merged)
+  //   }
+  // }
+
+  // syncArray<T extends ObjectType>(arr: Array<T>, folderName: string, errorType: string, mergeFn?: (item: any, type: string) => void) {
+  //   this.log.debug('Begining of SyncArray ' + folderName)
+  //   let sub = this.user.pipe(
+  //     tap(user => this.users.value.splice(0)),
+  //     mergeMap(user => user.id === 'NOBODY' ? of(undefined) : this.db.list<T>(folderName).stateChanges())
+  //   ).subscribe(
+  //     item => {
+  //       if (!item) {
+  //         return
+  //       }
+  //       try {
+  //         let i = <AngularFireAction<DatabaseSnapshot<T>>>item
+  //         let u = DbConfig.toItem(i.payload.val())
+
+  //         if (i.type == 'child_added') {
+  //           arr.push(u)
+  //           if (mergeFn) {
+  //             mergeFn.call(this, u, i.type)
+  //             // mergeFn(u, i.type)
+  //           }
+  //         } else if (i.type == 'child_removed') {
+  //           const idx = arr.findIndex(me => me['id'] == u.id)
+  //           if (idx >= 0) {
+  //             arr.splice(idx, 1)
+  //           }
+  //         }
+  //       } catch (err) {
+  //         this.log.error("Error Loading ", name, err)
+  //       }
+  //     }
+  //   )
+  //   this.subs.push(sub)
+  // }
+
 
   loadUsers() {
     let sub = this.user.pipe(
@@ -228,21 +358,18 @@ export class DataService {
     this.subs.push(sub)
   }
 
-  loadGameAssets() {
-    this.gameAssets.subscribeAll(this.game, this.notify, this)
-  }
 
-  // // Maps
-  // loadMaps() {
-  //   this.userAccess.pipe(
-  //     mergeMap(ua => ua.id === 'NOBODY' ? of([]) : this.db.list(MapConfig.FOLDER).valueChanges()),
-  //     tap(maps => { this.mapsCurrent.splice(0), this.mapsCurrent.push(...maps) })
-  //   ).subscribe(maps => this.receiveArray(maps, this.maps))
-  // }
+  // Maps
+  loadMaps() {
+    this.userAccess.pipe(
+      mergeMap(ua => ua.id === 'NOBODY' ? of([]) : this.db.list(MapConfig.FOLDER).valueChanges()),
+      tap(maps => { this.mapsCurrent.splice(0), this.mapsCurrent.push(...maps) })
+    ).subscribe(maps => this.receiveArray(maps, this.maps))
+  }
 
   // Merged 
   loadMergedMapTypes() {
-    combineLatest(this.gameAssets.maps.items$, this.gameAssets.mapTypes.items$).subscribe(
+    combineLatest(this.maps, this.mapTypes).subscribe(
       (value) => {
         const maps = value[0]
         const types = value[1]
@@ -266,7 +393,7 @@ export class DataService {
   }
 
   loadCategories() {
-    combineLatest(this.gameAssets.markerCategories.items$, this.gameAssets.markerTypes.items$).subscribe(
+    combineLatest(this.markerCategories, this.markerTypes).subscribe(
       (value) => {
         let cats = value[0]
         let types = value[1]
@@ -391,42 +518,34 @@ export class DataService {
     this.subs.push(sub)
   }
 
-  // getAnnotations$(mapId: string): Observable<Annotation[]> {
-  //   return this.gameAssets.annotations.items$.pipe(
-  //     map(items => items.filter(item => item.map == mapId))
-  //   )
-  // }
-
-  // getAnnotationGroups$(mapId: string): Observable<MarkerGroup[]> {
-  //   return this.gameAssets.annotationFolders.items$.pipe(
-  //     map(items => items.filter(item => item.map == mapId))
-  //   )
-  // }
-
   getAnnotations$(mapId: string): Observable<ItemAction<Annotation>> {
-    return this.game.pipe(
-      map(game => DbConfig.pathFolderTo(Annotation.TYPE, game.id)),
-      mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
-      map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val())))
-    )
+    return this.db.list(Annotation.FOLDER + '/' + mapId)
+      .stateChanges()
+      .pipe(
+        map(item => {
+          return new ItemAction(item.type, DbConfig.toItem(item.payload.val()))
+        })
+      )
   }
 
   getAnnotationGroups$(mapId: string): Observable<ItemAction<MarkerGroup>> {
-    return this.game.pipe(
-      map(game => DbConfig.pathFolderTo(MarkerGroup.TYPE, game.id)),
-      mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
-      map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val())))
-    )
+    return this.db.list(MarkerGroup.FOLDER + '/' + mapId)
+      .stateChanges()
+      .pipe(
+        map(item => {
+          return new ItemAction(item.type, DbConfig.toItem(item.payload.val()))
+        })
+      )
   }
 
   getAnnotations(mapid: string): Observable<Array<Annotation>> {
     return this.db.list(Annotation.FOLDER + '/' + mapid)
-      .valueChanges()
+      .snapshotChanges()
       .pipe(
         map(items => {
           let all = new Array<Annotation>()
           items.forEach(m => {
-            let pojo = <Annotation>m
+            let pojo = <Annotation>m.payload.val()
             let saved = Annotation.to(pojo)
             if (this.canView(saved)) {
               all.push(saved)
@@ -445,7 +564,7 @@ export class DataService {
       mergeMap(u => this.getMarkerGroups(mapid))
     )
 
-    return combineLatest(this.gameAssets.markerTypes.items$, groupObs, annotationObs).pipe(
+    return combineLatest(this.markerTypes, groupObs, annotationObs).pipe(
       map(value => {
         this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
         let markerTypes = value[0]
@@ -471,12 +590,12 @@ export class DataService {
 
   getMarkers(mapid: string): Observable<Array<MarkerTypeAnnotation>> {
     return this.db.list('markers/' + mapid)
-      .valueChanges()
+      .snapshotChanges()
       .pipe(
         map(items => {
           let markers = new Array<MarkerTypeAnnotation>()
           items.forEach(m => {
-            let saved = MarkerTypeAnnotation.to(m)
+            let saved = MarkerTypeAnnotation.to(m.payload.val())
             if (this.canView(saved)) {
               markers.push(<MarkerTypeAnnotation>saved)
             }
@@ -488,12 +607,12 @@ export class DataService {
 
   private getMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
     return this.db.list('markerGroups/' + mapid)
-      .valueChanges()
+      .snapshotChanges()
       .pipe(
         map(items => {
           let groups = new Array<MarkerGroup>()
           items.forEach(m => {
-            let saved = MarkerGroup.to(m)
+            let saved = MarkerGroup.to(m.payload.val())
             if (this.canView(saved)) {
               groups.push(<MarkerGroup>saved)
             }
@@ -1053,36 +1172,33 @@ export class DataService {
     this.saveAll(...text)
   }
 
-  // getMonstersPaged(limit: number, startAt: string): Observable<MonsterIndex[]> {
+  getMonsters(): Observable<MonsterIndex> {
+    return this.db.list<MonsterIndex>(MonsterIndex.FOLDER).stateChanges().pipe(
+      map(a => a.payload.val())
+    )
+  }
 
-  //   if (startAt) {
-  //     return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
-  //       ref => ref.orderByChild('id').startAt(startAt).limitToFirst(limit + 1)).valueChanges().pipe(take(1))
-  //   } else {
-  //     return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
-  //       ref => ref.orderByChild('id').limitToFirst(limit + 1)).valueChanges().pipe(take(1))
-  //   }
-  // }
+  getMonstersPaged(limit: number, startAt: string): Observable<MonsterIndex[]> {
+    return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
+      ref => ref.orderByChild('id').startAt(startAt).limitToFirst(limit + 1)).valueChanges().pipe(take(1))
+  }
 
-  // monsterStart = undefined
-  // pageMonsters() {
-  //   this.getMonstersPaged(300, this.monsterStart).subscribe(items => {
-  //     if (items.length > 1) {
-  //       this.monsterStart = items[items.length - 1].id
-  //       this.pageMonsters()
-  //     } else {
-  //       this.monstersLoading.next(false)
-  //     }
-  //     let current = this.monsters.getValue()
-  //     let next = []
-  //     next.push(...current)
-  //     next.push(...items.slice(0, 300))
-  //     this.monsters.next(next)
-  //   })
-  // }
-
-
-
+  monsterStart = undefined
+  pageMonsters() {
+    this.getMonstersPaged(300, this.monsterStart).subscribe(items => {
+      if (items.length > 1) {
+        this.monsterStart = items[items.length - 1].id
+        this.pageMonsters()
+      } else {
+        this.monstersLoading.next(false)
+      }
+      let current = this.monsters.getValue()
+      let next = []
+      next.push(...current)
+      next.push(...items.slice(0, 300))
+      this.monsters.next(next)
+    })
+  }
 
   /**
    * Loads and sets the current game. 
@@ -1128,7 +1244,6 @@ export class DataService {
 
     )
   }
-
 }
 
 
