@@ -141,6 +141,7 @@ import { DeleteToolComponent } from './controls/delete-tool/delete-tool.componen
 import { EditToolComponent } from './controls/edit-tool/edit-tool.component';
 import { RestrictionToggleComponent } from './controls/restriction-toggle/restriction-toggle.component';
 import { LinksComponent } from './dialogs/links/links.component';
+import { RestrictedContentComponent } from './controls/restricted-content/restricted-content.component';
 
 @NgModule({
   declarations: [
@@ -247,6 +248,7 @@ import { LinksComponent } from './dialogs/links/links.component';
     EditToolComponent,
     RestrictionToggleComponent,
     LinksComponent,
+    RestrictedContentComponent,
   ],
   imports: [
     BrowserModule,

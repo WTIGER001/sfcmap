@@ -21,30 +21,34 @@
   <div class="sfc-row">
     <img *ngIf="character.picture" [src]="character.picture" class="pic">
     <div>
-      <app-readmore *ngIf="character.picture" maxLength="1000" class="text-muted mb-2 description" [value]="character?.description"></app-readmore>
+        <app-restricted-content *ngIf="character.description" [item]="character" field="description">
+      <app-readmore *ngIf="character.description" maxLength="1000" class="text-muted mb-2 description" [value]="character?.description"></app-readmore>
+        </app-restricted-content>
+      
       <a [href]="character.weblink" *ngIf="character?.weblink">{{character.weblink}}</a>
-      <!-- <div class="attrs">
-      <app-attr-value [value]="86"></app-attr-value>
-    </div> -->
+ 
     </div>
   </div>
 
   <div class="sfc-row-equal">
     <div>
       <h2>Attributes</h2>
-      <div class="attr-tbl">
-        <div class="hdr">Attribute</div>
-        <div class="hdr">Max</div>
-        <div class="hdr">Current</div>
-        <ng-container *ngFor="let a of character.attributes">
-          <div>{{a.attr}}</div>
-          <div>{{a.max}}</div>
-          <div>{{a.current}}</div>
-        </ng-container>
-      </div>
+      <app-restricted-content [item]="character" field="attributes"  mode="mask">
+        <div class="attr-tbl">
+          <div class="hdr">Attribute</div>
+          <div class="hdr">Max</div>
+          <div class="hdr">Current</div>
+          <ng-container *ngFor="let a of character.attributes">
+            <div>{{a.attr}}</div>
+            <div>{{a.max}}</div>
+            <div>{{a.current}}</div>
+          </ng-container>
+        </div>
+      </app-restricted-content>
     </div>
     <div>
       <h2>Rolls</h2>
+      <app-restricted-content [item]="character" field="rolls" mode="mask">
       <div class="roll-tbl">
         <div class="hdr">Name</div>
         <div class="hdr">Expression</div>
@@ -58,9 +62,12 @@
         </ng-container>
       </div>
       <app-dice-canvas #dice (diceroll)="diceRolled($event)"></app-dice-canvas>
+    </app-restricted-content>
+
     </div>
   </div>
-
+  
+  <app-restricted-content [item]="character" field="attachments">
   <h2>Attachments</h2>
   <div class="att-tbl">
     <div class="hdr">Name</div>
@@ -73,4 +80,5 @@
       <div class="right-align">{{a.size | filesize}}</div>
     </ng-container>
   </div>
+</app-restricted-content>
 </div>

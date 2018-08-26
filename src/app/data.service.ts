@@ -612,28 +612,28 @@ export class DataService {
     return false
   }
 
-  filterRestrictedContent(item: IAsset) {
-    console.log("FILTERING", item);
+  // filterRestrictedContent(item: IAsset) {
+  //   console.log("FILTERING", item);
 
-    if (!item.restrictedContent) {
-      console.log("NO RESTRICTED CONTENT>>>");
-      return item
-    }
+  //   if (!item.restrictedContent) {
+  //     console.log("NO RESTRICTED CONTENT>>>");
+  //     return item
+  //   }
 
-    const restrictedCopy = DbConfig.toItem(item)
-    Object.keys(restrictedCopy.restrictedContent).forEach(field => {
-      console.log("CHECKING FIELD ", field);
-      if (!this.canViewField(item, field)) {
-        console.log("REMOVING FIELD ", field);
-        delete restrictedCopy[field]
-      } else {
-        console.log("NOT RESTRICTED ", field);
-      }
-      restrictedCopy['__FILTERED__'] = true
-    })
-    console.log("filterRestrictedContent", item, restrictedCopy)
-    return restrictedCopy
-  }
+  //   const restrictedCopy = DbConfig.toItem(item)
+  //   Object.keys(restrictedCopy.restrictedContent).forEach(field => {
+  //     console.log("CHECKING FIELD ", field);
+  //     if (!this.canViewField(item, field)) {
+  //       console.log("REMOVING FIELD ", field);
+  //       delete restrictedCopy[field]
+  //     } else {
+  //       console.log("NOT RESTRICTED ", field);
+  //     }
+  //     restrictedCopy['__FILTERED__'] = true
+  //   })
+  //   console.log("filterRestrictedContent", item, restrictedCopy)
+  //   return restrictedCopy
+  // }
 
   isReal(): any {
     return this.user.getValue().id != "NOBODY"

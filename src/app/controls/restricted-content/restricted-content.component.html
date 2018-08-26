@@ -1,0 +1,6 @@
+<ng-container *ngIf="canView()">
+  <ng-content></ng-content>
+</ng-container>
+<div class="restricted" *ngIf="!canView() && mode=='mask'">
+  <p>Restricted</p>
+</div>

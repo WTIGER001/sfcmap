@@ -9,12 +9,12 @@
           <div class="center-text">
             <div class="crd-page-title">Personal</div>
           </div>
-          <div>{{lookupType()}}</div>
+          <div><app-restricted-content [item]="character" field="type">{{lookupType()}}</app-restricted-content></div>
           <app-tags [tags]="character.tags"></app-tags>
-          <div>Size: {{character?.size}}</div>
-          <div>Speed: {{character?.speed}}</div>
-          <div>Vision: {{character?.vision}}</div>
-          <div>Reach: {{character?.reach}}</div>
+          <div><app-restricted-content [item]="character" field="size">Size: {{character?.size}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="character" field="speed">Speed: {{character?.speed}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="character" field="vision">Vision: {{character?.vision}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="character" field="reach">Reach: {{character?.reach}}</app-restricted-content></div>
         </ng-container>
 
         <ng-container *ngIf="page=='description'">
@@ -23,7 +23,7 @@
           </div>
 
           <small>
-            <i>{{character.description}}</i>
+              <app-restricted-content [item]="character" field="description"><i>{{character.description}}</i></app-restricted-content>
           </small>
         </ng-container>
 
@@ -32,6 +32,7 @@
             <div class="crd-page-title">Rolls</div>
           </div>
           <div class="roll-tbl">
+              <app-restricted-content [item]="character" field="rolls">
             <ng-container *ngFor="let a of character.rolls">
               <div>{{a.name}}</div>
               <div>{{evaluate(a)}}</div>
@@ -39,6 +40,7 @@
                 <fa-icon icon="dice-six" (click)="roll($event,a)" class="btn-tbl"></fa-icon>
               </div>
             </ng-container>
+          </app-restricted-content>
           </div>
         </ng-container>
 
@@ -47,11 +49,13 @@
             <div class="crd-page-title">Stats</div>
           </div>
           <div class="attr-tbl">
+              <app-restricted-content [item]="character" field="attributes">
             <ng-container *ngFor="let a of character.attributes">
               <div>{{a.attr}}</div>
               <div>{{a.max}}</div>
               <div>{{a.current}}</div>
             </ng-container>
+          </app-restricted-content>
           </div>
         </ng-container>
 
@@ -61,7 +65,7 @@
       </div>
       <div class="crd-title crd-title-middle pointer">
         <fa-icon class="crd-prev" icon="caret-left" (click)="prevPage($event)"></fa-icon>
-        <span class="crd-txt" (click)="togglePosition()">{{character.classes}}</span>
+        <span class="crd-txt" (click)="togglePosition()"><app-restricted-content [item]="character" field="classes">{{character.classes}}</app-restricted-content></span>
         <fa-icon class="crd-next" icon="caret-right" (click)="nextPage($event)"></fa-icon>
       </div>
       <app-attr-value class="crd-hp" size="4x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>

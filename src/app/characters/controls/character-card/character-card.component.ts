@@ -48,9 +48,13 @@ export class CharacterCardComponent implements OnInit {
   }
 
   getAttrValue(attr: string) {
-    let a = this.character.attributes.find(a => a.attr == attr)
-    if (a) {
-      return a.current
+    if (this.data.canViewField(this.character, 'attributes')) {
+      let a = this.character.attributes.find(a => a.attr == attr)
+      if (a) {
+        return a.current
+      } else {
+        return "?"
+      }
     } else {
       return "?"
     }

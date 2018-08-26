@@ -45,9 +45,9 @@ export class ViewCharacterComponent implements OnInit {
     .subscribe(all => {
       let chr = all.find(c => c.id == this.id)
       if (chr) {
-        const filtered = <Character>this.data.filterRestrictedContent(chr)
-        console.log("SET Character from route", chr, filtered);
-        this.character = filtered
+        // const filtered = <Character>this.data.filterRestrictedContent(chr)
+        // console.log("SET Character from route", chr, filtered);
+        this.character = chr
       } 
     })
 
