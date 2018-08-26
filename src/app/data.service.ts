@@ -3,7 +3,7 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { NotifyService, Debugger } from "./notify.service";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
-import { MapType, MapConfig, UserGroup, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem } from "./models";
+import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, IAsset, Restricition } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
 import { mergeMap, map, tap, first, concatMap, take, distinct } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
@@ -21,16 +21,16 @@ import { Pathfinder } from "./models/gamesystems/pathfinder";
 import { DataAsset } from "./data-asset";
 
 export class GameAssets {
-  annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.FOLDER)
-  annotations = new DataAsset<Annotation>(Annotation.FOLDER)
-  characterTypes = new DataAsset<CharacterType>(CharacterType.FOLDER)
-  characters = new DataAsset<Character>(Character.FOLDER)
-  encounters = new DataAsset<Encounter>(Encounter.FOLDER)
-  maps = new DataAsset<MapConfig>(MapConfig.FOLDER)
-  mapTypes = new DataAsset<MapType>(MapType.FOLDER)
-  markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.FOLDER)
-  markerTypes = new DataAsset<MarkerType>(MarkerType.FOLDER)
-  monsters = new DataAsset<MonsterIndex>(MonsterIndex.FOLDER)
+  annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
+  annotations = new DataAsset<Annotation>(Annotation.TYPE)
+  characterTypes = new DataAsset<CharacterType>(CharacterType.TYPE)
+  characters = new DataAsset<Character>(Character.TYPE)
+  encounters = new DataAsset<Encounter>(Encounter.TYPE)
+  maps = new DataAsset<MapConfig>(MapConfig.TYPE)
+  mapTypes = new DataAsset<MapType>(MapType.TYPE)
+  markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.TYPE)
+  markerTypes = new DataAsset<MarkerType>(MarkerType.TYPE)
+  monsters = new DataAsset<MonsterIndex>(MonsterIndex.TYPE)
 
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
@@ -85,7 +85,6 @@ export class DataService {
 
   // mapTypes = new ReplaySubject<Array<MapType>>(1)
   // maps = new ReplaySubject<Array<MapConfig>>(1)
-  groups = new ReplaySubject<Array<UserGroup>>(1)
   // markerCategories = new ReplaySubject<Array<MarkerCategory>>(1)
   // markerTypes = new ReplaySubject<Array<MarkerType>>(1)
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>(1)
@@ -184,7 +183,6 @@ export class DataService {
     // this.loadAndNotify<User>(this.users, 'users', 'Loading Users')
     this.loadUsers()
     this.loadAndNotify<Game>(this.games, 'games', 'Loading Games')
-    this.loadAndNotify<UserGroup>(this.groups, 'groups', 'Loading User Groups')
     // this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
     // this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
     // this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
@@ -518,20 +516,41 @@ export class DataService {
     return false
   }
 
+  isPlayer(user?: User) {
+    if (!user) {
+      user = this.user.value
+    }
+    if (this.game.value) {
+      return this.game.value.players.includes(user.id)
+    }
+    return false
+  }
+
+  isGM(user?: User) {
+    if (!user) {
+      user = this.user.value
+    }
+    if (this.game.value) {
+      return this.game.value.gms.includes(user.id)
+    }
+    return false
+  }
+
   /**
     * Determines if the current user can view an item.
     * @param item The item to check
     */
   canView(item: any): any {
-    if (!item['view']) {
+    if (!item['restriction']) {
       return true
     }
-    let view: Array<string> = item['view']
-    if (view.length == 0) {
-      return true
+    if (this.isGM()) {
+      return true;
     }
-    if (this.isReal) {
-      return view.includes(this.user.getValue().id) || LangUtil.arrayMatch(view, this.userAccess.getValue().assumedGroups)
+    if (this.isPlayer) {
+      if (item.restriction == Restricition.PlayerReadWrite || item.restriction == Restricition.PlayerRead) {
+        return true
+      }
     }
     return false
   }
@@ -541,21 +560,93 @@ export class DataService {
    * @param item The item to check
    */
   canEdit(item: any): any {
-    if (!item['edit']) {
+    if (!item['restriction']) {
       return true
     }
-    let edit: Array<string> = item['edit']
-    if (edit.length == 0) {
-      return true
+    if (this.isGM()) {
+      return true;
     }
-    if (this.isReal) {
-      return edit.includes(this.user.getValue().id) || LangUtil.arrayMatch(edit, this.userAccess.getValue().assumedGroups)
+    if (this.isPlayer) {
+      if (item.restriction == Restricition.PlayerReadWrite) {
+        return true
+      }
     }
     return false
   }
 
+  canEditField(item: any, field: string): any {
+    if (!item.restrictedContent) {
+      return true
+    }
+    if (this.isGM()) {
+      return true;
+    }
+    if (this.isPlayer) {
+      if (item.restrictedContent[field]) {
+        if (item.restrictedContent[field] == Restricition.PlayerReadWrite) {
+          return true
+        }
+      } else {
+        return true;
+      }
+    }
+    return false
+  }
+  
+  canViewField(item: any, field: string): any {
+    if (!item.restrictedContent) {
+      return true
+    }
+    // if (this.isGM()) {
+    //   return true;
+    // }
+    if (this.isPlayer) {
+      if (item.restrictedContent[field]) {
+        if (item.restrictedContent[field] == Restricition.PlayerReadWrite || item.restrictedContent[field] == Restricition.PlayerRead) {
+          return true
+        }
+      } else {
+        return true;
+      }
+    }
+    return false
+  }
+
+  filterRestrictedContent(item: IAsset) {
+    console.log("FILTERING", item);
+
+    if (!item.restrictedContent) {
+      console.log("NO RESTRICTED CONTENT>>>");
+      return item
+    }
+
+    const restrictedCopy = DbConfig.toItem(item)
+    Object.keys(restrictedCopy.restrictedContent).forEach(field => {
+      console.log("CHECKING FIELD ", field);
+      if (!this.canViewField(item, field)) {
+        console.log("REMOVING FIELD ", field);
+        delete restrictedCopy[field]
+      } else {
+        console.log("NOT RESTRICTED ", field);
+      }
+      restrictedCopy['__FILTERED__'] = true
+    })
+    console.log("filterRestrictedContent", item, restrictedCopy)
+    return restrictedCopy
+  }
+
   isReal(): any {
     return this.user.getValue().id != "NOBODY"
+  }
+
+  isLinked(item: any, idToCheck?: string) {
+    if (!idToCheck && this.game.value) {
+      idToCheck = this.game.value.id
+    }
+    if (!idToCheck) {
+      return false
+    }
+    return item.owner ? idToCheck != item.owner : false
   }
 
   save(item: ObjectType) {
@@ -563,6 +654,10 @@ export class DataService {
     // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
     // LangUtil.trimExtraneousFields(toSave, this.sample(item))
+    if (item['__FILTERED__'] && item['__FILTERED__'] == true) {
+      throw new Error("This is a filtered item and should not be saved...")
+    }
+
     this.assignId(item)
     const toSave = LangUtil.prepareForStorage(item)
 
@@ -798,9 +893,7 @@ export class DataService {
   delete(item: ObjectType) {
     console.log("Deleteing ", item);
 
-    if (UserGroup.is(item)) {
-      this.completeUserGroupDelete(item)
-    } else if (MapConfig.is(item)) {
+    if (MapConfig.is(item)) {
       this.deleteImages(item)
     }
     console.log("Deleteing 2");
@@ -892,73 +985,6 @@ export class DataService {
     }
   }
 
-  // Deletes the access id from all the things necessary
-  completeUserGroupDelete(grp: UserGroup): any {
-    this.db.list<UserAssumedAccess>(UserAssumedAccess.FOLDER).valueChanges().pipe(first()).subscribe(ua => {
-      ua.forEach(u => {
-        let id = this.remove(u.assumedGroups, grp.id)
-        let name = this.remove(u.assumedGroups, grp.name)
-        if (id || name) {
-          this.save(User.to(u))
-        }
-      })
-    })
-
-    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(first()).subscribe(items => {
-      console.log("Checking on Maps");
-      this.removeGroup(items, grp)
-    })
-
-    this.db.list<MapType>(MapType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
-      console.log("Checking on Map Type");
-      this.removeGroup(items, grp)
-    })
-
-    this.db.list<MarkerType>(MarkerType.FOLDER).valueChanges().pipe(first()).subscribe(items => {
-      console.log("Checking on Marker Type");
-      this.removeGroup(items, grp)
-    })
-
-    this.db.list<MarkerType>(MarkerCategory.FOLDER).valueChanges().pipe(first()).subscribe(items => {
-      console.log("Checking on Marker Category");
-      this.removeGroup(items, grp)
-    })
-
-    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(
-      first(),
-      concatMap(m => m),
-      tap(m => console.log("MAP ", m.id)),
-      mergeMap(m => this.db.list<MarkerGroup>(MarkerGroup.FOLDER + "/" + m.id).valueChanges())
-    ).subscribe(all => {
-      console.log("Checking on Marker Group");
-      this.removeGroup(all, grp)
-    })
-
-    this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(
-      first(),
-      concatMap(m => m),
-      tap(m => console.log("MAP ", m.id)),
-      mergeMap(m => this.db.list<Annotation>(Annotation.FOLDER + "/" + m.id).valueChanges())
-    ).subscribe(all => {
-      console.log("Checking on Annotations");
-      this.removeGroup(all, grp)
-    })
-
-  }
-
-
-  private removeGroup(items: any[], grp: UserGroup) {
-    items.forEach(raw => {
-      let item = DbConfig.toItem(raw)
-      let viewId = this.remove(item.view, grp.id)
-      let viewName = this.remove(item.view, grp.name)
-      let editId = this.remove(item.edit, grp.id)
-      let editName = this.remove(item.edit, grp.name)
-      if (viewId || viewName || editId || editName) {
-        this.save(item)
-      }
-    })
-  }
 
   private remove(arr: string[], val: string): boolean {
     if (arr) {

@@ -1,8 +1,8 @@
-import { IRestrictedItem, IDbItem, IObjectType, ObjectType } from "./core";
+import { IRestrictedItem, IDbItem, IObjectType, ObjectType, Asset } from "./core";
 import { Annotation } from "./annotations";
 import { FeatureGroup, Map, Layer, featureGroup } from "leaflet";
 
-export class MarkerGroup extends ObjectType implements IRestrictedItem, IDbItem, IObjectType {
+export class MarkerGroup extends Asset  {
   public static readonly TYPE = 'db.MarkerGroup'
   public static readonly FOLDER = 'annotationGroups'
   public static readonly SAMPLE = {

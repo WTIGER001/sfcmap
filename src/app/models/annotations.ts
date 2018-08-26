@@ -1,6 +1,6 @@
 import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map as LeafletMap } from "leaflet";
 import { IconZoomLevelCache } from "./icon-cache";
-import { IObjectType, ObjectType } from "./core";
+import { IObjectType, ObjectType, Asset } from "./core";
 import { LangUtil } from "../util/LangUtil";
 
 export enum AnchorPostitionChoice {
@@ -24,7 +24,7 @@ export enum SizeUnit {
 /**
  * Annotations are things that go on the map. These can be shapes, markers, images, etc. 
  */
-export abstract class Annotation extends ObjectType {
+export abstract class Annotation extends Asset {
   public static readonly TYPE = 'db.Annotation'
   public static readonly FOLDER = 'annotations'
 

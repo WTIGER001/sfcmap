@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { Subject, Observable } from "rxjs";
 import { isArray, isObject } from "util";
+import { Asset, IAsset } from "../models";
 
 /**
  * Collection of language utils that are useful for all Typescript applications

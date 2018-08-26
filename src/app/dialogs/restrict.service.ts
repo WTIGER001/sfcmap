@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { AccessDialogComponent } from './access-dialog/access-dialog.component';
+import { Asset } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,10 @@ export class RestrictService {
 
   }
   
-  public openRestrict(view: string[], edit : string[]) : Observable<[string[], string[]]> {
+  public openRestrict(item : Asset) : Observable<[string[], string[]]> {
 
     const modalRef = this.modalSvc.open(AccessDialogComponent,  { size: 'lg' });
-    modalRef.componentInstance.inView = view;
-    modalRef.componentInstance.inEdit = edit;
+    modalRef.componentInstance.item = item;
     
     return modalRef.componentInstance.result
   }

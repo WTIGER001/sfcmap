@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserGroup, User, RestrictedContent } from '../../models';
+import {  User, RestrictedContent, IAsset, Restricition, Asset } from '../../models';
 import { DataService } from '../../data.service';
 import { ReplaySubject } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { INHERITED_CLASS_WITH_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
+import { DbConfig } from '../../models/database-config';
 
 @Component({
   selector: 'app-access-dialog',
@@ -11,85 +12,49 @@ import { INHERITED_CLASS_WITH_CTOR } from '@angular/core/src/reflection/reflecti
   styleUrls: ['./access-dialog.component.css']
 })
 export class AccessDialogComponent implements OnInit {
-  @Input() inEdit: string[]
-  @Input() inView: string[]
-  item = {
-    restrict: 0,
-    alignment: new RestrictedContent()
-
-  }
+  item : Asset
   fields: any[] = []
-
-  edit: string[] = []
-  view: string[] = []
-  viewRestrict
-  editRestrict
   users: User[] = []
-  groups: UserGroup[] = []
-
-  result = new ReplaySubject<[string[], string[]]>()
+  result = new ReplaySubject<boolean>()
 
   constructor(private data: DataService, public activeModal: NgbActiveModal) {
     this.data.users.subscribe(u => this.users = u)
-    this.data.groups.subscribe(g => this.groups = g)
   }
 
   ngOnInit() {
-    if (this.inEdit) {
-      this.edit = this.inEdit.slice(0)
-    }
-    if (this.inView) {
-      this.view = this.inView.slice(0)
-    }
-    this.update()
     this.calcFields()
-
-
   }
 
   calcFields() {
-
-    Object.keys(this.item).forEach(key => {
-      const val = this.item[key]
-      if (val instanceof RestrictedContent) {
-        const v: any = {
-          name: key,
-          value: val
-        }
-        this.fields.push(v)
+    const availableFields = DbConfig.restrictableFields(this.item['objType'])
+    availableFields.forEach( field => {
+      const v: any = {
+        name: field,
+        value: Restricition.PlayerReadWrite
       }
+
+      if (this.item.restrictedContent && this.item.restrictedContent[field]) {
+        v.value = this.item.restrictedContent[field]
+      }
+
+      this.fields.push(v)
     })
-  }
 
-  update() {
-    if (this.view && this.view.length > 0) {
-      this.viewRestrict = 'true'
-    } else {
-      this.viewRestrict = 'false'
-    }
-
-    if (this.edit && this.edit.length > 0) {
-      this.editRestrict = 'true'
-    } else {
-      this.editRestrict = 'false'
-    }
   }
 
   ok() {
-    let myView: string[] = []
-    if (this.viewRestrict == 'true') {
-      myView = this.view
-    }
-    let myEdit: string[] = []
-    if (this.editRestrict == 'true') {
-      myEdit = this.edit
-    }
+    const r = {}
+    this.fields.forEach(field => {
+      r[field.name] = field.value
+    })
+    this.item.restrictedContent = r
 
-    this.result.next([myView, myEdit])
+    this.result.next(true)
     this.activeModal.close()
   }
 
   cancel() {
+    this.result.next(false)
     this.activeModal.close()
   }
 }

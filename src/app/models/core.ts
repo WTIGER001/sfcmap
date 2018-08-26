@@ -24,6 +24,13 @@ export abstract class ObjectType {
 
   copyFrom(obj: any): any {
     Object.assign(this, obj)
+    // Make a new copy of the arrays...maybe even the items too!
+    Object.keys(obj).forEach( key => {
+      const fld = obj[key]
+      if (isArray(fld)) {
+        this[key] = fld.slice(0)
+      }
+    })
     return this
   }
 }
@@ -61,4 +68,21 @@ export interface IRestrictedContent<T> {
 export class RestrictedContent<T> implements IRestrictedContent<T> {
   restriction: Restricition = Restricition.PlayerReadWrite
   item: T
+}
+
+export interface IAsset {
+  id : string
+  name: string
+  description ?: string
+  owner : string
+  restriction : Restricition 
+  restrictedContent : any
+}
+
+export class Asset extends ObjectType implements IAsset {
+  id: string;  name: string;
+  description?: string;
+  owner: string;
+  restriction: Restricition;
+  restrictedContent : any
 }

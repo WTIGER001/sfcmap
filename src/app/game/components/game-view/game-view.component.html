@@ -21,10 +21,6 @@
           <fa-icon class="icon" icon="pencil-alt" size="lg"></fa-icon> Edit
         </li>
       </a>
-      <li class="tool-item" (click)="permissions()">
-        <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class=" iconlockbtn"></fa-icon>
-        <fa-icon *ngIf="restricted == false" icon="unlock" size="lg" class="icon"></fa-icon>Restrictions
-      </li>
       <li class="tool-item" (click)="delete()">
         <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon> Delete
       </li>

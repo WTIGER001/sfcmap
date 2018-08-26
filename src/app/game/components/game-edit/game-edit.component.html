@@ -18,6 +18,20 @@
       <tag-input [(ngModel)]="game.tags" [separatorKeys]="[',']" [modelAsStrings]="true"></tag-input>
     </div>
     <div>
+      <label class="form-control-group">Players</label>
+      <tag-input #playercontrol  [(ngModel)]="players" [separatorKeys]="[',']" identifyBy="id" displayBy="name" onlyFromAutocomplete="true" (onRemove)="onRemovePlayer($event)" (onAdd)="onAddPlayer($event)" [onRemoving]="onRemovingPlayer">
+        <tag-input-dropdown [autocompleteItems]="userItems" identifyBy="id" displayBy="name"  showDropdownIfEmpty='true'>
+        </tag-input-dropdown>
+      </tag-input>
+    </div>
+    <div>
+      <label class="form-control-group">Game Masters (GMs)</label>
+      <tag-input #gmcontrol [(ngModel)]="gms" [separatorKeys]="[',']" identifyBy="id" displayBy="name"  onlyFromAutocomplete="true" (onRemove)="onRemoveGm($event)" (onAdd)="onAddGm($event)" [onRemoving]="onRemovingGm">
+        <tag-input-dropdown [autocompleteItems]="userItems" identifyBy="id" displayBy="name"  showDropdownIfEmpty='true'>
+        </tag-input-dropdown>
+      </tag-input>
+    </div>
+    <div>
       <label class="form-control-group">Description</label>
       <textarea class="form-control" [(ngModel)]="game.description"></textarea>
     </div>

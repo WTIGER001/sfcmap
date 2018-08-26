@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ObjectType, Game } from '../../models';
-import { AssetLink } from '../../models/asset-collection';
+import { ObjectType, Game, AssetLink } from '../../models';
 import { Subject } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogService } from '../dialog.service';
@@ -32,7 +31,7 @@ export class LinksComponent implements OnInit {
 
   ngOnInit() {
     if (this.game.assetLinks) {
-      const typeLinks = this.game.assetLinks.get(this.type)
+      const typeLinks = this.game.assetLinks[DbConfig.safeTypeName(this.type)]
       if (typeLinks) {
         this.links = typeLinks.map(link => link)
       }
@@ -101,6 +100,12 @@ export class LinksComponent implements OnInit {
   }
 
   save() {
+
+    if (!this.game.assetLinks) {
+      this.game.assetLinks = {}
+    }
+
+    this.game.assetLinks[DbConfig.safeTypeName(this.type)] =  this.links
     this.result.next(true)
     this.result.complete()
     this.modal.dismiss()

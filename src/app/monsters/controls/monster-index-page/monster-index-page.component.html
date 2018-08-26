@@ -18,6 +18,9 @@
           <div class="item-cr ">
             CR {{m.cr}}
           </div>
+          <div class="item-linked" *ngIf="isLinked(m)">
+            <fa-icon icon="link" size="lg" transform="flip-horizontal"></fa-icon>
+          </div>
           <div class="overlay">
             <fa-icon class="icon" icon="check" size="3x"></fa-icon>
           </div>

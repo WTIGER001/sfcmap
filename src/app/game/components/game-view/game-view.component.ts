@@ -59,20 +59,6 @@ export class GameViewComponent implements OnInit {
     })
   }
 
-  permissions() {
-    if (this.game) {
-      this.restrict.openRestrict(this.game.view, this.game.edit).subscribe(([view, edit]) => {
-        if (this.data.canEdit(this.game)) {
-          this.game.edit = edit
-          this.game.view = view
-          this.data.save(this.game)
-          this.restricted = this.data.isRestricted(this.game)
-        }
-      })
-    }
-  }
-
-
   delete() {
     this.cd.confirm("Are you sure you want to delete " + this.game.name + "? ", "Confirm Delete").subscribe(
       r => {

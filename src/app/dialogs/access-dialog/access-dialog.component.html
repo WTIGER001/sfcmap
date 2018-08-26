@@ -2,13 +2,13 @@
   <div class="header">
     <h1>Player Permissions</h1>
   </div>
-  <div class="bdy">
+  <div class="bdy scroller-dark scrolled">
     <h2>Whole Document</h2>
-    <app-restriction-toggle [(ngModel)]="item.restrict"></app-restriction-toggle>
+    <app-restriction-toggle [(ngModel)]="item.restriction"></app-restriction-toggle>
     <ng-container *ngIf="fields.length>0">
       <div *ngFor="let fld of fields">
         <h2>{{fld.name}}</h2>
-        <app-restriction-toggle [(ngModel)]="fld.value.restriction"></app-restriction-toggle>
+        <app-restriction-toggle [(ngModel)]="fld.value"></app-restriction-toggle>
       </div>
     </ng-container>
   </div>

@@ -1,8 +1,8 @@
 import { AngularFireDatabase } from "angularfire2/database";
 import { AngularFirestore } from "angularfire2/firestore";
-import { take } from "rxjs/operators";
+import { take, first } from "rxjs/operators";
 import { DbConfig } from "../models/database-config";
-import { Character, MapConfig, MapType, MarkerCategory, MarkerType, Annotation, MarkerGroup, User, UserAssumedAccess, CharacterType, Prefs } from "../models";
+import { Character, MapConfig, MapType, MarkerCategory, MarkerType, Annotation, MarkerGroup, User, UserAssumedAccess, CharacterType, Prefs, Restricition } from "../models";
 import { MonsterIndex, MonsterText } from "../models/monsterdb";
 import { LangUtil } from "./LangUtil";
 
@@ -16,7 +16,34 @@ export class FirebaseDataabaseMigration {
     // this.migrateMaps()
     // this.migratePerMap()
     // this.migrateAnnotations()
-    this.migrateUsers()
+    // this.migrateUsers()
+  }
+
+
+  fixFields() {
+    // Add the correct 'owner' field
+
+    // Remove edit and view
+    // Add restriction = 0
+    // const ownerId = 'c4668937-0d91-85ac-8281-ec3caf50be98'
+    const ownerId = 'pathfinder'
+    this.db.object<any>("assets/" + ownerId ).valueChanges().pipe(first()).subscribe(item => {
+      Object.keys(item).forEach(key => {
+        console.log("Working on ", key)
+        const obj = item[key]
+        Object.keys(obj).forEach(id => {
+          const asset = obj[id]
+          const path = DbConfig.ASSET_FOLDER + "/" + ownerId + "/" + key + "/" + asset.id
+          asset.owner = ownerId
+          delete asset['edit']
+          delete asset['view']
+          asset.restriction = Restricition.PlayerReadWrite
+          console.log("PATH: " + path, asset);
+          
+          this.db.object(path).set(asset)
+        })
+      })
+    })
   }
 
   migrateUsers() {

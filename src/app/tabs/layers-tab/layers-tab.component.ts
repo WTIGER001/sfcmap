@@ -98,12 +98,10 @@ export class LayersTabComponent {
 
   permissions() {
     if (this.layer) {
-      this.restrict.openRestrict(this.layer.view, this.layer.edit).subscribe(([view, edit]) => {
-        if (this.data.canEdit(this.layer)) {
-          this.layer.edit = edit
-          this.layer.view = view
-          this.data.save(this.layer)
-          this.restricted = this.data.isRestricted(this.layer)
+      this.restrict.openRestrict(this.layer).subscribe((r) => {
+        if (r) {
+            this.data.save(this.layer)
+            this.restricted = this.data.isRestricted(this.layer)
         }
       })
     }

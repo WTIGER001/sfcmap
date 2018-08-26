@@ -1,9 +1,9 @@
 import { Character } from "./character";
 import { parse } from "papaparse";
-import { ObjectType } from "./core";
+import { ObjectType, Asset } from "./core";
 import { GoogleImageSearch, ImageSearchResult } from "../util/GoogleImageSearch";
 
-export class MonsterText extends ObjectType {
+export class MonsterText extends Asset {
   public static readonly TYPE = 'db.MonsterText'
   public static readonly FOLDER = 'monster-text'
   readonly objType: string = MonsterText.TYPE
@@ -39,7 +39,7 @@ export class MonsterText extends ObjectType {
   thumb: string
 }
 
-export class MonsterIndex extends ObjectType {
+export class MonsterIndex extends Asset {
   public static readonly TYPE = 'db.monsterIndex'
   public static readonly FOLDER = 'monster-index'
   readonly objType: string = MonsterIndex.TYPE

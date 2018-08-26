@@ -1,6 +1,5 @@
 import { ObjectType } from "./core";
 import { MapSelectComponent } from "../controls/map-select/map-select.component";
-import { AssetLink } from "./asset-collection";
 import { Character } from "./character";
 import { MapConfig } from "./map-config";
 import { Encounter } from "../encounter/model/encounter";
@@ -30,7 +29,9 @@ export class Game extends ObjectType {
   players: string[]
   gms: string[]
 
-  assetLinks: Map<string, AssetLink[]> = new Map()
+  assetLinks : any = {
+    comment : "assetlinks"
+  }
   // Has
   /*
   maps
@@ -40,4 +41,14 @@ export class Game extends ObjectType {
   character types
   chats
   */
+}
+
+export class AssetLink {
+  /** The owner of the assets to be imported */
+  ownerType: 'game' | 'gamesystem'
+  owner: string
+
+  /** The field to include */
+  field: string
+  values: string[] = []
 }

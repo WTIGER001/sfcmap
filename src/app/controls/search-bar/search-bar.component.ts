@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { RouteUtil } from '../../util/route-util';
 import { Game } from '../../models';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -64,7 +65,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     return this._items;
   }
 
-  constructor(private dialog: DialogService, private router: Router, private location: Location, private route: ActivatedRoute) { }
+  constructor(private dialog: DialogService, private router: Router, private location: Location, private route: ActivatedRoute, private data: DataService) { }
 
   ngOnInit() {
     this.search$.pipe(
@@ -100,7 +101,15 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
 
   clkLinks() {
     // if (this.game && this.type) {
-    this.dialog.openLinks(this.game, this.type)
+    this.dialog.openLinks(this.game, this.type).subscribe( result => {
+      if (result) {
+        console.log("UPDATED LINKS!!!");
+        
+        // Save the game
+        this.data.save(this.game)
+        
+      }
+    })
     // }
   }
 

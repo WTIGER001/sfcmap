@@ -4,7 +4,6 @@ import { MapType } from "./map-type";
 import { MapConfig } from "./map-config";
 import { MarkerType } from "./marker-type";
 import { MarkerCategory } from "./marker-category";
-import { UserGroup } from "./user-group";
 import { ChatRecord } from "./chat";
 import { error } from "util";
 import { MarkerGroup } from "./annotation-group";
@@ -36,6 +35,22 @@ export class DbConfig {
   }
 
 
+  static restrictableFields(objType: string) {
+    if (objType == MapConfig.TYPE) {
+      return ["name", "tags"]
+    }
+
+    if (objType == Character.TYPE) { return Character.RESTRICTABLE}
+
+    if (objType == MonsterIndex.TYPE) {
+      return ['name', 'type', 'cr', "tags"]
+    }
+    if (objType == Encounter.TYPE) {
+      return ['name', "tags"]
+    }
+    return ['name', "tags"]
+  }
+
   static queryFields(objType: string) {
     if (objType == MapConfig.TYPE) {
       return ["name", "tags"]
@@ -52,6 +67,10 @@ export class DbConfig {
     return ['name', "tags"]
   }
 
+
+  static safeTypeName(name : string) {
+    return name.replace('.', '_')
+  }
 
   static pathFolderTo(objType: string, parentId?: string): string {
 
@@ -74,12 +93,13 @@ export class DbConfig {
     if (objType == MonsterIndex.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterIndex.FOLDER }
     if (objType == MonsterText.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterText.FOLDER }
     if (objType == ChatRecord.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + ChatRecord.FOLDER }
+    if (objType == Encounter.TYPE){ return this.ASSET_FOLDER + "/" + parentId + "/" + Encounter.FOLDER }
 
     // Map Level Data
     if (objType == Annotation.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Annotation.FOLDER }
     if (objType == MarkerGroup.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerGroup.FOLDER }
 
-    throw new error("Unable to calculate db Folder: Invalid Object Type: ", objType)
+    throw new Error(`Unable to calculate db Folder: Invalid Object Type: ${objType}`)
   }
 
   static pathTo(objType: string, parentId: string, myId?: string): string {
@@ -88,7 +108,7 @@ export class DbConfig {
       return myId ? folder + "/" + myId : folder
     }
 
-    throw new error("Unable to calculate db path: Invalid Object Type: ", objType)
+    throw new Error(`Unable to calculate db path: Invalid Object Type: ${objType}`)
   }
 
   static dbPath(obj: any): string {
@@ -97,38 +117,16 @@ export class DbConfig {
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER + "/" + obj.id }
     if (MapPrefs.is(obj)) { return MapPrefs.FOLDER + "/" + obj.id }
     if (Prefs.is(obj)) { return Prefs.FOLDER + "/" + obj.id }
-
     if (Game.is(obj)) { return Game.FOLDER + "/" + obj.id }
     if (GameSystem.is(obj)) { return GameSystem.FOLDER + "/" + obj.id }
 
     // Reference level data
-    if (MapType.is(obj)) { return MapType.FOLDER + "/" + obj.id }
-    if (MapConfig.is(obj)) { return MapConfig.FOLDER + "/" + obj.id }
-    if (MarkerType.is(obj)) { return MarkerType.FOLDER + "/" + obj.id }
-    if (MarkerCategory.is(obj)) { return MarkerCategory.FOLDER + "/" + obj.id }
-    if (UserGroup.is(obj)) { return UserGroup.FOLDER + "/" + obj.id }
-    if (CharacterType.is(obj)) { return CharacterType.FOLDER + "/" + obj.id }
-    if (Character.is(obj)) { return Character.FOLDER + "/" + obj.id }
-
-    // Per Map data
-    if (Annotation.is(obj)) { return Annotation.FOLDER + "/" + obj.map + "/" + obj.id }
-    if (MarkerGroup.is(obj)) { return MarkerGroup.FOLDER + "/" + obj.map + "/" + obj.id }
-
-    // Chat
-    if (ChatRecord.is(obj)) { return ChatRecord.FOLDER + "/" + obj.id }
-
-    // Monsters and Characters
-    if (MonsterIndex.is(obj)) { return MonsterIndex.FOLDER + "/" + obj.id }
-    if (MonsterText.is(obj)) { return MonsterText.FOLDER + "/" + obj.id }
-
-    // Extensions
-    for (let i = 0; i < this.extensions.length; i++) {
-      if (this.extensions[i].is(obj)) {
-        return this.extensions[i].path(obj)
-      }
+    if (obj.objType && obj.owner) {
+      return this.pathTo(obj.objType, obj.owner, obj.id)
     }
+    console.log("Invalid", obj);
 
-    throw new error("Unable to calculate db path: Invalid Object Type: ", obj)
+    throw new Error(`Unable to calculate db path: Invalid Object Type: ${obj.objType}` )
   }
 
   static dbFolder(obj: any): string {
@@ -142,33 +140,12 @@ export class DbConfig {
     if (GameSystem.is(obj)) { return GameSystem.FOLDER }
 
     // Reference level data
-    if (MapType.is(obj)) { return MapType.FOLDER }
-    if (MapConfig.is(obj)) { return MapConfig.FOLDER }
-    if (MarkerType.is(obj)) { return MarkerType.FOLDER }
-    if (MarkerCategory.is(obj)) { return MarkerCategory.FOLDER }
-    if (UserGroup.is(obj)) { return UserGroup.FOLDER }
-    if (CharacterType.is(obj)) { return CharacterType.FOLDER }
-    if (Character.is(obj)) { return Character.FOLDER }
-
-    // Per Map data
-    if (Annotation.is(obj)) { return Annotation.FOLDER + "/" + obj.map }
-    if (MarkerGroup.is(obj)) { return MarkerGroup.FOLDER + "/" + obj.map }
-
-    // Chat
-    if (ChatRecord.is(obj)) { return ChatRecord.FOLDER }
-
-    // Monsters
-    if (MonsterIndex.is(obj)) { return MonsterIndex.FOLDER }
-    if (MonsterText.is(obj)) { return MonsterText.FOLDER }
-
-    // Extensions
-    for (let i = 0; i < this.extensions.length; i++) {
-      if (this.extensions[i].is(obj)) {
-        return this.extensions[i].folder(obj)
+      if (obj.objType && obj.owner) {
+        return this.pathFolderTo(obj.objType, obj.owner)
       }
-    }
+      console.log("Invalid", obj);
 
-    throw new error("Unable to calculate db folder: Invalid Object Type: ", obj)
+    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}` )
   }
 
   static toItem(obj: any): any {
@@ -186,7 +163,6 @@ export class DbConfig {
     if (MapConfig.is(obj)) { return MapConfig.to(obj) }
     if (MarkerType.is(obj)) { return MarkerType.to(obj) }
     if (MarkerCategory.is(obj)) { return MarkerCategory.to(obj) }
-    if (UserGroup.is(obj)) { return UserGroup.to(obj) }
     if (CharacterType.is(obj)) { return CharacterType.to(obj) }
     if (Character.is(obj)) { return Character.to(obj) }
 
@@ -206,8 +182,9 @@ export class DbConfig {
         return this.extensions[i].to(obj)
       }
     }
+    console.log("Invalid", obj);
 
-    throw new error("Unable to calculate db folder: Invalid Object Type: ", obj)
+    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}` )
   }
 
   static prepareForSave(obj: any) {

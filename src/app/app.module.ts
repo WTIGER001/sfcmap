@@ -29,7 +29,6 @@ import { AppRoutingModule } from './app-routing.module'
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { MapSelectorComponent } from './tabs/map-selector/map-selector.component';
-// import { AdminComponent } from './tabs/admin/admin.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserSideComponent } from './tabs/user-side/user-side.component';
 import { MarkerTabComponent } from './tabs/marker-tab/marker-tab.component';
@@ -68,7 +67,6 @@ import { CheckboxComponent } from './controls/checkbox/checkbox.component';
 import { EditMarkerTypeComponent } from './controls/edit-marker-type/edit-marker-type.component';
 import { EditMarkerTypeCategoryComponent } from './controls/edit-marker-type-category/edit-marker-type-category.component';
 import { MarkerTypeManagerComponent } from './controls/marker-type-manager/marker-type-manager.component';
-import { GroupManagerComponent } from './controls/group-manager/group-manager.component';
 import { EditMapTypeComponent } from './controls/edit-map-type/edit-map-type.component';
 import { EditImageComponent } from './controls/edit-image/edit-image.component';
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
@@ -93,7 +91,6 @@ import { CharacterSelectorComponent } from './tabs/character-selector/character-
 import { EditCharacterTypeComponent } from './characters/controls/edit-character-type/edit-character-type.component';
 import { CharacterTypeComboComponent } from './characters/controls/character-type-combo/character-type-combo.component';
 import { ViewCharacterComponent } from './characters/controls/view-character/view-character.component';
-import { EncountersTabComponent } from './tabs/encounters-tab/encounters-tab.component';
 import { EncounterComponent } from './encounter/components/encounter/encounter.component';
 import { EncounterCardComponent } from './encounter/components/encounter-card/encounter-card.component';
 import { EditEncounterComponent } from './encounter/components/edit-encounter/edit-encounter.component';
@@ -181,7 +178,6 @@ import { LinksComponent } from './dialogs/links/links.component';
     EditMarkerTypeComponent,
     EditMarkerTypeCategoryComponent,
     MarkerTypeManagerComponent,
-    GroupManagerComponent,
     EditMapTypeComponent,
     EditImageComponent,
     FilePickerComponent,
@@ -203,7 +199,6 @@ import { LinksComponent } from './dialogs/links/links.component';
     EditCharacterTypeComponent,
     CharacterTypeComboComponent,
     ViewCharacterComponent,
-    EncountersTabComponent,
     EncounterComponent,
     EncounterCardComponent,
     EditEncounterComponent,

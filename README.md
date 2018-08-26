@@ -243,7 +243,6 @@ Index Page
 
 # BIG REFACTOR
 ## NOT DONE
-- Data Migration (Last thing I think... this will break the current site)
 - Update Restrictions tab
 - Make 3 "mandatory" groups for each game
 - Filter DIalog - Remove Check boxes and use toggle buttons. 

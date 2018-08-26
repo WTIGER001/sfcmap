@@ -1,9 +1,10 @@
-import { ObjectType, RestrictedContent } from "./core";
+import { ObjectType, RestrictedContent, Asset } from "./core";
 import { Distance } from "./units";
 
-export class Character extends ObjectType {
+export class Character extends Asset {
   public static readonly TYPE = 'db.Character'
   public static readonly FOLDER = 'characters'
+  public static readonly RESTRICTABLE = ['description', 'weblink', 'info', 'attributes', 'attachments', 'rolls', 'speed', 'vision', 'reach', 'classes', 'alignment']
   readonly objType: string = Character.TYPE
 
   static is(obj: any): obj is Character {
@@ -18,12 +19,10 @@ export class Character extends ObjectType {
   id: string
   name: string
   type: string
+
   description?: string
   weblink: string
   tags: string[] = []
-  edit: string[]
-  view: string[]
-
   picture: string
   icon: string
 
@@ -40,9 +39,6 @@ export class Character extends ObjectType {
   race: string
   classes: string
   alignment: string
-  // alignment : RestrictedContent<string>
-  //senses
-
 
   resolveExpression(expression: string): string {
     let newexp = expression

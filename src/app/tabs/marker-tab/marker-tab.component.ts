@@ -328,20 +328,17 @@ export class MarkerTabComponent implements OnInit {
     }
   }
 
-  public permissions() {
+  permissions() {
     if (this.item) {
-      this.restrict.openRestrict(this.item.view, this.item.edit).subscribe(([view, edit]) => {
-        if (this.data.canEdit(this.item)) {
-          let items = []
-          this.selection.items.forEach(m => {
-            this.item.edit = edit
-            this.item.view = view
-            this.mapSvc.saveAnnotation(this.item)
-          })
+      this.restrict.openRestrict(this.item).subscribe((r) => {
+        if (r) {
+            this.data.save(this.item)
+            this.restricted = this.data.isRestricted(this.item)
         }
       })
     }
   }
+
 
   private processSelection(newSelection: Selection) {
     this.disableDragging()

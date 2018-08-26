@@ -1,9 +1,9 @@
-import { ObjectType } from "./core";
+import { ObjectType, Asset } from "./core";
 
 /** 
  * A Marker Category is a group that markers are placed into. 
 */
-export class MarkerCategory extends ObjectType {
+export class MarkerCategory extends Asset {
     public static readonly TYPE = 'db.MarkerCategory'
     public static readonly FOLDER = 'markerCategories'
     // TypeScript guard

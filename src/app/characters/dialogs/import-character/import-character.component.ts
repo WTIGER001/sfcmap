@@ -5,7 +5,7 @@ import { mergeMap, map } from 'rxjs/operators';
 import { HeroLabCharacter } from '../../hero-lab';
 import { PCGenXml } from '../../pcgen-xml';
 import { UUID } from 'angular2-uuid';
-import { Character, Attachment } from '../../../models';
+import { Character, Attachment, Game, Restricition } from '../../../models';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -15,11 +15,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ImportCharacterComponent implements OnInit {
   show = "NONE"
+  game: Game
   @Output() done = new EventEmitter()
 
   constructor(private data: DataService, private modal: NgbActiveModal) { }
 
   ngOnInit() {
+    this.data.game.subscribe(g => this.game = g)
   }
 
   cancel() {
@@ -56,6 +58,9 @@ export class ImportCharacterComponent implements OnInit {
   }
 
   saveFile(f: File, character: Character) {
+    character.owner = this.game.id
+    character.restriction = Restricition.PlayerReadWrite
+    
     let path = 'attachments/' + character.id + "/" + f.name
     this.data.uploadFile(path, f).subscribe(
       progress => { },

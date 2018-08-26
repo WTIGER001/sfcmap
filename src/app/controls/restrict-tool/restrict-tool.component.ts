@@ -22,12 +22,10 @@ export class RestrictToolComponent implements AfterContentInit {
 
   permissions() {
     if (this.item) {
-      this.restrict.openRestrict(this.item.view, this.item.edit).subscribe(([view, edit]) => {
-        if (this.data.canEdit(this.item)) {
-          this.item.edit = edit
-          this.item.view = view
-          this.data.save(this.item)
-          this.restricted = this.data.isRestricted(this.item)
+      this.restrict.openRestrict(this.item).subscribe((r) => {
+        if (r) {
+            this.data.save(this.item)
+            this.restricted = this.data.isRestricted(this.item)
         }
       })
     }

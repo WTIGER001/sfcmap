@@ -13,6 +13,13 @@ h1 {
   /* overflow: auto; */
 }
 
+.item-linked {
+  position: absolute;
+  left: 2px;
+  top : 2px;
+  text-shadow: 1px 1px black
+}
+
 .results figure {
   display: block;
   position: relative;

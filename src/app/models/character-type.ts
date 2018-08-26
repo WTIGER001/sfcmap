@@ -1,10 +1,10 @@
-import { IObjectType, ObjectType } from "./core";
+import { IObjectType, ObjectType, Asset } from "./core";
 import { Character } from "./character";
 
 /**
  * A type of map. For example: World / Continent, City / Town, Building Interior, 
  */
-export class CharacterType extends ObjectType {
+export class CharacterType extends Asset {
   public static readonly TYPE = 'db.CharacterType'
   public static readonly FOLDER = 'character-types'
   readonly objType: string = CharacterType.TYPE

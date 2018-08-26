@@ -1,9 +1,9 @@
-import { IObjectType, ObjectType } from "./core";
+import { IObjectType, ObjectType, Asset } from "./core";
 
 /**
  * A type of map. For example: World / Continent, City / Town, Building Interior, 
  */
-export class MapType extends ObjectType {
+export class MapType extends Asset {
     public static readonly TYPE = 'db.MapType'
     public static readonly FOLDER = 'mapTypes'
     readonly objType: string = MapType.TYPE

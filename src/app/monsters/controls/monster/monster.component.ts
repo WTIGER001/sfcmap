@@ -30,6 +30,10 @@ export class MonsterComponent implements OnInit {
 
   }
 
+  isLinked() {
+    return this.data.isLinked(this.monster)
+  }
+
   save() {
     this.editCtrl.save()
     this.edit = false
@@ -85,10 +89,8 @@ export class MonsterComponent implements OnInit {
 
   permissions() {
     if (this.monster) {
-      this.restrict.openRestrict(this.monster.view, this.monster.edit).subscribe(([view, edit]) => {
+      this.restrict.openRestrict(this.monster).subscribe(([view, edit]) => {
         if (this.data.canEdit(this.monster)) {
-          this.monster.edit = edit
-          this.monster.view = view
           this.data.save(this.monster)
           this.restricted = this.data.isRestricted(this.monster)
         }

@@ -43,16 +43,20 @@ export class MonsterIndexPageComponent implements OnInit {
     this.filtered = newItems
   }
 
+  isLinked(item: MonsterIndex) {
+    return this.data.isLinked(item, this.game.id)
+  }
+
   ngOnInit() {
     this.data.gameAssets.monsters.items$.pipe().subscribe(a => {
       this.all = a
       if (this.search) {
+        this.search.items = a
         this.search.applyFilters()
       }
     })
-    // this.data.monstersLoading.subscribe(v => {
-    //   this.loading = v
-    // })
+ 
+
     this.data.game.subscribe(g => this.game = g)
 
     this.route.paramMap.subscribe(p => {

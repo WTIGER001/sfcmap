@@ -1,10 +1,10 @@
-import { IObjectType, ObjectType } from "./core";
+import { IObjectType, ObjectType, Asset } from "./core";
 import { AnchorPostitionChoice } from "./annotations";
 
 /**
  * A Marker Type is a type of marker that can be placed. This type brings with it the icon and category
  */
-export class MarkerType extends ObjectType {
+export class MarkerType extends Asset {
     public static readonly TYPE = 'db.MarkerType'
     public static readonly FOLDER = 'markerTypes'
     readonly objType: string = MarkerType.TYPE
