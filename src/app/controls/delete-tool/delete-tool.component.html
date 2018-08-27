@@ -1,3 +1,16 @@
-<li (click)="delete()">
-  <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon>Delete
-</li>
+<ng-container *ngIf="mode=='tool'">
+  <li (click)="delete()" [class.disabled]="disabled" *ngIf="linked == false">
+    <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon>Delete
+  </li>
+  <li (click)="unlink()" [class.disabled]="disabled" *ngIf="linked == true">
+    <fa-icon class="icon" icon="unlink" size="lg"></fa-icon>Unlink
+  </li>
+</ng-container>
+<ng-container *ngIf="mode=='button'">
+  <li (click)="delete()" [class.disabled]="disabled" *ngIf="linked == false">
+    <fa-icon class="icon" icon="trash-alt" size="lg"></fa-icon>Delete
+  </li>
+  <li (click)="unlink()" [class.disabled]="disabled" *ngIf="linked == true">
+    <fa-icon class="icon" icon="unlink'" size="lg"></fa-icon>Unlink
+  </li>
+</ng-container>

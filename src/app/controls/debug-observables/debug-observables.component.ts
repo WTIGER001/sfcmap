@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { DebugUtils } from './debug-utils';
 import { isArray } from 'util';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 
 @Component({
   selector: 'app-debug-observables',

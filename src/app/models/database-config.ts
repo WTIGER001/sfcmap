@@ -23,6 +23,7 @@ interface DbItem {
 }
 
 export class DbConfig {
+
   public static readonly ASSET_FOLDER = "assets"
   static extensions: DbItem[] = []
 
@@ -40,7 +41,7 @@ export class DbConfig {
       return ["name", "tags"]
     }
 
-    if (objType == Character.TYPE) { return Character.RESTRICTABLE}
+    if (objType == Character.TYPE) { return Character.RESTRICTABLE }
 
     if (objType == MonsterIndex.TYPE) {
       return ['name', 'type', 'cr', "tags"]
@@ -68,8 +69,23 @@ export class DbConfig {
   }
 
 
-  static safeTypeName(name : string) {
+  static safeTypeName(name: string) {
     return name.replace('.', '_')
+  }
+
+  static key(objType: string): any {
+    if (objType == MapType.TYPE) { return "mapTypes" }
+    if (objType == MapConfig.TYPE) { return "maps" }
+    if (objType == MarkerType.TYPE) { return "markerTypes" }
+    if (objType == MarkerCategory.TYPE) { return "markerCategories" }
+    if (objType == CharacterType.TYPE) { return "characterTypes" }
+    if (objType == Character.TYPE) { return "characters" }
+    if (objType == MonsterIndex.TYPE) { return "monsters" }
+    // if (objType == MonsterText.TYPE) { return "monstertexs" }
+    if (objType == ChatRecord.TYPE) { return "chats" }
+    if (objType == Encounter.TYPE) { return "encounters" }
+    if (objType == Annotation.TYPE) { return "annotations" }
+    if (objType == MarkerGroup.TYPE) { return "annotationGroups" }
   }
 
   static pathFolderTo(objType: string, parentId?: string): string {
@@ -93,13 +109,14 @@ export class DbConfig {
     if (objType == MonsterIndex.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterIndex.FOLDER }
     if (objType == MonsterText.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterText.FOLDER }
     if (objType == ChatRecord.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + ChatRecord.FOLDER }
-    if (objType == Encounter.TYPE){ return this.ASSET_FOLDER + "/" + parentId + "/" + Encounter.FOLDER }
+    if (objType == Encounter.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Encounter.FOLDER }
 
     // Map Level Data
     if (objType == Annotation.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Annotation.FOLDER }
     if (objType == MarkerGroup.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerGroup.FOLDER }
+    console.log("Invalid pathFolderTo", objType);
 
-    throw new Error(`Unable to calculate db Folder: Invalid Object Type: ${objType}`)
+    throw new Error(`Unable to calculate db Folder: Invalid Object Type: ${objType} and  ${parentId}`)
   }
 
   static pathTo(objType: string, parentId: string, myId?: string): string {
@@ -107,6 +124,7 @@ export class DbConfig {
     if (folder) {
       return myId ? folder + "/" + myId : folder
     }
+    console.log("Invalid pathTo", objType);
 
     throw new Error(`Unable to calculate db path: Invalid Object Type: ${objType}`)
   }
@@ -126,7 +144,7 @@ export class DbConfig {
     }
     console.log("Invalid", obj);
 
-    throw new Error(`Unable to calculate db path: Invalid Object Type: ${obj.objType}` )
+    throw new Error(`Unable to calculate db path: Invalid Object Type: ${obj.objType}`)
   }
 
   static dbFolder(obj: any): string {
@@ -140,12 +158,12 @@ export class DbConfig {
     if (GameSystem.is(obj)) { return GameSystem.FOLDER }
 
     // Reference level data
-      if (obj.objType && obj.owner) {
-        return this.pathFolderTo(obj.objType, obj.owner)
-      }
-      console.log("Invalid", obj);
+    if (obj.objType && obj.owner) {
+      return this.pathFolderTo(obj.objType, obj.owner)
+    }
+    console.log("Invalid", obj);
 
-    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}` )
+    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}`)
   }
 
   static toItem(obj: any): any {
@@ -184,7 +202,7 @@ export class DbConfig {
     }
     console.log("Invalid", obj);
 
-    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}` )
+    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}`)
   }
 
   static prepareForSave(obj: any) {

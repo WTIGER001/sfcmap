@@ -9,7 +9,7 @@ import { RouteUtil } from '../../../util/route-util';
 import { CommonDialogService } from '../../../dialogs/common-dialog.service';
 import { DbConfig } from '../../../models/database-config';
 import { first, mergeMap } from 'rxjs/operators';
-import { Game } from '../../../models';
+import { Game, Asset } from '../../../models';
 
 @Component({
   selector: 'app-view-character',
@@ -17,8 +17,8 @@ import { Game } from '../../../models';
   styleUrls: ['./view-character.component.css']
 })
 export class ViewCharacterComponent implements OnInit {
-  gameid : string
-  id : string
+  gameid: string
+  id: string
   game: Game
   @Input() character: Character
   @ViewChild('dice') dice: DiceCanvasComponent
@@ -27,31 +27,10 @@ export class ViewCharacterComponent implements OnInit {
 
 
   ngOnInit() {
-
-    this.data.game.subscribe( g => this.game = g)
-
-    this.route.paramMap.subscribe(params => {
-      console.log("Getting Character from route");
-      
-      this.id = params.get('id')
-      this.gameid = params.get('gameid')
-
-      if (this.gameid) {
-        this.data.setCurrentGame(this.gameid)
-      }
-    })
-
-    this.data.gameAssets.characters.items$
-    .subscribe(all => {
-      let chr = all.find(c => c.id == this.id)
-      if (chr) {
-        // const filtered = <Character>this.data.filterRestrictedContent(chr)
-        // console.log("SET Character from route", chr, filtered);
-        this.character = chr
-      } 
-    })
-
+    this.data.game.subscribe(g => this.game = g)
+    this.route.data.subscribe((data: { asset: Asset }) => this.character = <Character>data.asset)
   }
+
   roll(r: Roll) {
     const expression = this.evaluate(r)
     console.log("Requesting Roll: ", expression);

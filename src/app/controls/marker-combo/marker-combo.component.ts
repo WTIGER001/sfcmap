@@ -1,7 +1,7 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { MarkerType, MapConfig, MapType } from '../../models';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
 
 

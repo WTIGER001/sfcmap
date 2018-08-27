@@ -1,7 +1,7 @@
 import { isReactNative } from "@firebase/util";
 import { ICommandName } from "selenium-webdriver";
 import { IUndoableAction } from "./IUndoableAction";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 import { Selection, Annotation } from "../models";
 import { LangUtil } from "../util/LangUtil";
 import { LatLng } from "leaflet";

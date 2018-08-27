@@ -8,6 +8,7 @@ import { DbConfig } from "./models/database-config";
 import { DataService } from "./data.service";
 
 export class DataAsset<T> {
+
   private log: Debugger
 
   // Items that have been loaded
@@ -15,7 +16,7 @@ export class DataAsset<T> {
 
   // Loading Indicator
   loading = new ReplaySubject<boolean>(1)
-  game : Game
+  game: Game
   currentItems = []
 
   excludeIds: string[] = []
@@ -28,7 +29,7 @@ export class DataAsset<T> {
 
   subscribe(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     game$.subscribe(game => {
-      console.log(this.type + " --> ASSETS - NEW GAME", game);
+      // console.log(this.type + " --> ASSETS - NEW GAME", game);
       this.cancelOld()
       this.listen(game, data)
     })
@@ -40,44 +41,39 @@ export class DataAsset<T> {
     }
   }
 
-  listen(game : Game, data: DataService) {
+  listen(game: Game, data: DataService) {
     if (!game) {
-      console.log(this.type + " --> ASSETS - NOT Listening");
+      // console.log(this.type + " --> ASSETS - NOT Listening");
       return
     }
-    console.log(this.type + " --> ASSETS - Listening");
+    // console.log(this.type + " --> ASSETS - Listening");
 
     // Build the observable array
     const obs$ = this.buildObs$(game, data)
     // Combine all of them together
     this.sub = combineLatest(obs$).subscribe(results => {
-      console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
-      
+      // console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
+
       let all = []
       results.forEach(r => {
         all.push(...r)
       })
-      console.log(this.type + " --> ASSETS -- PRE Exclude", all.length);
-
-      if (this.excludeIds && this.excludeIds.length > 0) {
-        all = all.filter(item => this.excludeIds.includes(item.id))
-      }
-      console.log(this.type + " --> ASSETS -- ALL", all.length);
-
-      this.items$.next(all)
+      // console.log(this.type + " --> ASSETS -- PRE Exclude", all.length);
+      this.currentItems = all
+      this.refilter()
     })
   }
 
 
-  buildObs$(game: Game, data: DataService) : Observable<T[]>[]  {
-    console.log(this.type + " --> ASSETS - Building OBS");
+  buildObs$(game: Game, data: DataService): Observable<T[]>[] {
+    // console.log(this.type + " --> ASSETS - Building OBS");
 
-    const obs$ : Observable<T[]>[] = []
+    const obs$: Observable<T[]>[] = []
     let gLinks = []
     if (game.assetLinks) {
-      gLinks = game.assetLinks[DbConfig.safeTypeName(this.type)] ?game.assetLinks[DbConfig.safeTypeName(this.type)] : []
+      gLinks = game.assetLinks[DbConfig.safeTypeName(this.type)] ? game.assetLinks[DbConfig.safeTypeName(this.type)] : []
     }
-    const links : AssetLink[] = [this.createLinkForGame(game), ...gLinks]
+    const links: AssetLink[] = [this.createLinkForGame(game), ...gLinks]
     links.forEach(src => {
       if (src.field == '__ALL__') {
         obs$.push(this.subscribeToLink(src.field, undefined, src.owner, data.db))
@@ -86,26 +82,35 @@ export class DataAsset<T> {
       }
     })
 
-    console.log(this.type + " --> ASSETS - BUILT OBS", obs$.length);
+    // console.log(this.type + " --> ASSETS - BUILT OBS", obs$.length);
 
     return obs$
   }
 
-  createLinkForGame(game : Game) {
+  refilter(): any {
+    let all = this.currentItems.slice(0)
+    if (this.excludeIds && this.excludeIds.length > 0) {
+      all = all.filter(item => this.excludeIds.includes(item.id))
+    }
+    // console.log(this.type + " --> ASSETS -- ALL", all.length);
+    this.items$.next(all)
+  }
+
+  createLinkForGame(game: Game) {
     const gameLink = new AssetLink();
     gameLink.field = '__ALL__'
     gameLink.ownerType = 'game'
-    gameLink.owner =  game.id
+    gameLink.owner = game.id
     return gameLink
   }
 
-  pathTo(game : Game)  : string {
+  pathTo(game: Game): string {
     return game ? this.pathToOwner(game.id) : 'NONE'
-  } 
+  }
 
-  pathToOwner(id : string)  : string {
+  pathToOwner(id: string): string {
     return DbConfig.pathFolderTo(this.type, id)
-  } 
+  }
 
   subscribeOld(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.sub = game$.pipe(
@@ -122,19 +127,19 @@ export class DataAsset<T> {
 
   unsubscribe() {
     if (this.sub) {
-    this.sub.unsubscribe()
+      this.sub.unsubscribe()
     }
   }
 
   subscribeToLink(field: string, value: string, owner: string, db: AngularFireDatabase): Observable<T[]> {
     const path = this.pathToOwner(owner)
     if (field == '__ALL__') {
-      console.log(this.type + " --> ASSETS - SubscribeToLink - ALL FIELDS", owner);
+      // console.log(this.type + " --> ASSETS - SubscribeToLink - ALL FIELDS", owner);
       return db.list<T>(path).valueChanges().pipe(
         map(items => items.map(item => DbConfig.toItem(item)))
       )
     } else {
-      console.log(this.type + " --> ASSETS - SubscribeToLink -", owner, field, value);
+      // console.log(this.type + " --> ASSETS - SubscribeToLink -", owner, field, value);
       return db.list<T>(path, ref => ref.orderByChild(field).equalTo(value)).valueChanges().pipe(
         map(items => items.map(item => DbConfig.toItem(item)))
       )

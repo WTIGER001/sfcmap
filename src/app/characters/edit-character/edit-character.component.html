@@ -1,5 +1,5 @@
 <div class="character scroller scroller-dark">
-  <ul class="tool-bar tool-bar--wide tool-bar--bg">
+  <!-- <ul class="tool-bar tool-bar--wide tool-bar--bg">
     <li (click)="save()">
       <fa-icon class="icon" icon="save" size="lg"></fa-icon>Save
     </li>
@@ -10,7 +10,10 @@
     <li (click)="cancel()">
       <fa-icon class="icon" icon="times" size="lg"></fa-icon>Cancel
     </li>
-  </ul>
+  </ul> -->
+
+  <app-edit-toolbar [item]="character" (onSave)="save()"></app-edit-toolbar>
+
 
   <div class="rows">
     <app-chr-picture [character]="character"></app-chr-picture>

@@ -1,4 +1,4 @@
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
 export class RouteUtil {
@@ -34,7 +34,6 @@ export class RouteUtil {
     static goUpTwoLevels(router: Router) {
         router.navigate(this.upOneLevel(router));
     }
-
     static getGameId(router: Router) {
 
     }

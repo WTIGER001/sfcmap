@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { MapConfig, MarkerGroup, MergedMapType, Selection } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
@@ -14,6 +14,7 @@ import { Annotation, ShapeAnnotation, MarkerTypeAnnotation, ImageAnnotation } fr
 import { EditMarkerComponent } from '../../controls/edit-marker/edit-marker.component';
 import { GridLayer } from '../../leaflet/grid';
 import { EditImageComponent } from '../../controls/edit-image/edit-image.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-marker-tab',
@@ -60,6 +61,9 @@ export class MarkerTabComponent implements OnInit {
       if (m.gridOptions) {
         Util.extend(this.grid.options, m.gridOptions)
       }
+      this.data.gameAssets.annotationFolders.items$.pipe(
+        map(items => items.filter(i => i.map == m.id))
+      ).subscribe(items => this.groups = items)
     })
 
     this.mapSvc.map.subscribe(m => {
@@ -71,10 +75,10 @@ export class MarkerTabComponent implements OnInit {
       this.processSelection(sel)
     })
 
-    // Needed for name resolution
-    this.mapSvc.completeMarkerGroups.subscribe(
-      groups => this.groups = groups
-    )
+    // // Needed for name resolution
+    // this.mapSvc.completeMarkerGroups.subscribe(
+    //   groups => this.groups = groups
+    // )
 
     // this.data.categories.subscribe(categories => {
     //   this.categories = categories
@@ -165,6 +169,7 @@ export class MarkerTabComponent implements OnInit {
   private completeShape(s: ShapeAnnotation | ImageAnnotation) {
     s.id = 'TEMP'
     s.map = this.map.id
+    s.owner = this.data.game.value.id
     s.copyOptionsFromShape()
 
     s.getAttachment().on('click', event => {
@@ -188,8 +193,13 @@ export class MarkerTabComponent implements OnInit {
   }
 
   coords(m: Annotation): string {
-    let ll = m.center()
-    return ll.lng.toFixed(1) + ", " + ll.lat.toFixed(1)
+    if (m) {
+      let ll = m.center()
+      return ll.lng.toFixed(1) + ", " + ll.lat.toFixed(1)
+    } else {
+      console.log("WIERD -- Item is null", new Error());
+      return ''
+    }
   }
 
   mapId() {
@@ -254,11 +264,17 @@ export class MarkerTabComponent implements OnInit {
     if (markerGroupIdOrName) {
       let type = this.groups.find(mg => mg.id == markerGroupIdOrName)
       if (type == undefined) {
+        console.log("Making Group");
         type = new MarkerGroup()
+        type.owner = this.data.game.value.id
         type.id = UUID.UUID().toString()
         type.name = markerGroupIdOrName
         type.map = this.map.id
+        console.log("Making Group", type);
         this.data.save(type)
+      } else {
+        console.log("Found Group", type);
+
       }
       typeId = type.id
     }
@@ -332,8 +348,8 @@ export class MarkerTabComponent implements OnInit {
     if (this.item) {
       this.restrict.openRestrict(this.item).subscribe((r) => {
         if (r) {
-            this.data.save(this.item)
-            this.restricted = this.data.isRestricted(this.item)
+          this.data.save(this.item)
+          this.restricted = this.data.isRestricted(this.item)
         }
       })
     }
@@ -386,9 +402,13 @@ export class MarkerTabComponent implements OnInit {
         leafletAttachment.dragging.disable()
       }
       if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
-        this.item.getAttachment().disableEdit()
-        this.item.getAttachment().off('editable:drawing:move', this.snapVertexToGrid, this)
-        this.item.getAttachment().off('drag', this.snapShapeToGrid, this)
+        if (this.item.getAttachment()) {
+          if (this.item.getAttachment().disableEdit) {
+            this.item.getAttachment().disableEdit()
+          }
+          this.item.getAttachment().off('editable:drawing:move', this.snapVertexToGrid, this)
+          this.item.getAttachment().off('drag', this.snapShapeToGrid, this)
+        }
       }
       if (MarkerTypeAnnotation.is(m)) {
         annotation.getAttachment().off('drag', this.snapMarkerToGrid, this)

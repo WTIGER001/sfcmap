@@ -1,0 +1,12 @@
+<div class="mapcontainer"
+  [class.hide]="mapCfg==undefined" 
+  leaflet 
+  [leafletOptions]="options"
+  [leafletLayers]="layers"
+  (leafletMapReady)="onMapReady($event)"
+  [class.drop-target]="dragging" 
+  (dragover)="dragOver($event)"
+  (dragenter)="dragEnter($event)"
+  (dragleave)="dragLeave($event)"
+  (drop)="drop($event)">
+</div>

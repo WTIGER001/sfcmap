@@ -32,21 +32,19 @@
     <ng-container *ngIf="edit==false">
         <ng-container *ngFor="let g of groups">
             <div *ngIf="showEmpty || g._annotations?.length > 0">
-                <div mwlDraggable [dropData]="g" class="pack" [class.selected]="isSelected(g)" (dragEnd)="dragging=undefined" mwlDroppable
-                    (drop)="drop($event.dropData, g)" (dragEnter)="dragging=g" (dragLeave)="dragging=undefined" [class.drop-target]="g==dragging">
+                <div class="pack" [class.selected]="isSelected(g)">
                     <fa-icon *ngIf="g._annotations?.length > 0;else spacer" class="pointer" (click)="isCollapsed[g.id] = !isCollapsed[g.id]"
                         [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
                     <ng-template #spacer>
                         <fa-icon class="spacer" [fixedWidth]="true" size="lg" [icon]="'square'"></fa-icon>
                     </ng-template>
 
-
                     <app-checkbox [checked]="isChecked(g)" (checkchange)="toggleGroup(g)"></app-checkbox>
                     <label class="pointer" (click)="select(g)" placement="bottom" [ngbTooltip]="g.description">{{g.name}}</label>
                     <fa-icon *ngIf="isRestricted(g)" class="text-muted grid-right" icon="lock"></fa-icon>
                 </div>
                 <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5">
-                    <div mwlDraggable [dropData]="m" (dragEnd)="dragging=undefined" class="pack" *ngFor="let m of g._annotations" [class.selected]="isAnnotationSelected(m)">
+                    <div class="pack" *ngFor="let m of g._annotations" [class.selected]="isAnnotationSelected(m)">
                         <app-checkbox [checked]="isAnnotationChecked(m)" (checkchange)="toggleAnnotation(m)"></app-checkbox>
                         <label (click)="selectAnnotation(m)"> {{m.name}}</label>
                         <fa-icon *ngIf="isRestricted(m)" class="text-muted grid-right" icon="lock"></fa-icon>

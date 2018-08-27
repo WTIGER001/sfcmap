@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { ShapeAnnotation } from '../../models';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 import { Map, PointExpression, Point, LatLng } from 'leaflet';
 import { Rect } from '../../util/geom';
 

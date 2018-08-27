@@ -15,7 +15,7 @@ export class GameMenuComponent implements OnInit {
   expanded = false
   game: Game
   games: Game[] = []
-
+  activeOptions = { exact: true }
   constructor(data: DataService, private router: Router) {
     data.games.subscribe(g => {
       this.games = g

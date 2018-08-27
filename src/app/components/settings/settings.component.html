@@ -1,3 +1,26 @@
-<p>
-  settings works!
-</p>
+<div class="bg">
+  <div class="user-title">
+    <img [src]="user.photo" class="user-photo user-item ">
+    <h1 class="user-name mb-0 pb-0 ">{{ user.name }}</h1>
+    <!-- <fa-icon icon="sign-out-alt" size="2x" (click)="logout()" class="user-logout user-item "></fa-icon> -->
+    <button (click)="logout()" class="btn btn-link logoutlink mt-0 pt-0">Log Out</button>
+  </div>
+
+  <label class="mt-2 mb-0" for="name">My Preferences</label>
+  <small class="form-text text-muted mb-2">These are preferences that apply only to your experience and are not shared with
+    others.
+  </small>
+  <div class="pref-list">
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.expandTabOnSelect' (checkchange)="updatePrefs()" placement="bottom"
+      ngbTooltip="Automatically expand the annotation tab when you select an item">Expand Tab On Select</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.showScale' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Display the map scale on each of the maps">Show
+      Map Scale</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.showCoords' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Display the map coordiantes of the mouse">Show
+      Map Coordinates</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.use3Ddice' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Emulate dice rolling using 3D Dice">Roll
+      3D Dice</app-checkbox>
+    <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.sounds' (checkchange)="updatePrefs()" placement="bottom" ngbTooltip="Enable sounds for effects (like dice rolling)">Enable
+      Sounds
+    </app-checkbox>
+  </div>
+</div>

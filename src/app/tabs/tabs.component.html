@@ -1,42 +1,26 @@
 <div class="side-nav" [class.sideshow]="expanded==true" [class.sideshow-hide]="expanded==false" *ngIf="game">
   <div class="tab-set" (swiperight)="expanded=false" (panright)="expanded=false">
-    <div class="tab" (click)="toggle('user')" [class.tab-selected]="selected==='user'">
-      <fa-icon icon="user" fixedWidth="true"></fa-icon>
-    </div>
-    <!-- <div class="tab " (click)="toggle('mapselect')" [class.tab-selected]="selected==='mapselect'">
-      <fa-icon icon="map" fixedWidth="true"></fa-icon>
-    </div>
-    <div class="tab " (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
-      <fa-icon icon="user-shield" fixedWidth="true"></fa-icon>
-    </div>
-    <div class="tab " (click)="toggle('encounters')" [class.tab-selected]="selected==='encounters'">
-      <fa-icon icon="paw" fixedWidth="true"></fa-icon>
-    </div> -->
-    <!-- <div class="tab ra-custom" (click)="toggle('chrselect')" [class.tab-selected]="selected==='chrselect'">
-      <i class="ra ra-battered-axe"></i>
-    </div> -->
+
     <div class="tab " *ngIf="mapCfg" (click)="toggle('map')" [class.tab-selected]="selected==='map'">
-      <fa-icon icon="map-marked" fixedWidth="true"></fa-icon>
+      <fa-icon icon="map" fixedWidth="true" size="lg"></fa-icon>
     </div>
     <div class="tab " *ngIf="mapCfg" (click)="toggle('marker')" [class.tab-selected]="selected==='marker'">
-      <fa-icon icon="map-marker-alt" fixedWidth="true"></fa-icon>
+      <fa-icon icon="map-marker-alt" fixedWidth="true" size="lg"></fa-icon>
     </div>
     <div class="tab " *ngIf="mapCfg" (click)="toggle('layers')" [class.tab-selected]="selected==='layers'">
-      <fa-icon icon="layer-group" [fixedWidth]="true"></fa-icon>
+      <fa-icon icon="layer-group" [fixedWidth]="true" size="lg"></fa-icon>
     </div>
     <div class="tab " (click)="toggle('rpg')" [class.tab-selected]="selected==='rpg'">
-      <fa-icon icon="dice" [fixedWidth]="true"></fa-icon>
+      <fa-icon icon="dice" [fixedWidth]="true" size="lg"></fa-icon>
     </div>
   </div>
+
   <button type="button" class="close" aria-label="Close" (click)="expanded=false" [class.hide]="expanded==false">
     <span aria-hidden="true">&times;</span>
   </button>
-  <app-user-side class="side-container" [class.visible]="selected==='user'" [class.hide]="selected!=='user'"></app-user-side>
+
   <app-marker-tab class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-tab>
-  <!-- <app-map-selector class="side-container" [class.visible]="selected==='mapselect'" [class.hide]="selected!=='mapselect'"></app-map-selector>
-  <app-character-selector class="side-container" [class.visible]="selected==='chrselect'" [class.hide]="selected!=='chrselect'"></app-character-selector> -->
   <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
   <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
   <app-rpg-tab class="side-container" [class.visible]="selected==='rpg'" [class.hide]="selected!=='rpg'"></app-rpg-tab>
-  <!-- <app-encounters-tab class="side-container" [class.visible]="selected==='encounters'" [class.hide]="selected!=='encounters'"></app-encounters-tab> -->
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
 import { MapConfig, Distance } from '../../models';
 import { Map as LeafletMap, GridLayerOptions, Util } from 'leaflet';

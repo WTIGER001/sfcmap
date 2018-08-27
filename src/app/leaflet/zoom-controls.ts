@@ -1,5 +1,5 @@
 import { Control, Map as LeafletMap, DomUtil, DomEvent, ControlOptions } from "leaflet";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 
 export class ZoomControls extends Control {
   map: LeafletMap

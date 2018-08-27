@@ -23,8 +23,6 @@ export class MapIndexComponent implements OnInit {
 
 
   lookupType = (id: string): string => {
-    console.log("TYPES ", this.types);
-
     const type = this.types.find(a => a.id == id)
     if (type) {
       return type.name
@@ -72,7 +70,6 @@ export class MapIndexComponent implements OnInit {
 
     this.data.gameAssets.maps.items$.subscribe(m => {
       // this.data.maps.subscribe(m => {
-      console.log("GOT MAPS: ", m);
       this.all = m
       this.filtered = m
     })

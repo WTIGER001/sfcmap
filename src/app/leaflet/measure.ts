@@ -5,7 +5,7 @@ import { DialogService } from "../dialogs/dialog.service";
 import { NgZone } from "@angular/core";
 import { Trans, DistanceUnit } from "../util/transformation";
 import { DataService } from "../data.service";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 import { Format } from "../util/format";
 
 

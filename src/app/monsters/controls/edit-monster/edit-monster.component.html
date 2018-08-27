@@ -1,9 +1,12 @@
-<div class="bg">
-  <h1>{{selected.name}}</h1>
-  <div class="rows">
-    <app-edit-picture *ngIf="selected" [picture]="selected.image" [searchTerm]="getSearchTerm()" (choice)="updatePicture($event)">
-    </app-edit-picture>
-    <div class="other">
+<div class="monster-page scroller-dark">
+  <div class="bg" *ngIf="selected">
+    <app-edit-toolbar [item]='selected' (onSave)="save()"></app-edit-toolbar>
+    <h1>{{selected.name}}</h1>
+    <div class="rows">
+      <app-edit-picture *ngIf="selected" [picture]="selected.image" [searchTerm]="getSearchTerm()" (choice)="updatePicture($event)">
+      </app-edit-picture>
+      <div class="other">
+      </div>
     </div>
   </div>
 </div>

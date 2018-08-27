@@ -5,7 +5,7 @@ import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angula
 import { AngularFireAuth } from "angularfire2/auth";
 import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, IAsset, Restricition } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
-import { mergeMap, map, tap, first, concatMap, take, distinct } from "rxjs/operators";
+import { mergeMap, map, tap, first, concatMap, take, distinct, filter } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
 import { LangUtil } from "./util/LangUtil";
 import { UUID } from "angular2-uuid";
@@ -119,10 +119,9 @@ export class DataService {
     this.subscribeToUserLogon()
     this.loadUserExtensions()
     this.loadDataFromUser()
-    // this.loadMaps()
     this.loadGameAssets()
     // this.loadMergedMapTypes()
-    // this.loadCategories()
+    this.loadCategories()
   }
 
   /**
@@ -418,20 +417,14 @@ export class DataService {
   }
 
   getAnnotations(mapid: string): Observable<Array<Annotation>> {
-    return this.db.list(Annotation.FOLDER + '/' + mapid)
-      .valueChanges()
+    return this.gameAssets.annotations.items$
       .pipe(
-        map(items => {
-          let all = new Array<Annotation>()
-          items.forEach(m => {
-            let pojo = <Annotation>m
-            let saved = Annotation.to(pojo)
-            if (this.canView(saved)) {
-              all.push(saved)
-            }
-          })
-          return all;
-        })
+        tap(items => console.log("ALL ANNOTATIONS", items.length)),
+        map(items => items.filter(item => item.map == mapid)),
+        tap(items => console.log("ANNOTATIONS for this map", items.length)),
+        map(items => items.filter(item => this.canView(item))),
+        tap(items => console.log("viewable ANNOTATIONS", items)
+        )
       )
   }
 
@@ -467,38 +460,10 @@ export class DataService {
     )
   }
 
-  getMarkers(mapid: string): Observable<Array<MarkerTypeAnnotation>> {
-    return this.db.list('markers/' + mapid)
-      .valueChanges()
-      .pipe(
-        map(items => {
-          let markers = new Array<MarkerTypeAnnotation>()
-          items.forEach(m => {
-            let saved = MarkerTypeAnnotation.to(m)
-            if (this.canView(saved)) {
-              markers.push(<MarkerTypeAnnotation>saved)
-            }
-          })
-          return markers;
-        })
-      )
-  }
-
   private getMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
-    return this.db.list('markerGroups/' + mapid)
-      .valueChanges()
-      .pipe(
-        map(items => {
-          let groups = new Array<MarkerGroup>()
-          items.forEach(m => {
-            let saved = MarkerGroup.to(m)
-            if (this.canView(saved)) {
-              groups.push(<MarkerGroup>saved)
-            }
-          })
-          return groups;
-        })
-      )
+    return this.gameAssets.annotationFolders.items$.pipe(
+      map(items => items.filter(i => i.map == mapid))
+    )
   }
 
 
@@ -563,9 +528,9 @@ export class DataService {
     if (!item['restriction']) {
       return true
     }
-    if (this.isGM()) {
-      return true;
-    }
+    // if (this.isGM()) {
+    //   return true;
+    // }
     if (this.isPlayer) {
       if (item.restriction == Restricition.PlayerReadWrite) {
         return true
@@ -592,14 +557,14 @@ export class DataService {
     }
     return false
   }
-  
+
   canViewField(item: any, field: string): any {
     if (!item.restrictedContent) {
       return true
     }
-    // if (this.isGM()) {
-    //   return true;
-    // }
+    if (this.isGM()) {
+      return true;
+    }
     if (this.isPlayer) {
       if (item.restrictedContent[field]) {
         if (item.restrictedContent[field] == Restricition.PlayerReadWrite || item.restrictedContent[field] == Restricition.PlayerRead) {
@@ -654,10 +619,6 @@ export class DataService {
     // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
     // LangUtil.trimExtraneousFields(toSave, this.sample(item))
-    if (item['__FILTERED__'] && item['__FILTERED__'] == true) {
-      throw new Error("This is a filtered item and should not be saved...")
-    }
-
     this.assignId(item)
     const toSave = LangUtil.prepareForStorage(item)
 
@@ -890,6 +851,15 @@ export class DataService {
     })
   }
 
+  unlink(item: any): any {
+    const type = item.objType
+    const key = DbConfig.key(type)
+    if (key) {
+      this.gameAssets[key].excludeIds.push(item.id)
+      this.gameAssets.characters.refilter()
+    }
+  }
+
   delete(item: ObjectType) {
     console.log("Deleteing ", item);
 
@@ -916,12 +886,7 @@ export class DataService {
   }
 
   deleteMap(item: MapConfig) {
-    this.db.object('maps/' + item.id).remove().then(() => {
-      this.notify.success("Removed " + item.name)
-    }).catch(reason => {
-      this.notify.showError(reason, "Error Deleting Map")
-    })
-
+    this.delete(item)
     this.storage.ref('images/' + item.id).delete()
     this.storage.ref('images/' + item.id + "_thumb").delete()
   }
@@ -1118,11 +1083,11 @@ export class DataService {
   public setCurrentGame(id: string) {
     console.log("SETCurrentGame", id, DbConfig.pathTo(Game.TYPE, undefined, id));
 
-    // if (this.game.value == undefined || this.game.value.id != id) {
-    const path = DbConfig.pathTo(Game.TYPE, undefined, id)
-    const doc = this.db.object<Game>(path)
-    doc.valueChanges().subscribe(g => this.game.next(g))
-    // }
+    if (this.game.value == undefined || this.game.value.id != id) {
+      const path = DbConfig.pathTo(Game.TYPE, undefined, id)
+      const doc = this.db.object<Game>(path)
+      doc.valueChanges().subscribe(g => this.game.next(g))
+    }
   }
 
   // CHANGE TO FIRESTORE

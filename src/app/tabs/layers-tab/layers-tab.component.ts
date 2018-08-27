@@ -1,5 +1,5 @@
 import { Component, } from '@angular/core';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 import { Map as LeafletMap, LayerGroup, Marker, Map } from 'leaflet';
 import { map, tap, mergeMap } from 'rxjs/operators';
 import { MapConfig, MarkerGroup, User, MapPrefs, Annotation, Selection } from '../../models';

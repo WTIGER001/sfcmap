@@ -1,5 +1,5 @@
 import { IUndoableAction } from "./IUndoableAction";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 import { Selection, Annotation } from "../models";
 import { DataService } from "../data.service";
 import { LatLng } from "leaflet";

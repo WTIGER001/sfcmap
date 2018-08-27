@@ -1,9 +1,9 @@
-import { IObjectType, ObjectType } from "./core";
+import { IObjectType, ObjectType, Asset } from "./core";
 
 /**
  * A configuration for a map.
  */
-export class MapConfig extends ObjectType {
+export class MapConfig extends Asset {
   public static readonly TYPE = 'db.Map'
   public static readonly FOLDER = 'maps'
   readonly objType: string = MapConfig.TYPE

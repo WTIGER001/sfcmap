@@ -11,6 +11,7 @@ export class RestrictToolComponent implements AfterContentInit {
   @Input() style = 'li'
   @Input() item
   @Input() saveOnChange = true
+  disabled = false
 
   private restricted = false
 
@@ -18,14 +19,17 @@ export class RestrictToolComponent implements AfterContentInit {
 
   ngAfterContentInit() {
     this.restricted = this.data.isRestricted(this.item)
+    this.disabled = !this.data.canEdit(this.item)
+    console.log("RESTRICT DISABLED", this.disabled);
+
   }
 
   permissions() {
     if (this.item) {
       this.restrict.openRestrict(this.item).subscribe((r) => {
         if (r) {
-            this.data.save(this.item)
-            this.restricted = this.data.isRestricted(this.item)
+          this.data.save(this.item)
+          this.restricted = this.data.isRestricted(this.item)
         }
       })
     }

@@ -1,33 +1,53 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MonsterComponent } from '../monster/monster.component';
+import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
 import { MonsterText, MonsterIndex } from '../../../models/monsterdb';
 import { ImageSearchResult } from '../../../util/GoogleImageSearch';
 import { isArray } from 'util';
 import { ImageUtil, LoadImageOptions } from '../../../util/ImageUtil';
 import { forkJoin } from 'rxjs';
 import { DataService } from '../../../data.service';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, first } from 'rxjs/operators';
+import { Game } from '../../../models';
+import { DbConfig } from '../../../models/database-config';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-monster',
   templateUrl: './edit-monster.component.html',
   styleUrls: ['./edit-monster.component.css']
 })
-export class EditMonsterComponent implements OnInit {
+export class EditMonsterComponent implements AfterContentInit {
+  id: string
+  gameid: string
+  game: Game
   @Input() selected: MonsterText
   index: MonsterIndex
 
-  constructor(private data: DataService) {
-  }
-
-  ngOnInit() {
-
+  constructor(private data: DataService, private route: ActivatedRoute) {
   }
 
   ngAfterContentInit() {
-    this.data.gameAssets.monsters.items$.subscribe(all => {
-      this.index = all.find(item => item.id == this.selected.id)
+    this.data.game.subscribe(g => this.game = g)
+
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id')
+      this.gameid = params.get('gameid')
+
+      if (this.gameid) {
+        this.data.setCurrentGame(this.gameid)
+      }
     })
+
+    this.data.gameAssets.monsters.items$.subscribe(all => {
+      let item = all.find(c => c.id == this.id)
+      if (item) {
+        const owner = item.owner
+        this.index = item
+
+        const path = DbConfig.pathTo(MonsterText.TYPE, owner, this.id)
+        this.data.db.object<MonsterText>(path).valueChanges().subscribe(item => this.selected = DbConfig.toItem(item))
+      }
+    })
+
   }
 
   save() {

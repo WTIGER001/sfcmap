@@ -1,62 +1,56 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { MonsterText } from '../../../models/monsterdb';
+import { MonsterText, MonsterIndex } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { EditMonsterComponent } from '../edit-monster/edit-monster.component';
 import { RestrictService } from '../../../dialogs/restrict.service';
+import { Game } from '../../../models';
+import { DbConfig } from '../../../models/database-config';
 
 @Component({
   selector: 'app-monster',
   templateUrl: './monster.component.html',
   styleUrls: ['./monster.component.css']
 })
-export class MonsterComponent implements OnInit {
-  @ViewChild('edit') editCtrl: EditMonsterComponent
-  edit = false
+export class MonsterComponent implements AfterContentInit {
+  id: string
+  gameid: string
+  game: Game
   monster: MonsterText
-  restricted = false
+  index: MonsterIndex
   constructor(private router: Router, private route: ActivatedRoute, private data: DataService, private restrict: RestrictService) { }
 
-  startEdit() {
-    this.edit = true
-  }
+  ngAfterContentInit() {
+    this.data.game.subscribe(g => this.game = g)
 
-  delete() {
-
-  }
-
-  restrictions() {
-
-  }
-
-  isLinked() {
-    return this.data.isLinked(this.monster)
-  }
-
-  save() {
-    this.editCtrl.save()
-    this.edit = false
-  }
-
-  cancel() {
-    this.edit = false
-  }
-
-  ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      let id = params.get('id')
-      let edit = params.get('edit')
+      this.id = params.get('id')
+      this.gameid = params.get('gameid')
 
-      if (id) {
-        this.data.getMonsterText(id).subscribe(mt => {
+      if (this.gameid) {
+        this.data.setCurrentGame(this.gameid)
+      }
+    })
+
+    this.data.gameAssets.monsters.items$.subscribe(all => {
+      let item = all.find(c => c.id == this.id)
+      if (item) {
+        const owner = item.owner
+        this.index = item
+
+        const path = DbConfig.pathTo(MonsterText.TYPE, owner, this.id)
+        this.data.db.object<MonsterText>(path).valueChanges().subscribe(item => {
+          const mt = DbConfig.toItem(item)
           this.fixStyles(mt)
           this.insertImage(mt)
           this.monster = mt;
         })
       }
     })
+
   }
+
 
   insertImage(monster: MonsterText) {
     if (monster.image) {
@@ -87,14 +81,4 @@ export class MonsterComponent implements OnInit {
     mt.fulltext = text
   }
 
-  permissions() {
-    if (this.monster) {
-      this.restrict.openRestrict(this.monster).subscribe(([view, edit]) => {
-        if (this.data.canEdit(this.monster)) {
-          this.data.save(this.monster)
-          this.restricted = this.data.isRestricted(this.monster)
-        }
-      })
-    }
-  }
 }

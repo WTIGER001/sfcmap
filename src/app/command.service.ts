@@ -2,7 +2,7 @@
  * The command service provides a common area for running commands. Commands can have key bindings and state (active, inactive, etc)
  */
 import { Injectable } from '@angular/core';
-import { MapService } from './map.service';
+import { MapService } from './maps/map.service';
 import { DataService } from './data.service';
 import { NotifyService } from './notify.service';
 import { CommonDialogService } from './dialogs/common-dialog.service';

@@ -3,7 +3,8 @@ import { MapConfig, MarkerGroup } from '../../models';
 import { DataService } from '../../data.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Annotation } from '../../models';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
+import { map } from 'rxjs/operators';
 // import { MyMarker } from '../../map.service';
 
 @Component({
@@ -56,6 +57,7 @@ export class MarkerGroupComboComponent implements ControlValueAccessor {
   }
 
   refresh() {
+    this.data.gameAssets.annotationFolders.items$.pipe(map(items => items.filter(i => i.map == this.mapSvc._mapCfg.id)))
     this.mapSvc.completeMarkerGroups
       .subscribe(v => {
         this.all = v

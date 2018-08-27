@@ -6,6 +6,7 @@ import { UUID } from 'angular2-uuid';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { RouteUtil } from '../../util/route-util';
+import { Asset } from '../../models';
 
 @Component({
   selector: 'app-edit-character',
@@ -18,23 +19,10 @@ export class EditCharacterComponent implements OnInit {
   constructor(private data: DataService, private route: ActivatedRoute, private cd: CommonDialogService, private router: Router) {
     this.character.name = 'New Character'
     this.character.id = UUID.UUID().toString()
-
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      let id = params.get('id')
-      let edit = params.get('edit')
-
-      if (id) {
-        this.data.gameAssets.characters.items$.subscribe(all => {
-          let chr = all.find(c => c.id == id)
-          if (chr) {
-            this.character = chr
-          }
-        })
-      }
-    })
+    this.route.data.subscribe((data: { asset: Asset }) => this.character = <Character>data.asset)
   }
 
   save() {

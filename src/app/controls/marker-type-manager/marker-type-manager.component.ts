@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapType, Category, MarkerType, MarkerCategory } from '../../models';
-import { MapService } from '../../map.service';
+import { MapService } from '../../maps/map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';

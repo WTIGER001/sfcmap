@@ -5,7 +5,7 @@ import { DialogService } from "../dialogs/dialog.service";
 import { NgZone } from "@angular/core";
 import { Trans, DistanceUnit } from "../util/transformation";
 import { DataService } from "../data.service";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 import { concatMap, take } from "rxjs/operators";
 
 
@@ -125,13 +125,14 @@ export class CalibrateX implements Handler {
                     this.data.saveMap(this.mapCfg)
 
                     // Go through each marker on the map and fix the coordinates
-                    this.data.getMarkers(this.mapCfg.id).pipe(take(1), concatMap(m => m)).subscribe(m => {
-                        let loc = m.center()
-                        let newLoc0 = loc[0] * oldPPM / newPPM
-                        let newLoc1 = loc[1] * oldPPM / newPPM
-                        m.setLocation([newLoc0, newLoc1])
-                        this.data.save(m)
-                    })
+                    // TODO: Need to fix this for all annotations
+                    // this.data.getMarkers(this.mapCfg.id).pipe(take(1), concatMap(m => m)).subscribe(m => {
+                    //     let loc = m.center()
+                    //     let newLoc0 = loc[0] * oldPPM / newPPM
+                    //     let newLoc1 = loc[1] * oldPPM / newPPM
+                    //     m.setLocation([newLoc0, newLoc1])
+                    //     this.data.save(m)
+                    // })
 
                     this.mapSvc.setConfigId(this.mapCfg.id)
                 })

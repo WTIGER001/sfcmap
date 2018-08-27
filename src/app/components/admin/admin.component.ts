@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit {
     // m.migrateUserPrefs()
     // m.migrateAnnotations
     // m.migrateAll()
-    m.fixFields()
+    // m.fixFields()
   }
 
 

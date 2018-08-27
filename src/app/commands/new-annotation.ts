@@ -1,6 +1,6 @@
 import { ICommand, StatelessCommand } from "./ICommand";
 import { LatLng } from "leaflet";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 import { ShapeAnnotation } from "../models";
 
 export class NewMarker extends StatelessCommand implements ICommand {

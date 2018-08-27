@@ -1,6 +1,6 @@
 import { LayerGroup, Map, polyline, latLng, PolylineOptions, LatLngExpression, LatLng, LatLngBounds, latLngBounds, LeafletMouseEvent, Rectangle, rectangle, DomEvent } from "leaflet";
 import { DistanceUnit } from "../util/transformation";
-import { MapService } from "../map.service";
+import { MapService } from "../maps/map.service";
 import { Rect } from "../util/geom";
 
 export class GridLayer extends LayerGroup {

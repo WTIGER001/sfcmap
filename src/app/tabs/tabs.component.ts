@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { MapService } from '../map.service';
+import { MapService } from '../maps/map.service';
 import { MapConfig, Annotation, User, Game } from '../models';
 import { DataService } from '../data.service';
 import { MessageService } from '../message.service';
@@ -10,32 +10,21 @@ import { MessageService } from '../message.service';
   styleUrls: ['./tabs.component.css']
 })
 export class TabsComponent implements OnInit {
-  expanded = true
-  selected = "mapselect"
-  mapCfg: MapConfig
-  autoexpand = true
+  expanded = false
+  selected = ''
   game: Game;
+  mapCfg: MapConfig
+
   constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService, private msg: MessageService) {
-    this.data.userPrefs.subscribe(prefs => {
-      this.autoexpand = prefs.expandTabOnSelect
-    })
     this.data.game.subscribe(a => this.game = a)
 
     this.msg.rollRequests.subscribe(ex => {
       this.selected = 'rpg'
       this.expanded = true
     })
+  }
 
-    // this.mapSvc.selection.subscribe(sel => {
-    //   if (sel.isEmpty()) {
-    //   } else if (sel.type != 'reattach') {
-    //     if (Annotation.is(sel.first) && this.autoexpand) {
-    //       this.expanded = true
-    //       this.selected = 'marker'
-    //     }
-    //   }
-    // })
-
+  ngOnInit() {
     this.mapSvc.mapConfig.subscribe(m => {
       if (m.id == 'BAD') {
         this.mapCfg = undefined
@@ -48,10 +37,14 @@ export class TabsComponent implements OnInit {
         this.mapCfg = m
       }
     });
+
+    this.mapSvc.selection.subscribe(sel => {
+      if (!sel.isEmpty()) {
+        this.selected = 'marker'
+      }
+    })
   }
 
-  ngOnInit() {
-  }
   public close() {
     this.selected = ""
     this.expanded = false

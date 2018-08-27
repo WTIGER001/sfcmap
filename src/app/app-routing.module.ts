@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
-import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
 import { MonsterComponent } from './monsters/controls/monster/monster.component';
@@ -21,6 +20,8 @@ import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-mons
 import { GamesystemEditComponent } from './gamesystem/components/gamesystem-edit/gamesystem-edit.component';
 import { GamesystemIndexComponent } from './gamesystem/components/gamesystem-index/gamesystem-index.component';
 import { GamesystemViewComponent } from './gamesystem/components/gamesystem-view/gamesystem-view.component';
+import { DatabaseGuard } from './router/database.guard';
+import { MapViewComponent } from './maps/controls/map-view/map-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
@@ -33,27 +34,27 @@ const routes: Routes = [
   { path: 'game/:gameid/edit', component: GameEditComponent },
 
   // CHARACTERS
-  { path: 'game/:gameid/new-character', component: EditCharacterComponent },
-  { path: 'game/:gameid/characters', component: CharacterIndexComponent },
-  { path: 'game/:gameid/characters/:id', component: ViewCharacterComponent },
-  { path: 'game/:gameid/characters/:id/edit', component: EditCharacterComponent },
+  { path: 'game/:gameid/new-character', component: EditCharacterComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/characters', component: CharacterIndexComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/characters/:id', component: ViewCharacterComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/characters/:id/edit', component: EditCharacterComponent, resolve: { 'asset': DatabaseGuard } },
 
   { path: 'game/:gameid/new-map', component: PageNotFoundComponent },
-  { path: 'game/:gameid/maps', component: MapIndexComponent },
-  { path: 'game/:gameid/maps/:id', component: MapComponent },
-  { path: 'game/:gameid/maps/:id/edit', component: EditMapComponent },
+  { path: 'game/:gameid/maps', component: MapIndexComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/maps/:id', component: MapViewComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/maps/:id/edit', component: EditMapComponent, resolve: { 'asset': DatabaseGuard } },
 
-  { path: 'game/:gameid/new-encounter', component: EditEncounterComponent },
-  { path: 'game/:gameid/encounters', component: EncounterIndexComponent },
-  { path: 'game/:gameid/encounters/:id', component: EncounterComponent },
-  { path: 'game/:gameid/encounters/:id/edit', component: EditEncounterComponent },
+  { path: 'game/:gameid/new-encounter', component: EditEncounterComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/encounters', component: EncounterIndexComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/encounters/:id', component: EncounterComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/encounters/:id/edit', component: EditEncounterComponent, resolve: { 'asset': DatabaseGuard } },
 
-  { path: 'game/:gameid/new-monster', component: PageNotFoundComponent },
-  { path: 'game/:gameid/monsters', component: MonsterIndexPageComponent },
-  { path: 'game/:gameid/monsters/:id', component: MonsterComponent },
-  { path: 'game/:gameid/monsters/:id/edit', component: EditMonsterComponent },
+  { path: 'game/:gameid/new-monster', component: PageNotFoundComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/monsters', component: MonsterIndexPageComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/monsters/:id', component: MonsterComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/monsters/:id/edit', component: EditMonsterComponent, resolve: { 'asset': DatabaseGuard } },
 
-  { path: 'new-gamesystem', component: GamesystemEditComponent },
+  // { path: 'new-gamesystem', component: GamesystemEditComponent },
   { path: 'gs', component: GamesystemIndexComponent },
   { path: 'gs/:gsid', component: GamesystemViewComponent },
   { path: 'gs/:gsid/edit', component: GamesystemEditComponent },
@@ -64,9 +65,6 @@ const routes: Routes = [
   { path: 'gs/:gsid/monsters/:id', component: MonsterComponent },
   { path: 'gs/:gsid/monsters/:id/edit', component: EditMonsterComponent },
 
-
-
-  { path: 'map/:id', component: MapComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'settings', component: SettingsComponent },
   { path: '**', component: PageNotFoundComponent }
@@ -117,7 +115,7 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy }]
+  providers: [{ provide: RouteReuseStrategy, useClass: CustomReuseStrategy }, DatabaseGuard]
 })
 export class AppRoutingModule { }
 

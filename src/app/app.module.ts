@@ -27,13 +27,9 @@ import { NgSpinKitModule } from 'ng-spin-kit';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module'
 import { environment } from '../environments/environment';
-import { MapComponent } from './map/map.component';
-import { MapSelectorComponent } from './tabs/map-selector/map-selector.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { UserSideComponent } from './tabs/user-side/user-side.component';
 import { MarkerTabComponent } from './tabs/marker-tab/marker-tab.component';
 import { TabsComponent } from './tabs/tabs.component';
-import { MapService } from './map.service';
+import { MapService } from './maps/map.service';
 import { CommonDialogService } from './dialogs/common-dialog.service';
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { MessageDialogComponent } from './dialogs/message-dialog/message-dialog.component';
@@ -87,7 +83,6 @@ import { EditChrAttachmentsComponent } from './characters/controls/edit-chr-atta
 import { EditChrPersonalComponent } from './characters/controls/edit-chr-personal/edit-chr-personal.component';
 import { FilesizePipe } from './pipes/filesize.pipe';
 import { ChrPictureComponent } from './characters/controls/chr-picture/chr-picture.component';
-import { CharacterSelectorComponent } from './tabs/character-selector/character-selector.component';
 import { EditCharacterTypeComponent } from './characters/controls/edit-character-type/edit-character-type.component';
 import { CharacterTypeComboComponent } from './characters/controls/character-type-combo/character-type-combo.component';
 import { ViewCharacterComponent } from './characters/controls/view-character/view-character.component';
@@ -142,14 +137,15 @@ import { EditToolComponent } from './controls/edit-tool/edit-tool.component';
 import { RestrictionToggleComponent } from './controls/restriction-toggle/restriction-toggle.component';
 import { LinksComponent } from './dialogs/links/links.component';
 import { RestrictedContentComponent } from './controls/restricted-content/restricted-content.component';
+import { EditToolbarComponent } from './controls/edit-toolbar/edit-toolbar.component';
+import { ViewToolbarComponent } from './controls/view-toolbar/view-toolbar.component';
+import { DatabaseGuard } from './router/database.guard';
+import { MapViewComponent } from './maps/controls/map-view/map-view.component';
+import { AdminComponent } from './components/admin/admin.component'
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
-    MapSelectorComponent,
-    AdminComponent,
-    UserSideComponent,
     MarkerTabComponent,
     TabsComponent,
     InputDialogComponent,
@@ -196,7 +192,6 @@ import { RestrictedContentComponent } from './controls/restricted-content/restri
     EditChrPersonalComponent,
     FilesizePipe,
     ChrPictureComponent,
-    CharacterSelectorComponent,
     EditCharacterTypeComponent,
     CharacterTypeComboComponent,
     ViewCharacterComponent,
@@ -249,6 +244,10 @@ import { RestrictedContentComponent } from './controls/restricted-content/restri
     RestrictionToggleComponent,
     LinksComponent,
     RestrictedContentComponent,
+    EditToolbarComponent,
+    ViewToolbarComponent,
+    MapViewComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -287,7 +286,8 @@ import { RestrictedContentComponent } from './controls/restricted-content/restri
     AudioService,
     CommandService,
     MessageService,
-    CharacterService
+    CharacterService,
+    DatabaseGuard
   ],
   bootstrap: [AppComponent],
   entryComponents: [

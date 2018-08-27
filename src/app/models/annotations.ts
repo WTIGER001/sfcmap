@@ -46,7 +46,7 @@ export abstract class Annotation extends Asset {
 
     if (rtn) {
       if (rtn.points) {
-        rtn._points = LangUtil.map2Array(rtn.points)
+        rtn.points = LangUtil.map2Array(rtn.points)
       }
       return rtn
     }
@@ -68,9 +68,7 @@ export abstract class Annotation extends Asset {
   edit: string[]
   view: string[]
   mapLink: string
-  // points: any[]
-  points: any
-  _points: any[]
+  points: any[]
   tags: string[]
   snap: false
 
@@ -86,20 +84,21 @@ export abstract class Annotation extends Asset {
     return this._leafletAttachment
   }
 
-  preSave() {
-    this.points = LangUtil.array2Map(this._points)
-  }
-
   static fromLeaflet(layer: any): Annotation {
     return layer.objAttach
   }
 
   toLeaflet(iconCache: IconZoomLevelCache): any {
+    try {
     if (!this._leafletAttachment) {
       this._leafletAttachment = this.createLeafletAttachment(iconCache)
       this._leafletAttachment.objAttach = this
     }
     return this._leafletAttachment
+  } catch (error) {
+    console.log("Error Creating Leaflet Annotation", error, this);
+    
+  }
   }
 
   static findInLeaflet(map: LeafletMap, id: string): Annotation {
@@ -160,7 +159,7 @@ export class MarkerTypeAnnotation extends Annotation {
 
   copyPoints() {
     let ll = this.toMarker().getLatLng()
-    this._points = [ll]
+    this.points = [ll]
   }
 
   toMarker(): Marker {
@@ -180,7 +179,7 @@ export class MarkerTypeAnnotation extends Annotation {
   }
 
   createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-    const m = marker(this._points[0], this.options(iconCache))
+    const m = marker(this.points[0], this.options(iconCache))
     m['iconUrl'] = () => {
       return m.options.icon.options.iconUrl
     }
@@ -228,14 +227,14 @@ export class ImageAnnotation extends Annotation {
   }
 
   copyPoints() {
-    this._points = [
+    this.points = [
       this._leafletAttachment.getBounds().getSouthWest(),
       this._leafletAttachment.getBounds().getNorthEast()
     ]
   }
 
   setBounds(bounds: LatLngBounds) {
-    this._points = [
+    this.points = [
       bounds.getSouthWest(),
       bounds.getNorthEast()
     ]
@@ -367,18 +366,18 @@ export class ShapeAnnotation extends Annotation {
   copyPoints() {
     if (this.type == 'polygon') {
       let item: Polygon = <Polygon>this._leafletAttachment
-      this._points = item.getLatLngs()
+      this.points = item.getLatLngs()
     } else if (this.type == 'polyline') {
       let item: Polyline = <Polyline>this._leafletAttachment
-      this._points = item.getLatLngs()
+      this.points = item.getLatLngs()
     } else if (this.type == 'rectangle') {
       let item: Rectangle = <Rectangle>this._leafletAttachment
       let sw = item.getBounds().getSouthWest()
       let ne = item.getBounds().getNorthEast()
-      this._points = [sw, ne]
+      this.points = [sw, ne]
     } else if (this.type === 'circle') {
       let item: Circle = <Circle>this._leafletAttachment
-      this._points = [item.getLatLng(), item.getRadius()]
+      this.points = [item.getLatLng(), item.getRadius()]
     }
   }
 
@@ -414,16 +413,16 @@ export class ShapeAnnotation extends Annotation {
   }
 
   private toPolygon(): Polygon {
-    return polygon(this._points, this.options())
+    return polygon(this.points, this.options())
   }
 
   private toPolyline(): Polyline {
-    return polyline(this._points, this.options())
+    return polyline(this.points, this.options())
   }
 
   private toRectangle(): Rectangle {
-    if (this.points && this._points.length > 1) {
-      return rectangle(this._points, this.options())
+    if (this.points && this.points.length > 1) {
+      return rectangle(this.points, this.options())
     } else {
       return rectangle([[0, 0], [1, 1]], this.options())
     }

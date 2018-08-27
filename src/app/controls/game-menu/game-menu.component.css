@@ -103,7 +103,7 @@
   /* transform: scale(1,1); */
   /* transform-origin: 50% 100%; */
   /* transition: transform 250ms ease-in-out 300ms; */
-  height: 525px;
+  height: 580px;
   transition: height 250ms ease-in-out 300ms;
 }
 
@@ -120,6 +120,10 @@
 .game-menu-area a {
   color: white;
   text-decoration: none;
+}
+
+.game-choice {
+  padding-left: 32px;
 }
 
 .game-menu-area li:hover {

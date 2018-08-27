@@ -242,69 +242,41 @@ Index Page
 
 
 # BIG REFACTOR
-## NOT DONE
-- Update Restrictions tab
-- Make 3 "mandatory" groups for each game
-- Filter DIalog - Remove Check boxes and use toggle buttons. 
-- Send To Button for items / copy
 
-### Tabs
+## Monsters
+- view restrictions (especially for linked ones)
 
-### Encounters
+## Encounters
 - Move encounter to the encounter index page
 - Encounter Cards (large and small)
 - Encounter Table 
 - Search for monsters and NPCs
 
-## Game System
-- Update the game menu to know when you are only on a system
-- Game System Page for Pathfinder... Not sure how much should / can be genericized
-- GAme System Edit Page (maybe)
-
 ## Game
 - Tie in game logos
 - Better edit page... the current one is ugly
-- Players, Owner, GMs list
 - GM Notes
 - Zoom in effect on hover for game cards
 
 ## Character
-- Fix pcgen import
-- Import dialog
-- Add search bar
-- small cards
-- List Style? 
 - Group By Folder Name
 - Add "favorite" star feautre
 - Send to encounter or bag
-- Incorporate a text editor maybe?
-- Make a better edit area
-- Make a better view page (one that I render myself)
-- Tied to games
+- Edit restrictions
 
 ## Maps
-- Fix the bugs with switching
-- Load when the game loads
 - Move the scale and coordinates over ~100px
 - 'real time' annotations
 - Fog of war---- yeah right!
 - Combat simulator? Maybe.. Need to talk to ben about this 
-- Data Migration (Last thing I think... this will break the current site)
+- Fix Map Links --- especially for 'linked' ones that have a different owner... might work now
+- fix selection highlight
 
 ### NEW PAGES NEEDED
-- Admin
-- Settings
+- Admin (needs work)
+- Settings (needs work)
 - Encounter Index 
 - NPCs
-- Spells
-- Items
-- About
-- 'Cart'
-- Tag Asset
-
-## DONE
-- Reusable Search Bar and Index pattern
-- Game FAB
-- New Game Page / Edit Game Page
-- Games Page (new home page)
-
+- Spells - Import, New / Edit Page, View Page, Card
+- Items - Import, New / Edit Page, View Page, Card
+- Game Night - New / Edit Page, View Page, Tab, Card
