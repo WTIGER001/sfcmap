@@ -4,6 +4,7 @@ import { DataService } from '../../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestrictService } from '../../../dialogs/restrict.service';
 import { CommonDialogService } from '../../../dialogs/common-dialog.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-game-view',
@@ -23,7 +24,7 @@ export class GameViewComponent implements OnInit {
   cntItems = 0
   cntSpells = 0
 
-  constructor(private data: DataService, private route: ActivatedRoute, private restrict: RestrictService, private cd: CommonDialogService, private router: Router) {
+  constructor(private data: DataService, private route: ActivatedRoute, private restrict: RestrictService, private cd: CommonDialogService, private router: Router, private afAuth: AngularFireAuth) {
     this.data.user.subscribe(u => this.user = u);
   }
 
@@ -68,6 +69,10 @@ export class GameViewComponent implements OnInit {
         }
       }
     )
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
   }
 
 }

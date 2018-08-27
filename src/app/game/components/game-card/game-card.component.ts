@@ -8,7 +8,7 @@ import { Game } from '../../../models';
 })
 export class GameCardComponent implements OnInit {
   @Input() game: Game
-  expanded: false;
+  expanded = false;
   constructor() { }
 
   ngOnInit() {

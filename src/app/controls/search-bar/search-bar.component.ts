@@ -101,13 +101,13 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
 
   clkLinks() {
     // if (this.game && this.type) {
-    this.dialog.openLinks(this.game, this.type).subscribe( result => {
+    this.dialog.openLinks(this.game, this.type).subscribe(result => {
       if (result) {
         console.log("UPDATED LINKS!!!");
-        
+
         // Save the game
         this.data.save(this.game)
-        
+
       }
     })
     // }
@@ -176,6 +176,10 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
     if (first) {
       this.scrollRequest.emit(first)
     }
+  }
+
+  showFilterHelp() {
+
   }
 
 }

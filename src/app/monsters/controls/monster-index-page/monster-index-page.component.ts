@@ -22,7 +22,7 @@ export class MonsterIndexPageComponent implements OnInit {
   gsid: string
   game: Game
   gamesystem: GameSystem;
-
+  view: string
 
   cnt = 0;
   filtered: MonsterIndex[] = []
@@ -55,7 +55,7 @@ export class MonsterIndexPageComponent implements OnInit {
         this.search.applyFilters()
       }
     })
- 
+
 
     this.data.game.subscribe(g => this.game = g)
 

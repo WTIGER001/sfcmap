@@ -41,4 +41,7 @@ export class GamesystemIndexComponent implements AfterContentInit {
     this.filtered = items
   }
 
+  scrollTo($event) {
+
+  }
 }
