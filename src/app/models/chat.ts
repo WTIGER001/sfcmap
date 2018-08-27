@@ -1,10 +1,10 @@
 import { toDate } from "@angular/common/src/i18n/format_date";
-import { ObjectType } from "./core";
+import { ObjectType, Asset } from "./core";
 
 // Holds the types used in the chat parts
 
-export class ChatRecord extends ObjectType {
-  public static readonly TYPE = 'chat.message'
+export class ChatRecord extends Asset {
+  public static readonly TYPE = 'chat.record'
   public static readonly FOLDER = 'chat'
 
   objType = ChatRecord.TYPE
@@ -245,4 +245,12 @@ export class Online {
   login: string
   image: string
   name: string
+}
+
+export class UserChatLastSeen {
+  lastSeen: number
+}
+
+export class UserChatLastCleared {
+  lastCleared: number
 }

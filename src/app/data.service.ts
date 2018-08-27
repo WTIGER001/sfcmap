@@ -3,7 +3,7 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { NotifyService, Debugger } from "./notify.service";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
-import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, IAsset, Restricition } from "./models";
+import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, Restricition } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
 import { mergeMap, map, tap, first, concatMap, take, distinct, filter } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";

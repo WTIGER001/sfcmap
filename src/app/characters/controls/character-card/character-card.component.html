@@ -9,12 +9,22 @@
           <div class="center-text">
             <div class="crd-page-title">Personal</div>
           </div>
-          <div><app-restricted-content [item]="character" field="type">{{lookupType()}}</app-restricted-content></div>
+          <div>
+            <app-restricted-content [item]="character" field="type">{{lookupType()}}</app-restricted-content>
+          </div>
           <app-tags [tags]="character.tags"></app-tags>
-          <div><app-restricted-content [item]="character" field="size">Size: {{character?.size}}</app-restricted-content></div>
-          <div><app-restricted-content [item]="character" field="speed">Speed: {{character?.speed}}</app-restricted-content></div>
-          <div><app-restricted-content [item]="character" field="vision">Vision: {{character?.vision}}</app-restricted-content></div>
-          <div><app-restricted-content [item]="character" field="reach">Reach: {{character?.reach}}</app-restricted-content></div>
+          <div>
+            <app-restricted-content [item]="character" field="size">Size: {{character?.size}}</app-restricted-content>
+          </div>
+          <div>
+            <app-restricted-content [item]="character" field="speed">Speed: {{character?.speed}}</app-restricted-content>
+          </div>
+          <div>
+            <app-restricted-content [item]="character" field="vision">Vision: {{character?.vision}}</app-restricted-content>
+          </div>
+          <div>
+            <app-restricted-content [item]="character" field="reach">Reach: {{character?.reach}}</app-restricted-content>
+          </div>
         </ng-container>
 
         <ng-container *ngIf="page=='description'">
@@ -23,7 +33,7 @@
           </div>
 
           <small>
-              <app-restricted-content [item]="character" field="description"><i>{{character.description}}</i></app-restricted-content>
+            <app-restricted-content [item]="character" field="description"><i>{{character.description}}</i></app-restricted-content>
           </small>
         </ng-container>
 
@@ -31,32 +41,34 @@
           <div class="center-text">
             <div class="crd-page-title">Rolls</div>
           </div>
-          <div class="roll-tbl">
-              <app-restricted-content [item]="character" field="rolls">
-            <ng-container *ngFor="let a of character.rolls">
-              <div>{{a.name}}</div>
-              <div>{{evaluate(a)}}</div>
-              <div>
-                <fa-icon icon="dice-six" (click)="roll($event,a)" class="btn-tbl"></fa-icon>
-              </div>
-            </ng-container>
+          <app-restricted-content [item]="character" field="rolls">
+
+            <div class="roll-tbl">
+              <ng-container *ngFor="let a of character.rolls">
+                <div>{{a.name}}</div>
+                <div>{{evaluate(a)}}</div>
+                <div>
+                  <fa-icon icon="dice-six" (click)="roll($event,a)" class="btn-tbl"></fa-icon>
+                </div>
+              </ng-container>
+            </div>
           </app-restricted-content>
-          </div>
+
         </ng-container>
 
         <ng-container *ngIf="page=='stats'">
           <div class="center-text">
             <div class="crd-page-title">Stats</div>
           </div>
-          <div class="attr-tbl">
-              <app-restricted-content [item]="character" field="attributes">
-            <ng-container *ngFor="let a of character.attributes">
-              <div>{{a.attr}}</div>
-              <div>{{a.max}}</div>
-              <div>{{a.current}}</div>
-            </ng-container>
+          <app-restricted-content [item]="character" field="attributes">
+            <div class="attr-tbl">
+              <ng-container *ngFor="let a of character.attributes">
+                <div>{{a.attr}}</div>
+                <div>{{a.max}}</div>
+                <div>{{a.current}}</div>
+              </ng-container>
+            </div>
           </app-restricted-content>
-          </div>
         </ng-container>
 
       </div>

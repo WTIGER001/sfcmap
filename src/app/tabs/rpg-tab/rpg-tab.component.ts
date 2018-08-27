@@ -1,11 +1,11 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Dice, DiceRoller } from '../../util/dice';
 import * as THREE from 'src/scripts/three.min.js'
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 import { emojify, search } from 'node-emoji';
 import { DataService } from '../../data.service';
-import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig, Prefs } from '../../models';
+import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig, Prefs, UserChatLastSeen, UserChatLastCleared } from '../../models';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 import { LangUtil } from '../../util/LangUtil';
 import { AudioService, Sounds } from '../../audio.service';
@@ -13,13 +13,14 @@ import { Ping } from '../../leaflet/ping';
 import { Router } from '@angular/router';
 import { ICommand } from '../../commands/ICommand';
 import { MessageService } from '../../message.service';
+import { DbConfig } from '../../models/database-config';
 
 @Component({
   selector: 'app-rpg-tab',
   templateUrl: './rpg-tab.component.html',
   styleUrls: ['./rpg-tab.component.css']
 })
-export class RpgTabComponent implements OnInit, AfterViewInit {
+export class RpgTabComponent implements OnInit {
   @ViewChild('canvas') canvas: ElementRef
   @ViewChild('prev') prev: ElementRef
   @ViewChild('actionBox') actionbox: any
@@ -39,9 +40,12 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
   maps$
   keysSeen = new Map<string, boolean>()
   commands = new Map<string, IChatCommand>()
+  subLastSeen: Subscription
+  lastSeen: UserChatLastSeen
 
   constructor(public data: DataService, public firedb: AngularFireDatabase, public audio: AudioService, public router: Router, public msg: MessageService) {
     this.data.user.subscribe(u => this.user = u)
+    this.data.users.subscribe(u => this.users = u)
 
     this.msg.rollRequests.subscribe(ex => {
       console.log("Recieved  Roll: ", ex);
@@ -56,35 +60,27 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
       }
     })
 
-    this.data.users.subscribe(u => {
-      this.users = u
-    })
-
     this.initCommands()
 
-    let found = (this.lastId == '')
     this.maps$ = this.data.gameAssets.maps.items$
 
-    this.firedb.list<any>("chat").stateChanges()
-      .subscribe(action => {
-        // console.log("CHANGE ", action.type, " ", action.key, " ", action.prevKey);
+    this.data.game.pipe(
+      tap(game => this.records = []),
+      mergeMap(game => this.msg.getMyChatMessages(game))
+    ).subscribe(r => {
+      this.records.unshift(r)
+      if (!this.lastSeen || this.lastSeen.lastSeen < r.time) {
+        this.audio.play(Sounds.Message)
+      }
+      this.msg.setLastSeen(r.time)
+    })
 
-        // if (this.keysSeen.has(action.key)) {
-
-        // } else {
-        this.keysSeen.set(action.key, true)
-        let r = ChatRecord.to(action.payload.val())
-        if (action.type == 'child_added') {
-          if (found || r.key == this.lastId) {
-            found = true
-            this.records.unshift(r)
-            this.audio.play(Sounds.Message)
-          }
-        } else if (action.type == 'child_removed') {
-          // this.records.findIndex()
-        }
-      })
-
+    this.data.game.subscribe(game => {
+      if (this.subLastSeen) {
+        this.subLastSeen.unsubscribe()
+      }
+      this.subLastSeen = this.msg.getLastSeen().subscribe(i => this.lastSeen = i)
+    })
   }
 
   isMessage(item: any): boolean {
@@ -109,19 +105,6 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     c.id = this.user.id
     c.record = record
     return c
-  }
-
-  saveRollOrChat(item) {
-    let c = this.newChatRecord()
-    c.record = LangUtil.prepareForStorage(item)
-
-    if (DiceRoll.is(c.record)) {
-      let d = c.record
-      for (let i = 0; i < d.dice.length; i++) {
-        d.dice[i] = LangUtil.prepareForStorage(d.dice[i])
-      }
-    }
-    this.firedb.list("chat").push(c)
   }
 
   isFav(expression: string): boolean {
@@ -160,7 +143,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     if (u) {
       return u.name
     }
-    return `Unknown ($uid)`;
+    return `Unknown (${uid})`;
   }
 
   ngOnInit() {
@@ -184,17 +167,22 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     let r = <ClientRect>this.canvas.nativeElement.getBoundingClientRect()
   }
 
-  ngAfterViewInit() {
-    if (this.canvas) {
-      this.roller = new DiceRoller(true, this.canvas.nativeElement)
-    }
-  }
-
   enterAction(e: string) {
+    if (!this.roller) {
+      if (this.canvas) {
+        console.log("creaeting dice roller");
+        this.roller = new DiceRoller(true, this.canvas.nativeElement)
+      } else {
+        console.log("NO CANVAS --- WTF");
+        this.roller = new DiceRoller(false, undefined)
+      }
+    }
     console.log("Action: ", e)
     this.lastindex = -1
 
     if (e.toLowerCase().trim().startsWith("/")) {
+      console.log("COMMAND");
+
       let cmd = this.commands.get(e.toLowerCase())
       if (cmd) {
         cmd.run(this)
@@ -203,12 +191,16 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
 
       }
     } else if (this.roller.isDiceExpression(e)) {
+      console.log("ROLL DICE");
+
       this.rollDice(e)
     } else {
       // this.rolls.push(new ChatMessage(e))
+      console.log("CHAT");
+
       let message = new ChatMessage()
       message.message = e
-      this.saveRollOrChat(message)
+      this.msg.sendMessage(message);
     }
 
     // this.actionbox.nativeElement.value = ""
@@ -232,8 +224,7 @@ export class RpgTabComponent implements OnInit, AfterViewInit {
     }
 
     this.roller.rollDice(expression).subscribe(r => {
-      // this.rolls.push(r)
-      this.saveRollOrChat(r)
+      this.msg.sendMessage(r);
     })
 
   }
@@ -354,15 +345,17 @@ class Clear implements IChatCommand {
   run(chat: RpgTabComponent) {
     chat.roller.clear()
     chat.records = []
+    chat.msg.clearGameMessages()
   }
 }
 
 class ClearPerm implements IChatCommand {
   cmd = '/clear perm'
-  help = "Clear chat messages and delete on server"
+  help = "Clear chat messages and delete on server (GMs Only)"
   run(chat: RpgTabComponent) {
     chat.roller.clear()
-    chat.firedb.object("chat").remove()
+    // chat.firedb.object("chat").remove()
+    chat.msg.clearPerm()
     chat.records = []
   }
 }
