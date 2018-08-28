@@ -1,3 +1,5 @@
+<div class="page scroller scroller-dark" *ngIf="!item">SOMETHING WENT WRONG</div>
+
 <div class="page scroller scroller-dark" *ngIf="item">
   <app-edit-toolbar [item]="item" (onSave)="save()"></app-edit-toolbar>
   <div class="rows">

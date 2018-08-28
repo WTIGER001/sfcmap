@@ -21,11 +21,15 @@ export class ItemEditComponent {
   @Input() item: Item
 
   constructor(private data: DataService, private route: ActivatedRoute) {
+    const newItem = new Item() 
+    newItem.owner = this.data.game.value.id
+    newItem.name = "New Item"
+    this.item = newItem
   }
 
   ngAfterContentInit() {
     this.data.game.subscribe(g => this.game = g)
-    this.route.data.subscribe((data: { asset: Asset }) => this.item = <Item>data.asset)
+    this.route.data.subscribe((data: { asset: Asset }) => {if (data.asset) {this.item = <Item>data.asset}})
   }
 
   save() {

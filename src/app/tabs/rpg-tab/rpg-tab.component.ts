@@ -70,7 +70,9 @@ export class RpgTabComponent implements OnInit {
     ).subscribe(r => {
       this.records.unshift(r)
       if (!this.lastSeen || this.lastSeen.lastSeen < r.time) {
-        this.audio.play(Sounds.Message)
+        if (r.uid != this.user.id) { 
+          this.audio.play(Sounds.Message)
+        }
       }
       this.msg.setLastSeen(r.time)
     })

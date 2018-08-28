@@ -34,6 +34,7 @@ export class GameViewComponent implements OnInit {
     this.data.gameAssets.monsters.items$.subscribe(items => this.cntMonsters = items.length)
     this.data.gameAssets.maps.items$.subscribe(items => this.cntMaps = items.length)
     this.data.gameAssets.encounters.items$.subscribe(items => this.cntEncounters = items.length)
+    this.data.gameAssets.items.items$.subscribe(items => this.cntItems = items.length)
 
     this.route.paramMap.subscribe(params => {
       let id = params.get('gameid')

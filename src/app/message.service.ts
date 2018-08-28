@@ -36,6 +36,15 @@ export class MessageService {
     )
   }
 
+  getMyChatMessages2(): Observable<ChatRecord> {
+   return  this.data.game.pipe(
+      mergeMap(game => [this.getLastCleared(game), DbConfig.pathFolderTo(ChatRecord.TYPE, game.id)]),
+      mergeMap(last => this.data.db.list<ChatRecord>(last[1], ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last[0].lastCleared : 0)).stateChanges()),
+      filter(action => action.type == 'child_added'),
+      map(action => ChatRecord.to(action.payload.val()))
+    )
+  }
+
   getLastSeen(): Observable<UserChatLastSeen> {
     const path = DbConfig.ASSET_FOLDER + "/" + this.data.game.value.id + "/user-chat-last-seen/" + this.data.user.value.id
     return this.data.db.object<UserChatLastSeen>(path).valueChanges()

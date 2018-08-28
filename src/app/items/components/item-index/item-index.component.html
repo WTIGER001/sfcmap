@@ -1,7 +1,7 @@
 <div class="bg" *ngIf="game">
   <h1 class="title"> Item Index</h1>
 
-  <app-search-bar #search [items]="all" [fields]="fields" newText="New Item" [newLink]="['/game', gameid, 'new-item']" [submitOnChange]="true"
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Item" [newLink]="['../new-item']" [submitOnChange]="true"
     (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event" (clickImport)="importItem()"
     [game]="game" [type]="type">
   </app-search-bar>
