@@ -1,0 +1,143 @@
+.attr-tbl {
+  display: grid;
+  grid-template-columns: 1fr 5em 5em;
+}
+
+.roll-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}
+
+.att-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.hdr {
+  background-color: rgba(0, 0, 0, .8);
+  color: white;
+  padding: 3px;
+}
+
+h2 {
+  margin-top: 20px;
+}
+.right-align {
+  text-align: end;
+}
+.sfc-row {
+  display: flex;
+}
+.sfc-row-equal {
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.pic {
+  max-height: 300px;
+  max-width: 300px;
+  margin-right: 20px;
+}
+
+.attr-item {
+  height: 40px;
+  width: 40px;
+}
+
+.dice-canvas {
+  /* border: 1px solid white; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 10px;
+  bottom: 0px;
+  pointer-events: none;
+}
+
+.dice {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-size: 28px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dice-max {
+  color: green;
+}
+.dice-min {
+  color: red;
+}
+
+.empty-die {
+  /* display: inline-block; */
+  font-size: 16px;
+  border: 2px solid white;
+  height: 28px;
+  width: 28px;
+  text-align: center;
+}
+
+/*
+  Small Card
+*/
+.mini-pic {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  object-position: 50% 0%;
+  border-radius: 4px 0px 0px 4px;
+}
+
+.mini-pic-sm {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  border-radius: 4px;
+}
+
+.mini-pic-tiny {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+  border-radius: 4px;
+}
+
+
+.nopic {
+  background-color: rgb(19,40,49);
+}
+.sm-card {
+  width: 125px;
+  height: 175px;
+  position: relative;
+}
+
+.tiny-card {
+  width: 50px;
+  height: 75px;
+  position: relative;
+}
+
+
+.sm-name {
+  padding: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  text-shadow: 1px 1px black;
+}
+
+.current {
+  color: darkgray;
+  color: var(--highlight-color);
+  position: absolute;
+  top: 0;
+  right: 10px;
+}

@@ -22,6 +22,9 @@ import { GamesystemIndexComponent } from './gamesystem/components/gamesystem-ind
 import { GamesystemViewComponent } from './gamesystem/components/gamesystem-view/gamesystem-view.component';
 import { DatabaseGuard } from './router/database.guard';
 import { MapViewComponent } from './maps/controls/map-view/map-view.component';
+import { ItemEditComponent } from './items/components/item-edit/item-edit.component';
+import { ItemViewComponent } from './items/components/item-view/item-view.component';
+import { ItemIndexComponent } from './items/components/item-index/item-index.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
@@ -53,6 +56,11 @@ const routes: Routes = [
   { path: 'game/:gameid/monsters', component: MonsterIndexPageComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/monsters/:id', component: MonsterComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/monsters/:id/edit', component: EditMonsterComponent, resolve: { 'asset': DatabaseGuard } },
+
+  { path: 'game/:gameid/new-item', component: ItemEditComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/items', component: ItemIndexComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/items/:id', component: ItemViewComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/items/:id/edit', component: ItemEditComponent, resolve: { 'asset': DatabaseGuard } },
 
   // { path: 'new-gamesystem', component: GamesystemEditComponent },
   { path: 'gs', component: GamesystemIndexComponent },

@@ -355,7 +355,7 @@ class ClearPerm implements IChatCommand {
   run(chat: RpgTabComponent) {
     chat.roller.clear()
     // chat.firedb.object("chat").remove()
-    chat.msg.clearPerm()
+    chat.msg.deleteGameMessages()
     chat.records = []
   }
 }

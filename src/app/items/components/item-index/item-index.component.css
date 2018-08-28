@@ -1,0 +1,42 @@
+.bg {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  max-height: 100vh;
+  height: 100vh;
+}
+
+.bg h1 {
+  color: white;
+  padding: 10px;
+  margin: 0;
+}
+
+.results {
+  margin-top: 20px;
+}
+
+.cards {
+  /* 500 x350 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 320px);
+  grid-template-rows: repeat(auto-fit, 450px);
+  gap:20px;
+  justify-content: space-around;
+}
+
+.cards-small {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 125px);
+  grid-template-rows: repeat(auto-fit, 175px);
+  gap:20px;
+  justify-content: space-evenly;
+  margin: 20px;
+}
+
+.cards-line {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap:20px;
+  justify-content: center;
+  align-items: center;
+}

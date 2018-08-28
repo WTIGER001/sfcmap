@@ -1,0 +1,33 @@
+.rows {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+
+.other {
+  height: 400px;
+}
+
+h2 {
+  margin-top: 20px;
+}
+.bg {
+  padding: 20px;
+}
+
+.page {
+  height: 100%;
+  width: 70%;
+  background-color: white;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 30px;
+  padding-left: 30px;
+  overflow: auto;
+}
+
+.twocol {
+ display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 10px;
+}

@@ -1,3 +1,91 @@
-<p>
-  item-card works!
-</p>
+<ng-container *ngIf="size=='card'">
+  <div class="crd" [class.p1]="position==1" [class.p2]="position==2" [class.p3]="position==3">
+    <ng-container *ngIf="canView() == true">
+      <a routerLink="{{item.id}}">
+        <img class="crd-picture" [src]="item.image?item.image:'/assets/cards/item.png'">
+      </a>
+      <div class="crd-body crd-body scroller-dark">
+        <ng-container *ngIf="page=='information'">
+          <div class="center-text"><div class="crd-page-title">Information</div></div>
+          <div><app-restricted-content [item]="item" field="type">Aura: {{item.aura}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Caster Level: {{item.cl}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Slot: {{item.slot}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Price: {{item.price}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Weight: {{item.weight}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Requirements: {{item.requirements}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Cost: {{item.cost}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Group: {{item.group}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Source: {{item.source}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Alignment: {{item.alignment}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Intelligence: {{item.int}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Wisdom: {{item.wis}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Charisma: {{item.cha}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Ego: {{item.ego}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Communication: {{item.communication}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Senses: {{item.senses}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Powers: {{item.powers}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Magical Items: {{item.magicItems}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Destruction: {{item.destruction}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Minor Artifact: {{item.minorArtifactFlag}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Major Artifact: {{item.majorArtifactFlag}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Abjuration: {{item.abjuration}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Conjuration:{{item.conjuration}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Divination: {{item.divination}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Enchantment: {{item.enchantment}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Evocation: {{item.evocation}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Necromancy: {{item.necromancy}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Transmutation: {{item.transmutation}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Aura Strength: {{item.auraStrength}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Languages : {{item.languages}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Base Item: {{item.baseItem}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Mythic: {{item.mythic}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Legendary: {{item.legendaryWeapon}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Illusion: {{item.illusion}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Universal: {{item.universal}}</app-restricted-content></div>
+          <div><app-restricted-content [item]="item" field="type">Scaling: {{item.scaling}}</app-restricted-content></div>
+        </ng-container>
+
+        <ng-container *ngIf="page=='description'">
+          <div class="center-text">
+            <div class="crd-page-title">Description</div>
+          </div>
+
+          <small>
+            <app-restricted-content [item]="item" field="description"><i>{{item.description}}</i></app-restricted-content>
+          </small>
+        </ng-container>
+
+      </div>
+      <div class="crd-title pointer">
+        <span class="crd-txt" (click)="togglePositionMax()"> {{item.name}}</span>
+      </div>
+      <div class="crd-title crd-title-middle pointer">
+        <fa-icon class="crd-prev" icon="caret-left" (click)="prevPage($event)"></fa-icon>
+        <span class="crd-txt" (click)="togglePosition()"><app-restricted-content [item]="item" field="group">{{item.group}}</app-restricted-content></span>
+        <fa-icon class="crd-next" icon="caret-right" (click)="nextPage($event)"></fa-icon>
+      </div>
+
+    </ng-container>
+    <ng-container *ngIf="canView() == false">
+      <img class="crd-back" src="/assets/cards/item.png">
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="size=='small'">
+  <a routerLink="{{item.id}}">
+    <div class="sm-card">
+      <img [src]='item.thumb?item.thumb:"/assets/cards/item-sm.png"' class="mini-pic-sm">
+      <span class="sm-name">{{item.name}}</span>
+      <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
+    </div>
+  </a>
+</ng-container>
+
+<ng-container *ngIf="size=='tiny'">
+  <div class="tiny-card">
+    <img *ngIf="item.thumb" [src]='item.thumb?item.thumb:"/assets/cards/item-sm.png"' class="mini-pic-tiny">
+    <div *ngIf="!item.thumb" class="mini-pic-sm nopic"></div>
+    <span class="sm-name">{{item.name}}</span>
+  </div>
+</ng-container>

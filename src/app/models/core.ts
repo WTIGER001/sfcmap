@@ -83,6 +83,6 @@ export class Asset extends ObjectType implements IAsset {
   id: string;  name: string;
   description?: string;
   owner: string;
-  restriction: Restricition;
+  restriction: Restricition = Restricition.PlayerReadWrite;
   restrictedContent : any
 }

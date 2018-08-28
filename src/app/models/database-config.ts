@@ -13,6 +13,7 @@ import { MonsterIndex, MonsterText } from "./monsterdb";
 import { GameSystem } from "./game-system";
 import { Game } from "./game";
 import { Encounter } from "../encounter/model/encounter";
+import { Item } from "../items/item";
 
 interface DbItem {
   name: string
@@ -86,6 +87,7 @@ export class DbConfig {
     if (objType == Encounter.TYPE) { return "encounters" }
     if (objType == Annotation.TYPE) { return "annotations" }
     if (objType == MarkerGroup.TYPE) { return "annotationGroups" }
+    if (objType == Item.TYPE) { return "items" }
   }
 
   static pathFolderTo(objType: string, parentId?: string): string {
@@ -110,6 +112,7 @@ export class DbConfig {
     if (objType == MonsterText.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterText.FOLDER }
     if (objType == ChatRecord.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + ChatRecord.FOLDER }
     if (objType == Encounter.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Encounter.FOLDER }
+    if (objType == Item.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Item.FOLDER }
 
     // Map Level Data
     if (objType == Annotation.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Annotation.FOLDER }
@@ -183,6 +186,7 @@ export class DbConfig {
     if (MarkerCategory.is(obj)) { return MarkerCategory.to(obj) }
     if (CharacterType.is(obj)) { return CharacterType.to(obj) }
     if (Character.is(obj)) { return Character.to(obj) }
+    if (Item.is(obj)) { return Item.to(obj) }
 
     // Per Map data
     if (Annotation.is(obj)) { return Annotation.to(obj) }

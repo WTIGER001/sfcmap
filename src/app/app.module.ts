@@ -141,7 +141,9 @@ import { EditToolbarComponent } from './controls/edit-toolbar/edit-toolbar.compo
 import { ViewToolbarComponent } from './controls/view-toolbar/view-toolbar.component';
 import { DatabaseGuard } from './router/database.guard';
 import { MapViewComponent } from './maps/controls/map-view/map-view.component';
-import { AdminComponent } from './components/admin/admin.component'
+import { AdminComponent } from './components/admin/admin.component';
+import { ItemViewComponent } from './items/components/item-view/item-view.component';
+import { ItemEditComponent } from './items/components/item-edit/item-edit.component'
 
 @NgModule({
   declarations: [
@@ -248,6 +250,8 @@ import { AdminComponent } from './components/admin/admin.component'
     ViewToolbarComponent,
     MapViewComponent,
     AdminComponent,
+    ItemViewComponent,
+    ItemEditComponent,
   ],
   imports: [
     BrowserModule,

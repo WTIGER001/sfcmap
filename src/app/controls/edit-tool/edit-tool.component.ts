@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, AfterContentInit } from '@angular/core';
 import { DataService } from '../../data.service';
+import { Router } from '@angular/router';
+import { RouteUtil } from '../../util/route-util';
 
 @Component({
   selector: 'app-edit-tool',
@@ -12,7 +14,7 @@ export class EditToolComponent implements AfterContentInit {
   @Input() mode: 'save' | 'edit' = 'edit'
   disabled = false
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService, private router : Router) { }
 
   ngAfterContentInit() {
     this.disabled = !this.data.canEdit(this.item)
@@ -21,5 +23,6 @@ export class EditToolComponent implements AfterContentInit {
 
   save() {
     this.onSave.emit()
+    RouteUtil.goUpTwoLevels(this.router)
   }
 }

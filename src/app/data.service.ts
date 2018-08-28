@@ -19,6 +19,7 @@ import { MonsterIndex, MonsterText } from "./models/monsterdb";
 import { ImageSearchResult } from "./util/GoogleImageSearch";
 import { Pathfinder } from "./models/gamesystems/pathfinder";
 import { DataAsset } from "./data-asset";
+import { Item } from "./items/item";
 
 export class GameAssets {
   annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
@@ -31,6 +32,7 @@ export class GameAssets {
   markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.TYPE)
   markerTypes = new DataAsset<MarkerType>(MarkerType.TYPE)
   monsters = new DataAsset<MonsterIndex>(MonsterIndex.TYPE)
+  items = new DataAsset<Item>(Item.TYPE)
 
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
@@ -43,6 +45,7 @@ export class GameAssets {
     this.markerCategories.subscribe(game$, notify, data)
     this.markerTypes.subscribe(game$, notify, data)
     this.monsters.subscribe(game$, notify, data)
+    this.items.subscribe(game$, notify, data)
   }
 }
 
