@@ -7,8 +7,9 @@ import { MapConfig } from "./map-config";
 import { MapType } from "./map-type";
 import { LangUtil } from "../util/LangUtil";
 import { AngularFireDatabase } from "angularfire2/database";
+import { Game, AssetOwner } from "./game";
 
-export class GameSystem extends ObjectType {
+export class GameSystem extends AssetOwner {
   public static readonly TYPE = 'db.GameSystem'
   public static readonly FOLDER = 'game-systems'
   readonly objType: string = GameSystem.TYPE
@@ -21,86 +22,17 @@ export class GameSystem extends ObjectType {
     return new GameSystem().copyFrom(obj)
   }
 
-  id: string
-  name: string
-  description: string
-  logo: string
-  tags: string[]
   theme?: string
-  edit?: string[]
-  view?: string[]
-  weblink?: string
-
   supports?: string[]
   health: string
   defense: string
   commonAttributes?: string[]
   commonRolls?: string[]
-
-
-  // monsters$ = new ReplaySubject<MonsterIndex[]>(1)
-  // npc$ = new ReplaySubject<any[]>(1)
-  // feats$ = new ReplaySubject<any[]>(1)
-  // spells$ = new ReplaySubject<any[]>(1)
-  // items$ = new ReplaySubject<any[]>(1)
-  // characters$ = new ReplaySubject<Character[]>(1)
-  // characterTypes$ = new ReplaySubject<CharacterType[]>(1)
-  // maps$ = new ReplaySubject<MapConfig[]>(1)
-  // mapTypes$ = new ReplaySubject<MapType[]>(1)
-  // encounter$ = new ReplaySubject<Encounter[]>(1)
 }
 
 export class PrimaryAttribute {
   attr: string
   shape: 'heart' | 'shield' | 'rectangle' | 'circle'
-}
-
-export interface AssetContainer {
-  id: string
-  parent?: string
-}
-
-
-export class DataLike {
-  assets: AssetContainer[] = []
-  constructor(private db: AngularFireDatabase) {
-
-  }
-
-  asset$ = new BehaviorSubject<AssetContainer>(null)
-  monsters = new AssetTracker<MonsterIndex>('Monsters', MonsterIndex.FOLDER, this.db)
-  // npcs = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
-  // feats = new AssetTracker<any>('Characters', Character.FOLDER, this.db)
-  // spells = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
-  // items = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
-  characters = new AssetTracker<Character>('Characters', Character.FOLDER, this.db)
-  // characterTypes = new AssetTracker<CharacterType>('Character Types', CharacterType.FOLDER, this.db)
-  // maps = new AssetTracker<MapConfig>('Maps', MapConfig.FOLDER, this.db)
-  // mapType = new AssetTracker<MapType>('Map Types', MapType.FOLDER, this.db)
-  // encounters = new AssetTracker<Encounter>('Encounters', Encounter.FOLDER, this.db)
-
-  focusOnAsset(id: string) {
-    const ids: string[] = []
-    let asset = this.getAsset(id)
-    ids.push(asset.id)
-    while (asset && asset.parent) {
-      asset = this.getAsset(asset.parent)
-      if (asset) {
-        ids.push(asset.id)
-      }
-    }
-
-    this.characters.setSourceIds(ids)
-  }
-
-  getAsset(id: string): AssetContainer {
-    return this.assets.find(a => a.id == id)
-  }
-
-  loadAssetContainers() {
-    this.db.list<AssetContainer>('asset-containers').valueChanges().subscribe(all => this.assets = all)
-  }
-
 }
 
 export class AssetTracker<T extends ObjectType> {

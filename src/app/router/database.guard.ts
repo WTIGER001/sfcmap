@@ -28,7 +28,6 @@ export class DatabaseGuard implements CanActivate, Resolve<Asset> {
 
     if (gameid) {
       console.log("SETTING GAME ", route.url);
-
       this.data.setCurrentGame(gameid)
     }
 

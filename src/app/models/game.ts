@@ -4,7 +4,17 @@ import { Character } from "./character";
 import { MapConfig } from "./map-config";
 import { Encounter } from "../encounter/model/encounter";
 
-export class Game extends ObjectType {
+export abstract class AssetOwner extends ObjectType {
+  id: string
+  name: string
+  system: string = "pathfinder"
+  description?: string
+  weblink?: string
+  tags: string[] = []
+}
+
+
+export class Game extends AssetOwner {
   public static readonly TYPE = 'db.Game'
   public static readonly FOLDER = 'games'
   readonly objType: string = Game.TYPE
@@ -17,14 +27,7 @@ export class Game extends ObjectType {
     return new Game().copyFrom(obj)
   }
 
-  id: string
-  name: string
-  system: string = "pathfinder"
-  description?: string
-  weblink: string
-  tags: string[] = []
-  edit: string[]
-  view: string[]
+ 
   image: string
   players: string[]
   gms: string[]
@@ -32,15 +35,6 @@ export class Game extends ObjectType {
   assetLinks : any = {
     comment : "assetlinks"
   }
-  // Has
-  /*
-  maps
-  characters
-  encounters
-  map types
-  character types
-  chats
-  */
 }
 
 export class AssetLink {

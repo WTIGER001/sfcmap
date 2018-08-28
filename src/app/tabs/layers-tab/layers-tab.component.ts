@@ -167,10 +167,6 @@ export class LayersTabComponent {
     return this.data.isRestricted(item)
   }
 
-  restrictSummary(item: any) {
-    return this.data.restrictSummary(item)
-  }
-
   groupCheckChange($event) {
     if (this.mapPrefs) {
       let mPrefs = this.mapPrefs.getMapPref(this.mapConfig.id)

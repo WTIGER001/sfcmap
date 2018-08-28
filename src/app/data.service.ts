@@ -531,9 +531,9 @@ export class DataService {
     if (!item['restriction']) {
       return true
     }
-    // if (this.isGM()) {
-    //   return true;
-    // }
+    if (this.isGM()) {
+      return true;
+    }
     if (this.isPlayer) {
       if (item.restriction == Restricition.PlayerReadWrite) {
         return true
@@ -776,7 +776,6 @@ export class DataService {
   }
 
   fillInMapUrl(item: MapConfig): Observable<MapConfig> {
-
     let path = 'images/' + item.id
     console.log(`Fill In Map URL for ${item.id}-${item.name} is ${path}`);
     const ref = this.storage.ref(path);
@@ -807,7 +806,6 @@ export class DataService {
     return ref.getDownloadURL()
   }
 
-
   updateAllMapUrls() {
     // Load all the maps
     this.db.list<MapConfig>(MapConfig.FOLDER).valueChanges().pipe(first()).subscribe(items => {
@@ -821,9 +819,7 @@ export class DataService {
         this.updateMarkerUrls(markerType)
       })
     })
-
   }
-
 
   updateMarkerUrls(markerType: MarkerType) {
     let m = MarkerType.to(markerType)
@@ -963,60 +959,6 @@ export class DataService {
       }
     }
     return false
-  }
-
-  restrictSummary(item: any): string {
-    let viewUserNames = []
-    let viewGroupNames = []
-    let editUserNames = []
-    let editGroupNames = []
-    if (item.view) {
-      item.view.forEach(i => {
-        let match = this.users.getValue().find(u => u.id == i)
-        if (match) {
-          viewUserNames.push(match.name)
-        } else {
-          viewGroupNames.push(i)
-        }
-      })
-    }
-    if (item.edit) {
-      item.edit.forEach(i => {
-        let match = this.users.getValue().find(u => u.id == i)
-        if (match) {
-          editUserNames.push(match.name)
-        } else {
-          editGroupNames.push(i)
-        }
-      })
-    }
-
-    let result = ''
-    if (viewUserNames.length > 0 || viewGroupNames.length > 0) {
-      result += 'View Restrictions\n'
-      result += 'Groups: '
-      result += viewGroupNames.length > 0 ? viewGroupNames.join(",") : 'None'
-      result += '\nUsers: '
-      result += viewUserNames.length > 0 ? viewUserNames.join(",") : 'None'
-      result += '\n'
-    } else {
-      result += 'View Restrictions: None\n'
-    }
-
-    if (editGroupNames.length > 0 || editUserNames.length > 0) {
-      result += 'Edit Restrictions\n'
-      result += 'Groups: '
-      result += editGroupNames.length > 0 ? editGroupNames.join(",") : 'None'
-      result += '\nUsers: '
-      result += editUserNames.length > 0 ? editUserNames.join(",") : 'None'
-    } else {
-      result += 'Edit Restrictions: None\n'
-    }
-    if (editGroupNames.length > 0 && editUserNames.length > 0 && viewGroupNames.length > 0 && viewGroupNames.length > 0) {
-      result = 'No Restrictions'
-    }
-
-    return result
   }
 
   trackPresence(u: FireUser) {

@@ -63,9 +63,9 @@ const routes: Routes = [
   { path: 'game/:gameid/items/:id/edit', component: ItemEditComponent, resolve: { 'asset': DatabaseGuard } },
 
   // { path: 'new-gamesystem', component: GamesystemEditComponent },
-  { path: 'gs', component: GamesystemIndexComponent },
-  { path: 'gs/:gsid', component: GamesystemViewComponent },
-  { path: 'gs/:gsid/edit', component: GamesystemEditComponent },
+  { path: 'gs', component: GamesystemIndexComponent, resolve: { 'asset': DatabaseGuard }  },
+  { path: 'gs/:gsid', component: GamesystemViewComponent, resolve: { 'asset': DatabaseGuard }  },
+  { path: 'gs/:gsid/edit', component: GamesystemEditComponent, resolve: { 'asset': DatabaseGuard }  },
 
 
   { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
