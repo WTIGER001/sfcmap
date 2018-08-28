@@ -16,7 +16,7 @@
     <label>Name</label>
     <input type="text" [(ngModel)]="gs.name" class="form-control">
   </div>
-  <app-edit-picture [picture]="gs.logo" [searchTerm]="gs.name + 'logo'" (choice)="updatePicture($event)"></app-edit-picture>
+  <app-edit-picture [picture]="gs.image" [searchTerm]="gs.name + 'logo'" (choice)="updatePicture($event)"></app-edit-picture>
   <div>
     <label>Description</label>
     <textarea [(ngModel)]="gs.description" class="form-control"></textarea>

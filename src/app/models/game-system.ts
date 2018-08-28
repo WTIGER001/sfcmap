@@ -22,6 +22,7 @@ export class GameSystem extends AssetOwner {
     return new GameSystem().copyFrom(obj)
   }
 
+  image?: string
   theme?: string
   supports?: string[]
   health: string

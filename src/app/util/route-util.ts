@@ -32,8 +32,9 @@ export class RouteUtil {
     }
 
     static goUpTwoLevels(router: Router) {
-        router.navigate(this.upOneLevel(router));
+      router.navigate(this.upTwoLevels(router));
     }
+    
     static getGameId(router: Router) {
 
     }

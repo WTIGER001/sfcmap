@@ -45,9 +45,9 @@ export class GamesystemEditComponent implements OnInit {
 
   updatePicture($event: File[] | File | string | ImageSearchResult) {
     if (ImageSearchResult.is($event)) {
-      this.gs.logo = $event.url
+      this.gs.image = $event.url
     } else if (typeof ($event) == 'string') {
-      this.gs.logo = $event
+      this.gs.image = $event
     } else {
       this.upload($event)
     }
@@ -70,14 +70,14 @@ export class GamesystemEditComponent implements OnInit {
     }
 
     ImageUtil.loadImg(f[0], opts).subscribe(r => {
-      let pathImage = 'gamesystems/' + this.gs.id
+      let pathImage = 'images/' + this.gs.id
 
       console.log("IMAGE", r);
       let ir = new ImageSearchResult()
       forkJoin(this.data.saveImage(r.file, pathImage)).pipe(
         mergeMap(result => this.data.setUrl(pathImage, ir)),
       ).subscribe(r => {
-        this.gs.logo = r.url
+        this.gs.image = r.url
       }, err => {
         console.debug("ERROR ", err);
       }, () => {

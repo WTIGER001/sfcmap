@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, AfterContentInit } from '@angular/core';
-import { Game, User } from '../../../models';
+import { Game, User, Asset } from '../../../models';
 import { DataService } from '../../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonDialogService } from '../../../dialogs/common-dialog.service';
@@ -34,52 +34,64 @@ export class GameEditComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-    this.data.game.subscribe( g => this.game = g)
+    this.data.game.subscribe( g => {
+      this.game = g
+      this.process()
+    })
 
     this.data.users.subscribe(users => {
+      console.log("GOT USERS", users);
+
       this.userItems = users
       this.process()
     })
+
     this.data.user.subscribe(u => {
       this.user = u
       console.log("SET Current User", this.user);
     })
-    this.route.paramMap.subscribe(params => {
-      let id = params.get('gameid')
-      if (id) {
-        this.data.games.subscribe(all => {
-          let item = all.find(c => c.id == id)
-          if (item) {
-            this.data.game.next(item)
-          }
-        })
-      }
-    })
+
+    // this.route.data.subscribe( )
+    // this.route.paramMap.subscribe(params => {
+    //   let id = params.get('gameid')
+    //   if (id) {
+    //     this.data.games.subscribe(all => {
+    //       let item = all.find(c => c.id == id)
+    //       if (item) {
+    //         this.data.game.next(item)
+    //       }
+    //     })
+    //   }
+    // })
   }
 
   process() {
-    console.log("PROCESSING");
-    
-    this.game.players.forEach( id => {
-      const user = this.userItems.find( u => u.id == id)
-      if (user) {
-        console.log("ADDING PLAYER", user);
-        this.players.push(user)
-      }
-    })
-    this.game.gms.forEach( id => {
+    console.log("PROCESSING", this.userItems, this.user, this.game);
+    if (this.userItems.length > 0 && this.game) {
+      console.log("PROCESSING2");
 
-      const user = this.userItems.find( u => u.id == id)
-      if (user) {
-        console.log("ADDING GM", user);
-        this.gms.push(user)
-      }
-    })
+      this.game.players.forEach( id => {
+        const user = this.userItems.find( u => u.id == id)
+        if (user) {
+          console.log("ADDING PLAYER", user);
+          this.players.push(user)
+        }
+      })
+      this.game.gms.forEach( id => {
+
+        const user = this.userItems.find( u => u.id == id)
+        if (user) {
+          console.log("ADDING GM", user);
+          this.gms.push(user)
+        }
+      })
+    }
   }
 
   ngAfterContentInit(): void {
     this.gmcontrol['that'] = this
     this.playercontrol['that'] = this
+    this.process()
   }
 
   onRemoveGm($event) {

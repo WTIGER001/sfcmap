@@ -6,7 +6,7 @@ export class Pathfinder {
 
     gs.id = "pathfinder"
     gs.name = "Pathfinder"
-    gs.logo = "/assets/logos/pathfinder.png"
+    gs.image = "/assets/logos/pathfinder.png"
     gs.description = "Pathfinder Role-Playing Game by Piazo"
     gs.tags = ['Fantasy', 'Paizo']
     gs.supports = ['monsters', 'spells', 'feats', 'npcs', 'items']

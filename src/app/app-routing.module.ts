@@ -32,9 +32,9 @@ const routes: Routes = [
 
   // GAMES
   { path: 'new-game', component: GameEditComponent },
-  { path: 'games', component: GameIndexComponent },
-  { path: 'game/:gameid', component: GameViewComponent },
-  { path: 'game/:gameid/edit', component: GameEditComponent },
+  { path: 'games', component: GameIndexComponent, resolve: { 'asset': DatabaseGuard }},
+  { path: 'game/:gameid', component: GameViewComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/edit', component: GameEditComponent, resolve: { 'asset': DatabaseGuard }},
 
   // CHARACTERS
   { path: 'game/:gameid/new-character', component: EditCharacterComponent, resolve: { 'asset': DatabaseGuard } },

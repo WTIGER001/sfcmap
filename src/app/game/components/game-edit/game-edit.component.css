@@ -4,4 +4,5 @@
   color: black;
   padding: 40px;
   text-align: start;
+  overflow: auto;
 }

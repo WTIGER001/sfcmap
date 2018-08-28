@@ -1,5 +1,6 @@
-<div class="center-layout">
+<div class="center-layout" >
   <div class="edit-area">
+  <ng-container *ngIf="game">
     <div class="buttonbar">
       <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
         <fa-icon icon="save" size="lg"></fa-icon> Save
@@ -10,30 +11,34 @@
     </div>
     <app-edit-picture [picture]="game.image" (choice)="setPicture($event)"></app-edit-picture>
     <div class="form-control-group">
-      <label>Name</label>
+      <h2>Name</h2>
       <input class="form-control form-control-lg" [(ngModel)]="game.name" placeholder="Game Name">
     </div>
     <div>
-      <label class="form-control-group">Tags</label>
+      <h2>Tags</h2>
       <tag-input [(ngModel)]="game.tags" [separatorKeys]="[',']" [modelAsStrings]="true"></tag-input>
     </div>
+    </ng-container>
     <div>
-      <label class="form-control-group">Players</label>
+      <h2>Players</h2>
       <tag-input #playercontrol  [(ngModel)]="players" [separatorKeys]="[',']" identifyBy="id" displayBy="name" onlyFromAutocomplete="true" (onRemove)="onRemovePlayer($event)" (onAdd)="onAddPlayer($event)" [onRemoving]="onRemovingPlayer">
         <tag-input-dropdown [autocompleteItems]="userItems" identifyBy="id" displayBy="name"  showDropdownIfEmpty='true'>
         </tag-input-dropdown>
       </tag-input>
     </div>
     <div>
-      <label class="form-control-group">Game Masters (GMs)</label>
+      <h2>Game Masters (GMs)</h2>
       <tag-input #gmcontrol [(ngModel)]="gms" [separatorKeys]="[',']" identifyBy="id" displayBy="name"  onlyFromAutocomplete="true" (onRemove)="onRemoveGm($event)" (onAdd)="onAddGm($event)" [onRemoving]="onRemovingGm">
         <tag-input-dropdown [autocompleteItems]="userItems" identifyBy="id" displayBy="name"  showDropdownIfEmpty='true'>
         </tag-input-dropdown>
       </tag-input>
     </div>
+      <ng-container *ngIf="game">
+
     <div>
-      <label class="form-control-group">Description</label>
+      <h2>Description</h2>
       <textarea class="form-control" [(ngModel)]="game.description"></textarea>
-    </div>
+    </div>    </ng-container>
+
   </div>
 </div>
