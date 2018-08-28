@@ -118,8 +118,6 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
   }
 }
 
-
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

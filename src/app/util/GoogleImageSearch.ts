@@ -32,6 +32,9 @@ export class GoogleImageSearch {
             let r = new ImageSearchResult()
             r.url = obj.ou
             r.thumb = (<string>obj.tu).replace("\u003d", "=")
+            if (r.url.startsWith("x-raw-image")) {
+              r.url = r.thumb
+            }
             results.push(r)
           }
           resolve(results)
