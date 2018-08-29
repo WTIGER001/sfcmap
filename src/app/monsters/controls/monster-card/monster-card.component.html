@@ -1,0 +1,17 @@
+
+<ng-container *ngIf="game && item">
+  <figure [class.mcard]="size=='card'"  [class.small]="size=='small'">
+    <img [src]='item.thumb?item.thumb:"/assets/cards/monster.png"'>
+    <figcaption>
+      {{item.name}}
+      <br>
+      <small>{{item.type}}</small>
+    </figcaption>
+    <div class="item-cr ">
+      CR {{item.cr}}
+    </div>
+    <div class="item-linked" *ngIf="isLinked(item)">
+      <fa-icon icon="link" size="lg" transform="flip-horizontal"></fa-icon>
+    </div>
+  </figure>
+</ng-container>

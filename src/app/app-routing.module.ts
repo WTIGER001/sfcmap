@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
-import { MonsterComponent } from './monsters/controls/monster/monster.component';
-import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
 import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
 import { GameIndexComponent } from './game/components/game-index/game-index.component';
 import { AdminComponent } from './components/admin/admin.component';
@@ -16,7 +14,6 @@ import { ViewCharacterComponent } from './characters/controls/view-character/vie
 import { EditEncounterComponent } from './encounter/components/edit-encounter/edit-encounter.component';
 import { EncounterIndexComponent } from './encounter/components/encounter-index/encounter-index.component';
 import { EncounterComponent } from './encounter/components/encounter/encounter.component';
-import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-monster.component';
 import { GamesystemEditComponent } from './gamesystem/components/gamesystem-edit/gamesystem-edit.component';
 import { GamesystemIndexComponent } from './gamesystem/components/gamesystem-index/gamesystem-index.component';
 import { GamesystemViewComponent } from './gamesystem/components/gamesystem-view/gamesystem-view.component';
@@ -25,6 +22,9 @@ import { MapViewComponent } from './maps/controls/map-view/map-view.component';
 import { ItemEditComponent } from './items/components/item-edit/item-edit.component';
 import { ItemViewComponent } from './items/components/item-view/item-view.component';
 import { ItemIndexComponent } from './items/components/item-index/item-index.component';
+import { MonsterIndexComponent } from './monsters/controls/monster-index/monster-index.component';
+import { MonsterViewComponent } from './monsters/controls/monster-view/monster-view.component';
+import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
@@ -53,9 +53,9 @@ const routes: Routes = [
   { path: 'game/:gameid/encounters/:id/edit', component: EditEncounterComponent, resolve: { 'asset': DatabaseGuard } },
 
   { path: 'game/:gameid/new-monster', component: PageNotFoundComponent, resolve: { 'asset': DatabaseGuard } },
-  { path: 'game/:gameid/monsters', component: MonsterIndexPageComponent, resolve: { 'asset': DatabaseGuard } },
-  { path: 'game/:gameid/monsters/:id', component: MonsterComponent, resolve: { 'asset': DatabaseGuard } },
-  { path: 'game/:gameid/monsters/:id/edit', component: EditMonsterComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/monsters', component: MonsterIndexComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/monsters/:id', component: MonsterViewComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/monsters/:id/edit', component: MonsterEditComponent, resolve: { 'asset': DatabaseGuard } },
 
   { path: 'game/:gameid/new-item', component: ItemEditComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/items', component: ItemIndexComponent, resolve: { 'asset': DatabaseGuard } },
@@ -69,9 +69,9 @@ const routes: Routes = [
 
 
   { path: 'gs/:gsid/new-monster', component: PageNotFoundComponent },
-  { path: 'gs/:gsid/monsters', component: MonsterIndexPageComponent },
-  { path: 'gs/:gsid/monsters/:id', component: MonsterComponent },
-  { path: 'gs/:gsid/monsters/:id/edit', component: EditMonsterComponent },
+  { path: 'gs/:gsid/monsters', component: MonsterIndexComponent },
+  { path: 'gs/:gsid/monsters/:id', component: MonsterViewComponent },
+  { path: 'gs/:gsid/monsters/:id/edit', component: MonsterEditComponent },
 
   { path: 'admin', component: AdminComponent },
   { path: 'settings', component: SettingsComponent },

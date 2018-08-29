@@ -10,11 +10,11 @@ import { SortFilterField } from '../../../util/sort-filter';
 import { GameSystem, Game } from '../../../models';
 
 @Component({
-  selector: 'app-monster-index-page',
-  templateUrl: './monster-index-page.component.html',
-  styleUrls: ['./monster-index-page.component.css']
+  selector: 'app-monster-index',
+  templateUrl: './monster-index.component.html',
+  styleUrls: ['./monster-index.component.css']
 })
-export class MonsterIndexPageComponent implements OnInit {
+export class MonsterIndexComponent implements OnInit {
   @ViewChild('list') listElement: ElementRef
   @ViewChild('search') search: SearchBarComponent
   type = MonsterIndex.TYPE
@@ -22,7 +22,7 @@ export class MonsterIndexPageComponent implements OnInit {
   gsid: string
   game: Game
   gamesystem: GameSystem;
-  view: string
+  view: string = 'card'
 
   cnt = 0;
   filtered: MonsterIndex[] = []
@@ -43,10 +43,6 @@ export class MonsterIndexPageComponent implements OnInit {
     this.filtered = newItems
   }
 
-  isLinked(item: MonsterIndex) {
-    return this.data.isLinked(item, this.game.id)
-  }
-
   ngOnInit() {
     this.data.gameAssets.monsters.items$.pipe().subscribe(a => {
       this.all = a
@@ -58,22 +54,11 @@ export class MonsterIndexPageComponent implements OnInit {
 
 
     this.data.game.subscribe(g => this.game = g)
-
-    this.route.paramMap.subscribe(p => {
-      this.gameid = p.get("gameid")
-      this.gsid = p.get("gsid")
-      if (this.gameid) {
-        this.data.setCurrentGame(this.gameid)
-      } else if (this.gsid) {
-        this.gamesystem = this.data.gamesystems.value.find(g => g.id == this.gsid)
-      }
-    })
   }
 
   goto(m: MonsterIndex) {
     this.router.navigate(['monster', m.id])
   }
-
 
   scrollTo($event: MonsterIndex) {
     console.log("REceived Scroll Request", $event);

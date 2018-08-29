@@ -2,16 +2,20 @@ h1 {
   padding: 10px;
 }
 
-.results {
+.results-card {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 175px);
+  grid-template-columns: repeat(auto-fill, 215px);
   grid-gap: 20px;
   margin: 20px;
-  /* max-height: 90vh; */
-  /* display : flex;
-  flex-wrap: wrap; */
-  /* overflow: auto; */
 }
+
+.results-small {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 125px);
+  grid-gap: 20px;
+  margin: 20px;
+}
+
 
 .item-linked {
   position: absolute;

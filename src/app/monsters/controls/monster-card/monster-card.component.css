@@ -1,0 +1,131 @@
+
+.mcard {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.small {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0;
+}
+
+figure:hover > img {
+  transform: scale(1.2);
+  border-radius: 6px;
+}
+
+.mcard img {
+  display: block;
+  border-radius: 6px;
+  width: 225px;
+  height: 315px;
+  object-fit: cover;
+  object-position: 50%  50%;
+}
+
+.small img {
+  display: block;
+  border-radius: 6px;
+  width: 125px;
+  height: 175px;
+  object-fit: cover;
+  object-position: 50%  50%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: .3s ease;
+  background-color:  rgba(0, 140, 186, 0.5);
+  border-radius: 6px;
+}
+
+.mcard figcaption {
+  color : white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: .2em;
+  background-color: rgba(67,70,75,.7);
+  text-align: center;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.small figcaption {
+  color : white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: .2em;
+  background-color: rgba(67,70,75,.7);
+  text-align: center;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+
+.item-linked {
+  position: absolute;
+  left: 2px;
+  top : 2px;
+  text-shadow: 1px 1px black
+}
+
+.item-cr {
+  color : white;
+  position: absolute;
+  font-size: 1.1em;
+  font-weight: 900;
+  right: 0;
+  top: 0;
+  background-color: rgba(127,127,127.8);
+  padding: 0px 4px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 6px;
+}
+
+
+@media(max-width: 700px) {
+  .search input{
+    width: 100%;
+  }
+  .search {
+    margin: 15px 0px;
+  }
+
+  .results img {
+    width: 125px;
+    height: 200px;
+  }
+
+  .results  {
+    grid-gap: 5px;
+
+    grid-template-columns: repeat(auto-fill, 125px);
+  }
+  .input-grp {
+    width: 100%;
+    position: relative;
+  }
+
+  .filter-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

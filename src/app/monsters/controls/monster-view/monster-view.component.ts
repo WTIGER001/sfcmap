@@ -1,19 +1,17 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { MonsterText, MonsterIndex } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
-import { EditMonsterComponent } from '../edit-monster/edit-monster.component';
 import { RestrictService } from '../../../dialogs/restrict.service';
 import { Game } from '../../../models';
 import { DbConfig } from '../../../models/database-config';
 
 @Component({
-  selector: 'app-monster',
-  templateUrl: './monster.component.html',
-  styleUrls: ['./monster.component.css']
+  selector: 'app-monster-view',
+  templateUrl: './monster-view.component.html',
+  styleUrls: ['./monster-view.component.css']
 })
-export class MonsterComponent implements AfterContentInit {
+export class MonsterViewComponent implements AfterContentInit {
   id: string
   gameid: string
   game: Game

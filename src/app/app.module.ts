@@ -97,11 +97,8 @@ import { FindCharacterComponent } from './characters/controls/find-character/fin
 import { ImportCharacterComponent } from './characters/dialogs/import-character/import-character.component';
 import { FileDropComponent } from './controls/file-drop/file-drop.component';
 import { UserOnlineComponent } from './controls/user-online/user-online.component';
-import { MonsterComponent } from './monsters/controls/monster/monster.component';
 import { KeepStylePipe } from './pipes/keep-style.pipe';
-import { MonsterIndexPageComponent } from './monsters/controls/monster-index-page/monster-index-page.component';
 import { RandomImageComponent } from './dialogs/random-image/random-image.component';
-import { EditMonsterComponent } from './monsters/controls/edit-monster/edit-monster.component';
 import { EditPictureComponent } from './controls/edit-picture/edit-picture.component';
 import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
 import { CharacterCardComponent } from './characters/controls/character-card/character-card.component';
@@ -143,7 +140,11 @@ import { DatabaseGuard } from './router/database.guard';
 import { MapViewComponent } from './maps/controls/map-view/map-view.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ItemViewComponent } from './items/components/item-view/item-view.component';
-import { ItemEditComponent } from './items/components/item-edit/item-edit.component'
+import { ItemEditComponent } from './items/components/item-edit/item-edit.component';
+import { MonsterCardComponent } from './monsters/controls/monster-card/monster-card.component'
+import { MonsterViewComponent } from './monsters/controls/monster-view/monster-view.component';
+import { MonsterIndexComponent } from './monsters/controls/monster-index/monster-index.component';
+import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-edit.component';
 
 @NgModule({
   declarations: [
@@ -207,11 +208,11 @@ import { ItemEditComponent } from './items/components/item-edit/item-edit.compon
     ImportCharacterComponent,
     FileDropComponent,
     UserOnlineComponent,
-    MonsterComponent,
+    MonsterViewComponent,
     KeepStylePipe,
-    MonsterIndexPageComponent,
+    MonsterIndexComponent,
     RandomImageComponent,
-    EditMonsterComponent,
+    MonsterEditComponent,
     EditPictureComponent,
     CharacterIndexComponent,
     CharacterCardComponent,
@@ -252,6 +253,7 @@ import { ItemEditComponent } from './items/components/item-edit/item-edit.compon
     AdminComponent,
     ItemViewComponent,
     ItemEditComponent,
+    MonsterCardComponent,
   ],
   imports: [
     BrowserModule,

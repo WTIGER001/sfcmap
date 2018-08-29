@@ -11,11 +11,11 @@ import { DbConfig } from '../../../models/database-config';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-monster',
-  templateUrl: './edit-monster.component.html',
-  styleUrls: ['./edit-monster.component.css']
+  selector: 'app-monster-edit',
+  templateUrl: './monster-edit.component.html',
+  styleUrls: ['./monster-edit.component.css']
 })
-export class EditMonsterComponent implements AfterContentInit {
+export class MonsterEditComponent implements AfterContentInit {
   id: string
   gameid: string
   game: Game

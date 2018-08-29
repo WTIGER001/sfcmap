@@ -1,0 +1,20 @@
+<div class="bg">
+  <h1 class="title"> Monster Index</h1>
+
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Monster" [newLink]="['/', gameid, 'new-monster']" (itemsUpdated)="updateItems($event)"
+    (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event" [game]="game" [type]="type">
+  </app-search-bar>
+
+  <div class="scroller scroller-dark" #list [class.results-card]="view=='card'"  [class.results-small]="view=='small'">
+    <div *ngFor="let m of filtered">
+      <a routerLink="{{m.id}}" id="MONSTER_{{m.id}}">
+        <app-monster-card [size]='view' [item]="m" [game]="game"></app-monster-card>
+      </a>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <sk-cube-grid color="#9ed485"></sk-cube-grid>
+    <h1> LOADING PLEASE WAIT</h1>
+  </div>
+</div>
