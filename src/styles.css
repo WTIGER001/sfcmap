@@ -190,14 +190,34 @@ body {
 /* Pages                                        */
 /* -------------------------------------------- */
 .page {
-  width: 800px;
-  background-color: white;
-  color: black;
+  max-width: 800px;
+  background-color: rgb(34,34,34, .9);
+  color: white;
   padding: 40px;
   text-align: start;
   overflow: auto;
+  border-radius: 9px;
+  overflow: auto;
 }
 
+.page--lg {
+    width: 1200px;
+}
+
+.page-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+@media (max-width: 500px) {
+  .page {
+    border-radius: 0px;
+    height: 100%;
+    width: 100%;
+  }
+}
 
 /* -------------------------------------------- */
 /* Common Button Styles                         */

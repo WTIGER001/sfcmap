@@ -86,16 +86,9 @@ export class DataService {
   game = new BehaviorSubject<Game>(undefined)
   gameAssets = new GameAssets()
 
-  // mapTypes = new ReplaySubject<Array<MapType>>(1)
-  // maps = new ReplaySubject<Array<MapConfig>>(1)
-  // markerCategories = new ReplaySubject<Array<MarkerCategory>>(1)
-  // markerTypes = new ReplaySubject<Array<MarkerType>>(1)
   mapTypesWithMaps = new ReplaySubject<Array<MergedMapType>>(1)
   categories = new ReplaySubject<Array<Category>>(1)
-  // characters = new ReplaySubject<Array<Character>>(1)
-  // characterTypes = new ReplaySubject<Array<CharacterType>>(1)
-  // encounters = new ReplaySubject<Array<Encounter>>(1)
-  // monsters = new BehaviorSubject<Array<MonsterIndex>>([])
+
 
   monstersLoading = new BehaviorSubject<boolean>(true)
   charactersLoading = new BehaviorSubject<boolean>(true)
@@ -334,7 +327,7 @@ export class DataService {
   private getOrCreate<T extends ObjectType>(uid: string, obj: T): Observable<T> {
     const name = obj['objType']
     this.log.debug("Getting User Information for " + name);
-    obj['uid'] = uid
+    obj['id'] = uid
     if (uid == 'NOBODY') {
       return of(obj)
     }
@@ -1065,6 +1058,13 @@ export class DataService {
     )
   }
 
+  displayName(id : string) : string {
+    const u = this.users.value.find( u => u.id == id)
+    if (u) {
+       return u.displayName ? u.displayName : u.name
+    }
+    return "Unknown User (" + id + ")"
+  }
 }
 
 

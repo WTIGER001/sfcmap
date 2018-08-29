@@ -1,6 +1,6 @@
 <div class="user-online">
   <ng-container *ngFor="let u of online">
-    <div class="user" placement="top" [ngbTooltip]="u.name">
+    <div class="user" placement="top" [ngbTooltip]="getText(u)">
       <img [src]="u.image?u.image:'/assests/missing.png'">
     </div>
   </ng-container>

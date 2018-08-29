@@ -1,4 +1,5 @@
-<div class="bg">
+<div class="page-center">
+<div class="page">
   <div class="user-title">
     <img [src]="user.photo" class="user-photo user-item ">
     <h1 class="user-name mb-0 pb-0 ">{{ user.name }}</h1>
@@ -6,10 +7,14 @@
     <button (click)="logout()" class="btn btn-link logoutlink mt-0 pt-0">Log Out</button>
   </div>
 
-  <label class="mt-2 mb-0" for="name">My Preferences</label>
+  <h3>Display Name</h3>
+  <input class="form-control" type='text' [(ngModel)]="user.displayName" (blur)="save()">
+
+  <h3 class="mt-3">My Preferences</h3>
   <small class="form-text text-muted mb-2">These are preferences that apply only to your experience and are not shared with
     others.
   </small>
+
   <div class="pref-list">
     <app-checkbox class="mb-1" mode='check' [(ngModel)]='prefs.expandTabOnSelect' (checkchange)="updatePrefs()" placement="bottom"
       ngbTooltip="Automatically expand the annotation tab when you select an item">Expand Tab On Select</app-checkbox>
@@ -23,4 +28,5 @@
       Sounds
     </app-checkbox>
   </div>
+</div>
 </div>

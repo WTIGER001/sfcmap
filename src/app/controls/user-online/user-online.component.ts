@@ -18,9 +18,9 @@ export class UserOnlineComponent implements OnInit {
   }
 
   getText(u: Online) {
-    const d = new Date(u.login)
-    return u.name + "\n" + this.formatDate(d)
+    return this.data.displayName(u.id)
   }
+
   getDate(u: Online) {
     const d = new Date(u.login)
     return this.formatDate(d)

@@ -7,8 +7,8 @@ h2 {
 }
 
 .user-photo {
-    height: 64px;
-    width: 64px;
+    height: 90px;
+    width: 90px;
     border-radius: 50%;
     border: 3px solid lightgray;
     box-sizing: content-box

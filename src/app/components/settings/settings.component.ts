@@ -45,6 +45,6 @@ export class SettingsComponent implements OnInit {
     this.data.save(this.prefs)
   }
   save() {
-    this.data.save(this.access)
+    this.data.save(this.user)
   }
 }

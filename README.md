@@ -9,6 +9,7 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 ![Screen shot](https://github.com/WTIGER001/sfcmap/blob/master/screenshot.png "Screenshot")
 
 ## Features
+------------------------------------------------------------------------------------------------------------
 
 ### User Login and Customization
 - Firebase Authentication is used and users can authenticate with Google and Github.
@@ -58,8 +59,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - You have to click on a layer twice the first time to get the effect
 
 ## To Do
-
-
+------------------------------------------------------------------------------------------------------------
 
 ### Monsters 
 - Figure out the cr - bug
@@ -77,6 +77,17 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Encounters
 - Add restrictions and restriction filtering
 - Add an encouter screen with the maps a side piece and then other stuff on the sides
+- Set Restrictiions
+- Roll initiative
+- Build an interface to the online monster databases
+- Figure out how to get the center and the zoom level on the nav bar as the user is navigating...
+- Add Buttons: Group Roll, ?
+- Count Down or Count up effects (Spell Lasts for x rounds)
+- Drag and Drop the peron on to the map to generate a properly sized marker
+- Move encounter to the encounter index page
+- Encounter Cards (large and small)
+- Encounter Table 
+- Search for monsters and NPCs
 
 ### Characters
 - Get more information from the character import, maybe categories of attributes, maybe abilities
@@ -98,7 +109,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Need new maplink control that has type ahead and coordinates
 - Image Annotation Fixes: 
 -- keep aspect
--- snap
 - Cancel needs to revert any changes made
 - Cut and paste
 - Tags / Labels
@@ -108,6 +118,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Add map browser just like the monster browser
 - Support large maps that should be tiled. This will mean that we have to figure out how to image tile (likely in a server function) and then translate it into tile urls that leaflet can understand. Serving it all from firebase storage
 - Figure out the buggy loading issues
+- Fog / Exposed areas (basically just draw), predefined areas too
+- White Board
+- Mobile Fog of war based on user vision, but aware of doors and obstacles
+- Auras
+- Test on Firefox and edge
 
 ### Data Management
 - Export / import marker types 
@@ -117,56 +132,21 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Add validation to group form
 
 ### General Application
-- Project or Game or Collection top level construct. This would probably be a new launch page. You can choose between games. Maybe have some sort of "world" and "Chapter or Module" level structure that can add to the overall game world. Or instead of a fixed heirarchy just used tags.. I think i like that the best. Allow users to tag a map, etc. and then filter by those tags. Keep the concept of a game world. I need to figure out a good way to show an image of each world. Not sure what the "game" object looks like. a game should have members and possibly characters and npcs. 
-
 - Remove the temporary objects like category and mergedmap type
 - move the dbPath functions to the data service
 - explore e2e testing
 - clean up the css to the big style sheet
 
 ### Mobile Device Support 
-- Tab icons are too small
 - Measure and Calibrate dont work because there is no real 'mouse move' events
 - would be nice to full screen or PWA
 - swipe / Pan should close tab (not sure why this is not working... HammerJS has been included)
 
-### RPG Features ( hard stuff /// Out of scope)?
-- Fog / Exposed areas (basically just draw), predefined areas too
-- Character Icons
-- Atlas / Collection
-- White Board
-- Mobile Fog of war based on user vision, but aware of doors and obstacles
-- Auras
-
-### Biggest planned changes
-- Combine markers and image annotations
-- Add the concept of a game or world. or a game and chapter / module
-- Fog of war support, which means support for walls and doors... ick
-- Characters
-
-### Characters / NPCs / People
-- Name              <-- Done
-- Class / Level
-- Description       <-- Done
-- Tags              <-- Done, needs styling
-- Map Links         
-- Image / Picture   <-- Done
-- Rolls       <-- Things like Initiative, Perception, etc
-- Attributes  <-- Hit points, str, ac, etc
-- Web Link
-- Attachment(s)     <-- Done, needss styling
-- Size        <-- Icon Sizing
-- Reach       <-- Like aura
-- Vision      <-- Needed for fog of war
-- Speed(s)    <-- Means that maps should have terrain types (land, land-difficult, etc..)
-- Status      <-- Just decoration
-- Auras       <-- Just Decoration
-
--- Actions: Roll Initiative / Perception -- COmmand /roll all initatives, /roll [player name] perception, /party [name1] [name2]
--- Do I mess with modifiers? 
--- Abilities? 
-
-
+### Characters
+- Allow the 'author' to see the character details
+- Group By Folder Name
+- Add "favorite" star feature
+- Send to encounter or bag
 Add 'Crit-Range' and 'Fumble-Range' to the dice rolls. 
 request roll {
     name, expression, crit-range, fumble range, crit message, fumble message, needs confirm?
@@ -192,85 +172,20 @@ On chat
 
 Look into the permissions for firebase
 
-Encounters
--------------------------------------
-
-- Set Restrictiions
-- Roll initiative
--- Build an interface to the online monster databases
--- Figure out how to get the center and the zoom level on the nav bar as the user is navigating...
--- Add Buttons: Group Roll, ?
--- Count Down or Count up effects (Spell Lasts for x rounds)
--- Drag and Drop the peron on to the map to generate a properly sized marker
-
-Add Themes to each game (scifi, fanatasy, )
-
-Monsters and NPCs
-- Create Object model
-- Determine what info is really needed
-- display the "Full Text"
-- Find a picture using google image search.. Allow the user to choose from 10 images
-- Need an array of id / names / image for type ahead and selection
-- Store the index and the full text for now.... 2 separate database roots
-
-Steps
-- "Convert" a monster to a character or generate a similar interface
-- Create a 2nd filter to add to the encounter builder
-- Use an endless scroll diretive
-- Move to a per item observable and use updates
-
-
-Front Page
-- What should the front page have on it? 
-- Intro to the tool and some way to sign in
-- Find Games
-
-
-Index Page
-
-- Filter Control
--- Text box
--- New Item 
--- Filter
--- View Toggle
--- Sort
-- Display Area
--- Scrollable
--- Card Display (wxh)
--- Small Card Disaply (wxh)
--- Table (columns)
-
-
-# BIG REFACTOR
-
-## Monsters
+### Monsters 
 - view restrictions (especially for linked ones)
 
-## Encounters
-- Move encounter to the encounter index page
-- Encounter Cards (large and small)
-- Encounter Table 
-- Search for monsters and NPCs
-
-## Game
+### Game
 - Tie in game logos
 - Better edit page... the current one is ugly
 - GM Notes
 - Zoom in effect on hover for game cards
+- figure our Game System and Game
+- 'admins' are the GMs for games
+- @Media queries
 
-## Character
-- Group By Folder Name
-- Add "favorite" star feautre
-- Send to encounter or bag
-- Edit restrictions
-
-## Maps
-- Move the scale and coordinates over ~100px
-- 'real time' annotations
-- Fog of war---- yeah right!
-- Combat simulator? Maybe.. Need to talk to ben about this 
-- Fix Map Links --- especially for 'linked' ones that have a different owner... might work now
-- fix selection highlight
+### Settings
+- Make page 
 
 ### NEW PAGES NEEDED
 - Admin (needs work)

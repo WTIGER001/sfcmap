@@ -21,6 +21,7 @@ export class User extends ObjectType {
   }
 
   name: string
+  displayName ?: string
   email?: string
   id: string
   photo?: string
@@ -178,7 +179,6 @@ export class Prefs extends ObjectType {
   public static readonly FOLDER = 'user-prefs'
   readonly objType: string = Prefs.TYPE
   id: string
-  // uid: string
   recentMarkers: string[] = []
   recentMaps: string[] = []
   showScale: boolean = true

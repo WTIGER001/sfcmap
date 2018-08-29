@@ -141,11 +141,7 @@ export class RpgTabComponent implements OnInit {
   }
 
   username(uid): string {
-    let u = this.users.find(u => u.id == uid)
-    if (u) {
-      return u.name
-    }
-    return `Unknown (${uid})`;
+    return this.data.displayName(uid)
   }
 
   ngOnInit() {
