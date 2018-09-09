@@ -37,6 +37,8 @@ export class DialogService {
   }
 
   public openLinks(game: Game, type: string): Observable<boolean> {
+    console.log("LINKS TYPE", type, new Error());
+    
     const modalRef = this.modalSvc.open(LinksComponent);
     modalRef.componentInstance.result = new Subject<boolean>()
     modalRef.componentInstance.game = game

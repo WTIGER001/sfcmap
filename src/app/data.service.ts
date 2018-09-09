@@ -15,11 +15,11 @@ import { Character } from "./models/character";
 import { CharacterType } from "./models/character-type";
 import { Encounter } from "./encounter/model/encounter";
 import { User as FireUser } from "firebase";
-import { MonsterIndex, MonsterText } from "./models/monsterdb";
 import { ImageSearchResult } from "./util/GoogleImageSearch";
 import { Pathfinder } from "./models/gamesystems/pathfinder";
 import { DataAsset } from "./data-asset";
 import { Item } from "./items/item";
+import { Monster } from "./monsters/monster";
 
 export class GameAssets {
   annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
@@ -31,7 +31,7 @@ export class GameAssets {
   mapTypes = new DataAsset<MapType>(MapType.TYPE)
   markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.TYPE)
   markerTypes = new DataAsset<MarkerType>(MarkerType.TYPE)
-  monsters = new DataAsset<MonsterIndex>(MonsterIndex.TYPE)
+  monsters = new DataAsset<Monster>(Monster.TYPE)
   items = new DataAsset<Item>(Item.TYPE)
 
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
@@ -968,47 +968,6 @@ export class DataService {
     this.db.list<Online>('online').valueChanges().subscribe(a => this.online.next(a))
   }
 
-  getMonsterText(id: string): Observable<MonsterText> {
-    return this.db.object<MonsterText>(MonsterText.FOLDER + "/" + id).valueChanges()
-  }
-
-  loadMonsters(index: MonsterIndex[], text: MonsterText[], deleteOld?: boolean) {
-    if (deleteOld) {
-
-    }
-
-    // Load the index
-    this.saveAll(...index)
-    this.saveAll(...text)
-  }
-
-  // getMonstersPaged(limit: number, startAt: string): Observable<MonsterIndex[]> {
-
-  //   if (startAt) {
-  //     return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
-  //       ref => ref.orderByChild('id').startAt(startAt).limitToFirst(limit + 1)).valueChanges().pipe(take(1))
-  //   } else {
-  //     return this.db.list<MonsterIndex>(MonsterIndex.FOLDER,
-  //       ref => ref.orderByChild('id').limitToFirst(limit + 1)).valueChanges().pipe(take(1))
-  //   }
-  // }
-
-  // monsterStart = undefined
-  // pageMonsters() {
-  //   this.getMonstersPaged(300, this.monsterStart).subscribe(items => {
-  //     if (items.length > 1) {
-  //       this.monsterStart = items[items.length - 1].id
-  //       this.pageMonsters()
-  //     } else {
-  //       this.monstersLoading.next(false)
-  //     }
-  //     let current = this.monsters.getValue()
-  //     let next = []
-  //     next.push(...current)
-  //     next.push(...items.slice(0, 300))
-  //     this.monsters.next(next)
-  //   })
-  // }
 
 
 

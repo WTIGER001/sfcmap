@@ -1,10 +1,5 @@
-import { Roll, Character } from "./character";
 import { ObjectType } from "./core";
 import { ReplaySubject, Subscription, Observable, BehaviorSubject } from "rxjs";
-import { MonsterIndex } from "./monsterdb";
-import { CharacterType } from "./character-type";
-import { MapConfig } from "./map-config";
-import { MapType } from "./map-type";
 import { LangUtil } from "../util/LangUtil";
 import { AngularFireDatabase } from "angularfire2/database";
 import { Game, AssetOwner } from "./game";

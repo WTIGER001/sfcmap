@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MonsterIndex, MonsterDB } from '../../../models/monsterdb';
+import {  MonsterDB } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { splitStringBySize } from '@firebase/database/dist/src/core/util/util';
-import { ReplaySubject, BehaviorSubject } from 'rxjs';
+import { ReplaySubject, BehaviorSubject, Subject } from 'rxjs';
 import { debounce, tap, throttleTime, debounceTime, auditTime } from 'rxjs/operators';
 import { SearchBarComponent } from '../../../controls/search-bar/search-bar.component';
 import { SortFilterField } from '../../../util/sort-filter';
 import { GameSystem, Game } from '../../../models';
+import { Monster } from '../../monster';
+
 
 @Component({
   selector: 'app-monster-index',
@@ -17,7 +19,8 @@ import { GameSystem, Game } from '../../../models';
 export class MonsterIndexComponent implements OnInit {
   @ViewChild('list') listElement: ElementRef
   @ViewChild('search') search: SearchBarComponent
-  type = MonsterIndex.TYPE
+
+  type = Monster.TYPE
   gameid: string
   gsid: string
   game: Game
@@ -25,8 +28,9 @@ export class MonsterIndexComponent implements OnInit {
   view: string = 'card'
 
   cnt = 0;
-  filtered: MonsterIndex[] = []
-  all: MonsterIndex[] = []
+  filtered: Monster[] = []
+  paged: Monster[] = []
+  all: Monster[] = []
   loading = false
   startAt = null
 
@@ -39,7 +43,7 @@ export class MonsterIndexComponent implements OnInit {
 
   }
 
-  updateItems(newItems: MonsterIndex[]) {
+  updateItems(newItems: Monster[]) {
     this.filtered = newItems
   }
 
@@ -52,15 +56,14 @@ export class MonsterIndexComponent implements OnInit {
       }
     })
 
-
     this.data.game.subscribe(g => this.game = g)
   }
 
-  goto(m: MonsterIndex) {
+  goto(m: Monster) {
     this.router.navigate(['monster', m.id])
   }
 
-  scrollTo($event: MonsterIndex) {
+  scrollTo($event: Monster) {
     console.log("REceived Scroll Request", $event);
 
     if (this.listElement) {
@@ -68,4 +71,5 @@ export class MonsterIndexComponent implements OnInit {
       this.listElement.nativeElement.querySelector("#MONSTER_" + $event.id).scrollIntoView()
     }
   }
+
 }

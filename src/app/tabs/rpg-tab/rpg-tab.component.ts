@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { ICommand } from '../../commands/ICommand';
 import { MessageService } from '../../message.service';
 import { DbConfig } from '../../models/database-config';
+import { DiceCanvasComponent } from '../../controls/dice-canvas/dice-canvas.component';
 
 @Component({
   selector: 'app-rpg-tab',
@@ -21,7 +22,7 @@ import { DbConfig } from '../../models/database-config';
   styleUrls: ['./rpg-tab.component.css']
 })
 export class RpgTabComponent implements OnInit {
-  @ViewChild('canvas') canvas: ElementRef
+  @ViewChild('dice') dice: DiceCanvasComponent
   @ViewChild('prev') prev: ElementRef
   @ViewChild('actionBox') actionbox: any
   @ViewChild('acc') acc: any
@@ -30,7 +31,6 @@ export class RpgTabComponent implements OnInit {
   records: ChatRecord[] = []
   box: Dice
   lastindex = -1
-  roller: DiceRoller
   result: string
   action: string
   user: User
@@ -49,40 +49,40 @@ export class RpgTabComponent implements OnInit {
 
     this.msg.rollRequests.subscribe(ex => {
       console.log("Recieved  Roll: ", ex);
-      this.rollDice(ex)
+      this.dice.rollDice(ex)
     })
 
     this.data.userPrefs.subscribe(u => {
       this.prefs = u
-      if (this.roller) {
-        this.roller.use3d = u.use3dDice
-        this.lastId = u.lastChatId
-      }
+      this.lastId = u.lastChatId
     })
 
     this.initCommands()
 
     this.maps$ = this.data.gameAssets.maps.items$
 
-    this.data.game.pipe(
-      tap(game => this.records = []),
-      mergeMap(game => this.msg.getMyChatMessages(game))
-    ).subscribe(r => {
+    this.msg.getMyChatMessages2().subscribe(r => {
       this.records.unshift(r)
       if (!this.lastSeen || this.lastSeen.lastSeen < r.time) {
-        if (r.uid != this.user.id) { 
+        if (r.uid != this.user.id) {
           this.audio.play(Sounds.Message)
         }
       }
       this.msg.setLastSeen(r.time)
     })
 
+
     this.data.game.subscribe(game => {
+      this.records = []
       if (this.subLastSeen) {
         this.subLastSeen.unsubscribe()
       }
       this.subLastSeen = this.msg.getLastSeen().subscribe(i => this.lastSeen = i)
     })
+  }
+
+  diceRolled() {
+    
   }
 
   isMessage(item: any): boolean {
@@ -161,20 +161,9 @@ export class RpgTabComponent implements OnInit {
     }
   }
 
-  resize(e) {
-    let r = <ClientRect>this.canvas.nativeElement.getBoundingClientRect()
-  }
 
   enterAction(e: string) {
-    if (!this.roller) {
-      if (this.canvas) {
-        console.log("creaeting dice roller");
-        this.roller = new DiceRoller(true, this.canvas.nativeElement)
-      } else {
-        console.log("NO CANVAS --- WTF");
-        this.roller = new DiceRoller(false, undefined)
-      }
-    }
+    
     console.log("Action: ", e)
     this.lastindex = -1
 
@@ -188,10 +177,10 @@ export class RpgTabComponent implements OnInit {
         console.log("Unknown Command ", e.toLowerCase());
 
       }
-    } else if (this.roller.isDiceExpression(e)) {
+    } else if (this.dice.roller.isDiceExpression(e)) {
       console.log("ROLL DICE");
 
-      this.rollDice(e)
+      this.dice.rollDice(e)
     } else {
       // this.rolls.push(new ChatMessage(e))
       console.log("CHAT");
@@ -209,27 +198,27 @@ export class RpgTabComponent implements OnInit {
     console.log("Update Action: ", e)
   }
 
-  rollDice(expression: string) {
-    this.audio.play(Sounds.DiceRoll)
+  // rollDice(expression: string) {
+  //   this.audio.play(Sounds.DiceRoll)
 
-    let indx = this.expressionHistory.findIndex(item => item.toLowerCase() == expression.toLowerCase())
-    if (indx >= 0) {
-      this.expressionHistory.splice(indx)
-    }
-    this.expressionHistory.unshift(expression)
-    if (this.expressionHistory.length > 20) {
-      this.expressionHistory.splice(20)
-    }
+  //   let indx = this.expressionHistory.findIndex(item => item.toLowerCase() == expression.toLowerCase())
+  //   if (indx >= 0) {
+  //     this.expressionHistory.splice(indx)
+  //   }
+  //   this.expressionHistory.unshift(expression)
+  //   if (this.expressionHistory.length > 20) {
+  //     this.expressionHistory.splice(20)
+  //   }
 
-    this.roller.rollDice(expression).subscribe(r => {
-      this.msg.sendMessage(r);
-    })
+  //   this.roller.rollDice(expression).subscribe(r => {
+  //     this.msg.sendMessage(r);
+  //   })
 
-  }
+  // }
 
   dblClick(rec: ChatRecord) {
     if (DiceRoll.is(rec.record)) {
-      this.rollDice(rec.record.expression)
+      this.dice.rollDice(rec.record.expression)
     } else if (PingMessage.is(rec.record)) {
       this.router.navigate(this.link(rec))
     }
@@ -341,7 +330,7 @@ class Clear implements IChatCommand {
   cmd = '/clear'
   help = "Clear chat messages"
   run(chat: RpgTabComponent) {
-    chat.roller.clear()
+    chat.dice.roller.clear()
     chat.records = []
     chat.msg.clearGameMessages()
   }
@@ -351,7 +340,7 @@ class ClearPerm implements IChatCommand {
   cmd = '/clear perm'
   help = "Clear chat messages and delete on server (GMs Only)"
   run(chat: RpgTabComponent) {
-    chat.roller.clear()
+    chat.dice.roller.clear()
     // chat.firedb.object("chat").remove()
     chat.msg.deleteGameMessages()
     chat.records = []
@@ -362,7 +351,7 @@ class ClearDice implements IChatCommand {
   cmd = '/cd'
   help = "Clear 3D Dice"
   run(chat: RpgTabComponent) {
-    chat.roller.clear()
+    chat.dice.roller.clear()
   }
 }
 
@@ -371,7 +360,7 @@ class ClearType implements IChatCommand {
   cmd = '/clear ' + this.type
   help = "Clear all " + this.type
   run(chat: RpgTabComponent) {
-    chat.roller.clear()
+    chat.dice.roller.clear()
     for (let i = chat.records.length - 1; i >= 0; i--) {
       if (this.type == 'dice' && chat.isDiceRoll(chat.records[i].record)) {
         chat.records.splice(i, 1)

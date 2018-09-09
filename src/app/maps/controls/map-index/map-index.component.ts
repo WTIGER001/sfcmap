@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from '../../../data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Game, MapConfig, MapType } from '../../../models';
+import { Game, MapConfig, MapType, Asset } from '../../../models';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { SortFilterField } from '../../../util/sort-filter';
-import { MonsterIndex } from '../../../models/monsterdb';
 
 @Component({
   selector: 'app-map-index',
@@ -80,7 +79,7 @@ export class MapIndexComponent implements OnInit {
     this.filtered = $event
   }
 
-  scrollTo($event: MonsterIndex) {
+  scrollTo($event: Asset) {
     if (this.listElement) {
       this.listElement.nativeElement.querySelector("#MAP_" + $event.id).scrollIntoView()
     }

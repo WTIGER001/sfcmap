@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
-import { MonsterText, MonsterIndex } from '../../../models/monsterdb';
 import { ImageSearchResult } from '../../../util/GoogleImageSearch';
 import { isArray } from 'util';
 import { ImageUtil, LoadImageOptions } from '../../../util/ImageUtil';
 import { forkJoin } from 'rxjs';
 import { DataService } from '../../../data.service';
 import { mergeMap, first } from 'rxjs/operators';
-import { Game } from '../../../models';
+import { Game, Asset } from '../../../models';
 import { DbConfig } from '../../../models/database-config';
 import { ActivatedRoute } from '@angular/router';
+import { Monster } from '../../monster';
 
 @Component({
   selector: 'app-monster-edit',
@@ -19,46 +19,21 @@ export class MonsterEditComponent implements AfterContentInit {
   id: string
   gameid: string
   game: Game
-  @Input() selected: MonsterText
-  index: MonsterIndex
+  @Input() selected: Monster
 
   constructor(private data: DataService, private route: ActivatedRoute) {
   }
 
   ngAfterContentInit() {
     this.data.game.subscribe(g => this.game = g)
+    this.route.data.subscribe((data: { asset: Asset }) => this.selected = <Monster>data.asset)
 
-    this.route.paramMap.subscribe(params => {
-      this.id = params.get('id')
-      this.gameid = params.get('gameid')
 
-      if (this.gameid) {
-        this.data.setCurrentGame(this.gameid)
-      }
-    })
-
-    this.data.gameAssets.monsters.items$.subscribe(all => {
-      let item = all.find(c => c.id == this.id)
-      if (item) {
-        const owner = item.owner
-        this.index = item
-
-        const path = DbConfig.pathTo(MonsterText.TYPE, owner, this.id)
-        this.data.db.object<MonsterText>(path).valueChanges().subscribe(item => this.selected = DbConfig.toItem(item))
-      }
-    })
 
   }
 
   save() {
-
-    if (this.index) {
-      this.index.image = this.selected.image
-      this.index.thumb = this.selected.thumb
-      this.data.save(this.index)
-    }
     this.data.save(this.selected)
-
   }
 
   getSearchTerm() {

@@ -1,10 +1,16 @@
 <div class="page-center">
 <div class="page">
+  <div class="topbar">
+  <div class="tool-bar">
+    <a [routerLink]="['/home']" ><li><fa-icon icon="home" class="icon"  size="lg"></fa-icon>Home</li></a>
+  </div>
   <div class="user-title">
     <img [src]="user.photo" class="user-photo user-item ">
     <h1 class="user-name mb-0 pb-0 ">{{ user.name }}</h1>
-    <!-- <fa-icon icon="sign-out-alt" size="2x" (click)="logout()" class="user-logout user-item "></fa-icon> -->
-    <button (click)="logout()" class="btn btn-link logoutlink mt-0 pt-0">Log Out</button>
+  </div>
+  <div class="tool-bar" (click)="logout()">
+    <li><fa-icon class="icon" icon="sign-out-alt" size="lg"></fa-icon>Log Out</li>
+  </div>
   </div>
 
   <h3>Display Name</h3>

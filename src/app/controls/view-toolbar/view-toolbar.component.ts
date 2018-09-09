@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ViewToolbarComponent implements OnInit {
   @Input() item
+  @Input() light = false
 
   constructor() { }
 

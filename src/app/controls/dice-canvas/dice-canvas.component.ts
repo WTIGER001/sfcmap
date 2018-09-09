@@ -27,6 +27,7 @@ export class DiceCanvasComponent implements AfterViewInit {
     this.data.userPrefs.subscribe(u => {
       this.prefs = u
       if (this.roller) {
+        console.log("Use 3D Dice", u.use3dDice);
         this.roller.use3d = u.use3dDice
       }
     })
@@ -34,16 +35,18 @@ export class DiceCanvasComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.roller = new DiceRoller(true, this.canvas.nativeElement)
+    if (this.prefs) {
+      console.log("Use 3D Dice", this.prefs.use3dDice);
+      this.roller.use3d = this.prefs.use3dDice
+    }
   }
 
   rollDice(expression: string) {
-    console.log("ROLLING ", expression);
     if (expression) {
       this.audio.play(Sounds.DiceRoll)
       this.roller.rollDice(expression).subscribe(r => {
         this.diceResult = r
         let copy = DiceRoll.copy(r)
-        console.log("EMMITING", copy);
 
         this.diceroll.emit(copy)
         this.dicetotal.emit(r.getText())

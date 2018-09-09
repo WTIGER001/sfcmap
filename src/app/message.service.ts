@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { ChatMessage, DiceRoll, ChatRecord, PingMessage, User, UserChatLastCleared, UserChatLastSeen, Game } from './models';
 import { Subject, ReplaySubject, Observable } from 'rxjs';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
-import { filter, map, mergeMap, take } from 'rxjs/operators';
+import { filter, map, mergeMap, take, tap, distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs/operators';
 import { DataService } from './data.service';
 import { LangUtil } from './util/LangUtil';
 import { UUID } from 'angular2-uuid';
@@ -32,16 +32,19 @@ export class MessageService {
       take(1),
       mergeMap(last => this.data.db.list<ChatRecord>(chatPath, ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges()),
       filter(action => action.type == 'child_added'),
-      map(action => ChatRecord.to(action.payload.val()))
+      map(action => ChatRecord.to(action.payload.val())),
+      distinctUntilKeyChanged('id'),
     )
   }
 
   getMyChatMessages2(): Observable<ChatRecord> {
    return  this.data.game.pipe(
-      mergeMap(game => [this.getLastCleared(game), DbConfig.pathFolderTo(ChatRecord.TYPE, game.id)]),
-      mergeMap(last => this.data.db.list<ChatRecord>(last[1], ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last[0].lastCleared : 0)).stateChanges()),
+      filter(game =>  (game != undefined && game.id != undefined) ),
+      mergeMap(game => this.getLastCleared(game)),
+      mergeMap(last => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, last.game), ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges()),
       filter(action => action.type == 'child_added'),
-      map(action => ChatRecord.to(action.payload.val()))
+      map(action => ChatRecord.to(action.payload.val())),
+      distinctUntilKeyChanged('id'),
     )
   }
 
@@ -55,7 +58,7 @@ export class MessageService {
       game = this.data.game.value
     }
     const path = DbConfig.ASSET_FOLDER + "/" + game.id + "/user-chat-last-cleared/" + this.data.user.value.id
-    return this.data.db.object<UserChatLastCleared>(path).valueChanges()
+    return this.data.db.object<UserChatLastCleared>(path).valueChanges().pipe(tap( obj => obj.game = game.id))
   }
 
   setLastSeen(lastMessage: number) {

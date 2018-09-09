@@ -85,7 +85,7 @@ export class CharacterCardComponent implements OnInit {
   }
 
   roll($event, r: Roll) {
-    this.dice.rollDice(this.evaluate(r))
+    this.dice.rollDice(this.character.name + " " + r.name + " " + this.evaluate(r))
   }
 
   evaluate(r: Roll): string {

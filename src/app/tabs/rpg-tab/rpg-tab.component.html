@@ -1,7 +1,7 @@
 <h1>Chat and Dice </h1>
 <div class="chat-area" *ngIf="maps$ | async">
   <div #prev class="prev scroller scroller-dark results-area">
-    <div #canvas class="dice-canvas"> </div>
+    <app-dice-canvas #dice (diceroll)="diceRolled($event)"></app-dice-canvas>
     <div *ngFor="let rec of records; let odd=odd; let even=even;" [class.roll-odd]="odd" [class.roll-even]="even" class="roll p-1"
       (dblclick)="dblClick(rec)">
       <div class="roll-header">

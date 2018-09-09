@@ -3,134 +3,134 @@ import { parse } from "papaparse";
 import { ObjectType, Asset } from "./core";
 import { GoogleImageSearch, ImageSearchResult } from "../util/GoogleImageSearch";
 
-export class MonsterText extends Asset {
-  public static readonly TYPE = 'db.MonsterText'
-  public static readonly FOLDER = 'monster-text'
-  readonly objType: string = MonsterText.TYPE
+// export class MonsterText extends Asset {
+//   public static readonly TYPE = 'db.MonsterText'
+//   public static readonly FOLDER = 'monster-text'
+//   readonly objType: string = MonsterText.TYPE
 
-  // TypeScript guard
-  static is(obj: any): obj is MonsterText {
-    return obj.objType !== undefined && obj.objType === MonsterText.TYPE
-  }
+//   // TypeScript guard
+//   static is(obj: any): obj is MonsterText {
+//     return obj.objType !== undefined && obj.objType === MonsterText.TYPE
+//   }
 
-  static to(obj: any): MonsterText {
-    return obj
-  }
+//   static to(obj: any): MonsterText {
+//     return obj
+//   }
 
-  edit: string[]
-  view: string[]
+//   edit: string[]
+//   view: string[]
 
-  id: string
-  name: string
-  fulltext: string
-  size: string
-  cr: string
-  alignment: string
-  classes: string
-  type: string
-  subtype: string
-  init: number
-  ac: number
-  acFlat: number
-  acTouch: number
-  hp: number
-  speed: string
-  image: string
-  thumb: string
-}
+//   id: string
+//   name: string
+//   fulltext: string
+//   size: string
+//   cr: string
+//   alignment: string
+//   classes: string
+//   type: string
+//   subtype: string
+//   init: number
+//   ac: number
+//   acFlat: number
+//   acTouch: number
+//   hp: number
+//   speed: string
+//   image: string
+//   thumb: string
+// }
 
-export class MonsterIndex extends Asset {
-  public static readonly TYPE = 'db.monsterIndex'
-  public static readonly FOLDER = 'monster-index'
-  readonly objType: string = MonsterIndex.TYPE
+// export class MonsterIndex extends Asset {
+//   public static readonly TYPE = 'db.monsterIndex'
+//   public static readonly FOLDER = 'monster-index'
+//   readonly objType: string = MonsterIndex.TYPE
 
-  // TypeScript guard
-  static is(obj: any): obj is MonsterIndex {
-    return obj.objType !== undefined && obj.objType === MonsterIndex.TYPE
-  }
+//   // TypeScript guard
+//   static is(obj: any): obj is MonsterIndex {
+//     return obj.objType !== undefined && obj.objType === MonsterIndex.TYPE
+//   }
 
-  static to(obj: any): MonsterIndex {
-    return obj
-  }
+//   static to(obj: any): MonsterIndex {
+//     return obj
+//   }
 
-  id: string
-  name: string
-  size: string
-  cr: string
-  alignment: string
-  classes: string
-  type: string
-  subtype: string
-  init: number
-  ac: number
-  acFlat: number
-  acTouch: number
-  hp: number
-  speed: string
-  image: string
-  thumb: string
-}
+//   id: string
+//   name: string
+//   size: string
+//   cr: string
+//   alignment: string
+//   classes: string
+//   type: string
+//   subtype: string
+//   init: number
+//   ac: number
+//   acFlat: number
+//   acTouch: number
+//   hp: number
+//   speed: string
+//   image: string
+//   thumb: string
+// }
 
 export class MonsterDB {
 
-  public static toCharacter(m: MonsterIndex | MonsterText): Character {
+  // public static toCharacter(m: MonsterIndex | MonsterText): Character {
 
-    const c = new Character()
-    c.id = "MONSTER-" + m.id
-    c.name = m.name
-    c.picture = m.image
-    c.size = m.size
-    c.speed = m.speed
+  //   const c = new Character()
+  //   c.id = "MONSTER-" + m.id
+  //   c.name = m.name
+  //   c.picture = m.image
+  //   c.size = m.size
+  //   c.speed = m.speed
 
 
-    return undefined
-  }
+  //   return undefined
+  // }
 
-  public static toIndex(monsterJson): MonsterIndex {
-    const i = new MonsterIndex()
+  // public static toIndex(monsterJson): MonsterIndex {
+  //   const i = new MonsterIndex()
 
-    i.name = monsterJson.Name
-    i.id = monsterJson.id
-    i.size = monsterJson.Size
-    i.cr = monsterJson.CR
-    i.alignment = monsterJson.Alignment
-    i.type = monsterJson.Type
-    i.subtype = monsterJson.SubType
-    i.init = this.toInt(monsterJson.Init)
+  //   i.name = monsterJson.Name
+  //   i.id = monsterJson.id
+  //   i.size = monsterJson.Size
+  //   i.cr = monsterJson.CR
+  //   i.alignment = monsterJson.Alignment
+  //   i.type = monsterJson.Type
+  //   i.subtype = monsterJson.SubType
+  //   i.init = this.toInt(monsterJson.Init)
 
-    const acArr = this.multiNumber(monsterJson.AC)
-    i.ac = acArr[0]
-    i.acFlat = acArr[2]
-    i.acTouch = acArr[1]
-    i.hp = this.toInt(monsterJson.HP)
-    i.speed = monsterJson.Speed
+  //   const acArr = this.multiNumber(monsterJson.AC)
+  //   i.ac = acArr[0]
+  //   i.acFlat = acArr[2]
+  //   i.acTouch = acArr[1]
+  //   i.hp = this.toInt(monsterJson.HP)
+  //   i.speed = monsterJson.Speed
 
-    return i
-  }
+  //   return i
+  // }
 
-  public static toText(monsterJson): MonsterText {
-    const i = new MonsterText()
+  // public static toText(monsterJson): MonsterText {
+  //   const i = new MonsterText()
 
-    i.name = monsterJson.Name
-    i.id = monsterJson.id
-    i.size = monsterJson.Size
-    i.cr = monsterJson.CR
-    i.alignment = monsterJson.Alignment
-    i.type = monsterJson.Type
-    i.subtype = monsterJson.SubType
-    i.init = this.toInt(monsterJson.Init)
+  //   i.name = monsterJson.Name
+  //   i.id = monsterJson.id
+  //   i.size = monsterJson.Size
+  //   i.cr = monsterJson.CR
+  //   i.alignment = monsterJson.Alignment
+  //   i.type = monsterJson.Type
+  //   i.subtype = monsterJson.SubType
+  //   i.init = this.toInt(monsterJson.Init)
 
-    const acArr = this.multiNumber(monsterJson.AC)
-    i.ac = acArr[0]
-    i.acFlat = acArr[2]
-    i.acTouch = acArr[1]
-    i.hp = this.toInt(monsterJson.HP)
-    i.speed = monsterJson.Speed
+  //   const acArr = this.multiNumber(monsterJson.AC)
+  //   i.ac = acArr[0]
+  //   i.acFlat = acArr[2]
+  //   i.acTouch = acArr[1]
+  //   i.hp = this.toInt(monsterJson.HP)
+  //   i.speed = monsterJson.Speed
 
-    i.fulltext = monsterJson.FullText
+  //   i.fulltext = monsterJson.FullText
 
-    return i
-  }
+  //   return i
+  // }
 
   static toInt(input: string): number {
     let a = parseInt(input)
@@ -153,43 +153,43 @@ export class MonsterDB {
     return arr
   }
 
-  public static async getRandomPictures(index: MonsterIndex[], text: MonsterText[]) {
-    for (let ind = 0; ind < index.length; ind++) {
-      const i = index[ind]
-      const term = i.name + " fantasy art"
-      const r: ImageSearchResult[] = await GoogleImageSearch.searchImage(term)
+  // public static async getRandomPictures(index: MonsterIndex[], text: MonsterText[]) {
+  //   for (let ind = 0; ind < index.length; ind++) {
+  //     const i = index[ind]
+  //     const term = i.name + " fantasy art"
+  //     const r: ImageSearchResult[] = await GoogleImageSearch.searchImage(term)
 
-      i.image = r[0].url
-      i.thumb = r[0].thumb
-      text[ind].image = i.image
-      text[ind].thumb = i.thumb
-    }
-  }
+  //     i.image = r[0].url
+  //     i.thumb = r[0].thumb
+  //     text[ind].image = i.image
+  //     text[ind].thumb = i.thumb
+  //   }
+  // }
 
-  public static async loadme(csvFile: File): Promise<{ index: MonsterIndex[], text: MonsterText[] }> {
-    const obj = await this.parse2(csvFile)
+  // public static async loadme(csvFile: File): Promise<{ index: MonsterIndex[], text: MonsterText[] }> {
+  //   const obj = await this.parse2(csvFile)
 
-    const index: MonsterIndex[] = []
-    const text: MonsterText[] = []
-    const result = {
-      index: index,
-      text: text
-    }
-    obj.data.forEach(d => {
-      if (d.id && d.FullText) {
-        result.index.push(MonsterDB.toIndex(d))
-        result.text.push(MonsterDB.toText(d))
-      }
-    })
+  //   const index: MonsterIndex[] = []
+  //   const text: MonsterText[] = []
+  //   const result = {
+  //     index: index,
+  //     text: text
+  //   }
+  //   obj.data.forEach(d => {
+  //     if (d.id && d.FullText) {
+  //       result.index.push(MonsterDB.toIndex(d))
+  //       result.text.push(MonsterDB.toText(d))
+  //     }
+  //   })
 
-    console.log("RECORDS : ", result.text.length);
+  //   console.log("RECORDS : ", result.text.length);
 
-    result.text = result.text.slice(3000)
-    result.index = result.index.slice(3000)
+  //   result.text = result.text.slice(3000)
+  //   result.index = result.index.slice(3000)
 
-    await this.getRandomPictures(result.index, result.text)
-    return result
-  }
+  //   await this.getRandomPictures(result.index, result.text)
+  //   return result
+  // }
 
 
 
@@ -202,65 +202,65 @@ export class MonsterDB {
     })
   }
 
-  static filterMonsters(items: MonsterIndex[], filter: string): MonsterIndex[] {
-    return items.filter(a => this.matchesFilter(a, filter))
-  }
+  // static filterMonsters(items: MonsterIndex[], filter: string): MonsterIndex[] {
+  //   return items.filter(a => this.matchesFilter(a, filter))
+  // }
 
-  static matchesFilter(a: MonsterIndex, filter: string): boolean {
+  // static matchesFilter(a: MonsterIndex, filter: string): boolean {
 
-    const regex = /CR[<>=]*[\d][\/]?[\d]*/i
+  //   const regex = /CR[<>=]*[\d][\/]?[\d]*/i
 
-    let realFilter = filter.replace(regex, '').trim()
+  //   let realFilter = filter.replace(regex, '').trim()
 
-    let realMatch = false
-    if (realFilter.length > 0) {
-      realMatch = true
+  //   let realMatch = false
+  //   if (realFilter.length > 0) {
+  //     realMatch = true
 
-      // All the filters are ANDed
-      const filterParts = this.getCleanMatches(realFilter)
-      for (let i = 0; i < filterParts.length; i++) {
-        // Check if this is specific to a field
-        const fields = filterParts[i].split(":")
-        if (fields.length == 1) {
-          // No Fields
-          const m1 = this.matchText(a.name, fields[0])
-          const m2 = this.matchText(a.type, fields[0])
-          realMatch = realMatch && (m1 || m2)
-        } else if (fields.length == 2) {
-          // Valid field
-          if (fields[0].toLowerCase() == 'name') {
-            const m1 = this.matchText(a.name, fields[1])
-            realMatch = realMatch && m1
-          } else if (fields[0].toLowerCase() == 'type') {
-            const m1 = this.matchText(a.type, fields[1])
-            realMatch = realMatch && m1
-          } else {
-            realMatch = false
-          }
-        } else {
-          realMatch = false
-        }
-      }
-    }
+  //     // All the filters are ANDed
+  //     const filterParts = this.getCleanMatches(realFilter)
+  //     for (let i = 0; i < filterParts.length; i++) {
+  //       // Check if this is specific to a field
+  //       const fields = filterParts[i].split(":")
+  //       if (fields.length == 1) {
+  //         // No Fields
+  //         const m1 = this.matchText(a.name, fields[0])
+  //         const m2 = this.matchText(a.type, fields[0])
+  //         realMatch = realMatch && (m1 || m2)
+  //       } else if (fields.length == 2) {
+  //         // Valid field
+  //         if (fields[0].toLowerCase() == 'name') {
+  //           const m1 = this.matchText(a.name, fields[1])
+  //           realMatch = realMatch && m1
+  //         } else if (fields[0].toLowerCase() == 'type') {
+  //           const m1 = this.matchText(a.type, fields[1])
+  //           realMatch = realMatch && m1
+  //         } else {
+  //           realMatch = false
+  //         }
+  //       } else {
+  //         realMatch = false
+  //       }
+  //     }
+  //   }
 
-    let cr = "CR" + a.cr
-    let r = this.matchCR(a, filter)
-    let hasCR = r.applies
-    let crMatch = r.matches
-    // console.log("CR ", hasCR, crMatch);
+  //   let cr = "CR" + a.cr
+  //   let r = this.matchCR(a, filter)
+  //   let hasCR = r.applies
+  //   let crMatch = r.matches
+  //   // console.log("CR ", hasCR, crMatch);
 
-    if (crMatch && realFilter.length == 0) {
-      return crMatch
-    }
-    if (realFilter.length > 0 && !hasCR) {
-      return realMatch
-    }
-    if (realFilter.length > 0 && hasCR) {
-      return realMatch && crMatch
-    }
+  //   if (crMatch && realFilter.length == 0) {
+  //     return crMatch
+  //   }
+  //   if (realFilter.length > 0 && !hasCR) {
+  //     return realMatch
+  //   }
+  //   if (realFilter.length > 0 && hasCR) {
+  //     return realMatch && crMatch
+  //   }
 
-    return false
-  }
+  //   return false
+  // }
 
   static getCleanMatches(filter: string): string[] {
     const ex = /([a-z]*)(:)?([$=])/ig
@@ -313,86 +313,86 @@ export class MonsterDB {
 
   static cleanMatch
 
-  static matchCR(a: MonsterIndex, filter: string): { applies: boolean, matches: boolean } {
-    const regex = /CR([<>=]*)([\d])([\/]?)([\d]*)/i
-    let match;
+  // static matchCR(a: MonsterIndex, filter: string): { applies: boolean, matches: boolean } {
+  //   const regex = /CR([<>=]*)([\d])([\/]?)([\d]*)/i
+  //   let match;
 
-    while ((match = regex.exec(filter)) !== null) {
+  //   while ((match = regex.exec(filter)) !== null) {
 
-      // This is necessary to avoid infinite loops with zero-width matches
-      if (match.index === regex.lastIndex) {
-        regex.lastIndex++;
-      }
-      let all = match[0]
+  //     // This is necessary to avoid infinite loops with zero-width matches
+  //     if (match.index === regex.lastIndex) {
+  //       regex.lastIndex++;
+  //     }
+  //     let all = match[0]
 
-      // Group 1 is <, >, <=, >=, <>
-      let cmp = match[1]
+  //     // Group 1 is <, >, <=, >=, <>
+  //     let cmp = match[1]
 
-      // Group 2 is the number in front of the dice
-      let digit1 = match[2]
+  //     // Group 2 is the number in front of the dice
+  //     let digit1 = match[2]
 
-      // Group 3 is the 'd' indicator, which signifies a die
-      let divide = match[3]
+  //     // Group 3 is the 'd' indicator, which signifies a die
+  //     let divide = match[3]
 
-      // Group 4 is the modifier or dice classifier
-      let digit2 = match[4]
+  //     // Group 4 is the modifier or dice classifier
+  //     let digit2 = match[4]
 
-      // Convert our CR to a real number
-      let cr: number = this.crToNumber(a.cr)
-      if (isNaN(cr)) {
-        return { applies: true, matches: false }
-      }
-
-
-      let crCompare = 0
-      if (divide == "/") {
-        crCompare = parseInt(digit1) / parseInt(digit2)
-      } else {
-        crCompare = parseInt(digit1 + digit2)
-      }
-
-      // console.log("CR MATCHING ", all, digit1, digit2, crCompare, cr);
+  //     // Convert our CR to a real number
+  //     let cr: number = this.crToNumber(a.cr)
+  //     if (isNaN(cr)) {
+  //       return { applies: true, matches: false }
+  //     }
 
 
-      if (cmp == '' || cmp == '=') {
-        return { applies: true, matches: crCompare == cr }
-      }
-      if (cmp == '<') {
-        return { applies: true, matches: cr < crCompare }
-      }
-      if (cmp == '<=') {
-        return { applies: true, matches: cr <= crCompare }
-      }
-      if (cmp == '>') {
-        return { applies: true, matches: cr > crCompare }
-      }
-      if (cmp == '>=') {
-        return { applies: true, matches: cr >= crCompare }
-      }
-      if (cmp == '<>') {
-        return { applies: true, matches: cr != crCompare }
-      }
-      return { applies: true, matches: false }
-    }
-    return { applies: false, matches: false }
+  //     let crCompare = 0
+  //     if (divide == "/") {
+  //       crCompare = parseInt(digit1) / parseInt(digit2)
+  //     } else {
+  //       crCompare = parseInt(digit1 + digit2)
+  //     }
 
-  }
+  //     // console.log("CR MATCHING ", all, digit1, digit2, crCompare, cr);
 
 
+  //     if (cmp == '' || cmp == '=') {
+  //       return { applies: true, matches: crCompare == cr }
+  //     }
+  //     if (cmp == '<') {
+  //       return { applies: true, matches: cr < crCompare }
+  //     }
+  //     if (cmp == '<=') {
+  //       return { applies: true, matches: cr <= crCompare }
+  //     }
+  //     if (cmp == '>') {
+  //       return { applies: true, matches: cr > crCompare }
+  //     }
+  //     if (cmp == '>=') {
+  //       return { applies: true, matches: cr >= crCompare }
+  //     }
+  //     if (cmp == '<>') {
+  //       return { applies: true, matches: cr != crCompare }
+  //     }
+  //     return { applies: true, matches: false }
+  //   }
+  //   return { applies: false, matches: false }
 
-  static compare(a: MonsterIndex, b: MonsterIndex, compare: string) {
-    if (compare == 'name') {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    } else if (compare = 'cr') {
-      return this.crToNumber(a.cr) - this.crToNumber(b.cr)
-    } else if (compare = 'type') {
-      if (a.type < b.type) return -1;
-      if (a.type > b.type) return 1;
-      return 0;
-    }
-  }
+  // }
+
+
+
+  // static compare(a: MonsterIndex, b: MonsterIndex, compare: string) {
+  //   if (compare == 'name') {
+  //     if (a.name < b.name) return -1;
+  //     if (a.name > b.name) return 1;
+  //     return 0;
+  //   } else if (compare = 'cr') {
+  //     return this.crToNumber(a.cr) - this.crToNumber(b.cr)
+  //   } else if (compare = 'type') {
+  //     if (a.type < b.type) return -1;
+  //     if (a.type > b.type) return 1;
+  //     return 0;
+  //   }
+  // }
 
   public static crToNumber(cr: string): number {
     let crNum = parseInt(cr)

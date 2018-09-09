@@ -1,7 +1,107 @@
+<div class="page-center">
+  <div class="page page-tooltop scroller-dark">
+          <app-view-toolbar class="uptop" [item]='item'></app-view-toolbar>
+    <div class="title">
+      <app-restricted-content [item]="item" field="name"><H1>{{item.name}}</H1></app-restricted-content> 
+      <app-restricted-content [item]="item" field="cr"><H1>CR {{item.cr}}</H1></app-restricted-content> 
+    </div>
+   
+    <p *ngIf="viewAny('Visual Description')">
+      <span class="desc">{{item.description_visual}}</span>
+    </p>
+  
+    <app-restricted-content   [item]="item" field="image"><img [src]="item.image?item.image:'/assets/cards/monster.png'"></app-restricted-content> 
+   
+    <p *ngIf="item.xp && viewAny('xp')"><b>XP</b>{{item.xp}}</p>
 
-<div class="center-layout">
-  <div class="monster-page scroller-dark">
-    <app-view-toolbar [item]='monster'></app-view-toolbar>
-    <div [innerHTML]="monster.fulltext"></div>
+    <p class="hanging" *ngIf="viewAny('gender', 'race', 'class')">
+      <span *ngIf="item.gender && viewAny('gender')">{{item.gender}}</span>
+      <span *ngIf="item.race && viewAny('race')">{{item.race}}</span>
+      <span *ngIf="item.class && viewAny('class')">{{item.class}}</span>
+    </p>
+
+    <p class="hanging" *ngIf="viewAny('alignment', 'size', 'type')">
+      <span *ngIf="item.alignment && viewAny('alignment')">{{item.alignment}}</span>
+      <span *ngIf="item.size && viewAny('size')">{{item.size}}</span>
+      <span *ngIf="item.type && viewAny('type')">{{item.type}}</span>
+      <span *ngIf="item.subtype && viewAny('type')">{{item.subtype}}</span>
+    </p>
+    <p class="hanging">
+      <span *ngIf="item.init && viewAny('init')"><b>Init</b>{{item.init | plus}}</span>
+      <span *ngIf="item.senses && viewAny('senses')"><b>Senses</b>{{item.senses}}</span>
+    </p>
+    <p *ngIf="item.aura && viewAny('aura')"><b>Aura</b>{{item.aura}}</p>
+
+    <h2>Defense</h2>
+    <p  class="hanging" *ngIf="viewAny('ac')">
+      <span><b>AC</b>{{item.ac}}</span>
+      <span><b>touch</b>{{item.acTouch}}</span>
+      <span><b>flat-footed</b>{{item.acFlat}}</span>
+      <span>{{item.ac_mods}}</span>
+    </p>
+    <p class="hanging" *ngIf="viewAny('hp', 'hd', 'hp_mods')">
+      <span *ngIf="item.hp && viewAny('hp')"><b>hp</b>{{item.hp}}</span>
+      <span *ngIf="item.hd && viewAny('hd')">{{item.hd}}</span>
+      <span *ngIf="item.hp_mods && viewAny('hp_mods')">{{item.hp_mods}}</span>
+    </p> 
+    <p  class="hanging" *ngIf="(item.fort||item.ref||item.will) && viewAny('saves')">
+      <span><b>Fort</b>{{item.fort |plus}}</span>
+      <span><b>Ref</b>{{item.ref |plus}}</span>
+      <span><b>Will</b>{{item.will |plus}}</span>
+    </p>
+    <p class="hanging" *ngIf="(item.dr||item.immune) && viewAny('immune, dr')">
+      <span *ngIf="item.dr && viewAny('dr')"><b>DR</b>{{item.dr}}</span>
+      <span *ngIf="item.immune && viewAny('immune')"><b>Immune</b>{{item.immune}}</span>
+    </p>
+    <p  class="hanging" *ngIf="item.resist && viewAny('resist')"> <b>Resist</b> {{item.resist}}    </p>
+    <p  class="hanging" *ngIf="item.weaknesses && viewAny('Weaknesses')"> <b>Weaknesses</b> {{item.weaknesses}}    </p>
+    <p  class="hanging" *ngIf="item.sr && viewAny('Spell Resistance')"> <b>SR</b> {{item.sr}}    </p>
+
+    <h2>Offense</h2>
+    <p  class="hanging" *ngIf="item.speed && viewAny('speed')"><b>Speed</b> {{item.speed}}</p>
+    <p class="hanging" *ngIf="item.melee && viewAny('melee')"><b>Melee</b> {{item.melee}}</p>
+    <p class="hanging" *ngIf="item.ranged && viewAny('ranged')"><b>Ranged</b> {{item.ranged}}</p>
+    <p class="hanging" *ngIf="item.specialAttacks && viewAny('special attacks')"><b>Special Attacks</b> {{item.specialAttacks}}</p>
+    <p class="hanging" *ngIf="(item.space||item.reach) && viewAny('Offense')">
+      <span *ngIf="item.space"><b>Space</b>{{item.space}}</span>
+      <span *ngIf="item.reach"><b>Reach</b>{{item.reach}}</span>
+    </p>
+    <p class="hanging" *ngIf="item.spellLikeAbilities && viewAny('spell like abilities')"><b>Spell Like Abilities</b> {{item.spellLikeAbilities}}</p>
+    <p class="hanging" *ngIf="item.spellsKnown && viewAny('Spells')"><b>Spells Known</b> {{item.spellsKnown}}</p>
+    <p class="hanging" *ngIf="item.bloodline && viewAny('Spells')"><b>Bloodline</b> {{item.bloodline}}</p>
+    <p class="hanging" *ngIf="item.spellsPrepared && viewAny('Spells')"><b>Spells Prepared</b> {{item.spellsPrepared}}</p>
+
+    <ng-container *ngIf="viewAny('Ability Scores','Attack','Feats', 'Skills', 'Languages', 'SQ', 'Racial Mods', 'Feats')">
+    <h2>Statistics</h2>
+      <p class="hanging" *ngIf="item.abilityScores && viewAny('Ability Scores')">{{item.abilityScores}}</p>
+      <p class="hanging" *ngIf="viewAny('Attack')"><b>Base Atk</b> {{item.baseAtk | plus}}; <b>CMB</b> {{item.cmb | plus}}; <b>CMD</b> {{item.cmd | plus}}</p>
+      <p class="hanging" *ngIf="item.feats && viewAny('Feats')"><b>Feats</b> {{item.feats}}</p>
+      <p class="hanging" *ngIf="item.skills && viewAny('Skills')"><b>Skills</b> {{item.skills}}</p>
+      <p class="hanging" *ngIf="item.racialMods && viewAny('Racial Mods')"><b>Racial Modifiers</b> {{item.racialMods}}</p>
+      <p class="hanging" *ngIf="item.languages && viewAny('Languages')"><b>Languages</b> {{item.languages}}</p>
+      <p class="hanging" *ngIf="item.sq && viewAny('SQ')"><b>SQ</b> {{item.sq}}</p>
+    </ng-container>
+
+    <ng-container *ngIf="viewAny('Environment','Organization','Treasure')">
+      <h2>Ecology</h2>
+      <p class="hanging" *ngIf="item.environment && viewAny('Environment')"><b>Environment</b> {{item.environment}}</p>
+      <p class="hanging" *ngIf="item.organization && viewAny('Organization')"><b>Organization</b> {{item.organization}}</p>
+      <p class="hanging" *ngIf="item.treasure && viewAny('Treasure')"><b>Treasure</b> {{item.treasure}}</p>
+    </ng-container>
+
+    <ng-container *ngIf="item.specialAbilities && viewAny('Special Abilities')">
+      <h2>Special Abilities</h2>
+      <p class="hanging" *ngFor="let kv of item.specialAbilities"><b>{{kv.key}}</b> {{kv.value}}</p>
+    </ng-container> 
+
+    <ng-container *ngIf="item.description && viewAny('Description')">
+      <h2>Description</h2>
+      <div [innerHTML]="item.description"></div>
+    </ng-container>
+
+    <p class="citation">
+      <b>Source</b> {{item.source}}
+    </p>
   </div>
 </div>
+

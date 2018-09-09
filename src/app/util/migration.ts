@@ -3,7 +3,6 @@ import { AngularFirestore } from "angularfire2/firestore";
 import { take, first } from "rxjs/operators";
 import { DbConfig } from "../models/database-config";
 import { Character, MapConfig, MapType, MarkerCategory, MarkerType, Annotation, MarkerGroup, User, UserAssumedAccess, CharacterType, Prefs, Restricition } from "../models";
-import { MonsterIndex, MonsterText } from "../models/monsterdb";
 import { LangUtil } from "./LangUtil";
 
 export class FirebaseDataabaseMigration {
@@ -92,8 +91,7 @@ export class FirebaseDataabaseMigration {
   }
 
   migrateMonsters() {
-    this.migrate("monster-index", MonsterIndex.TYPE, this.gsId)
-    this.migrate("monster-text", MonsterText.TYPE, this.gsId)
+  
   }
 
   migrateMaps() {
@@ -255,8 +253,6 @@ export class FirestoreMigration {
   }
 
   migrateMonsters() {
-    this.migrate("monster-index", MonsterIndex.TYPE, this.gsId)
-    this.migrate("monster-text", MonsterText.TYPE, this.gsId)
   }
 
   migrateMaps() {

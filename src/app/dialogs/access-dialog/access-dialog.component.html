@@ -5,15 +5,29 @@
   <div class="bdy scroller-dark scrolled">
     <h2>Whole Document</h2>
     <app-restriction-toggle [(ngModel)]="item.restriction"></app-restriction-toggle>
-    <ng-container *ngIf="fields.length>0">
-      <div *ngFor="let fld of fields">
-        <h2>{{fld.name}}</h2>
-        <app-restriction-toggle [(ngModel)]="fld.value"></app-restriction-toggle>
-      </div>
-    </ng-container>
+    <h2>Fields</h2>
+    <div class="fields">
+      <h4></h4>
+      <h4>None</h4>
+      <h4>View</h4>
+      <h4>Write</h4>
+      <h4></h4>
+      <fa-icon icon="check" class="field allcheck-font centerme" (click)="setFields(2)" ></fa-icon>
+      <fa-icon icon="check" class="field allcheck-font centerme" (click)="setFields(1)"></fa-icon>
+      <fa-icon icon="check" class="field allcheck-font centerme" (click)="setFields(0)"></fa-icon>
+      <ng-container *ngFor="let fld of fields">
+        <h4>{{fld.name}}</h4>
+        <fa-icon [icon]="getIcon(fld, 2)" class="field {{getIconClass(fld, 2)}}" (click)="setField(fld, 2)"></fa-icon>
+        <fa-icon [icon]="getIcon(fld, 1)" class="field {{getIconClass(fld, 1)}}" (click)="setField(fld, 1)"></fa-icon>
+        <fa-icon [icon]="getIcon(fld, 0)" class="field {{getIconClass(fld, 0)}}" (click)="setField(fld, 0)"></fa-icon>
+      </ng-container>
+    </div>
   </div>
   <div class="footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="ok()"><fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Ok</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')"><fa-icon icon="times"
-        size="lg" class="mr-2"></fa-icon>Cancel</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Ok
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel')">
+      <fa-icon icon="times" size="lg" class="mr-2"></fa-icon>Cancel
+    </button>
   </div>

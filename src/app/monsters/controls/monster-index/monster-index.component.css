@@ -40,11 +40,11 @@ figure:hover > img {
 
 .results img {
   display: block;
-    border-radius: 6px;
-    width: 175px;
-    height: 250px;
-    object-fit: cover;
-    object-position: 50%  50%;
+  border-radius: 6px;
+  width: 175px;
+  height: 250px;
+  object-fit: cover;
+  object-position: 50%  50%;
 }
 
 .bg {

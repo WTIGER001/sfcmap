@@ -23,6 +23,8 @@ import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
 import { NgSpinKitModule } from 'ng-spin-kit';
+import { UiScrollModule } from 'ngx-ui-scroll';
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module'
@@ -145,6 +147,8 @@ import { MonsterCardComponent } from './monsters/controls/monster-card/monster-c
 import { MonsterViewComponent } from './monsters/controls/monster-view/monster-view.component';
 import { MonsterIndexComponent } from './monsters/controls/monster-index/monster-index.component';
 import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-edit.component';
+import { RestrictedComponent } from './controls/restricted/restricted.component';
+import { PlusPipe } from './pipes/plus.pipe';
 
 @NgModule({
   declarations: [
@@ -254,6 +258,8 @@ import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-e
     ItemViewComponent,
     ItemEditComponent,
     MonsterCardComponent,
+    RestrictedComponent,
+    PlusPipe,
   ],
   imports: [
     BrowserModule,
@@ -281,6 +287,7 @@ import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-e
     EmojifyModule,
     SortablejsModule.forRoot({ animation: 150 }),
     NgSpinKitModule,
+    UiScrollModule
   ],
   providers: [
     MapService,

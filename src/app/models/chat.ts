@@ -253,4 +253,5 @@ export class UserChatLastSeen {
 
 export class UserChatLastCleared {
   lastCleared: number
+  game: string
 }

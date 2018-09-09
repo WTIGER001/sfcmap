@@ -9,11 +9,11 @@ import { error } from "util";
 import { MarkerGroup } from "./annotation-group";
 import { CharacterType } from "./character-type";
 import { Character } from "./character";
-import { MonsterIndex, MonsterText } from "./monsterdb";
 import { GameSystem } from "./game-system";
 import { Game } from "./game";
 import { Encounter } from "../encounter/model/encounter";
 import { Item } from "../items/item";
+import { Monster } from "../monsters/monster";
 
 interface DbItem {
   name: string
@@ -44,8 +44,8 @@ export class DbConfig {
 
     if (objType == Character.TYPE) { return Character.RESTRICTABLE }
 
-    if (objType == MonsterIndex.TYPE) {
-      return ['name', 'type', 'cr', "tags"]
+    if (objType == Monster.TYPE) {
+      return Monster.RESTRICT
     }
     if (objType == Encounter.TYPE) {
       return ['name', "tags"]
@@ -60,7 +60,7 @@ export class DbConfig {
     if (objType == Character.TYPE) {
       return ["name", "type", "race", "tags"]
     }
-    if (objType == MonsterIndex.TYPE) {
+    if (objType == Monster.TYPE) {
       return ['name', 'type', 'cr', "tags"]
     }
     if (objType == Encounter.TYPE) {
@@ -81,7 +81,8 @@ export class DbConfig {
     if (objType == MarkerCategory.TYPE) { return "markerCategories" }
     if (objType == CharacterType.TYPE) { return "characterTypes" }
     if (objType == Character.TYPE) { return "characters" }
-    if (objType == MonsterIndex.TYPE) { return "monsters" }
+    if (objType == Monster.TYPE) { return "monsters" }
+    
     // if (objType == MonsterText.TYPE) { return "monstertexs" }
     if (objType == ChatRecord.TYPE) { return "chats" }
     if (objType == Encounter.TYPE) { return "encounters" }
@@ -108,8 +109,7 @@ export class DbConfig {
     if (objType == MarkerCategory.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerCategory.FOLDER }
     if (objType == CharacterType.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + CharacterType.FOLDER }
     if (objType == Character.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Character.FOLDER }
-    if (objType == MonsterIndex.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterIndex.FOLDER }
-    if (objType == MonsterText.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MonsterText.FOLDER }
+    if (objType == Monster.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Monster.FOLDER }
     if (objType == ChatRecord.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + ChatRecord.FOLDER }
     if (objType == Encounter.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Encounter.FOLDER }
     if (objType == Item.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Item.FOLDER }
@@ -195,8 +195,7 @@ export class DbConfig {
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.to(obj) }
 
-    if (MonsterIndex.is(obj)) { return MonsterIndex.to(obj) }
-    if (MonsterText.is(obj)) { return MonsterText.to(obj) }
+    if (Monster.is(obj)) { return Monster.to(obj) }
 
     // Extensions
     for (let i = 0; i < this.extensions.length; i++) {

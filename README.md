@@ -195,3 +195,56 @@ Look into the permissions for firebase
 - Spells - Import, New / Edit Page, View Page, Card
 - Items - Import, New / Edit Page, View Page, Card
 - Game Night - New / Edit Page, View Page, Tab, Card
+
+
+Goals TOday
+- New monster Importer (save pictures)
+- Way to import into the gamesystem (admin role?)
+- Better restrictions dialog (field Level)
+- Human Readable field restrictions
+
+Missing
+
+
+  xp: number
+  race: string
+  class: string
+  monstersource: string
+  defensiveabilities: string
+  weaknesses: string
+  specialAttacks: string
+  spellsKnown: string
+  spellDomains: string
+  racialMods: string
+  group: string
+  isTemplate: boolean
+  gender: string
+  bloodline: string
+  prohibitedSchools: string
+  beforeCombat: string
+  duringCombat: string
+  morale: string
+  gear: string
+  otherGear: string
+  vulnerability: string
+  note: string
+  characterflag : boolean
+  companionflag : boolean
+  fly: boolean
+  climb: boolean
+  burrow: boolean
+  swim: boolean
+  land: boolean
+  templatesapplied: string
+  offensenote: string
+  basestatistics: string
+  extractsprepared: string
+  agecategory: string
+  mystery: string
+  classarchetypes: string
+  patron: string
+  alternatenameform: string
+  uniquemonster :boolean
+  mr: number
+  mythic : boolean
+  fullText : string

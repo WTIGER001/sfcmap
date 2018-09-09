@@ -40,6 +40,7 @@ export abstract class CsvImporter<T extends Asset> {
   }
 
   public static toBoolean(input: string): boolean {
+    if (!input || input == '') { return false}
     if (input.trim() == '0') { return false }
     if (input.trim() == '1') { return true }
     return false
@@ -47,7 +48,7 @@ export abstract class CsvImporter<T extends Asset> {
 
   public static toInt(input: string): number {
     let a = parseInt(input)
-    if (isNaN) {
+    if (isNaN(a)) {
       a = 0
     }
     return a

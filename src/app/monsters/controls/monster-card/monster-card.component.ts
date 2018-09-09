@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MonsterText } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { Game } from '../../../models';
+import { Monster } from '../../monster';
 
 @Component({
   selector: 'app-monster-card',
@@ -10,7 +10,7 @@ import { Game } from '../../../models';
 })
 export class MonsterCardComponent implements OnInit {
   @Input() size : 'card' | 'small' = 'card'
-  @Input() item : MonsterText
+  @Input() item : Monster
   @Input() game : Game
 
   constructor(private data : DataService) { }
@@ -19,7 +19,7 @@ export class MonsterCardComponent implements OnInit {
   }
 
 
-  isLinked(item: MonsterText) {
+  isLinked(item: Monster) {
     return this.data.isLinked(item, this.game.id)
   }
 
