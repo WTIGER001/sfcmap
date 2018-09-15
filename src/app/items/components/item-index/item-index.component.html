@@ -1,14 +1,20 @@
 <div class="bg" *ngIf="game">
-  <h1 class="title"> Item Index</h1>
+  <h1 class="title"> Item Index {{view}}</h1>
 
   <app-search-bar #search [items]="all" [fields]="fields" newText="New Item" [newLink]="['../new-item']" [submitOnChange]="true"
     (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event" (clickImport)="importItem()"
     [game]="game" [type]="type">
   </app-search-bar>
 
-  <div #list class="results scroller scroller-dark " [class.cards]="view=='card' " [class.cards-small]="view=='small' ">
+  <div #list class="results scroller scroller-dark " [class.cards]="view=='card' " [class.cards-small]="view=='small' " *ngIf="view!='list'">
     <app-item-card *ngFor="let m of filtered " [item]="m" id="ITEM_{{m.id}}" [size]='view '></app-item-card>
   </div>
+
+  <div #list2 class="table" *ngIf="view=='list'">
+      <ngx-datatable [rows]="filtered" [columns]="columns" [scrollbarV]="true"></ngx-datatable>
+  </div>
+
+
 
   <div class="loading " *ngIf="loading ">
     <sk-cube-grid color="#9ed485 "></sk-cube-grid>

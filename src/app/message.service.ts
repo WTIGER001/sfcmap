@@ -37,11 +37,21 @@ export class MessageService {
     )
   }
 
+  // getMyChatMessages2(): Observable<ChatRecord> {
+  //  return  this.data.game.pipe(
+  //     filter(game =>  (game != undefined && game.id != undefined) ),
+  //     mergeMap(game => this.getLastCleared(game)),
+  //     mergeMap(last => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, last.game), ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges()),
+  //     filter(action => action.type == 'child_added'),
+  //     map(action => ChatRecord.to(action.payload.val())),
+  //     distinctUntilKeyChanged('id'),
+  //   )
+  // }
+
   getMyChatMessages2(): Observable<ChatRecord> {
-   return  this.data.game.pipe(
-      filter(game =>  (game != undefined && game.id != undefined) ),
-      mergeMap(game => this.getLastCleared(game)),
-      mergeMap(last => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, last.game), ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges()),
+    return this.data.game.pipe(
+      filter(game => (game != undefined && game.id != undefined)),
+      mergeMap(game => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, game.id), ref => ref.orderByChild('time').limitToLast(100)).stateChanges()),
       filter(action => action.type == 'child_added'),
       map(action => ChatRecord.to(action.payload.val())),
       distinctUntilKeyChanged('id'),

@@ -6,12 +6,31 @@
   </app-search-bar>
 
   <div class="scroller scroller-dark" #list [class.results-card]="view=='card'"  [class.results-small]="view=='small'">
-    <div *ngFor="let m of filtered">
+    <!-- <div *ngFor="let m of filtered">
       <a routerLink="{{m.id}}" id="MONSTER_{{m.id}}">
         <app-monster-card [size]='view' [item]="m" [game]="game"></app-monster-card>
       </a>
-    </div>
-  </div>
+    </div> -->
+    <!-- <od-virtualscroll [vsData]="data$" [vsOptions]="options$">
+      <ng-template let-item let-row="row" let-column="column">
+        <div class="card-container">
+        <app-monster-card [size]='view' [item]="item" [game]="game"></app-monster-card>
+        </div>
+      </ng-template>
+    </od-virtualscroll> -->
+    <div class="border-wrapper">
+      <od-virtualscroll [vsData]="data$" [vsOptions]="options$">
+        <ng-template let-item let-row="row" let-column="column">
+          <div class="cell">
+            <div class="cell-info">
+              <span>Row: {{row}}</span><br>
+              <span>Column: {{column}}</span>
+            </div>
+            {{item.name}}
+          </div>
+        </ng-template>
+      </od-virtualscroll>
+      <div>
 
   <div class="loading" *ngIf="loading">
     <sk-cube-grid color="#9ed485"></sk-cube-grid>

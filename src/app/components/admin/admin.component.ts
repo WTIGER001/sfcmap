@@ -22,6 +22,7 @@ export class AdminComponent implements OnInit {
 
   migrate() {
     const m = new FirebaseDataabaseMigration(this.oldDb, "c4668937-0d91-85ac-8281-ec3caf50be98", "pathfinder")
+    m.migrateAll()
   }
 
 

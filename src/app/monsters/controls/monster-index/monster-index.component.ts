@@ -3,7 +3,7 @@ import {  MonsterDB } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { splitStringBySize } from '@firebase/database/dist/src/core/util/util';
-import { ReplaySubject, BehaviorSubject, Subject } from 'rxjs';
+import { ReplaySubject, BehaviorSubject, Subject, of } from 'rxjs';
 import { debounce, tap, throttleTime, debounceTime, auditTime } from 'rxjs/operators';
 import { SearchBarComponent } from '../../../controls/search-bar/search-bar.component';
 import { SortFilterField } from '../../../util/sort-filter';
@@ -25,7 +25,7 @@ export class MonsterIndexComponent implements OnInit {
   gsid: string
   game: Game
   gamesystem: GameSystem;
-  view: string = 'card'
+  _view: string = 'card'
 
   cnt = 0;
   filtered: Monster[] = []
@@ -33,6 +33,9 @@ export class MonsterIndexComponent implements OnInit {
   all: Monster[] = []
   loading = false
   startAt = null
+
+  data$=  new BehaviorSubject<Monster[]>([])
+  options$ = new BehaviorSubject<any>({ itemWidth: 225, itemHeight: 315, numAdditionalRows: 1 })
 
   fields: SortFilterField[] = [
     { name: 'Name', valueFn: (item) => item.name, indexFn: (item) => item.name.substr(0, 1).toUpperCase(), sort: true, text: true },
@@ -43,8 +46,23 @@ export class MonsterIndexComponent implements OnInit {
 
   }
 
+  set view(newview : string) {
+    this._view = newview
+
+    if (newview == 'card') {
+      this.options$.next({ itemWidth: 225, itemHeight: 315, numAdditionalRows: 1 })
+    } else if (newview == 'card') {
+      this.options$.next({ itemWidth: 125, itemHeight: 175, numAdditionalRows: 1 })
+    }  
+  }
+
+  get view() : string {
+    return this._view
+  }
+
   updateItems(newItems: Monster[]) {
     this.filtered = newItems
+    this.data$.next(this.filtered)
   }
 
   ngOnInit() {

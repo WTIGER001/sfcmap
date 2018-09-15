@@ -3,10 +3,16 @@ h1 {
 }
 
 .results-card {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 215px);
+  display: flex;
+  /* grid-template-columns: repeat(auto-fill, 215px); */
   grid-gap: 20px;
   margin: 20px;
+}
+
+.card-container {
+  width: 225px;
+  height: 315px;
+  position: relative;
 }
 
 .results-small {
@@ -178,4 +184,67 @@ figure:hover > img {
     flex-direction: column;
     justify-content: center;
   }
+}
+
+
+
+.outer-container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 70%;
+}
+
+.header {
+  color: pink;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.border-wrapper {
+  border: 4px dashed pink;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+a {
+  color: pink;
+  font-size: 14px;
+  font-style: normal;
+  text-decoration: none;
+}
+
+@media only screen and (max-width : 447px) {
+  .header {
+    display: none;
+  }
+}
+
+.cell {
+  align-items: center;
+  border: 4px #b3eaff solid;
+  box-sizing: border-box;
+  display: inline-flex;
+  height: 200px;
+  justify-content: center;
+  margin-right: -2px;
+  position: relative;
+  width: 200px;
+}
+
+.cell-info {
+  font-size: 10px;
+  position: absolute;
+  right: 5px;
+  text-align: right;
+  top: 5px;
 }

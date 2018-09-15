@@ -16,6 +16,23 @@ export class FirebaseDataabaseMigration {
     // this.migratePerMap()
     // this.migrateAnnotations()
     // this.migrateUsers()
+    this.deleteOld()
+  }
+
+  deleteOld() {
+    this.db.object('annotations').remove()
+    this.db.object('character-types').remove()
+    this.db.object('characters').remove()
+    this.db.object('encounters').remove()
+    this.db.object('maps').remove()
+    this.db.object('mapTypes').remove()
+    this.db.object('markerCategories').remove()
+    this.db.object('markerGroups').remove()
+    this.db.object('markerTypes').remove()
+    this.db.object('monster-index').remove()
+    this.db.object('monster-text').remove()
+    this.db.object('assets/pathfinder/monster-index').remove()
+    this.db.object('assets/pathfinder/monster-text').remove()
   }
 
 

@@ -25,6 +25,7 @@ import { ItemIndexComponent } from './items/components/item-index/item-index.com
 import { MonsterIndexComponent } from './monsters/controls/monster-index/monster-index.component';
 import { MonsterViewComponent } from './monsters/controls/monster-view/monster-view.component';
 import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-edit.component';
+import { MapEditComponent } from './maps/controls/map-edit/map-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
@@ -42,7 +43,7 @@ const routes: Routes = [
   { path: 'game/:gameid/characters/:id', component: ViewCharacterComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/characters/:id/edit', component: EditCharacterComponent, resolve: { 'asset': DatabaseGuard } },
 
-  { path: 'game/:gameid/new-map', component: PageNotFoundComponent },
+  { path: 'game/:gameid/new-map', component: MapEditComponent },
   { path: 'game/:gameid/maps', component: MapIndexComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/maps/:id', component: MapViewComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/maps/:id/edit', component: EditMapComponent, resolve: { 'asset': DatabaseGuard } },

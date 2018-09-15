@@ -1,0 +1,114 @@
+.ngx-datatable {
+  border: 1px solid black;
+  height: 100%;
+  margin: 0 20px;
+}
+
+.fixed-header {
+   background-color: black;
+
+}
+
+/* Header row class */
+.datatable-header  { 
+   background-color: black;
+  color: white
+
+}
+
+/* Header cell class */
+.datatable-header-cell {
+  color:whitesmoke
+}
+
+/* Cell resizeable class */
+.resizeable {
+  
+
+}
+
+/* Cell drag/drop sortable class */
+.sortable {
+  
+
+}
+
+/* Cell long-press activated */
+.longpress {
+  
+
+}
+
+/* Cell dragging activated */
+.dragging {
+  background-color: red;
+}
+
+/* Sort active on column */
+.sort-active {
+  background-color: blue;
+}
+
+/* Sort active on column with ascending applied */
+.sort-asc {
+  background-color: transparent;
+}
+
+/* Sort active on column with descending applied */
+.sort-desc {
+  /* background-color: green; */
+
+}
+
+/* Header cell text label */
+.datatable-header-cell-label {
+    /* background-color: green; */
+}
+
+/* Header cell draggable class */
+.draggable {
+    /* background-color: green; */
+
+}
+
+/* Body row class */
+.datatable-body-row {
+    /* background-color: green; */
+
+}
+
+/* Odd row class */
+.datatable-row-even {
+  background-color: rgb(34,34,34, .9);
+  color: whitesmoke
+
+}
+
+/* Even row class */
+.datatable-row-odd {
+  background-color: rgb(56,56,56, .9);
+  color: whitesmoke
+}
+
+ /* Body cell class */
+.datatable-body-cell{
+    background-color: grey 
+}
+
+/* Sort active on column */
+.sort-active {
+    /* background-color: green; */
+
+}
+
+/* Sort active on column with ascending applied */
+.sort-asc {
+  /* background-color: green; */
+
+}
+
+/* Sort active on column with descending applied */
+.sort-desc  {
+  /* background-color: green; */
+
+}

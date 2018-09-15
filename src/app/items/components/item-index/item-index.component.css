@@ -14,7 +14,9 @@
 .results {
   margin-top: 20px;
 }
-
+.table {
+  background-color: pink;
+}
 .cards {
   /* 500 x350 */
   display: grid;

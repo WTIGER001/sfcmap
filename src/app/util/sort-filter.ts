@@ -102,6 +102,7 @@ export interface SortFilterField {
   text?: boolean
   filter?: boolean
   sort?: boolean
+  propName?: string
 }
 
 export class SortData {

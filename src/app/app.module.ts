@@ -24,6 +24,8 @@ import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
 import { NgSpinKitModule } from 'ng-spin-kit';
 import { UiScrollModule } from 'ngx-ui-scroll';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { VirtualScrollModule } from 'od-virtualscroll';
 
 
 import { AppComponent } from './app.component';
@@ -52,7 +54,7 @@ import { DistanceEntryComponent } from './dialogs/distance-entry/distance-entry.
 import { MapTabComponent } from './tabs/map-tab/map-tab.component';
 import { ReadmoreComponent } from './controls/readmore/readmore.component';
 import { EditMapComponent } from './controls/edit-map/edit-map.component';
-import { MapTypeComboComponent } from './controls/map-type-combo/map-type-combo.component';
+import { MapTypeComboComponent } from './maps/controls/map-type-combo/map-type-combo.component';
 import { LineWeightComponent } from './controls/line-weight/line-weight.component';
 import { LineStyleComponent } from './controls/line-style/line-style.component';
 import { EditShapeComponent } from './controls/edit-shape/edit-shape.component';
@@ -149,6 +151,7 @@ import { MonsterIndexComponent } from './monsters/controls/monster-index/monster
 import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-edit.component';
 import { RestrictedComponent } from './controls/restricted/restricted.component';
 import { PlusPipe } from './pipes/plus.pipe';
+import { MapEditComponent } from './maps/controls/map-edit/map-edit.component';
 
 @NgModule({
   declarations: [
@@ -260,6 +263,7 @@ import { PlusPipe } from './pipes/plus.pipe';
     MonsterCardComponent,
     RestrictedComponent,
     PlusPipe,
+    MapEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -287,7 +291,9 @@ import { PlusPipe } from './pipes/plus.pipe';
     EmojifyModule,
     SortablejsModule.forRoot({ animation: 150 }),
     NgSpinKitModule,
-    UiScrollModule
+    UiScrollModule,
+    NgxDatatableModule,
+    VirtualScrollModule,
   ],
   providers: [
     MapService,

@@ -631,7 +631,7 @@ export class DataService {
   }
 
   saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
-    this.log.debug('Saving Map ', map.name)
+    console.log('Saving Map ', map.name)
 
     if (thumb && image) {
       let pathImage = 'images/' + map.id
@@ -652,6 +652,8 @@ export class DataService {
       })
 
     } else {
+      console.log("No Images", map);
+
       this.save(map)
     }
   }

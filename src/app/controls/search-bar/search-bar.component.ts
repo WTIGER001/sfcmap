@@ -39,7 +39,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   @Input() newText = "New Item"
   @Input() newLink = "/new-item"
   @Input() submitOnChange = false
-  @Input() views: string[] = ['card', 'small'] //, 'line'
+  @Input() views: string[] = ['card', 'small', 'list'] //, 'line'
   @Input() viewIcons: string[] = ['th-large', 'th', 'th-list']
 
   @Input() game: Game

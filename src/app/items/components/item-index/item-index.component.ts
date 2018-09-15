@@ -14,9 +14,10 @@ import { ItemImport } from '../../item-csv-import';
 })
 export class ItemIndexComponent implements OnInit {
   @ViewChild('list') listElement: ElementRef
+  @ViewChild('list2') list2Element: ElementRef
   @ViewChild('search') search: SearchBarComponent
   @ViewChild('file') file: ElementRef
-  view = 'card'
+  view = 'list'
   gameid: string
   game: Game
   filtered: Item[] = []
@@ -24,17 +25,31 @@ export class ItemIndexComponent implements OnInit {
   loading = true
   type = Item.TYPE
 
+  columns=[]
 
   fields: SortFilterField[] = [
-    { name: "Name", sort: true, filter: false, text: true, valueFn: (item) => item.name, indexFn: (item) => item.name.substr(0, 1).toUpperCase() },
-    { name: "Group", sort: true, filter: true, text: true, valueFn: (item) => item.group, indexFn: (item) => item.group },
-    { name: "Slot", sort: true, filter: true, text: true, valueFn: (item) => item.slot, indexFn: (item) => item.slot },
-    { name: "Source", sort: true, filter: true, text: true, valueFn: (item) => item.source, indexFn: (item) => item.source },
-    { name: "Price", sort: true, filter: false, text: false, valueFn: (item) => item.priceValue, indexFn: (item) => item.priceValue }
+    { name: "Name", sort: true, filter: false, text: true, valueFn: (item) => item.name, indexFn: (item) => item.name.substr(0, 1).toUpperCase(), propName:'name' },
+    { name: "Group", sort: true, filter: true, text: true, valueFn: (item) => item.group, indexFn: (item) => item.group, propName: 'group'  },
+    { name: "Slot", sort: true, filter: true, text: true, valueFn: (item) => item.slot, indexFn: (item) => item.slot, propName: 'slot'  },
+    { name: "Source", sort: true, filter: true, text: true, valueFn: (item) => item.source, indexFn: (item) => item.source, propName: 'source'  },
+    { name: "Price", sort: true, filter: false, text: false, valueFn: (item) => item.priceValue, indexFn: (item) => item.priceValue, propName: 'priceValue' }
   ]
 
   constructor(private data: DataService, private router: Router, private route: ActivatedRoute) {
+    this.makeColumns()
+  }
 
+  makeColumns() {
+    this.columns = this.fields.map( f => {
+      let c : any= {}
+      c.name = f.name
+      c.prop = f.propName
+      c.resizable = true
+      c.sortable = true
+      c.draggable = true
+      c.comparator = f.compareFn
+      return c
+    })
   }
 
   ngOnInit() {
