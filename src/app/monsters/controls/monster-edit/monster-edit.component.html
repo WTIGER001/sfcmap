@@ -1,5 +1,5 @@
-<div class="monster-page scroller-dark">
-  <div class="bg" *ngIf="selected">
+<div class="page-center">
+  <div class="page page-tooltop scroller-dark" *ngIf="selected">
     <app-edit-toolbar [item]='selected' (onSave)="save()"></app-edit-toolbar>
     <h1>{{selected.name}}</h1>
     <div class="rows">

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {  MonsterDB } from '../../../models/monsterdb';
+import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
+import { MonsterDB } from '../../../models/monsterdb';
 import { DataService } from '../../../data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { splitStringBySize } from '@firebase/database/dist/src/core/util/util';
@@ -9,6 +9,7 @@ import { SearchBarComponent } from '../../../controls/search-bar/search-bar.comp
 import { SortFilterField } from '../../../util/sort-filter';
 import { GameSystem, Game } from '../../../models';
 import { Monster } from '../../monster';
+import { FocusItemCmd } from 'od-virtualscroll';
 
 
 @Component({
@@ -17,6 +18,7 @@ import { Monster } from '../../monster';
   styleUrls: ['./monster-index.component.css']
 })
 export class MonsterIndexComponent implements OnInit {
+  
   @ViewChild('list') listElement: ElementRef
   @ViewChild('search') search: SearchBarComponent
 
@@ -25,7 +27,7 @@ export class MonsterIndexComponent implements OnInit {
   gsid: string
   game: Game
   gamesystem: GameSystem;
-  _view: string = 'card'
+  view: string = 'card'
 
   cnt = 0;
   filtered: Monster[] = []
@@ -34,8 +36,9 @@ export class MonsterIndexComponent implements OnInit {
   loading = false
   startAt = null
 
-  data$=  new BehaviorSubject<Monster[]>([])
+  data$ = new ReplaySubject<Monster[]>(1)
   options$ = new BehaviorSubject<any>({ itemWidth: 225, itemHeight: 315, numAdditionalRows: 1 })
+  cmd$ = new Subject()
 
   fields: SortFilterField[] = [
     { name: 'Name', valueFn: (item) => item.name, indexFn: (item) => item.name.substr(0, 1).toUpperCase(), sort: true, text: true },
@@ -43,25 +46,28 @@ export class MonsterIndexComponent implements OnInit {
     { name: 'CR', valueFn: (item) => MonsterDB.crToNumber(item.cr), indexFn: (item) => item.cr, formatFn: (value) => MonsterDB.formatCR(value), sort: true, text: true, filter: true }
   ]
   constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
-
   }
 
-  set view(newview : string) {
-    this._view = newview
+  updateView(newview : string) {
+    if (newview == 'list') {
+      newview = 'card'
+    }
 
     if (newview == 'card') {
       this.options$.next({ itemWidth: 225, itemHeight: 315, numAdditionalRows: 1 })
-    } else if (newview == 'card') {
-      this.options$.next({ itemWidth: 125, itemHeight: 175, numAdditionalRows: 1 })
-    }  
-  }
+    } else if (newview == 'small') {
+      this.options$.next({ itemWidth: 135, itemHeight: 185, numAdditionalRows: 3 })
+    }
+    this.view = newview
 
-  get view() : string {
-    return this._view
+    this.data$.next([])
+    this.data$.next(this.filtered)
   }
 
   updateItems(newItems: Monster[]) {
+    console.log("Updating Items ", newItems.length);
     this.filtered = newItems
+    this.data$.next([])
     this.data$.next(this.filtered)
   }
 
@@ -82,11 +88,10 @@ export class MonsterIndexComponent implements OnInit {
   }
 
   scrollTo($event: Monster) {
-    console.log("REceived Scroll Request", $event);
-
-    if (this.listElement) {
-      console.log("Scrolling to ", $event.id);
-      this.listElement.nativeElement.querySelector("#MONSTER_" + $event.id).scrollIntoView()
+    console.log("Scrolling to ", $event.id);
+    const index = this.filtered.indexOf($event)
+    if (index >= 0) {
+      this.cmd$.next(new FocusItemCmd(index))
     }
   }
 
