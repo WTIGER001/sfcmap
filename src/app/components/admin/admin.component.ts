@@ -59,6 +59,14 @@ export class AdminComponent implements OnInit {
   }
 
 
+  delMonsters() {
+
+  }
+
+  unk() {
+    
+  }
+
 
 }
 
