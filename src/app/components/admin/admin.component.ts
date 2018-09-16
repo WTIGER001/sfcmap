@@ -37,7 +37,7 @@ export class AdminComponent implements OnInit {
   }
 
 
-  impMonsters(event) {  
+  impMonsters2(event) {  
     if (event.target.files[0]) {
     const imp = new MonsterImportCsv();
       imp.load(event.target.files[0], false, 0, 10000).then( items => {
@@ -58,13 +58,15 @@ export class AdminComponent implements OnInit {
 
   }
 
+  impMonsters() {
 
+  }
   delMonsters() {
 
   }
 
   unk() {
-    
+
   }
 
 
