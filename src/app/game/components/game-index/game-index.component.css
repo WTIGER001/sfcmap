@@ -1,7 +1,9 @@
 
 .outer {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
+    display: flex;
+    flex-direction: column;
+    /* display: grid; */
+    /* grid-template-rows: auto auto 1fr; */
     max-height: 100vh;
     height: 100vh;
     color : white;
@@ -16,20 +18,20 @@
 }
 
 .topbar h1 {
- font-size: 2.5em;
+ font-size: 2.0em;
  margin:0;
 }
 
 .card-area {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 500px);
+  grid-template-columns: repeat(auto-fill, 400px);
   gap:20px;
   justify-content: space-around;
 }
 
 .newgame {
-  width: 500px;
-  height: 350px;
+  width: 400px;
+  height: 300px;
   position: relative;
   background-color: black;
   border-radius: 20px;
@@ -101,5 +103,36 @@
 }
 
 .usr-logout {
+
+}
+
+@media screen and (max-width: 600px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+  .buttons {
+    grid-row: 2
+  }
+  .topbar h1 {
+    grid-row: 1;
+    grid-column: span 2;
+    font-size: 1.3em;
+    text-align: center
+  }
+  .topbar user {
+    grid-row: 1;
+  }
+  .card-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+  }
+  .newgame {
+    width: 95vw;
+    max-width: 400px;
+    height: 70vw;
+  }
 
 }

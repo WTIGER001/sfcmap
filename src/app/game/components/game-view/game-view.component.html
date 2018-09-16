@@ -26,18 +26,12 @@
       </li>
     </ul>
     <h1>{{game?.name}}</h1>
-    <div>
+    <div class="user">
       {{user?.name}}
       <fa-icon class="pointer" icon="sign-out-alt" size="lg" (click)="logout()"></fa-icon>
     </div>
   </div>
-
-  <div class="scroller scroller-dark">
-    <div class="recent">
-
-    </div>
-
-    <div class="card-area">
+    <div class="card-area scroller scroller-dark">
       <a [routerLink]="['characters']">
         <figure class="choice-card">
           <img src="./assets/icons/characters.png">
@@ -59,9 +53,6 @@
           <figcaption>Encounters</figcaption>
         </figure>
       </a>
-    </div>
-
-    <div class="card-area">
       <a [routerLink]="['monsters']">
         <figure class="choice-card">
           <img src="./assets/icons/monsters.png">
@@ -84,5 +75,4 @@
         </figure>
       </a>
     </div>
-  </div>
 </div>

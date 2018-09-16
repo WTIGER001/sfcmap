@@ -1,13 +1,22 @@
 
 .game-card {
-  width: 500px;
-  height: 350px;
+  width: 400px;
+  height: 300px;
   position: relative;
   background-color: black;
   border-radius: 20px;
-  padding: 10px;
-  margin: 10px;
+  
 }
+
+@media (max-width: 600px) {
+  .game-card {
+    width: 95vw;
+    max-width: 400px;
+    height: 70vw;
+  }
+} 
+
+
 .game-card .logo {
   position: absolute;
   left: 15px;

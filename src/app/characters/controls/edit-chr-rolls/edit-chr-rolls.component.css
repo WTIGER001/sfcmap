@@ -4,23 +4,21 @@
 }
 
 .attr-header {
-  background-color: black;
   color: white;
   padding: 5px;
 }
 
-.attr-even {
-
-}
-
 .attr-odd {
-  background-color: rgba(233, 251, 233, 0.719)
+  background-color: rgba(117, 117, 117, 0.719)
 }
 
 .attr-table input {
   border-radius: 0;
   padding: .15em;
   background-color: transparent;
+  color: white;
+  margin-left: -1px;
+  margin-top: -1px;
 }
 
 .attr-footer {

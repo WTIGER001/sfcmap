@@ -41,12 +41,25 @@ h2 {
 .sfc-row {
   display: flex;
 }
+
 .sfc-row-equal {
   /* display: flex; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   grid-gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .sfc-row-equal {
+    display: flex;
+    flex-direction: column;
+  }
+  .sfc-row {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .pic {

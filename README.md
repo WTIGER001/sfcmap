@@ -44,13 +44,13 @@ scfmap uses the services in firebase to provide a backend, storage and authentic
 - Markers, Rectangles and Images can be snapped in place
 
 ### Keyboard Actions
-CTRL+C = Copy (copy an annotation)
-CTRL+X = CUT (cut the annotation and wait for a paste. If the paste never happens then do not delete)
-CTRL+V = PASTE (paste the annotation, centered on the mouse)
-CTRL+M = New Marker (not working yet)
-CTRL+I = Ping where the mouse is (not working yet)
-DEL    = Delete the item that is selected
-CTRL+U = deselect all (not working yet)
+- CTRL+C = Copy (copy an annotation)
+- CTRL+X = CUT (cut the annotation and wait for a paste. If the paste never happens then do not delete)
+- CTRL+V = PASTE (paste the annotation, centered on the mouse)
+- CTRL+M = New Marker (not working yet)
+- CTRL+I = Ping where the mouse is (not working yet)
+- DEL    = Delete the item that is selected
+- CTRL+U = deselect all (not working yet)
 
 ## Development
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0. Run `npm start` to start the application in debug mode
@@ -63,18 +63,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Monsters 
 - Figure out the cr - bug
-- Look at a solution for not putting thousands of images on a screen
 - Look at making "Type" pages (an image for a category). This could be cool. Basicially search would kick in on 'enter' and categories of 'type', 'cr' and 'Alphabetical' can be used to limit the number of results. Card can b made programttically for each.
 <link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet"> or Lobster Two, Oleo
 - Convert monsters to characters (for encounters)
 - Drop on encounter
 - Edit
-- Smarter import that does not overwrite
 - Duplicate detection
-- Add restrictions and restriction filtering
 - Add filtering criteria to the url
 
 ### Encounters
+- Create index / card / edit / view
 - Add restrictions and restriction filtering
 - Add an encouter screen with the maps a side piece and then other stuff on the sides
 - Set Restrictiions
@@ -172,9 +170,6 @@ On chat
 
 Look into the permissions for firebase
 
-### Monsters 
-- view restrictions (especially for linked ones)
-
 ### Game
 - Tie in game logos
 - Better edit page... the current one is ugly
@@ -183,68 +178,3 @@ Look into the permissions for firebase
 - figure our Game System and Game
 - 'admins' are the GMs for games
 - @Media queries
-
-### Settings
-- Make page 
-
-### NEW PAGES NEEDED
-- Admin (needs work)
-- Settings (needs work)
-- Encounter Index 
-- NPCs
-- Spells - Import, New / Edit Page, View Page, Card
-- Items - Import, New / Edit Page, View Page, Card
-- Game Night - New / Edit Page, View Page, Tab, Card
-
-
-Goals TOday
-- New monster Importer (save pictures)
-- Way to import into the gamesystem (admin role?)
-- Better restrictions dialog (field Level)
-- Human Readable field restrictions
-
-Missing
-
-
-  xp: number
-  race: string
-  class: string
-  monstersource: string
-  defensiveabilities: string
-  weaknesses: string
-  specialAttacks: string
-  spellsKnown: string
-  spellDomains: string
-  racialMods: string
-  group: string
-  isTemplate: boolean
-  gender: string
-  bloodline: string
-  prohibitedSchools: string
-  beforeCombat: string
-  duringCombat: string
-  morale: string
-  gear: string
-  otherGear: string
-  vulnerability: string
-  note: string
-  characterflag : boolean
-  companionflag : boolean
-  fly: boolean
-  climb: boolean
-  burrow: boolean
-  swim: boolean
-  land: boolean
-  templatesapplied: string
-  offensenote: string
-  basestatistics: string
-  extractsprepared: string
-  agecategory: string
-  mystery: string
-  classarchetypes: string
-  patron: string
-  alternatenameform: string
-  uniquemonster :boolean
-  mr: number
-  mythic : boolean
-  fullText : string
