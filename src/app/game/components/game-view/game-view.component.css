@@ -16,7 +16,7 @@
   flex-shrink: 0;
 }
 
-.topbar h1 {
+.topbar .title {
  font-size: 2.5em;
  margin:0;
 }
@@ -123,11 +123,12 @@
   .buttons {
     grid-row: 2
   }
-  .topbar h1 {
+  .topbar .title {
     grid-row: 1;
     grid-column: span 2;
     font-size: 1.3em;
-    text-align: center
+    text-align: center;
+    width: 100%;
   }
   .topbar user {
     grid-row: 1;

@@ -152,6 +152,7 @@ import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-e
 import { RestrictedComponent } from './controls/restricted/restricted.component';
 import { PlusPipe } from './pipes/plus.pipe';
 import { MapEditComponent } from './maps/controls/map-edit/map-edit.component';
+import { TextfitDirective } from './controls/textfit.directive';
 
 @NgModule({
   declarations: [
@@ -264,6 +265,7 @@ import { MapEditComponent } from './maps/controls/map-edit/map-edit.component';
     RestrictedComponent,
     PlusPipe,
     MapEditComponent,
+    TextfitDirective,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,4 @@
 <div class="outer">
-  <h1>Game</h1>
-
   <div class="topbar">
     <ul class="buttons">
       <a routerLink="/admin">
@@ -14,7 +12,7 @@
         </li>
       </a>
     </ul>
-    <h1>Choose a Game or Create One!</h1>
+    <h1 appTextfit [maxFontSize]="50">Choose a Game or Create One!</h1>
     <div class="user">
       {{user.name}}
       <fa-icon class="pointer" icon="sign-out-alt" size="lg" (click)="logout()"></fa-icon>

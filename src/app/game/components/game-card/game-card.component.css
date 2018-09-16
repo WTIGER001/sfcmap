@@ -5,7 +5,8 @@
   position: relative;
   background-color: black;
   border-radius: 20px;
-  
+  padding: 10px;
+  margin: 10px;
 }
 
 @media (max-width: 600px) {

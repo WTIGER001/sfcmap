@@ -1,4 +1,3 @@
-
 .outer {
     display: flex;
     flex-direction: column;
@@ -7,6 +6,7 @@
     max-height: 100vh;
     height: 100vh;
     color : white;
+    padding-top: 50px;
 }
 
 .topbar {
@@ -18,7 +18,6 @@
 }
 
 .topbar h1 {
- font-size: 2.0em;
  margin:0;
 }
 
@@ -26,7 +25,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, 400px);
   gap:20px;
-  justify-content: space-around;
 }
 
 .newgame {
@@ -102,9 +100,6 @@
   align-items: center;
 }
 
-.usr-logout {
-
-}
 
 @media screen and (max-width: 600px) {
   .topbar {
@@ -117,8 +112,8 @@
   .topbar h1 {
     grid-row: 1;
     grid-column: span 2;
-    font-size: 1.3em;
-    text-align: center
+    text-align: center;
+    width: 100%;
   }
   .topbar user {
     grid-row: 1;
@@ -134,5 +129,7 @@
     max-width: 400px;
     height: 70vw;
   }
-
+  .outer {
+    padding-top: 0px;
+  }
 }
