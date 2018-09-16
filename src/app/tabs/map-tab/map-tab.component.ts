@@ -33,6 +33,7 @@ export class MapTabComponent implements OnInit {
   grid: GridLayer
   isCollapsed = {}
   saveMe = new Subject<boolean>()
+  link = []
   constructor(private mapSvc: MapService, private data: DataService, private dialog: DialogService, private zone: NgZone, private commonDialog: CommonDialogService) {
     this.isCollapsed['grid'] = true
     this.isCollapsed['fog'] = true
@@ -56,6 +57,7 @@ export class MapTabComponent implements OnInit {
           this.grid.addTo(this.map)
         }
       }
+      this.link = ['/game', this.mapCfg.owner, 'maps', this.mapCfg.id, 'edit']
     })
     this.mapSvc.map.subscribe(m => this.map = m)
     this.saveMe.pipe(throttleTime(2000)).subscribe(b => {
@@ -68,6 +70,10 @@ export class MapTabComponent implements OnInit {
 
   addMarker() {
 
+  }
+
+  getLink() {
+    return this.link;
   }
 
   public startEdit() {

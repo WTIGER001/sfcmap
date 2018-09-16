@@ -234,8 +234,11 @@ export class MapService {
     m.map = this._mapCfg.id
 
     let leafletMarker: Marker = m.toLeaflet(this.iconCache)
-    leafletMarker.addTo(this.newMarkersLayer)
-
+    if (leafletMarker) {
+      console.log('MARKER OPTIONS', leafletMarker.options)
+      console.log('MARKER ICON',  leafletMarker.options.icon)
+      leafletMarker.addTo(this.newMarkersLayer)
+    }
     return m
   }
 
@@ -268,7 +271,7 @@ export class MapService {
   }
 
   closeMap() {
-    this.router.navigate(['../'])
+    this.router.navigate(['/game', this._mapCfg.owner, "maps"])
     this.setConfig(null)
   }
 

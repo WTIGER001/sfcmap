@@ -133,6 +133,7 @@ export class IconZoomLevelCache {
         if (icons) {
             return icons[0]
         }
+        console.log("Unable to find icon", id, this.cache.size)
         return undefined
     }
 }

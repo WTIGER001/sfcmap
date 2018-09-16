@@ -3,9 +3,11 @@
   <!-- Buttons -->
   <div class="center-layout">
     <div class="buttonbar" *ngIf="edit==false">
-      <button class="btn btn-outline-secondary btn-tool" (click)="startEdit()" placement="bottom" ngbTooltip="Edit this map">
+      <a [routerLink]="getLink()" >
+      <button class="btn btn-outline-secondary btn-tool" placement="bottom" ngbTooltip="Edit this map">
         <fa-icon icon="pencil-alt" size="lg"></fa-icon>
       </button>
+      </a>
       <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()" placement="bottom"
         ngbTooltip="Measure the distance beween 2 points on the map">
         <fa-icon icon="ruler" size="lg"></fa-icon>

@@ -50,7 +50,7 @@ body {
   text-align: center;
   display: flex;
   justify-content: space-between;
-  left: 15;
+  left: 15px;
   width: 290px;
   white-space: nowrap;
   overflow: hidden;
@@ -61,17 +61,6 @@ body {
   font-size: 1em;
 }
 
-.p1 .crd-title-middle {
-  bottom: 15px;
-}
-
-.p2 .crd-title-middle {
-  bottom: 210px;
-}
-
-.p3 .crd-title-middle {
-  top: 45px;
-}
 
 /* A Card Picture is the central picture */
 .crd-picture {
@@ -96,10 +85,6 @@ body {
   border-radius: 14px  14px  14px 14px;
 }
 
-.p3 .crd-picture {
-  /* display: none; */
-}
-
 /* A Card Body is the area where the text and other description goes*/
 .crd-body {
   border: 2px solid var(--crd-border-color);
@@ -117,16 +102,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 }
-.p1 .crd-body {
-  display: none;
-  height: 0;
-}
-.p2 .crd-body {
-  height: 197px;
-}
-.p3 .crd-body {
-  height: 365px;
-}
+
 
 /* A Card HP is the area on a card for health tracking */
 /* Clicking on it allow you to change the value.  */
@@ -147,12 +123,6 @@ body {
   font-weight: 900;
 }
 
-.p3 .crd-hp {
-  display: none;
-}
-.p3 .crd-ac {
-  display: none;
-}
 
 .crd-hover-info {
   position: absolute;
@@ -166,15 +136,6 @@ body {
   background-color: rgba(0,0,0,.8)
 }
 
-.p2 .crd-hover-info {
-    bottom: 240px;
-}
-.p1 .crd-hover-info {
-    bottom: 45px;
-}
-.p3 .crd-hover-info {
-  bottom: 15px;
-}
 
 .crd-hover-info h1 {
   font-weight: 900;
@@ -200,6 +161,45 @@ body {
   cursor: pointer;
 }
 
+.square {
+  height: 53px;
+  width: 53px;
+  background-color: pink;
+}
+
+
+
+.p1 .crd-title-middle {
+  bottom: 15px;
+}
+
+.p2 .crd-title-middle {
+  bottom: 210px;
+}
+
+.p3 .crd-title-middle {
+  top: 45px;
+}
+
+
+.p1 .crd-hover-info {
+    bottom: 45px;
+}
+.p2 .crd-hover-info {
+    bottom: 240px;
+}
+.p3 .crd-hover-info {
+  bottom: 15px;
+}
+
+
+.p3 .crd-hp {
+  visibility: hidden;
+}
+.p3 .crd-ac {
+  visibility: hidden;
+}
+
 .p1 .crd-next {
   display: none;
 }
@@ -207,8 +207,16 @@ body {
 .p1 .crd-prev {
   display: none;
 }
-.square {
-  height: 53px;
-  width: 53px;
-  background-color: pink;
+
+
+.p1 .crd-body {
+
+  height: 0;
+}
+.p2 .crd-body {
+  height: 197px;
+}
+
+.p3 .crd-body {
+  height: 365px;
 }

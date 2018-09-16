@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'game/:gameid/new-map', component: MapEditComponent },
   { path: 'game/:gameid/maps', component: MapIndexComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/maps/:id', component: MapViewComponent, resolve: { 'asset': DatabaseGuard } },
-  { path: 'game/:gameid/maps/:id/edit', component: EditMapComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/maps/:id/edit', component: MapEditComponent, resolve: { 'asset': DatabaseGuard } },
 
   { path: 'game/:gameid/new-encounter', component: EditEncounterComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/encounters', component: EncounterIndexComponent, resolve: { 'asset': DatabaseGuard } },

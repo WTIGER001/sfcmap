@@ -90,15 +90,14 @@ export abstract class Annotation extends Asset {
 
   toLeaflet(iconCache: IconZoomLevelCache): any {
     try {
-    if (!this._leafletAttachment) {
-      this._leafletAttachment = this.createLeafletAttachment(iconCache)
-      this._leafletAttachment.objAttach = this
+      if (!this._leafletAttachment) {
+        this._leafletAttachment = this.createLeafletAttachment(iconCache)
+        this._leafletAttachment.objAttach = this
+      }
+      return this._leafletAttachment
+    } catch (error) {
+      console.log("Error Creating Leaflet Annotation", error, this);
     }
-    return this._leafletAttachment
-  } catch (error) {
-    console.log("Error Creating Leaflet Annotation", error, this);
-    
-  }
   }
 
   static findInLeaflet(map: LeafletMap, id: string): Annotation {
