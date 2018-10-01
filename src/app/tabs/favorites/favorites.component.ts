@@ -9,6 +9,7 @@ import { Token } from 'src/app/maps/token';
 })
 export class FavoritesComponent implements OnInit {
   favorites = []
+  items = []
   constructor(private dragulaService: DragulaService) {
     dragulaService.createGroup('FAVORITES', {
       copy: (el, source) => {

@@ -14,5 +14,5 @@ export class Token extends Asset {
   }
 
   image : string
-
+  tags : string[]
 }
