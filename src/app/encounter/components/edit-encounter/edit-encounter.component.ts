@@ -19,6 +19,8 @@ export class EditEncounterComponent implements OnInit {
   constructor(private data: DataService) {
     data.gameAssets.characters.items$.subscribe(a => this.characters = a)
     this.searchFor.bind(this)
+
+    this.selected = new Encounter()
   }
 
   ngOnInit() {

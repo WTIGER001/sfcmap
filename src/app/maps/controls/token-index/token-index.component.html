@@ -1,0 +1,24 @@
+<div class="bg">
+  <h1 class="title">Tokens</h1>
+
+  <app-search-bar #search [items]="all" [fields]="fields" newText="New Token" [newLink]="['../new-token']"
+    (itemsUpdated)="updateItems($event)" (scrollRequest)="scrollTo($event)" (viewChanged)="updateView($event)" [game]="game"
+    [type]="type" [submitOnChange]="true" [views]="['card', 'small']">
+  </app-search-bar>
+
+  <div class="border-wrapper" 
+    (dragover)="dragOver($event)"
+    (dragenter)="dragEnter($event)"
+    (dragleave)="dragLeave($event)"
+    (drop)="drop($event)">
+    <od-virtualscroll [vsData]="data$" [vsOptions]="options$" [vsUserCmd]="cmd$">
+      <ng-template let-item let-row="row" let-column="column">
+        <div class="cell">
+          <a routerLink="{{item.id}}">
+            <img [src]="item.image" [class.imgsmall]="view=='small'" [class.imglg]="view=='card'">
+          </a>
+        </div>
+      </ng-template>
+    </od-virtualscroll>
+  </div>
+</div>

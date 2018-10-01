@@ -26,6 +26,7 @@ import { NgSpinKitModule } from 'ng-spin-kit';
 import { UiScrollModule } from 'ngx-ui-scroll';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VirtualScrollModule } from 'od-virtualscroll';
+import { DragulaModule } from 'ng2-dragula';
 
 
 import { AppComponent } from './app.component';
@@ -153,6 +154,10 @@ import { RestrictedComponent } from './controls/restricted/restricted.component'
 import { PlusPipe } from './pipes/plus.pipe';
 import { MapEditComponent } from './maps/controls/map-edit/map-edit.component';
 import { TextfitDirective } from './controls/textfit.directive';
+import { TokenIndexComponent } from './maps/controls/token-index/token-index.component';
+import { TokenEditComponent } from './maps/controls/token-edit/token-edit.component';
+import { TokenViewComponent } from './maps/controls/token-view/token-view.component';
+import { FavoritesComponent } from './tabs/favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -266,6 +271,10 @@ import { TextfitDirective } from './controls/textfit.directive';
     PlusPipe,
     MapEditComponent,
     TextfitDirective,
+    TokenIndexComponent,
+    TokenEditComponent,
+    TokenViewComponent,
+    FavoritesComponent,
   ],
   imports: [
     BrowserModule,
@@ -293,9 +302,9 @@ import { TextfitDirective } from './controls/textfit.directive';
     EmojifyModule,
     SortablejsModule.forRoot({ animation: 150 }),
     NgSpinKitModule,
-    UiScrollModule,
     NgxDatatableModule,
     VirtualScrollModule,
+    DragulaModule.forRoot()
   ],
   providers: [
     MapService,

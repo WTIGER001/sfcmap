@@ -1,0 +1,21 @@
+<div class="page-center">
+  <div class="page scroller-dark areas">
+    <div class="center-area">
+      <app-edit-toolbar [item]="item" (onSave)="save()"></app-edit-toolbar>
+    </div>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control " id="name" placeholder="Enter Map Name" [(ngModel)]="item.name">
+    </div>
+    <app-edit-picture [picture]="image" (choice)="updatePicture($event)"></app-edit-picture>
+    <div class="form-group">
+      <label for="tags">Tags</label>
+      <tag-input [(ngModel)]="item.tags" [separatorKeys]="[',']" [modelAsStrings]="true" [theme]="'foundation-theme'"></tag-input>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description"
+        [(ngModel)]="item.description"></textarea>
+    </div>
+  </div>
+</div>

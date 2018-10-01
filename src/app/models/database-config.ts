@@ -14,6 +14,7 @@ import { Game } from "./game";
 import { Encounter } from "../encounter/model/encounter";
 import { Item } from "../items/item";
 import { Monster } from "../monsters/monster";
+import { Token } from "../maps/token";
 
 interface DbItem {
   name: string
@@ -113,6 +114,7 @@ export class DbConfig {
     if (objType == ChatRecord.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + ChatRecord.FOLDER }
     if (objType == Encounter.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Encounter.FOLDER }
     if (objType == Item.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Item.FOLDER }
+    if (objType == Token.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Token.FOLDER }
 
     // Map Level Data
     if (objType == Annotation.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Annotation.FOLDER }
@@ -187,6 +189,7 @@ export class DbConfig {
     if (CharacterType.is(obj)) { return CharacterType.to(obj) }
     if (Character.is(obj)) { return Character.to(obj) }
     if (Item.is(obj)) { return Item.to(obj) }
+    if (Token.is(obj)) { return Token.to(obj) }
 
     // Per Map data
     if (Annotation.is(obj)) { return Annotation.to(obj) }

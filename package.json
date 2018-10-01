@@ -47,6 +47,7 @@
     "leaflet.path.drag": "0.0.6",
     "ng-contenteditable": "^1.0.5",
     "ng-spin-kit": "^5.1.1",
+    "ng2-dragula": "^2.1.0",
     "ngx-chips": "^1.9.2",
     "ngx-color-picker": "^6.4.0",
     "ngx-file-drop": "^4.0.6",

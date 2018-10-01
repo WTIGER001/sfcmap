@@ -1,0 +1,13 @@
+<div class="page-center">
+  <div class="page scroller-dark areas" *ngIf="item">
+    <div class="center-area">
+      <app-view-toolbar [item]="item"></app-view-toolbar>
+    </div>
+    <label>Name</label>
+    {{item.name}}
+    <img [src]="item.image">
+    <app-tags [tags]="item.tags"></app-tags>
+    <label for="description">Description</label>
+    {{item.description}}
+  </div>
+</div>

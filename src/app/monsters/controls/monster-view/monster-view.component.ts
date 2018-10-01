@@ -27,36 +27,6 @@ export class MonsterViewComponent implements AfterContentInit {
     this.route.data.subscribe((data: { asset: Asset }) => this.item = <Monster>data.asset)
   }
 
-
-  // insertImage(monster: MonsterText) {
-  //   if (monster.image) {
-  //     const img = `<img class="monster-img" src="${monster.image}">`
-
-  //     let index = monster.fulltext.indexOf('<div class="heading">')
-  //     if (index > 0) {
-  //       const t1 = monster.fulltext.substr(0, index)
-  //       const t2 = monster.fulltext.substr(index)
-  //       monster.fulltext = t1 + img + t2
-  //     }
-  //   }
-  // }
-
-  // fixStyles(mt: MonsterText) {
-  //   const imgExp = /<img([A-Za-z0-9"'_ ]*)\b[^>]*>/g
-
-  //   let text = mt.fulltext
-  //   text = text.replace(new RegExp("<h1>", 'g'), "<h1 class='monster'>")
-  //   text = text.replace(new RegExp("<h2>", 'g'), "<h2 class='monster'>")
-  //   text = text.replace(new RegExp("<h3>", 'g'), "<h3 class='monster'>")
-  //   text = text.replace(new RegExp("<h4>", 'g'), "<h4 class='monster'>")
-  //   text = text.replace(new RegExp("<h5>", 'g'), "<h5 class='monster'>")
-  //   text = text.replace(new RegExp("<h6>", 'g'), "<h6 class='monster'>")
-  //   text = text.replace(new RegExp("<p>", 'g'), "<p class='monster'>")
-  //   text = text.replace(new RegExp("<div>", 'g'), "<div class='monster'>")
-  //   text = text.replace(imgExp, "")
-  //   mt.fulltext = text
-  // }
-
   sentences(text: string) : string[] {
     return text.split(".").map( item => item +".")
   }

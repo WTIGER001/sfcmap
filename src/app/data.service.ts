@@ -20,6 +20,7 @@ import { Pathfinder } from "./models/gamesystems/pathfinder";
 import { DataAsset } from "./data-asset";
 import { Item } from "./items/item";
 import { Monster } from "./monsters/monster";
+import { Token } from "./maps/token";
 
 export class GameAssets {
   annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
@@ -33,6 +34,7 @@ export class GameAssets {
   markerTypes = new DataAsset<MarkerType>(MarkerType.TYPE)
   monsters = new DataAsset<Monster>(Monster.TYPE)
   items = new DataAsset<Item>(Item.TYPE)
+  tokens = new DataAsset<Token>(Token.TYPE)
 
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
@@ -46,6 +48,7 @@ export class GameAssets {
     this.markerTypes.subscribe(game$, notify, data)
     this.monsters.subscribe(game$, notify, data)
     this.items.subscribe(game$, notify, data)
+    this.tokens.subscribe(game$, notify, data)
   }
 }
 
@@ -630,6 +633,31 @@ export class DataService {
     this.saves.next(item)
   }
 
+  saveToken(t: Token, image?: Blob) {
+    console.log('Saving Map ', map.name)
+
+    if (image) {
+      let pathImage = 'tokens/' + t.id
+      console.log("Preparing to save Map DATA", t);
+
+      forkJoin(this.saveImage(image, pathImage)).pipe(
+        mergeMap(result => this.fillInTokenImage(t)),
+      ).subscribe(() => {
+        console.log("Saving Map DATA", t);
+        this.save(t)
+      }, err => {
+        this.log.debug("ERROR");
+        this.log.debug(err);
+      }, () => {
+        this.log.debug("Complete");
+      })
+
+    } else {
+      console.log("No Images", t);
+      this.save(t)
+    }
+  }
+
   saveMap(map: MapConfig, image?: Blob, thumb?: Blob) {
     console.log('Saving Map ', map.name)
 
@@ -653,7 +681,6 @@ export class DataService {
 
     } else {
       console.log("No Images", map);
-
       this.save(map)
     }
   }
@@ -735,6 +762,16 @@ export class DataService {
     )
   }
 
+  fillInTokenImage(item: Token): Observable<Token> {
+    let path = 'tokens/' + item.id
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      map(url => {
+        item.image = url
+        return item
+      })
+    )
+  }
 
   fillInUrl(item: MarkerType): Observable<MarkerType> {
     let path = 'images/' + item.id
@@ -887,9 +924,9 @@ export class DataService {
 
   assignId(item: any) {
     if (!item.id) {
-      item.id = UUID.UUID().toString()
+      item.id =this.db.createPushId()
     } else if (item.id == 'TEMP') {
-      item.id = UUID.UUID().toString()
+      item.id = this.db.createPushId()
     }
   }
 

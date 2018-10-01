@@ -26,6 +26,9 @@ import { MonsterIndexComponent } from './monsters/controls/monster-index/monster
 import { MonsterViewComponent } from './monsters/controls/monster-view/monster-view.component';
 import { MonsterEditComponent } from './monsters/controls/monster-edit/monster-edit.component';
 import { MapEditComponent } from './maps/controls/map-edit/map-edit.component';
+import { TokenEditComponent } from './maps/controls/token-edit/token-edit.component';
+import { TokenIndexComponent } from './maps/controls/token-index/token-index.component';
+import { TokenViewComponent } from './maps/controls/token-view/token-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/games', pathMatch: 'full' },
@@ -62,6 +65,11 @@ const routes: Routes = [
   { path: 'game/:gameid/items', component: ItemIndexComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/items/:id', component: ItemViewComponent, resolve: { 'asset': DatabaseGuard } },
   { path: 'game/:gameid/items/:id/edit', component: ItemEditComponent, resolve: { 'asset': DatabaseGuard } },
+
+  { path: 'game/:gameid/new-token', component: TokenEditComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/tokens', component: TokenIndexComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/tokens/:id', component: TokenViewComponent, resolve: { 'asset': DatabaseGuard } },
+  { path: 'game/:gameid/tokens/:id/edit', component: TokenEditComponent, resolve: { 'asset': DatabaseGuard } },
 
   // { path: 'new-gamesystem', component: GamesystemEditComponent },
   { path: 'gs', component: GamesystemIndexComponent, resolve: { 'asset': DatabaseGuard }  },

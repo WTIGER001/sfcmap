@@ -1,13 +1,9 @@
 .monster-page {
-  height: 100%;
-  width: 70%;
-  background-color: white;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-right: 30px;
-  padding-left: 0px;
-  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
 }
+
 .uptop {
   margin-top: -30px;
 }
@@ -37,4 +33,33 @@
   text-transform: uppercase;
   font-weight: 300;
   font-size: 1.0;
+}
+
+.pic img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.full {
+  grid-column: span 3;
+}
+
+@media screen and (max-width: 600px) {
+  .monster-page {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .monster-page {
+      grid-template-columns: 1fr 1fr;
+  }
+  .pic {
+    grid-column: span 2;
+  }
+  .full {
+    grid-column: span 2;
+  }
 }
