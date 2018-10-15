@@ -178,3 +178,36 @@ Look into the permissions for firebase
 - figure our Game System and Game
 - 'admins' are the GMs for games
 - @Media queries
+
+
+Caching Notes
+- Cache to indexDB
+
+What are the possible changes? 
+- Add item
+- Remove Item
+- Change item
+
+Include change date? 
+- Query since change dates
+
+
+Plan for Tokens:
+
+First Steps
+- Copy Image Annotation into a new type of annotation called a token
+- Add a token url to Characters and Monsters (and maybe start breaking things up into interfaces)
+- Add the 'create token' method that takes a character or monster
+- Get it to show on the map
+- Get it to update the firebase db on drag
+- Somehow set a default size. If the size of the token would be less than 10 pixels then show a marker instead
+
+Use Case:
+1. Load Map
+2. Go to Annotations Tab
+3. Click on Add Character
+4. Click on the character to add
+5. Call 'create token' placing this token at the center of the map
+6. Save Taken to database /games/
+7. Drag Token
+8. On Release then update database

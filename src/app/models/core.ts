@@ -50,6 +50,8 @@ export class ItemAction<T> {
       this.op = Operation.Removed
     } else if (action == 'value') {
       this.op = Operation.Updated
+    } else if (action == 'child_changed') {
+      this.op = Operation.Updated
     }
   }
 }

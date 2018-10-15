@@ -1,0 +1,9 @@
+.attr-tbl {
+  display: grid;
+  grid-template-columns: 1fr 5em 5em;
+}
+
+.roll-tbl {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}

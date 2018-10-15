@@ -19,6 +19,7 @@ import { TagInputModule } from 'ngx-chips';
 import { SortablejsModule } from 'angular-sortablejs/dist';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas as faspro} from '@fortawesome/pro-solid-svg-icons';
 import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
@@ -158,6 +159,8 @@ import { TokenIndexComponent } from './maps/controls/token-index/token-index.com
 import { TokenEditComponent } from './maps/controls/token-edit/token-edit.component';
 import { TokenViewComponent } from './maps/controls/token-view/token-view.component';
 import { FavoritesComponent } from './tabs/favorites/favorites.component';
+import { SelectItemsComponent } from './dialogs/select-items/select-items.component';
+import { CharacterSelectionComponent } from './characters/controls/character-selection/character-selection.component';
 
 @NgModule({
   declarations: [
@@ -275,6 +278,8 @@ import { FavoritesComponent } from './tabs/favorites/favorites.component';
     TokenEditComponent,
     TokenViewComponent,
     FavoritesComponent,
+    SelectItemsComponent,
+    CharacterSelectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -331,6 +336,7 @@ import { FavoritesComponent } from './tabs/favorites/favorites.component';
     FilterDialogComponent,
     ImportCharacterComponent,
     LinksComponent,
+    SelectItemsComponent,
   ],
   exports: [CheckboxComponent]
 })
@@ -339,6 +345,7 @@ export class AppModule {
     library.add(faGoogle, faGithub)
     library.add(faStar, faCircle)
     library.add(fas, faLayerGroup);
+    library.add(faspro);
 
     EncounterFeature.initialize()
   }

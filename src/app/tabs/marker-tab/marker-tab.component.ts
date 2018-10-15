@@ -1,11 +1,11 @@
 import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
-import { MapConfig, MarkerGroup, MergedMapType, Selection } from '../../models';
+import { MapConfig, MarkerGroup, MergedMapType, Selection, Character, TokenAnnotation } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
-import { Map as LeafletMap, LeafletMouseEvent, circle, Marker, Util, Path, Rectangle } from 'leaflet';
+import { Map as LeafletMap, LeafletMouseEvent, circle, Marker, Util, Path, Rectangle, latLng, latLngBounds } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Format } from '../../util/format';
@@ -15,6 +15,11 @@ import { EditMarkerComponent } from '../../controls/edit-marker/edit-marker.comp
 import { GridLayer } from '../../leaflet/grid';
 import { EditImageComponent } from '../../controls/edit-image/edit-image.component';
 import { map } from 'rxjs/operators';
+import { CharacterService } from 'src/app/characters/dialogs/character.service';
+import { LangUtil } from 'src/app/util/LangUtil';
+import { Rect } from 'src/app/util/geom';
+import { Token } from 'src/app/maps/token';
+import { Monster } from 'src/app/monsters/monster';
 
 @Component({
   selector: 'app-marker-tab',
@@ -101,6 +106,9 @@ export class MarkerTabComponent implements OnInit {
     if (ImageAnnotation.is(item)) {
       return 'image'
     }
+    if (TokenAnnotation.is(item)) {
+      return 'token'
+    }
     console.log("INVALID ITEM, ", item);
     throw new Error("Invalid Item")
   }
@@ -166,18 +174,88 @@ export class MarkerTabComponent implements OnInit {
     this.completeShape(s)
   }
 
+
+  public addMonster() {
+    this.dialog.select(this.data.gameAssets.monsters.items$).subscribe(selected => {
+      selected.forEach((monster: Monster) => {
+        // Add the character as a 'token' object (a subclass of the ImageAnnotation)
+        this.addOneCharacter(monster)
+      })
+    })
+  }
+
+  public addToken() {
+    this.dialog.select(this.data.gameAssets.tokens.items$).subscribe(selected => {
+      selected.forEach((token: Token) => {
+        this.addOneCharacter(token)
+      })
+    })
+  }
+  
+  public addCharacter() {
+    this.dialog.select(this.data.gameAssets.characters.items$).subscribe( selected => {
+      selected.forEach( (chr : Character) => {
+        // Add the character as a 'token' object (a subclass of the ImageAnnotation)
+        this.addOneCharacter(chr)
+      })
+    })
+  }
+
+  public addOneCharacter(item : Character | Monster | Token) {
+    try {
+      // Create the token with the basic information
+      let s = new TokenAnnotation()
+      s.name = item.name
+      s.itemId = item.id
+      s.itemType = item.objType
+      if (Character.is(item)) {
+        s.url = LangUtil.firstDefined(item.token, item.picture, './assets/missing.png')
+      } else if (Monster.is(item)) {
+        s.url = LangUtil.firstDefined(item.thumb, item.image, './assets/missing.png')
+      } else if (Token.is(item)) {
+        s.url = LangUtil.firstDefined(item.image, './assets/missing.png')
+      }
+
+      s.owner = this.data.game.value.id
+      s.map = this.map.id
+
+      // Determine the size of the token in pixeks
+      const ppm = this.mapSvc._mapCfg.ppm
+      const w = ppm * s.sizeX
+      const h = ppm * s.sizeY
+
+      // TODO: Not sure how to react to a token that is too small... Maybe make it a marker? and then rotate markers around the center?
+      // Now place the token at the middle of the screen in the correct size and snapping into grid position (if there is a grid)
+      let point = this.mapSvc.getCenter()
+      let x1 = point.lng.valueOf() - s.sizeX/2
+      let x2 = point.lng.valueOf() + s.sizeX/2
+      let y1 = point.lat.valueOf() - s.sizeX/2
+      let y2 = point.lat.valueOf() + s.sizeX/2
+      let sw = latLng(y2, x1, 0)
+      let ne = latLng(y1, x2, 0)
+      let ll = latLngBounds(sw, ne)
+
+      const newBounds = this.grid.snapBounds(ll, point)
+      s.setBounds(newBounds)
+
+      this.saveItem(s)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   private completeShape(s: ShapeAnnotation | ImageAnnotation) {
     s.id = 'TEMP'
     s.map = this.map.id
     s.owner = this.data.game.value.id
     s.copyOptionsFromShape()
 
-    s.getAttachment().on('click', event => {
-      console.log("CLICKED ON  : ", event);
-      this.mapSvc.printLayers()
-      console.log("------>> ", event.target._leaflet_id);
+    // s.getAttachment().on('click', event => {
+    //   console.log("CLICKED ON  : ", event);
+    //   this.mapSvc.printLayers()
+    //   console.log("------>> ", event.target._leaflet_id);
 
-    }, this)
+    // }, this)
 
     this.selection = new Selection([s])
     this.item = s
@@ -216,7 +294,7 @@ export class MarkerTabComponent implements OnInit {
   public cancel() {
     this.edit = false
     this.disableDragging()
-    if (ShapeAnnotation.is(this.item) || ImageAnnotation.is(this.item)) {
+    if (ShapeAnnotation.is(this.item) || ImageAnnotation.is(this.item) || TokenAnnotation.is(this.item)) {
       this.item.asItem().disableEdit()
       this.mapSvc._map.editTools.featuresLayer.clearLayers()
     }
@@ -239,14 +317,16 @@ export class MarkerTabComponent implements OnInit {
     })
   }
 
-  private saveItem(item: ShapeAnnotation) {
+  private saveItem(item: ShapeAnnotation | ImageAnnotation | TokenAnnotation) {
     // Update the Group 
     let typeId = this.getGroupOrCreateId(item.group)
     item.group = typeId
 
     // Disable the editing and dragging
-    item.getAttachment().disableEdit()
-    item.getAttachment().dragging.disable()
+    if (item.getAttachment() && item.getAttachment().disableEdit && item.getAttachment().dragging.disable) {
+      item.getAttachment().disableEdit()
+      item.getAttachment().dragging.disable()
+    }
 
     // Copy the points that could have been updated while the user was dragging
     item.copyPoints()
@@ -319,7 +399,7 @@ export class MarkerTabComponent implements OnInit {
   private snapVertexToGrid(e) {
     const m = e.target
     const ann = <ShapeAnnotation>m['objAttach']
-    if (((ShapeAnnotation.is(ann) && ann.type == 'rectangle') || ImageAnnotation.is(ann)) && ann.snap) {
+    if (((ShapeAnnotation.is(ann) && ann.type == 'rectangle') || ImageAnnotation.is(ann) || TokenAnnotation.is(ann)) && ann.snap) {
       if (e.vertex) {
         let vertex = this.grid.getGridVertex(e.latlng)
         e.vertex.editor.__snap_latLng = vertex
@@ -330,7 +410,7 @@ export class MarkerTabComponent implements OnInit {
     const m = e.target
     const ann = <ShapeAnnotation>m['objAttach']
 
-    if (((ShapeAnnotation.is(ann) && ann.type == 'rectangle') || ImageAnnotation.is(ann)) && ann.snap) {
+    if (((ShapeAnnotation.is(ann) && ann.type == 'rectangle') || ImageAnnotation.is(ann) || TokenAnnotation.is(ann)) && ann.snap) {
       const last = this.mapSvc.mouseCoord
       const ann = <ShapeAnnotation>m['objAttach']
       const newBounds = this.grid.snapBounds(m.getBounds(), last)
@@ -372,6 +452,9 @@ export class MarkerTabComponent implements OnInit {
       this.edit = false
     }
 
+    if (this.item && TokenAnnotation.is(this.item)) {
+      this.enableDragging()
+    }
   }
 
   public types(): string {
@@ -394,6 +477,26 @@ export class MarkerTabComponent implements OnInit {
     return r
   }
 
+  private dropsave(e) {
+    const m = e.target
+    const ann = <ShapeAnnotation>m['objAttach']
+    this.saveItem(ann)
+  } 
+
+  private getTokenItem(token  : TokenAnnotation) {
+    if (!token) {
+      return undefined
+    }
+
+    if (token.itemType == Character.TYPE) {
+      return this.data.gameAssets.characters.currentItems.find( c => c.id == token.itemId)
+    }
+    
+    return undefined
+
+  }
+
+
   private disableDragging() {
     this.selection.items.forEach(m => {
       let annotation = <Annotation>m
@@ -401,7 +504,7 @@ export class MarkerTabComponent implements OnInit {
       if (leafletAttachment.dragging) {
         leafletAttachment.dragging.disable()
       }
-      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
+      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item) || TokenAnnotation.is(this.item)) {
         if (this.item.getAttachment()) {
           if (this.item.getAttachment().disableEdit) {
             this.item.getAttachment().disableEdit()
@@ -422,11 +525,19 @@ export class MarkerTabComponent implements OnInit {
       if (annotation.getAttachment().dragging) {
         annotation.getAttachment().dragging.enable()
       }
-      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
+      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item) ) {
         m.getAttachment().enableEdit()
         m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
         m.getAttachment().on('drag', this.snapShapeToGrid, this)
-
+       
+      }
+      if (TokenAnnotation.is(this.item)) {
+        if (this.edit) {
+          m.getAttachment().enableEdit()
+        }
+        m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
+        m.getAttachment().on('drag', this.snapShapeToGrid, this)
+        m.getAttachment().on('dragend', this.dropsave, this)
       }
       if (MarkerTypeAnnotation.is(m)) {
         console.log("Enabling Marker Snap");
@@ -437,6 +548,16 @@ export class MarkerTabComponent implements OnInit {
 
   public updateMuliEdit() {
 
+  }
+
+  public tokenIsCharacter(item : TokenAnnotation) {
+    return item.itemType == Character.TYPE
+  }
+  public tokenIsMonster( item : TokenAnnotation) {
+    return item.itemType == Monster.TYPE
+  }
+  public tokenIsToken(item: TokenAnnotation) {
+    return item.itemType == Token.TYPE
   }
 }
 

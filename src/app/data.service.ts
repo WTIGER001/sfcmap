@@ -403,7 +403,8 @@ export class DataService {
     return this.game.pipe(
       map(game => DbConfig.pathFolderTo(Annotation.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
-      map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val())))
+      map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
+      tap(item => console.log("--> Annotation State change: ", item))
     )
   }
 
@@ -437,7 +438,8 @@ export class DataService {
 
     return combineLatest(this.gameAssets.markerTypes.items$, groupObs, annotationObs).pipe(
       map(value => {
-        this.log.debug(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
+        
+        console.log(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
         let markerTypes = value[0]
         let loadedGroups = value[1]
         let annotations = value[2]
@@ -575,29 +577,6 @@ export class DataService {
     }
     return false
   }
-
-  // filterRestrictedContent(item: IAsset) {
-  //   console.log("FILTERING", item);
-
-  //   if (!item.restrictedContent) {
-  //     console.log("NO RESTRICTED CONTENT>>>");
-  //     return item
-  //   }
-
-  //   const restrictedCopy = DbConfig.toItem(item)
-  //   Object.keys(restrictedCopy.restrictedContent).forEach(field => {
-  //     console.log("CHECKING FIELD ", field);
-  //     if (!this.canViewField(item, field)) {
-  //       console.log("REMOVING FIELD ", field);
-  //       delete restrictedCopy[field]
-  //     } else {
-  //       console.log("NOT RESTRICTED ", field);
-  //     }
-  //     restrictedCopy['__FILTERED__'] = true
-  //   })
-  //   console.log("filterRestrictedContent", item, restrictedCopy)
-  //   return restrictedCopy
-  // }
 
   isReal(): any {
     return this.user.getValue().id != "NOBODY"

@@ -52,7 +52,7 @@ export class DataAsset<T> {
     const obs$ = this.buildObs$(game, data)
     // Combine all of them together
     this.sub = combineLatest(obs$).subscribe(results => {
-      // console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
+      console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
 
       let all = []
       results.forEach(r => {

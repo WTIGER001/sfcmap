@@ -92,6 +92,43 @@
       <div class="ml-2" [ngbCollapse]="isCollapsed['fog']">
 
       </div>
+
+      <!-- Lighting-->
+      <h4>
+        <fa-icon class="pointer" (click)="isCollapsed['lighting'] = !isCollapsed['lighting']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['lighting'] ? 'caret-right' : 'caret-down'"></fa-icon>
+       Lighting
+      </h4>
+      <!-- rectangle-wide -->
+      
+      <div class="ml-2" [ngbCollapse]="isCollapsed['lighting']">
+        <div class="buttongrid">
+          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Enable / Disable lighting">
+            <fa-icon icon="lightbulb-on" size="lg"></fa-icon>
+          </button>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Bright Light"><fa-icon icon="sun" size="lg"></fa-icon></button>
+            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Normal Light"><fa-icon icon="cloud-sun" size="lg"></fa-icon></button>
+            <button type="button" class="btn btn-outline-secondary"><fa-icon icon="moon" size="lg" placement="bottom" ngbTooltip="Night / Dim Light"></fa-icon></button>
+            <button type="button" class="btn btn-outline-secondary"><fa-icon icon="cloud-moon" size="lg" placement="bottom" ngbTooltip="Night / Darkness"></fa-icon></button>
+          </div>
+        </div>
+        <div class="buttongrid" >
+          
+          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="View lighting layer">
+            <fa-icon icon="eye" size="lg"></fa-icon>
+          </button>
+          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a Wall (Fixed Light Barrier) ">
+            <fa-icon icon="rectangle-wide" size="lg"></fa-icon>
+          </button>
+          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a Door (Opennable Light Barrier">
+            <fa-icon icon="door-open" size="lg"></fa-icon>
+          </button>
+          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Add a light source">
+            <fa-icon icon="campfire" size="lg"></fa-icon>
+          </button>
+          </div>
+      </div>
+
     </ng-container>
   </div>
 </ng-container>

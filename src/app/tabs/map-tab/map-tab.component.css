@@ -27,3 +27,7 @@
 .map-scroll {
     height: calc(100vh - 110px);
 }
+
+.buttongrid .btn-group {
+  grid-column: span 4;
+}

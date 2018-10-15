@@ -7,6 +7,17 @@ import { Asset, IAsset } from "../models";
  * Collection of language utils that are useful for all Typescript applications
  */
 export class LangUtil {
+
+  public static firstDefined(...items : any[]) : any {
+    for (let i=0;i<items.length; i++) {
+      if (items[i]) {
+        return items[i]
+      }
+    }
+    return undefined
+  }
+
+
   public static dimensions(arr: any[]): number {
     let dims = this.getDim(arr);
     return dims.length

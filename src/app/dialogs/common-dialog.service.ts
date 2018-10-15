@@ -44,4 +44,5 @@ export class CommonDialogService {
   public errorMsg(error: string, title = "Error") {
     this.messageDialog(error, title, 'exclamation-triangle');
   }
+
 }

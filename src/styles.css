@@ -5,6 +5,7 @@
 @import 'app/styles/card-style-3.css';
 @import 'app/styles/toolbar.css';
 @import 'app/styles/tables.css';
+@import 'app/styles/dialogs.css';
 
 /* @import 'app/styles/tag-input.css'; */
 
@@ -694,61 +695,6 @@ li.tab-card {
 	z-index: -1;
 }
 
-/* -------------------------------------------- */
-/* Custom Dialog                                */
-/* -------------------------------------------- */
-
-.modal-content {
-  width: 100vw;
-  height: 100vh;
-  /* padding: 50px; */
-  max-width: 100vw;
-  border-radius: 0;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.modal-dialog{
-    margin: 0px;
-    width: 100%;
-    height: 100%;
-
-}
-
-.dlg {
-
-  max-width: 100vw;
-  color: white;
-  text-align: center;
-  background-color: rgba(0,0,0,.8);
-  max-height: 90vh;
-  width: 100vw;
-  padding: 20px 20px;
-}
-
-.dlg .header {
-  margin-bottom: 30px;
-}
-
-.dlg h1 {
-  color: white;
-}
-
-.dlg .bdy {
-  display: grid;
-  justify-content: center;
-}
-
-.dlg .footer {
-  margin-top: 30px;
-  display: grid;
-  gap: 15px;
-  grid-template-columns: repeat(auto-fit, minmax(75px, 150px));
-  justify-content: center;
-}
 
 .crd-page-title {
   position: relative;

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { from, Observable, Subject } from 'rxjs';
-import { Distance, Game } from '../models';
+import { Distance, Game, Asset } from '../models';
 import { DistanceEntryComponent } from './distance-entry/distance-entry.component';
 import { SortDialogComponent } from './sort-dialog/sort-dialog.component';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { SortFilterData } from '../util/sort-filter';
 import { LinksComponent } from './links/links.component';
+import { SelectItemsComponent } from './select-items/select-items.component';
 
 @Injectable()
 export class DialogService {
@@ -46,4 +47,10 @@ export class DialogService {
     return modalRef.componentInstance.result
   }
 
+  public select(choices: Asset[] | Observable<Asset[]>, numberAllowed ?: number, currentSelection ?: Asset[]): Observable<Asset[]> {
+    const modalRef = this.modalSvc.open(SelectItemsComponent);
+    modalRef.componentInstance.result = new Subject<Asset[]>()
+    modalRef.componentInstance.choices = choices
+    return modalRef.componentInstance.result
+  }
 }

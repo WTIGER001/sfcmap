@@ -16,6 +16,7 @@ import { Ping } from '../leaflet/ping';
   providedIn: 'root'
 })
 export class MapService {
+  
   /** Observable for the current selection */
   public selection = new BehaviorSubject<Selection>(new Selection([]))
 
@@ -241,7 +242,10 @@ export class MapService {
     }
     return m
   }
-
+  
+  getDefaultCharacterToken(): any {
+    throw new Error("Method not implemented.");
+  }
 
   /**
    * Open the given map

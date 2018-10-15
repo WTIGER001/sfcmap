@@ -1,0 +1,26 @@
+<div class="dlg">
+  <div class="header">
+    <h1> Select</h1>
+  </div>
+  <div class="bdy">
+    <div class="select-list">
+      <ng-container *ngFor="let item of _choices">
+        <figure (click)="toggleSelection(item)">
+          <img [src]="getImage(item)">
+          <figcaption>{{item.name}}</figcaption>
+          <div class="selected" *ngIf="isSelected(item)">
+            <fa-icon icon="check" size="2x"></fa-icon>
+          </div>
+        </figure>
+      </ng-container>
+    </div>
+  </div>
+  <div class="footer">
+    <button [disabled]="_selected.length == 0" type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>

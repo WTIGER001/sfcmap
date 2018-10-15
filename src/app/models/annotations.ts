@@ -43,6 +43,9 @@ export abstract class Annotation extends Asset {
     if (ImageAnnotation.is(obj)) {
       rtn = new ImageAnnotation().copyFrom(obj)
     }
+    if (TokenAnnotation.is(obj)) {
+      rtn = new TokenAnnotation().copyFrom(obj)
+    }
 
     if (rtn) {
       if (rtn.points) {
@@ -70,7 +73,7 @@ export abstract class Annotation extends Asset {
   mapLink: string
   points: any[]
   tags: string[]
-  snap: false
+  snap: boolean
 
   // Do not save to database
   _leafletAttachment: any
@@ -88,7 +91,7 @@ export abstract class Annotation extends Asset {
     return layer.objAttach
   }
 
-  toLeaflet(iconCache: IconZoomLevelCache): any {
+  toLeaflet(iconCache?: IconZoomLevelCache): any {
     try {
       if (!this._leafletAttachment) {
         this._leafletAttachment = this.createLeafletAttachment(iconCache)
@@ -157,6 +160,10 @@ export class MarkerTypeAnnotation extends Annotation {
   }
 
   copyPoints() {
+    if (!this._leafletAttachment) {
+      return
+    }
+    
     let ll = this.toMarker().getLatLng()
     this.points = [ll]
   }
@@ -226,6 +233,10 @@ export class ImageAnnotation extends Annotation {
   }
 
   copyPoints() {
+    if (!this._leafletAttachment) {
+      return
+    }
+
     this.points = [
       this._leafletAttachment.getBounds().getSouthWest(),
       this._leafletAttachment.getBounds().getNorthEast()
@@ -263,6 +274,86 @@ export class ImageAnnotation extends Annotation {
     return (<ImageOverlay>this._leafletAttachment).getBounds().getCenter()
   }
 }
+
+/**
+ * Image Annotations are used to construct
+ */
+export class TokenAnnotation extends Annotation {
+  public static readonly SUBTYPE = 'token'
+  readonly subtype: string = TokenAnnotation.SUBTYPE
+ 
+  static is(obj: any): obj is TokenAnnotation {
+    return obj.objType !== undefined && obj.objType === Annotation.TYPE &&
+      obj.subtype !== undefined && obj.subtype === TokenAnnotation.SUBTYPE
+  }
+
+  opacity: number = 1
+  url?: string
+  displayRange: [number, number] = [-20, 200]
+  aspect: number // width / height
+  keepAspect: boolean = false
+  itemId : string
+  itemType : string
+  sizeX: number = 1.524;
+  sizeY: number = 1.524;
+  snap = true;
+  _saveImage = false
+  _blob: Blob
+
+  copyOptionsFromShape() {
+
+  }
+
+  copyOptionsToShape() {
+    if (this._leafletAttachment) {
+      this.asItem().setUrl(this.url)
+      this.asItem().setOpacity(this.opacity)
+    }
+  }
+
+  copyPoints() {
+    if (!this._leafletAttachment) {
+      return
+    }
+
+    this.points = [
+      this._leafletAttachment.getBounds().getSouthWest(),
+      this._leafletAttachment.getBounds().getNorthEast()
+    ]
+  }
+
+  setBounds(bounds: LatLngBounds) {
+    this.points = [
+      bounds.getSouthWest(),
+      bounds.getNorthEast()
+    ]
+  }
+
+  options(): ImageOverlayOptions {
+    return {
+      opacity: this.opacity,
+      interactive: true,
+      errorOverlayUrl: "./assets/missing.png",
+    }
+  }
+
+  asItem(): ImageOverlay {
+    return this._leafletAttachment
+  }
+
+  createLeafletAttachment(iconCache?: IconZoomLevelCache): any {
+    let bounds = new LatLngBounds(this.points[0], this.points[1])
+    let options = this.options()
+    let img = imageOverlay(this.url, bounds, options)
+    img.setBounds(bounds)
+    return img
+  }
+
+  center(): LatLng {
+    return (<ImageOverlay>this._leafletAttachment).getBounds().getCenter()
+  }
+}
+
 
 /**
  * Marker Annotations are custom markers
@@ -363,6 +454,10 @@ export class ShapeAnnotation extends Annotation {
   }
 
   copyPoints() {
+    if (!this._leafletAttachment) {
+      return
+    }
+
     if (this.type == 'polygon') {
       let item: Polygon = <Polygon>this._leafletAttachment
       this.points = item.getLatLngs()

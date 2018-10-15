@@ -61,7 +61,10 @@ export class TabsComponent implements OnInit {
   }
 
   public toggle(tab) {
-    if (this.selected === tab) {
+    if ( this.expanded == false) {
+      this.selected = tab
+      this.expanded = true
+    } else if (this.selected === tab) {
       this.expanded = false
       // this.selected = ""
       setTimeout(() => { this.selected = "" }, 800)

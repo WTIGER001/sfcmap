@@ -25,6 +25,17 @@
     <button class="btn btn-outline-secondary btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Create a new imager">
       <fa-icon icon="image" size="lg"></fa-icon>
     </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="addCharacter()" placement="bottom" ngbTooltip="Add a Character">
+      <fa-icon icon="user-shield" size="lg"></fa-icon>
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="addMonster()" placement="bottom" ngbTooltip="Add a Monster">
+      <fa-icon icon="dragon" size="lg"></fa-icon>
+    </button>
+    <button class="btn btn-outline-secondary btn-tool" (click)="addToken()" placement="bottom" ngbTooltip="Add a Generic Token">
+      <fa-icon icon="helmet-battle" size="lg"></fa-icon>
+    </button>
+  </div>
+  <div class="buttongrid" *ngIf="edit==false">
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="editstart()" placement="bottom"
       ngbTooltip="Edit the selected marker(s)">
       <fa-icon icon="pencil-alt" size="lg"></fa-icon>
@@ -57,6 +68,7 @@
       <div class="marker-container" *ngFor="let item of selection.items">
         <img *ngIf="itemType(item)=='marker'" [src]="item?._iconUrl" height="40" class="centered my-2 iconselected">
         <img *ngIf="itemType(item)=='image'" [src]="item?.url" height="150" class="centered my-2 iconselected">
+        <img *ngIf="itemType(item)=='token'" [src]="item?.url" height="150" class="centered my-2 iconselected">
         <div *ngIf="itemType(item)=='shape'" class="mt-2">
           <app-svgbox [shape]="item" [maxheight]="100" [padding]="10"></app-svgbox>
         </div>
@@ -70,6 +82,12 @@
         <a *ngIf="item.mapLink" routerLink="/map/{{item.mapLink}}">
           <fa-icon icon="map"></fa-icon> Open Linked Map</a>
         <app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>
+
+        <ng-container *ngIf="itemType(item) == 'token'">
+          <app-character-selection *ngIf="tokenIsCharacter(item)" [character]="getTokenItem(item)"></app-character-selection>
+
+        </ng-container>
+
       </div>
     </ng-container>
 

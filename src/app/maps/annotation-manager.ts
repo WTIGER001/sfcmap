@@ -59,7 +59,8 @@ export class AnnotationManager {
             ))
 
         this.data.getCompleteAnnotationGroups(mapCfg.id).subscribe(groups => {
-            this.completeMarkerGroups.next(groups)
+          console.log("Recieved new set of annotations, need to compare", groups)
+          this.completeMarkerGroups.next(groups)
         })
 
         let loadGroups = this.completeMarkerGroups.pipe(
@@ -140,7 +141,8 @@ export class AnnotationManager {
     private getAnnotationsAndGroups() {
         const sub1 = this.data.getAnnotations$(this.mapCfg.id).subscribe(
             action => {
-                if (action.op == Operation.Added || action.op == Operation.Updated) {
+              console.log("getAnnotationsAndGroups : getAnnotations$", action)
+                if (action.op == Operation.Added || action.op == Operation.Updated ) {
                     this.addOrUpdateAnnotation(action.item)
                 } else if (action.op == Operation.Removed) {
                     this.removeAnnotation(action.item)
@@ -159,6 +161,8 @@ export class AnnotationManager {
 
 
     private addOrUpdateAnnotation(item: Annotation) {
+      console.log("addOrUpdateAnnotation ", item.name)
+
         if (this.mapPrefs.isHiddenMarker(this.mapCfg.id, item.id)) {
             return
         }
@@ -281,6 +285,7 @@ export class AnnotationManager {
     }
 
     private makeLayerGroups(mgs: MarkerGroup[]) {
+        console.log("Making Groups, ", mgs.length)
         // Clear out the map
         this.lGroups.clear()
 

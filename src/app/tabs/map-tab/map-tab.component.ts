@@ -37,6 +37,7 @@ export class MapTabComponent implements OnInit {
   constructor(private mapSvc: MapService, private data: DataService, private dialog: DialogService, private zone: NgZone, private commonDialog: CommonDialogService) {
     this.isCollapsed['grid'] = true
     this.isCollapsed['fog'] = true
+    this.isCollapsed['lighting'] = true
     this.grid = new GridLayer(this.mapSvc)
     this.mapSvc.mapConfig.subscribe(m => {
       if (m.id == 'Bad') {
