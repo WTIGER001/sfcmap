@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "docs",
+    "public": "dist/sfcmap",
     "ignore": [
       "firebase.json",
       "**/.*",

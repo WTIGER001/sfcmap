@@ -17,14 +17,14 @@ before_script:
   - npm install -g @angular/cli
 
 script:
-  - ng build --prod --output-path=docs
+  - ng build --prod  --optimization=false
 
 after_success:
   - firebase deploy --token $FIREBASE_TOKEN
 
 notifications:
-  recipients:
-    john.baueriii@gmail.com
   email:
-    on_failure: change
-    on_success: change
+    recipients:
+      - john.baueriii@gmail.com
+    on_failure: always
+    on_success: always

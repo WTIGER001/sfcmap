@@ -1,0 +1,27 @@
+<h2>Auras</h2>
+<div class="attr-table">
+  <div class="attr-header">Name</div>
+  <div class="attr-header">Color</div>
+  <div class="attr-header hdr-span2">Radius</div>
+  <ng-container *ngFor="let aura of character.auras; let even=even">
+    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+      <input class="form-control " [(ngModel)]="aura.name">
+    </div>
+    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+      <div class="form-control form-control-sm  color-pick cell-item" [(colorPicker)]="aura.color" [style.background]="aura.color"
+        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateColor()"></div>
+    </div>
+    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+        <input class="form-control num" type="number" [(ngModel)]="aura.radius.value">
+    </div>
+    <div [class.attr-even]='even' [class.attr-odd]='!even' ngbDropdown placement="bottom-right">
+      <button class="cell-drop" id="dropDownUnits" ngbDropdownToggle>{{aura.radius.unit}}</button>
+      <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="updateUnit(aura, u.abbr)">{{u.name}}</button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="attr-footer" (click)="addRow()">
+  <fa-icon icon="plus"></fa-icon> Add Row
+</div>

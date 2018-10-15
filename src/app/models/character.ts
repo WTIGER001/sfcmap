@@ -1,5 +1,6 @@
 import { ObjectType, RestrictedContent, Asset } from "./core";
 import { Distance } from "./units";
+import { Aura } from "./aura";
 
 export class Character extends Asset {
   public static readonly TYPE = 'db.Character'
@@ -39,6 +40,8 @@ export class Character extends Asset {
   race: string
   classes: string
   alignment: string
+
+  auras : Aura[] = []
 
   resolveExpression(expression: string): string {
     let newexp = expression

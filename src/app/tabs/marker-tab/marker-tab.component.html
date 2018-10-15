@@ -83,10 +83,10 @@
           <fa-icon icon="map"></fa-icon> Open Linked Map</a>
         <app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>
 
-        <ng-container *ngIf="itemType(item) == 'token'">
+        <div class="card-holder" *ngIf="itemType(item) == 'token'">
           <app-character-selection *ngIf="tokenIsCharacter(item)" [character]="getTokenItem(item)"></app-character-selection>
 
-        </ng-container>
+        </div>
 
       </div>
     </ng-container>

@@ -161,6 +161,9 @@ import { TokenViewComponent } from './maps/controls/token-view/token-view.compon
 import { FavoritesComponent } from './tabs/favorites/favorites.component';
 import { SelectItemsComponent } from './dialogs/select-items/select-items.component';
 import { CharacterSelectionComponent } from './characters/controls/character-selection/character-selection.component';
+import { ExpanderComponent } from './controls/expander/expander.component';
+import { EditChrAurasComponent } from './characters/controls/edit-chr-auras/edit-chr-auras.component';
+import { InputDistanceComponent } from './controls/input-distance/input-distance.component';
 
 @NgModule({
   declarations: [
@@ -280,6 +283,9 @@ import { CharacterSelectionComponent } from './characters/controls/character-sel
     FavoritesComponent,
     SelectItemsComponent,
     CharacterSelectionComponent,
+    ExpanderComponent,
+    EditChrAurasComponent,
+    InputDistanceComponent,
   ],
   imports: [
     BrowserModule,

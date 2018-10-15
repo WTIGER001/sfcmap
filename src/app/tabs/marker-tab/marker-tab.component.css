@@ -29,6 +29,10 @@
     margin-bottom: 4px;
 }
 
+.card-holder {
+  width: 100%;
+}
+
 .page {
     margin-top: 10px;
     text-align: center;

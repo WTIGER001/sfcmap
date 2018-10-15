@@ -211,7 +211,8 @@ Lighting
 
 Light Barriers
 - Material and Thickness
-- 
+- Convert Polylines / polygons to walls or doors
+
 
 Point Emitter
 The normal emitters. Emit light
@@ -233,12 +234,14 @@ Monsters
 Tokens
 - Determine how to manage
 - Per User? Game? Application?
+- Consider using object-fit
 
 Select Dialog
 - Add Search / Filter
 - Add Sort
 - Add Double Click
 - Add Favorites / Recent?
+- Use virtual scroll solution
 
 Utilities
 - Draw decimated / gridded radius
@@ -249,11 +252,25 @@ Map
 -- Mouse over object(s)
 - Box select
 
-
-
 USE CASES
 ------------
 Add Token with 
 
 IDEAS for Decimated radius
 - Just use boxes the same size as the grid and snap them in place. 
+
+Lighting Progress
+1.) Add Vision object to character
+2.) Show Vision as simple circle (non editable). Display when selected or always?
+3.) Darken whole map (not sure how)
+
+
+
+Characters...
+- Add Aura
+-- Radius
+-- Color
+-- Display: Players to see
+
+- Detector
+--- Radius
