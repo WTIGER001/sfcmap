@@ -13,6 +13,8 @@ before_script:
   - npm install -g @angular/cli
 
 script:
+  - npm config set "@FortAwesome:registry" https://npm.fontawesome.com/
+  - npm config set "//npm.fontawesome.com/:_authToken" $FONTAWESOME_TOKEN
   - ng build --prod --output-path=docs
 
 after_success:

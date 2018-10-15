@@ -191,23 +191,69 @@ What are the possible changes?
 Include change date? 
 - Query since change dates
 
+Token Annotations:
+- Use Arrows and numpad to move
+- Highlight the selected token
+- Show auras (either decimated or normal)
+- Figure out what can be editted
+- Toggle visiblity
+- Restrictions
+- Turn off snap on 'ctrl' key
+- Keep track of hit points, etc or delegate
+- HP Bar
+- Show status effects / icons
 
-Plan for Tokens:
+Lighting
+- Set light level (ambient)
+- Get vision to work (Multiple types of emissions)
+- Create standard colors for emissions (light, dark, )
+- Figure out how to deal with invisible and etheral items / vision
 
-First Steps
-- Copy Image Annotation into a new type of annotation called a token
-- Add a token url to Characters and Monsters (and maybe start breaking things up into interfaces)
-- Add the 'create token' method that takes a character or monster
-- Get it to show on the map
-- Get it to update the firebase db on drag
-- Somehow set a default size. If the size of the token would be less than 10 pixels then show a marker instead
+Light Barriers
+- Material and Thickness
+- 
 
-Use Case:
-1. Load Map
-2. Go to Annotations Tab
-3. Click on Add Character
-4. Click on the character to add
-5. Call 'create token' placing this token at the center of the map
-6. Save Taken to database /games/
-7. Drag Token
-8. On Release then update database
+Point Emitter
+The normal emitters. Emit light
+
+Area emitters are just areas that can be detected by a certain detection type
+
+Characters
+- Add 'token' field and control
+- Add vision type(s) to a character
+-- Ex. Normal Vision: 120', Dark Vision 60'
+- Add Light and Vision to a character
+-- Include the ablility 
+
+Monsters
+- Add 'token' field and control
+- Determine how to manage
+- Per User? Game? Application? Game System?
+
+Tokens
+- Determine how to manage
+- Per User? Game? Application?
+
+Select Dialog
+- Add Search / Filter
+- Add Sort
+- Add Double Click
+- Add Favorites / Recent?
+
+Utilities
+- Draw decimated / gridded radius
+
+Map
+- Mouse over information
+-- Lighting Level
+-- Mouse over object(s)
+- Box select
+
+
+
+USE CASES
+------------
+Add Token with 
+
+IDEAS for Decimated radius
+- Just use boxes the same size as the grid and snap them in place. 
