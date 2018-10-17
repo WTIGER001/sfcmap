@@ -21,6 +21,7 @@ import { DataAsset } from "./data-asset";
 import { Item } from "./items/item";
 import { Monster } from "./monsters/monster";
 import { Token } from "./maps/token";
+import { ShareEvent } from "./models/system-models";
 
 export class GameAssets {
   annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
@@ -35,6 +36,7 @@ export class GameAssets {
   monsters = new DataAsset<Monster>(Monster.TYPE)
   items = new DataAsset<Item>(Item.TYPE)
   tokens = new DataAsset<Token>(Token.TYPE)
+  shareEvents = new Subject<ShareEvent>()
 
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
@@ -49,6 +51,12 @@ export class GameAssets {
     this.monsters.subscribe(game$, notify, data)
     this.items.subscribe(game$, notify, data)
     this.tokens.subscribe(game$, notify, data)
+
+    game$.pipe(
+      filter( game => game !== undefined),
+      mergeMap( game => data.sharedEvents$(game.id) ),
+      tap( event => this.shareEvents.next(event))
+    ).subscribe()
   }
 }
 
@@ -56,7 +64,10 @@ export class GameAssets {
   providedIn: 'root'
 })
 export class DataService {
-
+  /**
+   * Static id computed on each load to identify the browser tab for events. No need for this to be the same between instances
+   */
+  public static readonly BrowserId = UUID.UUID().toString()
 
   /**
    * The nobody user
@@ -1041,6 +1052,57 @@ export class DataService {
        return u.displayName ? u.displayName : u.name
     }
     return "Unknown User (" + id + ")"
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // Display Sharing 
+  // ----------------------------------------------------------------------------------------------
+  
+  // ----------------------------------------------------------------------------------------------
+  // Data Structure in the database
+  //
+  // /games/game-id/sharing - Overall folder for sharing
+  // /games/game-id/sharing/presenter - object on who is presenting. 
+  // /games/game-id/sharing/events - object on share events. The share event is overwritten each time
+  sharing : boolean = false
+  listening : boolean = false
+
+  /**
+   * Reports if the current user is sharing displays. If the user is sharing then all actions that
+   * are supposed to be shared (like navigating and map actions) are published to clients. Those
+   * clients that are listening to the share will perform the same actions
+   */
+  public isSharing() {
+    return this.sharing
+  }
+  public isListening() {
+    return this.listening
+  }
+
+  public shareEvent(data : any) {
+    if (this.isSharing()) {
+      const event = new ShareEvent()
+      event.browserId = DataService.BrowserId
+      event.userId = this.user.getValue().id
+
+      if (data) {
+        event.data = data
+      }
+
+      const path = '/sharing/' + this.game.getValue().id + "/event"
+      console.log("Sending Share Event", event)
+
+      this.db.object(path).set(event)
+    }
+  }
+
+  sharedEvents$(gameid: String): Observable<ShareEvent> {
+    const path = '/sharing/' + this.game.getValue().id + "/event" 
+    return this.db.object<ShareEvent>(path).valueChanges().pipe(
+      filter(event => this.isListening()),
+      filter(event => event !== null),
+      filter( event => event.browserId !== DataService.BrowserId)
+    )
   }
 }
 

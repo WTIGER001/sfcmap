@@ -164,6 +164,8 @@ import { CharacterSelectionComponent } from './characters/controls/character-sel
 import { ExpanderComponent } from './controls/expander/expander.component';
 import { EditChrAurasComponent } from './characters/controls/edit-chr-auras/edit-chr-auras.component';
 import { InputDistanceComponent } from './controls/input-distance/input-distance.component';
+import { EncounterTabComponent } from './tabs/encounter-tab/encounter-tab.component';
+import { EncounterOverlayComponent } from './maps/controls/encounter-overlay/encounter-overlay.component';
 
 @NgModule({
   declarations: [
@@ -286,6 +288,8 @@ import { InputDistanceComponent } from './controls/input-distance/input-distance
     ExpanderComponent,
     EditChrAurasComponent,
     InputDistanceComponent,
+    EncounterTabComponent,
+    EncounterOverlayComponent,
   ],
   imports: [
     BrowserModule,

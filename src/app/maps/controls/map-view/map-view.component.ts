@@ -19,6 +19,7 @@ import { AnnotationManager } from '../../annotation-manager';
 import '../../../leaflet/path.js';
 import '../../../leaflet/image-drag.js';
 import '../../../leaflet/edit.js';
+import { MapShareData } from 'src/app/models/system-models';
 
 @Component({
   selector: 'app-map-view',
@@ -172,7 +173,29 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
     this.loadPlugins(map)
     this.loadAnnotations(map)
-  }
+    this.map.on('zoomend', event => {
+      const d = new MapShareData()
+      d.zoom = map.getZoom()
+      d.lat = map.getCenter().lat
+      d.lng = map.getCenter().lng
+      d.mapId = this.mapCfg.id
+
+      if (this.mapSvc.processingEvent == false) {
+        this.data.shareEvent(d)
+      } else {
+        this.mapSvc.processingEvent = false
+      }
+    })
+    this.map.on('dragend', event => {
+      const d = new MapShareData()
+      d.zoom = map.getZoom()
+      d.lat = map.getCenter().lat
+      d.lng = map.getCenter().lng
+      d.mapId = this.mapCfg.id
+
+      this.data.shareEvent(d)
+    })
+    }
 
   loadPlugins(map: LeafletMap) {
     this.coords = new CoordsControl({

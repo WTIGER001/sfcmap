@@ -11,6 +11,7 @@ import { Annotation, MarkerTypeAnnotation, IconZoomLevelCache } from '../models'
 import { flatten } from '@angular/compiler';
 import { Router } from '@angular/router';
 import { Ping } from '../leaflet/ping';
+import { MapShareData, ShareEvent } from '../models/system-models';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,7 @@ export class MapService {
   log: Debugger
   mapLoad: Debugger
   markerZoomLog: Debugger
+  processingEvent = false
 
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService, private router: Router) {
     this.log = this.notify.newDebugger('Map')
@@ -124,6 +126,15 @@ export class MapService {
       maps => this.maps = maps
     )
 
+    this.data.gameAssets.shareEvents.subscribe( event => {
+      const mapData: MapShareData = event.data
+      if (data.isListening() && mapData.mapId == this._mapCfg.id) {
+        this.processingEvent = true
+        const ll = latLng(mapData.lat, mapData.lng)
+        this._map.setView(ll, mapData.zoom, { animate : true})
+      }
+    })
+
     // When the user preferences change
     let userObs = this.data.user.pipe(
       map(u => this.user = u)
@@ -144,7 +155,6 @@ export class MapService {
       tap(groups => this.completeMarkerGroups.next(groups))
     ).subscribe()
 
-
     this.data.gameAssets.markerTypes.items$.pipe(
       map(markertypes => {
         this.iconCache.load(markertypes, this._map)
@@ -160,7 +170,6 @@ export class MapService {
     this.registerAction(new DeleteMarkerAction())
     this.registerAction(new HiMarkerAction())
   }
-
 
   /**
    * Add any listerners to the map 

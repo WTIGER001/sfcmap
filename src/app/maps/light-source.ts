@@ -15,6 +15,7 @@ export enum EmissionType {
 }
 
 export interface IDetectorEmitter {
+  name: string
   angleStart: number
   angleEnd: number
   range: Distance
@@ -26,6 +27,7 @@ export interface IDetectorEmitter {
 }
 
 export class DetectorEmitter implements IDetectorEmitter {
+  name: string
   angleStart = 0
   angleEnd = 360
   range: Distance

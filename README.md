@@ -219,22 +219,32 @@ The normal emitters. Emit light
 
 Area emitters are just areas that can be detected by a certain detection type
 
+Encounters
+- initiative tracker on map
+- Round by round control
+- Who's turn is it
+
 Characters
 - Add 'token' field and control
 - Add vision type(s) to a character
 -- Ex. Normal Vision: 120', Dark Vision 60'
 - Add Light and Vision to a character
 -- Include the ablility 
+- Edit Control
 
 Monsters
 - Add 'token' field and control
 - Determine how to manage
 - Per User? Game? Application? Game System?
+- Selection Control / Edit Control
+- Permissions
+- Quick Reveal
 
 Tokens
 - Determine how to manage
 - Per User? Game? Application?
 - Consider using object-fit
+- Token Packs
 
 Select Dialog
 - Add Search / Filter

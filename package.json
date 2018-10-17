@@ -5,10 +5,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prod": "ng build --prod --optimization=false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "rm -rf docs & ng build --aot --output-path ./docs --prod --verbose "
+    "deploy": "ng build --aot --prod --verbose --optimization=false & firebase deploy"
   },
   "private": true,
   "dependencies": {

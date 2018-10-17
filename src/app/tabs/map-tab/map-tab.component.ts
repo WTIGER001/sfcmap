@@ -66,6 +66,22 @@ export class MapTabComponent implements OnInit {
     })
   }
 
+  isSharing() : boolean {
+    return this.data.isSharing()
+  }
+  
+  isListening() : boolean {
+    return this.data.isListening()
+  }
+
+  share() {
+    this.data.sharing = !this.data.sharing
+  }
+  listen() {
+    this.data.listening = !this.data.listening
+  }
+
+
   ngOnInit() {
   }
 

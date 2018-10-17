@@ -9,7 +9,9 @@ import { map, mergeMap, tap, take } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DatabaseGuard implements CanActivate, Resolve<Asset> {
-  constructor(private data: DataService) { }
+  constructor(private data: DataService) {
+    
+   }
 
   canActivate(
     next: ActivatedRouteSnapshot,

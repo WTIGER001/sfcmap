@@ -21,9 +21,21 @@
       <button class="btn btn-outline-secondary btn-tool" (click)="close()" placement="bottom" ngbTooltip="Close this map">
         <fa-icon icon="times" size="lg"></fa-icon>
       </button>
+    
+    </div>
+    <div class="buttonbar" *ngIf="edit==false">
+    
+      <button class="btn btn-outline-secondary btn-tool" (click)="share()" placement="bottom" ngbTooltip="Share map changes"
+        [class.active]="isSharing()">
+        <fa-icon icon="broadcast-tower" size="lg"></fa-icon>
+      </button>
+      <button class="btn btn-outline-secondary btn-tool" (click)="listen()" placement="bottom" ngbTooltip="Listen to map changes"
+        [class.active]="isListening()">
+        <fa-icon icon="ear" size="lg"></fa-icon>
+      </button>
     </div>
     <div class="buttonbar" *ngIf="edit==true">
-      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()" >
         <fa-icon icon="save" size="lg"></fa-icon> Save
       </button>
       <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
