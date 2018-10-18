@@ -2,17 +2,18 @@
 <ng-container *ngIf="mapCfg">
   <!-- Buttons -->
   <div class="center-layout">
-    <div class="buttonbar" *ngIf="edit==false">
-      <a [routerLink]="getLink()" >
-      <button class="btn btn-outline-secondary btn-tool" placement="bottom" ngbTooltip="Edit this map">
-        <fa-icon icon="pencil-alt" size="lg"></fa-icon>
-      </button>
+    <div class="buttongrid" *ngIf="edit==false">
+      <a [routerLink]="getLink()">
+        <button class="btn btn-outline-secondary btn-tool" placement="bottom" ngbTooltip="Edit this map">
+          <fa-icon icon="pencil-alt" size="lg"></fa-icon>
+        </button>
       </a>
-      <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()" placement="bottom"
-        ngbTooltip="Measure the distance beween 2 points on the map">
+      <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()"
+        placement="bottom" ngbTooltip="Measure the distance beween 2 points on the map">
         <fa-icon icon="ruler" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom" ngbTooltip="Calibrate the distance between 2 points on the map">
+      <button class="btn btn-outline-secondary btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom"
+        ngbTooltip="Calibrate the distance between 2 points on the map">
         <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
       </button>
       <button class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete this map">
@@ -21,10 +22,6 @@
       <button class="btn btn-outline-secondary btn-tool" (click)="close()" placement="bottom" ngbTooltip="Close this map">
         <fa-icon icon="times" size="lg"></fa-icon>
       </button>
-    
-    </div>
-    <div class="buttonbar" *ngIf="edit==false">
-    
       <button class="btn btn-outline-secondary btn-tool" (click)="share()" placement="bottom" ngbTooltip="Share map changes"
         [class.active]="isSharing()">
         <fa-icon icon="broadcast-tower" size="lg"></fa-icon>
@@ -35,7 +32,7 @@
       </button>
     </div>
     <div class="buttonbar" *ngIf="edit==true">
-      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()" >
+      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
         <fa-icon icon="save" size="lg"></fa-icon> Save
       </button>
       <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
@@ -58,20 +55,25 @@
     <ng-container *ngIf="edit==false">
       <!-- Grid Lines-->
       <h4>
-        <fa-icon class="pointer" (click)="isCollapsed['grid'] = !isCollapsed['grid']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['grid'] ? 'caret-right' : 'caret-down'"></fa-icon> Gridlines</h4>
+        <fa-icon class="pointer" (click)="isCollapsed['grid'] = !isCollapsed['grid']" [fixedWidth]="true" size="lg"
+          [icon]="isCollapsed['grid'] ? 'caret-right' : 'caret-down'"></fa-icon> Gridlines
+      </h4>
 
       <div class="ml-2" [ngbCollapse]="isCollapsed['grid']">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="grid.options.enabled" (change)="toggleGrid()">
+          <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="grid.options.enabled"
+            (change)="toggleGrid()">
           <label class="custom-control-label" for="grid_enable"> Enable Gridlines</label>
         </div>
         Spacing
         <div class="input-group">
           <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
           <div ngbDropdown placement="bottom-right">
-            <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}} </button>
+            <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}}
+            </button>
             <div ngbDropdownMenu aria-labelledby="dropDownUnits">
-              <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
+              <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+                (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
             </div>
           </div>
         </div>
@@ -99,7 +101,9 @@
 
       <!-- Fog of War-->
       <h4>
-        <fa-icon class="pointer" (click)="isCollapsed['fog'] = !isCollapsed['fog']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['fog'] ? 'caret-right' : 'caret-down'"></fa-icon> Fog of War</h4>
+        <fa-icon class="pointer" (click)="isCollapsed['fog'] = !isCollapsed['fog']" [fixedWidth]="true" size="lg"
+          [icon]="isCollapsed['fog'] ? 'caret-right' : 'caret-down'"></fa-icon> Fog of War
+      </h4>
 
       <div class="ml-2" [ngbCollapse]="isCollapsed['fog']">
 
@@ -107,25 +111,34 @@
 
       <!-- Lighting-->
       <h4>
-        <fa-icon class="pointer" (click)="isCollapsed['lighting'] = !isCollapsed['lighting']" [fixedWidth]="true" size="lg" [icon]="isCollapsed['lighting'] ? 'caret-right' : 'caret-down'"></fa-icon>
-       Lighting
+        <fa-icon class="pointer" (click)="isCollapsed['lighting'] = !isCollapsed['lighting']" [fixedWidth]="true" size="lg"
+          [icon]="isCollapsed['lighting'] ? 'caret-right' : 'caret-down'"></fa-icon>
+        Lighting
       </h4>
       <!-- rectangle-wide -->
-      
+
       <div class="ml-2" [ngbCollapse]="isCollapsed['lighting']">
         <div class="buttongrid">
           <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Enable / Disable lighting">
             <fa-icon icon="lightbulb-on" size="lg"></fa-icon>
           </button>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Bright Light"><fa-icon icon="sun" size="lg"></fa-icon></button>
-            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Normal Light"><fa-icon icon="cloud-sun" size="lg"></fa-icon></button>
-            <button type="button" class="btn btn-outline-secondary"><fa-icon icon="moon" size="lg" placement="bottom" ngbTooltip="Night / Dim Light"></fa-icon></button>
-            <button type="button" class="btn btn-outline-secondary"><fa-icon icon="cloud-moon" size="lg" placement="bottom" ngbTooltip="Night / Darkness"></fa-icon></button>
+            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Bright Light">
+              <fa-icon icon="sun" size="lg"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Normal Light">
+              <fa-icon icon="cloud-sun" size="lg"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              <fa-icon icon="moon" size="lg" placement="bottom" ngbTooltip="Night / Dim Light"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              <fa-icon icon="cloud-moon" size="lg" placement="bottom" ngbTooltip="Night / Darkness"></fa-icon>
+            </button>
           </div>
         </div>
-        <div class="buttongrid" >
-          
+        <div class="buttongrid">
+
           <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="View lighting layer">
             <fa-icon icon="eye" size="lg"></fa-icon>
           </button>
@@ -138,7 +151,7 @@
           <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Add a light source">
             <fa-icon icon="campfire" size="lg"></fa-icon>
           </button>
-          </div>
+        </div>
       </div>
 
     </ng-container>

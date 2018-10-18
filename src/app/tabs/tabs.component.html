@@ -4,6 +4,9 @@
     <div class="tab " *ngIf="mapCfg" (click)="toggle('map')" [class.tab-selected]="selected==='map'">
       <fa-icon icon="map" fixedWidth="true" size="lg"></fa-icon>
     </div>
+    <div class="tab " *ngIf="mapCfg" (click)="toggle('encounter')" [class.tab-selected]="selected==='encounter'">
+      <fa-icon icon="swords" fixedWidth="true" size="lg"></fa-icon>
+    </div>
     <div class="tab " *ngIf="mapCfg" (click)="toggle('marker')" [class.tab-selected]="selected==='marker'">
       <fa-icon icon="map-marker-alt" fixedWidth="true" size="lg"></fa-icon>
     </div>
@@ -20,6 +23,7 @@
   </button>
 
   <app-marker-tab class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-tab>
+  <app-encounter-tab class="side-container" [class.visible]="selected==='encounter'" [class.hide]="selected!=='encounter'"></app-encounter-tab>
   <app-map-tab class="side-container" [class.visible]="selected==='map'" [class.hide]="selected!=='map'"></app-map-tab>
   <app-layers-tab class="side-container" [class.visible]="selected==='layers'" [class.hide]="selected!=='layers'"></app-layers-tab>
   <app-rpg-tab class="side-container" [class.visible]="selected==='rpg'" [class.hide]="selected!=='rpg'"></app-rpg-tab>

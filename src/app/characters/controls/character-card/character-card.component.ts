@@ -25,6 +25,14 @@ export class CharacterCardComponent implements OnInit {
 
   }
 
+  getImagePosClass() {
+    if(this.character.imagePos) {
+      return "object-position-" + this.character.imagePos
+    } else {
+      return "object-position-5"
+    }
+  }
+
   ngOnInit() {
     this.data.gameAssets.characterTypes.items$.subscribe(a => this.types = a)
   }

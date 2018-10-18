@@ -197,6 +197,16 @@ export class MapService {
     })
   }
 
+  getMapInfo() : MapShareData {
+    const d = new MapShareData()
+    d.zoom = this._map.getZoom()
+    d.lat = this._map.getCenter().lat
+    d.lng = this._map.getCenter().lng
+    d.mapId = this._mapCfg.id
+    
+    return d
+  }
+
   registerAction(action: MapAction) {
     this.actions.push(action)
   }

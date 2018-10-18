@@ -1,28 +1,9 @@
-.buttonbar {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.btn-tool {
-    margin-right: 5px;
-}
-
-.btnruler {
-    padding-left: 7px;
-    padding-right: 7px;
-}
-
-.btn-tool:last-of-type {
-    margin-right: 0;
-}
-
 
 .toggle2 {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     font-size: .9em;
 }
-
 
 .map-scroll {
     height: calc(100vh - 110px);

@@ -1,13 +1,48 @@
-<div class="drop-area" [class.drop-target]="dragging" [class.outlined]="character.picture == undefined" (dragover)="dragOver($event)"
-  (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)">
-  <label for="chr-att">
-    <img [src]="character.picture" *ngIf="character.picture">
-    <div *ngIf='character.picture == undefined' class="centered">
-      <fa-icon icon="plus" size="3x"></fa-icon>
-      <div>Drop a picture here or click to select</div>
-    </div>
-  </label>
-  <fa-icon (click)="randomImage()" icon="random" class="pointer" placement="bottom" ngbTooltip="Search for random image" size="3x"></fa-icon>
+<div class="pic-area">
+  <div class="drop-area" [class.drop-target]="dragging" [class.outlined]="character.picture == undefined" (dragover)="dragOver($event)"
+    (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)">
+    <label for="chr-att">
+      <img [src]="character.picture" *ngIf="character.picture">
+      <div *ngIf='character.picture == undefined' class="centered">
+        <fa-icon icon="plus" size="3x"></fa-icon>
+        <div>Drop a picture here or click to select</div>
+      </div>
+    </label>
+    <fa-icon (click)="randomImage()" icon="random" class="pointer" placement="bottom" ngbTooltip="Search for random image"
+      size="3x"></fa-icon>
 
-  <input id="chr-att" #filecontrol type="file" class="inputfile" placeholder="select files" (change)="uploadFile($event)">
+    <input id="chr-att" #filecontrol type="file" class="inputfile" placeholder="select files" (change)="uploadFile($event)">
+  </div>
+  <div class="position-area">
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 7">
+      <fa-icon (click)="setImgPosition(7)" icon="arrow-up" size="lg" transform="rotate--45"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 8">
+      <fa-icon (click)="setImgPosition(8)" icon="arrow-up" size="lg"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 9">
+      <fa-icon (click)="setImgPosition(9)" icon="arrow-up" size="lg" transform="rotate-45"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 4">
+      <fa-icon (click)="setImgPosition(4)" icon="arrow-left" size="lg"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 5">
+      <fa-icon (click)="setImgPosition(5)" icon="arrows" size="lg"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 6">
+      <fa-icon (click)="setImgPosition(6)" icon="arrow-right" size="lg"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 1">
+      <fa-icon (click)="setImgPosition(1)" icon="arrow-down" size="lg" transform="rotate-45"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 2">
+      <fa-icon (click)="setImgPosition(2)" icon="arrow-down" size="lg"></fa-icon>
+    </div>
+    <div class="position-btn clickable" [class.clickable-active]="character.imagePos == 3">
+      <fa-icon (click)="setImgPosition(3)" icon="arrow-down" size="lg" transform="rotate--45"></fa-icon>
+    </div>
+  </div>
+  <div class="token-area">
+    <app-edit-picture (choice)="setToken($event)" [picture]="character.token"></app-edit-picture>
+  </div>
 </div>

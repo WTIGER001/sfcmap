@@ -1,0 +1,19 @@
+<div class="dlg">
+  <div class="header">
+    <h1> Encounter</h1>
+  </div>
+  <div class="bdy">
+    <div class="items scroller scroller-dark">
+      <app-encounter-row [row]="row" *ngFor="let row of encounter.participants"></app-encounter-row>
+    </div>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>
+</div>

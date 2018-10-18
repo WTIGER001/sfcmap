@@ -14,7 +14,7 @@ export class EditPictureComponent implements OnInit {
   @Input() searchTerm = ''
 
 
-  @ViewChild('filecontrol') fileButton
+  @ViewChild('filecontrolPic') fileButton
   @Output() choice = new EventEmitter()
 
   dragging = false

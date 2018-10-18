@@ -11,27 +11,6 @@
       <tag-input [(ngModel)]="selected.tags" [separatorKeys]="[',']" [modelAsStrings]="true" [theme]="'foundation-theme'"></tag-input>
     </div>
     <div class="form-group">
-      <label for="map">Map</label>
-      <app-map-select [(ngModel)]="selected.map" (mapChanged)="update()"></app-map-select>
-    </div>
-    <div class="form-group coord-row">
-      <div class='coord-col'>
-        <label for="coords">Coordinates</label>
-        <div class='coord-row'>
-          <label class="mr-2" for="coordsX">X </label>
-          <input type="number" class="form-control form-control-sm mr-2" id="coordsX" placeholder="X Location"
-            [(ngModel)]="selected.x">
-          <label class="mr-2" for="coordsY">Y </label>
-          <input type="number" class="form-control form-control-sm mr-2" id="coordsY" placeholder="Y Location"
-            [(ngModel)]="selected.y">
-        </div>
-      </div>
-      <div class='coord-col'>
-        <label for="zoom">Zoom</label>
-        <input type="number" class="form-control form-control-sm" id="zoom" placeholder="Zoom Level" [(ngModel)]="selected.zoom">
-      </div>
-    </div>
-    <div class="form-group">
       <label for="description">Description</label>
       <textarea class="form-control form-control-sm" rows="5" id="description" placeholder="Enter Description"
         [(ngModel)]="selected.description"></textarea>

@@ -3,6 +3,7 @@ import { Character } from '../../../models/character';
 import { DataService } from '../../../data.service';
 import { GoogleImageSearch, ImageSearchResult } from '../../../util/GoogleImageSearch';
 import { ImagesService } from '../../../dialogs/images.service';
+import { positionElements } from '@ng-bootstrap/ng-bootstrap/util/positioning';
 
 @Component({
   selector: 'app-chr-picture',
@@ -26,6 +27,7 @@ export class ChrPictureComponent implements OnInit {
   }
 
   uploadFile(event) {
+    console.log("Uploading Picture")
     if (event.target.files) {
       this.setFiles(event.target.files)
     }
@@ -49,6 +51,10 @@ export class ChrPictureComponent implements OnInit {
 
   }
 
+  setImgPosition(pos) {
+    this.character.imagePos = pos
+  }
+
   setFiles(files: FileList) {
     console.log(files);
 
@@ -66,6 +72,22 @@ export class ChrPictureComponent implements OnInit {
       )
     }
   }
+
+  saveToken(f : File) {
+    if (f.size < this.maxSize) {
+      let path = 'attachments/' + this.character.id + "/token"
+      this.data.uploadFile(path, f).subscribe(
+        progress => { },
+        error => { },
+        () => {
+          this.data.pathToUrl(path).subscribe(url => {
+            this.character.token = url
+          })
+        }
+      )
+    }
+  }
+
 
   dragOver(e) {
     // console.log("OVER");
@@ -102,4 +124,8 @@ export class ChrPictureComponent implements OnInit {
     return false;
   }
 
+  setToken($event : any) {
+    console.log("Addding Token" , $event)
+    this.saveToken($event)
+  }
 }

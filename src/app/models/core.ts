@@ -87,4 +87,5 @@ export class Asset extends ObjectType implements IAsset {
   owner: string;
   restriction: Restricition = Restricition.PlayerReadWrite;
   restrictedContent : any
+  imgPos: number = 5
 }

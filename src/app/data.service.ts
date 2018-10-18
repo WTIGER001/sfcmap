@@ -37,7 +37,7 @@ export class GameAssets {
   items = new DataAsset<Item>(Item.TYPE)
   tokens = new DataAsset<Token>(Token.TYPE)
   shareEvents = new Subject<ShareEvent>()
-
+  
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
     this.annotations.subscribe(game$, notify, data)
@@ -603,7 +603,7 @@ export class DataService {
     return item.owner ? idToCheck != item.owner : false
   }
 
-  save(item: ObjectType) {
+  save(item: ObjectType, path ?: string) {
     // Copy the Item so we only save a normal javascript object, and remove all the bad
     // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
@@ -611,8 +611,10 @@ export class DataService {
     this.assignId(item)
     const toSave = LangUtil.prepareForStorage(item)
 
-    // Get path to the object
-    let path = DbConfig.dbPath(item)
+    // Get path to the object (if not already supplied)
+    if (!path) {
+      path = DbConfig.dbPath(item)
+    }
     console.log('Saving Item ', toSave, path)
 
     this.db.object(path).set(toSave).then(() => {
@@ -1058,27 +1060,33 @@ export class DataService {
   // Display Sharing 
   // ----------------------------------------------------------------------------------------------
   
-  // ----------------------------------------------------------------------------------------------
-  // Data Structure in the database
-  //
-  // /games/game-id/sharing - Overall folder for sharing
-  // /games/game-id/sharing/presenter - object on who is presenting. 
-  // /games/game-id/sharing/events - object on share events. The share event is overwritten each time
+  /**
+   * Determines if this browser tab is sharing its map actions
+   */
   sharing : boolean = false
+
+  /**
+   * Determines if this browser tab is listening for shared map actions
+   */
   listening : boolean = false
 
   /**
-   * Reports if the current user is sharing displays. If the user is sharing then all actions that
-   * are supposed to be shared (like navigating and map actions) are published to clients. Those
-   * clients that are listening to the share will perform the same actions
+   * Reports if this browser tab is sharing its map actions
    */
   public isSharing() {
     return this.sharing
   }
+
+  /**
+   * Reports if this browser tab is listening for shared map actions
+   */
   public isListening() {
     return this.listening
   }
 
+  /**
+   * Called to share map events with others. This will check to make sure you are sharing first. 
+   */
   public shareEvent(data : any) {
     if (this.isSharing()) {
       const event = new ShareEvent()
@@ -1096,6 +1104,11 @@ export class DataService {
     }
   }
 
+  /**
+   * Creates an observable for listening to shared events. This checks if you are listening 
+   * 
+   * @param gameid Game ID
+   */
   sharedEvents$(gameid: String): Observable<ShareEvent> {
     const path = '/sharing/' + this.game.getValue().id + "/event" 
     return this.db.object<ShareEvent>(path).valueChanges().pipe(
@@ -1103,6 +1116,56 @@ export class DataService {
       filter(event => event !== null),
       filter( event => event.browserId !== DataService.BrowserId)
     )
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // Active Encounter for a Map
+  // ----------------------------------------------------------------------------------------------
+  // Active Encouters are the encounters that are current. THere is one active encounter per map. 
+  // multiple open encounters can be cycled through. The active encouter is the focused one. 
+  // 
+  // The active encounter is stored under /active/gameid/map/mapid/encounter
+  // ----------------------------------------------------------------------------------------------
+  
+  /**
+   * Activates this encounter. This is used to activate and update the encounter
+   * 
+   * @param encounter 
+   */
+  activateEncounter(encounter : Encounter) {
+    const gameid = encounter.owner
+    const mapid = encounter.mapInfo.mapId
+    const path =`/active/${gameid}/maps/${mapid}/encounter`
+    // this.db.object(path).set(encounter) 
+    this.save(encounter, path)
+  }
+
+  /**
+   * Completes the encounter, adds it to the historical record and deactivates it
+   */
+  completeEncounter(encounter: Encounter) {
+    throw ('NOT IMPLEMENTED')
+  }
+
+  /**
+   * Removes the active encounter. This will happen when the encounter is complete. 
+   * @param gameid 
+   * @param mapid 
+   */
+  deactivateEncounter(gameid: string, mapid: string) {
+    const path = `/active/${gameid}/maps/${mapid}/encounter`
+    this.db.object(path).remove() 
+  }
+
+  /**
+   * The active encounter will change when the encouter is updated or a new encounter
+   * is updated. This allows the system to react appropriately
+   * @param gameid 
+   * @param mapid 
+   */
+  getActiveEncounter$(gameid: string, mapid : string) : Observable<Encounter> {
+    const path = `/active/${gameid}/maps/${mapid}/encounter`
+    return this.db.object<Encounter>(path).valueChanges().pipe( map( item => item?Encounter.to(item):null))
   }
 }
 

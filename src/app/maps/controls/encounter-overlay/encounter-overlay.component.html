@@ -1,3 +1,15 @@
-<p>
-  encounter-overlay works!
-</p>
+<div class="overall" *ngIf="encounter" [class.closed]="!expanded">
+  <div class="rounds"> 
+    Round: 
+    <span class="round">{{encounter.round}}</span>
+    <fa-icon icon="step-forward" size="2x" class="clickable rounded" (click)="nextTurn()"></fa-icon>
+    <fa-icon icon="fast-forward" size="2x" class="clickable rounded" (click)="nextRound()"></fa-icon>
+  </div>
+  <div class="tiles">
+    <app-picture-tile size='tiny' class="tile" [class.myturn]="isMyTurn(item)" [selected]="isSelected(item)" (click)="select(item)" *ngFor="let item of items"
+      [picture]="pic(item)" [caption]="caption(item)" [objPos]="item.imgPos"></app-picture-tile>
+  </div>
+  <div class="handle clickable" (click)="toggle()">
+    <fa-icon icon="caret-down" size="lg"></fa-icon>
+  </div>
+</div>

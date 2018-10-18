@@ -166,6 +166,9 @@ import { EditChrAurasComponent } from './characters/controls/edit-chr-auras/edit
 import { InputDistanceComponent } from './controls/input-distance/input-distance.component';
 import { EncounterTabComponent } from './tabs/encounter-tab/encounter-tab.component';
 import { EncounterOverlayComponent } from './maps/controls/encounter-overlay/encounter-overlay.component';
+import { EncounterRowComponent } from './encounter/components/encounter-row/encounter-row.component';
+import { PictureTileComponent } from './controls/picture-tile/picture-tile.component';
+import { EncounterDialogComponent } from './dialogs/encounter-dialog/encounter-dialog.component';
 
 @NgModule({
   declarations: [
@@ -290,6 +293,9 @@ import { EncounterOverlayComponent } from './maps/controls/encounter-overlay/enc
     InputDistanceComponent,
     EncounterTabComponent,
     EncounterOverlayComponent,
+    EncounterRowComponent,
+    PictureTileComponent,
+    EncounterDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -347,6 +353,7 @@ import { EncounterOverlayComponent } from './maps/controls/encounter-overlay/enc
     ImportCharacterComponent,
     LinksComponent,
     SelectItemsComponent,
+    EncounterDialogComponent,
   ],
   exports: [CheckboxComponent]
 })

@@ -1,0 +1,20 @@
+.singlecol {
+  display: grid;
+  gap: 6px;
+  justify-content: center;
+}
+
+.small-tiles {
+  display: grid;
+  grid-template-columns:  repeat(auto-fill, minmax(auto, 75px));
+  gap: 10px;
+  padding: 3px;
+}
+
+.marker-scroll {
+  max-height: 75vh;
+}
+
+.pic {
+  cursor: pointer;
+}

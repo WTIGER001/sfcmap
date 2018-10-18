@@ -1,0 +1,6 @@
+{
+  "name" : "Vile Types: Dungeon Mapper",
+  "description" : "Make your own subterranean dungeon maps from an assortment of parts. Or don't. I mean who am I to tell you what to do with your time?",
+  "author" : "Gabriel Pickard",
+  "types"  : ["background"]
+}

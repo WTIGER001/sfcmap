@@ -26,6 +26,7 @@ export class Character extends Asset {
   tags: string[] = []
   picture: string
   token: string
+  imagePos : number = 5
 
   info: PersonalInformation = new PersonalInformation()
   attachments: Attachment[] = []

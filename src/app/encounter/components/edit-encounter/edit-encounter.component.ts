@@ -36,7 +36,7 @@ export class EditEncounterComponent implements OnInit {
   addCharacter($event) {
     console.log("addCharacter, ", $event);
 
-    this.selected.characters.push($event.item.character.id)
+    // this.selected.characters.push($event.item.character.id)
   }
 
   getCharacter(id: string) {
@@ -57,7 +57,7 @@ export class EditEncounterComponent implements OnInit {
   getResults(term: string): FormatResult[] {
     return this.characters
       .filter(c => c.name.toLowerCase().includes(term.toLowerCase()))
-      .filter(c => !this.selected.characters.includes(c.id))
+      // .filter(c => !this.selected.characters.includes(c.id))
       .slice(0, 30)
       .map(c => new FormatResult(c))
   }

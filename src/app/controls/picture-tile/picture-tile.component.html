@@ -1,0 +1,12 @@
+<figure [class.iconselected]="selected"
+ [class.small-pic]="size=='small'" 
+ [class.large-pic]="size=='large'"
+ [class.tiny-pic]="size=='tiny'"
+(click)="toggleCheck()">
+  <img [src]="getPicture()" [ngClass]="getImagePosClass()">
+  <figcaption *ngIf="caption">{{caption}}</figcaption> 
+  <span *ngIf="badge" class="badge badge-secondary">{{badge}}</span>
+  <div class="selected" *ngIf="isChecked()">
+    <fa-icon [icon]="checkIcon" size="2x"></fa-icon>
+  </div>
+</figure>

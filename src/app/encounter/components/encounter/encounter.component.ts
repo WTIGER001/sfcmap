@@ -45,11 +45,11 @@ export class EncounterComponent implements OnInit {
   }
 
   save($event: any) {
-    console.log("Saving, $event, ", this.selected.characters, $event);
+    // console.log("Saving, $event, ", this.selected.characters, $event);
     this.data.save(this.selected)
   }
 
   addCharacter($event) {
-    this.selected.characters.push($event.id)
+    // this.selected.characters.push($event.id)
   }
 }

@@ -2,7 +2,7 @@
   <div class="crd" [class.p1]="position==1" [class.p2]="position==2" [class.p3]="position==3">
     <ng-container *ngIf="canView() == true">
       <a routerLink="{{character.id}}">
-        <img class="crd-picture" [src]="character.picture?character.picture:'/assets/cards/character.png'">
+        <img class="crd-picture" [ngClass]="getImagePosClass()" [src]="character.picture?character.picture:'/assets/cards/character.png'">
       </a>
       <div class="crd-body crd-body scroller-dark">
         <ng-container *ngIf="page=='personal'">

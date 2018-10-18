@@ -1,0 +1,12 @@
+.items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-height: 60vh;
+}
+
+@media (max-width:900px) {
+  .items {
+      grid-template-columns: 1fr;
+  }
+}

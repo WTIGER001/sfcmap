@@ -1,0 +1,31 @@
+<div class="overall">
+  <app-picture-tile class="pic" [item]="item" [caption]="getType()" canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [objPos]="item.imgPos"></app-picture-tile>
+  <div class="myCol">
+    <label>Name:</label>
+    <input type="text" class="frm-ctl" [(ngModel)]="row.name">
+
+    <label>Team:</label>
+    <input type="text" class="frm-ctl" [(ngModel)]="row.team">
+
+    <label>HP:</label>
+    <div class="line">
+      <input type="number" class="frm-ctl" [(ngModel)]="row.hp"> /
+      <input type="number" class="frm-ctl" [(ngModel)]="row.maxHp">
+    </div>
+
+    <label>Initiative:</label>
+    <input type="number" class="frm-ctl" [(ngModel)]="row.initiative">
+
+    <label>XP:</label>
+    <input type="number" class="frm-ctl" [(ngModel)]="row.xp">
+
+    <label>Statuses:</label>
+    <input type="text" class="frm-ctl" [(ngModel)]="row.statuses">
+
+    <label>Controlled By:</label>
+    <input type="text" class="frm-ctl" [(ngModel)]="row.controlledBy">
+
+    <label>Treasure:</label>
+    <input type="text" class="frm-ctl" [(ngModel)]="row.treasure">
+  </div>
+</div> 

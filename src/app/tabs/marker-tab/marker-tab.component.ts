@@ -55,6 +55,7 @@ export class MarkerTabComponent implements OnInit {
   calibrateX: CalibrateX
   grid: GridLayer
   lastmouse: LeafletMouseEvent
+  selectionPinned = false
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
@@ -435,25 +436,29 @@ export class MarkerTabComponent implements OnInit {
     }
   }
 
-
+  togglePin() {
+    this.selectionPinned = !this.selectionPinned
+  }
   private processSelection(newSelection: Selection) {
-    this.disableDragging()
-    this.selection = newSelection
-    this.restricted = this.isRestricted()
-    this.item = this.firstAnnotation()
-    if (this.item) {
-      this.markers = this.item
-    }
+    if (this.selectionPinned == false) {
+      this.disableDragging()
+      this.selection = newSelection
+      this.restricted = this.isRestricted()
+      this.item = this.firstAnnotation()
+      if (this.item) {
+        this.markers = this.item
+      }
 
-    if (this.selection.type && this.selection.type == 'edit') {
-      this.edit = true
-      this.enableDragging()
-    } else {
-      this.edit = false
-    }
+      if (this.selection.type && this.selection.type == 'edit') {
+        this.edit = true
+        this.enableDragging()
+      } else {
+        this.edit = false
+      }
 
-    if (this.item && TokenAnnotation.is(this.item)) {
-      this.enableDragging()
+      if (this.item && TokenAnnotation.is(this.item)) {
+        this.enableDragging()
+      }
     }
   }
 

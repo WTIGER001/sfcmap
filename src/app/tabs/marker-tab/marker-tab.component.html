@@ -45,6 +45,10 @@
       <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
       <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
     </button>
+    <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="togglePin()" placement="bottom"
+      ngbTooltip="Pin this selection" [class.active]="selectionPinned"> 
+      <fa-icon icon="thumbtack" size="lg"></fa-icon>
+    </button>
     <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected marker(s)">
       <fa-icon icon="trash-alt" size="lg"></fa-icon>
     </button>
