@@ -88,7 +88,7 @@ export class EncounterTabComponent implements OnInit {
   }
 
   loadEncounter() {
-    
+
   }
 
   pic(item) {
@@ -168,6 +168,8 @@ export class EncounterTabComponent implements OnInit {
       const item: Token = this.data.gameAssets.tokens.currentItems.find(i => i.id == r.id)
       if (item) {
         r.name = item.name
+        r.team = 'Enemies'
+        r.controlledBy = ['GM']
       }
     } else {
       throw new Error('Invlaid item type ' + r.type)
