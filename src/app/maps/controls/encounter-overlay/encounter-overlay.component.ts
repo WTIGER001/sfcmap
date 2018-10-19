@@ -128,4 +128,13 @@ export class EncounterOverlayComponent implements OnInit {
     }
     return undefined
   }
+
+  dblclick(item) {
+    if (item !== undefined) {
+      const t = this.findToken(item)
+      if (t) {
+        this.mapSvc.panTo(t.center())
+      }
+    }
+  }
 }

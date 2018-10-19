@@ -75,5 +75,5 @@ export class TokenRecord  {
   controlledBy: string[] = ['GM'] // Who controls this. Valid values are 'everyone', 'gm' and/or player ids
   initiative : number = 0 // The initiative order 
   token: string;
-  _delete: false
+  _delete: boolean =  false
 }

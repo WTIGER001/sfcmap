@@ -61,7 +61,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## To Do
 ------------------------------------------------------------------------------------------------------------
 
+### Priority List
+-
+
+
+
+
+
 ### Monsters 
+- 
 - Figure out the cr - bug
 - Look at making "Type" pages (an image for a category). This could be cool. Basicially search would kick in on 'enter' and categories of 'type', 'cr' and 'Alphabetical' can be used to limit the number of results. Card can b made programttically for each.
 <link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet"> or Lobster Two, Oleo
@@ -284,3 +292,29 @@ Characters...
 
 - Detector
 --- Radius
+
+
+Constant Dragging of Tokens
+Listen for inititative rolls
+Group Roll
+Settings should be a dialog
+
+Encounters
+- tied initiatives
+- Group Rolls
+- Handle Damage (either in the encounter or via the selection pane)
+- Handle Effects (either in the encounter or via the selection pane)
+- 'Kill' (Mark and take out of initiative order)
+
+Tokens
+- Have an idea of a token pack
+
+Monsters
+- Assign Monster 
+
+Map
+- Background Layers
+- Better Ruler
+
+Application
+- Manage build size. Really large right now

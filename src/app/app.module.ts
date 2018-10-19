@@ -10,7 +10,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from 'angularfire2/storage';
-import { TreeModule } from 'angular-tree-component';
+// import { TreeModule } from 'angular-tree-component';
 import { ToastrModule } from 'ngx-toastr';
 import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -19,12 +19,11 @@ import { TagInputModule } from 'ngx-chips';
 import { SortablejsModule } from 'angular-sortablejs/dist';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas as faspro} from '@fortawesome/pro-solid-svg-icons';
-import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
-import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
-import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
+// import { fas as faspro} from '@fortawesome/pro-solid-svg-icons';
+// import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+// import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
+// import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
 import { NgSpinKitModule } from 'ng-spin-kit';
-import { UiScrollModule } from 'ngx-ui-scroll';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VirtualScrollModule } from 'od-virtualscroll';
 import { DragulaModule } from 'ng2-dragula';
@@ -169,6 +168,8 @@ import { EncounterOverlayComponent } from './maps/controls/encounter-overlay/enc
 import { EncounterRowComponent } from './encounter/components/encounter-row/encounter-row.component';
 import { PictureTileComponent } from './controls/picture-tile/picture-tile.component';
 import { EncounterDialogComponent } from './dialogs/encounter-dialog/encounter-dialog.component';
+import { Icons } from './icon-library';
+import { FocusSelectDirective } from './controls/focus-select.directive';
 
 @NgModule({
   declarations: [
@@ -296,6 +297,7 @@ import { EncounterDialogComponent } from './dialogs/encounter-dialog/encounter-d
     EncounterRowComponent,
     PictureTileComponent,
     EncounterDialogComponent,
+    FocusSelectDirective,
   ],
   imports: [
     BrowserModule,
@@ -311,7 +313,6 @@ import { EncounterDialogComponent } from './dialogs/encounter-dialog/encounter-d
     LeafletModule.forRoot(),
     FontAwesomeModule,
     NgbModule.forRoot(),
-    TreeModule,
     ChecklistModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
@@ -359,10 +360,11 @@ import { EncounterDialogComponent } from './dialogs/encounter-dialog/encounter-d
 })
 export class AppModule {
   constructor() {
-    library.add(faGoogle, faGithub)
-    library.add(faStar, faCircle)
-    library.add(fas, faLayerGroup);
-    library.add(faspro);
+    // library.add(faGoogle, faGithub)
+    // library.add(faStar, faCircle)
+    // library.add(fas, faLayerGroup);
+    // library.add(faspro);
+    new Icons(library);
 
     EncounterFeature.initialize()
   }

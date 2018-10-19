@@ -81,7 +81,7 @@
         <fa-icon class="crd-next" icon="caret-right" (click)="nextPage($event)"></fa-icon>
       </div>
       <app-attr-value class="crd-hp" size="4x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
-      <app-attr-value class="crd-ac" size="4x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
+      <app-attr-value class="crd-ac" size="4x" [value]="getAttrValue('AC')" type="shield"></app-attr-value>
       <div class="crd-hover-info" *ngIf="diceResult">
         <div class="dice">
           <ng-container *ngFor="let r of diceResult.dice">
@@ -109,11 +109,11 @@
 <ng-container *ngIf="size=='small'">
   <a routerLink="{{character.id}}">
     <div class="sm-card">
-      <img [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-sm">
+      <img [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-sm" [ngClass]="getImagePosClass()">
       <span class="sm-name">{{character.name}}</span>
       <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
       <div class="sm-attr">
-        <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
+        <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield"></app-attr-value>
         <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
       </div>
     </div>
@@ -122,12 +122,12 @@
 
 <ng-container *ngIf="size=='tiny'">
   <div class="tiny-card">
-    <img *ngIf="character.picture" [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-tiny">
+    <img *ngIf="character.picture" [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-tiny" [ngClass]="getImagePosClass()">
     <div *ngIf="!character.picture" class="mini-pic-sm nopic"></div>
     <span class="sm-name">{{character.name}}</span>
     <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
     <div class="sm-attr">
-      <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield-alt"></app-attr-value>
+      <app-attr-value size="2x" [value]="getAttrValue('AC')" type="shield"></app-attr-value>
       <app-attr-value size="2x" [value]="getAttrValue('HP')" type="heart"></app-attr-value>
     </div>
   </div>

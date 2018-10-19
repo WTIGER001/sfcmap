@@ -1,8 +1,14 @@
 .items {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   max-height: 60vh;
+}
+
+@media (max-width:1750px) {
+  .items {
+      grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width:900px) {

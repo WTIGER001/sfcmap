@@ -12,7 +12,7 @@ export class PictureTileComponent implements OnInit {
   @Input() picture : string
   @Input() caption : string
   @Input() badge : string
-  @Input() size : 'tiny' | 'small' | 'large' = 'small'
+  @Input() size : 'tiny' | 'small' | 'large'  | 'square-sm' = 'small'
   @Input() missing: string = './assets/missing.png'
   @Input() selected : boolean = false;
   @Input() checked : boolean = false;
@@ -26,6 +26,9 @@ export class PictureTileComponent implements OnInit {
   ngOnInit() {
   }
 
+  getSizeClass() {
+    return this.size+"-pic"
+  }
   getPicture() : string {
     if (this.picture) {
       return this.picture

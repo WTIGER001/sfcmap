@@ -1,5 +1,5 @@
 <div class="overall">
-  <app-picture-tile class="pic" [item]="item" [caption]="getType()" canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [objPos]="item.imgPos"></app-picture-tile>
+  <app-picture-tile class="pic" size="square-sm" [picture]="getPic()" [caption]="getType()" canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [checked]="row._delete" [objPos]="getItem().imgPos"></app-picture-tile>
   <div class="myCol">
     <label>Name:</label>
     <input type="text" class="frm-ctl" [(ngModel)]="row.name">
@@ -9,23 +9,23 @@
 
     <label>HP:</label>
     <div class="line">
-      <input type="number" class="frm-ctl" [(ngModel)]="row.hp"> /
-      <input type="number" class="frm-ctl" [(ngModel)]="row.maxHp">
+      <input focus-select type="number" class="frm-ctl" [(ngModel)]="row.hp"> /
+      <input focus-select type="number" class="frm-ctl" [(ngModel)]="row.maxHp">
     </div>
 
     <label>Initiative:</label>
-    <input type="number" class="frm-ctl" [(ngModel)]="row.initiative">
+    <input focus-select  type="number" class="frm-ctl" [(ngModel)]="row.initiative">
 
     <label>XP:</label>
-    <input type="number" class="frm-ctl" [(ngModel)]="row.xp">
+    <input focus-select type="number" class="frm-ctl" [(ngModel)]="row.xp">
 
     <label>Statuses:</label>
-    <input type="text" class="frm-ctl" [(ngModel)]="row.statuses">
+    <input focus-select type="text" class="frm-ctl" [(ngModel)]="row.statuses">
 
     <label>Controlled By:</label>
-    <input type="text" class="frm-ctl" [(ngModel)]="row.controlledBy">
+    <input focus-select type="text" class="frm-ctl" [(ngModel)]="row.controlledBy">
 
     <label>Treasure:</label>
-    <input type="text" class="frm-ctl" [(ngModel)]="row.treasure">
+    <input focus-select type="text" class="frm-ctl" [(ngModel)]="row.treasure">
   </div>
 </div> 

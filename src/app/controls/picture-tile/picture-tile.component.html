@@ -1,7 +1,5 @@
 <figure [class.iconselected]="selected"
- [class.small-pic]="size=='small'" 
- [class.large-pic]="size=='large'"
- [class.tiny-pic]="size=='tiny'"
+[ngClass]="getSizeClass()"
 (click)="toggleCheck()">
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
   <figcaption *ngIf="caption">{{caption}}</figcaption> 

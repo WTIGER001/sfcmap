@@ -22,6 +22,14 @@ export class SelectItemsComponent implements AfterContentInit {
 
   }
 
+  getImagePosClass(item) {
+    if (item.imagePos && item.imagePos >0) {
+      return "object-position-" + item.imagePos
+    } else {
+      return "object-position-5"
+    }
+  }
+
   ngAfterContentInit() {
     if (isArray(this.selected)) {
       this._selected = this.selected.slice()

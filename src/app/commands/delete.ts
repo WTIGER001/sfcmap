@@ -31,7 +31,8 @@ export class DeleteCommand implements ICommand {
     let namesTxt = Format.formatArray(names)
     this.dialog.confirm("Are you sure you want to delete " + namesTxt + "?", "Confirm Delete").subscribe(result => {
       if (result) {
-        this.data.deleteAll(...this.selection.items)
+        this.mapSvc.deleteAnnotation(...this.selection.items)
+        // this.data.deleteAll(...this.selection.items)
         this.mapSvc.select()
       }
     })

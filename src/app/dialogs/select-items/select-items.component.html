@@ -6,7 +6,7 @@
     <div class="select-list">
       <ng-container *ngFor="let item of _choices">
         <figure (click)="toggleSelection(item)">
-          <img [src]="getImage(item)">
+          <img [src]="getImage(item)" [ngClass]="getImagePosClass(item)">
           <figcaption>{{item.name}}</figcaption>
           <div class="selected" *ngIf="isSelected(item)">
             <fa-icon icon="check" size="2x"></fa-icon>

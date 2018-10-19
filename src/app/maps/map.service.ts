@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ReplaySubject, combineLatest, BehaviorSubject, of } from 'rxjs';
+import { ReplaySubject, combineLatest, BehaviorSubject, of, Subject } from 'rxjs';
 import { Map as LeafletMap, LatLng, Layer, LayerGroup, Marker, layerGroup, icon, IconOptions, marker, Icon, latLng, DomUtil } from 'leaflet';
 import { MapConfig, Selection, MarkerGroup, MarkerType, MapType, User, AnchorPostitionChoice, Category, ImageAnnotation, ItemAction, Operation, UserAssumedAccess, MapPrefs } from '../models';
 import { DataService } from '../data.service';
@@ -93,6 +93,7 @@ export class MapService {
   mapPrefs: MapPrefs
   public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>(1)
 
+  annotationDeletions$ : Subject<Annotation> = new Subject()
 
   mouseCoord
 
@@ -426,12 +427,16 @@ export class MapService {
     }
   }
 
-  deleteAnnotation(m: Annotation) {
-    if (m.id == 'TEMP') {
-      m.getAttachment().removeFrom(this._map)
-    } else {
-      this.data.delete(m)
-    }
+  deleteAnnotation(... annotations: Annotation[]) {
+    annotations.forEach( m=> {
+      this.annotationDeletions$.next(m)
+
+      if (m.id == 'TEMP') {
+        m.getAttachment().removeFrom(this._map)
+      } else {
+        this.data.delete(m)
+      }
+    })
   }
 
   printLayers() {

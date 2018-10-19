@@ -41,6 +41,35 @@ export class EncounterTabComponent implements OnInit {
       tap( e => this.updateTeams())
     ).subscribe()
 
+    this.mapSvc.annotationDeletions$.subscribe( a => {
+      // We care
+      console.log("Checking Delete ", a);
+      if (TokenAnnotation.is(a) && this.encounter) {
+        const indx = this.encounter.participants.findIndex(r => r.id == a.itemId)
+        if (indx >= 0 ) {
+          console.log("Removing Item from Encounter: ", indx, a.name)
+          this.encounter.participants.splice(indx, 1)
+          this.save()
+        }
+      } 
+    })
+  }
+
+  isInEncounter(a : TokenAnnotation) : boolean {
+    const indx = this.encounter.participants.findIndex( r => r.id == a.itemId)
+    return indx >= 0 
+  }
+
+  findLinkedItem(itemId : string, itemType : string): Character | Token | Monster {
+    if (itemType == Character.TYPE) {
+      return this.data.gameAssets.characters.currentItems.find(i => i.id == itemId)
+    }
+    if (itemType == Monster.TYPE) {
+      return this.data.gameAssets.monsters.currentItems.find(i => i.id == itemId)
+    }
+    if (itemType == Token.TYPE) {
+      return this.data.gameAssets.tokens.currentItems.find(i => i.id == itemId)
+    }
   }
 
   newEncounter() {
@@ -49,8 +78,8 @@ export class EncounterTabComponent implements OnInit {
     enc.name = "Random Encounter"
     enc.owner = this.data.game.getValue().id
     enc.mapInfo = this.mapSvc.getMapInfo()
-    enc.participants = this.calcParticipants()
-    this.dialog.openEncounter(enc).subscribe(a => {
+    const all = this.calcParticipants()
+    this.dialog.openEncounter(enc, all).subscribe(a => {
       this.data.activateEncounter(enc)
     })
   }
@@ -72,7 +101,16 @@ export class EncounterTabComponent implements OnInit {
   }
 
   manage() {
-    this.dialog.openEncounter(this.encounter).subscribe(a => {
+    // Calculate all the possible participants
+    const possible = this.calcParticipants()
+    // Determine who is not already in the encounter
+    const diff = possible.filter(me => this.encounter.participants.findIndex( a => a.id == me.id) < 0)
+    diff.forEach( a => a._delete = true)
+    // Create the all map
+    const all = [...this.encounter.participants.slice(0), ...diff]
+    // all.push(...diff)
+
+    this.dialog.openEncounter(this.encounter, all).subscribe(a => {
       this.updateTeams()
       this.save()
     })
@@ -175,6 +213,7 @@ export class EncounterTabComponent implements OnInit {
       throw new Error('Invlaid item type ' + r.type)
     }
   }
+
 
   getAttrCurrent(c: Character, attr: string): number {
     const a = c.attributes.find(item => item.attr == attr)

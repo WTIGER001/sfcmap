@@ -17,7 +17,7 @@ before_script:
   - npm install -g @angular/cli
 
 script:
-  - ng build --prod  --optimization=false
+  - travis_wait 50 ng build --prod --aot
 
 after_success:
   - firebase deploy --token $FIREBASE_TOKEN

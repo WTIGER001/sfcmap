@@ -9,7 +9,7 @@ import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
 import { SortFilterData } from '../util/sort-filter';
 import { LinksComponent } from './links/links.component';
 import { SelectItemsComponent } from './select-items/select-items.component';
-import { Encounter } from '../encounter/model/encounter';
+import { Encounter, TokenRecord } from '../encounter/model/encounter';
 import { EncounterDialogComponent } from './encounter-dialog/encounter-dialog.component';
 
 @Injectable()
@@ -56,10 +56,11 @@ export class DialogService {
     return modalRef.componentInstance.result
   }
 
-  public openEncounter(encounter: Encounter): Observable<boolean>  {
+  public openEncounter(encounter: Encounter, all : TokenRecord[]): Observable<boolean>  {
     
     const modalRef = this.modalSvc.open(EncounterDialogComponent);
     modalRef.componentInstance.encounter = encounter
+    modalRef.componentInstance.all = all
     modalRef.componentInstance.result = new Subject<boolean>()
     return modalRef.componentInstance.result
 

@@ -4,6 +4,7 @@ import { Character, Asset } from 'src/app/models';
 import { Monster } from 'src/app/monsters/monster';
 import { Token } from 'src/app/maps/token';
 import { DataService } from 'src/app/data.service';
+import { LangUtil } from 'src/app/util/LangUtil';
 
 @Component({
   selector: 'app-encounter-row',
@@ -47,9 +48,20 @@ export class EncounterRowComponent implements OnInit , AfterContentInit{
     }
   }
 
+  getPic() {
+    const item : any= this.getItem()
+    if (item) {
+      return LangUtil.firstDefined(item.token, item.thumb, item.image, item.thumb, './assets/missing.png')
+    }
+    return './assets/missing.png'
+  }
+
   checkChange(event) {
     this.row._delete = event
   }
 
+  isChecked() {
+    return this.row._delete
+  }
 
 }

@@ -30,7 +30,7 @@
   padding: .2rem;
   background-color: transparent;
   color: white;
-  min-width: 5em;
+  min-width: 1em;
 }
 
 label {
@@ -38,18 +38,18 @@ label {
   margin: 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
   .mycol {
       grid-template-columns: auto 1fr;
   }
 }
 
 @media (max-width: 500px) {
-  .pic {
-    grid-row: 1;
+  .overall{
+    grid-template-columns: 1fr;
+    justify-content: center;
   }
   .myCol {
-    grid-row: 2;
-    grid-template-columns:  1fr;
+    grid-template-columns:  auto 1fr;
   }
 }
