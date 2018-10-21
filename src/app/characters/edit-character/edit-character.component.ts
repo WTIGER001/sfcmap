@@ -26,7 +26,6 @@ export class EditCharacterComponent implements OnInit {
   }
 
   save() {
-    this.data.save(this.character)
     RouteUtil.goUpOneLevel(this.router)
   }
 
@@ -34,22 +33,7 @@ export class EditCharacterComponent implements OnInit {
     RouteUtil.goUpOneLevel(this.router)
   }
 
-  getSearchTerm() {
-    if (this.character.tags) {
-      return this.character.tags.join(' ') + " fatansy art"
-    } else {
-      return "human fighter fantasy art"
-    }
-  }
-
   delete() {
-    this.cd.confirm("Are you sure you want to delete " + this.character.name + "? ", "Confirm Delete").subscribe(
-      r => {
-        if (r) {
-          this.data.delete(this.character)
-          RouteUtil.goUpTwoLevels(this.router)
-        }
-      }
-    )
+    RouteUtil.goUpTwoLevels(this.router)
   }
 }

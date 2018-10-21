@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -170,6 +171,17 @@ import { PictureTileComponent } from './controls/picture-tile/picture-tile.compo
 import { EncounterDialogComponent } from './dialogs/encounter-dialog/encounter-dialog.component';
 import { Icons } from './icon-library';
 import { FocusSelectDirective } from './controls/focus-select.directive';
+import { EditCharacterCoreComponent } from './characters/controls/edit-character-core/edit-character-core.component';
+import { EditCharacterDialogComponent } from './characters/controls/edit-character-dialog/edit-character-dialog.component';
+import { TokenSelectionComponent } from './maps/controls/token-selection/token-selection.component';
+import { ShapeSelectionComponent } from './maps/controls/shape-selection/shape-selection.component';
+import { MarkerSelectionComponent } from './maps/controls/marker-selection/marker-selection.component';
+import { ImageSelectionComponent } from './maps/controls/image-selection/image-selection.component';
+import { GroupNameComponent } from './controls/group-name/group-name.component';
+import { AnnotationGroupNameComponent } from './maps/controls/annotation-group-name/annotation-group-name.component';
+import { AnnotationSelectionComponent } from './maps/controls/annotation-selection/annotation-selection.component';
+import { MonsterSelectionComponent } from './monsters/controls/monster-selection/monster-selection.component';
+import { CacheInfoComponent } from './components/cache-info/cache-info.component';
 
 @NgModule({
   declarations: [
@@ -298,11 +310,23 @@ import { FocusSelectDirective } from './controls/focus-select.directive';
     PictureTileComponent,
     EncounterDialogComponent,
     FocusSelectDirective,
+    EditCharacterCoreComponent,
+    EditCharacterDialogComponent,
+    TokenSelectionComponent,
+    ShapeSelectionComponent,
+    MarkerSelectionComponent,
+    ImageSelectionComponent,
+    GroupNameComponent,
+    AnnotationGroupNameComponent,
+    AnnotationSelectionComponent,
+    MonsterSelectionComponent,
+    CacheInfoComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    HttpClientModule,
     FormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -355,6 +379,7 @@ import { FocusSelectDirective } from './controls/focus-select.directive';
     LinksComponent,
     SelectItemsComponent,
     EncounterDialogComponent,
+    EditCharacterDialogComponent,
   ],
   exports: [CheckboxComponent]
 })

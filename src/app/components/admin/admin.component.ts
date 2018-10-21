@@ -5,6 +5,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { MonsterImportCsv } from '../../monsters/monster-import-csv';
 import { DataService } from '../../data.service';
 import { Monster } from '../../monsters/monster';
+import { CachedItem } from 'src/app/cache/cache';
 
 @Component({
   selector: 'app-admin',
@@ -36,6 +37,22 @@ export class AdminComponent implements OnInit {
 
   }
 
+
+  createCacheItem() {
+    const url = 'https://firebasestorage.googleapis.com/v0/b/sfcmapdev.appspot.com/o/cache%2Fgames%2Fpathfinder%2Fmonsters.json?alt=media&token=4ba0fdd3-7ee6-4816-b6c0-a382cb35b20a'
+    const item = new CachedItem()
+    item.path = 'cache/games/pathfinder/monsters'
+    item.url = 'https://firebasestorage.googleapis.com/v0/b/sfcmapdev.appspot.com/o/cache%2Fgames%2Fpathfinder%2Fmonsters.json?alt=media&token=4ba0fdd3-7ee6-4816-b6c0-a382cb35b20a'
+    item.id = 'monsters'
+    item.name = 'monsters'
+    item.version = 1
+
+    this.oldDb.object(item.path).set(item)
+    .then( () => { console.log("ADDED")})
+    .catch( err => {
+      { console.log("ERROR ", err) }
+    })
+  }
 
   impMonsters2(event) {
     if (event.target.files[0]) {

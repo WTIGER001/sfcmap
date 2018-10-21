@@ -40,7 +40,7 @@ export class EncounterRowComponent implements OnInit , AfterContentInit{
     if (this.row.type == Character.TYPE) {
       return this.data.gameAssets.characters.currentItems.find( i => i.id == this.row.id)
     } else if (this.row.type == Monster.TYPE) {
-      return this.data.gameAssets.monsters.currentItems.find(i => i.id == this.row.id)
+      return this.data.pathfinder.monsters$.getValue().find(i => i.id == this.row.id)
     } else if (this.row.type == Token.TYPE) {
       return this.data.gameAssets.tokens.currentItems.find(i => i.id == this.row.id)
     } else {

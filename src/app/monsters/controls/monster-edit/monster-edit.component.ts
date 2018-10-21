@@ -7,8 +7,11 @@ import { DataService } from '../../../data.service';
 import { mergeMap, first } from 'rxjs/operators';
 import { Game, Asset } from '../../../models';
 import { DbConfig } from '../../../models/database-config';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Monster } from '../../monster';
+import { CacheService } from 'src/app/cache/cache.service';
+import { Pathfinder } from 'src/app/models/gamesystems/pathfinder';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-monster-edit',
@@ -21,7 +24,7 @@ export class MonsterEditComponent implements AfterContentInit {
   game: Game
   @Input() selected: Monster
 
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private cache : CacheService, private router: Router) {
   }
 
   ngAfterContentInit() {
@@ -33,7 +36,22 @@ export class MonsterEditComponent implements AfterContentInit {
   }
 
   save() {
-    this.data.save(this.selected)
+    const all : Monster[] = this.data.pathfinder.monsters$.getValue()
+    const indx = all.findIndex( m => m.id == this.selected.id)
+    if (indx >=  0) {
+      all[indx] = this.selected
+    } else [
+      all.push(this.selected)
+    ]
+
+    this.cache.storeLocal(Pathfinder.MONSTER_PATH, all)
+    RouteUtil.goUpOneLevel(this.router)
+
+    // this.data.save(this.selected)
+  }
+
+  cancel() {
+    RouteUtil.goUpOneLevel(this.router)
   }
 
   getSearchTerm() {

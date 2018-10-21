@@ -1,0 +1,30 @@
+h3.name {
+  text-align: center
+}
+
+.centered {
+    display: block;
+    margin: 0 auto ;
+}
+
+.centered-text {
+  text-align: center
+}
+
+.action {
+  font-size: 10pt;
+  display: block;
+  color: white;
+  padding: .25em .5em;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.action:hover {
+  background-color: rgba(117,117,117,.6);
+}
+
+.selection-actions {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 12px;
+}

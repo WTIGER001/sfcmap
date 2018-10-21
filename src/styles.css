@@ -7,6 +7,7 @@
 @import 'app/styles/tables.css';
 @import 'app/styles/dialogs.css';
 @import 'app/styles/pictures.css';
+@import 'app/styles/tabs.css';
 
 /* @import 'app/styles/tag-input.css'; */
 
@@ -304,7 +305,7 @@ h4 {
 }
 
 .page b {
-  font-weight: 900;
+  font-weight: 300;
   color: rgb(170, 183, 209);
   margin-right: .5em;
   margin-top: 8px;

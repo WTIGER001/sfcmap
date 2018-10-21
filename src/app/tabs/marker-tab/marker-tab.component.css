@@ -1,9 +1,15 @@
+.marker-tab {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100%;
+}
+
 
 .marker-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: stretch;
     flex-direction: column;
+    width: 100%;
 }
 
 .title {
@@ -81,10 +87,6 @@ label.small {
     padding-left: 5px;
 }
 
-.marker-scroll {
-    height: calc(100vh - 110px);
-}
-
 .marker-container a {
     color: white;
     margin-bottom: 4px;
@@ -99,4 +101,8 @@ label.small {
     fill-opacity:1;
     stroke: white;
     stroke-opacity:"1"
+}
+
+h3 {
+  text-align: center;
 }

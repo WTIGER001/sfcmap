@@ -1,0 +1,32 @@
+.areas {
+  max-height: 100%;
+}
+
+.character h2 {
+  margin-top: 15px;
+}
+.rows {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  .rows {
+      grid-template-columns: 1fr 1fr ;
+  }
+}
+@media screen and (max-width: 700px) {
+  .rows {
+     display: flex;
+     flex-direction: column;
+  }
+}
+
+.tool-bar--wide {
+  width: 100%;
+}
+
+.span2 {
+  grid-column: span 2;
+}

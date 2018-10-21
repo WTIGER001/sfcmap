@@ -6,6 +6,7 @@ import { Game, Asset } from '../../../models';
 import { DbConfig } from '../../../models/database-config';
 import { Monster } from '../../monster';
 import { MonsterImportCsv } from '../../monster-import-csv';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-monster-view',
@@ -51,6 +52,9 @@ export class MonsterViewComponent implements AfterContentInit {
     return yes
   }
 
+  cancel() {
+    RouteUtil.goUpOneLevel(this.router)
+  }
 
 }
 

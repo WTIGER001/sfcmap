@@ -1,7 +1,7 @@
 <div class="page-center">
   <div class="page page--wide page-tooltop scroller-dark monster-page">
     <div class="full">
-      <app-view-toolbar class="uptop" [item]='item'></app-view-toolbar>
+      <app-view-toolbar class="uptop" [item]='item' (onCancel)="cancel()"></app-view-toolbar>
       <div class="title">
         <app-restricted-content [item]="item" field="name">
           <H1>{{item.name}}</H1>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-view-toolbar',
@@ -8,10 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ViewToolbarComponent implements OnInit {
   @Input() item
   @Input() light = false
-
+  @Output() onCancel = new EventEmitter()
   constructor() { }
 
   ngOnInit() {
   }
 
+  cancel() {
+    this.onCancel.emit()
+  }
 }

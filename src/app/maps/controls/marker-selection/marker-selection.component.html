@@ -1,0 +1,19 @@
+<img [src]="item?._iconUrl" height="40" class="centered my-2 iconselected">
+
+<h3 class="name">{{item?.name}}</h3>
+<app-tags class="centered" [tags]="item.tags"></app-tags>
+<app-annotation-group-name *ngIf="item.group" class="centered-text" [item]="item"></app-annotation-group-name>
+
+<div class="selection-actions">
+  <div class="action" (click)="panTo()">
+    <fa-icon icon="location"></fa-icon> Locate on Map
+  </div>
+  <div *ngIf="item.mapLink" class="action" routerLink="/maps/{{item.mapLink}}">
+    <fa-icon icon="map"></fa-icon> Open Linked Map
+  </div>
+  <a *ngIf="item.pageUrl" class="action" [href]="item.pageurl" target="_blank">
+    <fa-icon icon="globe"></fa-icon> Open External Link
+  </a>
+</div>
+
+<app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>

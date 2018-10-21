@@ -47,10 +47,10 @@ export class ViewCharacterComponent implements OnInit {
     this.notify.success(this.character.name + " rolled a " + result.getTotal() + " on a " + result.expression)
   }
 
-  backUrl(): string[] {
-    return RouteUtil.upOneLevel(this.router)
-
+  cancel() {
+    RouteUtil.goUpOneLevel(this.router)
   }
+  
   delete() {
     this.cd.confirm("Are you sure you want to delete " + this.character.name + "? ", "Confirm Delete").subscribe(
       r => {

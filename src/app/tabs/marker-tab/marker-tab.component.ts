@@ -177,7 +177,8 @@ export class MarkerTabComponent implements OnInit {
 
 
   public addMonster() {
-    this.dialog.select(this.data.gameAssets.monsters.items$).subscribe(selected => {
+    // this.dialog.select(this.data.gameAssets.monsters.items$).subscribe(selected => {
+    this.dialog.select(this.data.pathfinder.monsters$).subscribe(selected => {
       selected.forEach((monster: Monster) => {
         // Add the character as a 'token' object (a subclass of the ImageAnnotation)
         this.addOneCharacter(monster)

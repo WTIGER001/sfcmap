@@ -2,5 +2,5 @@
   <app-edit-tool [item]="item"></app-edit-tool>
   <app-restrict-tool [item]="item"></app-restrict-tool>
   <app-delete-tool [item]="item"></app-delete-tool>
-  <app-cancel-view-tool></app-cancel-view-tool>
+  <app-cancel-view-tool (onClick)="cancel()"></app-cancel-view-tool>
 </ul>

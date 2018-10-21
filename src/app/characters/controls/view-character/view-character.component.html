@@ -1,13 +1,7 @@
 <div class="page-center">
 <div class="page scroller scroller-dark" *ngIf="character">
 
-  <!-- <ul class="tool-bar tool-bar--wide tool-bar--light tool-bar--right">
-    <app-edit-tool></app-edit-tool>
-    <app-restrict-tool [item]="character"></app-restrict-tool>
-    <app-delete-tool [item]="character"></app-delete-tool>
-    <app-cancel-view-tool></app-cancel-view-tool>
-  </ul> -->
-  <app-view-toolbar [item]="character"></app-view-toolbar>
+  <app-view-toolbar [item]="character" (onCancel)="cancel()" (onDelete)="delete()"></app-view-toolbar>
 
   <h1> {{character.name}}</h1>
   <div class="sfc-row">

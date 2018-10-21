@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUtil } from '../../util/route-util';
 
@@ -8,7 +8,9 @@ import { RouteUtil } from '../../util/route-util';
   styleUrls: ['./cancel-view-tool.component.css']
 })
 export class CancelViewToolComponent implements OnInit {
-  @Input() type: 'view' | 'edit' = 'view'
+  @Input() type: 'view' | 'edit'|'none'= 'none'
+  @Output() onClick = new EventEmitter()
+  
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -20,6 +22,10 @@ export class CancelViewToolComponent implements OnInit {
     } else if (this.type == 'edit') {
       return RouteUtil.upTwoLevels(this.router)
     }
-    return RouteUtil.upOneLevel(this.router)
+  }
+
+  click() {
+    console.log("Cancel Event")
+    this.onClick.emit()
   }
 }

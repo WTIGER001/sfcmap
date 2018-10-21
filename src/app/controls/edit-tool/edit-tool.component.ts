@@ -23,6 +23,6 @@ export class EditToolComponent implements AfterContentInit {
 
   save() {
     this.onSave.emit()
-    RouteUtil.goUpTwoLevels(this.router)
+    // RouteUtil.goUpTwoLevels(this.router)
   }
 }

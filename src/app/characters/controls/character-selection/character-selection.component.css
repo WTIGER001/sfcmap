@@ -1,7 +1,12 @@
 .attr-tbl {
   display: grid;
-  grid-template-columns: 1fr 5em 5em;
+  grid-template-columns: 1fr 4em 4em;
   margin-bottom: 1em;
+  margin-top: -1.8em; 
+}
+
+.numcell {
+  text-align: right
 }
 
 .roll-tbl {

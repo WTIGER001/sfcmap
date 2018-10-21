@@ -72,7 +72,8 @@ export class MonsterIndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.data.gameAssets.monsters.items$.pipe().subscribe(a => {
+    // this.data.gameAssets.monsters.items$.pipe().subscribe(a => {
+    this.data.pathfinder.monsters$.pipe().subscribe(a => {
       this.all = a
       if (this.search) {
         this.search.items = a

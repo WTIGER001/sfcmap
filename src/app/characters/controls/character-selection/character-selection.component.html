@@ -1,4 +1,20 @@
 
+
+<div class="selection-actions">
+  <div class="action" (click)="panTo()">
+    <fa-icon icon="location"></fa-icon> Locate on Map
+  </div>
+  <div *ngIf="character.mapLink" class="action" routerLink="/maps/{{character.mapLink}}">
+    <fa-icon icon="map"></fa-icon> Open Linked Map
+  </div>
+  <a *ngIf="character.pageUrl" class="action" [href]="character.pageurl" target="_blank">
+    <fa-icon icon="globe"></fa-icon> Open External Link
+  </a>
+    <div class="action" (click)="editCharacter()">
+      <fa-icon icon="edit"></fa-icon> Edit Character
+    </div>
+
+</div>
 <app-expander title="Personal">
   <div class="end-margin">
     <div>
@@ -37,10 +53,13 @@
 <app-expander title="Stats">
   <app-restricted-content [item]="character" field="attributes">
     <div class="attr-tbl">
+      <div> </div>
+      <div class="numcell">Std</div>
+      <div class="numcell">Curr</div>
       <ng-container *ngFor="let a of character.attributes">
         <div>{{a.attr}}</div>
-        <div>{{a.max}}</div>
-        <div>{{a.current}}</div>
+        <div class="numcell">{{a.max}}</div>
+        <div class="numcell">{{a.current}}</div>
       </ng-container>
     </div>
   </app-restricted-content>

@@ -31,7 +31,9 @@ export class GameViewComponent implements OnInit {
   ngOnInit() {
 
     this.data.gameAssets.characters.items$.subscribe(items => this.cntCharacters = items.length)
-    this.data.gameAssets.monsters.items$.subscribe(items => this.cntMonsters = items.length)
+    // this.data.gameAssets.monsters.items$.subscribe(items => this.cntMonsters = items.length)
+    this.data.pathfinder.monsters$.subscribe(items => this.cntMonsters = items.length)
+    
     this.data.gameAssets.maps.items$.subscribe(items => this.cntMaps = items.length)
     this.data.gameAssets.encounters.items$.subscribe(items => this.cntEncounters = items.length)
     this.data.gameAssets.items.items$.subscribe(items => this.cntItems = items.length)

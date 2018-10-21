@@ -65,7 +65,9 @@ export class EncounterTabComponent implements OnInit {
       return this.data.gameAssets.characters.currentItems.find(i => i.id == itemId)
     }
     if (itemType == Monster.TYPE) {
-      return this.data.gameAssets.monsters.currentItems.find(i => i.id == itemId)
+      // return this.data.gameAssets.monsters.currentItems.find(i => i.id == itemId)
+      return this.data.pathfinder.monsters$.getValue().find(i => i.id == itemId)
+
     }
     if (itemType == Token.TYPE) {
       return this.data.gameAssets.tokens.currentItems.find(i => i.id == itemId)
@@ -192,7 +194,7 @@ export class EncounterTabComponent implements OnInit {
         r.controlledBy = ['Everyone']
       }
     } else if (r.type == Monster.TYPE) {
-      const item: Monster = this.data.gameAssets.monsters.currentItems.find(i => i.id == r.id)
+      const item: Monster = this.data.pathfinder.monsters$.getValue().find(i => i.id == r.id)
       if (item) {
         r.name = item.name
         r.hp = item.hp

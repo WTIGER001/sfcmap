@@ -4,7 +4,7 @@ import { NotifyService, Debugger } from "./notify.service";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
 import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, Restricition } from "./models";
-import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat } from "rxjs";
+import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat, from } from "rxjs";
 import { mergeMap, map, tap, first, concatMap, take, distinct, filter } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
 import { LangUtil } from "./util/LangUtil";
@@ -22,6 +22,8 @@ import { Item } from "./items/item";
 import { Monster } from "./monsters/monster";
 import { Token } from "./maps/token";
 import { ShareEvent } from "./models/system-models";
+import { CacheService } from "./cache/cache.service";
+import { CachedItem } from "./cache/cache";
 
 export class GameAssets {
   annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
@@ -33,7 +35,7 @@ export class GameAssets {
   mapTypes = new DataAsset<MapType>(MapType.TYPE)
   markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.TYPE)
   markerTypes = new DataAsset<MarkerType>(MarkerType.TYPE)
-  monsters = new DataAsset<Monster>(Monster.TYPE)
+  // monsters = new DataAsset<Monster>(Monster.TYPE)
   items = new DataAsset<Item>(Item.TYPE)
   tokens = new DataAsset<Token>(Token.TYPE)
   shareEvents = new Subject<ShareEvent>()
@@ -48,7 +50,7 @@ export class GameAssets {
     this.mapTypes.subscribe(game$, notify, data)
     this.markerCategories.subscribe(game$, notify, data)
     this.markerTypes.subscribe(game$, notify, data)
-    this.monsters.subscribe(game$, notify, data)
+    // this.monsters.subscribe(game$, notify, data)
     this.items.subscribe(game$, notify, data)
     this.tokens.subscribe(game$, notify, data)
 
@@ -117,8 +119,10 @@ export class DataService {
 
   subs: Subscription[] = []
 
+  pathfinder: Pathfinder
+
   // User & Assumed Groups ->  Map Configs
-  constructor(private afAuth: AngularFireAuth, private notify: NotifyService, private storage: AngularFireStorage, public db: AngularFireDatabase) {
+  constructor(private afAuth: AngularFireAuth, private notify: NotifyService, private storage: AngularFireStorage, public db: AngularFireDatabase, private cache : CacheService) {
     this.log = this.notify.newDebugger("Data")
 
     this.setUpSubscriptions()
@@ -175,8 +179,18 @@ export class DataService {
   }
 
   loadGamesystems() {
+    const pathfinder = new Pathfinder()
+    pathfinder.load(this.cache)
+    this.user.subscribe( u => {
+      if (u.id != "NOBODY") {
+        pathfinder.subscribeToUpdates(this.db, this.cache)
+      }
+    })
+
+    this.pathfinder = pathfinder
+
     const gs = []
-    gs.push(Pathfinder.make())
+    gs.push(pathfinder)
 
     this.gamesystems.next(gs)
   }
@@ -625,6 +639,13 @@ export class DataService {
     this.saves.next(item)
   }
 
+  save$(item: any, path: string) {
+    console.log('Saving Item (pre) ', item, path)
+    const toSave = LangUtil.prepareForStorage(item)
+    console.log('Saving Item ', toSave, path)
+    return from(this.db.object(path).set(toSave))
+  }
+
   saveToken(t: Token, image?: Blob) {
     console.log('Saving Map ', map.name)
 
@@ -635,6 +656,7 @@ export class DataService {
       forkJoin(this.saveImage(image, pathImage)).pipe(
         mergeMap(result => this.fillInTokenImage(t)),
       ).subscribe(() => {
+        this.setImageMetadata(pathImage)
         console.log("Saving Map DATA", t);
         this.save(t)
       }, err => {
@@ -662,6 +684,8 @@ export class DataService {
         mergeMap(result => this.fillInMapUrl(map)),
         mergeMap(result => this.fillInMapThumb(map))
       ).subscribe(() => {
+        this.setImageMetadata(pathImage)
+        this.setImageMetadata(pathThumb)
         console.log("Saving Map DATA", map);
         this.save(map)
       }, err => {
@@ -687,6 +711,7 @@ export class DataService {
       mergeMap(result => this.fillInImageAnnotationUrl(item)),
     ).subscribe(() => {
       console.log(" DATA", item);
+      this.setImageMetadata(pathImage)
       this.save(item)
     }, err => {
       this.log.debug("ERROR");
@@ -696,16 +721,25 @@ export class DataService {
     })
   }
 
+  setImageMetadata(path : string) {
+    const ref = this.storage.ref(path)
+    ref.updateMetatdata({ cacheControl: "max-age=31536000" }).subscribe()
+  }
+
   saveImage(data: Blob, path: string) {
     console.log("Saving Map Blob " + path);
 
     const ref = this.storage.ref(path)
     let loadProgress = new Subject<number>()
-    loadProgress.subscribe(this.notify.progress("Loading Image"))
 
     const task = ref.put(data)
     task.percentageChanges()
       .subscribe(loadProgress)
+
+    loadProgress.subscribe(this.notify.progress("Loading Image"))
+    loadProgress.subscribe(ignore => { }, error => { }, () => {
+      this.setImageMetadata(path)
+    })
 
     return loadProgress
   }
@@ -820,6 +854,17 @@ export class DataService {
         item.thumb = url
         return item
       })
+    )
+  }
+
+  fillInMyUrl(item : any, path : string, urlField: string) : Observable<any> {
+    const ref = this.storage.ref(path);
+    return ref.getDownloadURL().pipe(
+      tap(url => console.log('Got URL ' + url)),
+      tap(url => item.url = url),
+      map( url => item),
+      tap( i => console.log('donw with item', item)),
+      first()
     )
   }
 
@@ -1166,6 +1211,49 @@ export class DataService {
   getActiveEncounter$(gameid: string, mapid : string) : Observable<Encounter> {
     const path = `/active/${gameid}/maps/${mapid}/encounter`
     return this.db.object<Encounter>(path).valueChanges().pipe( map( item => item?Encounter.to(item):null))
+  }
+
+  // ----------------------------------------------------------------------------------------------
+  // Caching
+  // ----------------------------------------------------------------------------------------------
+  // Active Encouters are the encounters that are current. THere is one active encounter per map. 
+  // multiple open encounters can be cycled through. The active encouter is the focused one. 
+  // 
+  // The active encounter is stored under /active/gameid/map/mapid/encounter
+  // ----------------------------------------------------------------------------------------------
+
+  /**
+   * Publishes the package to the storage
+   * @param path 
+   */
+  async publishCached(path: string) {
+    const currentVersion = this.cache.version(path)
+    const data = await this.cache.get(path).toPromise()
+    console.log("DATA", data)
+
+    const blob = JSON.stringify(data)
+    console.log("BLOB", blob)
+    const version = currentVersion == -2 ? 1 : currentVersion + 1
+
+    const item = new CachedItem()
+    item.path = path
+    item.version = version
+
+    // Create the new package and upload
+    const storagePath = `${path}_v${version}.json`
+    const storagePathOld = `${path}_v${currentVersion}.json`
+
+    console.log(`Publishing local changes. ${path} adding version ${version} to storage ${storagePath} and deleteing ${storagePathOld}`)
+
+    // Save the data to firesbase storage. Wait for this to complete
+    await this.storage.ref(storagePath).putString(blob).percentageChanges().toPromise()
+    await this.fillInMyUrl(item, storagePath, "url").toPromise()
+    await this.cache.saveToInventory$(item).toPromise()
+    await this.db.object(item.path).set(item)
+
+    // this.storage.ref(storagePathOld).delete() 
+    this.notify.success(`Local version published to ${path}`)
+
   }
 }
 

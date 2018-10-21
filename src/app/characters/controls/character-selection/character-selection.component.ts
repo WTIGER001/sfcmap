@@ -1,9 +1,15 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { DiceCanvasComponent } from 'src/app/controls/dice-canvas/dice-canvas.component';
 import { DiceRoll, Roll, Character, CharacterType } from 'src/app/models';
 import { DataService } from 'src/app/data.service';
 import { MessageService } from 'src/app/message.service';
 import { AudioService } from 'src/app/audio.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EditCharacterCoreComponent } from '../edit-character-core/edit-character-core.component';
+import { Subject } from 'rxjs';
+import { EditCharacterDialogComponent } from '../edit-character-dialog/edit-character-dialog.component';
+import { LangUtil } from 'src/app/util/LangUtil';
+import { Assets } from 'src/app/assets';
 
 @Component({
   selector: 'app-character-selection',
@@ -18,7 +24,9 @@ export class CharacterSelectionComponent implements OnInit {
   diceResult: DiceRoll
   types: CharacterType[] = []
 
-  constructor(private data: DataService, private msg: MessageService, private audio: AudioService) {
+  @Output() onPan = new EventEmitter()
+
+  constructor(private data: DataService, private msg: MessageService, private audio: AudioService, private modalSvc: NgbModal) {
 
   }
 
@@ -75,4 +83,19 @@ export class CharacterSelectionComponent implements OnInit {
     this.diceResult = d
   }
 
+  editCharacter() {
+    EditCharacterDialogComponent.open(this.modalSvc, this.character)
+    // const modalRef = this.modalSvc.open(EditCharacterDialogComponent);
+    // // modalRef.componentInstance.result = new Subject<boolean>()
+    // modalRef.componentInstance.character = this.character
+    // // return modalRef.componentInstance.result
+  }
+
+  panTo() {
+    this.onPan.emit()
+  }
+
+  pic() {
+    return LangUtil.firstDefined(this.character.token, this.character.picture, Assets.CharacterCardSm)
+  }
 }

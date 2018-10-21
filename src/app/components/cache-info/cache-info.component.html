@@ -1,0 +1,16 @@
+
+
+<div class="cache-table">
+  <div>Path</div>
+  <div>Version</div>
+  <div>Has Local Changes</div>
+  <div></div>
+  <ng-container *ngFor="let item of items">
+    <div>{{item.path}}</div>
+    <div>{{item.version}}</div>
+    <div>{{item.localChanges}}</div>
+    <div>
+      <div class="action" (click)="publish(item)"><fa-icon icon="cloud-upload" size="lg"></fa-icon> Publish</div>
+    </div>
+  </ng-container>
+</div>

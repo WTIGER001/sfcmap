@@ -9,6 +9,7 @@ export class EditToolbarComponent implements OnInit {
   @Input() item
   @Input() mode: 'icon' | 'icon-text' | 'button' | 'button-text'
   @Output() onSave = new EventEmitter()
+  @Output() onCancel = new EventEmitter()
 
   constructor() { }
 
@@ -17,5 +18,9 @@ export class EditToolbarComponent implements OnInit {
 
   save() {
     this.onSave.emit()
+  }
+  cancel() {
+    console.log("Cancel Event")
+    this.onCancel.emit()
   }
 }
