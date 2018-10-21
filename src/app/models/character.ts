@@ -22,7 +22,8 @@ export class Character extends Asset {
   type: string
 
   description?: string
-  weblink: string
+  pageUrl: string
+  mapLink: string
   tags: string[] = []
   picture: string
   token: string

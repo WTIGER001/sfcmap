@@ -3,9 +3,6 @@
       <div class="action" (click)="panTo()">
         <fa-icon icon="location"></fa-icon> Locate on Map
       </div>
-      <div *ngIf="item.mapLink" class="action" routerLink="/maps/{{item.mapLink}}">
-        <fa-icon icon="map"></fa-icon> Open Linked Map
-      </div>
       <a *ngIf="item.pageUrl" class="action" [href]="item.pageurl" target="_blank">
         <fa-icon icon="globe"></fa-icon> Open External Link
       </a>

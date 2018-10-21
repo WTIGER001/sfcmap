@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Input, Output, EventEmitter } from '@angular/core';
 import { Game, Asset } from 'src/app/models';
 import { Monster } from '../../monster';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,6 +12,7 @@ import { RestrictService } from 'src/app/dialogs/restrict.service';
 })
 export class MonsterSelectionComponent implements AfterContentInit {
   @Input() item: Monster
+  @Output() onPan = new EventEmitter()
   constructor( private data: DataService) {
 
   }
@@ -43,6 +44,9 @@ export class MonsterSelectionComponent implements AfterContentInit {
     return yes
   }
 
+  panTo() {
+    this.onPan.emit()
+  }
 
 }
 

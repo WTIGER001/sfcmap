@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./edit-character-dialog.component.css']
 })
 export class EditCharacterDialogComponent implements OnInit {
-
+  character : Character
   constructor(private dialog: NgbActiveModal, private  data : DataService) { }
 
   ngOnInit() {

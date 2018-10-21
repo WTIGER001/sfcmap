@@ -16,7 +16,7 @@ export class Monster extends Asset {
   static to(obj: any): Monster {
     return obj
   }
-
+  pageUrl: string
   image : string
   thumb: string
 

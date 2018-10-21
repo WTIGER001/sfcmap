@@ -71,6 +71,7 @@ export abstract class Annotation extends Asset {
   edit: string[]
   view: string[]
   mapLink: string
+  pageUrl: string
   points: any[]
   tags: string[]
   snap: boolean
