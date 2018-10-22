@@ -30,8 +30,8 @@
           size="lg"></fa-icon>Home</a></li>
     <li><a (click)="toggleMenu()" [routerLink]="['/admin']" routerLinkActive="router-link-active"><fa-icon class="icon" icon="cog"
           size="lg"></fa-icon>Admin</a></li>
-    <li><a (click)="toggleMenu()" [routerLink]="['/settings']" routerLinkActive="router-link-active"><fa-icon class="icon"
-          icon="sliders-h" size="lg"></fa-icon>Settings</a></li>
+
+    <li (click)="settings()"><fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon>Settings</li>
   </ul>
 </div>
 <div *ngIf="gamesytemid || gameid" class="game-menu" (click)="toggleMenu()" [class.game-menu-expanded]="expanded">

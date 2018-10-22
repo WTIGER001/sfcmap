@@ -27,7 +27,7 @@ import { CachedItem } from "./cache/cache";
 
 export class GameAssets {
   annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
-  annotations = new DataAsset<Annotation>(Annotation.TYPE)
+  // annotations = new DataAsset<Annotation>(Annotation.TYPE)
   characterTypes = new DataAsset<CharacterType>(CharacterType.TYPE)
   characters = new DataAsset<Character>(Character.TYPE)
   encounters = new DataAsset<Encounter>(Encounter.TYPE)
@@ -42,7 +42,7 @@ export class GameAssets {
   
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
-    this.annotations.subscribe(game$, notify, data)
+    // this.annotations.subscribe(game$, notify, data)
     this.characterTypes.subscribe(game$, notify, data)
     this.characters.subscribe(game$, notify, data)
     this.encounters.subscribe(game$, notify, data)
@@ -147,7 +147,9 @@ export class DataService {
       tap(fireUser => this.log.info("User Logged In: ", fireUser.displayName)),
       tap(fireUser => this.trackPresence(fireUser)),
       map(fireUser => User.fromFireUser(fireUser)),
-      mergeMap(user => this.getUserInfo(user))
+      tap( user => this.record('user', 1)),
+      mergeMap(user => this.getUserInfo(user)),
+      tap( user => this.record('user-info', 1)),
     ).subscribe(u => {
       this.log.info("User Completely logged in: ", u.name)
       this.user.next(u)
@@ -162,19 +164,22 @@ export class DataService {
     this.user.pipe(
       tap(u => this.log.info("User triggered : ", u)),
       mergeMap(u => this.getOrCreate(u.id, new MapPrefs())),
-      tap(p => this.log.info("Map Prefs Loaded: ", p))
+      tap(p => this.log.info("Map Prefs Loaded: ", p)),
+      tap( p => this.record('user-map-prefs', 1)),
     ).subscribe(p => this.userMapPrefs.next(MapPrefs.to(p)))
 
     // Prefs
     this.user.pipe(
       mergeMap(u => this.getOrCreate(u.id, new Prefs())),
-      tap(p => this.log.info("Map Prefs Loaded: ", p))
+      tap(p => this.log.info("Prefs Loaded: ", p)),
+      tap( p => this.record('user-prefs', 1)),
     ).subscribe(p => this.userPrefs.next(Prefs.to(p)))
 
     // Access
     this.user.pipe(
       mergeMap(u => this.getOrCreate(u.id, new UserAssumedAccess)),
-      tap(p => this.log.info("Map Prefs Loaded: ", p))
+      tap(p => this.log.info("User Access Loaded: ", p)),
+      tap( p => this.record('user-access', 1)),
     ).subscribe(p => this.userAccess.next(UserAssumedAccess.to(p)))
   }
 
@@ -197,23 +202,9 @@ export class DataService {
 
   // User -> Map Types, Marker Types, Marker Categories, User Groups, Users
   loadDataFromUser() {
-    // this.syncArray<UserGroup>(this.groups.value, UserGroup.FOLDER, 'Loading User Groups')
-    // this.syncArray<User>(this.users.value, User.FOLDER, 'Loading Users')
-    // this.syncArray<MapType>(this.mapTypes.value, MapType.FOLDER, 'Loading Map Types', this.mergeMapAndType)
-    // this.syncArray<MarkerType>(this.markerTypes.value, MarkerType.FOLDER, 'Loading Marker Types', this.mergeMarkersAndCategories)
-    // this.syncArray<MarkerCategory>(this.markerCategories.value, MarkerCategory.FOLDER, 'Loading MarkerCategory', this.mergeMarkersAndCategories)
-
-    // this.loadAndNotify<User>(this.users, 'users', 'Loading Users')
     this.loadUsers()
     this.loadAndNotify<Game>(this.games, 'games', 'Loading Games')
-    // this.loadAndNotify<MapType>(this.mapTypes, 'mapTypes', 'Loading Map Types')
-    // this.loadAndNotify<MarkerType>(this.markerTypes, 'markerTypes', 'Loading Marker Types')
-    // this.loadAndNotify<MarkerCategory>(this.markerCategories, 'markerCategories', 'Loading Marker Categories')
-    // this.loadAndNotify<Character>(this.characters, Character.FOLDER, 'Loading Characters', undefined, this.charactersLoading)
-    // this.loadAndNotify<Encounter>(this.encounters, Encounter.FOLDER, 'Loading Encounters')
-    // this.loadAndNotify<MonsterIndex>(this.monsters, MonsterIndex.FOLDER, 'Loading Monsters')
-    // this.pageMonsters()
-    // this.loadCharacterTypes()
+    
   }
 
   private getAll<T>(folder: string): Observable<T[]> {
@@ -397,6 +388,7 @@ export class DataService {
           }
         })
         this.log.debug("Loaded " + items.length + " " + name);
+        this.record(name, items.length)
 
         if (current) {
           current.splice(0)
@@ -429,7 +421,8 @@ export class DataService {
       map(game => DbConfig.pathFolderTo(Annotation.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
       map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
-      tap(item => console.log("--> Annotation State change: ", item))
+      tap(item => console.log("--> Annotation State change: ", item)),
+      tap( p => this.record('annotation', 1)),
     )
   }
 
@@ -437,53 +430,57 @@ export class DataService {
     return this.game.pipe(
       map(game => DbConfig.pathFolderTo(MarkerGroup.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
-      map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val())))
+      map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
+      tap( p => this.record('annotation-group', 1)),
     )
   }
 
-  getAnnotations(mapid: string): Observable<Array<Annotation>> {
-    return this.gameAssets.annotations.items$
-      .pipe(
-        tap(items => console.log("ALL ANNOTATIONS", items.length)),
-        map(items => items.filter(item => item.map == mapid)),
-        tap(items => console.log("ANNOTATIONS for this map", items.length)),
-        map(items => items.filter(item => this.canView(item))),
-        tap(items => console.log("viewable ANNOTATIONS", items)
-        )
-      )
-  }
+  // getAnnotations(mapid: string): Observable<Array<Annotation>> {
+  //   return this.gameAssets.annotations.items$
+  //     .pipe(
+  //       tap(items => console.log("ALL ANNOTATIONS", items.length)),       
+  //       tap(items => this.record('annotations', items.length)),
+  //       map(items => items.filter(item => item.map == mapid)),
+  //       tap(items => console.log("ANNOTATIONS for this map", items.length)),
+  //       map(items => items.filter(item => this.canView(item))),
+  //       tap(items => console.log("viewable ANNOTATIONS", items),
+
+  //       )
+  //     )
+  // }
 
   getCompleteAnnotationGroups(mapid: string): Observable<Array<MarkerGroup>> {
-    let annotationObs = this.user.pipe(
-      mergeMap(u => this.getAnnotations(mapid))
-    )
-    let groupObs = this.user.pipe(
-      mergeMap(u => this.getMarkerGroups(mapid))
-    )
+    // let annotationObs = this.user.pipe(
+    //   mergeMap(u => this.getAnnotations(mapid))
+    // )
+    // let groupObs = this.user.pipe(
+    //   mergeMap(u => this.getMarkerGroups(mapid))
+    // )
 
-    return combineLatest(this.gameAssets.markerTypes.items$, groupObs, annotationObs).pipe(
-      map(value => {
+    // return combineLatest(this.gameAssets.markerTypes.items$, groupObs, annotationObs).pipe(
+    //   map(value => {
         
-        console.log(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
-        let markerTypes = value[0]
-        let loadedGroups = value[1]
-        let annotations = value[2]
-        let groups = []
-        loadedGroups.forEach(grp => {
-          grp._annotations = annotations.filter(m => m.group == grp.id)
-          groups.push(grp)
-        })
+    //     console.log(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
+    //     let markerTypes = value[0]
+    //     let loadedGroups = value[1]
+    //     let annotations = value[2]
+    //     let groups = []
+    //     loadedGroups.forEach(grp => {
+    //       grp._annotations = annotations.filter(m => m.group == grp.id)
+    //       groups.push(grp)
+    //     })
 
-        let uncat = new MarkerGroup()
-        uncat.id = DataService.UNCATEGORIZED
-        uncat.name = "Ungrouped"
-        uncat._annotations = annotations.filter(m => (!m.group || m.group == ''))
-        if (uncat._annotations.length > 0) {
-          groups.push(uncat)
-        }
-        return groups
-      })
-    )
+    //     let uncat = new MarkerGroup()
+    //     uncat.id = DataService.UNCATEGORIZED
+    //     uncat.name = "Ungrouped"
+    //     uncat._annotations = annotations.filter(m => (!m.group || m.group == ''))
+    //     if (uncat._annotations.length > 0) {
+    //       groups.push(uncat)
+    //     }
+    //     return groups
+    //   })
+    // )
+    return from([])
   }
 
   private getMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
@@ -521,8 +518,12 @@ export class DataService {
     if (!user) {
       user = this.user.value
     }
-    if (this.game.value) {
+    if (this.game.value && this.game.value.gms && this.game.value.gms.length > 0) {
       return this.game.value.gms.includes(user.id)
+    }
+    if (this.game.value) {
+      // NO GMS so..
+      return true
     }
     return false
   }
@@ -1255,6 +1256,21 @@ export class DataService {
     this.notify.success(`Local version published to ${path}`)
 
   }
+
+  // ----------------------------------------------------------------------------------------------
+  // Debuging
+  // ----------------------------------------------------------------------------------------------
+  // Try to keep a count on how many records show up each time
+  // ----------------------------------------------------------------------------------------------
+
+  received = {}
+  record(type : string, recs : number) {
+    if (!this.received[type]) {
+      this.received[type] = []
+    }
+    this.received[type].push(recs)
+  }
+
 }
 
 

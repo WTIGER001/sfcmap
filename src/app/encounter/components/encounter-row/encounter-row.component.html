@@ -1,5 +1,6 @@
 <div class="overall">
-  <app-picture-tile class="pic" size="square-sm" [picture]="getPic()" [caption]="getType()" canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [checked]="row._delete" [objPos]="getItem().imgPos"></app-picture-tile>
+  <app-picture-tile class="pic" size="square-sm" [picture]="getPic()" [caption]="getType()" 
+    canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [checked]="row._delete" [objPos]="getItem()?.imgPos"></app-picture-tile>
   <div class="myCol">
     <label>Name:</label>
     <input type="text" class="frm-ctl" [(ngModel)]="row.name">

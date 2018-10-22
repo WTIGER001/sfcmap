@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Game, User } from '../../../models';
 import { DataService } from '../../../data.service';
 import { ActivatedRoute } from '@angular/router';
+import { SettingsComponent } from 'src/app/components/settings/settings.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-game-index',
@@ -12,7 +14,7 @@ export class GameIndexComponent implements OnInit {
   gameid: string
   games: Game[] = []
   user: User;
-  constructor(private data: DataService, private route : ActivatedRoute) {
+  constructor(private data: DataService, private route : ActivatedRoute, private modal : NgbModal) {
 
   }
 
@@ -33,4 +35,7 @@ export class GameIndexComponent implements OnInit {
 
   }
 
+  settings() {
+    SettingsComponent.openDialog(this.modal)
+  }
 }

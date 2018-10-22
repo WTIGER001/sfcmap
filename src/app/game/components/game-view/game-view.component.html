@@ -11,11 +11,10 @@
           <fa-icon class="icon" icon="cog" size="lg"></fa-icon> Admin
         </li>
       </a>
-      <a routerLink="/settings">
-        <li class="tool-item">
+        <li class="tool-item" (click)="settings()">
           <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
         </li>
-      </a>
+      
       <a routerLink="edit">
         <li class="tool-item">
           <fa-icon class="icon" icon="pencil-alt" size="lg"></fa-icon> Edit
@@ -26,10 +25,6 @@
       </li>
     </ul>
     <div class="title" appTextfit>{{game.name}}</div>
-    <div class="user">
-      {{user?.name}}
-      <fa-icon class="pointer" icon="sign-out-alt" size="lg" (click)="logout()"></fa-icon>
-    </div>
   </div>
     <div class="card-area scroller scroller-dark">
       <a [routerLink]="['characters']">

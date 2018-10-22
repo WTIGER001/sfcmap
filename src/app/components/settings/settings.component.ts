@@ -4,6 +4,7 @@ import { auth } from 'firebase';
 import { combineLatest } from 'rxjs';
 import { DataService } from '../../data.service';
 import { User, UserAssumedAccess, Prefs } from '../../models';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +17,7 @@ export class SettingsComponent implements OnInit {
   access: UserAssumedAccess
   prefs: Prefs
 
-  constructor(public afAuth: AngularFireAuth, private data: DataService) {
+  constructor(public afAuth: AngularFireAuth, private data: DataService, private activeModal : NgbActiveModal) {
     combineLatest(
       this.data.user,
       this.data.userPrefs,
@@ -24,6 +25,10 @@ export class SettingsComponent implements OnInit {
       this.user = u;
       this.prefs = p
     })
+  }
+
+  close() {
+    this.activeModal.dismiss()
   }
 
   ngOnInit() {
@@ -46,5 +51,10 @@ export class SettingsComponent implements OnInit {
   }
   save() {
     this.data.save(this.user)
+  }
+
+  public static openDialog(modal : NgbModal) {
+    modal.open(SettingsComponent)
+
   }
 }

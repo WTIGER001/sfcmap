@@ -1,23 +1,45 @@
-
 <div class="page-center">
   <div class="page page-tooltop scroller-dark">
-  <div class="tool-bar">
-    <a [routerLink]="['/home']" ><li><fa-icon icon="home" class="icon"  size="lg"></fa-icon>Home</li></a>
+    <div class="tool-bar">
+      <a [routerLink]="['/home']">
+        <li>
+          <fa-icon icon="home" class="icon" size="lg"></fa-icon>Home
+        </li>
+      </a>
+    </div>
+    <div class="all">
+      <div>
+        <h2>Pathfinder</h2>
+
+        <h3>Monsters </h3>
+
+        Cache Information
+        <app-cache-info></app-cache-info>
+      </div>
+      <div>
+        <h2>Recieved Log</h2>
+        <div class="log">
+          <div>Name</div>
+          <div>Count</div>
+          <div>Sum</div>
+          <ng-container *ngFor="let item of recieved">
+            <div>{{item.name}}</div>
+            <div>{{item.count}}</div>
+            <div>{{item.sum}}</div>
+          </ng-container>
+        </div>
+
+
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-outline-secondary" (click)="createCacheItem()">Publish Monster V1</button>
+      <button class="btn btn-outline-secondary" (click)="DeletePathfinder()">Publish Monster V1</button>
+    </div>
+
+    <div>
+      <h2>Import Monsters</h2>
+      <input type="file" (change)="impMonsters()">
+    </div>
   </div>
-    <h2>Pathfinder</h2>
-    
-    <h3>Monsters </h3>
-    
-    Cache Information
-    <app-cache-info></app-cache-info>
-
-
-
-  <div>
-  <button class="btn btn-outline-secondary" (click)="migrate()">Migrate</button>
 </div>
-<div>
-  <h2>Import Monsters</h2>
-  <input type="file" (change)="impMonsters()">
-</div>
-

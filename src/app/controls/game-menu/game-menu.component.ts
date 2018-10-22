@@ -3,6 +3,8 @@ import { Game } from '../../models';
 import { DataService } from '../../data.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SettingsComponent } from 'src/app/components/settings/settings.component';
 
 @Component({
   selector: 'app-game-menu',
@@ -16,7 +18,7 @@ export class GameMenuComponent implements OnInit {
   game: Game
   games: Game[] = []
   activeOptions = { exact: true }
-  constructor(data: DataService, private router: Router) {
+  constructor(data: DataService, private router: Router, private modal : NgbModal) {
     data.games.subscribe(g => {
       this.games = g
       this.setIds();
@@ -40,6 +42,11 @@ export class GameMenuComponent implements OnInit {
     })
 
     this.parse(this.router.url)
+  }
+
+  settings() {
+    this.toggleMenu()
+    SettingsComponent.openDialog(this.modal)
   }
 
   parse(url: string) {

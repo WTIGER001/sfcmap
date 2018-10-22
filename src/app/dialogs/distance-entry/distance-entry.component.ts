@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChildren } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal,  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Distance } from '../../models';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject, Observable } from 'rxjs';
 import { DistanceUnit } from '../../util/transformation';
 
 @Component({
@@ -32,5 +32,11 @@ export class DistanceEntryComponent implements OnInit, AfterViewInit {
     let distance = new Distance(this.value, this.unit)
     this.result.next(distance)
     this.activeModal.close(distance)
+  }
+
+  public static open(modalSvc : NgbModal): Observable<Distance> {
+    const modalRef = modalSvc.open(DistanceEntryComponent);
+    modalRef.componentInstance.result = new Subject<Distance>()
+    return modalRef.componentInstance.result
   }
 }

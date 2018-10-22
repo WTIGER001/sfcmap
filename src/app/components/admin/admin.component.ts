@@ -6,6 +6,7 @@ import { MonsterImportCsv } from '../../monsters/monster-import-csv';
 import { DataService } from '../../data.service';
 import { Monster } from '../../monsters/monster';
 import { CachedItem } from 'src/app/cache/cache';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-admin',
@@ -15,15 +16,17 @@ import { CachedItem } from 'src/app/cache/cache';
 export class AdminComponent implements OnInit {
   constructor(private oldDb: AngularFireDatabase, private db: AngularFirestore, private data: DataService) { }
   monsters: Monster[] = []
+  recieved = []
+
   ngOnInit() {
     const path = "assets/pathfinder/monster-index"
     this.oldDb.list<Monster>(path).valueChanges().subscribe(all => this.monsters = all)
+
+    this.recieved = RItem.generate(this.data.received)
   }
 
 
   migrate() {
-    const m = new FirebaseDataabaseMigration(this.oldDb, "c4668937-0d91-85ac-8281-ec3caf50be98", "pathfinder")
-    m.migrateAll()
   }
 
 
@@ -37,21 +40,25 @@ export class AdminComponent implements OnInit {
 
   }
 
+  DeletePathfinder() {
+    this.oldDb.object("assets/pathfinder").remove()
+  }
 
-  createCacheItem() {
-    const url = 'https://firebasestorage.googleapis.com/v0/b/sfcmapdev.appspot.com/o/cache%2Fgames%2Fpathfinder%2Fmonsters.json?alt=media&token=4ba0fdd3-7ee6-4816-b6c0-a382cb35b20a'
+  async createCacheItem() {
+
     const item = new CachedItem()
     item.path = 'cache/games/pathfinder/monsters'
-    item.url = 'https://firebasestorage.googleapis.com/v0/b/sfcmapdev.appspot.com/o/cache%2Fgames%2Fpathfinder%2Fmonsters.json?alt=media&token=4ba0fdd3-7ee6-4816-b6c0-a382cb35b20a'
-    item.id = 'monsters'
-    item.name = 'monsters'
     item.version = 1
 
-    this.oldDb.object(item.path).set(item)
-    .then( () => { console.log("ADDED")})
-    .catch( err => {
-      { console.log("ERROR ", err) }
-    })
+    // Storage path
+    const storagePath = `${item.path}_v${item.version}.json`
+    await this.data.fillInMyUrl(item, storagePath, "url")
+
+    if (item.url) {
+      await this.data.save$(item, item.path)
+    }    
+
+
   }
 
   impMonsters2(event) {
@@ -87,5 +94,25 @@ export class AdminComponent implements OnInit {
   }
 
 
+}
+
+class RItem {
+  name: string;
+  count: number;
+  sum: number;
+  raw: number[];
+
+  static generate(r: {}) : RItem[] {
+    const items: RItem[] = []
+    const objs = _.toPairs(r)
+    return objs.map((i: any) => {
+      const ritem = new RItem()
+      ritem.name = i[0]
+      ritem.count = i[1].length
+      ritem.sum = _.sum(i[1])
+      ritem.raw = i[1]
+      return ritem
+    })
+  }
 }
 

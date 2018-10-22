@@ -1,19 +1,37 @@
 <div class="dlg">
   <div class="header">
     <h1> Select</h1>
+    <app-search-bar *ngIf="showSearch" #search [items]="_choices" [fields]="fields" (itemsUpdated)="updateItems($event)"
+      (scrollRequest)="scrollTo($event)" (viewChanged)="updateView($event)" [game]="game" [type]="type"
+      [submitOnChange]="true" [hasViews]="false" [hasImport]="false" [hasLinks]="false" [hasNew]="false">
+    </app-search-bar>
   </div>
   <div class="bdy">
-    <div class="select-list">
-      <ng-container *ngFor="let item of _choices">
-        <figure (click)="toggleSelection(item)">
-          <img [src]="getImage(item)" [ngClass]="getImagePosClass(item)">
-          <figcaption>{{item.name}}</figcaption>
-          <div class="selected" *ngIf="isSelected(item)">
-            <fa-icon icon="check" size="2x"></fa-icon>
+    <div class="border-wrapper select-list">
+
+      <od-virtualscroll [vsData]="data$" [vsOptions]="options$" [vsUserCmd]="cmd$">
+        <ng-template let-item let-row="row" let-column="column">
+          <div class="cell">
+          <!--  <figure (click)="toggleSelection(item)">
+            <img [src]="getImage(item)" [ngClass]="getImagePosClass(item)">
+            <figcaption>{{item.name}}</figcaption>
+            <div class="selected" *ngIf="isSelected(item)">
+              <fa-icon icon="check" size="2x"></fa-icon>
+              X
+            </div>
+            
+            <div class="selected">
+              <fa-icon icon="check" size="2x"></fa-icon>
+            </div>
+          </figure> -->
+              <app-picture-tile class="pic" size="small" [picture]="getImage(item)" [caption]="item.name" canCheck="true"
+                (checkChange)="checkChange($event, item)" [checked]="isSelected(item)" [objPos]="item.imgPos"></app-picture-tile>
+
           </div>
-        </figure>
-      </ng-container>
+        </ng-template>
+      </od-virtualscroll>
     </div>
+
   </div>
   <div class="footer">
     <button [disabled]="_selected.length == 0" type="button" class="btn btn-outline-secondary" (click)="ok()">

@@ -6,11 +6,11 @@
           <fa-icon class="icon" icon="cog" size="lg"></fa-icon> Admin
         </li>
       </a>
-      <a routerLink="/settings">
-        <li class="tool-item">
+      
+        <li class="tool-item" (click)="settings()">
           <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
         </li>
-      </a>
+      
     </ul>
     <h1 appTextfit [maxFontSize]="50">Choose a Game or Create One!</h1>
     <div class="user">

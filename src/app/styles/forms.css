@@ -1,0 +1,80 @@
+/*
+  This file redefines the base form controls
+*/
+
+input.form-control {
+  background-color: transparent;
+  border-bottom: 1px solid white;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  color: white;
+  padding: .25rem .5rem;
+  border-radius: 0;
+}
+
+input.form-control--border {
+  border: 1px solid white;
+  border-radius: 3px;
+}
+
+select.form-control {
+  background-color: transparent;
+  border-bottom: 1px solid white;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  color: white;
+  padding: .25rem .5rem;
+  border-radius: 0;
+}
+
+textarea.form-control {
+  background-color: transparent;
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  border-left: 1px solid white;;
+  border-right: 1px solid white;
+  color: white;
+  padding: .25rem .5rem;
+}
+
+input.form-control:focus {
+  background-color: transparent;
+  color: white;
+  box-shadow: unset;
+}
+
+input.form-control:focus {
+  background-color: transparent;
+  color: white;
+}
+
+select.form-control:focus {
+  background-color: transparent;
+  color: white;
+}
+
+label {
+  margin: 0;
+}
+
+.toggle2 {
+  border-bottom: 1px solid white;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  color: white;
+  border-radius: 0;
+}
+optgroup, option {
+  background-color: black
+}
+
+.ng2-tag-input {
+  border-bottom: 1px solid white
+}
+.ng2-tag-input.ng2-tag-input--focused {
+  border-bottom: 1px solid white
+}
+

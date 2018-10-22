@@ -182,6 +182,8 @@ import { AnnotationGroupNameComponent } from './maps/controls/annotation-group-n
 import { AnnotationSelectionComponent } from './maps/controls/annotation-selection/annotation-selection.component';
 import { MonsterSelectionComponent } from './monsters/controls/monster-selection/monster-selection.component';
 import { CacheInfoComponent } from './components/cache-info/cache-info.component';
+import { MonsterViewCoreComponent } from './monsters/controls/monster-view-core/monster-view-core.component';
+import { MonsterViewDialogComponent } from './monsters/controls/monster-view-dialog/monster-view-dialog.component';
 
 @NgModule({
   declarations: [
@@ -321,6 +323,8 @@ import { CacheInfoComponent } from './components/cache-info/cache-info.component
     AnnotationSelectionComponent,
     MonsterSelectionComponent,
     CacheInfoComponent,
+    MonsterViewCoreComponent,
+    MonsterViewDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -380,6 +384,8 @@ import { CacheInfoComponent } from './components/cache-info/cache-info.component
     SelectItemsComponent,
     EncounterDialogComponent,
     EditCharacterDialogComponent,
+    MonsterViewDialogComponent,
+    SettingsComponent,
   ],
   exports: [CheckboxComponent]
 })

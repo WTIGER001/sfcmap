@@ -29,6 +29,19 @@
   grid-gap: 15px;
   padding: 10px 10px 30px 0px;
 }
+
+.statsmessage {
+  display: grid;
+  grid-template-columns: 1fr  4em 4em;
+  padding: 10px 10px 30px 0px;
+}
+.statsnum {
+  text-align: right
+}
+.statsdiff {
+  background-color: darkblue
+}
+
 .help-cmd {
   color: #9ed485;
 }
@@ -108,4 +121,14 @@
 
 .dropdown-toggle::after {
     display: none;
+}
+
+.enterarea {
+  border: 1px solid gray;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.history {
+  border: 1px solid gray
 }

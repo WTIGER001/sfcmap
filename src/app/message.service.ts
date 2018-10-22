@@ -30,7 +30,8 @@ export class MessageService {
     const chatPath = DbConfig.pathFolderTo(ChatRecord.TYPE, game.id)
     return this.getLastCleared(game).pipe(
       take(1),
-      mergeMap(last => this.data.db.list<ChatRecord>(chatPath, ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges()),
+      mergeMap(last => this.data.db.list<ChatRecord>(chatPath, ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges(['child_added'])),
+      tap( action => this.data.record('chat-message', 1)),
       filter(action => action.type == 'child_added'),
       map(action => ChatRecord.to(action.payload.val())),
       distinctUntilKeyChanged('id'),
@@ -51,7 +52,8 @@ export class MessageService {
   getMyChatMessages2(): Observable<ChatRecord> {
     return this.data.game.pipe(
       filter(game => (game != undefined && game.id != undefined)),
-      mergeMap(game => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, game.id), ref => ref.orderByChild('time').limitToLast(100)).stateChanges()),
+      mergeMap(game => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, game.id), ref => ref.orderByChild('time').limitToLast(100)).stateChanges(['child_added'])),
+      tap(action => this.data.record('chat-message', 1)),
       filter(action => action.type == 'child_added'),
       map(action => ChatRecord.to(action.payload.val())),
       distinctUntilKeyChanged('id'),

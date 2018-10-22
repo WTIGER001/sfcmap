@@ -50,6 +50,8 @@ export class DataAsset<T> {
 
     // Build the observable array
     const obs$ = this.buildObs$(game, data)
+    
+
     // Combine all of them together
     this.sub = combineLatest(obs$).subscribe(results => {
       console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
@@ -60,6 +62,8 @@ export class DataAsset<T> {
       })
       // console.log(this.type + " --> ASSETS -- PRE Exclude", all.length);
       this.currentItems = all
+      data.record(this.type, all.length)
+
       this.refilter()
     })
   }

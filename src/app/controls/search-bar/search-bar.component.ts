@@ -57,6 +57,8 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   @Input() set items(s: any[]) {
+    console.debug("set items : ", s, new Error())
+
     this._items = s
     this.processFilterValues()
   }
@@ -114,6 +116,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   processFilterValues() {
+    
     this.filter.fields = this.fields
     this.filter.calcFilterValues(this._items);
   }
@@ -147,6 +150,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   applyFilters() {
+    console.log("ITEMS: ", this._items)
     this.filtered = SortFilterUtil.sortAndFilter(this._items, this.filter)
     this.itemsUpdated.emit(this.filtered)
   }

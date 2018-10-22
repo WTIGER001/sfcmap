@@ -1,0 +1,9 @@
+.all {
+  display: flex;
+  flex-direction: column
+}
+.log {
+  display: grid;
+  grid-template-columns: auto 5em 5em;
+  gap: 3px;
+}

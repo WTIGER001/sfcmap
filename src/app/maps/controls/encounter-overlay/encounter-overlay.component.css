@@ -51,7 +51,8 @@
   max-width: 50vw;
   display: flex;
   gap: 15px;
-  margin: 15px 0px 0px 25px;
+  margin: 10px 0px 0px 25px;
+  padding: 2px;
 }
 
 .round {

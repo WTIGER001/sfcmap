@@ -97,7 +97,9 @@ export class EncounterTabComponent implements OnInit {
   isSelected(item ) {
     if (!this.sel.isEmpty()) {
       const ta: TokenAnnotation = this.findToken(item)
-      return (this.sel.items.find( i => i.id == ta.id) != undefined)
+      if (ta) {
+        return (this.sel.items.find( i => i.id == ta.id) != undefined)
+      }
     }
     return false
   }

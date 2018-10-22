@@ -1,4 +1,6 @@
 import { Asset } from "../models";
+import { MonsterDB } from "../models/monsterdb";
+import { SortFilterField } from "../util/sort-filter";
 
 export class Monster extends Asset {
   public static readonly TYPE = 'db.Monster'
@@ -7,6 +9,12 @@ export class Monster extends Asset {
     'hp', 'Hit Dice', 'saves', 'resist', 'speed', 'ranged', 'melee', 'special attacks', 'spell like abilities', 'HP Mod', 
     'Special Abilities', 'Spell Resistance', 'Offense', 'Spells', 'Feats', 'Weaknesses']
   readonly objType: string = Monster.TYPE
+
+  public static readonly FIELDS: SortFilterField[] = [
+    { name: 'Name', valueFn: (item) => item.name, indexFn: (item) => item.name.substr(0, 1).toUpperCase(), sort: true, text: true },
+    { name: 'Type', valueFn: (item) => item.type, indexFn: (item) => item.type, sort: true, text: true, filter: true },
+    { name: 'CR', valueFn: (item) => MonsterDB.crToNumber(item.cr), indexFn: (item) => item.cr, formatFn: (value) => MonsterDB.formatCR(value), sort: true, text: true, filter: true }
+  ]
 
   // TypeScript guard
   static is(obj: any): obj is Monster {

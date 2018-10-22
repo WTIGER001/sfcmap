@@ -15,6 +15,7 @@ import { ICommand } from '../../commands/ICommand';
 import { MessageService } from '../../message.service';
 import { DbConfig } from '../../models/database-config';
 import { DiceCanvasComponent } from '../../controls/dice-canvas/dice-canvas.component';
+import * as _ from 'lodash'
 
 @Component({
   selector: 'app-rpg-tab',
@@ -82,7 +83,7 @@ export class RpgTabComponent implements OnInit {
   }
 
   diceRolled() {
-    
+
   }
 
   isMessage(item: any): boolean {
@@ -99,6 +100,10 @@ export class RpgTabComponent implements OnInit {
 
   isHelpMessage(item: any): boolean {
     return item.commands
+  }
+
+  isStatsMessage(item: any): boolean {
+    return item.stats
   }
 
   newChatRecord(record?: any): ChatRecord {
@@ -163,7 +168,7 @@ export class RpgTabComponent implements OnInit {
 
 
   enterAction(e: string) {
-    
+
     console.log("Action: ", e)
     this.lastindex = -1
 
@@ -262,6 +267,7 @@ export class RpgTabComponent implements OnInit {
     this.addCmd(new ClearPerm())
     this.addCmd(new ClearDice())
     this.addCmd(new Help())
+    this.addCmd(new Stats())
     this.addCmd(new ClearType('me'))
     this.addCmd(new ClearType('messages'))
     this.addCmd(new ClearType('dice'))
@@ -378,10 +384,67 @@ class ClearType implements IChatCommand {
   }
 }
 
+class Stats implements IChatCommand {
+  old
+  cmd: string = '/stats'
+  help: string = 'print stats';
+  run(chat: RpgTabComponent) {
+
+    const recieved = RItem.generate(chat.data.received, this.old)
+    this.old = recieved
+    let help = new StatsMessage()
+    help.stats = recieved
+
+    let c = chat.newChatRecord(help)
+    chat.addRecord(c)
+  }
+}
+
 class TransientMessage {
   message: string
 }
 
+
 class HelpMessage {
   commands = []
+}
+
+
+class StatsMessage {
+  stats = []
+}
+
+class RItem {
+  name: string;
+  count: number;
+  sum: number;
+  raw: number[];
+  diff: boolean = false
+
+  static generate(r: {}, old: RItem[]): RItem[] {
+    const items: RItem[] = []
+    const objs = _.toPairs(r)
+    const rtn = objs.map((i: any) => {
+      const ritem = new RItem()
+      ritem.name = i[0]
+      ritem.count = i[1].length
+      ritem.sum = _.sum(i[1])
+      ritem.diff = false
+      ritem.raw = i[1]
+      return ritem
+    })
+
+    if (old) {
+      rtn.forEach(me => {
+        const oldOne = old.find(a => a.name == me.name)
+        if (oldOne) {
+          me.diff = me.count != oldOne.count
+        } else {
+          me.diff = true
+        }
+      })
+    }
+
+    return rtn
+  }
 }

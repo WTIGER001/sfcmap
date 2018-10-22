@@ -4,6 +4,8 @@ import { Monster } from '../../monster';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import { RestrictService } from 'src/app/dialogs/restrict.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MonsterViewDialogComponent } from '../monster-view-dialog/monster-view-dialog.component';
 
 @Component({
   selector: 'app-monster-selection',
@@ -13,11 +15,16 @@ import { RestrictService } from 'src/app/dialogs/restrict.service';
 export class MonsterSelectionComponent implements AfterContentInit {
   @Input() item: Monster
   @Output() onPan = new EventEmitter()
-  constructor( private data: DataService) {
+  
+  constructor( private data: DataService, private modal : NgbModal) {
 
   }
 
   ngAfterContentInit() {
+  }
+
+  openDialog() {
+    MonsterViewDialogComponent.openViewDialog(this.modal, this.item)
   }
 
   sentences(text: string): string[] {

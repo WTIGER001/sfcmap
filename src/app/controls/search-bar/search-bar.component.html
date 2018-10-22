@@ -12,7 +12,7 @@
   </ul>
   <div class="filters">
     <input type="text" [ngModel]="searchPhrase" (ngModelChange)="updateSearch($event)" (blur)="forceUpdateSearch($event)" (keyup.enter)="forceUpdateSearch($event)"
-      class="form-control form-control-lg">
+      class="form-control form-control-lg form-control--border">
     <fa-icon *ngIf="searchPhrase!=''" icon="times" (click)="clearSearch()" size="2x" class="icon-clear"></fa-icon>
     <fa-icon icon="question-circle" (click)="showFilterHelp()" size="2x" class="icon-help"></fa-icon>
     <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
@@ -23,7 +23,7 @@
     </div>
   </div> -->
   <ul class="tool-bar">
-    <li (click)="clkLinks()">
+    <li (click)="clkLinks()" *ngIf="hasLinks">
       <fa-icon class="icon" icon="link" size="lg" placement="bottom" ngbTooltip="Manage content links from other games and gamesystems"></fa-icon>Links
     </li>
     <li *ngIf="hasImport" (click)="clkImport()">

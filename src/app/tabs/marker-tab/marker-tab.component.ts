@@ -20,6 +20,8 @@ import { LangUtil } from 'src/app/util/LangUtil';
 import { Rect } from 'src/app/util/geom';
 import { Token } from 'src/app/maps/token';
 import { Monster } from 'src/app/monsters/monster';
+import { SelectItemsComponent } from 'src/app/dialogs/select-items/select-items.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-marker-tab',
@@ -57,7 +59,8 @@ export class MarkerTabComponent implements OnInit {
   lastmouse: LeafletMouseEvent
   selectionPinned = false
 
-  constructor(private mapSvc: MapService, private CDialog: CommonDialogService, private restrict: RestrictService, private data: DataService, private dialog: DialogService, private zone: NgZone) {
+  constructor(private mapSvc: MapService, private CDialog: CommonDialogService, 
+    private restrict: RestrictService, private data: DataService, private modal: NgbModal, private zone: NgZone) {
     this.data.mapTypesWithMaps.subscribe(items => {
       this.merged = items
     })
@@ -178,7 +181,8 @@ export class MarkerTabComponent implements OnInit {
 
   public addMonster() {
     // this.dialog.select(this.data.gameAssets.monsters.items$).subscribe(selected => {
-    this.dialog.select(this.data.pathfinder.monsters$).subscribe(selected => {
+    SelectItemsComponent.openDialog(this.modal, this.data.pathfinder.monsters$, { fields : Monster.FIELDS} )
+    .subscribe(selected => {
       selected.forEach((monster: Monster) => {
         // Add the character as a 'token' object (a subclass of the ImageAnnotation)
         this.addOneCharacter(monster)
@@ -187,7 +191,7 @@ export class MarkerTabComponent implements OnInit {
   }
 
   public addToken() {
-    this.dialog.select(this.data.gameAssets.tokens.items$).subscribe(selected => {
+    SelectItemsComponent.openDialog(this.modal, this.data.gameAssets.tokens.items$).subscribe(selected => {
       selected.forEach((token: Token) => {
         this.addOneCharacter(token)
       })
@@ -195,7 +199,7 @@ export class MarkerTabComponent implements OnInit {
   }
   
   public addCharacter() {
-    this.dialog.select(this.data.gameAssets.characters.items$).subscribe( selected => {
+    SelectItemsComponent.openDialog(this.modal, this.data.gameAssets.characters.items$).subscribe( selected => {
       selected.forEach( (chr : Character) => {
         // Add the character as a 'token' object (a subclass of the ImageAnnotation)
         this.addOneCharacter(chr)

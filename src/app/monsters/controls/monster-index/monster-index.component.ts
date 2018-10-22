@@ -40,11 +40,8 @@ export class MonsterIndexComponent implements OnInit {
   options$ = new BehaviorSubject<any>({ itemWidth: 225, itemHeight: 315, numAdditionalRows: 1 })
   cmd$ = new Subject()
 
-  fields: SortFilterField[] = [
-    { name: 'Name', valueFn: (item) => item.name, indexFn: (item) => item.name.substr(0, 1).toUpperCase(), sort: true, text: true },
-    { name: 'Type', valueFn: (item) => item.type, indexFn: (item) => item.type, sort: true, text: true, filter: true },
-    { name: 'CR', valueFn: (item) => MonsterDB.crToNumber(item.cr), indexFn: (item) => item.cr, formatFn: (value) => MonsterDB.formatCR(value), sort: true, text: true, filter: true }
-  ]
+  fields: SortFilterField[] = Monster.FIELDS
+  
   constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
   }
 

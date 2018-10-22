@@ -1,9 +1,19 @@
-.select-list {
- display: flex;
- flex-wrap: wrap;
- gap: 10px;
- margin-top: 4px;
- justify-content: center;
+.bdy {
+  display: flex;
+  height: 67vh;
+}
+
+.border-wrapper {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.cell {
+  display: inline-flex;
+  height: 155px;
+  width: 115px;
+  cursor: pointer;
 }
 
 .select-list figure {
@@ -16,9 +26,7 @@
   cursor: pointer;
   margin: 3px 3px 3px;
 }
-.bdy {
-  overflow-y: auto;
-}
+
 
 .select-list img {
   transition: transform ease-in-out 200ms;
