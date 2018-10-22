@@ -318,3 +318,4 @@ Map
 
 Application
 - Manage build size. Really large right now
+- Fixed the issues with download size
