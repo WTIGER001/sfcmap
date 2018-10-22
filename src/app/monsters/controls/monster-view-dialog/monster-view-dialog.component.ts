@@ -20,6 +20,13 @@ export class MonsterViewDialogComponent implements OnInit {
     this.activeModal.dismiss()
   }
 
+  save() {
+
+  }
+
+  delete() {
+    
+  }
   public static openViewDialog(modal: NgbModal, item: Monster) {
     const ref = modal.open(MonsterViewDialogComponent)
     ref.componentInstance.item = item

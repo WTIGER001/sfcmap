@@ -49,13 +49,6 @@ export class DialogService {
     return modalRef.componentInstance.result
   }
 
-  public select(choices: Asset[] | Observable<Asset[]>, numberAllowed ?: number, currentSelection ?: Asset[]): Observable<Asset[]> {
-    const modalRef = this.modalSvc.open(SelectItemsComponent);
-    modalRef.componentInstance.result = new Subject<Asset[]>()
-    modalRef.componentInstance.choices = choices
-    return modalRef.componentInstance.result
-  }
-
   public openEncounter(encounter: Encounter, all : TokenRecord[]): Observable<boolean>  {
     
     const modalRef = this.modalSvc.open(EncounterDialogComponent);
