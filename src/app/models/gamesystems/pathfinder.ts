@@ -1,4 +1,4 @@
-import { GameSystem } from "../game-system";
+import { GameSystem, NameDescription } from "../game-system";
 import { ReplaySubject, BehaviorSubject } from "rxjs";
 import { Monster } from "src/app/monsters/monster";
 import { CacheService } from "src/app/cache/cache.service";
@@ -24,6 +24,40 @@ export class Pathfinder extends GameSystem {
   defense = 'AC'
   commonAttributes = ['HP', 'AC', 'Initative', 'STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA', 'Fort', 'Ref', 'Will', 'Touch AC', 'Flat AC', 'BAB', 'CMB', 'CMD']
   commonRolls = ['Perception', 'Attack - Melee', 'Initative', 'Attack - Ranged']
+  conditions = [
+    new NameDescription('Blinded', ''),
+    new NameDescription('Confused', ''),
+    new NameDescription('Cowering', ''),
+    new NameDescription('Dazed', ''),
+    new NameDescription('Dazzled', ''),
+    new NameDescription('Dead', ''),
+    new NameDescription('Deafened', ''),
+    new NameDescription('Disabled', ''),
+    new NameDescription('Dying', ''),
+    new NameDescription('Entangled', ''),
+    new NameDescription('Exhausted', ''),
+    new NameDescription('Facinated', ''),
+    new NameDescription('Fatigued', ''),
+    new NameDescription('Flat-Footed', ''),
+    new NameDescription('Frightened', ''),
+    new NameDescription('Grappled', ''),
+    new NameDescription('Helpless', ''),
+    new NameDescription('Incorporeal', ''),
+    new NameDescription('Invisible', ''),
+    new NameDescription('Nauseated', ''),
+    new NameDescription('Panicked', ''),
+    new NameDescription('Paralyzed', ''),
+    new NameDescription('Petrified', ''),
+    new NameDescription('Pinned', ''),
+    new NameDescription('Prone', ''),
+    new NameDescription('Shaken', ''),
+    new NameDescription('Sickened', ''),
+    new NameDescription('Stable', ''),
+    new NameDescription('Staggered', ''),
+    new NameDescription('Stunned', ''),
+    new NameDescription('Unconscious', ''),
+  ]
+
 
   constructor() {
     super()

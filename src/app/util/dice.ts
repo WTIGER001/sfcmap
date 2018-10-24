@@ -1076,6 +1076,12 @@ export class DiceRoller {
         })
     }
 
+  rollQuick(expression: string): DiceRoll {
+    const roll = this.parse(expression)
+    this.completeMissing(roll)
+    return roll
+  }
+
     rollDice(expression: string): Observable<DiceRoll> {
         this.initialize()
 

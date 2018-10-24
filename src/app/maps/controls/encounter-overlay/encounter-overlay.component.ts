@@ -4,6 +4,7 @@ import { DataService } from 'src/app/data.service';
 import { tap, mergeMap } from 'rxjs/operators';
 import { MapConfig, TokenAnnotation, Annotation, Selection } from 'src/app/models';
 import { Encounter, TokenRecord } from 'src/app/encounter/model/encounter';
+import { ImageUtil } from 'src/app/util/ImageUtil';
 
 /**
  * This component is displayed as part of the map.
@@ -45,6 +46,8 @@ export class EncounterOverlayComponent implements OnInit {
     if (this.encounter) {
       // Sort according to initiative order
       this.items = this.encounter.participants.sort((a,b) => b.initiative - a.initiative)
+
+      this.checkAllDead()
     }
   }
 
@@ -85,15 +88,28 @@ export class EncounterOverlayComponent implements OnInit {
   }
 
   nextTurn() {
-    let next = this.encounter.turn + 1
-    if (next < this.items.length) {
-      this.encounter.turn = next
-    } else {
-      this.encounter.turn = 0;
-      this.encounter.round += 1
+    let a = { round: this.encounter.round, turn: this.encounter.turn}
+    for (let i=0; i< this.items.length; i++) {
+      a = this.proposeNext(a.round,a.turn)
+      if (!this.items[a.turn].dead ) {
+        this.encounter.round = a.round
+        this.encounter.turn = a.turn
+        break;
+      } 
     }
     this.data.activateEncounter(this.encounter)
   }
+
+  proposeNext(r: number, t : number ) : {round, turn} {
+    let nextT = t + 1
+    let nextR = r
+    if (nextT < this.items.length) {
+      return {round: nextR, turn: nextT}
+    } else {
+      return {round: nextR+1, turn:0}
+    }
+  }
+
   nextRound() {
     this.encounter.turn = 0;
     this.encounter.round += 1
@@ -135,6 +151,32 @@ export class EncounterOverlayComponent implements OnInit {
       if (t) {
         this.mapSvc.panTo(t.center())
       }
+    }
+  }
+
+  checkAllDead() {
+    this.items.forEach(item => {
+      this.checkDead(item)
+    })
+  }
+
+  async checkDead(r : TokenRecord) {
+    const t = this.findToken(r)
+    if (t) {
+      if (t.dead != r.dead) {
+        t.setDead(r.dead);
+        this.data.save(t)
+      }
+     
+      // const l = t.getAttachment()
+      // if (r.dead) {
+      //   console.log("Making Dead Image", t.url)
+      //   const deadImg = await ImageUtil.MarkX(t.url)
+      //   console.log("MADE Dead Image", deadImg)
+      //   l._image.src = deadImg
+      // } else {
+      //   l._image.src = r.token
+      // }
     }
   }
 }

@@ -1,11 +1,12 @@
 import { Component, OnInit, AfterContentInit, Input, Output, EventEmitter } from '@angular/core';
-import { Game, Asset } from 'src/app/models';
+import { Game, Asset, Character } from 'src/app/models';
 import { Monster } from '../../monster';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import { RestrictService } from 'src/app/dialogs/restrict.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MonsterViewDialogComponent } from '../monster-view-dialog/monster-view-dialog.component';
+import { MonsterToCharacter } from '../../to-character';
 
 @Component({
   selector: 'app-monster-selection',
@@ -15,12 +16,15 @@ import { MonsterViewDialogComponent } from '../monster-view-dialog/monster-view-
 export class MonsterSelectionComponent implements AfterContentInit {
   @Input() item: Monster
   @Output() onPan = new EventEmitter()
+  character: Character
   
   constructor( private data: DataService, private modal : NgbModal) {
 
   }
 
   ngAfterContentInit() {
+    this.character = MonsterToCharacter.convert(this.item)
+    this.character.rollId = this.item.id
   }
 
   openDialog() {

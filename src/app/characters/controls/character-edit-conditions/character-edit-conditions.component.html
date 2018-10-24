@@ -1,0 +1,7 @@
+<div class="col2">
+  <div *ngFor="let c of conditions" class="condition">
+    <input type="checkbox" class="switch switch-bad" [(ngModel)]="c.enabled" [id]="c.name">
+    <label [for]="c.name">{{c.name}}</label>
+  </div>
+
+</div>

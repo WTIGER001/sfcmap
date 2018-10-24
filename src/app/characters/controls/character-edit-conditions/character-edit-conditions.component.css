@@ -1,0 +1,13 @@
+.col2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.condition {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5px;
+  justify-content: start;
+}

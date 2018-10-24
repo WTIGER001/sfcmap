@@ -1,6 +1,6 @@
 
 
-<div class="selection-actions">
+<div class="selection-actions" *ngIf="!noactions">
   <div class="action" (click)="panTo()">
     <fa-icon icon="location"></fa-icon> Locate on Map
   </div>
@@ -13,7 +13,6 @@
     <div class="action" (click)="editCharacter()">
       <fa-icon icon="edit"></fa-icon> Edit Character
     </div>
-
 </div>
 <app-expander title="Personal">
   <div class="end-margin">
@@ -64,6 +63,11 @@
     </div>
   </app-restricted-content>
 </app-expander>
+
+<app-expander title="Conditions">
+  <app-character-edit-conditions [character]="character"></app-character-edit-conditions>
+</app-expander>
+
 
 <app-expander title="Vision & Lighting">
   

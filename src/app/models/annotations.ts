@@ -2,6 +2,7 @@ import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, po
 import { IconZoomLevelCache } from "./icon-cache";
 import { IObjectType, ObjectType, Asset } from "./core";
 import { LangUtil } from "../util/LangUtil";
+import { ImageUtil } from "../util/ImageUtil";
 
 export enum AnchorPostitionChoice {
   TopLeft = 0,
@@ -164,7 +165,7 @@ export class MarkerTypeAnnotation extends Annotation {
     if (!this._leafletAttachment) {
       return
     }
-    
+
     let ll = this.toMarker().getLatLng()
     this.points = [ll]
   }
@@ -282,7 +283,7 @@ export class ImageAnnotation extends Annotation {
 export class TokenAnnotation extends Annotation {
   public static readonly SUBTYPE = 'token'
   readonly subtype: string = TokenAnnotation.SUBTYPE
- 
+
   static is(obj: any): obj is TokenAnnotation {
     return obj.objType !== undefined && obj.objType === Annotation.TYPE &&
       obj.subtype !== undefined && obj.subtype === TokenAnnotation.SUBTYPE
@@ -293,11 +294,12 @@ export class TokenAnnotation extends Annotation {
   displayRange: [number, number] = [-20, 200]
   aspect: number // width / height
   keepAspect: boolean = false
-  itemId : string
-  itemType : string
+  itemId: string
+  itemType: string
   sizeX: number = 1.524;
   sizeY: number = 1.524;
   snap = true;
+  dead = false
   _saveImage = false
   _blob: Blob
 
@@ -345,13 +347,49 @@ export class TokenAnnotation extends Annotation {
   createLeafletAttachment(iconCache?: IconZoomLevelCache): any {
     let bounds = new LatLngBounds(this.points[0], this.points[1])
     let options = this.options()
-    let img = imageOverlay(this.url, bounds, options)
+    let img: ImageOverlay
+
+    if (this.dead) {
+      // It is in the cahce
+      if (DeadImages.Images[this.id]) {
+        img = imageOverlay(DeadImages.Images[this.id], bounds, options)
+      } else {
+        img = imageOverlay(this.url, bounds, options)
+        this.getDeadImage().then((deadurl: string) => {
+          img.setUrl(deadurl)
+        })
+      }
+    } else {
+      img = imageOverlay(this.url, bounds, options)
+    }
+
     img.setBounds(bounds)
     return img
   }
 
   center(): LatLng {
     return (<ImageOverlay>this._leafletAttachment).getBounds().getCenter()
+  }
+
+  async getDeadImage() {
+    if (!DeadImages.Images[this.id] && this.url) {
+      DeadImages.Images[this.id]= await ImageUtil.MarkX(this.url)
+    }
+    return DeadImages.Images[this.id]
+  }
+
+  setDead(dead :boolean) {
+    const img : ImageOverlay = this.asItem()
+    if (img) {
+      this.dead = dead
+      if (this.dead) {
+        this.getDeadImage().then((deadurl: string) => {
+          img.setUrl(deadurl)
+        })
+      } else {
+        img.setUrl(this.url)
+      }
+    }
   }
 }
 
@@ -568,5 +606,9 @@ export class ShapeAnnotation extends Annotation {
     }
   }
 
+}
+
+class DeadImages {
+  static Images = {}
 }
 

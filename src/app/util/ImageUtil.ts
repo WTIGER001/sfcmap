@@ -152,5 +152,39 @@ export class ImageUtil {
     }
     return val
   }
+
+  public static MarkX(url: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const offscreen = document.createElement('canvas');
+
+      // Load the Image (0.7)
+      const image = new Image()
+      image.crossOrigin = "Anonymous"
+      image.onload = () => {
+        offscreen.width = image.width;
+        offscreen.height = image.height;
+        const ctx = offscreen.getContext('2d');
+        ctx['filter'] = 'blur(7px)';
+
+        ctx.drawImage(image, 0, 0);
+        ctx.lineWidth = image.width * .1;
+        ctx.strokeStyle = 'darkred'
+        ctx.lineCap = 'round'
+
+        // ctx.filter = "none";
+        ctx.beginPath();
+
+        ctx.moveTo(image.width * .2, image.height * .2);
+        ctx.lineTo(image.width - image.width * .2, image.height - image.height * .2);
+        ctx.moveTo(image.width * .2, image.height - image.height * .2);
+        ctx.lineTo(image.width - image.width * .2, image.height * .2);
+        ctx.stroke();
+
+        resolve(offscreen.toDataURL())
+      }
+      image.src = url
+    })
+
+  }
 }
 

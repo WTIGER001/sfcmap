@@ -5,13 +5,16 @@ import { MapService } from 'src/app/maps/map.service';
 import { Encounter, TokenRecord } from 'src/app/encounter/model/encounter';
 import { UUID } from 'angular2-uuid';
 import { Layer } from 'leaflet';
-import { Character, Annotation, TokenAnnotation, Asset, Selection, Game, MapConfig } from 'src/app/models';
+import { Character, Annotation, TokenAnnotation, Asset, Selection, Game, MapConfig, ChatMessage, ChatRecord, DiceRoll } from 'src/app/models';
 import { Token } from 'src/app/maps/token';
 import { Monster } from 'src/app/monsters/monster';
 import { LangUtil } from 'src/app/util/LangUtil';
 import * as _ from 'lodash';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
+import { MessageService } from 'src/app/message.service';
+import { DiceRoller } from 'src/app/util/dice';
+import { AudioService, Sounds } from 'src/app/audio.service';
 
 @Component({
   selector: 'app-encounter-tab',
@@ -24,8 +27,8 @@ export class EncounterTabComponent implements OnInit {
   sel : Selection = new Selection([])
   game: Game
   mapCfg: MapConfig
-
-  constructor(private data: DataService, private dialog: DialogService, private mapSvc: MapService) { }
+  time : Date
+  constructor(private data: DataService, private audioSvc : AudioService, private dialog: DialogService, private mapSvc: MapService, private msg : MessageService) { }
 
   ngOnInit() {
     this.mapSvc.selection.subscribe( sel => {
@@ -53,6 +56,43 @@ export class EncounterTabComponent implements OnInit {
         }
       } 
     })
+
+    this.data.game.pipe(
+      tap(g => "----->Game Changed"),
+      mergeMap( message => this.msg.messages),
+      tap(message => this.recordInit(message)) 
+    ).subscribe()
+  }
+
+  recordInit(message: ChatRecord) {
+    console.log("Checking Chat", message)
+    if (this.encounter && DiceRoll.is( message.record)) {
+      // character
+      const r = message.record
+      if (r.tokenId && r.rolltype == 'Initiative') {
+        // Find the annotation
+        const found = this.encounter.participants.find( a => a.id==r.tokenId)
+        if (found) {
+          console.log("Found Initiative Roll");
+          found.initiative = r.getTotal()
+          this.save()
+        }
+      }
+    }
+  }
+
+  findById(id : string) {
+    const f = this.encounter.participants.find(a => a.id == id)
+    if (f) {
+      return f
+    }
+    const f2 = this.encounter.participants.find(a => {
+      const ta = this.findToken(a)
+      if (ta) {
+        return ta.itemId == id
+      }
+    })
+    return f2
   }
 
   isInEncounter(a : TokenAnnotation) : boolean {
@@ -75,6 +115,7 @@ export class EncounterTabComponent implements OnInit {
   }
 
   newEncounter() {
+    this.time = new Date()
     const enc = new Encounter()
     enc.id = UUID.UUID().toString()
     enc.name = "Random Encounter"
@@ -84,6 +125,43 @@ export class EncounterTabComponent implements OnInit {
     this.dialog.openEncounter(enc, all).subscribe(a => {
       this.data.activateEncounter(enc)
     })
+  }
+
+  rollAllInitiatives() {
+    console.log("Rolling for everyone")
+
+    const roller = new DiceRoller(false, undefined )
+
+    this.encounter.participants.forEach( (p) => {
+      console.log("Rolling for ", p.name)
+      const initRoll = this.getInit(p)
+      console.log("INIT for ", initRoll)
+      if (initRoll) {
+        p.initiative =  roller.rollQuick(initRoll).getTotal()
+      } 
+    })
+    this.audioSvc.play(Sounds.DiceRoll)
+    this.save()
+  }
+
+  getInit(p : TokenRecord) : string {
+    // find the init
+    const token = this.findToken(p)
+    console.log("Token: ", token)
+
+    if (token) {
+      const item = this.findLinkedItem(token.itemId, token.itemType)
+      if (item) {
+        if (Character.is(item)) {
+          const found = item.rolls.find(r => r.name.toLowerCase() == 'initiative')
+          if (found) {
+            return found.expression
+          }
+        } else if (Monster.is(item)) {
+          return "d20+"+item.init
+        }
+      }
+    }
   }
 
   select(item : TokenRecord) {

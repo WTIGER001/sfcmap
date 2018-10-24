@@ -21,6 +21,7 @@ export class CharacterSelectionComponent implements OnInit {
   static pages = ['personal', 'description', 'rolls', 'stats']
   @ViewChild('dice') dice: DiceCanvasComponent
   @Input() character: Character
+  @Input() noactions = false
   diceResult: DiceRoll
   types: CharacterType[] = []
 
@@ -49,7 +50,8 @@ export class CharacterSelectionComponent implements OnInit {
 
 
   roll($event, r: Roll) {
-    this.dice.rollDice(this.character.name + " " + r.name + " " + this.evaluate(r))
+    const rollId = this.character.rollId ? this.character.rollId : this.character.id
+    this.dice.rollDice(this.character.name + " " + r.name + " " + this.evaluate(r), r.name, rollId)
   }
 
   evaluate(r: Roll): string {

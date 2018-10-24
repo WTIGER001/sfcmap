@@ -24,6 +24,8 @@ export class GameSystem extends AssetOwner {
   defense: string
   commonAttributes?: string[]
   commonRolls?: string[]
+  conditions?: NameDescription[] = []
+
 }
 
 export class PrimaryAttribute {
@@ -104,4 +106,8 @@ export class AssetSource<T> {
   obs$: Observable<Array<T>>
   data: T[]
   sub: Subscription
+}
+
+export class NameDescription {
+  constructor(public name: string, public description){}
 }

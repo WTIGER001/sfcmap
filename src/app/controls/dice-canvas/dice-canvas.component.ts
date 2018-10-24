@@ -41,12 +41,15 @@ export class DiceCanvasComponent implements AfterViewInit {
     }
   }
 
-  rollDice(expression: string) {
+  rollDice(expression: string, rollType?: string, forToken?: string, ) {
     if (expression) {
       this.audio.play(Sounds.DiceRoll)
       this.roller.rollDice(expression).subscribe(r => {
         this.diceResult = r
+        this.diceResult.tokenId = forToken
+        this.diceResult.rolltype = rollType
         let copy = DiceRoll.copy(r)
+        
 
         this.diceroll.emit(copy)
         this.dicetotal.emit(r.getText())

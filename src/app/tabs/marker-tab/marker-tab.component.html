@@ -58,6 +58,10 @@
         ngbTooltip="Deselect Items">
         <fa-icon icon="times" size="lg"></fa-icon>
       </button>
+      <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="xout()" placement="bottom"
+        ngbTooltip="Deselect Items">
+        <fa-icon icon="times" size="lg"></fa-icon>
+      </button>
     </div>
 
     <div class="buttonbar" *ngIf="edit==true">

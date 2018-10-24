@@ -569,6 +569,10 @@ export class MarkerTabComponent implements OnInit {
   public tokenIsToken(item: TokenAnnotation) {
     return item.itemType == Token.TYPE
   }
+
+  public xout() {
+    // Create an exl
+  }
 }
 
 

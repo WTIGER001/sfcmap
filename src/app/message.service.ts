@@ -17,37 +17,20 @@ import { DbConfig } from './models/database-config';
 export class MessageService {
   private user: User
   public rollRequests = new Subject<string>()
+  public messages = new ReplaySubject<ChatRecord>()
 
   constructor(private data: DataService) {
     this.data.user.subscribe(u => this.user = u)
+   
+    this.getMyChatMessages2().pipe(
+      tap( message => this.messages.next(message)),
+      tap(m => console.log("Message Recorded", m))
+    ).subscribe()
   }
 
   requestRoll(expression: string) {
     this.rollRequests.next(expression)
   }
-
-  getMyChatMessages(game: Game): Observable<ChatRecord> {
-    const chatPath = DbConfig.pathFolderTo(ChatRecord.TYPE, game.id)
-    return this.getLastCleared(game).pipe(
-      take(1),
-      mergeMap(last => this.data.db.list<ChatRecord>(chatPath, ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges(['child_added'])),
-      tap( action => this.data.record('chat-message', 1)),
-      filter(action => action.type == 'child_added'),
-      map(action => ChatRecord.to(action.payload.val())),
-      distinctUntilKeyChanged('id'),
-    )
-  }
-
-  // getMyChatMessages2(): Observable<ChatRecord> {
-  //  return  this.data.game.pipe(
-  //     filter(game =>  (game != undefined && game.id != undefined) ),
-  //     mergeMap(game => this.getLastCleared(game)),
-  //     mergeMap(last => this.data.db.list<ChatRecord>(DbConfig.pathFolderTo(ChatRecord.TYPE, last.game), ref => ref.orderByChild('time').limitToLast(100).startAt(last ? last.lastCleared : 0)).stateChanges()),
-  //     filter(action => action.type == 'child_added'),
-  //     map(action => ChatRecord.to(action.payload.val())),
-  //     distinctUntilKeyChanged('id'),
-  //   )
-  // }
 
   getMyChatMessages2(): Observable<ChatRecord> {
     return this.data.game.pipe(

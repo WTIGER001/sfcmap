@@ -6,7 +6,7 @@
     <fa-icon icon="fast-forward" size="2x" class="clickable rounded noselect" (click)="nextRound()" placement="bottom" ngbTooltip="Next Round, Skip remaining turns"></fa-icon>
   </div>
   <div class="tiles">
-    <app-picture-tile size='tiny' class="tile" [class.myturn]="isMyTurn(item)" [selected]="isSelected(item)" (click)="select(item)" (dblclick)="dblclick(item)" *ngFor="let item of items"
+    <app-picture-tile size='tiny' class="tile" [class.imgx]="item.dead" [class.myturn]="isMyTurn(item)" [selected]="isSelected(item)" (click)="select(item)" (dblclick)="dblclick(item)" *ngFor="let item of items"
       [picture]="pic(item)" [caption]="caption(item)" [objPos]="item.imgPos"></app-picture-tile>
   </div>
   <div class="handle clickable" (click)="toggle()">

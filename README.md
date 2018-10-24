@@ -315,7 +315,3 @@ Monsters
 Map
 - Background Layers
 - Better Ruler
-
-Application
-- Manage build size. Really large right now
-- Fixed the issues with download size

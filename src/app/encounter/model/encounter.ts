@@ -76,4 +76,5 @@ export class TokenRecord  {
   initiative : number = 0 // The initiative order 
   token: string;
   _delete: boolean =  false
+  dead: false
 }

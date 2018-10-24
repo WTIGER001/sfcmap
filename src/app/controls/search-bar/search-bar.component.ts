@@ -38,7 +38,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   @Input() fields: SortFilterField[] = []
   @Input() newText = "New Item"
   @Input() newLink = "/new-item"
-  @Input() submitOnChange = false
+  @Input() submitOnChange = true
   @Input() views: string[] = ['card', 'small', 'list'] //, 'line'
   @Input() viewIcons: string[] = ['th-large', 'th', 'th-list']
 

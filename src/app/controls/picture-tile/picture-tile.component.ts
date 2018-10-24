@@ -19,6 +19,7 @@ export class PictureTileComponent implements OnInit {
   @Input() checkIcon : string = "check"
   @Input() canCheck : boolean = false
   @Input() objPos : number = 5
+  @Input() x = true
   @Output() checkChange = new EventEmitter;
   
   constructor() { }

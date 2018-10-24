@@ -6,6 +6,7 @@ import { DataService } from "../data.service";
 import { MapService } from "./map.service";
 import { NgZone } from "@angular/core";
 import { NotifyService, Debugger } from '../notify.service';
+import { HtmlUtil } from '../util/html-util';
 
 export class AnnotationManager {
   /** Icons (one per marker type) at each soom level for the map. This is precomputed so that zooming is quick. Note this is computed each time there is a map change  */
@@ -441,4 +442,6 @@ export class AnnotationManager {
     }
     return undefined
   }
+
+
 }

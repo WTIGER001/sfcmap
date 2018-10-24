@@ -78,3 +78,26 @@ optgroup, option {
   border-bottom: 1px solid white
 }
 
+input.switch {
+  position: relative;
+  -webkit-appearance: none;
+  outline: none;
+  width: 40px;
+  height: 20px;
+  background-color: rgb(68, 68, 68);
+  border: 1px solid rgb(124, 124, 124);
+  border-radius: 50px; 
+  box-shadow: inset -20px 0 0 0 rgb(32, 24, 16);
+  transition: all 200ms;
+}
+
+input.switch:checked {
+  box-shadow: inset 20px 0 0 0 blue;
+  border-color: blue;
+  transition: all 200ms;
+}
+
+input.switch-bad:checked {
+  box-shadow: inset 20px 0 0 0 #6c1111;
+  border-color: rgb(124, 124, 124);
+}

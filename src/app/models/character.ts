@@ -18,6 +18,7 @@ export class Character extends Asset {
 
 
   id: string
+  rollId: string // who i roll as
   name: string
   type: string
 
@@ -42,6 +43,7 @@ export class Character extends Asset {
   race: string
   classes: string
   alignment: string
+  conditions: any 
 
   auras : Aura[] = []
 

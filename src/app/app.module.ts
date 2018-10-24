@@ -184,6 +184,7 @@ import { MonsterSelectionComponent } from './monsters/controls/monster-selection
 import { CacheInfoComponent } from './components/cache-info/cache-info.component';
 import { MonsterViewCoreComponent } from './monsters/controls/monster-view-core/monster-view-core.component';
 import { MonsterViewDialogComponent } from './monsters/controls/monster-view-dialog/monster-view-dialog.component';
+import { CharacterEditConditionsComponent } from './characters/controls/character-edit-conditions/character-edit-conditions.component';
 
 @NgModule({
   declarations: [
@@ -325,6 +326,7 @@ import { MonsterViewDialogComponent } from './monsters/controls/monster-view-dia
     CacheInfoComponent,
     MonsterViewCoreComponent,
     MonsterViewDialogComponent,
+    CharacterEditConditionsComponent,
   ],
   imports: [
     BrowserModule,

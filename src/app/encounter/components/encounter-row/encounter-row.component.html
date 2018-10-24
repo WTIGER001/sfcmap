@@ -1,6 +1,12 @@
 <div class="overall">
+  <div>
   <app-picture-tile class="pic" size="square-sm" [picture]="getPic()" [caption]="getType()" 
     canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [checked]="row._delete" [objPos]="getItem()?.imgPos"></app-picture-tile>
+
+    <label class="btn btn-sm btn-outline-secondary" ngbButtonLabel>
+      <input type="checkbox" ngbButton class="hideme" [(ngModel)]="row.dead"> <fa-icon icon="skull-crossbones"></fa-icon> Dead
+    </label>
+  </div>
   <div class="myCol">
     <label>Name:</label>
     <input type="text" class="frm-ctl" [(ngModel)]="row.name">

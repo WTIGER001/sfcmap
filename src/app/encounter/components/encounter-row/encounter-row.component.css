@@ -38,6 +38,11 @@ label {
   margin: 0;
 }
 
+.hideme {
+  transform: scale(0);
+  margin: -8px;
+}
+
 @media (max-width: 1100px) {
   .mycol {
       grid-template-columns: auto 1fr;

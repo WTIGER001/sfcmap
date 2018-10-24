@@ -88,6 +88,8 @@ export class DiceRoll {
     let obj = new DiceRoll()
     obj.modifier = r.modifier
     obj.expression = r.expression
+    obj.rolltype = r.rolltype
+    obj.tokenId = r.tokenId
     r.dice.forEach(die => {
       let d = new DiceResult()
       d.negative = die.negative
@@ -111,6 +113,8 @@ export class DiceRoll {
   expression: string
   dice: DiceResult[] = []
   _fav: boolean
+  tokenId : string
+  rolltype : string
 
   /**
    * 

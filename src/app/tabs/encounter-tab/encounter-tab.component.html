@@ -17,13 +17,13 @@
     <ng-container *ngFor="let team of teams">
       <h3>{{team}}</h3>
       <div class="small-tiles">
-        <app-picture-tile size='tiny' class="pic" [selected]="isSelected(item)" (click)="select(item)" *ngFor="let item of getMembers(team)" [picture]="pic(item)"
+        <app-picture-tile size='tiny' [class.imgx]="item.dead" class="pic" [selected]="isSelected(item)" (click)="select(item)" *ngFor="let item of getMembers(team)" [picture]="pic(item)"
          [caption]="caption(item)" [objPos]="item.imgPos"></app-picture-tile>
       </div>
     </ng-container>
   </div>
   <div class="singlecol" *ngIf="encounter">
-    <button class="btn btn-sm btn-outline-secondary">Group Roll</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="rollAllInitiatives()">Group Roll</button>
     <button class="btn btn-sm btn-outline-secondary" (click)="manage()">Manage Participants</button>
     <button class="btn btn-sm btn-outline-secondary">Award XP</button>
     <button class="btn btn-sm btn-outline-secondary">Distribute Treasure</button>
