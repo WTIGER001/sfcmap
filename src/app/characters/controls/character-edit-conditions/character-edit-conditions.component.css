@@ -8,6 +8,7 @@
 .condition {
   display: grid;
   grid-template-columns: auto auto;
-  gap: 5px;
+  gap: 1px;
   justify-content: start;
+  align-items: center;
 }

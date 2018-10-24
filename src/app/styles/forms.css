@@ -82,22 +82,28 @@ input.switch {
   position: relative;
   -webkit-appearance: none;
   outline: none;
-  width: 40px;
-  height: 20px;
+  width: 32px;
+  height: 16px;
   background-color: rgb(68, 68, 68);
   border: 1px solid rgb(124, 124, 124);
   border-radius: 50px; 
-  box-shadow: inset -20px 0 0 0 rgb(32, 24, 16);
+  box-shadow: inset -16px 0 0 0 rgb(32, 24, 16);
   transition: all 200ms;
+  cursor: pointer;
 }
 
 input.switch:checked {
-  box-shadow: inset 20px 0 0 0 blue;
+  box-shadow: inset 16px 0 0 0 blue;
   border-color: blue;
   transition: all 200ms;
 }
 
 input.switch-bad:checked {
-  box-shadow: inset 20px 0 0 0 #6c1111;
+  box-shadow: inset 16px 0 0 0 #6c1111;
   border-color: rgb(124, 124, 124);
+}
+
+input.switch-bad:checked ~ label {
+  color: #6c1111;
+  text-shadow: 0px 0px grey;
 }
