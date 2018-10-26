@@ -81,9 +81,8 @@ export class FowManager {
   private fow: FogOfWar
 
   constructor(private mapSvc: MapService, private data: DataService) {
-    
+    // this.fogOfWar = new MapAsset<FogOfWar>(FogOfWar.TYPE).subscribe(this.mapConfig, notify, data);
   }
-
 
   setFow(fow: FogOfWar) {
     this.fow = fow
@@ -93,7 +92,6 @@ export class FowManager {
       this.createOverlay(this.mapSvc._map)
     } else if (this.imgOverlay) {
       console.log("Removing FOW LAYER")
-
       this.imgOverlay.remove()
     }
   }
