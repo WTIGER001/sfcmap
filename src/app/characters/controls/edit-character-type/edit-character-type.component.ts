@@ -17,7 +17,6 @@ export class EditCharacterTypeComponent implements OnInit {
   }
 
   save() {
-    console.log("SAVING Character TYPE");
     if (this.selected) {
       if (this.selected.id == 'TEMP') {
         this.selected.id = UUID.UUID().toString()

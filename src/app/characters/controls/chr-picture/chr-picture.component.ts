@@ -22,12 +22,10 @@ export class ChrPictureComponent implements OnInit {
   }
 
   getFile() {
-    console.log("Clicking on File");
     this.fileButton.nativeElement.click()
   }
 
   uploadFile(event) {
-    console.log("Uploading Picture")
     if (event.target.files) {
       this.setFiles(event.target.files)
     }
@@ -43,12 +41,6 @@ export class ChrPictureComponent implements OnInit {
     this.imgSvc.openRandomImage(term).subscribe(result => {
       this.character.picture = result.url
     })
-    // GoogleImageSearch.searchImage(term).then((results: ImageSearchResult[]) => {
-    //   console.log("URLS FOUND ", results.length);
-    //   let index = Math.floor(Math.random() * results.length)
-    //   this.character.picture = results[index].url
-    // })
-
   }
 
   setImgPosition(pos) {
@@ -56,8 +48,6 @@ export class ChrPictureComponent implements OnInit {
   }
 
   setFiles(files: FileList) {
-    console.log(files);
-
     let f = files[0]
     if (f.size < this.maxSize) {
       let path = 'attachments/' + this.character.id + "/picture"
@@ -90,24 +80,15 @@ export class ChrPictureComponent implements OnInit {
 
 
   dragOver(e) {
-    // console.log("OVER");
-
-    // e.stopPropagation();
     e.preventDefault();
   }
 
   dragEnter(e) {
-    console.log("ENTER");
-
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = true
   }
 
   dragLeave(e) {
-    console.log("LEAVING");
-
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = false
   }
@@ -125,7 +106,6 @@ export class ChrPictureComponent implements OnInit {
   }
 
   setToken($event : any) {
-    console.log("Addding Token" , $event)
     this.saveToken($event)
   }
 }

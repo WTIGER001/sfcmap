@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
 import { MapConfig, Distance } from '../../models';
-import { Map as LeafletMap, GridLayerOptions, Util } from 'leaflet';
+import { Map as LeafletMap, GridLayerOptions, Util, LatLng } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Measure } from '../../leaflet/measure';
@@ -13,6 +13,7 @@ import { Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { EditMapComponent } from '../../controls/edit-map/edit-map.component';
+import { FogOfWar, FowShape } from 'src/app/maps/fow';
 
 @Component({
   selector: 'app-map-tab',
@@ -34,6 +35,10 @@ export class MapTabComponent implements OnInit {
   isCollapsed = {}
   saveMe = new Subject<boolean>()
   link = []
+  
+  fow = new FogOfWar()
+  isGM = false
+
   constructor(private mapSvc: MapService, private data: DataService, private dialog: DialogService, private zone: NgZone, private commonDialog: CommonDialogService) {
     this.isCollapsed['grid'] = true
     this.isCollapsed['fog'] = true
@@ -64,6 +69,9 @@ export class MapTabComponent implements OnInit {
     this.saveMe.pipe(throttleTime(2000)).subscribe(b => {
       this.data.saveMap(this.mapCfg)
     })
+
+    this.mapSvc.fogOfWar.item$.subscribe( fow => this.fow = fow)
+    this.isGM = this.data.isGM()
   }
 
   isSharing() : boolean {
@@ -181,4 +189,79 @@ export class MapTabComponent implements OnInit {
       })
     }
   }
+
+
+  //------------------------------------------------------------------------------------------------------------
+  // Fog of war 
+  //------------------------------------------------------------------------------------------------------------
+
+  // The shape currently being drawn. This shape can be used for reveals or hides
+  fow_current_shp 
+
+
+
+  updateFow() {
+    this.fow.id = this.mapCfg.id
+    this.fow.owner = this.mapCfg.owner
+    this.fow.map = this.mapCfg.id
+    this.data.save(this.fow)
+  }
+
+  startRectangle() {
+    this.cancelFowShape()
+    this.fow_current_shp = this.mapSvc._map.editTools.startRectangle()
+  }
+
+  startPoly() {
+    this.cancelFowShape()
+    this.fow_current_shp = this.mapSvc._map.editTools.startPolygon()
+  }
+
+  startCircle() {
+    this.cancelFowShape()
+    this.fow_current_shp = this.mapSvc._map.editTools.startCircle()
+  }
+
+  saveAsReveal() {
+    if (this.fow_current_shp) {
+      // Convert
+      const r: FowShape = new FowShape(this.fow_current_shp)
+      this.fow.reveals.push(r)
+      this.updateFow()
+      this.fow_current_shp.remove()
+      this.fow_current_shp = undefined
+    }
+  }
+
+  saveAsHide() {
+    if (this.fow_current_shp) {
+      // Convert
+      const r: FowShape = new FowShape(this.fow_current_shp)
+      r.hide = true
+      this.fow.reveals.push(r)
+      this.updateFow()
+      this.fow_current_shp.remove()
+      this.fow_current_shp = undefined
+    }
+  }
+
+  cancelFowShape() {
+    if (this.fow_current_shp) {
+      this.fow_current_shp.remove()
+      this.fow_current_shp = undefined
+    }
+  }
+
+  toggleHideAll() {
+    this.fow.hideAll = !this.fow.hideAll
+    this.updateFow()
+  }
+
+  clear() {
+    this.cancelFowShape()
+    this.fow.reveals = []
+    this.updateFow()
+  }
+
+
 }

@@ -93,8 +93,8 @@ input.switch {
 }
 
 input.switch:checked {
-  box-shadow: inset 16px 0 0 0 blue;
-  border-color: blue;
+  box-shadow: inset 16px 0 0 0 #377409;
+  border-color: rgb(124, 124, 124);
   transition: all 200ms;
 }
 

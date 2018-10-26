@@ -24,7 +24,6 @@ export class DeleteToolComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     this.disabled = !this.data.canEdit(this.item)
     this.linked = this.data.isLinked(this.item)
-    console.log("DELETE DISABLED", this.disabled);
 
   }
 
@@ -35,7 +34,6 @@ export class DeleteToolComponent implements OnInit, AfterContentInit {
         r => {
           if (r) {
             this.data.unlink(this.item)
-            // this.data.delete(this.item)
             if (this.type == 'view') {
               RouteUtil.goUpOneLevel(this.router)
             } else if (this.type == 'edit') {

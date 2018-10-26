@@ -15,6 +15,7 @@ import { Encounter } from "../encounter/model/encounter";
 import { Item } from "../items/item";
 import { Monster } from "../monsters/monster";
 import { Token } from "../maps/token";
+import { FogOfWar } from "../maps/fow";
 
 interface DbItem {
   name: string
@@ -83,6 +84,7 @@ export class DbConfig {
     if (objType == CharacterType.TYPE) { return "characterTypes" }
     if (objType == Character.TYPE) { return "characters" }
     if (objType == Monster.TYPE) { return "monsters" }
+    if (objType == FogOfWar.TYPE) { return "fow" }
     
     // if (objType == MonsterText.TYPE) { return "monstertexs" }
     if (objType == ChatRecord.TYPE) { return "chats" }
@@ -119,6 +121,8 @@ export class DbConfig {
     // Map Level Data
     if (objType == Annotation.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + Annotation.FOLDER }
     if (objType == MarkerGroup.TYPE) { return this.ASSET_FOLDER + "/" + parentId + "/" + MarkerGroup.FOLDER }
+    if (objType == FogOfWar.TYPE) { return `${this.ASSET_FOLDER}/${parentId}/${FogOfWar.FOLDER}` }
+  
     console.log("Invalid pathFolderTo", objType);
 
     throw new Error(`Unable to calculate db Folder: Invalid Object Type: ${objType} and  ${parentId}`)
@@ -129,6 +133,9 @@ export class DbConfig {
     if (folder) {
       return myId ? folder + "/" + myId : folder
     }
+
+
+
     console.log("Invalid pathTo", objType);
 
     throw new Error(`Unable to calculate db path: Invalid Object Type: ${objType}`)
@@ -172,6 +179,8 @@ export class DbConfig {
   }
 
   static toItem(obj: any): any {
+    console.log("Checking Object", obj);
+
     // Users
     if (User.is(obj)) { return User.to(obj) }
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.to(obj) }
@@ -194,10 +203,10 @@ export class DbConfig {
     // Per Map data
     if (Annotation.is(obj)) { return Annotation.to(obj) }
     if (MarkerGroup.is(obj)) { return MarkerGroup.to(obj) }
+    if (FogOfWar.is(obj)) { return FogOfWar.to(obj) }
 
     // Chat
     if (ChatRecord.is(obj)) { return ChatRecord.to(obj) }
-
     if (Monster.is(obj)) { return Monster.to(obj) }
 
     // Extensions
@@ -208,7 +217,8 @@ export class DbConfig {
     }
     console.log("Invalid", obj);
 
-    throw new Error(`Unable to calculate db folder: Invalid Object Type: ${obj.objType}`)
+    console.error(`Unable to convert: Invalid Object Type: ${obj.objType}`, obj)
+    throw new Error(`Unable to convert: Invalid Object Type: ${obj.objType}`)
   }
 
   static prepareForSave(obj: any) {

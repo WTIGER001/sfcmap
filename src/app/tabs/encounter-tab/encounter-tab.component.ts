@@ -58,14 +58,12 @@ export class EncounterTabComponent implements OnInit {
     })
 
     this.data.game.pipe(
-      tap(g => "----->Game Changed"),
       mergeMap( message => this.msg.messages),
       tap(message => this.recordInit(message)) 
     ).subscribe()
   }
 
   recordInit(message: ChatRecord) {
-    console.log("Checking Chat", message)
     if (this.encounter && DiceRoll.is( message.record)) {
       // character
       const r = message.record

@@ -22,9 +22,7 @@ export class EditCharacterDialogComponent implements OnInit {
   }
 
   cancel(character: Character) {
-    console.log("Cancel Event")
     this.dialog.dismiss()
-
   }
 
   delete(character: Character) {
@@ -33,8 +31,6 @@ export class EditCharacterDialogComponent implements OnInit {
 
   static open(modalSvc: NgbModal, character: Character){
     const modalRef = modalSvc.open(EditCharacterDialogComponent);
-    // modalRef.componentInstance.result = new Subject<boolean>()
     modalRef.componentInstance.character = character
-    // return modalRef.componentInstance.result
   }
 }

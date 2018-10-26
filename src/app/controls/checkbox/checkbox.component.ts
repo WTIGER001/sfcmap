@@ -37,7 +37,6 @@ export class CheckboxComponent extends AbstractValueAccessor {
   }
 
   changeEvent() {
-    console.log("CHECKING ");
     this.value = this.internalchecked
     this.checkchange.emit(this.value)
   }

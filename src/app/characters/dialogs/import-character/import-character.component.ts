@@ -49,7 +49,6 @@ export class ImportCharacterComponent implements OnInit {
       ).subscribe(chrs => {
         chrs.forEach(chr => {
           chr.id = UUID.UUID().toString()
-          console.log("CHARACTER : ", chr);
           this.saveFile(files[0], chr)
         })
         this.done.emit(chrs)

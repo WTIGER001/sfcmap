@@ -31,7 +31,6 @@ export class EditCharacterCoreComponent implements OnInit {
   }
 
   cancel() {
-    console.log("Cancel Event")
     this.onCancel.emit(this.character)
   }
 

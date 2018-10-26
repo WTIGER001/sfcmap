@@ -33,9 +33,6 @@ export class ViewCharacterComponent implements OnInit {
 
   roll(r: Roll) {
     const expression = this.evaluate(r)
-    console.log("Requesting Roll: ", expression);
-
-    // this.msg.requestRoll(r.name + " " + expression)
     this.dice.rollDice(this.character.name + " " + r.name + " " + expression)
   }
 

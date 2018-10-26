@@ -20,7 +20,6 @@ export class EditChrAttachmentsComponent implements OnInit {
   }
 
   getFile() {
-    console.log("Clicking on File");
     this.fileButton.nativeElement.click()
   }
 
@@ -31,8 +30,6 @@ export class EditChrAttachmentsComponent implements OnInit {
   }
 
   setFiles(files: FileList) {
-    console.log(files);
-
     for (let i = 0; i < files.length; i++) {
       let f = files[i]
       if (f.size < this.maxSize) {
@@ -55,24 +52,15 @@ export class EditChrAttachmentsComponent implements OnInit {
   }
 
   dragOver(e) {
-    // console.log("OVER");
-
-    // e.stopPropagation();
     e.preventDefault();
   }
 
   dragEnter(e) {
-    console.log("ENTER");
-
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = true
   }
 
   dragLeave(e) {
-    console.log("LEAVING");
-
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = false
   }

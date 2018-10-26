@@ -27,7 +27,6 @@ export class EditMapComponent implements OnInit, AfterViewInit {
     this.selected = copy
 
     if (input.id != 'TEMP') {
-      console.log("Getting Thumbnail for ", input);
       this.data.thumb(this.selected).subscribe(
         url => {
           this.thumbnail = url
@@ -59,7 +58,6 @@ export class EditMapComponent implements OnInit, AfterViewInit {
   }
 
   getFile() {
-    console.log(this.fileButton);
     this.fileButton.nativeElement.click()
   }
 
@@ -77,16 +75,13 @@ export class EditMapComponent implements OnInit, AfterViewInit {
   }
 
   save() {
-    console.log("SAVING MAP");
     if (this.selected) {
       if (this.selected.id == 'TEMP') {
         this.selected.id = UUID.UUID().toString()
       }
       if (this.result) {
-        console.log("SAVING MAP with IMages");
         this.data.saveMap(this.selected, this.result.image, this.result.thumb)
       } else {
-        console.log("SAVING MAP Meta");
         this.data.saveMap(this.selected)
       }
     }

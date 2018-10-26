@@ -27,7 +27,6 @@ export class DiceCanvasComponent implements AfterViewInit {
     this.data.userPrefs.subscribe(u => {
       this.prefs = u
       if (this.roller) {
-        console.log("Use 3D Dice", u.use3dDice);
         this.roller.use3d = u.use3dDice
       }
     })
@@ -36,7 +35,6 @@ export class DiceCanvasComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.roller = new DiceRoller(true, this.canvas.nativeElement)
     if (this.prefs) {
-      console.log("Use 3D Dice", this.prefs.use3dDice);
       this.roller.use3d = this.prefs.use3dDice
     }
   }

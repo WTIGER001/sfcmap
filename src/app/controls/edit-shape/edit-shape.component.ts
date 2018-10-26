@@ -13,8 +13,6 @@ export class EditShapeComponent implements OnInit {
   merged: MergedMapType[]
 
   @Input() set shape(item: ShapeAnnotation) {
-    console.log("SETTING SHAPE");
-
     this.item = item
   }
 
@@ -28,8 +26,6 @@ export class EditShapeComponent implements OnInit {
   }
 
   public update() {
-    console.log("UPDATING SHAPE");
-
     this.item.copyOptionsToShape()
   }
 

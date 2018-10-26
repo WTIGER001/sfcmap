@@ -2,12 +2,128 @@ import { ReplaySubject, Observable, Subscription, of, combineLatest, merge } fro
 import { mergeMap, map, tap, filter } from "rxjs/operators";
 import { FirebaseDatabase } from "angularfire2";
 import { AngularFireDatabase } from "angularfire2/database";
-import { Game, AssetLink } from "./models";
+import { Game, AssetLink, MapConfig } from "./models";
 import { NotifyService, Debugger } from "./notify.service";
 import { DbConfig } from "./models/database-config";
 import { DataService } from "./data.service";
+import { FogOfWar } from "./maps/fow";
+
+export interface IDataAsset<T> {
+  subscribe(game$: Observable<Game>, notify: NotifyService, data: DataService)
+  listen(game: Game, data: DataService)
+}
+
+
+/**
+ * Map Assets are stored under the pattern
+ * /assets/<gameid>/mapassets/<type>__<mapid>
+ * 
+ */
+export class MapAsset<T> {
+  private log: Debugger
+  item$ = new ReplaySubject<T>(1)
+  current: T
+  game: Game
+  private sub: Subscription
+
+  constructor(private type: string) {
+
+  }
+
+  subscribe(mapCfg$: Observable<MapConfig>, notify: NotifyService, data: DataService) {
+    mapCfg$.subscribe(mapcfg => {
+      this.cancelOld()
+      this.listen(mapcfg, data)
+    })
+    return this
+  }
+  cancelOld() {
+    if (this.sub) {
+      this.sub.unsubscribe()
+    }
+  }
+  listen(mapcfg: MapConfig, data: DataService) {
+    if (!mapcfg) {
+      return
+    }
+
+    const db = data.db
+    const path = DbConfig.pathTo(this.type, mapcfg.owner, mapcfg.id)
+    console.log ("Listening for Map Asset at Path", path)
+
+    this.sub = db.object<T>(path).valueChanges().pipe(
+      filter(item => item !== null && item !== undefined),
+      tap(item => console.log("Map Asset Received", item)),
+      map(item => DbConfig.toItem(item)),
+      tap(item => console.log("Map Asset CONVERTED", item)),
+      tap(item => this.current = item),
+      tap(item => data.record(this.type, 1)),
+      tap(item => this.item$.next(item))
+    ).subscribe( item => {
+      // const i = FogOfWar.to(item)
+      // this.current = <T><unknown>i
+      // this.item$.next(this.current)
+    })
+
+  }
+
+  pathTo(mapcfg: MapConfig): string {
+    return DbConfig.pathTo(this.type, mapcfg.owner, mapcfg.id)
+  }
+}
 
 export class DataAsset<T> {
+  private log: Debugger
+  item$ = new ReplaySubject<T>(1)
+  current : T
+  game: Game
+  private sub: Subscription
+
+  constructor(private type: string) {
+
+  }
+
+  subscribe(game$: Observable<Game>, notify: NotifyService, data: DataService) {
+    game$.subscribe(game => {
+      this.cancelOld()
+      this.listen(game, data)
+    })
+  }
+  cancelOld() {
+    if (this.sub) {
+      this.sub.unsubscribe()
+    }
+  }
+  listen(game : Game, data : DataService){ 
+    if (!game) {
+      return
+    }
+
+    const db = data.db
+    const path = this.pathTo(game)
+
+    this.sub = db.object<T>(path).valueChanges().pipe(
+      filter(item => item !== null && item !== undefined),
+      map( item => DbConfig.toItem(item)),
+      tap( item => this.current = item),
+      tap( item => data.record(this.type, 1)),
+      tap( item => this.item$.next(item))
+    ).subscribe()
+
+  }
+
+  pathTo(game: Game): string {
+    return game ? this.pathToOwner(game.id) : 'NONE'
+  }
+
+  pathToOwner(id: string): string {
+    return DbConfig.pathFolderTo(this.type, id)
+  }
+
+}
+
+
+export class DataAssetArray<T> {
 
   private log: Debugger
 

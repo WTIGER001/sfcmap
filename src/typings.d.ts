@@ -190,7 +190,7 @@ declare module 'leaflet' {
         className?: string;
     }
 
-
+    
     interface Map {
         /**
          * Whether to create a L.Editable instance at map init or not.

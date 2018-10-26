@@ -39,7 +39,6 @@ export class NotifyService {
 
   success(message: any) {
     this.toast.success(message)
-    console.log(message);
   }
 
   progress(title: string): Observer<number> {
@@ -52,8 +51,6 @@ export class NotifyService {
     let toast = this.toast.show(message, title, cfg, "success")
     let observer = {
       next: (value: number) => {
-        console.log("PROGRESS: ", value.toFixed(1));
-
         let message = value.toFixed(1) + " % Complete"
 
         toast.message = message
@@ -63,7 +60,6 @@ export class NotifyService {
 
       },
       complete: () => {
-        console.log("COMPLETE: ");
         toast.toastRef.componentInstance.message = "Complete!"
         this.toast.remove(toast.toastId)
       }
@@ -76,8 +72,6 @@ export class NotifyService {
 
   showError(error: string, operation?: string, code?: number) {
     let err = new Error()
-    console.log("ERRORS: " + error);
-    console.log(err)
     this.dialog.errorMsg(error)
   }
 

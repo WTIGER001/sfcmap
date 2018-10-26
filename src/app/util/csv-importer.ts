@@ -10,12 +10,10 @@ export abstract class CsvImporter<T extends Asset> {
   abstract convertToObject(json): T
 
   public async load(csvFile: File, loadPictures?: boolean, start?: number, count?: number): Promise<T[]> {
-    console.log("IN LOAD FUNCTION");
 
     count = count == 0 ? 100000 : count
     const obj = await this.parse2(csvFile)
 
-    console.log("IN LOAD FUNCTION", obj);
 
 
     const results: T[] = []
@@ -27,20 +25,17 @@ export abstract class CsvImporter<T extends Asset> {
       }
     })
 
-    console.log("RECORDS LOADED: ", results.length);
 
     const sliced = results.slice(start, count)
     if (this.hasPictures && loadPictures) {
-      console.log("LOADING PICTURES ", sliced.length);
       await this.getRandomPictures(sliced)
     }
-    console.log("RETURNED: ", sliced.length);
 
     return sliced
   }
 
   public static toBoolean(input: string): boolean {
-    if (!input || input == '') { return false}
+    if (!input || input == '') { return false }
     if (input.trim() == '0') { return false }
     if (input.trim() == '1') { return true }
     return false
@@ -71,7 +66,6 @@ export abstract class CsvImporter<T extends Asset> {
     for (let ind = 0; ind < items.length; ind++) {
       const i = items[ind]
       const term = this.getSearchTerm(i)
-      console.log("Searching Google");
       const r: ImageSearchResult[] = await GoogleImageSearch.searchImage(term)
       i['image'] = r[0].url
       i['thumb'] = r[0].thumb

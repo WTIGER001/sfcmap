@@ -28,3 +28,7 @@ h3.name {
   justify-content: center;
   margin-bottom: 12px;
 }
+
+.grid-c2 {
+  grid-column: span 2;
+}

@@ -44,8 +44,6 @@ export class DebugObservablesComponent implements OnInit {
   }
 
   record(item: any, action: 'r' | 's', type?: string) {
-    // console.log("RECORDING: ", item);
-
     let desc = type || ''
     if (isArray(item)) {
       const arr: any[] = item

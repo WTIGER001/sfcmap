@@ -17,23 +17,21 @@ export class Rect {
       return rects[0]
     }
     const returnRect = new Rect(rects[0].x, rects[0].y, rects[0].width, rects[0].height)
-    console.log("ORIG RECT : ", returnRect);
 
 
     for (let i = 1; i < rects.length; i++) {
-      console.log("Comparing : ", returnRect, rects[i]);
+
 
       returnRect.x = Math.min(returnRect.x, rects[i].x)
       returnRect.y = Math.min(returnRect.y, rects[i].y)
       returnRect.x2 = Math.max(returnRect.x2, rects[i].x2)
       returnRect.y2 = Math.max(returnRect.y2, rects[i].y2)
-      console.log("RECT : ", returnRect);
+
     }
 
     returnRect.width = returnRect.x2 - returnRect.x
     returnRect.height = returnRect.y2 - returnRect.y
 
-    console.log("FINISHED RECT : ", returnRect);
 
     return returnRect
   }
@@ -73,12 +71,9 @@ export class Rect {
     factor = factor || 1
     let h = bounds.getNorth() - bounds.getSouth()
     let w = bounds.getEast() - bounds.getWest()
-    console.log("INPUTS : ", bounds, clientBounds, factor);
-    console.log("H/W : ", h, " ", w);
 
     let h2 = (clientBounds.getNorth() - clientBounds.getSouth()) * factor
     let w2 = (clientBounds.getEast() - clientBounds.getWest()) * factor
-    console.log("H2/W2 : ", h2, " ", w2);
 
     let h3 = h
     let w3 = w
@@ -105,6 +100,16 @@ export class Rect {
     const result = latLngBounds(latLng(lat, lng), latLng(lat + h3, lng + w3))
     return result
   }
+
+  public static fromBounds(bounds : LatLngBounds) : Rect{
+    const x = bounds.getWest()
+    const y = bounds.getSouth()
+    const x2 =bounds.getEast()
+    const y2 = bounds.getNorth()
+    const w = x2-x
+    const h = y2-y
+    return new Rect(x,y,w,h)
+  }
 }
 
 export class Points {
@@ -125,9 +130,9 @@ export class Points {
       // This is an array so this has to be a recursive call
       let newArray = []
       points.forEach(item => {
-        console.log("Center on ", item);
+  
         let newResult = this.centerOn2(item, biasX, biasY)
-        console.log("Result ", newResult);
+  
         newArray.push(newResult)
       })
       return newArray

@@ -17,27 +17,29 @@ import { Encounter } from "./encounter/model/encounter";
 import { User as FireUser } from "firebase";
 import { ImageSearchResult } from "./util/GoogleImageSearch";
 import { Pathfinder } from "./models/gamesystems/pathfinder";
-import { DataAsset } from "./data-asset";
+import { DataAssetArray, DataAsset } from "./data-asset";
 import { Item } from "./items/item";
 import { Monster } from "./monsters/monster";
 import { Token } from "./maps/token";
 import { ShareEvent } from "./models/system-models";
 import { CacheService } from "./cache/cache.service";
 import { CachedItem } from "./cache/cache";
+import { FogOfWar } from "./maps/fow";
+import { Fog } from "three";
 
 export class GameAssets {
-  annotationFolders = new DataAsset<MarkerGroup>(MarkerGroup.TYPE)
+  annotationFolders = new DataAssetArray<MarkerGroup>(MarkerGroup.TYPE)
   // annotations = new DataAsset<Annotation>(Annotation.TYPE)
-  characterTypes = new DataAsset<CharacterType>(CharacterType.TYPE)
-  characters = new DataAsset<Character>(Character.TYPE)
-  encounters = new DataAsset<Encounter>(Encounter.TYPE)
-  maps = new DataAsset<MapConfig>(MapConfig.TYPE)
-  mapTypes = new DataAsset<MapType>(MapType.TYPE)
-  markerCategories = new DataAsset<MarkerCategory>(MarkerCategory.TYPE)
-  markerTypes = new DataAsset<MarkerType>(MarkerType.TYPE)
+  characterTypes = new DataAssetArray<CharacterType>(CharacterType.TYPE)
+  characters = new DataAssetArray<Character>(Character.TYPE)
+  encounters = new DataAssetArray<Encounter>(Encounter.TYPE)
+  maps = new DataAssetArray<MapConfig>(MapConfig.TYPE)
+  mapTypes = new DataAssetArray<MapType>(MapType.TYPE)
+  markerCategories = new DataAssetArray<MarkerCategory>(MarkerCategory.TYPE)
+  markerTypes = new DataAssetArray<MarkerType>(MarkerType.TYPE)
   // monsters = new DataAsset<Monster>(Monster.TYPE)
-  items = new DataAsset<Item>(Item.TYPE)
-  tokens = new DataAsset<Token>(Token.TYPE)
+  items = new DataAssetArray<Item>(Item.TYPE)
+  tokens = new DataAssetArray<Token>(Token.TYPE)
   shareEvents = new Subject<ShareEvent>()
   
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
@@ -54,11 +56,14 @@ export class GameAssets {
     this.items.subscribe(game$, notify, data)
     this.tokens.subscribe(game$, notify, data)
 
+
     game$.pipe(
       filter( game => game !== undefined),
       mergeMap( game => data.sharedEvents$(game.id) ),
       tap( event => this.shareEvents.next(event))
     ).subscribe()
+
+
   }
 }
 

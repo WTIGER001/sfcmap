@@ -12,3 +12,18 @@
 .buttongrid .btn-group {
   grid-column: span 4;
 }
+
+.tab-category-switch {
+  position: absolute;
+  top: -25px;
+  right: 0;
+}
+
+.category {
+  position: relative;
+}
+
+.color-pick {
+  height: 2em;
+  cursor: pointer;
+}

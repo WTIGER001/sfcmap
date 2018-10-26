@@ -34,7 +34,6 @@ export class EditPictureComponent implements OnInit {
   }
 
   setFiles(files: FileList) {
-    console.log(files);
     const filesToSend = []
     for (let i = 0; i < files.length; i++) {
       let f = files[i]
@@ -60,18 +59,15 @@ export class EditPictureComponent implements OnInit {
   }
 
   dragOver(e) {
-    // e.stopPropagation();
     e.preventDefault();
   }
 
   dragEnter(e) {
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = true
   }
 
   dragLeave(e) {
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = false
   }

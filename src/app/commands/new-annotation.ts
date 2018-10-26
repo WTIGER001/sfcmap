@@ -28,11 +28,6 @@ export abstract class NewShapeAnnotationCommand {
     s.id = 'TEMP'
     s.map = this.mapSvc._mapCfg.id
     s.copyOptionsFromShape()
-    // s.getAttachment().on('click', event => {
-    //   console.log("CLICKED ON  : ", event);
-    //   this.mapSvc.printLayers()
-    //   console.log("------>> ", event.target._leaflet_id);
-    // }, this)
     this.mapSvc.selectForEdit(s)
   }
 }

@@ -44,6 +44,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
   overlayLayer: L.ImageOverlay
 
+
   dragging = true
   user: User
   prefs: Prefs
@@ -141,7 +142,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
       this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds)
       this.crs.transformation = new Transformation(factor, 0, -factor, 0)
+
+
       // this.map.setMaxBounds(Rect.multiply(this.bounds, 1.25));
+
+
 
       this.layers.splice(0, this.layers.length)
       this.layers.push(this.mapSvc.overlayLayer, this.allMarkersLayer, this.newMarkersLayer)
@@ -163,6 +168,9 @@ export class MapViewComponent implements OnInit, OnDestroy {
   onMapReady(map: LeafletMap) {
     console.log("Map Ready!", map, this.mapSvc._map, this.map);
     this.map = map
+
+    map.createPane("fow").style.zIndex = "1000"
+
     this.zone.run(() => {
       this.mapSvc.setMap(map);
       this.mapSvc.setConfig(this.mapCfg)

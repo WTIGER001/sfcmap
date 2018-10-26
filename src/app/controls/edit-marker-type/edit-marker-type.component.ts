@@ -24,7 +24,6 @@ export class EditMarkerTypeComponent implements AfterViewInit {
   }
 
   getFile() {
-    console.log(this.fileButton);
     this.fileButton.nativeElement.click()
   }
 
@@ -36,8 +35,6 @@ export class EditMarkerTypeComponent implements AfterViewInit {
         this.selected.iconSize = val
         this.selected.iconAnchor = [Math.round(val[0] / 2), val[1]]
       })
-      console.log("FILE")
-      console.log(this.selected["__FILE"]);
     }
   }
 

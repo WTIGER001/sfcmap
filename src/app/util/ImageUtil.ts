@@ -1,4 +1,6 @@
 import { ReplaySubject, Observable, Subscriber, Subject } from "rxjs";
+import { LatLngBounds } from "leaflet";
+import { Rect } from "./geom";
 
 export class ImageResult {
   height: number
@@ -23,6 +25,16 @@ export interface LoadImageOptions {
 }
 
 export class ImageUtil {
+  static off : HTMLCanvasElement
+  static offscreen() : HTMLCanvasElement {
+    if (!ImageUtil.off) {
+      ImageUtil.off = document.createElement('canvas')
+    } 
+    return ImageUtil.off
+  }
+  
+
+
   public static THUMBNAIL_WIDTH = 242
 
   private static DefaultOptions: LoadImageOptions = {

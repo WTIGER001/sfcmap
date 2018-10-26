@@ -26,12 +26,10 @@ export class FindCharacterComponent implements OnInit {
   }
 
   onblur() {
-    console.log("ON BLUR");
     this.placeholder = "Enter the name of the character"
   }
 
   clear() {
-    console.log("CLEARING");
     this.txt = ''
     this.textinput.nativeElement.value = ''
     this.placeholder = "+ Add Character"

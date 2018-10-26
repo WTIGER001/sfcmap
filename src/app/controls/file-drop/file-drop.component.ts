@@ -18,13 +18,10 @@ export class FileDropComponent implements OnInit {
   }
 
   setFiles(files: FileList) {
-    console.log(files);
     this.fileschanged.emit(files)
-
   }
 
   getFile() {
-    console.log("Clicking on File");
     this.fileButton.nativeElement.click()
   }
 
@@ -35,24 +32,15 @@ export class FileDropComponent implements OnInit {
   }
 
   dragOver(e) {
-    // console.log("OVER");
-
-    // e.stopPropagation();
     e.preventDefault();
   }
 
   dragEnter(e) {
-    console.log("ENTER");
-
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = true
   }
 
   dragLeave(e) {
-    console.log("LEAVING");
-
-    // e.stopPropagation();
     e.preventDefault();
     this.dragging = false
   }

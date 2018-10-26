@@ -25,7 +25,6 @@ export class CancelViewToolComponent implements OnInit {
   }
 
   click() {
-    console.log("Cancel Event")
     this.onClick.emit()
   }
 }

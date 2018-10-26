@@ -49,7 +49,6 @@ export class RpgTabComponent implements OnInit {
     this.data.users.subscribe(u => this.users = u)
 
     this.msg.rollRequests.subscribe(ex => {
-      console.log("Recieved  Roll: ", ex);
       this.dice.rollDice(ex)
     })
 
@@ -169,27 +168,17 @@ export class RpgTabComponent implements OnInit {
 
   enterAction(e: string) {
 
-    console.log("Action: ", e)
     this.lastindex = -1
-
     if (e.toLowerCase().trim().startsWith("/")) {
-      console.log("COMMAND");
-
       let cmd = this.commands.get(e.toLowerCase())
       if (cmd) {
         cmd.run(this)
       } else {
         console.log("Unknown Command ", e.toLowerCase());
-
       }
     } else if (this.dice.roller.isDiceExpression(e)) {
-      console.log("ROLL DICE");
-
       this.dice.rollDice(e)
     } else {
-      // this.rolls.push(new ChatMessage(e))
-      console.log("CHAT");
-
       let message = new ChatMessage()
       message.message = e
       this.msg.sendMessage(message);
@@ -202,24 +191,6 @@ export class RpgTabComponent implements OnInit {
   update(e) {
     console.log("Update Action: ", e)
   }
-
-  // rollDice(expression: string) {
-  //   this.audio.play(Sounds.DiceRoll)
-
-  //   let indx = this.expressionHistory.findIndex(item => item.toLowerCase() == expression.toLowerCase())
-  //   if (indx >= 0) {
-  //     this.expressionHistory.splice(indx)
-  //   }
-  //   this.expressionHistory.unshift(expression)
-  //   if (this.expressionHistory.length > 20) {
-  //     this.expressionHistory.splice(20)
-  //   }
-
-  //   this.roller.rollDice(expression).subscribe(r => {
-  //     this.msg.sendMessage(r);
-  //   })
-
-  // }
 
   dblClick(rec: ChatRecord) {
     if (DiceRoll.is(rec.record)) {

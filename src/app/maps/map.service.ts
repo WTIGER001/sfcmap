@@ -12,6 +12,8 @@ import { flatten } from '@angular/compiler';
 import { Router } from '@angular/router';
 import { Ping } from '../leaflet/ping';
 import { MapShareData, ShareEvent } from '../models/system-models';
+import { FowManager, FogOfWar } from './fow';
+import { MapAsset } from '../data-asset';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +77,8 @@ export class MapService {
 
   overlayLayer: L.ImageOverlay
 
+  fowMgr: FowManager
+
   /** The categories array. A category is a hierarchichl grouping of marker groups and marker types */
   categories = new Array<Category>()
 
@@ -102,10 +106,13 @@ export class MapService {
   markerZoomLog: Debugger
   processingEvent = false
 
+  fogOfWar : MapAsset<FogOfWar>
+
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService, private router: Router) {
     this.log = this.notify.newDebugger('Map')
     this.mapLoad = this.notify.newDebugger('Map Loading')
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
+    this.fowMgr = new FowManager(this, data)
 
     this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
 
@@ -154,6 +161,13 @@ export class MapService {
     this.mapConfig.pipe(
       mergeMap(cfg => this.data.getCompleteAnnotationGroups(cfg.id)),
       tap(groups => this.completeMarkerGroups.next(groups))
+    ).subscribe()
+
+    this.fogOfWar = new MapAsset<FogOfWar>(FogOfWar.TYPE).subscribe(this.mapConfig, notify, data);
+
+    this.fogOfWar.item$.pipe(
+      tap( fow => console.log("SETTING FOW", fow)),
+      tap(fow => this.fowMgr.setFow(fow))
     ).subscribe()
 
     this.data.gameAssets.markerTypes.items$.pipe(

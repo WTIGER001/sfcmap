@@ -21,21 +21,17 @@ export class DatabaseGuard implements CanActivate, Resolve<Asset> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Asset | Observable<Asset> | Promise<Asset> {
-    console.log("RESOLVING ", route.url);
-
     const url = route.url
     const gameid = route.paramMap.get("gameid")
     const gs = route.paramMap.get("gsid")
     const id = route.paramMap.get("id")
 
     if (gameid) {
-      console.log("SETTING GAME ", route.url);
       this.data.setCurrentGame(gameid)
     }
 
     if (gameid && id && url.length >= 4) {
       const type = url[2].path
-      console.log("GETTING ITEM ", type, id);
 
       return this.data.game.pipe(
         take(1),

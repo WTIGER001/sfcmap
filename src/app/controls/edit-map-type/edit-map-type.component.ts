@@ -17,7 +17,6 @@ export class EditMapTypeComponent implements OnInit {
   }
 
   save() {
-    console.log("SAVING MAP TYPE");
     if (this.selected) {
       if (this.selected.id == 'TEMP') {
         this.selected.id = UUID.UUID().toString()

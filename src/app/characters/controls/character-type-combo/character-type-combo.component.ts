@@ -37,7 +37,6 @@ export class CharacterTypeComboComponent implements ControlValueAccessor {
   }
 
   onTextChange($event) {
-    console.log($event);
     this.value = event.target['value']
   }
 
@@ -94,7 +93,6 @@ export class CharacterTypeComboComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: string): void {
-    console.log(obj);
     this.innerValue = obj;
     this.refresh()
   }
