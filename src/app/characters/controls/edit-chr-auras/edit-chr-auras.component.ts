@@ -42,13 +42,15 @@ export class EditChrAurasComponent implements OnInit, AfterContentInit {
     this.emitChanges() 
   }
 
-  toggle(aura) {
+  toggle(aura, event) {
+    const reverse = event.ctrlKey
+
     if (aura.visible == AuraVisible.NotVisible) {
-      aura.visible = AuraVisible.Visible
+      aura.visible = reverse ? AuraVisible.OnSelect : AuraVisible.Visible
     } else if (aura.visible == AuraVisible.Visible) {
-      aura.visible = AuraVisible.OnSelect
+      aura.visible = reverse ? AuraVisible.NotVisible : AuraVisible.OnSelect
     } else if (aura.visible == AuraVisible.OnSelect) {
-      aura.visible = AuraVisible.NotVisible
+      aura.visible = reverse ? AuraVisible.Visible : AuraVisible.NotVisible
     }
 
     this.updateToggles()
