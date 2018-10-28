@@ -3,7 +3,7 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { NotifyService, Debugger } from "./notify.service";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { AngularFireAuth } from "angularfire2/auth";
-import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, Restricition } from "./models";
+import { MapType, MapConfig, MarkerCategory, MarkerType, MapPrefs, Prefs, UserAssumedAccess, MergedMapType, Category, ObjectType, MarkerGroup, Annotation, MarkerTypeAnnotation, ImageAnnotation, ItemAction, User, Online, Game, GameSystem, Restricition, TokenAnnotation } from "./models";
 import { ReplaySubject, BehaviorSubject, Subject, Observable, of, Subscription, combineLatest, forkJoin, concat, from } from "rxjs";
 import { mergeMap, map, tap, first, concatMap, take, distinct, filter } from "rxjs/operators";
 import { DbConfig } from "./models/database-config";
@@ -26,6 +26,7 @@ import { CacheService } from "./cache/cache.service";
 import { CachedItem } from "./cache/cache";
 import { FogOfWar } from "./maps/fow";
 import { Fog } from "three";
+import { MonsterToCharacter } from "./monsters/to-character";
 
 export class GameAssets {
   annotationFolders = new DataAssetArray<MarkerGroup>(MarkerGroup.TYPE)
@@ -41,7 +42,7 @@ export class GameAssets {
   items = new DataAssetArray<Item>(Item.TYPE)
   tokens = new DataAssetArray<Token>(Token.TYPE)
   shareEvents = new Subject<ShareEvent>()
-  
+
   subscribeAll(game$: Observable<Game>, notify: NotifyService, data: DataService) {
     this.annotationFolders.subscribe(game$, notify, data)
     // this.annotations.subscribe(game$, notify, data)
@@ -58,9 +59,9 @@ export class GameAssets {
 
 
     game$.pipe(
-      filter( game => game !== undefined),
-      mergeMap( game => data.sharedEvents$(game.id) ),
-      tap( event => this.shareEvents.next(event))
+      filter(game => game !== undefined),
+      mergeMap(game => data.sharedEvents$(game.id)),
+      tap(event => this.shareEvents.next(event))
     ).subscribe()
 
 
@@ -127,7 +128,7 @@ export class DataService {
   pathfinder: Pathfinder
 
   // User & Assumed Groups ->  Map Configs
-  constructor(private afAuth: AngularFireAuth, private notify: NotifyService, private storage: AngularFireStorage, public db: AngularFireDatabase, private cache : CacheService) {
+  constructor(private afAuth: AngularFireAuth, private notify: NotifyService, private storage: AngularFireStorage, public db: AngularFireDatabase, private cache: CacheService) {
     this.log = this.notify.newDebugger("Data")
 
     this.setUpSubscriptions()
@@ -152,9 +153,9 @@ export class DataService {
       tap(fireUser => this.log.info("User Logged In: ", fireUser.displayName)),
       tap(fireUser => this.trackPresence(fireUser)),
       map(fireUser => User.fromFireUser(fireUser)),
-      tap( user => this.record('user', 1)),
+      tap(user => this.record('user', 1)),
       mergeMap(user => this.getUserInfo(user)),
-      tap( user => this.record('user-info', 1)),
+      tap(user => this.record('user-info', 1)),
     ).subscribe(u => {
       this.log.info("User Completely logged in: ", u.name)
       this.user.next(u)
@@ -170,28 +171,28 @@ export class DataService {
       tap(u => this.log.info("User triggered : ", u)),
       mergeMap(u => this.getOrCreate(u.id, new MapPrefs())),
       tap(p => this.log.info("Map Prefs Loaded: ", p)),
-      tap( p => this.record('user-map-prefs', 1)),
+      tap(p => this.record('user-map-prefs', 1)),
     ).subscribe(p => this.userMapPrefs.next(MapPrefs.to(p)))
 
     // Prefs
     this.user.pipe(
       mergeMap(u => this.getOrCreate(u.id, new Prefs())),
       tap(p => this.log.info("Prefs Loaded: ", p)),
-      tap( p => this.record('user-prefs', 1)),
+      tap(p => this.record('user-prefs', 1)),
     ).subscribe(p => this.userPrefs.next(Prefs.to(p)))
 
     // Access
     this.user.pipe(
       mergeMap(u => this.getOrCreate(u.id, new UserAssumedAccess)),
       tap(p => this.log.info("User Access Loaded: ", p)),
-      tap( p => this.record('user-access', 1)),
+      tap(p => this.record('user-access', 1)),
     ).subscribe(p => this.userAccess.next(UserAssumedAccess.to(p)))
   }
 
   loadGamesystems() {
     const pathfinder = new Pathfinder()
     pathfinder.load(this.cache)
-    this.user.subscribe( u => {
+    this.user.subscribe(u => {
       if (u.id != "NOBODY") {
         pathfinder.subscribeToUpdates(this.db, this.cache)
       }
@@ -209,7 +210,7 @@ export class DataService {
   loadDataFromUser() {
     this.loadUsers()
     this.loadAndNotify<Game>(this.games, 'games', 'Loading Games')
-    
+
   }
 
   private getAll<T>(folder: string): Observable<T[]> {
@@ -427,7 +428,7 @@ export class DataService {
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
       map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
       tap(item => console.log("--> Annotation State change: ", item)),
-      tap( p => this.record('annotation', 1)),
+      tap(p => this.record('annotation', 1)),
     )
   }
 
@@ -436,7 +437,7 @@ export class DataService {
       map(game => DbConfig.pathFolderTo(MarkerGroup.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
       map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
-      tap( p => this.record('annotation-group', 1)),
+      tap(p => this.record('annotation-group', 1)),
     )
   }
 
@@ -464,7 +465,7 @@ export class DataService {
 
     // return combineLatest(this.gameAssets.markerTypes.items$, groupObs, annotationObs).pipe(
     //   map(value => {
-        
+
     //     console.log(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
     //     let markerTypes = value[0]
     //     let loadedGroups = value[1]
@@ -623,7 +624,7 @@ export class DataService {
     return item.owner ? idToCheck != item.owner : false
   }
 
-  save(item: ObjectType, path ?: string) {
+  save(item: ObjectType, path?: string) {
     // Copy the Item so we only save a normal javascript object, and remove all the bad
     // let toSave = LangUtil.clean(Object.assign({}, item))
     // Remove the fields that are not part of the object that should be saved in the database
@@ -727,7 +728,7 @@ export class DataService {
     })
   }
 
-  setImageMetadata(path : string) {
+  setImageMetadata(path: string) {
     const ref = this.storage.ref(path)
     ref.updateMetatdata({ cacheControl: "max-age=31536000" }).subscribe()
   }
@@ -863,13 +864,13 @@ export class DataService {
     )
   }
 
-  fillInMyUrl(item : any, path : string, urlField: string) : Observable<any> {
+  fillInMyUrl(item: any, path: string, urlField: string): Observable<any> {
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       tap(url => console.log('Got URL ' + url)),
       tap(url => item.url = url),
-      map( url => item),
-      tap( i => console.log('donw with item', item)),
+      map(url => item),
+      tap(i => console.log('donw with item', item)),
       first()
     )
   }
@@ -967,7 +968,7 @@ export class DataService {
 
   assignId(item: any) {
     if (!item.id) {
-      item.id =this.db.createPushId()
+      item.id = this.db.createPushId()
     } else if (item.id == 'TEMP') {
       item.id = this.db.createPushId()
     }
@@ -1099,10 +1100,10 @@ export class DataService {
     )
   }
 
-  displayName(id : string) : string {
-    const u = this.users.value.find( u => u.id == id)
+  displayName(id: string): string {
+    const u = this.users.value.find(u => u.id == id)
     if (u) {
-       return u.displayName ? u.displayName : u.name
+      return u.displayName ? u.displayName : u.name
     }
     return "Unknown User (" + id + ")"
   }
@@ -1110,16 +1111,16 @@ export class DataService {
   // ----------------------------------------------------------------------------------------------
   // Display Sharing 
   // ----------------------------------------------------------------------------------------------
-  
+
   /**
    * Determines if this browser tab is sharing its map actions
    */
-  sharing : boolean = false
+  sharing: boolean = false
 
   /**
    * Determines if this browser tab is listening for shared map actions
    */
-  listening : boolean = false
+  listening: boolean = false
 
   /**
    * Reports if this browser tab is sharing its map actions
@@ -1138,7 +1139,7 @@ export class DataService {
   /**
    * Called to share map events with others. This will check to make sure you are sharing first. 
    */
-  public shareEvent(data : any) {
+  public shareEvent(data: any) {
     if (this.isSharing()) {
       const event = new ShareEvent()
       event.browserId = DataService.BrowserId
@@ -1161,11 +1162,11 @@ export class DataService {
    * @param gameid Game ID
    */
   sharedEvents$(gameid: String): Observable<ShareEvent> {
-    const path = '/sharing/' + this.game.getValue().id + "/event" 
+    const path = '/sharing/' + this.game.getValue().id + "/event"
     return this.db.object<ShareEvent>(path).valueChanges().pipe(
       filter(event => this.isListening()),
       filter(event => event !== null),
-      filter( event => event.browserId !== DataService.BrowserId)
+      filter(event => event.browserId !== DataService.BrowserId)
     )
   }
 
@@ -1177,16 +1178,16 @@ export class DataService {
   // 
   // The active encounter is stored under /active/gameid/map/mapid/encounter
   // ----------------------------------------------------------------------------------------------
-  
+
   /**
    * Activates this encounter. This is used to activate and update the encounter
    * 
    * @param encounter 
    */
-  activateEncounter(encounter : Encounter) {
+  activateEncounter(encounter: Encounter) {
     const gameid = encounter.owner
     const mapid = encounter.mapInfo.mapId
-    const path =`/active/${gameid}/maps/${mapid}/encounter`
+    const path = `/active/${gameid}/maps/${mapid}/encounter`
     // this.db.object(path).set(encounter) 
     this.save(encounter, path)
   }
@@ -1205,7 +1206,7 @@ export class DataService {
    */
   deactivateEncounter(gameid: string, mapid: string) {
     const path = `/active/${gameid}/maps/${mapid}/encounter`
-    this.db.object(path).remove() 
+    this.db.object(path).remove()
   }
 
   /**
@@ -1214,9 +1215,9 @@ export class DataService {
    * @param gameid 
    * @param mapid 
    */
-  getActiveEncounter$(gameid: string, mapid : string) : Observable<Encounter> {
+  getActiveEncounter$(gameid: string, mapid: string): Observable<Encounter> {
     const path = `/active/${gameid}/maps/${mapid}/encounter`
-    return this.db.object<Encounter>(path).valueChanges().pipe( map( item => item?Encounter.to(item):null))
+    return this.db.object<Encounter>(path).valueChanges().pipe(map(item => item ? Encounter.to(item) : null))
   }
 
   // ----------------------------------------------------------------------------------------------
@@ -1269,11 +1270,51 @@ export class DataService {
   // ----------------------------------------------------------------------------------------------
 
   received = {}
-  record(type : string, recs : number) {
+  record(type: string, recs: number) {
     if (!this.received[type]) {
       this.received[type] = []
     }
     this.received[type].push(recs)
+  }
+
+
+  // ----------------------------------------------------------------------------------------------
+  // Tokens
+  // ----------------------------------------------------------------------------------------------
+  // Methods for dealing with tokens
+  // ----------------------------------------------------------------------------------------------
+  getTokenCharacter(token: TokenAnnotation): Character {
+    if (token.itemType == Character.TYPE) {
+      return this.gameAssets.characters.currentItems.find(i => i.id == token.itemId)
+    }
+    if (token.itemType == Monster.TYPE) {
+      if (!token.calcCharacter) {
+        const m = this.pathfinder.monsters$.getValue().find(i => i.id == token.itemId)
+        if (m) {
+          token.calcCharacter = MonsterToCharacter.convert(m)
+        }
+      }
+
+      return token.calcCharacter
+    }
+    if (token.itemType == Token.TYPE) {
+      return token.calcCharacter
+    }
+  }
+
+  getTokenItem(token: TokenAnnotation): Character | Monster | Token {
+    const itemType = token.itemType
+    const itemId = token.itemId
+
+    if (itemType == Character.TYPE) {
+      return this.gameAssets.characters.currentItems.find(i => i.id == itemId)
+    }
+    if (itemType == Monster.TYPE) {
+      return this.pathfinder.monsters$.getValue().find(i => i.id == itemId)
+    }
+    if (itemType == Token.TYPE) {
+      return this.gameAssets.tokens.currentItems.find(i => i.id == itemId)
+    }
   }
 
 }

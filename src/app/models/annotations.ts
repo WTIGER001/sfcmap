@@ -3,6 +3,9 @@ import { IconZoomLevelCache } from "./icon-cache";
 import { IObjectType, ObjectType, Asset } from "./core";
 import { LangUtil } from "../util/LangUtil";
 import { ImageUtil } from "../util/ImageUtil";
+import { Aura } from "./aura";
+import { getLocalePluralCase } from "@angular/common";
+import { Character } from "./character";
 
 export enum AnchorPostitionChoice {
   TopLeft = 0,
@@ -302,6 +305,10 @@ export class TokenAnnotation extends Annotation {
   dead = false
   _saveImage = false
   _blob: Blob
+  _selected : boolean
+
+  calcCharacter : Character
+  auras : Aura[] = []
 
   copyOptionsFromShape() {
 

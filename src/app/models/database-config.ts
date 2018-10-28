@@ -179,8 +179,6 @@ export class DbConfig {
   }
 
   static toItem(obj: any): any {
-    console.log("Checking Object", obj);
-
     // Users
     if (User.is(obj)) { return User.to(obj) }
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.to(obj) }

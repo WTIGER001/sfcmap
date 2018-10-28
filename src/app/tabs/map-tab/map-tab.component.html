@@ -79,13 +79,13 @@
         </div>
         Offset NS
         <div class="slidecontainer">
-          <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
-            [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
+          <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing" [step]="grid.options.spacing/50"
+            [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
         </div>
         Offset EW
         <div class="slidecontainer">
-          <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing"
-            [step]="grid.options.spacing/50" [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
+          <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing" [step]="grid.options.spacing/50"
+            [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
         </div>
         Color
         <div>
@@ -94,8 +94,7 @@
         </div>
         Line Weight
         <div class="slidecontainer">
-          <input class="slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight"
-            (change)="updateGrid()">
+          <input class="slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight" (change)="updateGrid()">
         </div>
       </div>
 
@@ -107,50 +106,54 @@
 
       <div class="ml-2 mb-3 category" [ngbCollapse]="isCollapsed['fog']">
         <ng-container *ngIf="isGM">
-        <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable" (change)="updateFow()">
-        <div class="buttongrid">
-          <button class="btn btn-outline-secondary btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start" [class.active]="fow.hideAll">
-            <fa-icon icon="eye-slash" size="lg"></fa-icon>
-          </button>
-          
-          <button class="btn btn-outline-secondary btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square">
-            <fa-icon icon="draw-square" size="lg"></fa-icon>
-          </button>
-          <button class="btn btn-outline-secondary btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon">
-            <fa-icon icon="draw-polygon" size="lg"></fa-icon>
-          </button>
-          <button class="btn btn-outline-secondary btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle">
-            <fa-icon icon="draw-circle" size="lg"></fa-icon>
-          </button>
-          <button class="btn btn-outline-secondary btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
-            <fa-icon icon="sync-alt" size="lg"></fa-icon>
-          </button>
-        <button class="btn btn-outline-secondary btn-tool grid-c2" (click)="saveAsReveal()" placement="bottom" ngbTooltip="Show this area to players"
-          *ngIf="fow_current_shp">
-          <fa-icon icon="save" size="lg"> </fa-icon> Show
-        </button>
-        <button class="btn btn-outline-secondary btn-tool grid-c2" (click)="saveAsHide()" placement="bottom" ngbTooltip="Hide this area from players"
-          *ngIf="fow_current_shp">
-          <fa-icon icon="save" size="lg"></fa-icon> Hide
-        </button>
-        <button class="btn btn-outline-secondary btn-tool" (click)="cancelFowShape()" placement="bottom" ngbTooltip="Cancel this area"
-          *ngIf="fow_current_shp">
-          <fa-icon icon="times" size="lg"></fa-icon>
-        </button>
-        </div>
+          <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable" (change)="updateFow()">
+          <div class="buttongrid">
+            <button class="btn btn-outline-secondary btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start" container="body"
+              [class.active]="fow.hideAll">
+              <fa-icon icon="eye-slash" size="lg"></fa-icon>
+            </button>
 
-        <div class="fow-items mb-2">
-          <label  class="mt-2">Player Fog Color</label>
+            <button class="btn btn-outline-secondary btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square" [class.highlight-btn]="isRectangle()">
+              <fa-icon icon="draw-square" size="lg"></fa-icon>
+            </button>
+            <button class="btn btn-outline-secondary btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon" [class.highlight-btn]="isPolygon()">
+              <fa-icon icon="draw-polygon" size="lg"></fa-icon>
+            </button>
+            <button class="btn btn-outline-secondary btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle" [class.highlight-btn]="isCircle()">
+              <fa-icon icon="draw-circle" size="lg"></fa-icon>
+            </button>
+            <button class="btn btn-outline-secondary btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
+              <fa-icon icon="sync-alt" size="lg"></fa-icon>
+            </button>
+          </div>
+          <div class="buttongrid highlight" *ngIf="fow_current_shp">
+            <button class="btn btn-outline-secondary btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()" placement="bottom"
+              ngbTooltip="Show this area to players"container="body">
+              <fa-icon icon="eye" > </fa-icon> Show
+            </button>
+            <button class="btn btn-outline-secondary btn-tool grid-c2  highlight-choice" (click)="saveAsHide()" placement="bottom"
+              ngbTooltip="Hide this area from players" >
+              <fa-icon icon="eye-slash" ></fa-icon> Hide
+            </button>
+            <button class="btn btn-outline-secondary btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom" ngbTooltip="Cancel this area">
+              <fa-icon icon="times" size="lg"></fa-icon>
+            </button>
+          </div>
+
+          <div class="fow-items mb-2">
+            <div class="colors">
+              <label class="mt-2">Player Fog Color</label>
+              <label class="mt-2">GM Fog Color</label>
               <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.color" [style.background]="fow.color"
                 cpAlphaChannel='never' cpPosition='left' (colorPickerChange)="updateFow()"></div>
-          <label  class="mt-2">GM Fog Color</label>
               <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.gmcolor" [style.background]="fow.gmcolor"
                 cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateFow()"></div>
-          <label class="mt-2">Fog Blur</label>
-          <div class="slidecontainer">
-            <input class="slider" type="range" min="0" max="20" [step]="1" [(ngModel)]="fow.blur"  (change)="updateFow()">
+            </div>
+            <label class="mt-2">Fog Blur</label>
+              <div class="slidecontainer">
+                <input class="slider" type="range" min="0" max="20" [step]="1" [(ngModel)]="fow.blur" (change)="updateFow()">
+              </div>
           </div>
-        </div>
         </ng-container>
         <span *ngIf="!isGM && fow.enabled">
           Fog of War is ENABLED! Your GM has control!
@@ -173,6 +176,7 @@
           <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Enable / Disable lighting">
             <fa-icon icon="lightbulb-on" size="lg"></fa-icon>
           </button>
+          
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Bright Light">
               <fa-icon icon="sun" size="lg"></fa-icon>

@@ -1,14 +1,9 @@
 import { Asset } from "../models";
 import { Rectangle, Polygon, PolylineOptions, polygon, rectangle, LatLng, latLng, LayerGroup, Layer, LayerOptions, Map as LeafletMap, imageOverlay, ImageOverlay, latLngBounds, Circle } from "leaflet";
-import { LangUtil } from "../util/LangUtil";
 import { ImageUtil } from "../util/ImageUtil";
 import { DataService } from "../data.service";
 import { Rect } from "../util/geom";
 import { MapService } from "./map.service";
-import { Trans } from "../util/transformation";
-import { copyStyles } from "@angular/animations/browser/src/util";
-
-
 
 /**
   Fog Of War data model. This holds all the configuration information that is stored and used
@@ -19,12 +14,10 @@ export class FogOfWar extends Asset {
   readonly objType: string = FogOfWar.TYPE
 
   static is(obj: any): obj is FogOfWar {
-    console.log("Checking IS", obj, obj.objType === FogOfWar.TYPE, obj.objType == FogOfWar.TYPE)
     return obj.objType !== undefined && obj.objType === FogOfWar.TYPE
   }
 
   static to(obj: any): FogOfWar {
-    console.log("Copying Obj", obj)
     return new FogOfWar().copyFrom(obj)
   }
 
@@ -67,7 +60,6 @@ export class FowShape {
     if (shape instanceof Circle) {
       this.type = 'circle'
       this.points = [latLng(shape.getLatLng().lat, shape.getLatLng().lng), shape.getRadius()]
-      console.log("Saving Circle", this.points)
     }
   }
 }
@@ -86,19 +78,16 @@ export class FowManager {
 
   setFow(fow: FogOfWar) {
     this.fow = fow
-    console.log("Setting FOW IN LAYER", fow)
     if (fow.enabled) {
-      console.log("Creating FOW ")
       this.createOverlay(this.mapSvc._map)
     } else if (this.imgOverlay) {
-      console.log("Removing FOW LAYER")
       this.imgOverlay.remove()
     }
   }
 
   createOverlay(map: LeafletMap) {
-    let factor = Trans.computeFactor(this.mapSvc._mapCfg)
-    let transformation = Trans.createTransform(this.mapSvc._mapCfg)
+    console.log(">>>>>>----->>>>>>>>>>>>>> Current Map ", this.mapSvc._mapCfg.name, this.fow.id, this.mapSvc._mapCfg.id, this.mapSvc._mapCfg)
+    let factor = this.mapSvc._mapCfg.ppm
     const llBounds = latLngBounds([[0, 0], [this.mapSvc._mapCfg.height / factor, this.mapSvc._mapCfg.width / factor]]);
 
     const color = this.data.isGM() ? this.fow.gmcolor : this.fow.color
@@ -110,7 +99,6 @@ export class FowManager {
 
     const ctx = canvas.getContext('2d')
     ctx.save()
-
     ctx.translate(0, canvas.height);
     ctx.scale(1, -1);
 

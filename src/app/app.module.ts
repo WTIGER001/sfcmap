@@ -185,6 +185,7 @@ import { CacheInfoComponent } from './components/cache-info/cache-info.component
 import { MonsterViewCoreComponent } from './monsters/controls/monster-view-core/monster-view-core.component';
 import { MonsterViewDialogComponent } from './monsters/controls/monster-view-dialog/monster-view-dialog.component';
 import { CharacterEditConditionsComponent } from './characters/controls/character-edit-conditions/character-edit-conditions.component';
+import { AuraEditComponent } from './maps/controls/aura-edit/aura-edit.component';
 
 @NgModule({
   declarations: [
@@ -327,6 +328,7 @@ import { CharacterEditConditionsComponent } from './characters/controls/characte
     MonsterViewCoreComponent,
     MonsterViewDialogComponent,
     CharacterEditConditionsComponent,
+    AuraEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -388,6 +390,7 @@ import { CharacterEditConditionsComponent } from './characters/controls/characte
     EditCharacterDialogComponent,
     MonsterViewDialogComponent,
     SettingsComponent,
+    AuraEditComponent,
   ],
   exports: [CheckboxComponent]
 })

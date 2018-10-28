@@ -140,13 +140,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
       let transformation = Trans.createTransform(m)
       this.bounds = latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
 
-      this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds)
+      this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds, {pane: 'base'})
       this.crs.transformation = new Transformation(factor, 0, -factor, 0)
 
 
       // this.map.setMaxBounds(Rect.multiply(this.bounds, 1.25));
-
-
 
       this.layers.splice(0, this.layers.length)
       this.layers.push(this.mapSvc.overlayLayer, this.allMarkersLayer, this.newMarkersLayer)
@@ -170,13 +168,15 @@ export class MapViewComponent implements OnInit, OnDestroy {
     this.map = map
 
     map.createPane("fow").style.zIndex = "1000"
+    map.createPane("aura").style.zIndex = "350"
+    map.createPane("base").style.zIndex = "201"
 
     this.zone.run(() => {
       this.mapSvc.setMap(map);
       this.mapSvc.setConfig(this.mapCfg)
     });
 
-    this.map.setMaxBounds(Rect.multiply(this.bounds, 1.25));
+    this.map.setMaxBounds(Rect.multiply(this.bounds, 3));
     this.mapSvc.fit(this.bounds)
 
     this.loadPlugins(map)

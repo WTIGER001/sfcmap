@@ -22,6 +22,7 @@ import { Token } from 'src/app/maps/token';
 import { Monster } from 'src/app/monsters/monster';
 import { SelectItemsComponent } from 'src/app/dialogs/select-items/select-items.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuraManager } from 'src/app/maps/aura-manager';
 
 @Component({
   selector: 'app-marker-tab',
@@ -58,6 +59,7 @@ export class MarkerTabComponent implements OnInit {
   grid: GridLayer
   lastmouse: LeafletMouseEvent
   selectionPinned = false
+  auras : AuraManager
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService,
     private restrict: RestrictService, private data: DataService, private modal: NgbModal, private zone: NgZone) {
@@ -78,6 +80,8 @@ export class MarkerTabComponent implements OnInit {
     this.mapSvc.map.subscribe(m => {
       this.leafletMap = m
     })
+
+    this.auras = new AuraManager(this.mapSvc, this.data)
 
     // Handle Selections
     this.mapSvc.selection.subscribe(sel => {
@@ -413,6 +417,10 @@ export class MarkerTabComponent implements OnInit {
       const ann = <ShapeAnnotation>m['objAttach']
       const newBounds = this.grid.snapBounds(m.getBounds(), last)
       m.setBounds(newBounds)
+
+      if (TokenAnnotation.is(ann)) {
+         this.auras.updateAuras(ann)
+      }
     }
   }
 
@@ -546,6 +554,8 @@ export class MarkerTabComponent implements OnInit {
       }
     })
   }
+
+ 
 
   public updateMuliEdit() {
 

@@ -24,7 +24,7 @@ export class MessageService {
    
     this.getMyChatMessages2().pipe(
       tap( message => this.messages.next(message)),
-      tap(m => console.log("Message Recorded", m))
+      // tap(m => console.log("Message Recorded", m))
     ).subscribe()
   }
 

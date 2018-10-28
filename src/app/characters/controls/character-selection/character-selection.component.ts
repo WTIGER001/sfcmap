@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { DiceCanvasComponent } from 'src/app/controls/dice-canvas/dice-canvas.component';
 import { DiceRoll, Roll, Character, CharacterType } from 'src/app/models';
 import { DataService } from 'src/app/data.service';
@@ -10,13 +10,15 @@ import { Subject } from 'rxjs';
 import { EditCharacterDialogComponent } from '../edit-character-dialog/edit-character-dialog.component';
 import { LangUtil } from 'src/app/util/LangUtil';
 import { Assets } from 'src/app/assets';
+import { AuraManager } from 'src/app/maps/aura-manager';
+import { MapService } from 'src/app/maps/map.service';
 
 @Component({
   selector: 'app-character-selection',
   templateUrl: './character-selection.component.html',
   styleUrls: ['./character-selection.component.css']
 })
-export class CharacterSelectionComponent implements OnInit {
+export class CharacterSelectionComponent implements OnInit, OnChanges {
 
   static pages = ['personal', 'description', 'rolls', 'stats']
   @ViewChild('dice') dice: DiceCanvasComponent
@@ -26,9 +28,12 @@ export class CharacterSelectionComponent implements OnInit {
   types: CharacterType[] = []
 
   @Output() onPan = new EventEmitter()
+  @Output() changed = new EventEmitter()
 
-  constructor(private data: DataService, private msg: MessageService, private audio: AudioService, private modalSvc: NgbModal) {
-
+  constructor(
+    private data: DataService, private mapSvc: MapService,
+     private msg: MessageService, private audio: AudioService, 
+     private modalSvc: NgbModal) {
   }
 
   ngOnInit() {
@@ -99,5 +104,14 @@ export class CharacterSelectionComponent implements OnInit {
 
   pic() {
     return LangUtil.firstDefined(this.character.token, this.character.picture, Assets.CharacterCardSm)
+  }
+
+  save() {
+    this.data.save(this.character)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("Character Changed")
+    this.changed.emit()
   }
 }

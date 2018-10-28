@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit, Input, Output, EventEmitter } from '@angular/core';
-import { Game, Asset, Character } from 'src/app/models';
+import { Game, Asset, Character, TokenAnnotation } from 'src/app/models';
 import { Monster } from '../../monster';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/data.service';
@@ -15,6 +15,7 @@ import { MonsterToCharacter } from '../../to-character';
 })
 export class MonsterSelectionComponent implements AfterContentInit {
   @Input() item: Monster
+  @Input() token : TokenAnnotation
   @Output() onPan = new EventEmitter()
   character: Character
   
@@ -23,7 +24,11 @@ export class MonsterSelectionComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    this.character = MonsterToCharacter.convert(this.item)
+    if (this.token) {
+      this.character = this.data.getTokenCharacter(this.token)
+    } else {
+      this.character = MonsterToCharacter.convert(this.item)
+    }
     this.character.rollId = this.item.id
   }
 

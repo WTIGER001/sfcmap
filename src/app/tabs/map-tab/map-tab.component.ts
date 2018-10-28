@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
 import { MapConfig, Distance } from '../../models';
-import { Map as LeafletMap, GridLayerOptions, Util, LatLng } from 'leaflet';
+import { Map as LeafletMap, GridLayerOptions, Util, LatLng, Polygon, Circle, Rectangle } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Measure } from '../../leaflet/measure';
@@ -247,6 +247,7 @@ export class MapTabComponent implements OnInit {
 
   cancelFowShape() {
     if (this.fow_current_shp) {
+      // this.fow_current_shp.disableEdit()
       this.fow_current_shp.remove()
       this.fow_current_shp = undefined
     }
@@ -263,5 +264,16 @@ export class MapTabComponent implements OnInit {
     this.updateFow()
   }
 
+  isRectangle() {
+    return  this.fow_current_shp &&  this.fow_current_shp instanceof Rectangle
+  }
+
+  isPolygon() {
+    return this.fow_current_shp && this.fow_current_shp instanceof Polygon && !(this.fow_current_shp instanceof Rectangle)
+  }
+
+  isCircle() {
+    return  this.fow_current_shp &&  this.fow_current_shp instanceof  Circle
+  }
 
 }

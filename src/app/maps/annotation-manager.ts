@@ -142,11 +142,13 @@ export class AnnotationManager {
   private getAnnotationsAndGroups() {
     const sub1 = this.data.getAnnotations$(this.mapCfg.id).subscribe(
       action => {
-        console.log("getAnnotationsAndGroups : getAnnotations$", action)
+        // console.log("getAnnotationsAndGroups : getAnnotations$", action)
         if (action.op == Operation.Added || action.op == Operation.Updated) {
           this.addOrUpdateAnnotation(action.item)
+          this.mapSvc.annotationAddUpate.next(action.item)
         } else if (action.op == Operation.Removed) {
           this.removeAnnotation(action.item)
+          this.mapSvc.annotationDelete.next(action.item)
         }
       })
     const sub2 = this.data.getAnnotationGroups$(this.mapCfg.id).subscribe(
@@ -162,7 +164,7 @@ export class AnnotationManager {
 
 
   private addOrUpdateAnnotation(item: Annotation) {
-    console.log("addOrUpdateAnnotation ", item.name)
+    // console.log("addOrUpdateAnnotation ", item.name)
 
     if (this.mapPrefs.isHiddenMarker(this.mapCfg.id, item.id)) {
       return
@@ -317,7 +319,7 @@ export class AnnotationManager {
   private styleSelection(selectionPair?: [Selection, Selection]) {
     let sel = this.mapSvc.selection.getValue()
     if (selectionPair) {
-      console.log('Selection Pair', selectionPair)
+      // console.log('Selection Pair', selectionPair)
       if (!selectionPair[0].isEmpty()) {
         selectionPair[0].items.forEach(item => this.unhighlight(item))
       }
@@ -341,20 +343,23 @@ export class AnnotationManager {
   }
 
   private highlight(item: any) {
-    console.log("Selecting ", item)
+    // console.log("Selecting ", item)
 
     const domObj = this.getDomObject(item)
     if (domObj) {
       DomUtil.addClass(domObj, 'iconselected')
     }
+    item['_selected'] = true
   }
 
   private unhighlight(item: any) {
-    console.log("Deselecting ", item)
+    // console.log("Deselecting ", item)
     const domObj = this.getDomObject(item)
     if (domObj) {
       DomUtil.removeClass(domObj, 'iconselected')
     }
+    item['_selected'] = false
+
   }
 
   private getDomObject(item: any): any {

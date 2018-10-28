@@ -94,6 +94,9 @@ export class MapService {
   /** Observable for when a marker is updated */
   public updates = new ReplaySubject<Marker>()
 
+  public annotationAddUpate = new Subject()
+  public annotationDelete = new Subject()
+
   mapPrefs: MapPrefs
   public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>(1)
 

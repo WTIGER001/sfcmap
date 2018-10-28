@@ -1,0 +1,101 @@
+<div class="dlg">
+  <div class="header">
+    <h1>Edit Aura</h1>
+  </div>
+  <div class="bdy">
+    <div class="acol">
+      <!-- name -->
+      <label>Name</label>
+      <input type="text" class="form-control" [(ngModel)]="aura.name">
+
+      <!-- Radius -->
+      <label>Radius</label>
+      <div class="input-group">
+        <input class="form-control form-control-sm" type="number" [(ngModel)]="aura.radius.value" (change)="updateGrid()">
+        <div ngbDropdown placement="bottom-right">
+          <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{aura.radius.unit}}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+            <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+              (click)="aura.radius.unit = u.abbr">{{u.name}}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Style -->
+
+      <div class="area mt-2">
+        <div class="grid-center sp-3">
+          <input type="checkbox" class="switch" id="border_enable" [(ngModel)]="aura.border" (ngChange)="update()">
+          <label class="switch-lbl" for="border_enable"> Border</label>
+        </div>
+        <div class="grid-center">
+          <input type="checkbox" class="switch" id="fill_enable" [(ngModel)]="aura.fill" (change)="update()">
+          <label class="switch-lbl" for="fill_enable"> Fill</label>
+        </div>
+      </div>
+      <div class="area">
+        <div class="form-group">
+          <label>Color</label>
+          <div class="form-control form-control-sm color-pick" [(colorPicker)]="aura.color" [style.background]="aura.color"
+            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        </div>
+        <div class="form-group">
+          <label>Weight</label>
+          <app-line-weight [(ngModel)]="aura.weight" (change)="update()"></app-line-weight>
+        </div>
+        <div class="form-group">
+          <label>Style</label>
+          <app-line-weight></app-line-weight>
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <div class="form-control form-control-sm  color-pick" [(colorPicker)]="aura.fillColor" [style.background]="aura.fillColor"
+            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        </div>
+      </div>
+
+      <label>Visible</label>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons" >
+        <label class="btn btn-outline-secondary" [class.active]="aura.visible==0">
+          <input type="radio" name="options" id="option2" autocomplete="off" [value]='0' [(ngModel)]="aura.visible" >
+          <fa-icon icon="eye"></fa-icon> Not Visible
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="aura.visible==1">
+          <input type="radio" name="options" id="option1" autocomplete="off" [value]='1' [(ngModel)]="aura.visible" >
+          <fa-icon icon="eye"></fa-icon> Visible
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="aura.visible==2">
+          <input type="radio" name="options" id="option3" autocomplete="off" [value]='2' [(ngModel)]="aura.visible">
+          <fa-icon icon="hand-pointer"></fa-icon> On Select
+        </label>
+      </div>
+
+      <label>Visible To</label>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-secondary " [class.active]="aura.visibleTo==0">
+          <input type="radio" name="options" id="option1" autocomplete="off" [value]='0' [(ngModel)]="aura.visibleTo" >
+          <fa-icon icon="users"></fa-icon> Everyone
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="aura.visibleTo==1">
+          <input type="radio" name="options" id="option2" autocomplete="off" [value]='1' [(ngModel)]="aura.visibleTo">
+          <fa-icon icon="user-secret"></fa-icon> Me
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="aura.visibleTo==2">
+          <input type="radio" name="options" id="option3" autocomplete="off" [value]='2' [(ngModel)]="aura.visibleTo">
+          <fa-icon icon="users-crown"></fa-icon> Me and Gms
+        </label>
+      </div>
+
+    </div>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>
+</div>

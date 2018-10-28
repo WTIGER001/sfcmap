@@ -103,11 +103,17 @@ export class LangUtil {
     }
   }
 
-  public static baseColor(hexColor: string): string {
+  public static baseColor(hexColor: string, defaultValue ?: string): string {
+    if ( !hexColor) {
+      return defaultValue
+    }
     return hexColor.substr(0, 7)
   }
 
   public static colorAlpha(hex: string): number {
+    if (!hex) {
+      return 1
+    }
     if (hex.length == 9) {
       let alphaHex = hex.substr(7, 2)
       let base255 = parseInt(alphaHex, 16)

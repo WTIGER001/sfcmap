@@ -1,27 +1,76 @@
-<h2>Auras</h2>
+<!-- 
+  Need to fix this to show:
+
+  Visible tristate
+  Color Sample
+  Name
+  Radius
+  Edit
+  Trash
+
+  No editing
+  remove header
+-->
+
 <div class="attr-table">
-  <div class="attr-header">Name</div>
-  <div class="attr-header">Color</div>
-  <div class="attr-header hdr-span2">Radius</div>
-  <ng-container *ngFor="let aura of character.auras; let even=even">
-    <div [class.attr-even]='even' [class.attr-odd]='!even'>
-      <input class="form-control " [(ngModel)]="aura.name">
+  <!-- <ng-container *ngIf="item.auras && item.auras.length > 0">
+    <div class="clickable" (click)="toggleAll()" placement="bottom" ngbTooltip="Toggle visiblity for all">
+      <fa-icon [icon]="allvisible?'eye':'eye-slash'"></fa-icon>
     </div>
-    <div [class.attr-even]='even' [class.attr-odd]='!even'>
-      <div class="form-control form-control-sm  color-pick cell-item" [(colorPicker)]="aura.color" [style.background]="aura.color"
-        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateColor()"></div>
+    <div class="attr-header">Name</div>
+    <div class="attr-header"></div>
+    <div class="attr-header hdr-span2">Radius</div>
+    <div class="attr-header"></div>
+    <div class="attr-header"></div>
+  </ng-container> -->
+  <ng-container *ngFor="let aura of item.auras; let even=even">
+
+    <!-- Toggle Button-->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="toggle(aura)" placement="bottom"
+      ngbTooltip="Toggle visiblity">
+      <fa-icon *ngIf="aura.visible==0"  [fixedWidth]="true" icon="eye-slash" ></fa-icon>
+      <fa-icon *ngIf="aura.visible==1"  [fixedWidth]="true" icon="eye"></fa-icon>
+      <fa-icon *ngIf="aura.visible==2"  [fixedWidth]="true" icon="hand-pointer"></fa-icon>
     </div>
-    <div [class.attr-even]='even' [class.attr-odd]='!even'>
-        <input class="form-control num" type="number" [(ngModel)]="aura.radius.value">
+
+    <!-- Color Sample -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+      <div class="form-control form-control-sm  color-pick cell-item" [style.background]="aura.fillColor" [style.border-color]="aura.color" [style.border-style]="'solid'"
+       [style.border-width]="aura.border ? aura.weight + 'px' : 0" ></div>
     </div>
-    <div [class.attr-even]='even' [class.attr-odd]='!even' ngbDropdown placement="bottom-right">
-      <button class="cell-drop" id="dropDownUnits" ngbDropdownToggle>{{aura.radius.unit}}</button>
-      <div ngbDropdownMenu aria-labelledby="dropDownUnits">
-        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name" (click)="updateUnit(aura, u.abbr)">{{u.name}}</button>
-      </div>
+
+    <!-- Name Entry -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+      {{aura.name ? aura.name : '-- no name--'}}
     </div>
+
+    <!-- Radius Entry -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell text-right">
+      {{aura.radius.value}} 
+    </div>
+
+    <!-- Radius Units -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+      <!-- <select class="cell-drop" [(ngModel)]="aura.radius.unit.abbr">
+        <option *ngFor="let u of units" [value]="u.abbr">{{u.abbr}}</option>
+      </select> -->
+      {{aura.radius.unit}}
+    </div>
+
+    <!-- Edit Button -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="edit(aura)" placement="bottom"
+      ngbTooltip="Edit Aura">
+      <fa-icon icon="edit"></fa-icon>
+    </div>
+
+    <!-- Delete Button -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable" (click)="delete(aura)" placement="bottom"
+      ngbTooltip="Delete Aura">
+      <fa-icon icon="trash"></fa-icon>
+    </div>
+
   </ng-container>
 </div>
 <div class="attr-footer" (click)="addRow()">
-  <fa-icon icon="plus"></fa-icon> Add Row
+  <fa-icon icon="plus"></fa-icon> Add Aura
 </div>

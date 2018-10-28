@@ -27,3 +27,37 @@
   height: 2em;
   cursor: pointer;
 }
+
+.highlight {
+    background-color: #7a7a7a;
+    border-radius: 4px;
+    padding: 3px;
+}
+
+.highlight-btn {
+  background-color: #7a7a7a;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: -6px;
+  border-bottom: 0;
+  color: white;
+}
+
+.highlight-btn:focus {
+   border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+   border-bottom: 0;
+   z-index: -1;
+}
+
+.highlight-choice {
+  border: 0;
+  padding: 2px;
+  color: white
+}
+
+.colors {
+  display : grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}

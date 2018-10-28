@@ -1,7 +1,6 @@
 .attr-table {
   display: grid;
-  grid-template-columns: 1fr 4em 5em auto;
-  align-items: stretch;
+  grid-template-columns: auto  auto 1fr auto auto auto auto;
 }
 
 .attr-header {
@@ -11,40 +10,46 @@
 
 .hdr-span2 {
   grid-column: span 2;
+  text-align: center
 }
 
 .attr-odd {
-  background-color: rgba(117, 117, 117, 0.719)
+  background-color: rgba(81, 81, 81, 0.25)
 }
 
+.color-pick {
+  padding:7px;
+  height: 70%;
+  max-height: 100%;
+}
+
+.text-right {
+  text-align: right
+}
 
 .attr-table input {
-  border-radius: 0;
-  padding: .15em;
-  background-color: transparent;
   color: white;
-  margin-left: -1px;
-  margin-top: -1px;
+  border: 0;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .attr-table .cell-item {
-  border-radius: 0;
-  padding: .15em;
-  background-color: transparent;
-  color: white;
-  margin-left: -1px;
-  margin-top: -1px;
-  /* height: 101%; */
+  border: 0;
 }
 .attr-table .cell-drop {
-  border-radius: 0;
-  padding: .15em;
   background-color: transparent;
   color: white;
-  margin-left: -1px;
-  margin-top: -1px;
-  /* height: 100%; */
-  border: 1px solid white;
+  border: 0;
+}
+
+.cell-drop option {
+  background-color: #312e29;
+  color: white;
 }
 
 .attr-footer {
@@ -53,8 +58,26 @@
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  margin-top: 5px;
+  padding: 4px;
 }
 
 .attr-footer:hover {
-  background-color: black;
+  background-color: grey;
+}
+
+.attr-table input::-webkit-outer-spin-button,
+.attr-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.attr-table .num {
+  text-align: right;
+}
+
+.attr-table .clickable {
+  padding: 4px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
