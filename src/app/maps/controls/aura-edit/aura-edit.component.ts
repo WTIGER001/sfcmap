@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Aura } from 'src/app/models/aura';
 import { Observable, ReplaySubject } from 'rxjs';
+import { DistanceUnit } from 'src/app/util/transformation';
 
 @Component({
   selector: 'app-aura-edit',
@@ -10,6 +11,7 @@ import { Observable, ReplaySubject } from 'rxjs';
 })
 export class AuraEditComponent implements OnInit {
   aura : Aura
+  units = DistanceUnit.units
   result : ReplaySubject < Aura >
   constructor(private activeModal : NgbActiveModal) { 
 
@@ -31,7 +33,7 @@ export class AuraEditComponent implements OnInit {
   }
 
   update() {
-    
+
   }
 
   public static openDialog(modal: NgbModal, aura: Aura): Observable<Aura> {
