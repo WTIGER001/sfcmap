@@ -1,5 +1,5 @@
-/*
-The lighting support provides 
 
 
-*/
+export class Lighting {
+  
+}

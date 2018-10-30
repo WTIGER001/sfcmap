@@ -1,0 +1,62 @@
+<div class="dlg">
+  <div class="header">
+    <h1>Edit Emitter</h1>
+  </div>
+  <div class="bdy">
+    <div class="acol">
+      <!-- name -->
+      <label>Name</label>
+      <input type="text" class="form-control" [(ngModel)]="item.name">
+
+      <label for="item-enabled">Enabled</label>
+      <div>
+        <input type="checkbox" class="switch" id='item-enabled' [(ngModel)]="item.enabled">
+      </div>
+
+      <!-- Emission Types -->
+      <!-- <label>Emission Types</label>
+      <div>
+        <ng-container *ngFor="let type of emissionTypes">
+          <input type="checkbox" class="switch" id='{{type}}-check' [(checklist)]="item.emissionTypes" [checklistValue]="type">
+          <label for="'{{type}}-check'">{{type}}</label>
+        </ng-container>
+      </div> -->
+
+      <!-- Angles -->
+      <label>Angular Coverage</label>
+      <div class="angles">
+        <label>Start</label>
+        <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.angleStart">
+        <label>End</label>
+        <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.angleEnd">
+      </div>
+
+      
+      <label>Visible</label>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-secondary" [class.active]="item.visible==0">
+          <input type="radio" name="options" id="option2" autocomplete="off" [value]='0' [(ngModel)]="item.visible">
+          <fa-icon icon="eye"></fa-icon> Not Visible
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="item.visible==1">
+          <input type="radio" name="options" id="option1" autocomplete="off" [value]='1' [(ngModel)]="item.visible">
+          <fa-icon icon="eye"></fa-icon> Visible
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="item.visible==2">
+          <input type="radio" name="options" id="option3" autocomplete="off" [value]='2' [(ngModel)]="item.visible">
+          <fa-icon icon="hand-pointer"></fa-icon> On Select
+        </label>
+      </div>
+
+    </div>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>
+</div>

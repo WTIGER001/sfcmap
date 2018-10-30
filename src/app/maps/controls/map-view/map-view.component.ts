@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { MapConfig, User, Prefs, Selection, ImageAnnotation, Asset } from '../../../models';
-import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, layerGroup, LeafletEvent, Marker, DomUtil, latLng, Transformation } from 'leaflet';
+import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, layerGroup, LeafletEvent, Marker, DomUtil, latLng, Transformation, CanvasLayer } from 'leaflet';
 import { Trans } from '../../../util/transformation';
 import { CoordsControl } from '../../../leaflet/coords';
 import { Scale } from '../../../leaflet/scale';
@@ -19,7 +19,9 @@ import { AnnotationManager } from '../../annotation-manager';
 import '../../../leaflet/path.js';
 import '../../../leaflet/image-drag.js';
 import '../../../leaflet/edit.js';
+import '../../../leaflet/CanvasLayer1.js';
 import { MapShareData } from 'src/app/models/system-models';
+import { CanvasLayer2 } from '../../../leaflet/CanvasLayer.js';
 
 @Component({
   selector: 'app-map-view',
@@ -140,7 +142,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
       let transformation = Trans.createTransform(m)
       this.bounds = latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
 
-      this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds, {pane: 'base'})
+      this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds, { pane: 'base' })
       this.crs.transformation = new Transformation(factor, 0, -factor, 0)
 
 
@@ -166,6 +168,25 @@ export class MapViewComponent implements OnInit, OnDestroy {
   onMapReady(map: LeafletMap) {
     console.log("Map Ready!", map, this.mapSvc._map, this.map);
     this.map = map
+
+
+    // Create a simple canvas layer
+    // const cvs = new CanvasLayer(this.bounds, {pane: "fow"})
+    // const cvs = new CanvasLayer()
+    // cvs.setBounds(this.bounds)
+    // cvs.delegate({
+    //   onDrawLayer: function (info) {
+    //     const ctx : CanvasRenderingContext2D = info.canvas.getContext('2d');
+    //     ctx.clearRect(0, 0, info.canvas.width, info.canvas.height);
+    //     ctx.fillStyle = "black";
+    //     ctx.fillRect(0, 0, 100, 100)
+    //     console.log("DRAWING")
+    //   }
+    // }) // -- if we do not inherit from L.CanvasLayer we can setup a delegate to receive events from L.CanvasLayer
+    //   .addTo(map);
+
+
+
 
     map.createPane("fow").style.zIndex = "1000"
     map.createPane("aura").style.zIndex = "350"
@@ -203,7 +224,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
       this.data.shareEvent(d)
     })
-    }
+  }
 
   loadPlugins(map: LeafletMap) {
     this.coords = new CoordsControl({

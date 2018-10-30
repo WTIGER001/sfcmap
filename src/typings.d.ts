@@ -2,6 +2,23 @@ import * as L from 'leaflet';
 
 
 declare module 'leaflet' {
+
+    class CanvasLayer extends L.Layer{
+      delegate(del: any): CanvasLayer;
+
+      needsRedraw(): CanvasLayer;
+
+      drawLayer();
+
+      setBounds(bounds : L.LatLngBounds)
+    }
+
+    interface ILayerDraw {
+
+    }
+
+
+
     interface EditableStatic {
         new(map: Map, options: EditOptions): Editable;
     }
@@ -206,9 +223,16 @@ declare module 'leaflet' {
          * L.Editable plugin instance.
          */
         editTools: Editable;
+
+        canvasLayer() : CanvasLayer
+
+      _latLngBoundsToNewLayerBounds( ll : L.LatLngBounds, zoom : number, center : LatLng ) : L.Bounds
     }
 
-
+    interface Layer {
+      addInteractiveTarget( tgt : any)
+      removeInteractiveTarget( tgt : any)
+    }
 
     namespace Map {
         interface MapOptions {

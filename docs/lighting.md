@@ -1,36 +1,75 @@
 # Lighting
 
-Lighting is the capablity that supports players navigating the map on their own and having the map dynamically lit to the extent of the characters vision. There are a few major concepts to consider for lighting. The lighting capablity models the concept of emitters, recievers and barriers. These concepts apply to each type of 'emission type'. An emmission type is the type of the emission that can be detected by the reciever. For instance: visible light, magic, scent, good, evil, etc. An emitter 'broadcasts' this 'light' and a reciever can detect it, up to a given range. A barrier can block the emission.
+Lighting is the capablity that supports players navigating the map on their own and having the map dynamically lit to the extent of the characters vision. There are a few major concepts to consider for lighting. 
 
-# Emission Types
-The emission types are configurable by game system and for the most part they are just represented by names. The following emission types are the default for the pathfinder system. 
-- light - E.g. Visible light
-- darkness - This refers to magical darkness
-- magic - This is typically the result of a detect magic spell or similar ability
-- scent - This is used to 'see' inivisble people that have a scent. Not used for tracking... but that is cool idea
-- good, evil, chaos, law - detect those of a certain alignment
-- invisible - detect invisibile
-- incorporeal - detect incorporeal
+**Light Source** - Light sources emit light. They do so up to a given range and can have optional dim lighting effects. Light sources can be seen by players who have a direct line of sight. Players can carry their own sources of light
+**Vision**- Tokens can have vision. Vision is for seeing in various lighting conditions. For instance Dark vision and lowlight vision..Maybe we just add special visions
+**Barriers** - Barriers block light.. Thats it!
 
-# Emitter Attributes
-name - Name of the emitter
-enabled - If this emitter is considered active
-type - type of emission
-distance - distance it is emitted
-angle start - the start angle for the emission (0-2PI), defaults to 0
-angle end - the end angle for the emission (0-2PI), defaults to 2PI
+-----------
+Emits light
+40' 20' dim
+Checkbox ALL Players can see this light
 
-# Receiver / Detector Attributes
-name - Name of the detector
-enabled - If this detector is considered active
-type - type of emission that can be seen
-distance - distance that can be seen
-amplification - the multiplicative factor that is applied to the emission (distance) (e.g. a 10' emission range would be detected at 20' by a detector with an amplication of 2 ), defaults to 1.0
-angle start - the start angle for the receiver (0-2PI), defaults to 0
-angle end - the end angle for the receiver (0-2PI), defaults to 2PI
 
-# Barrier Attributes
-name - Name of the barrier
-enabled - if this barrier is enabled
-types - types of emmissions that this barrier blocks
-transmission - The amount (0-100%) of the emission that is transmitted through. E.g. if the barrier has a 50% transmission factor then a 20' emission would only emit 10'
+Tourch
+- Emits Normal Light 20'
+- Emits Dim light 40'
+- Anyone can see
+
+Darkvision
+- Emits Normal Light 60' (no color) 
+- No Dim ligh
+- Shared vision or just me
+
+'Light'
+- Light
+- Magical Darkness
+- Magical Light
+- 'Vision'
+
+'Detect' - No Range on Emission
+- Magic
+- Chaos / Law / Evil / Good
+- Incoporeal
+- Invisible
+- Scent
+
+Light Levels: 
+Bright, Normal, Dim, Dark, Magical Dark
+
+Daylight == BRIGHT
+Under Trees during the day == Normal
+
+Generate a gridded light map... All light sources and overlaying and then calculating
+- Start with the ambient light (NONE)
+- 
+
+USE CASE #1
+- Ambient Light None
+- Torch
+- Result Normal Light within20' and from 20' to 40' dim light, Darkness everywhere else
+USE CASE #1A
+- Ambient Light : DIM
+- Torch
+- Result Normal Light within 20' and from 20' to 40' NORMAL light, DIM everywhere else
+DIM+DIM = NORMAL
+
+USE CASE #2
+- Ambient Light None
+- Torch
+- Magic Darkness 30' 10'R Away from torch
+- Result At the tourch NORMAL(2) at 20' intersection of torch and darkness it is magaically dark (5)
+
+USE CASE #3
+- Ambient Light NONE
+- Magical Light 20' R
+- Result  Normal Light within20' and from 20' to 40' dim light
+
+USE CASE #4
+- Ambient Light None
+- Magical Light
+- Magic Darkness 30' 10'R Away from torch
+- Result At the tourch NORMAL(2) at 20' intersection of torch and darkness it is magaically dark (5)
+
+

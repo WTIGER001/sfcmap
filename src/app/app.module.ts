@@ -186,6 +186,9 @@ import { MonsterViewCoreComponent } from './monsters/controls/monster-view-core/
 import { MonsterViewDialogComponent } from './monsters/controls/monster-view-dialog/monster-view-dialog.component';
 import { CharacterEditConditionsComponent } from './characters/controls/character-edit-conditions/character-edit-conditions.component';
 import { AuraEditComponent } from './maps/controls/aura-edit/aura-edit.component';
+import { LightingSelectionComponent } from './maps/controls/lighting-selection/lighting-selection.component';
+import { EmitterEditComponent } from './maps/controls/emitter-edit/emitter-edit.component';
+import { DetectorEditComponent } from './maps/controls/detector-edit/detector-edit.component';
 
 @NgModule({
   declarations: [
@@ -329,6 +332,9 @@ import { AuraEditComponent } from './maps/controls/aura-edit/aura-edit.component
     MonsterViewDialogComponent,
     CharacterEditConditionsComponent,
     AuraEditComponent,
+    LightingSelectionComponent,
+    EmitterEditComponent,
+    DetectorEditComponent,
   ],
   imports: [
     BrowserModule,
