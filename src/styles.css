@@ -82,6 +82,21 @@ h4 {
     color: var(--highlight-color)
 }
 
+/*
+  Common Layout
+*/
+
+.center-flex {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+
 /*  Scrollbars
     -------------------*/
 .scroller {

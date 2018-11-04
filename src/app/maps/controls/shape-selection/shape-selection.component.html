@@ -1,7 +1,7 @@
-  <app-svgbox [shape]="item" [maxheight]="100" [padding]="10" class="centered"></app-svgbox>
+  <app-svgbox [shape]="item" [maxheight]="100" [padding]="10" class="center-flex"></app-svgbox>
 
 <h3 class="name">{{item?.name}}</h3>
-<app-tags class="centered" [tags]="item.tags"></app-tags>
+<app-tags class="center-flex" [tags]="item.tags"></app-tags>
 <app-annotation-group-name *ngIf="item.group" class="centered-text" [item]="item"></app-annotation-group-name>
 
 <div class="selection-actions">
@@ -13,6 +13,9 @@
   </div>
   <a *ngIf="item.pageUrl" class="action" [href]="item.pageurl" target="_blank">
     <fa-icon icon="globe"></fa-icon> Open External Link
+  </a>
+  <a *ngIf="item.type == 'polyline'" class="action" (click)="convertToBarrier()">
+    <fa-icon icon="rectangle-wide"></fa-icon> Convert to Light Barrier
   </a>
 </div>
 

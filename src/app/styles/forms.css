@@ -108,3 +108,15 @@ input.switch-bad:checked ~ label {
   text-shadow: 0px 0px grey;
   cursor: pointer;
 }
+
+input.switch ~ label {
+  cursor: pointer;
+}
+
+.h-switch {
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto auto;
+  gap: 1em;
+  justify-content: start;
+}

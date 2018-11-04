@@ -1,16 +1,15 @@
-.light-table {
+.barrier-table {
   display: grid;
-  grid-template-columns: auto  auto 1fr auto auto;
+  grid-template-columns: auto  1fr auto;
 }
 
-.light-odd {
+.attr-odd {
   background-color: rgba(81, 81, 81, 0.25)
 }
 
 .color-pick {
   padding:7px;
   height: 70%;
-  width: 20px;
   max-height: 100%;
 }
 

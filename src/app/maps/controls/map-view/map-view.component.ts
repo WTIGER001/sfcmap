@@ -63,7 +63,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
     editable: true,
     divisions: 4,
     zoomControl: false,
-    center: this.bounds.getCenter()
+    center: this.bounds.getCenter(), 
+    doubleClickZoom: false
   }
 
   layers: Layer[] = [];

@@ -6,70 +6,15 @@ Lighting is the capablity that supports players navigating the map on their own 
 **Vision**- Tokens can have vision. Vision is for seeing in various lighting conditions. For instance Dark vision and lowlight vision..Maybe we just add special visions
 **Barriers** - Barriers block light.. Thats it!
 
------------
-Emits light
-40' 20' dim
-Checkbox ALL Players can see this light
+## Approach
 
+**Draw Barriers**
+The GM selects either the polygon, polyline or rectangle tool from the annotation tab. They draw a shape and save the shape.  Once they are happy with the shape (the color does not matter) then they click on the "Convert to Lighting Barrier" button. This will tag it as a barrier and remove it from normal display. Under the covers this is still a shapeannotation but we will filter it out by default 
 
-Tourch
-- Emits Normal Light 20'
-- Emits Dim light 40'
-- Anyone can see
+**Add Light Sources** 
+Light sources are attached to annotations (typically tokens, but it can also be an image or marker). So first the GM must add a token or other annotation. Then they will see on the "Light Source" control. Enabling this will show the light source controls. They enter the information about the light source. This adds the light to the map tab for easy enable / disable toggling.
 
-Darkvision
-- Emits Normal Light 60' (no color) 
-- No Dim ligh
-- Shared vision or just me
+_Lighting Library_ (or whatever a good name is) is a collection of pregenerated light sources. These are available for simple addition to the map. 
 
-'Light'
-- Light
-- Magical Darkness
-- Magical Light
-- 'Vision'
-
-'Detect' - No Range on Emission
-- Magic
-- Chaos / Law / Evil / Good
-- Incoporeal
-- Invisible
-- Scent
-
-Light Levels: 
-Bright, Normal, Dim, Dark, Magical Dark
-
-Daylight == BRIGHT
-Under Trees during the day == Normal
-
-Generate a gridded light map... All light sources and overlaying and then calculating
-- Start with the ambient light (NONE)
-- 
-
-USE CASE #1
-- Ambient Light None
-- Torch
-- Result Normal Light within20' and from 20' to 40' dim light, Darkness everywhere else
-USE CASE #1A
-- Ambient Light : DIM
-- Torch
-- Result Normal Light within 20' and from 20' to 40' NORMAL light, DIM everywhere else
-DIM+DIM = NORMAL
-
-USE CASE #2
-- Ambient Light None
-- Torch
-- Magic Darkness 30' 10'R Away from torch
-- Result At the tourch NORMAL(2) at 20' intersection of torch and darkness it is magaically dark (5)
-
-USE CASE #3
-- Ambient Light NONE
-- Magical Light 20' R
-- Result  Normal Light within20' and from 20' to 40' dim light
-
-USE CASE #4
-- Ambient Light None
-- Magical Light
-- Magic Darkness 30' 10'R Away from torch
-- Result At the tourch NORMAL(2) at 20' intersection of torch and darkness it is magaically dark (5)
-
-
+**Vision** 
+The Player or GM sets up each player, character or token with vision. There are a few choices. Normal vision, low light vision and dark vision are the types of vision available. This is editable in the character sheet

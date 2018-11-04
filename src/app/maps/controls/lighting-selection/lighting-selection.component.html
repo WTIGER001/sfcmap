@@ -1,3 +1,37 @@
-<p>
-  lighting-selection works!
-</p>
+
+
+
+
+<div class="light-table">
+  <ng-container *ngFor="let item of lights">
+    <!-- Toggle Button-->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="toggle(item, $event)" placement="bottom"
+      ngbTooltip="Toggle visiblity">
+      <fa-icon *ngIf="item.enabled==0" [fixedWidth]="true" icon="eye-slash"></fa-icon>
+      <fa-icon *ngIf="item.enabled==1" [fixedWidth]="true" icon="eye"></fa-icon>
+    </div>
+
+    <!-- Color Sample -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+      <div class="form-control form-control-sm  color-pick cell-item" [style.background]="item.color"></div>
+    </div>
+
+    <!-- Name Entry -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+      {{item.name ? item.name : '-- no name--'}}
+    </div>
+
+    <!-- Edit Button -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="edit(item)" placement="bottom"
+      ngbTooltip="Edit Light">
+      <fa-icon icon="edit"></fa-icon>
+    </div>
+    
+    <!-- Delete Button -->
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable" (click)="delete(item)" placement="bottom"
+      ngbTooltip="Delete Light">
+      <fa-icon icon="trash"></fa-icon>
+    </div>
+
+  </ng-container>
+</div>

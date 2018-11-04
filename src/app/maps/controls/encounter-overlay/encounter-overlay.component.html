@@ -10,6 +10,7 @@
       [picture]="pic(item)" [caption]="caption(item)" [objPos]="item.imgPos"></app-picture-tile>
   </div>
   <div class="handle clickable" (click)="toggle()">
-    <fa-icon icon="caret-down" size="lg"></fa-icon>
+    <fa-icon *ngIf="!expanded" icon="caret-down" size="lg"></fa-icon>
+    <fa-icon *ngIf="expanded" icon="caret-up" size="lg"></fa-icon>
   </div>
 </div>

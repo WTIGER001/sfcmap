@@ -1,4 +1,4 @@
-import { Distance } from "../models";
+import { Distance, BarrierAnnotation } from "../models";
 import { DistanceUnit } from "../util/transformation";
 import { Points } from "../util/geom";
 import { DetectorEmitter } from "./light-source";
@@ -33,14 +33,6 @@ export class Detector {
   location: [number, number]
 }
 
-export class Barrier {
-  id: string
-  name: string
-  emissionTypes: string[] = []
-  transmission: number = 0
-  points: [number, number][]
-}
-
 export class Detection {
 
   constructor(
@@ -59,7 +51,7 @@ export class DetectionManager {
 }
 
 export class DetectionUtil {
-  public static determineDetections(emitters: Emitter[], detectors: Detector[], barriers: Barrier[]): Detection[] {
+  public static determineDetections(emitters: Emitter[], detectors: Detector[], barriers: BarrierAnnotation[]): Detection[] {
     const rtn: Detection[] = []
 
     detectors.forEach(d => {
@@ -69,7 +61,7 @@ export class DetectionUtil {
     return rtn
   }
 
-  public static checkDetector(detector: Detector, emitters: Emitter[], barriers: Barrier[]): Detection[] {
+  public static checkDetector(detector: Detector, emitters: Emitter[], barriers: BarrierAnnotation[]): Detection[] {
     const rtn: Detection[] = []
 
     emitters.forEach(e => {
@@ -81,7 +73,7 @@ export class DetectionUtil {
     return rtn
   }
 
-  public static checkDetectorEmitter(detector: Detector, emitter: Emitter, barriers: Barrier[]): boolean {
+  public static checkDetectorEmitter(detector: Detector, emitter: Emitter, barriers: BarrierAnnotation[]): boolean {
     // Calculate the real distance between the detector and emitter
     const distance = Points.distance(emitter.location, detector.location)
 
@@ -107,8 +99,8 @@ export class DetectionUtil {
     return effectiveDistance <= range
   }
 
-  public static checkBarriers(detector: Detector, emitter: Emitter, barriers: Barrier[]): Barrier[] {
-    const rtn: Barrier[] = []
+  public static checkBarriers(detector: Detector, emitter: Emitter, barriers: BarrierAnnotation[]): BarrierAnnotation[] {
+    const rtn: BarrierAnnotation[] = []
 
     barriers.forEach(b => {
       if (this.checkBarrier(detector, emitter, b)) {
@@ -119,7 +111,7 @@ export class DetectionUtil {
     return rtn
   }
 
-  public static checkBarrier(detector: Detector, emitter: Emitter, barrier: Barrier): boolean {
+  public static checkBarrier(detector: Detector, emitter: Emitter, barrier: BarrierAnnotation): boolean {
 
     for (let i = 0; i < barrier.points.length - 1; i++) {
       if (Points.instersects(

@@ -12,7 +12,6 @@ export class AuraManager {
   constructor(private mapSvc : MapService, private data : DataService) {
     this.mapSvc.annotationAddUpate.pipe(
       filter( a => TokenAnnotation.is(a)),
-      // tap( a=> console.log("Recieved Token Change", a)),
       tap( a=> this.updateAuras(<TokenAnnotation>a))
     ).subscribe()
 
@@ -40,7 +39,6 @@ export class AuraManager {
       item.auras.forEach( aura => {
         let auraShp = this.findAura(item, aura)
         if (auraShp && (aura.visible === AuraVisible.OnSelect)) {
-          console.log("Found and removeing", aura)
           auraShp.remove()
         }
       })
@@ -48,7 +46,6 @@ export class AuraManager {
   }
 
   select(items: TokenAnnotation[]) {
-    console.log("Processing Selection")
     items.forEach(item => {
       item.auras.forEach(aura => {
         let auraShp = this.findAura(item, aura)
@@ -67,7 +64,6 @@ export class AuraManager {
 
   updateAura(item: TokenAnnotation,  aura : Aura) {
     const  selected = this.sel.items.findIndex( i => i.id == item.id) >= 0
-    console.log("Updating Aura", aura, selected, this.sel)
 
     // Determine if we already have an aura circle drawn
     let auraShp = this.findAura(item, aura)
@@ -77,11 +73,11 @@ export class AuraManager {
     } 
 
     if (aura.visible === AuraVisible.NotVisible) {
-      console.log("Not visibile so skipping")
+      // console.log("Not visibile so skipping")
       return
     }
     if (aura.visible === AuraVisible.OnSelect && !selected) {
-      console.log("Not selected so skipping")
+      // console.log("Not selected so skipping")
       return
     }
 
@@ -107,8 +103,6 @@ export class AuraManager {
     opts.pane = "aura"
     opts.interactive = false
     
-    console.log("Adding aura!!!!")
-
     auraShp = circle(center, opts)
     auraShp.addTo(this.mapSvc._map)
 

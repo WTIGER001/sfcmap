@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
-import { ShapeAnnotation } from '../../models';
+import { ShapeAnnotation, BarrierAnnotation } from '../../models';
 import { MapService } from '../../maps/map.service';
 import { Map, PointExpression, Point, LatLng } from 'leaflet';
 import { Rect } from '../../util/geom';
@@ -21,7 +21,7 @@ export class SvgboxComponent {
   svgelement: ElementRef
   svgelement2: ElementRef
   grpelement: ElementRef
-  item: ShapeAnnotation
+  item: ShapeAnnotation | BarrierAnnotation
 
   @Input() maxheight = 150
   @Input() padding = 20
@@ -41,7 +41,7 @@ export class SvgboxComponent {
     this.insertSVG()
   }
 
-  @Input() set shape(item: ShapeAnnotation) {
+  @Input() set shape(item: ShapeAnnotation | BarrierAnnotation) {
     this.item = item
     this.insertSVG()
   }
@@ -86,7 +86,7 @@ export class SvgboxComponent {
   }
 
   viewbox() {
-    if (ShapeAnnotation.is(this.item)) {
+    if (ShapeAnnotation.is(this.item) || BarrierAnnotation.is(this.item)) {
       let path = this.svgitem
       if (path) {
         let d = path.getAttribute("d")
@@ -100,7 +100,7 @@ export class SvgboxComponent {
   }
 
   dynamicHeight() {
-    if (ShapeAnnotation.is(this.item)) {
+    if (ShapeAnnotation.is(this.item) || BarrierAnnotation.is(this.item)) {
       let path = this.svgitem
       if (path) {
         let bb = this.pathBounds(path.getAttribute('d'))

@@ -1,0 +1,33 @@
+<div class="form-group">
+  <label for="name">Name</label>
+  <input type="text" class="form-control " id="name" placeholder="Enter Name" [(ngModel)]="item.name">
+</div>
+
+<div class="area">
+  <div class="form-group">
+    <label>Color</label>
+    <div class="form-control form-control-sm color-pick" [(colorPicker)]="item.color" [style.background]="item.color"
+      cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+  </div>
+  <div class="form-group">
+    <label>Weight</label>
+    <app-line-weight [(ngModel)]="item.weight" (change)="update()"></app-line-weight>
+  </div>
+  <div class="form-group">
+    <label>Style</label>
+    <app-line-weight></app-line-weight>
+  </div>
+</div>
+
+<div class="h-switch">
+  <input type="checkbox" class="switch" [(ngModel)]="item.blocksLight" id="blocks-light">
+  <label for="blocks-light">Blocks Light</label>
+</div>
+
+<div>
+  <label class="emission-title">Emissions Blocked</label>
+  <div class="h-switch" *ngFor="let emission of emissionTypes">
+    <input type="checkbox" class="switch"  id="blocks-{{emission}}" [(checklist)]="item.emissionsBlocked" [checklistValue]="emission">
+    <label for="blocks-{{emission}}">{{emission}}</label>
+  </div>
+</div>

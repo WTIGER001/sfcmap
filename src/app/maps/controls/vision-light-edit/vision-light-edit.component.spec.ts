@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LightingSelectionComponent } from './lighting-selection.component';
+import { VisionLightEditComponent } from './vision-light-edit.component';
 
-describe('LightingSelectionComponent', () => {
-  let component: LightingSelectionComponent;
-  let fixture: ComponentFixture<LightingSelectionComponent>;
+describe('VisionLightEditComponent', () => {
+  let component: VisionLightEditComponent;
+  let fixture: ComponentFixture<VisionLightEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LightingSelectionComponent ]
+      declarations: [ VisionLightEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LightingSelectionComponent);
+    fixture = TestBed.createComponent(VisionLightEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

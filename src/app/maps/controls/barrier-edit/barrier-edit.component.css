@@ -1,0 +1,16 @@
+.area {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    grid-auto-rows: 1fr;
+}
+
+.color-pick {
+    height: 38px;
+    cursor: pointer;
+}
+
+.emission-title {
+   margin-top: 1em;
+  font-size: 1.2em;
+}

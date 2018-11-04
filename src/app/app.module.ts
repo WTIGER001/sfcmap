@@ -189,6 +189,12 @@ import { AuraEditComponent } from './maps/controls/aura-edit/aura-edit.component
 import { LightingSelectionComponent } from './maps/controls/lighting-selection/lighting-selection.component';
 import { EmitterEditComponent } from './maps/controls/emitter-edit/emitter-edit.component';
 import { DetectorEditComponent } from './maps/controls/detector-edit/detector-edit.component';
+import { VisionLightEditComponent } from './maps/controls/vision-light-edit/vision-light-edit.component';
+import { TokenLightingEditComponent } from './maps/controls/token-lighting-edit/token-lighting-edit.component';
+import { MapBarrierComponent } from './maps/controls/map-barrier/map-barrier.component';
+import { LightSelectionComponent } from './maps/controls/light-selection/light-selection.component';
+import { BarrierEditComponent } from './maps/controls/barrier-edit/barrier-edit.component';
+import { BarrierSelectionComponent } from './maps/controls/barrier-selection/barrier-selection.component';
 
 @NgModule({
   declarations: [
@@ -335,6 +341,12 @@ import { DetectorEditComponent } from './maps/controls/detector-edit/detector-ed
     LightingSelectionComponent,
     EmitterEditComponent,
     DetectorEditComponent,
+    VisionLightEditComponent,
+    TokenLightingEditComponent,
+    MapBarrierComponent,
+    LightSelectionComponent,
+    BarrierEditComponent,
+    BarrierSelectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -397,6 +409,7 @@ import { DetectorEditComponent } from './maps/controls/detector-edit/detector-ed
     MonsterViewDialogComponent,
     SettingsComponent,
     AuraEditComponent,
+    TokenLightingEditComponent,
   ],
   exports: [CheckboxComponent]
 })

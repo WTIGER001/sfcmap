@@ -58,6 +58,18 @@ export class Pathfinder extends GameSystem {
     new NameDescription('Unconscious', ''),
   ]
 
+  readonly emissionTypes : string[] = [
+    "Magic",
+    "Scent",
+    "Invisible",
+    "Incorporeal",
+    "Law",
+    "Chaos",
+    "Evil",
+    "Good",
+    "Traps",
+    "Hidden Doors"
+  ]
 
   constructor() {
     super()

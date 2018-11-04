@@ -1,0 +1,23 @@
+<div class="barrier-table">
+  <ng-container *ngFor="let barrier of barriers; let even=even; let odd=odd">
+
+  <!-- Toggle Open / Close-->
+  <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="toggle(barrier, $event)" placement="bottom"
+    ngbTooltip="Open / Close Door">
+    <fa-icon *ngIf="barrier.enabled" [fixedWidth]="true" icon="door-closed"></fa-icon>
+    <fa-icon *ngIf="!barrier.enabled" [fixedWidth]="true" icon="door-open"></fa-icon>
+  </div>
+
+  <!-- Name Entry -->
+  <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+    {{barrier.name ? barrier.name : '-- no name--'}}
+  </div>
+
+  <!-- Delete Button -->
+  <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable" (click)="delete(barrier)" placement="bottom"
+    ngbTooltip="Delete Barrier">
+    <fa-icon icon="trash"></fa-icon>
+  </div>
+  
+  </ng-container>
+</div>

@@ -26,6 +26,9 @@
       <button class="btn btn-outline-secondary btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Create a new imager">
         <fa-icon icon="image" size="lg"></fa-icon>
       </button>
+      <button class="btn btn-outline-secondary btn-tool" (click)="newBarrier()" placement="bottom" ngbTooltip="Create a new barrier">
+        <fa-icon icon="rectangle-wide" size="lg"></fa-icon>
+      </button>
       <button class="btn btn-outline-secondary btn-tool" (click)="addCharacter()" placement="bottom" ngbTooltip="Add a Character">
         <fa-icon icon="user-shield" size="lg"></fa-icon>
       </button>
@@ -78,8 +81,13 @@
         <app-marker-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'marker'"></app-marker-selection>
         <app-image-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'image'"></app-image-selection>
         <app-shape-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'shape'"></app-shape-selection>
+        <app-barrier-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'barrier'"></app-barrier-selection>
+
         <app-expander title="Auras"*ngIf="itemType(item) == 'token'">
           <app-edit-chr-auras [item]="item" (changes)="save()"></app-edit-chr-auras>
+        </app-expander>
+        <app-expander title="Light" *ngIf="itemType(item) == 'token'">
+          <app-lighting-selection [item]="item"></app-lighting-selection>
         </app-expander>
       </div>
     </ng-container>
@@ -92,6 +100,11 @@
     <!-- Edit a single shape -->
     <div *ngIf="edit && itemType(item) == 'shape' && selection.items.length == 1">
       <app-edit-shape #editshape [shape]='item'></app-edit-shape>
+    </div>
+
+    <!-- Edit a single barrier -->
+    <div *ngIf="edit && itemType(item) == 'barrier' && selection.items.length == 1">
+      <app-barrier-edit #editbarrier [item]='item'></app-barrier-edit>
     </div>
 
     <!-- Edit a single image -->

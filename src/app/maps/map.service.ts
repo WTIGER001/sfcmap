@@ -14,6 +14,8 @@ import { Ping } from '../leaflet/ping';
 import { MapShareData, ShareEvent } from '../models/system-models';
 import { FowManager, FogOfWar } from './fow';
 import { MapAsset } from '../data-asset';
+import { LightingManager } from './lighting';
+import * as _ from 'lodash'
 
 @Injectable({
   providedIn: 'root'
@@ -110,12 +112,14 @@ export class MapService {
   processingEvent = false
 
   fogOfWar : MapAsset<FogOfWar>
+  lighting : LightingManager
 
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService, private router: Router) {
     this.log = this.notify.newDebugger('Map')
     this.mapLoad = this.notify.newDebugger('Map Loading')
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
     this.fowMgr = new FowManager(this, data)
+    this.lighting = new LightingManager(this, this.data, zone)
 
     this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
 
@@ -511,6 +515,20 @@ export class MapService {
     }
     return data
   }
+
+  annotationsFromMap() : Annotation[] {
+    const rtn : Annotation[] = []
+    this._map.eachLayer( l => {
+      if (l['objAttach']) {
+        const obj = l['objAttach']
+        if (Annotation.is(obj)) {
+          rtn.push(obj)
+        }
+      }
+    })
+    return _.uniqBy(rtn, item => item.id)
+  }
+
 }
 
 class Node {

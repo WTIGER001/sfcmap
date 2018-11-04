@@ -1,4 +1,5 @@
 import { DistanceUnit } from "./transformation";
+import { all } from "q";
 
 export class Format {
     public static formatArray(arr: string[]): string {
@@ -40,4 +41,33 @@ export class Format {
         return distanceM.toLocaleString(undefined, { maximumFractionDigits: 2 }) + " UNK"
 
     }
+
+  public static  nextString(current : string, allCurrent: string[]) : string {
+    console.log("CHECKING ", current)
+
+      let cnt = 0;
+      let proposal = current
+      let found = allCurrent.find(str => str.toLowerCase() == proposal.toLowerCase())
+
+      if (found) {
+        const digitMatch = this.endWithDigit(proposal)
+        console.log("digitMatch ", digitMatch)
+
+        if (digitMatch < proposal.length ) {
+          const digit = parseInt(proposal.substr(digitMatch)) + 1
+          proposal = proposal.substring(0, digitMatch) + digit
+        } else {
+          proposal = proposal + " - 1"
+        }
+        return this.nextString(proposal, allCurrent)
+      }
+      return proposal
+    }
+
+  public static endWithDigit(str : string) : number {
+    const regex = /[\d]*$/gm;
+    let m : RegExpExecArray;
+    return str.search(regex)
+  }
+
 }

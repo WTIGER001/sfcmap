@@ -1,0 +1,102 @@
+<div class="dlg">
+  <div class="header">
+    <h1>Edit Light Source</h1>
+  </div>
+  <div class="bdy">
+    <div class="acol">
+      <!-- name -->
+      <label>Name</label>
+      <input type="text" class="form-control" [(ngModel)]="item.name">
+
+      <div class="row-enabled-type">
+        <div class="stack">
+          <label for="item-enabled">Enabled</label>
+          <div class="enabled-cont"> 
+            <input type="checkbox" class="switch" id='item-enabled' [(ngModel)]="item.enabled">
+          </div>
+        </div>
+        <div class="stack">
+          <label>Type</label>
+          <div class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
+            <label class="btn btn-outline-secondary" [class.active]="item.lightType==0">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='0' [(ngModel)]="item.lightType">
+              Light
+            </label>
+            <label class="btn btn-outline-secondary" [class.active]="item.lightType==1">
+              <input type="radio" name="options" id="option1" autocomplete="off" [value]='1' [(ngModel)]="item.lightType">
+              Darkness
+            </label>
+          </div>
+        </div>
+        <div class="stack">
+            <label>Color</label>
+            <div class="form-control form-control-sm  color-pick" [(colorPicker)]="item.color" [style.background]="item.color"
+              cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        </div>
+      </div>
+
+      <!-- Magical Level -->
+      <label>Magical Level</label>
+      <div class="btn-group btn-group-toggle btn-group-sm" data-toggle="buttons">
+        <label class="btn btn-outline-secondary" [class.active]="item.magicalLevel==-1">
+          <input type="radio" name="options" id="option2" autocomplete="off" [value]='-1' [(ngModel)]="item.magicalLevel">
+          Non-Magical
+        </label>
+        <label class="btn btn-outline-secondary" [class.active]="item.magicalLevel==level" *ngFor=" let level of levels">
+          <input type="radio" name="options" id="option1" autocomplete="off" [value]='level' [(ngModel)]="item.magicalLevel">
+          {{level}}
+        </label>
+      </div>
+
+      <!-- Range  -->
+      <div class="range-rows">
+        <div class="range-row">
+          <label>Range</label>
+          <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.range">
+
+          <!-- Range Effect -->
+          <label>Range Effect</label>
+          <select class="form-control" [(ngModel)]="item.rangeEffect">
+            <option [value]='0'>+1 up to Normal</option>
+            <option [value]='1'>Minus 1</option>
+            <option [value]='2'>Set light to Normal</option>
+          </select>
+        </div>
+
+        <div class="range-row">
+          <!-- Dim Range -->
+          <label>Dim Range</label>
+          <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.dimRange">
+
+          <!-- Dim Range Effect -->
+          <label>Range Effect</label>
+          <select class="form-control" [(ngModel)]="item.dimRangeEffect">
+            <option [value]='0'>+1 up to Normal</option>
+            <option [value]='1'>Minus 1</option>
+            <option [value]='2'>Set light to Normal</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Angles -->
+      <label>Angular Coverage</label>
+      <div class="angles">
+        <label>Start</label>
+        <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.angleStart">
+        <label>End</label>
+        <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.angleEnd">
+      </div>
+
+   
+    </div>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>
+</div>

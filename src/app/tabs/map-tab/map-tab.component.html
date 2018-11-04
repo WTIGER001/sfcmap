@@ -108,18 +108,21 @@
         <ng-container *ngIf="isGM">
           <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable" (change)="updateFow()">
           <div class="buttongrid">
-            <button class="btn btn-outline-secondary btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start" container="body"
-              [class.active]="fow.hideAll">
+            <button class="btn btn-outline-secondary btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start"
+              container="body" [class.active]="fow.hideAll">
               <fa-icon icon="eye-slash" size="lg"></fa-icon>
             </button>
 
-            <button class="btn btn-outline-secondary btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square" [class.highlight-btn]="isRectangle()">
+            <button class="btn btn-outline-secondary btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square"
+              [class.highlight-btn]="isRectangle()">
               <fa-icon icon="draw-square" size="lg"></fa-icon>
             </button>
-            <button class="btn btn-outline-secondary btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon" [class.highlight-btn]="isPolygon()">
+            <button class="btn btn-outline-secondary btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon"
+              [class.highlight-btn]="isPolygon()">
               <fa-icon icon="draw-polygon" size="lg"></fa-icon>
             </button>
-            <button class="btn btn-outline-secondary btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle" [class.highlight-btn]="isCircle()">
+            <button class="btn btn-outline-secondary btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle"
+              [class.highlight-btn]="isCircle()">
               <fa-icon icon="draw-circle" size="lg"></fa-icon>
             </button>
             <button class="btn btn-outline-secondary btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
@@ -127,15 +130,16 @@
             </button>
           </div>
           <div class="buttongrid highlight" *ngIf="fow_current_shp">
-            <button class="btn btn-outline-secondary btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()" placement="bottom"
-              ngbTooltip="Show this area to players"container="body">
-              <fa-icon icon="eye" > </fa-icon> Show
+            <button class="btn btn-outline-secondary btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()"
+              placement="bottom" ngbTooltip="Show this area to players" container="body">
+              <fa-icon icon="eye"> </fa-icon> Show
             </button>
-            <button class="btn btn-outline-secondary btn-tool grid-c2  highlight-choice" (click)="saveAsHide()" placement="bottom"
-              ngbTooltip="Hide this area from players" >
-              <fa-icon icon="eye-slash" ></fa-icon> Hide
+            <button class="btn btn-outline-secondary btn-tool grid-c2  highlight-choice" (click)="saveAsHide()"
+              placement="bottom" ngbTooltip="Hide this area from players">
+              <fa-icon icon="eye-slash"></fa-icon> Hide
             </button>
-            <button class="btn btn-outline-secondary btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom" ngbTooltip="Cancel this area">
+            <button class="btn btn-outline-secondary btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom"
+              ngbTooltip="Cancel this area">
               <fa-icon icon="times" size="lg"></fa-icon>
             </button>
           </div>
@@ -150,9 +154,9 @@
                 cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateFow()"></div>
             </div>
             <label class="mt-2">Fog Blur</label>
-              <div class="slidecontainer">
-                <input class="slider" type="range" min="0" max="20" [step]="1" [(ngModel)]="fow.blur" (change)="updateFow()">
-              </div>
+            <div class="slidecontainer">
+              <input class="slider" type="range" min="0" max="20" [step]="1" [(ngModel)]="fow.blur" (change)="updateFow()">
+            </div>
           </div>
         </ng-container>
         <span *ngIf="!isGM && fow.enabled">
@@ -165,48 +169,50 @@
 
       <!-- Lighting-->
       <h4>
-        <fa-icon class="pointer" (click)="isCollapsed['lighting'] = !isCollapsed['lighting']" [fixedWidth]="true" size="lg"
+        <fa-icon class="pointer " (click)="isCollapsed['lighting'] = !isCollapsed['lighting']" [fixedWidth]="true" size="lg"
           [icon]="isCollapsed['lighting'] ? 'caret-right' : 'caret-down'"></fa-icon>
         Lighting
       </h4>
-      <!-- rectangle-wide -->
 
-      <div class="ml-2" [ngbCollapse]="isCollapsed['lighting']">
-        <div class="buttongrid">
-          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Enable / Disable lighting">
-            <fa-icon icon="lightbulb-on" size="lg"></fa-icon>
-          </button>
-          
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Bright Light">
-              <fa-icon icon="sun" size="lg"></fa-icon>
-            </button>
-            <button type="button" class="btn btn-outline-secondary" placement="bottom" ngbTooltip="Daytime / Normal Light">
-              <fa-icon icon="cloud-sun" size="lg"></fa-icon>
-            </button>
-            <button type="button" class="btn btn-outline-secondary">
-              <fa-icon icon="moon" size="lg" placement="bottom" ngbTooltip="Night / Dim Light"></fa-icon>
-            </button>
-            <button type="button" class="btn btn-outline-secondary">
-              <fa-icon icon="cloud-moon" size="lg" placement="bottom" ngbTooltip="Night / Darkness"></fa-icon>
-            </button>
-          </div>
-        </div>
-        <div class="buttongrid">
+      <div class="ml-2 mb-3 category" [ngbCollapse]="isCollapsed['lighting']">
+        <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="mapCfg.enableLighting" id="light.enable"
+          (change)="toggleLightingEnable()"  placement="bottom"  ngbTooltip="Enable / Disable Dynamic Lighting">
 
-          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="View lighting layer">
+        <div class="buttongrid">
+          <button class="btn btn-outline-secondary btn-tool" (click)="toggleShowLighting()" placement="bottom"
+            ngbTooltip="View lighting layer"  container="body" [class.active]="mapCfg && mapCfg.showLighting">
             <fa-icon icon="eye" size="lg"></fa-icon>
           </button>
-          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a Wall (Fixed Light Barrier) ">
-            <fa-icon icon="rectangle-wide" size="lg"></fa-icon>
-          </button>
-          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a Door (Opennable Light Barrier">
-            <fa-icon icon="door-open" size="lg"></fa-icon>
-          </button>
-          <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Add a light source">
-            <fa-icon icon="campfire" size="lg"></fa-icon>
-          </button>
+
+          <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
+            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==5" placement="bottom"
+              ngbTooltip="Set ambient light to Daytime / Bright Light"  container="body">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='5' [(ngModel)]="mapCfg.ambientLight">
+              <fa-icon icon="sun" size="lg"></fa-icon>
+            </label>
+            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==4" placement="bottom"
+              ngbTooltip="Set ambient light to Daytime / Normal Light">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='4' [(ngModel)]="mapCfg.ambientLight">
+              <fa-icon icon="sun" size="lg"></fa-icon>
+            </label>
+            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==3" placement="bottom"
+              ngbTooltip="Set ambient light to Night / Dim Light">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='3' [(ngModel)]="mapCfg.ambientLight">
+              <fa-icon icon="moon" size="lg"></fa-icon>
+            </label>
+            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==2" placement="bottom"
+              ngbTooltip="Set ambient light to Night / Darkness">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='2' [(ngModel)]="mapCfg.ambientLight">
+              <fa-icon icon="cloud-moon" size="lg"></fa-icon>
+            </label>
+          </div>
         </div>
+
+        <label>Light Sources</label>
+        <app-lighting-selection *ngIf="mapCfg" [item]="mapCfg"></app-lighting-selection>
+
+        <label>Barriers</label>
+        <app-map-barrier *ngIf="mapCfg" [item]="mapCfg" (changes)="barrierChanged($event)"></app-map-barrier>
       </div>
 
     </ng-container>

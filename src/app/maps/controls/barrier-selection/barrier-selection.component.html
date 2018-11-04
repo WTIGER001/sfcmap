@@ -1,0 +1,18 @@
+<app-svgbox [shape]="item" [maxheight]="100" [padding]="10" class="centered"></app-svgbox>
+
+<h3 class="name">{{item?.name}}</h3>
+
+<div class="selection-actions">
+  <div class="action" (click)="panTo()">
+    <fa-icon icon="location"></fa-icon> Locate on Map
+  </div>
+</div>
+
+<div class="center">
+  <label>{{item.blocksLight?'Blocks Light':'Does Not Block Light'}}</label>
+</div>
+<div>
+  <label>Emissions Blocked</label>
+  <div class="ml-3" *ngFor="let emission of item.emissionsBlocked">{{emission}}</div>
+  <div class="ml-3" *ngIf="item.emissionsBlocked.length == 0">None</div>
+</div>

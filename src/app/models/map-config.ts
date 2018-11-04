@@ -1,4 +1,5 @@
-import { IObjectType, ObjectType, Asset } from "./core";
+import { Asset } from "./core";
+import { LightLevel } from "./light-vision";
 
 /**
  * A configuration for a map.
@@ -36,4 +37,8 @@ export class MapConfig extends Asset {
   tags: string[]
   gridOptions: any
   game: string = 'NONE_YET'
+
+  ambientLight : LightLevel = LightLevel.Normal
+  enableLighting : boolean = false
+  showLighting : boolean = false
 }

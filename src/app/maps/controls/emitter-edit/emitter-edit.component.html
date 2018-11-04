@@ -14,13 +14,13 @@
       </div>
 
       <!-- Emission Types -->
-      <!-- <label>Emission Types</label>
+      <label>Emission Types</label>
       <div>
         <ng-container *ngFor="let type of emissionTypes">
           <input type="checkbox" class="switch" id='{{type}}-check' [(checklist)]="item.emissionTypes" [checklistValue]="type">
           <label for="'{{type}}-check'">{{type}}</label>
         </ng-container>
-      </div> -->
+      </div>
 
       <!-- Angles -->
       <label>Angular Coverage</label>
@@ -30,7 +30,6 @@
         <label>End</label>
         <input type="number" class="form-control" min='0' max='360' [(ngModel)]="item.angleEnd">
       </div>
-
       
       <label>Visible</label>
       <div class="btn-group btn-group-toggle" data-toggle="buttons">

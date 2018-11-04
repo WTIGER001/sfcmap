@@ -4,8 +4,8 @@ import { IObjectType, ObjectType, Asset } from "./core";
 import { LangUtil } from "../util/LangUtil";
 import { ImageUtil } from "../util/ImageUtil";
 import { Aura } from "./aura";
-import { getLocalePluralCase } from "@angular/common";
 import { Character } from "./character";
+import { LightSource, Vision } from "./light-vision";
 
 export enum AnchorPostitionChoice {
   TopLeft = 0,
@@ -49,6 +49,9 @@ export abstract class Annotation extends Asset {
     }
     if (TokenAnnotation.is(obj)) {
       rtn = new TokenAnnotation().copyFrom(obj)
+    }
+    if (BarrierAnnotation.is(obj)) {
+      rtn = new BarrierAnnotation().copyFrom(obj)
     }
 
     if (rtn) {
@@ -309,6 +312,8 @@ export class TokenAnnotation extends Annotation {
 
   calcCharacter : Character
   auras : Aura[] = []
+  lights : LightSource[] = []
+  vision : Vision = undefined
 
   copyOptionsFromShape() {
 
@@ -399,59 +404,6 @@ export class TokenAnnotation extends Annotation {
     }
   }
 }
-
-
-/**
- * Marker Annotations are custom markers
- */
-// export class MarkerAnnotation extends Annotation {
-//     public static readonly SUBTYPE = 'marker'
-//     readonly subtype: string = MarkerAnnotation.SUBTYPE
-//     static is(obj: any): obj is MarkerAnnotation {
-//         return obj.objType !== undefined && obj.objType === Annotation.TYPE &&
-//             obj.subtype !== undefined && obj.subtype === MarkerAnnotation.SUBTYPE
-//     }
-
-//     sizing: MarkerSizing
-
-
-//     copyOptionsFromShape() {
-
-//     }
-
-//     copyOptionsToShape() {
-
-//     }
-
-//     copyPoints() {
-//         this.points = [this._leafletAttachment.getLatLng()]
-//     }
-
-//     private toMarker(): Marker {
-//         return undefined
-//     }
-
-//     // options(iconCache: IconZoomLevelCache): MarkerOptions {
-//     //     let icn = iconCache.getAnyIcon(this.markerType)
-
-//     //     return {
-//     //         icon: icn
-//     //     }
-//     // }
-
-//     createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-
-//     }
-
-//     setLocation(location: LatLngExpression) {
-//         this.points[0] = location
-//         this.toMarker().setLatLng(location)
-//     }
-
-//     center(): LatLng {
-//         return (<Marker>this._leafletAttachment).getLatLng()
-//     }
-// }
 
 export class MarkerSizing {
   iconSize: [number, number]
@@ -614,6 +566,83 @@ export class ShapeAnnotation extends Annotation {
   }
 
 }
+
+export class BarrierAnnotation extends Annotation {
+  public static readonly SUBTYPE = 'barrier'
+  readonly subtype: string = BarrierAnnotation.SUBTYPE
+
+  static is(obj: any): obj is BarrierAnnotation {
+    return obj.objType !== undefined && obj.objType === Annotation.TYPE &&
+      obj.subtype !== undefined && obj.subtype === BarrierAnnotation.SUBTYPE
+  }
+
+  enabled : boolean = true
+  border: boolean
+  color: string
+  weight: number
+  style: string
+  blocksLight: boolean = true
+  transmission: number = 0
+  emissionsBlocked : string[] = []
+
+  constructor() {
+    super()
+  }
+
+  copyOptionsFromShape() {
+    this.border = this._leafletAttachment.options.stroke
+    this.color = this._leafletAttachment.options.color
+    this.weight = this._leafletAttachment.options.weight
+  }
+
+  copyOptionsToShape() {
+    (<Polyline>this._leafletAttachment).setStyle(this.options())
+    this._leafletAttachment.redraw()
+  }
+
+  copyPoints() {
+    if (!this._leafletAttachment) {
+      return
+    }
+
+      let item: Polyline = <Polyline>this._leafletAttachment
+      this.points = item.getLatLngs()
+  }
+
+  toShape():  Polyline {
+    return polyline(this.points, this.options())
+  }
+
+  private options(): PolylineOptions {
+    let opts: PolylineOptions = {}
+    opts.stroke = this.border
+    opts.weight = this.weight
+    opts.noClip = true
+    if (this.color) {
+      opts.color = LangUtil.baseColor(this.color)
+      opts.opacity = LangUtil.colorAlpha(this.color)
+    }
+
+    return opts
+  }
+
+  createLeafletAttachment(iconCache: IconZoomLevelCache): any {
+    return this.toShape()
+  }
+
+  asItem(): Polyline  {
+      return <Polyline>this._leafletAttachment
+  }
+
+  center(): LatLng {
+    if (!this._leafletAttachment || !this._leafletAttachment._map) {
+      return latLng(0, 0)
+    }
+    return (<Polyline>this._leafletAttachment).getCenter()
+  }
+
+}
+
 
 class DeadImages {
   static Images = {}

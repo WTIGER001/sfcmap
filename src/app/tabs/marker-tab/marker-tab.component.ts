@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
-import { MapConfig, MarkerGroup, MergedMapType, Selection, Character, TokenAnnotation } from '../../models';
+import { MapConfig, MarkerGroup, MergedMapType, Selection, Character, TokenAnnotation, BarrierAnnotation } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
@@ -117,6 +117,9 @@ export class MarkerTabComponent implements OnInit {
     if (TokenAnnotation.is(item)) {
       return 'token'
     }
+    if (BarrierAnnotation.is(item)) {
+      return 'barrier'
+    }
     throw new Error("Invalid Item")
   }
 
@@ -177,6 +180,14 @@ export class MarkerTabComponent implements OnInit {
     s.url = "./assets/missing.png"
     s.name = "New Image"
     let shp = this.mapSvc._map.editTools.startImage(s.url)
+    s.setAttachment(shp)
+    this.completeShape(s)
+  }
+
+  public newBarrier() {
+    let s = new BarrierAnnotation()
+    s.name = "Wall"
+    let shp = this.mapSvc._map.editTools.startPolyline()
     s.setAttachment(shp)
     this.completeShape(s)
   }
@@ -252,7 +263,7 @@ export class MarkerTabComponent implements OnInit {
     }
   }
 
-  private completeShape(s: ShapeAnnotation | ImageAnnotation) {
+  private completeShape(s: ShapeAnnotation | ImageAnnotation | BarrierAnnotation) {
     s.id = 'TEMP'
     s.map = this.map.id
     s.owner = this.data.game.value.id
@@ -299,7 +310,7 @@ export class MarkerTabComponent implements OnInit {
   public cancel() {
     this.edit = false
     this.disableDragging()
-    if (ShapeAnnotation.is(this.item) || ImageAnnotation.is(this.item) || TokenAnnotation.is(this.item)) {
+    if (ShapeAnnotation.is(this.item) || ImageAnnotation.is(this.item) || TokenAnnotation.is(this.item) || BarrierAnnotation.is(this.item)) {
       this.item.asItem().disableEdit()
       this.mapSvc._map.editTools.featuresLayer.clearLayers()
     }
@@ -322,7 +333,7 @@ export class MarkerTabComponent implements OnInit {
     })
   }
 
-  private saveItem(item: ShapeAnnotation | ImageAnnotation | TokenAnnotation) {
+  private saveItem(item: ShapeAnnotation | ImageAnnotation | TokenAnnotation | BarrierAnnotation) {
     // Update the Group 
     let typeId = this.getGroupOrCreateId(item.group)
     item.group = typeId
@@ -535,7 +546,7 @@ export class MarkerTabComponent implements OnInit {
       if (annotation.getAttachment().dragging) {
         annotation.getAttachment().dragging.enable()
       }
-      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item)) {
+      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item) || BarrierAnnotation.is(this.item)) {
         m.getAttachment().enableEdit()
         m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
         m.getAttachment().on('drag', this.snapShapeToGrid, this)

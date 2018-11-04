@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
 import { MapConfig, Distance } from '../../models';
-import { Map as LeafletMap, GridLayerOptions, Util, LatLng, Polygon, Circle, Rectangle } from 'leaflet';
+import { Map as LeafletMap, GridLayerOptions, Util, LatLng, Polygon, Circle, Rectangle, Polyline, Point } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
 import { Measure } from '../../leaflet/measure';
@@ -276,4 +276,18 @@ export class MapTabComponent implements OnInit {
     return  this.fow_current_shp &&  this.fow_current_shp instanceof  Circle
   }
 
+
+  //------------------------------------------------------------------------------------------------------------
+  // LIghting 
+  //------------------------------------------------------------------------------------------------------------
+
+  toggleLightingEnable() {
+    // this.mapCfg.enableLighting = !this.mapCfg.enableLighting
+    this.data.save(this.mapCfg)
+  }
+
+  toggleShowLighting() {
+    this.mapCfg.showLighting = !this.mapCfg.showLighting
+    this.data.save(this.mapCfg)
+  }
 }
