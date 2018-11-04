@@ -16,6 +16,7 @@ import { FowManager, FogOfWar } from './fow';
 import { MapAsset } from '../data-asset';
 import { LightingManager } from './lighting';
 import * as _ from 'lodash'
+import { LightImageRenderer } from './pathfinder-lighting';
 
 @Injectable({
   providedIn: 'root'
@@ -113,6 +114,7 @@ export class MapService {
 
   fogOfWar : MapAsset<FogOfWar>
   lighting : LightingManager
+  lightRenderer: LightImageRenderer 
 
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService, private router: Router) {
     this.log = this.notify.newDebugger('Map')
@@ -120,6 +122,7 @@ export class MapService {
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
     this.fowMgr = new FowManager(this, data)
     this.lighting = new LightingManager(this, this.data, zone)
+    this.lightRenderer = new LightImageRenderer(this, this.data)
 
     this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
 

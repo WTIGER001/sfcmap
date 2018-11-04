@@ -1,48 +1,54 @@
-import { Distance, BarrierAnnotation, TokenAnnotation, MapLighting, LightSource, LightLevel } from "../models";
+import { Distance, BarrierAnnotation, TokenAnnotation, MapLighting, LightSource, LightLevel, Vision } from "../models";
 import { AuraVisibleTo, AuraVisible } from "../models/aura";
-import { Point, ImageOverlay, latLngBounds, LatLng } from "leaflet";
+import { Point, ImageOverlay, latLngBounds, LatLng, point, Map, imageOverlay, latLng } from "leaflet";
 import * as _ from 'lodash'
 import { MapService } from "./map.service";
 import { ImageUtil } from "../util/ImageUtil";
 import { Rect } from "../util/geom";
-
-/*
-Maybe use a webGL shader
-1.) Crate a new canvas and fill with the ambient conditions
-2.) Loop through the nonmagical lights sources and draw each one (5 colors of grey for light) (maybe 5 colors of black with differnt opacities)
-
-
-*/
-
-/*
-  Gridded Approach
-
-  1.) Create a matrix of cells [x][y][level]
-  2.) Fill in the level 1 of the matrix with ambient light [][][0]
-  3.) Loop through each normal source and apply it  [][][1]
-  4.) Loop through each magical source and apply it [][][2]
-  5.) Draw each cell on the image (withj transparency), Anything dark has no transparency anything bright or normal has 1 or .9 transparency, Dim is .6 transparency. If the character has darkvision then the areas of darkness are .55
-  /// THIS IS THE BASE LIGHTING
-*/
+import { DataService } from "../data.service";
+import { tap, filter } from "rxjs/operators";
+import { Token } from "@angular/compiler";
 
 
 /**
  * Manages the lighting on the map
  */
-export class LightingManager {
-  overlay : ImageOverlay
-  settings: MapLighting
+export class LightImageRenderer {
+  private imgOverlay: ImageOverlay
 
   barriers : BarrierAnnotation[] = []
-  lights: LightSource[]= []
+  lights: TokenAnnotation[]= []
   barrierSegments = []
+  viewers:  TokenAnnotation[] =[]
 
-  constructor(private mapSvc : MapService) {
+  constructor(private mapSvc : MapService, private data : DataService) {
 
+    this.mapSvc.mapConfig.pipe(
+      tap(m => console.log('_____________________Recieved new map')),
+      tap(m => this.update())
+    ).subscribe()
+
+    this.data.gameAssets.maps.items$.pipe(
+      tap(m => console.log('_____________________Recieved new Maps from DB')),
+      filter(m => this.mapSvc._mapCfg != undefined),
+      tap(m => this.update())
+    ).subscribe()
+
+    this.mapSvc.annotationAddUpate.pipe(
+      tap(m => console.log('_____________________Recieved new annotation from DB')),
+      tap(m => this.update())
+
+    ).subscribe()
+
+    this.mapSvc.annotationDelete.pipe(
+      tap(m => console.log('_____________________Recieved deleted annotation from DB')),
+      tap(m => this.update())
+    ).subscribe()
   }
 
   public update() {
     // Get the context
+    const map = this.mapSvc._map
     let factor = this.mapSvc._mapCfg.ppm
     const llBounds = latLngBounds([[0, 0], [this.mapSvc._mapCfg.height / factor, this.mapSvc._mapCfg.width / factor]]);
 
@@ -55,33 +61,56 @@ export class LightingManager {
     const ctx = canvas.getContext('2d')
     ctx.save()
 
-    // Flip the image vertically to match the leaflet approach
-    ctx.translate(0, canvas.height);
-    ctx.scale(1, -1);
-  
-    // Draw the Ambient Light color
-    this.drawAmbient(ctx, canvas)
+    if (this.mapSvc._mapCfg.enableLighting) {
+      console.log('______________ Starting Light Render')
+      // Flip the image vertically to match the leaflet approach
+      ctx.translate(0, canvas.height);
+      ctx.scale(1, -1);
+    
+      // Draw the Ambient Light color
+      console.log('______________ Drawing Ambient')
+      this.drawAmbient(ctx, canvas)
 
-    // Calculate the Mask as polygons
-    this.readModels()
-    this.buildSegments()
+      // Calculate the Mask as polygons
+      this.readModels()
+      this.buildSegments()
 
-    // Draw the mask path and clip
+      // Draw the mask, lights and vision
+      console.log('______________ Drawing Viewers...', this.viewers.length)
+
+      this.viewers.forEach( v => {
+        const mask = this.calculateMaskForViewer(v)
+        this.drawMask(ctx, mask)
+        this.drawLights(ctx)
+        // this.drawVision(ctx, v)
+      })
+
+      console.log('______________ Rendering Image...')
 
 
-    // Draw each light source
+      // Create / Update the Image Overlay
+      const data = canvas.toDataURL()
+      if (this.imgOverlay) {
+        this.imgOverlay.setUrl(data)
+      } else {
+        this.imgOverlay = imageOverlay(data, llBounds, { pane: 'fow', interactive: !this.data.isGM() })
+      }
 
+      console.log('______________ Adding to Map')
 
-    // Draw each characters vision
+      this.imgOverlay.addTo(map)
+    } else if (this.imgOverlay) {
 
+      console.log('______________ Lighting Disabled, removing from map')
+      this.imgOverlay.remove()
+    }
 
-    // Create / Update the Image Overlay
-
+    ctx.restore()
   }
 
 
   private readModels() {
-    const lights : LightSource[] = []
+    const lights: TokenAnnotation[] = []
     const barriers : BarrierAnnotation[] = []
     const viewers : TokenAnnotation[] = []
 
@@ -91,18 +120,35 @@ export class LightingManager {
         if (a.vision && a.vision.enabled) {
           viewers.push(a)
         }
-        lights.push(... a.lights)
+        if (a.lights && a.lights.length > 0) {
+          lights.push(a)
+        }
       } else if (BarrierAnnotation.is(a)) {
-        barriers.push(a)
+        if (a.enabled) {
+          barriers.push(a)
+        }
       }
     })
+
+    this.barriers = barriers
+    this.lights = lights
+    this.viewers = viewers
+
+    // HACK 
+    // 39, 37
+    const hack  = new TokenAnnotation()
+    hack.points = [latLng(37, 39)]
+    hack.vision = new Vision()
+    this.viewers.push(hack)
   }
 
   private buildSegments() {
     const segments = []
     // Build the segments for the map border
-    const w= this.mapSvc._mapCfg.width
-    const h= this.mapSvc._mapCfg.height
+    let ppm = this.mapSvc._mapCfg.ppm
+
+    const w= this.mapSvc._mapCfg.width * ppm
+    const h = this.mapSvc._mapCfg.height * ppm
 
     segments.push({ a: { x: 0, y: 0 }, b: { x: w, y: 0 } })
     segments.push({ a: { x: w, y: 0 }, b: { x: w, y: h } })
@@ -113,51 +159,129 @@ export class LightingManager {
     this.barriers.forEach( b => {
       const pts : LatLng[] =  b.points
       for (let i =0; i<pts.length-1; i++) {
-        segments.push({ a: { x: pts[i].lng, y: pts[i].lat }, b: { x: pts[i+1].lng, y: pts[i+1].lat} })
+        segments.push({ a: { x: pts[i].lng * ppm, y: pts[i].lat * ppm }, b: { x: pts[i + 1].lng * ppm, y: pts[i + 1].lat * ppm} })
       }
     })
+    this.barrierSegments = segments
+
+    console.log('______________ Segments', this.barrierSegments)
   }
 
   private drawAmbient(ctx : CanvasRenderingContext2D, canvas : HTMLCanvasElement) {
-    ctx.fillStyle = this.getColor(this.settings.ambientLight)
+    ctx.fillStyle = this.getColor(this.mapSvc._mapCfg.ambientLight)
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
   private getColor(level : LightLevel) : string {
+    const settings = new MapLighting()
     if (level == LightLevel.Bright) {
-      return this.settings.clrBright
+      return settings.clrBright
     }
     if (level == LightLevel.Dark) {
-      return this.settings.clrDark
+      return settings.clrDark
     }
     if (level == LightLevel.Dim) {
-      return this.settings.clrDim
+      return settings.clrDim
     }
     if (level == LightLevel.MagicalDark) {
-      return this.settings.clrMagicDark
+      return settings.clrMagicDark
     }
     if (level == LightLevel.Normal) {
-      return this.settings.clrNormal
+      return settings.clrNormal
     }
     return '#FF69B4' // HOT PINK... This should indicate an error :)
   }
 
-  private calculateTotalMask() {
-
-  }
-
-
   // Basd on where this token is create amask
   private calculateMaskForViewer(viewer : TokenAnnotation) : Intersection[]{
 
-    const ll = viewer.center()
-    const viewerLocation = new Point(ll.lng, ll.lat)
+    // const ll = viewer.center()
+    const ll = viewer.points[0]
+    const viewerLocation = this.toPoint(ll)
     const rtn = VisionUtil.calculateIntersects(viewerLocation, this.barrierSegments)
+
+    console.log('______________ MASK ', rtn)
+
 
     return rtn
   }
 
+  private drawMask(ctx: CanvasRenderingContext2D, points: Intersection[]) {
+    ctx.beginPath()
 
+    ctx.moveTo(points[0].x, points[0].y)
+    points.unshift()
+    points.forEach( p => ctx.lineTo(p.x, p.y))
+    ctx.closePath()
+    ctx.clip()
+  }
+
+  private drawLights(ctx: CanvasRenderingContext2D) {
+    this.lights.forEach( token => {
+      const location = this.toPoint(token.center())
+      token.lights.forEach ( light => {
+        this.drawLightSource(light, location, ctx, true)
+        this.drawLightSource(light, location, ctx)
+      })
+    })
+  }
+
+  private drawLightSource(light : LightSource, location: Point, ctx : CanvasRenderingContext2D, dim ?: boolean) {
+    if ( !dim || light.dimRange > light.range) {
+      console.log('______________ Drawing Light ', light, location)
+
+      // Set the color or gradient
+      // ctx.fillStyle = '#ffff0050'
+      ctx.fillStyle = dim ? this.getColor(LightLevel.Dim) : this.getColor(LightLevel.Normal) 
+
+      // Draw the arc
+      const range = (dim ? light.dimRange : light.range)
+      const startRad = Math.PI / 180 * light.angleStart
+      const endRad = Math.PI / 180 * light.angleEnd
+
+      // Cut the arc out
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.beginPath()
+      ctx.arc(location.x, location.y, range, startRad, endRad, false)
+      ctx.fill()
+
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.beginPath()
+      ctx.arc(location.x, location.y, range, startRad, endRad, false)
+      ctx.fill()
+    }
+  }
+
+  private drawVision(ctx: CanvasRenderingContext2D, viewer : TokenAnnotation) {
+    const vision = viewer.vision
+    if (!vision ||!vision.enabled) {
+      return
+    }
+
+    if (this.mapSvc._mapCfg.ambientLight >= LightLevel.Dim) {
+      // No need to draw
+      return
+    }
+
+    // UGG Not sure how to determine lowlight
+    if (this.mapSvc._mapCfg.ambientLight == LightLevel.Dim) {
+      // Draw 
+    }
+    const location = this.toPoint(viewer.center())
+    if (this.mapSvc._mapCfg.ambientLight == LightLevel.Dark && vision.dark ) {
+      // Draw 
+      // Set the color or gradient
+      ctx.fillStyle = 'yellow'
+
+      ctx.arc(location.x, location.y, vision.darkRange, 0, 2*Math.PI, false)
+      ctx.fill()
+    }
+  }
+
+  toPoint(ll : LatLng) : Point {
+    let ppm = this.mapSvc._mapCfg.ppm
+    return new Point(ll.lng * ppm, ll.lat * ppm)
+  }
 }
 
 

@@ -176,7 +176,7 @@
 
       <div class="ml-2 mb-3 category" [ngbCollapse]="isCollapsed['lighting']">
         <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="mapCfg.enableLighting" id="light.enable"
-          (change)="toggleLightingEnable()"  placement="bottom"  ngbTooltip="Enable / Disable Dynamic Lighting">
+          (change)="updateAndSave()"  placement="bottom"  ngbTooltip="Enable / Disable Dynamic Lighting">
 
         <div class="buttongrid">
           <button class="btn btn-outline-secondary btn-tool" (click)="toggleShowLighting()" placement="bottom"
@@ -187,22 +187,22 @@
           <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
             <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==5" placement="bottom"
               ngbTooltip="Set ambient light to Daytime / Bright Light"  container="body">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='5' [(ngModel)]="mapCfg.ambientLight">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='5' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
               <fa-icon icon="sun" size="lg"></fa-icon>
             </label>
             <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==4" placement="bottom"
               ngbTooltip="Set ambient light to Daytime / Normal Light">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='4' [(ngModel)]="mapCfg.ambientLight">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='4' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
               <fa-icon icon="sun" size="lg"></fa-icon>
             </label>
             <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==3" placement="bottom"
               ngbTooltip="Set ambient light to Night / Dim Light">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='3' [(ngModel)]="mapCfg.ambientLight">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='3' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
               <fa-icon icon="moon" size="lg"></fa-icon>
             </label>
             <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==2" placement="bottom"
               ngbTooltip="Set ambient light to Night / Darkness">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='2' [(ngModel)]="mapCfg.ambientLight">
+              <input type="radio" name="options" id="option2" autocomplete="off" [value]='2' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
               <fa-icon icon="cloud-moon" size="lg"></fa-icon>
             </label>
           </div>

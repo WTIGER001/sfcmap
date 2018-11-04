@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
-import { MapConfig, Distance } from '../../models';
+import { MapConfig, Distance, BarrierAnnotation } from '../../models';
 import { Map as LeafletMap, GridLayerOptions, Util, LatLng, Polygon, Circle, Rectangle, Polyline, Point } from 'leaflet';
 import { CalibrateX } from '../../leaflet/calibrate';
 import { DialogService } from '../../dialogs/dialog.service';
@@ -281,7 +281,7 @@ export class MapTabComponent implements OnInit {
   // LIghting 
   //------------------------------------------------------------------------------------------------------------
 
-  toggleLightingEnable() {
+  updateAndSave() {
     // this.mapCfg.enableLighting = !this.mapCfg.enableLighting
     this.data.save(this.mapCfg)
   }
@@ -289,5 +289,9 @@ export class MapTabComponent implements OnInit {
   toggleShowLighting() {
     this.mapCfg.showLighting = !this.mapCfg.showLighting
     this.data.save(this.mapCfg)
+  }
+
+  barrierChanged(barrier: BarrierAnnotation) {
+    this.data.save(barrier)
   }
 }

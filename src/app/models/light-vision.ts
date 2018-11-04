@@ -27,17 +27,16 @@ export class LightSource {
   angleStart = 0
   angleEnd = 360
   color = '#000000FF'
-  location: Point
 }
 
 export class Vision {
   enabled: boolean = true
-  normal: boolean
-  dark: boolean
+  normal: boolean = true
+  dark: boolean = true
   lowLight: boolean
   lowLightRange: number
-  darkRange: number
-  shared: boolean
+  darkRange: number = 60
+  shared: boolean = true
 }
 
 export class Barrier {
