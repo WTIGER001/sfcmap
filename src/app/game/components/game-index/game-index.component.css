@@ -19,6 +19,11 @@
 
 .topbar h1 {
  margin:0;
+ font-size: 2.5em;
+ position: absolute;
+ width: 100%;
+ text-align: center;
+ pointer-events: none;
 }
 
 .card-area {

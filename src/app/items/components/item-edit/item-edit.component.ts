@@ -2,12 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Game, Asset } from '../../../models';
 import { Item } from '../../item';
 import { DataService } from '../../../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ImageSearchResult } from '../../../util/GoogleImageSearch';
 import { isArray } from 'util';
 import { LoadImageOptions, ImageUtil } from '../../../util/ImageUtil';
 import { forkJoin } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-item-edit',
@@ -20,8 +21,8 @@ export class ItemEditComponent {
   game: Game
   @Input() item: Item
 
-  constructor(private data: DataService, private route: ActivatedRoute) {
-    const newItem = new Item() 
+  constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
+    const newItem = new Item()
     newItem.owner = this.data.game.value.id
     newItem.name = "New Item"
     this.item = newItem
@@ -29,11 +30,15 @@ export class ItemEditComponent {
 
   ngAfterContentInit() {
     this.data.game.subscribe(g => this.game = g)
-    this.route.data.subscribe((data: { asset: Asset }) => {if (data.asset) {this.item = <Item>data.asset}})
+    this.route.data.subscribe((data: { asset: Asset }) => { if (data.asset) { this.item = <Item>data.asset } })
   }
 
   save() {
     this.data.save(this.item)
+  }
+
+  cancel() {
+    RouteUtil.goUpTwoLevels(this.router)
   }
 
   getSearchTerm() {

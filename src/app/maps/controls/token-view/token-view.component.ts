@@ -1,8 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { DataService } from 'src/app/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Asset } from 'src/app/models';
 import { Token } from '../../token';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-token-view',
@@ -10,9 +11,9 @@ import { Token } from '../../token';
   styleUrls: ['./token-view.component.css']
 })
 export class TokenViewComponent implements AfterViewInit {
-  item : Token
+  item: Token
 
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngAfterViewInit() {
@@ -21,5 +22,15 @@ export class TokenViewComponent implements AfterViewInit {
         this.item = <Token>data.asset
       }
     })
+  }
+
+  cancel() {
+    RouteUtil.goUpOneLevel(this.router)
+  }
+
+  delete() {
+    //FIXME : Implement Delete
+
+    RouteUtil.goUpOneLevel(this.router)
   }
 }

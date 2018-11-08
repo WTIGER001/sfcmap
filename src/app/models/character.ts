@@ -29,7 +29,7 @@ export class Character extends Asset {
   tags: string[] = []
   picture: string
   token: string
-  imagePos : number = 5
+  imagePos: number = 5
 
   info: PersonalInformation = new PersonalInformation()
   attachments: Attachment[] = []
@@ -44,10 +44,10 @@ export class Character extends Asset {
   race: string
   classes: string
   alignment: string
-  conditions: any 
+  conditions: any
 
-  auras : Aura[] = []
-  lights : LightSource[] = []
+  auras: Aura[] = []
+  lights: LightSource[] = []
 
   resolveExpression(expression: string): string {
     let newexp = expression
@@ -80,11 +80,19 @@ export class Attribute {
     const a = new Attribute();
     a.attr = attr
     a.max = parseInt(max)
+    if (isNaN(a.max)) {
+      a.max = -1
+    }
+
     if (a.current) {
       a.current = parseInt(current)
     } else {
       a.current = a.max
     }
+    if (isNaN(a.current)) {
+      a.current = -1
+    }
+
     return a
   }
 }

@@ -18,14 +18,14 @@ export class EncounterOverlayComponent implements OnInit {
   /**
    * The active encounter for this map
    */
-  encounter : Encounter
-  items : TokenRecord[]
-  cfg : MapConfig
+  encounter: Encounter
+  items: TokenRecord[]
+  cfg: MapConfig
   expanded = true
   sel: Selection = new Selection([])
 
 
-  constructor(private data : DataService, private mapSvc : MapService) { }
+  constructor(private data: DataService, private mapSvc: MapService) { }
 
   ngOnInit() {
     this.mapSvc.selection.subscribe(sel => {
@@ -34,10 +34,10 @@ export class EncounterOverlayComponent implements OnInit {
 
     // Listen for changes to the map id
     this.mapSvc.mapConfig.pipe(
-      tap( cfg => this.cfg = cfg),
-      mergeMap( cfg => this.data.getActiveEncounter$(cfg.owner, cfg.id)),
-      tap( enc => this.encounter = enc),
-      tap( enc => this.prepareEnc())
+      tap(cfg => this.cfg = cfg),
+      mergeMap(cfg => this.data.getActiveEncounter$(cfg.owner, cfg.id)),
+      tap(enc => this.encounter = enc),
+      tap(enc => this.prepareEnc())
     ).subscribe()
 
   }
@@ -45,7 +45,7 @@ export class EncounterOverlayComponent implements OnInit {
   prepareEnc() {
     if (this.encounter) {
       // Sort according to initiative order
-      this.items = this.encounter.participants.sort((a,b) => b.initiative - a.initiative)
+      this.items = this.encounter.participants.sort((a, b) => b.initiative - a.initiative)
 
       this.checkAllDead()
     }
@@ -80,33 +80,33 @@ export class EncounterOverlayComponent implements OnInit {
     this.expanded = !this.expanded
   }
 
-  isMyTurn(item : TokenRecord) : boolean {
+  isMyTurn(item: TokenRecord): boolean {
     const turn = this.encounter.turn
-    const index = this.items.indexOf(item) 
-    const result = index  == turn
+    const index = this.items.indexOf(item)
+    const result = index == turn
     return result
   }
 
   nextTurn() {
-    let a = { round: this.encounter.round, turn: this.encounter.turn}
-    for (let i=0; i< this.items.length; i++) {
-      a = this.proposeNext(a.round,a.turn)
-      if (!this.items[a.turn].dead ) {
+    let a = { round: this.encounter.round, turn: this.encounter.turn }
+    for (let i = 0; i < this.items.length; i++) {
+      a = this.proposeNext(a.round, a.turn)
+      if (!this.items[a.turn].dead) {
         this.encounter.round = a.round
         this.encounter.turn = a.turn
         break;
-      } 
+      }
     }
     this.data.activateEncounter(this.encounter)
   }
 
-  proposeNext(r: number, t : number ) : {round, turn} {
+  proposeNext(r: number, t: number): { round, turn } {
     let nextT = t + 1
     let nextR = r
     if (nextT < this.items.length) {
-      return {round: nextR, turn: nextT}
+      return { round: nextR, turn: nextT }
     } else {
-      return {round: nextR+1, turn:0}
+      return { round: nextR + 1, turn: 0 }
     }
   }
 
@@ -129,7 +129,7 @@ export class EncounterOverlayComponent implements OnInit {
     map.eachLayer(l => {
       if (this.isToken(l)) {
         const token: TokenAnnotation = this.getItemFromLayer(l)
-        if (token.itemId == item.id) {
+        if (token && token.id == item.id) {
           rtn = token
         }
       }
@@ -160,14 +160,14 @@ export class EncounterOverlayComponent implements OnInit {
     })
   }
 
-  async checkDead(r : TokenRecord) {
+  async checkDead(r: TokenRecord) {
     const t = this.findToken(r)
     if (t) {
       if (t.dead != r.dead) {
         t.setDead(r.dead);
         this.data.save(t)
       }
-     
+
       // const l = t.getAttachment()
       // if (r.dead) {
       //   console.log("Making Dead Image", t.url)

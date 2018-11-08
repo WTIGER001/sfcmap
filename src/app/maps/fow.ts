@@ -77,12 +77,19 @@ export class FowManager {
   }
 
   setFow(fow: FogOfWar) {
+    if (this.fow && this.fow.map != fow.map) {
+      this.imgOverlay.remove()
+      this.imgOverlay = undefined
+    }
+
     this.fow = fow
     if (fow.enabled) {
       this.createOverlay(this.mapSvc._map)
     } else if (this.imgOverlay) {
       this.imgOverlay.remove()
+      this.imgOverlay = undefined
     }
+
   }
 
   createOverlay(map: LeafletMap) {
@@ -122,7 +129,7 @@ export class FowManager {
     ctx.restore()
   }
 
-  drawShapes(ctx: CanvasRenderingContext2D, color: string, factor : number) {
+  drawShapes(ctx: CanvasRenderingContext2D, color: string, factor: number) {
     this.fow.reveals.forEach(r => {
       console.log("Processing Reveal / Hide ", r)
       if (r.hide) {

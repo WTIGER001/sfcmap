@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
 import { ImageResult, ImageUtil } from 'src/app/util/ImageUtil';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
 import { UUID } from 'angular2-uuid';
 import { Token } from '../../token';
 import { Game, Asset } from 'src/app/models';
 import { ImageSearchResult } from 'src/app/util/GoogleImageSearch';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-token-edit',
@@ -21,7 +22,7 @@ export class TokenEditComponent implements OnInit {
   @Output() changes = new EventEmitter<Token>()
   @Output() imageChanges = new EventEmitter<ImageResult>()
 
-  constructor(private zone: NgZone, private data: DataService, private route: ActivatedRoute) {
+  constructor(private zone: NgZone, private data: DataService, private route: ActivatedRoute, private router: Router) {
     this.item = new Token()
     this.item.id = UUID.UUID().toString()
 
@@ -71,5 +72,9 @@ export class TokenEditComponent implements OnInit {
         this.data.saveToken(this.item)
       }
     }
+  }
+
+  cancel() {
+    RouteUtil.goUpTwoLevels(this.router)
   }
 }

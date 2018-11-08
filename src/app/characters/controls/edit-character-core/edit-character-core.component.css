@@ -1,5 +1,5 @@
 .areas {
-  max-height: 100%;
+  max-height: 90vh;
 }
 
 .character h2 {
@@ -28,5 +28,5 @@
 }
 
 .span2 {
-  grid-column: span 2;
+  grid-column: span 4;
 }

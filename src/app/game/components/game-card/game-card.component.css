@@ -51,10 +51,14 @@
   overflow: auto;
   position: absolute;
   border: 1px solid green;
-  background-color: rgba(218, 227, 243, .6);
+  background-color: rgba(218, 227, 243, .9);
   bottom: 10px;
   left: 10px;
-  right:10px;
+  right: 10px;
+  color: black;
+  font-size: 1.1em;
+  line-height: .8em;
+  border-radius: 0 0 15px 15px;
 }
 
 .p1 .game-card-body{

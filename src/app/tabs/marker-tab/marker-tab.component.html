@@ -83,11 +83,18 @@
         <app-shape-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'shape'"></app-shape-selection>
         <app-barrier-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'barrier'"></app-barrier-selection>
 
-        <app-expander title="Auras"*ngIf="itemType(item) == 'token'">
+        <app-expander title="Vision" class="expander-tools" *ngIf="itemType(item) == 'token'">
+          <fa-icon class="clickable edit-tool" (click)="editVision()" icon="edit"></fa-icon>
+          <button *ngIf="!item.vision" class="btn btn-outline-secondary btn-tool" (click)="addVision()">
+            <fa-icon icon="plus"></fa-icon> Add vision to this
+          </button>
+          <app-vision-view *ngIf="item.vision" [item]="item" (changes)="save()"></app-vision-view>
+        </app-expander>
+        <app-expander title="Auras" *ngIf="itemType(item) == 'token'">
           <app-edit-chr-auras [item]="item" (changes)="save()"></app-edit-chr-auras>
         </app-expander>
         <app-expander title="Light" *ngIf="itemType(item) == 'token'">
-          <app-lighting-selection [item]="item"></app-lighting-selection>
+          <app-lighting-selection [item]="item" (changes)="save()"></app-lighting-selection>
         </app-expander>
       </div>
     </ng-container>

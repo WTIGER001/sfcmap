@@ -1,0 +1,8 @@
+.vision-edit {
+    display: grid;
+    gap: 10px;
+}
+.range {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}

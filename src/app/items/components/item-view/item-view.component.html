@@ -1,6 +1,6 @@
 <div class="page-center">
   <div class="page scroller-dark">
-    <app-view-toolbar [item]='item'></app-view-toolbar>
+    <app-view-toolbar [item]='item' (onCancel)="cancel()" (onDelete)="delete()"></app-view-toolbar>
     <h1>{{item.name}}</h1>
     <h3>{{keywords()}}</h3>
     <img *ngIf="item.image" [src]="item.image">
@@ -8,35 +8,81 @@
     <h2>Description</h2>
     <p>{{item.description}}</p>
     <h2>Information</h2>
-    <div><app-restricted-content [item]="item" field="group">Group: {{item.group}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="cl">Caster Level: {{item.cl}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="price">Price: {{item.price}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="slot">Slot: {{item.slot}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="weight">Weight: {{item.weight}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="aura">Aura: {{item.aura}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="source">Source: {{item.source}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="schools">School: {{schools()}}</app-restricted-content></div>
-    
-    <div *ngIf="item.destruction"><app-restricted-content [item]="item" field="type">Destruction: {{item.destruction}}</app-restricted-content></div>
-    <div *ngIf="item.magicItems"><app-restricted-content [item]="item" field="type">Magical Items: {{item.magicItems}}</app-restricted-content></div>
-    <div *ngIf="item.baseItem"><app-restricted-content [item]="item" field="type">Base Item: {{item.baseItem}}</app-restricted-content></div>
-    <div *ngIf="item.scaling"><app-restricted-content [item]="item" field="type">Scaling: {{item.scaling}}</app-restricted-content></div>
+    <div>
+      <app-restricted-content [item]="item" field="group">Group: {{item.group}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="cl">Caster Level: {{item.cl}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="price">Price: {{item.price}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="slot">Slot: {{item.slot}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="weight">Weight: {{item.weight}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="aura">Aura: {{item.aura}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="source">Source: {{item.source}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="schools">School: {{schools()}}</app-restricted-content>
+    </div>
 
-  <ng-container *ngIf="(item.int || item.alignment)">
-  <h2>Sentience</h2>
-    <div><app-restricted-content [item]="item" field="sentience">Alignment: {{item.alignment}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Intelligence: {{item.int}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Wisdom: {{item.wis}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Charisma: {{item.cha}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Ego: {{item.ego}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Communication: {{item.communication}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Senses: {{item.senses}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Powers: {{item.powers}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="sentience">Languages : {{item.languages}}</app-restricted-content></div>
-  </ng-container>
+    <div *ngIf="item.destruction">
+      <app-restricted-content [item]="item" field="type">Destruction: {{item.destruction}}</app-restricted-content>
+    </div>
+    <div *ngIf="item.magicItems">
+      <app-restricted-content [item]="item" field="type">Magical Items: {{item.magicItems}}</app-restricted-content>
+    </div>
+    <div *ngIf="item.baseItem">
+      <app-restricted-content [item]="item" field="type">Base Item: {{item.baseItem}}</app-restricted-content>
+    </div>
+    <div *ngIf="item.scaling">
+      <app-restricted-content [item]="item" field="type">Scaling: {{item.scaling}}</app-restricted-content>
+    </div>
 
-  <h2>Construction Requirements</h2>
-    <div><app-restricted-content [item]="item" field="type">Cost: {{item.cost}}</app-restricted-content></div>
-    <div><app-restricted-content [item]="item" field="type">Requirements: {{item.requirements}}</app-restricted-content></div>
+    <ng-container *ngIf="(item.int || item.alignment)">
+      <h2>Sentience</h2>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Alignment: {{item.alignment}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Intelligence: {{item.int}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Wisdom: {{item.wis}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Charisma: {{item.cha}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Ego: {{item.ego}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Communication: {{item.communication}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Senses: {{item.senses}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Powers: {{item.powers}}</app-restricted-content>
+      </div>
+      <div>
+        <app-restricted-content [item]="item" field="sentience">Languages : {{item.languages}}</app-restricted-content>
+      </div>
+    </ng-container>
+
+    <h2>Construction Requirements</h2>
+    <div>
+      <app-restricted-content [item]="item" field="type">Cost: {{item.cost}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="item" field="type">Requirements: {{item.requirements}}</app-restricted-content>
+    </div>
   </div>
 </div>

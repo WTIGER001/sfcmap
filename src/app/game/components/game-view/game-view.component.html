@@ -11,10 +11,10 @@
           <fa-icon class="icon" icon="cog" size="lg"></fa-icon> Admin
         </li>
       </a>
-        <li class="tool-item" (click)="settings()">
-          <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
-        </li>
-      
+      <li class="tool-item" (click)="settings()">
+        <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
+      </li>
+
       <a routerLink="edit">
         <li class="tool-item">
           <fa-icon class="icon" icon="pencil-alt" size="lg"></fa-icon> Edit
@@ -26,48 +26,48 @@
     </ul>
     <div class="title" appTextfit>{{game.name}}</div>
   </div>
-    <div class="card-area scroller scroller-dark">
-      <a [routerLink]="['characters']">
-        <figure class="choice-card">
-          <img src="./assets/icons/characters.png">
-          <figcaption>Characters</figcaption>
-          <span class="badge badge-info">{{cntCharacters}}</span>
-        </figure>
-      </a>
-      <a [routerLink]="['maps']">
-        <figure class="choice-card">
-          <img src="./assets/icons/maps.png">
-          <figcaption>Maps</figcaption>
-          <span class="badge badge-info">{{cntMaps}}</span>
-        </figure>
-      </a>
-      <a [routerLink]="['encounters']">
-        <figure class="choice-card">
-          <img src="./assets/icons/encounters.png">
-          <span class="badge badge-info">{{cntEncounters}}</span>
-          <figcaption>Encounters</figcaption>
-        </figure>
-      </a>
-      <a [routerLink]="['monsters']">
-        <figure class="choice-card">
-          <img src="./assets/icons/monsters.png">
-          <figcaption>Monsters</figcaption>
-          <span class="badge badge-info">{{cntMonsters}}</span>
-        </figure>
-      </a>
-      <a [routerLink]="['items']">
-        <figure class="choice-card">
-          <img src="./assets/icons/items.png">
-          <figcaption>Magic Items</figcaption>
-          <span class="badge badge-info">{{cntItems}}</span>
-        </figure>
-      </a>
-      <a [routerLink]="['spells']">
-        <figure class="choice-card">
-          <img src="./assets/icons/spells.png">
-          <figcaption>Spells</figcaption>
-          <span class="badge badge-info">{{cntSpells}}</span>
-        </figure>
-      </a>
-    </div>
+  <div class="card-area scroller scroller-dark">
+    <a [routerLink]="['characters']">
+      <figure class="choice-card">
+        <img src="./assets/icons/characters.png">
+        <figcaption>Characters</figcaption>
+        <span class="badge badge-info">{{cntCharacters}}</span>
+      </figure>
+    </a>
+    <a [routerLink]="['maps']">
+      <figure class="choice-card">
+        <img src="./assets/icons/maps.png">
+        <figcaption>Maps</figcaption>
+        <span class="badge badge-info">{{cntMaps}}</span>
+      </figure>
+    </a>
+    <a [routerLink]="['encounters']" *ngIf="enableEncounters">
+      <figure class="choice-card">
+        <img src="./assets/icons/encounters.png">
+        <span class="badge badge-info">{{cntEncounters}}</span>
+        <figcaption>Encounters</figcaption>
+      </figure>
+    </a>
+    <a [routerLink]="['monsters']">
+      <figure class="choice-card">
+        <img src="./assets/icons/monsters.png">
+        <figcaption>Monsters</figcaption>
+        <span class="badge badge-info">{{cntMonsters}}</span>
+      </figure>
+    </a>
+    <a [routerLink]="['items']" *ngIf="enableItems">
+      <figure class="choice-card">
+        <img src="./assets/icons/items.png">
+        <figcaption>Magic Items</figcaption>
+        <span class="badge badge-info">{{cntItems}}</span>
+      </figure>
+    </a>
+    <a [routerLink]="['spells']" *ngIf="enableSpells">
+      <figure class="choice-card">
+        <img src="./assets/icons/spells.png">
+        <figcaption>Spells</figcaption>
+        <span class="badge badge-info">{{cntSpells}}</span>
+      </figure>
+    </a>
+  </div>
 </div>

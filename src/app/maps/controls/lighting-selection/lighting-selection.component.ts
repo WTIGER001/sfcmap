@@ -11,14 +11,14 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./lighting-selection.component.css']
 })
 export class LightingSelectionComponent implements OnInit {
-  @Input() item: Character | TokenAnnotation | MapConfig
+  @Input() item: Character | TokenAnnotation
   @Output() changes = new EventEmitter()
-  lights : LightSource[] = []
+  lights: LightSource[] = []
 
 
-  constructor(private modal: NgbModal, private mapSvc : MapService) { 
+  constructor(private modal: NgbModal, private mapSvc: MapService) {
     mapSvc.annotationAddUpate.pipe(
-      tap( a => this.updateLights())
+      tap(a => this.updateLights())
     ).subscribe()
 
     mapSvc.annotationDelete.pipe(
@@ -27,7 +27,7 @@ export class LightingSelectionComponent implements OnInit {
   }
 
   ngOnInit() {
-  
+
   }
 
   updateLights() {
@@ -41,22 +41,30 @@ export class LightingSelectionComponent implements OnInit {
     this.lights = lights
   }
 
-  toggle(item : LightSource) {
+  toggle(item: LightSource) {
     item.enabled = !item.enabled
 
-    this.emitChanges() 
+    this.emitChanges()
   }
 
-  edit(light : LightSource) {
+  edit(light: LightSource) {
     TokenLightingEditComponent.openDialog(this.modal, light).subscribe(a => { this.emitChanges() })
   }
 
-  delete(light : LightSource) {
-    
+  delete(light: LightSource) {
+
   }
 
   addRow() {
-    
+    const light = new LightSource()
+    TokenLightingEditComponent.openDialog(this.modal, light).subscribe(a => {
+      if (!this.item.lights) {
+        this.item.lights = []
+      }
+      this.item.lights.push(light)
+      this.lights.push(light)
+      this.emitChanges()
+    })
   }
 
   emitChanges() {

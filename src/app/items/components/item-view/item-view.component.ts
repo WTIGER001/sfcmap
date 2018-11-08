@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Game, Asset } from '../../../models';
 import { Item } from '../../item';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-item-view',
@@ -10,19 +11,19 @@ import { Item } from '../../item';
   styleUrls: ['./item-view.component.css']
 })
 export class ItemViewComponent implements OnInit {
-  item : Item
+  item: Item
   game: Game
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private router: Router) {
   }
   ngOnInit() {
     this.data.game.subscribe(g => this.game = g)
     this.route.data.subscribe((data: { asset: Asset }) => this.item = <Item>data.asset)
   }
 
-  keywords() : string {
+  keywords(): string {
     const words = []
 
-    this.item.majorArtifactFlag?words.push("Major Artifact"):""
+    this.item.majorArtifactFlag ? words.push("Major Artifact") : ""
     this.item.minorArtifactFlag ? words.push("Minor Artifact") : ""
     this.item.mythic ? words.push("Mythic") : ""
     this.item.universal ? words.push("Universal") : ""
@@ -31,7 +32,7 @@ export class ItemViewComponent implements OnInit {
     return words.join(", ")
   }
 
-  schools() : string {
+  schools(): string {
     const words = []
 
     this.item.abjuration ? words.push("Abjuration") : "";
@@ -44,6 +45,16 @@ export class ItemViewComponent implements OnInit {
     this.item.illusion ? words.push("Illusion") : "";
 
     return words.join(", ")
+  }
+
+  cancel() {
+    RouteUtil.goUpOneLevel(this.router)
+  }
+
+  delete() {
+    //FIXME : Implement Delete
+
+    RouteUtil.goUpOneLevel(this.router)
   }
 
 

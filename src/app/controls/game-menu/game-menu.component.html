@@ -1,37 +1,50 @@
-<div id="game-menu-overlay" [class.game-menu-overlay]="expanded" [class.game-menu-overlay-gone]="expanded==false" (click)="toggleMenu()"></div>
+<div id="game-menu-overlay" [class.game-menu-overlay]="expanded" [class.game-menu-overlay-gone]="expanded==false"
+  (click)="toggleMenu()"></div>
 <div class="area">
   <div class="game-menu-area" [class.game-menu-area-expanded]="expanded">
     <ul class="reference-tab" *ngIf="gameid">
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid]" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions"><li
-          class="game-choice">Game</li></a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'maps']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions"><li><img
-            src="/assets/icons/maps-sm.png">Maps</li></a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'characters']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions"><li><img
-            src="/assets/icons/characters-sm.png">Characters</li></a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'encounters']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions"><li><img
-            src="/assets/icons/encounters-sm.png">Encounters</li></a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid,'monsters']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions"><li><img
-            src="/assets/icons/monsters.png">Monsters
-        </li></a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid,'npcs']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions">
+      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid]" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="activeOptions">
+        <li class="game-choice">Game</li>
+      </a>
+      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'maps']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="activeOptions">
+        <li><img src="/assets/icons/maps-sm.png">Maps</li>
+      </a>
+      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'characters']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="activeOptions">
+        <li><img src="/assets/icons/characters-sm.png">Characters</li>
+      </a>
+      <!-- <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'encounters']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions"><li><img
+            src="/assets/icons/encounters-sm.png">Encounters</li></a> -->
+      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid,'monsters']" routerLinkActive="router-link-active"
+        [routerLinkActiveOptions]="activeOptions">
+        <li><img src="/assets/icons/monsters.png">Monsters
+        </li>
+      </a>
+      <!-- <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid,'npcs']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions">
       <li><img src="/assets/icons/npcs-sm.png">NPCs
-        </li></a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid,'items']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions">
+        </li></a> -->
+      <!-- <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid,'items']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions">
         <li> <img src="/assets/icons/items-sm.png">Magic Items </li>
-      </a>
-      <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'spells']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions">
+      </a> -->
+      <!-- <a (click)="toggleMenu()" [routerLink]="['/', 'game', gameid, 'spells']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="activeOptions">
         <li><img src="/assets/icons/spells-sm.png">Spells</li>
-      </a>
+      </a> -->
     </ul>
   </div>
 
   <ul class="game-menu-aux-tools" [class.game-menu-aux-tools-expanded]="expanded">
-    <li><a (click)="toggleMenu()" [routerLink]="['/home']" routerLinkActive="router-link-active"><fa-icon class="icon" icon="home"
-          size="lg"></fa-icon>Home</a></li>
-    <li><a (click)="toggleMenu()" [routerLink]="['/admin']" routerLinkActive="router-link-active"><fa-icon class="icon" icon="cog"
-          size="lg"></fa-icon>Admin</a></li>
+    <li><a (click)="toggleMenu()" [routerLink]="['/home']" routerLinkActive="router-link-active">
+        <fa-icon class="icon" icon="home" size="lg"></fa-icon>Home
+      </a></li>
+    <li><a (click)="toggleMenu()" [routerLink]="['/admin']" routerLinkActive="router-link-active">
+        <fa-icon class="icon" icon="cog" size="lg"></fa-icon>Admin
+      </a></li>
 
-    <li (click)="settings()"><fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon>Settings</li>
+    <li (click)="settings()">
+      <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon>Settings
+    </li>
   </ul>
 </div>
 <div *ngIf="gamesytemid || gameid" class="game-menu" (click)="toggleMenu()" [class.game-menu-expanded]="expanded">

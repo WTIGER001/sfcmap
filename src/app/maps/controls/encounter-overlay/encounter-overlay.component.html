@@ -1,13 +1,16 @@
 <div class="overall" *ngIf="encounter" [class.closed]="!expanded">
-  <div class="rounds"> 
+  <div class="rounds">
     <span class="round-lbl">Round</span>
     <span class="round">{{encounter.round}}</span>
-    <fa-icon icon="step-forward" size="2x" class="clickable rounded noselect" (click)="nextTurn()" placement="bottom" ngbTooltip="Next Turn"></fa-icon>
-    <fa-icon icon="fast-forward" size="2x" class="clickable rounded noselect" (click)="nextRound()" placement="bottom" ngbTooltip="Next Round, Skip remaining turns"></fa-icon>
+    <fa-icon icon="step-forward" size="2x" class="clickable rounded noselect" (click)="nextTurn()" placement="bottom"
+      ngbTooltip="Next Turn"></fa-icon>
+    <fa-icon icon="fast-forward" size="2x" class="clickable rounded noselect" (click)="nextRound()" placement="bottom"
+      ngbTooltip="Next Round, Skip remaining turns"></fa-icon>
   </div>
   <div class="tiles">
-    <app-picture-tile size='tiny' class="tile" [class.imgx]="item.dead" [class.myturn]="isMyTurn(item)" [selected]="isSelected(item)" (click)="select(item)" (dblclick)="dblclick(item)" *ngFor="let item of items"
-      [picture]="pic(item)" [caption]="caption(item)" [objPos]="item.imgPos"></app-picture-tile>
+    <app-picture-tile size='tiny' class="tile" [class.imgx]="item.dead" [class.myturn]="isMyTurn(item)" [selected]="isSelected(item)"
+      (click)="select(item)" (dblclick)="dblclick(item)" *ngFor="let item of items" [picture]="pic(item)" [caption]="caption(item)"
+      [badge]="'1'" [objPos]="item.imgPos"></app-picture-tile>
   </div>
   <div class="handle clickable" (click)="toggle()">
     <fa-icon *ngIf="!expanded" icon="caret-down" size="lg"></fa-icon>

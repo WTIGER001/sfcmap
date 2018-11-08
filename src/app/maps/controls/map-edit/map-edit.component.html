@@ -1,7 +1,7 @@
 <div class="page-center">
   <div class="page scroller-dark areas">
-      <div class=" center-area">
-      <app-edit-toolbar [item]="item" (onSave)="save()"></app-edit-toolbar>
+    <div class=" center-area">
+      <app-edit-toolbar [item]="item" (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
     </div>
     <div class="form-group right-area">
       <label>Name</label>
@@ -11,32 +11,35 @@
       <app-edit-picture [picture]="image" (choice)="updatePicture($event)"></app-edit-picture>
     </div>
     <div class="right-area">
-    <div class="area">
-      <div class="form-group">
-        <label>Height</label>
-        <input id="dim" type="text" class="form-control form-control-sm" id="name" placeholder="Enter Height" [(ngModel)]="item.height">
+      <div class="area">
+        <div class="form-group">
+          <label>Height</label>
+          <input id="dim" type="text" class="form-control form-control-sm" id="name" placeholder="Enter Height"
+            [(ngModel)]="item.height">
+        </div>
+        <div class="form-group">
+          <label>Width</label>
+          <input id="dim" type="text" class="form-control form-control-sm" id="name" placeholder="Enter Width"
+            [(ngModel)]="item.width">
+        </div>
       </div>
       <div class="form-group">
-        <label>Width</label>
-        <input id="dim" type="text" class="form-control form-control-sm" id="name" placeholder="Enter Width" [(ngModel)]="item.width">
+        <label>Category</label>
+        <app-map-type-combo [(ngModel)]="item.mapType" [map]="item"></app-map-type-combo>
       </div>
-    </div>
-    <div class="form-group">
-      <label>Category</label>
-      <app-map-type-combo [(ngModel)]="item.mapType" [map]="item"></app-map-type-combo>
-    </div>
-    <div class="form-group">
-      <label for="tags">Tags</label>
-      <tag-input [(ngModel)]="item.tags" [separatorKeys]="[',']" [modelAsStrings]="true" [theme]="'foundation-theme'"></tag-input>
-    </div>
-    <div class="form-group">
-      <label>Default Marker</label>
-      <app-marker-combo [(ngModel)]="item.defaultMarker" [map]="item"></app-marker-combo>
-    </div>
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="item.description"></textarea>
-    </div>
+      <div class="form-group">
+        <label for="tags">Tags</label>
+        <tag-input [(ngModel)]="item.tags" [separatorKeys]="[',']" [modelAsStrings]="true" [theme]="'foundation-theme'"></tag-input>
+      </div>
+      <div class="form-group">
+        <label>Default Marker</label>
+        <app-marker-combo [(ngModel)]="item.defaultMarker" [map]="item"></app-marker-combo>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description"
+          [(ngModel)]="item.description"></textarea>
+      </div>
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { Rect } from "../util/geom";
 import { DataService } from "../data.service";
 import { tap, filter } from "rxjs/operators";
 import { Token } from "@angular/compiler";
+import { DistanceUnit } from "../util/transformation";
 
 
 /**
@@ -16,12 +17,12 @@ import { Token } from "@angular/compiler";
 export class LightImageRenderer {
   private imgOverlay: ImageOverlay
 
-  barriers : BarrierAnnotation[] = []
-  lights: TokenAnnotation[]= []
+  barriers: BarrierAnnotation[] = []
+  lights: TokenAnnotation[] = []
   barrierSegments = []
-  viewers:  TokenAnnotation[] =[]
+  viewers: TokenAnnotation[] = []
 
-  constructor(private mapSvc : MapService, private data : DataService) {
+  constructor(private mapSvc: MapService, private data: DataService) {
 
     this.mapSvc.mapConfig.pipe(
       tap(m => console.log('_____________________Recieved new map')),
@@ -60,16 +61,17 @@ export class LightImageRenderer {
 
     const ctx = canvas.getContext('2d')
     ctx.save()
+    ctx['filter'] = 'blur(5px)'
 
     if (this.mapSvc._mapCfg.enableLighting) {
       console.log('______________ Starting Light Render')
       // Flip the image vertically to match the leaflet approach
       ctx.translate(0, canvas.height);
       ctx.scale(1, -1);
-    
-      // Draw the Ambient Light color
-      console.log('______________ Drawing Ambient')
-      this.drawAmbient(ctx, canvas)
+
+      // Draw the mask of what people cannot see
+      ctx.fillStyle = "#000000"
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
 
       // Calculate the Mask as polygons
       this.readModels()
@@ -78,11 +80,12 @@ export class LightImageRenderer {
       // Draw the mask, lights and vision
       console.log('______________ Drawing Viewers...', this.viewers.length)
 
-      this.viewers.forEach( v => {
+      this.viewers.forEach(v => {
         const mask = this.calculateMaskForViewer(v)
         this.drawMask(ctx, mask)
+        this.drawAmbient(ctx, canvas)
         this.drawLights(ctx)
-        // this.drawVision(ctx, v)
+        this.drawVision(ctx, v)
       })
 
       console.log('______________ Rendering Image...')
@@ -111,11 +114,11 @@ export class LightImageRenderer {
 
   private readModels() {
     const lights: TokenAnnotation[] = []
-    const barriers : BarrierAnnotation[] = []
-    const viewers : TokenAnnotation[] = []
+    const barriers: BarrierAnnotation[] = []
+    const viewers: TokenAnnotation[] = []
 
     const all = this.mapSvc.annotationsFromMap()
-    all.forEach( a => {
+    all.forEach(a => {
       if (TokenAnnotation.is(a)) {
         if (a.vision && a.vision.enabled) {
           viewers.push(a)
@@ -133,13 +136,6 @@ export class LightImageRenderer {
     this.barriers = barriers
     this.lights = lights
     this.viewers = viewers
-
-    // HACK 
-    // 39, 37
-    const hack  = new TokenAnnotation()
-    hack.points = [latLng(37, 39)]
-    hack.vision = new Vision()
-    this.viewers.push(hack)
   }
 
   private buildSegments() {
@@ -147,7 +143,7 @@ export class LightImageRenderer {
     // Build the segments for the map border
     let ppm = this.mapSvc._mapCfg.ppm
 
-    const w= this.mapSvc._mapCfg.width * ppm
+    const w = this.mapSvc._mapCfg.width * ppm
     const h = this.mapSvc._mapCfg.height * ppm
 
     segments.push({ a: { x: 0, y: 0 }, b: { x: w, y: 0 } })
@@ -156,10 +152,10 @@ export class LightImageRenderer {
     segments.push({ a: { x: 0, y: h }, b: { x: 0, y: 0 } })
 
     // add in each barrier
-    this.barriers.forEach( b => {
-      const pts : LatLng[] =  b.points
-      for (let i =0; i<pts.length-1; i++) {
-        segments.push({ a: { x: pts[i].lng * ppm, y: pts[i].lat * ppm }, b: { x: pts[i + 1].lng * ppm, y: pts[i + 1].lat * ppm} })
+    this.barriers.forEach(b => {
+      const pts: LatLng[] = b.points
+      for (let i = 0; i < pts.length - 1; i++) {
+        segments.push({ a: { x: pts[i].lng * ppm, y: pts[i].lat * ppm }, b: { x: pts[i + 1].lng * ppm, y: pts[i + 1].lat * ppm } })
       }
     })
     this.barrierSegments = segments
@@ -167,12 +163,17 @@ export class LightImageRenderer {
     console.log('______________ Segments', this.barrierSegments)
   }
 
-  private drawAmbient(ctx : CanvasRenderingContext2D, canvas : HTMLCanvasElement) {
+  private drawAmbient(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+    ctx.globalCompositeOperation = 'destination-out'
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    ctx.globalCompositeOperation = 'source-over'
     ctx.fillStyle = this.getColor(this.mapSvc._mapCfg.ambientLight)
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
-  private getColor(level : LightLevel) : string {
+  private getColor(level: LightLevel): string {
     const settings = new MapLighting()
     if (level == LightLevel.Bright) {
       return settings.clrBright
@@ -193,7 +194,7 @@ export class LightImageRenderer {
   }
 
   // Basd on where this token is create amask
-  private calculateMaskForViewer(viewer : TokenAnnotation) : Intersection[]{
+  private calculateMaskForViewer(viewer: TokenAnnotation): Intersection[] {
 
     // const ll = viewer.center()
     const ll = viewer.points[0]
@@ -211,40 +212,43 @@ export class LightImageRenderer {
 
     ctx.moveTo(points[0].x, points[0].y)
     points.unshift()
-    points.forEach( p => ctx.lineTo(p.x, p.y))
+    points.forEach(p => ctx.lineTo(p.x, p.y))
     ctx.closePath()
     ctx.clip()
   }
 
   private drawLights(ctx: CanvasRenderingContext2D) {
-    this.lights.forEach( token => {
+    this.lights.forEach(token => {
       const location = this.toPoint(token.center())
-      token.lights.forEach ( light => {
+      token.lights.forEach(light => {
         this.drawLightSource(light, location, ctx, true)
         this.drawLightSource(light, location, ctx)
       })
     })
   }
 
-  private drawLightSource(light : LightSource, location: Point, ctx : CanvasRenderingContext2D, dim ?: boolean) {
-    if ( !dim || light.dimRange > light.range) {
+  private drawLightSource(light: LightSource, location: Point, ctx: CanvasRenderingContext2D, dim?: boolean) {
+    console.log('______________ Maybe Drawing Light ', light, location)
+
+    if (!dim || light.dimRange > light.range) {
       console.log('______________ Drawing Light ', light, location)
 
-      // Set the color or gradient
-      // ctx.fillStyle = '#ffff0050'
-      ctx.fillStyle = dim ? this.getColor(LightLevel.Dim) : this.getColor(LightLevel.Normal) 
-
       // Draw the arc
-      const range = (dim ? light.dimRange : light.range)
+      let range = (dim ? light.dimRange : light.range)
+      range = DistanceUnit.Feet.toMeters(range)
+      range = range * this.mapSvc._mapCfg.ppm
       const startRad = Math.PI / 180 * light.angleStart
       const endRad = Math.PI / 180 * light.angleEnd
 
       // Cut the arc out
+      ctx.fillStyle = '#FFFFFF'
       ctx.globalCompositeOperation = 'destination-out'
       ctx.beginPath()
       ctx.arc(location.x, location.y, range, startRad, endRad, false)
       ctx.fill()
 
+
+      ctx.fillStyle = dim ? this.getColor(LightLevel.Dim) : this.getColor(LightLevel.Normal)
       ctx.globalCompositeOperation = 'source-over'
       ctx.beginPath()
       ctx.arc(location.x, location.y, range, startRad, endRad, false)
@@ -252,9 +256,9 @@ export class LightImageRenderer {
     }
   }
 
-  private drawVision(ctx: CanvasRenderingContext2D, viewer : TokenAnnotation) {
+  private drawVision(ctx: CanvasRenderingContext2D, viewer: TokenAnnotation) {
     const vision = viewer.vision
-    if (!vision ||!vision.enabled) {
+    if (!vision || !vision.enabled) {
       return
     }
 
@@ -268,17 +272,31 @@ export class LightImageRenderer {
       // Draw 
     }
     const location = this.toPoint(viewer.center())
-    if (this.mapSvc._mapCfg.ambientLight == LightLevel.Dark && vision.dark ) {
-      // Draw 
-      // Set the color or gradient
-      ctx.fillStyle = 'yellow'
+    if (this.mapSvc._mapCfg.ambientLight == LightLevel.Dark && vision.dark) {
 
-      ctx.arc(location.x, location.y, vision.darkRange, 0, 2*Math.PI, false)
+
+      // Draw the arc
+      const range = Distance.toMeters(vision.darkRange) * this.mapSvc._mapCfg.ppm
+      const startRad = 0
+      const endRad = Math.PI * 2
+
+      // Cut the arc out
+      ctx.fillStyle = '#FFFFFF'
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.beginPath()
+      ctx.arc(location.x, location.y, range, startRad, endRad, false)
       ctx.fill()
+
+      ctx.fillStyle = this.getColor(LightLevel.Dim)
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.beginPath()
+      ctx.arc(location.x, location.y, range, startRad, endRad, false)
+      ctx.fill()
+
     }
   }
 
-  toPoint(ll : LatLng) : Point {
+  toPoint(ll: LatLng): Point {
     let ppm = this.mapSvc._mapCfg.ppm
     return new Point(ll.lng * ppm, ll.lat * ppm)
   }
@@ -288,7 +306,7 @@ export class LightImageRenderer {
 export class VisionUtil {
 
   // Find intersection of RAY & SEGMENT
-  static getIntersection(ray, segment) : any {
+  static getIntersection(ray, segment): any {
 
     // RAY in parametric: Point + Delta*T1
     var r_px = ray.a.x;
@@ -330,16 +348,16 @@ export class VisionUtil {
     };
   }
 
-  static getUniquePoints(segments : any[]) : any[] {
-    const pts : number[] = []
-    segments.forEach( s => {
+  static getUniquePoints(segments: any[]): any[] {
+    const pts: number[] = []
+    segments.forEach(s => {
       pts.push(s.a, s.b)
     })
     return _.uniq(pts)
   }
 
-  static getAngles(viewLocation: Point, uniquePoints : any[]) {
-    const uniqueAngles : number[] = [];
+  static getAngles(viewLocation: Point, uniquePoints: any[]) {
+    const uniqueAngles: number[] = [];
     for (var j = 0; j < uniquePoints.length; j++) {
       var uniquePoint = uniquePoints[j];
       var angle = Math.atan2(uniquePoint.y - viewLocation.y, uniquePoint.x - viewLocation.x);
@@ -349,7 +367,7 @@ export class VisionUtil {
     return uniqueAngles
   }
 
-  static determineIntersects(uniqueAngles: number[], segments : Segment[], viewLocation: Point) {
+  static determineIntersects(uniqueAngles: number[], segments: Segment[], viewLocation: Point) {
     var intersects = [];
     for (var j = 0; j < uniqueAngles.length; j++) {
       var angle = uniqueAngles[j];
@@ -399,20 +417,20 @@ export class VisionUtil {
 }
 
 export interface Segment {
-  a : AnglePoint
-  b : AnglePoint
+  a: AnglePoint
+  b: AnglePoint
 }
 
 export interface AnglePoint {
-  x : number,
+  x: number,
   y: number,
-  angle ?: number
+  angle?: number
 }
 
 export interface Intersection {
-  x : number
+  x: number
   y: number
-  param : number
+  param: number
 }
 
 // draw() {
@@ -585,7 +603,7 @@ export interface Intersection {
 //     }
 
 
-    
+
 //     return data
 //   }
 

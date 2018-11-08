@@ -1,7 +1,7 @@
 <div class="page-center">
   <div class="page scroller-dark areas" *ngIf="item">
     <div class="center-area">
-      <app-view-toolbar [item]="item"></app-view-toolbar>
+      <app-view-toolbar [item]="item" (onCancel)="cancel()" (onDelete)="delete()"></app-view-toolbar>
     </div>
     <label>Name</label>
     {{item.name}}

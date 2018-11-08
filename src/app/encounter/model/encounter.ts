@@ -32,12 +32,12 @@ export class Encounter extends Asset {
   /** 
    * Map information (map, zoom, pan, etc)
    */
-  mapInfo : MapShareData
+  mapInfo: MapShareData
 
   /**
    * The Tokens that are part of the encounter. 
    */
-  participants : TokenRecord[] = []
+  participants: TokenRecord[] = []
 
   /**
    * Notes for the Game Master. These are always hidden
@@ -52,7 +52,7 @@ export class Encounter extends Asset {
   /**
    * The current Round
    */
-  round : number = 1;
+  round: number = 1;
 
   /**
    * The person that has the current turn
@@ -61,20 +61,21 @@ export class Encounter extends Asset {
 
 }
 
-export class TokenRecord  {
-  recnum: number
+export class TokenRecord {
+  badge: string
+  itemid: string
   id: string // Id of the item. This could be a character, monster or token (how to handle multiple)
   name: string
   type: string // The type of the item (e.g. Character.TYPE)
   team: string // The team for the item
-  xp : number // The XP award
-  treasure : any // The Treasure that the item is carrying
+  xp: number // The XP award
+  treasure: any // The Treasure that the item is carrying
   hp: number // the HP for the item (if applicable)
   maxHp: number // the Max HP for the item (if applicable)
-  statuses : string[] = [] // the status effects for the item (if applicable) 
+  statuses: string[] = [] // the status effects for the item (if applicable) 
   controlledBy: string[] = ['GM'] // Who controls this. Valid values are 'everyone', 'gm' and/or player ids
-  initiative : number = 0 // The initiative order 
+  initiative: number = 0 // The initiative order 
   token: string;
-  _delete: boolean =  false
+  _delete: boolean = false
   dead: false
 }

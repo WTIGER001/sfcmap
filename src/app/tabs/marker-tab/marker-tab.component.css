@@ -106,3 +106,13 @@ label.small {
 h3 {
   text-align: center;
 }
+
+.expander-tools {
+    position: relative;
+}
+
+.edit-tool {
+    position: absolute;
+    top: -7px;
+    right: 0;    
+}

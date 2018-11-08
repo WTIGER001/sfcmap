@@ -4,6 +4,8 @@ import { DataService } from '../../../data.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Character } from '../../../models';
+import { Router } from '@angular/router';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-edit-encounter',
@@ -16,7 +18,7 @@ export class EditEncounterComponent implements OnInit {
 
   characters: Character[] = []
 
-  constructor(private data: DataService) {
+  constructor(private data: DataService, private router: Router) {
     data.gameAssets.characters.items$.subscribe(a => this.characters = a)
     this.searchFor.bind(this)
 
@@ -28,6 +30,10 @@ export class EditEncounterComponent implements OnInit {
 
   save() {
     this.data.save(this.selected)
+  }
+
+  cancel() {
+    RouteUtil.goUpTwoLevels(this.router)
   }
 
   update() {

@@ -302,18 +302,19 @@ export class TokenAnnotation extends Annotation {
   keepAspect: boolean = false
   itemId: string
   itemType: string
+  instanceId: number
   sizeX: number = 1.524;
   sizeY: number = 1.524;
   snap = true;
   dead = false
   _saveImage = false
   _blob: Blob
-  _selected : boolean
+  _selected: boolean
 
-  calcCharacter : Character
-  auras : Aura[] = []
-  lights : LightSource[] = []
-  vision : Vision = undefined
+  calcCharacter: Character
+  auras: Aura[] = []
+  lights: LightSource[] = []
+  vision: Vision = undefined
 
   copyOptionsFromShape() {
 
@@ -385,13 +386,13 @@ export class TokenAnnotation extends Annotation {
 
   async getDeadImage() {
     if (!DeadImages.Images[this.id] && this.url) {
-      DeadImages.Images[this.id]= await ImageUtil.MarkX(this.url)
+      DeadImages.Images[this.id] = await ImageUtil.MarkX(this.url)
     }
     return DeadImages.Images[this.id]
   }
 
-  setDead(dead :boolean) {
-    const img : ImageOverlay = this.asItem()
+  setDead(dead: boolean) {
+    const img: ImageOverlay = this.asItem()
     if (img) {
       this.dead = dead
       if (this.dead) {
@@ -576,14 +577,14 @@ export class BarrierAnnotation extends Annotation {
       obj.subtype !== undefined && obj.subtype === BarrierAnnotation.SUBTYPE
   }
 
-  enabled : boolean = true
+  enabled: boolean = true
   border: boolean
   color: string
   weight: number
   style: string
   blocksLight: boolean = true
   transmission: number = 0
-  emissionsBlocked : string[] = []
+  emissionsBlocked: string[] = []
 
   constructor() {
     super()
@@ -605,11 +606,11 @@ export class BarrierAnnotation extends Annotation {
       return
     }
 
-      let item: Polyline = <Polyline>this._leafletAttachment
-      this.points = item.getLatLngs()
+    let item: Polyline = <Polyline>this._leafletAttachment
+    this.points = item.getLatLngs()
   }
 
-  toShape():  Polyline {
+  toShape(): Polyline {
     return polyline(this.points, this.options())
   }
 
@@ -630,8 +631,8 @@ export class BarrierAnnotation extends Annotation {
     return this.toShape()
   }
 
-  asItem(): Polyline  {
-      return <Polyline>this._leafletAttachment
+  asItem(): Polyline {
+    return <Polyline>this._leafletAttachment
   }
 
   center(): LatLng {

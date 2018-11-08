@@ -1,6 +1,6 @@
 <div class="page-center">
   <div class="page page--wide page-tooltop scroller-dark encounter-page">
-    <app-edit-toolbar [item]='selected' (onSave)="save()"></app-edit-toolbar>
+    <app-edit-toolbar [item]='selected' (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
 
     <div class="form-group">
       <label for="name">Name</label>

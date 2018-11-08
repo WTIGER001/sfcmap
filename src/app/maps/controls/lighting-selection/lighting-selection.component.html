@@ -1,12 +1,8 @@
-
-
-
-
 <div class="light-table">
   <ng-container *ngFor="let item of lights">
     <!-- Toggle Button-->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="toggle(item, $event)" placement="bottom"
-      ngbTooltip="Toggle visiblity">
+    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="toggle(item, $event)"
+      placement="bottom" ngbTooltip="Toggle visiblity">
       <fa-icon *ngIf="item.enabled==0" [fixedWidth]="true" icon="eye-slash"></fa-icon>
       <fa-icon *ngIf="item.enabled==1" [fixedWidth]="true" icon="eye"></fa-icon>
     </div>
@@ -26,7 +22,7 @@
       ngbTooltip="Edit Light">
       <fa-icon icon="edit"></fa-icon>
     </div>
-    
+
     <!-- Delete Button -->
     <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable" (click)="delete(item)" placement="bottom"
       ngbTooltip="Delete Light">
@@ -34,4 +30,8 @@
     </div>
 
   </ng-container>
+</div>
+
+<div class="light-footer" (click)="addRow()">
+  <fa-icon icon="plus"></fa-icon> Add LIght
 </div>

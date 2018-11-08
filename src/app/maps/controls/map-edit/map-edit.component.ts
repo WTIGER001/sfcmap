@@ -5,7 +5,8 @@ import { UUID } from 'angular2-uuid';
 import { DataService } from '../../../data.service';
 import { Util } from 'leaflet';
 import { ImageSearchResult } from '../../../util/GoogleImageSearch';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouteUtil } from 'src/app/util/route-util';
 
 @Component({
   selector: 'app-map-edit',
@@ -21,7 +22,7 @@ export class MapEditComponent implements OnInit {
   @Output() changes = new EventEmitter<MapConfig>()
   @Output() imageChanges = new EventEmitter<ImageResult>()
 
-  constructor(private zone: NgZone, private data: DataService, private route: ActivatedRoute) {
+  constructor(private zone: NgZone, private data: DataService, private route: ActivatedRoute, private router: Router) {
     this.item = new MapConfig()
     this.item.id = UUID.UUID().toString()
 
@@ -74,6 +75,14 @@ export class MapEditComponent implements OnInit {
         console.log("SAVING MAP Meta");
         this.data.saveMap(this.item)
       }
+    }
+  }
+
+  cancel() {
+    if (this.router.url.indexOf("new-map") > 0) {
+      this.router.navigate(["../maps"], { relativeTo: this.route });
+    } else {
+      RouteUtil.goUpOneLevel(this.router)
     }
   }
 }

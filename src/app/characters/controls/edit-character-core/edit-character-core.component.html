@@ -1,13 +1,12 @@
 <div class="page scroller-dark areas page--wide">
-  <app-edit-toolbar [item]="character"
-    (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
+  <app-edit-toolbar [item]="character" (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
   <div class="rows">
     <app-chr-picture [character]="character"></app-chr-picture>
     <app-edit-chr-personal [character]="character"></app-edit-chr-personal>
     <app-edit-chr-attributes [character]="character"></app-edit-chr-attributes>
     <app-edit-chr-rolls [character]="character"></app-edit-chr-rolls>
     <app-edit-chr-auras [item]="character"></app-edit-chr-auras>
-    <app-edit-chr-description class="span2" [character]="character"></app-edit-chr-description>
+    <app-edit-chr-description class="span2 loc34" [character]="character"></app-edit-chr-description>
     <app-edit-chr-attachments class="span2" [character]="character"></app-edit-chr-attachments>
   </div>
 </div>

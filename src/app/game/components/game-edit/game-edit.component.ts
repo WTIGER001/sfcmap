@@ -20,8 +20,8 @@ export class GameEditComponent implements OnInit, AfterContentInit {
 
   game: Game
   userItems: User[] = []
-  players : User[] = []
-  gms : User[ ]= []
+  players: User[] = []
+  gms: User[] = []
   user: User
   that = this
 
@@ -34,7 +34,7 @@ export class GameEditComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-    this.data.game.subscribe( g => {
+    this.data.game.subscribe(g => {
       this.game = g
       this.process()
     })
@@ -67,19 +67,24 @@ export class GameEditComponent implements OnInit, AfterContentInit {
 
   process() {
     console.log("PROCESSING", this.userItems, this.user, this.game);
+    if (!this.game) {
+      this.game = new Game()
+      this.game.name = "New Game"
+    }
+
     if (this.userItems.length > 0 && this.game) {
       console.log("PROCESSING2");
 
-      this.game.players.forEach( id => {
-        const user = this.userItems.find( u => u.id == id)
+      this.game.players.forEach(id => {
+        const user = this.userItems.find(u => u.id == id)
         if (user) {
           console.log("ADDING PLAYER", user);
           this.players.push(user)
         }
       })
-      this.game.gms.forEach( id => {
+      this.game.gms.forEach(id => {
 
-        const user = this.userItems.find( u => u.id == id)
+        const user = this.userItems.find(u => u.id == id)
         if (user) {
           console.log("ADDING GM", user);
           this.gms.push(user)
@@ -153,14 +158,14 @@ export class GameEditComponent implements OnInit, AfterContentInit {
   }
 
   cancel() {
-
+    this.router.navigate(['/games'])
   }
 
   save() {
     console.log("GMS", this.gms);
     console.log("PLAYERS", this.players);
-    this.game.players = this.players.map( p => p.id)
-    this.game.gms = this.gms.map( p => p.id)
+    this.game.players = this.players.map(p => p.id)
+    this.game.gms = this.gms.map(p => p.id)
     this.data.save(this.game)
     this.router.navigate(['/game', this.game.id])
   }

@@ -1,5 +1,3 @@
-
-
 <div class="selection-actions" *ngIf="!noactions">
   <div class="action" (click)="panTo()">
     <fa-icon icon="location"></fa-icon> Locate on Map
@@ -10,9 +8,9 @@
   <a *ngIf="character.pageUrl" class="action" [href]="character.pageurl" target="_blank">
     <fa-icon icon="globe"></fa-icon> Open External Link
   </a>
-    <div class="action" (click)="editCharacter()">
-      <fa-icon icon="edit"></fa-icon> Edit Character
-    </div>
+  <div class="action" (click)="editCharacter()">
+    <fa-icon icon="edit"></fa-icon> Edit Character
+  </div>
 </div>
 <app-expander title="Personal">
   <div class="end-margin">
@@ -66,10 +64,6 @@
 
 <app-expander title="Conditions">
   <app-character-edit-conditions [character]="character"></app-character-edit-conditions>
-</app-expander>
-
-<app-expander title="Vision & Lighting">
-  
 </app-expander>
 
 <div class="crd-hover-info" *ngIf="diceResult">

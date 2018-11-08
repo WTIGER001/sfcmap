@@ -199,13 +199,15 @@ export class AnnotationManager {
     if (this.isSelected(item)) {
       this.highlight(item)
     }
+
+
   }
 
-  private isSelected(item : any) {
+  private isSelected(item: any) {
     let sel = this.mapSvc.selection.getValue()
     if (!sel.isEmpty()) {
-      const indx = sel.items.findIndex( i => i.id == item.id)
-      return indx >=0 
+      const indx = sel.items.findIndex(i => i.id == item.id)
+      return indx >= 0
     }
     return false
   }
@@ -215,6 +217,9 @@ export class AnnotationManager {
     if (group.showText) {
       let cls = group.textStyle || 'sfc-tooltip-default';
       mapitem.bindTooltip(item.name, { permanent: true, direction: "center", className: cls });
+    }
+    if (TokenAnnotation.is(item)) {
+      mapitem.en
     }
     try {
       mapitem.addTo(lGrp);

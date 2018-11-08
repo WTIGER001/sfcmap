@@ -15,6 +15,7 @@ import { combineLatest } from 'rxjs';
 import { MessageService } from 'src/app/message.service';
 import { DiceRoller } from 'src/app/util/dice';
 import { AudioService, Sounds } from 'src/app/audio.service';
+import { stringCompare } from '@firebase/database/dist/src/core/util/util';
 
 @Component({
   selector: 'app-encounter-tab',
@@ -24,52 +25,52 @@ import { AudioService, Sounds } from 'src/app/audio.service';
 export class EncounterTabComponent implements OnInit {
   encounter: Encounter
   teams: string[]
-  sel : Selection = new Selection([])
+  sel: Selection = new Selection([])
   game: Game
   mapCfg: MapConfig
-  time : Date
-  constructor(private data: DataService, private audioSvc : AudioService, private dialog: DialogService, private mapSvc: MapService, private msg : MessageService) { }
+  time: Date
+  constructor(private data: DataService, private audioSvc: AudioService, private dialog: DialogService, private mapSvc: MapService, private msg: MessageService) { }
 
   ngOnInit() {
-    this.mapSvc.selection.subscribe( sel => {
+    this.mapSvc.selection.subscribe(sel => {
       this.sel = sel
     })
 
     this.data.game.pipe(
       tap(g => this.game = g),
       mergeMap(g => this.mapSvc.mapConfig),
-      tap( m => this.mapCfg = m),
-      mergeMap( m => this.data.getActiveEncounter$(this.game.id, this.mapCfg.id)),
-      tap( e => this.encounter = e), 
-      tap( e => this.updateTeams())
+      tap(m => this.mapCfg = m),
+      mergeMap(m => this.data.getActiveEncounter$(this.game.id, this.mapCfg.id)),
+      tap(e => this.encounter = e),
+      tap(e => this.updateTeams())
     ).subscribe()
 
-    this.mapSvc.annotationDeletions$.subscribe( a => {
+    this.mapSvc.annotationDeletions$.subscribe(a => {
       // We care
       console.log("Checking Delete ", a);
       if (TokenAnnotation.is(a) && this.encounter) {
-        const indx = this.encounter.participants.findIndex(r => r.id == a.itemId)
-        if (indx >= 0 ) {
+        const indx = this.encounter.participants.findIndex(r => r.id == a.id)
+        if (indx >= 0) {
           console.log("Removing Item from Encounter: ", indx, a.name)
           this.encounter.participants.splice(indx, 1)
           this.save()
         }
-      } 
+      }
     })
 
     this.data.game.pipe(
-      mergeMap( message => this.msg.messages),
-      tap(message => this.recordInit(message)) 
+      mergeMap(message => this.msg.messages),
+      tap(message => this.recordInit(message))
     ).subscribe()
   }
 
   recordInit(message: ChatRecord) {
-    if (this.encounter && DiceRoll.is( message.record)) {
+    if (this.encounter && DiceRoll.is(message.record)) {
       // character
       const r = message.record
       if (r.tokenId && r.rolltype == 'Initiative') {
         // Find the annotation
-        const found = this.encounter.participants.find( a => a.id==r.tokenId)
+        const found = this.encounter.participants.find(a => a.id == r.tokenId)
         if (found) {
           console.log("Found Initiative Roll");
           found.initiative = r.getTotal()
@@ -79,7 +80,7 @@ export class EncounterTabComponent implements OnInit {
     }
   }
 
-  findById(id : string) {
+  findById(id: string) {
     const f = this.encounter.participants.find(a => a.id == id)
     if (f) {
       return f
@@ -93,12 +94,12 @@ export class EncounterTabComponent implements OnInit {
     return f2
   }
 
-  isInEncounter(a : TokenAnnotation) : boolean {
-    const indx = this.encounter.participants.findIndex( r => r.id == a.itemId)
-    return indx >= 0 
+  isInEncounter(a: TokenAnnotation): boolean {
+    const indx = this.encounter.participants.findIndex(r => r.id == a.itemId)
+    return indx >= 0
   }
 
-  findLinkedItem(itemId : string, itemType : string): Character | Token | Monster {
+  findLinkedItem(itemId: string, itemType: string): Character | Token | Monster {
     if (itemType == Character.TYPE) {
       return this.data.gameAssets.characters.currentItems.find(i => i.id == itemId)
     }
@@ -128,21 +129,21 @@ export class EncounterTabComponent implements OnInit {
   rollAllInitiatives() {
     console.log("Rolling for everyone")
 
-    const roller = new DiceRoller(false, undefined )
+    const roller = new DiceRoller(false, undefined)
 
-    this.encounter.participants.forEach( (p) => {
+    this.encounter.participants.forEach((p) => {
       console.log("Rolling for ", p.name)
       const initRoll = this.getInit(p)
       console.log("INIT for ", initRoll)
       if (initRoll) {
-        p.initiative =  roller.rollQuick(initRoll).getTotal()
-      } 
+        p.initiative = roller.rollQuick(initRoll).getTotal()
+      }
     })
     this.audioSvc.play(Sounds.DiceRoll)
     this.save()
   }
 
-  getInit(p : TokenRecord) : string {
+  getInit(p: TokenRecord): string {
     // find the init
     const token = this.findToken(p)
     console.log("Token: ", token)
@@ -156,25 +157,25 @@ export class EncounterTabComponent implements OnInit {
             return found.expression
           }
         } else if (Monster.is(item)) {
-          return "d20+"+item.init
+          return "d20+" + item.init
         }
       }
     }
   }
 
-  select(item : TokenRecord) {
+  select(item: TokenRecord) {
     // Get the tokenAnnotation
-    const ta : TokenAnnotation = this.findToken(item)
+    const ta: TokenAnnotation = this.findToken(item)
     if (ta) {
       this.mapSvc.select(ta)
     }
   }
 
-  isSelected(item ) {
+  isSelected(item) {
     if (!this.sel.isEmpty()) {
       const ta: TokenAnnotation = this.findToken(item)
       if (ta) {
-        return (this.sel.items.find( i => i.id == ta.id) != undefined)
+        return (this.sel.items.find(i => i.id == ta.id) != undefined)
       }
     }
     return false
@@ -184,8 +185,8 @@ export class EncounterTabComponent implements OnInit {
     // Calculate all the possible participants
     const possible = this.calcParticipants()
     // Determine who is not already in the encounter
-    const diff = possible.filter(me => this.encounter.participants.findIndex( a => a.id == me.id) < 0)
-    diff.forEach( a => a._delete = true)
+    const diff = possible.filter(me => this.encounter.participants.findIndex(a => a.id == me.id) < 0)
+    diff.forEach(a => a._delete = true)
     // Create the all map
     const all = [...this.encounter.participants.slice(0), ...diff]
     // all.push(...diff)
@@ -194,7 +195,7 @@ export class EncounterTabComponent implements OnInit {
       this.updateTeams()
       this.save()
     })
-    
+
   }
 
   getMembers(team: string) {
@@ -235,7 +236,7 @@ export class EncounterTabComponent implements OnInit {
     map.eachLayer(l => {
       if (this.isToken(l)) {
         const token: TokenAnnotation = this.getItemFromLayer(l)
-        if (token.itemId == item.id) {
+        if (token.id == item.id) {
           rtn = token
         }
       }
@@ -251,7 +252,8 @@ export class EncounterTabComponent implements OnInit {
         const token: TokenAnnotation = this.getItemFromLayer(l)
         const r = new TokenRecord()
         r.token = token.url
-        r.id = token.itemId
+        r.itemid = token.itemId
+        r.id = token.id
         r.type = token.itemType
         this.fillIn(r)
 
@@ -263,7 +265,7 @@ export class EncounterTabComponent implements OnInit {
 
   fillIn(r: TokenRecord) {
     if (r.type == Character.TYPE) {
-      const item: Character = this.data.gameAssets.characters.currentItems.find(i => i.id == r.id)
+      const item: Character = this.data.gameAssets.characters.currentItems.find(i => i.id == r.itemid)
       if (item) {
         r.name = item.name
         r.hp = this.getAttrCurrent(item, 'HP')
@@ -272,7 +274,7 @@ export class EncounterTabComponent implements OnInit {
         r.controlledBy = ['Everyone']
       }
     } else if (r.type == Monster.TYPE) {
-      const item: Monster = this.data.pathfinder.monsters$.getValue().find(i => i.id == r.id)
+      const item: Monster = this.data.pathfinder.monsters$.getValue().find(i => i.id == r.itemid)
       if (item) {
         r.name = item.name
         r.hp = item.hp
@@ -283,7 +285,7 @@ export class EncounterTabComponent implements OnInit {
         r.treasure = item.treasure
       }
     } else if (r.type == Token.TYPE) {
-      const item: Token = this.data.gameAssets.tokens.currentItems.find(i => i.id == r.id)
+      const item: Token = this.data.gameAssets.tokens.currentItems.find(i => i.id == r.itemid)
       if (item) {
         r.name = item.name
         r.team = 'Enemies'
@@ -332,7 +334,42 @@ export class EncounterTabComponent implements OnInit {
 
   done() {
     const gameid = this.data.game.getValue().id
-    const mapid= this.mapSvc._mapCfg.id
+    const mapid = this.mapSvc._mapCfg.id
     this.data.deactivateEncounter(gameid, mapid)
+  }
+
+  labelDuplicates() {
+    const dups = new Map<string, number>()
+    this.encounter.participants.forEach(p => {
+      let num = 1
+      if (dups.has(p.type)) {
+        num = dups.get(p.type)
+      }
+      dups.set(p.type, num)
+      if (num > 1) {
+        p.badge = this.convertBase(num)
+      }
+    })
+
+  }
+
+  convertBase(value): string {
+    const from_base = 10
+    const to_base = 26
+    var range = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
+    var from_range = range.slice(0, from_base);
+    var to_range = range.slice(0, to_base);
+
+    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+      if (from_range.indexOf(digit) === -1) throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
+      return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+    }, 0);
+
+    var new_value = '';
+    while (dec_value > 0) {
+      new_value = to_range[dec_value % to_base] + new_value;
+      dec_value = (dec_value - (dec_value % to_base)) / to_base;
+    }
+    return new_value || '0';
   }
 }

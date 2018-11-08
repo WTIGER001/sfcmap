@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
-import { MapConfig, MarkerGroup, MergedMapType, Selection, Character, TokenAnnotation, BarrierAnnotation } from '../../models';
+import { MapConfig, MarkerGroup, MergedMapType, Selection, Character, TokenAnnotation, BarrierAnnotation, Vision } from '../../models';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
@@ -14,7 +14,7 @@ import { Annotation, ShapeAnnotation, MarkerTypeAnnotation, ImageAnnotation } fr
 import { EditMarkerComponent } from '../../controls/edit-marker/edit-marker.component';
 import { GridLayer } from '../../leaflet/grid';
 import { EditImageComponent } from '../../controls/edit-image/edit-image.component';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CharacterService } from 'src/app/characters/dialogs/character.service';
 import { LangUtil } from 'src/app/util/LangUtil';
 import { Rect } from 'src/app/util/geom';
@@ -23,6 +23,7 @@ import { Monster } from 'src/app/monsters/monster';
 import { SelectItemsComponent } from 'src/app/dialogs/select-items/select-items.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuraManager } from 'src/app/maps/aura-manager';
+import { VisionEditComponent } from 'src/app/controls/vision-edit/vision-edit.component';
 
 @Component({
   selector: 'app-marker-tab',
@@ -59,7 +60,7 @@ export class MarkerTabComponent implements OnInit {
   grid: GridLayer
   lastmouse: LeafletMouseEvent
   selectionPinned = false
-  auras : AuraManager
+  auras: AuraManager
 
   constructor(private mapSvc: MapService, private CDialog: CommonDialogService,
     private restrict: RestrictService, private data: DataService, private modal: NgbModal, private zone: NgZone) {
@@ -96,6 +97,18 @@ export class MarkerTabComponent implements OnInit {
     // this.data.categories.subscribe(categories => {
     //   this.categories = categories
     // })
+
+    this.mapSvc.annotationAddUpate.pipe(
+      tap(m => {
+        if (TokenAnnotation.is(m)) {
+          console.log("Added Token Annotation, making draggable")
+          m.getAttachment().dragging.enable()
+          m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
+          m.getAttachment().on('drag', this.snapShapeToGrid, this)
+          m.getAttachment().on('dragend', this.dropsave, this)
+        }
+      })
+    ).subscribe()
   }
 
   pan() {
@@ -235,6 +248,9 @@ export class MarkerTabComponent implements OnInit {
       } else if (Token.is(item)) {
         s.url = LangUtil.firstDefined(item.image, './assets/missing.png')
       }
+
+      // Check if there are more of the same token on the map
+
 
       s.owner = this.data.game.value.id
       s.map = this.map.id
@@ -430,7 +446,7 @@ export class MarkerTabComponent implements OnInit {
       m.setBounds(newBounds)
 
       if (TokenAnnotation.is(ann)) {
-         this.auras.updateAuras(ann)
+        this.auras.updateAuras(ann)
       }
     }
   }
@@ -542,31 +558,32 @@ export class MarkerTabComponent implements OnInit {
 
   private enableDragging() {
     this.selection.items.forEach(m => {
-      let annotation = <Annotation>m
-      if (annotation.getAttachment().dragging) {
-        annotation.getAttachment().dragging.enable()
-      }
-      if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item) || BarrierAnnotation.is(this.item)) {
-        m.getAttachment().enableEdit()
-        m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
-        m.getAttachment().on('drag', this.snapShapeToGrid, this)
-
-      }
-      if (TokenAnnotation.is(this.item)) {
-        if (this.edit) {
-          m.getAttachment().enableEdit()
-        }
-        m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
-        m.getAttachment().on('drag', this.snapShapeToGrid, this)
-        m.getAttachment().on('dragend', this.dropsave, this)
-      }
-      if (MarkerTypeAnnotation.is(m)) {
-        annotation.getAttachment().on('drag', this.snapMarkerToGrid, this)
-      }
+      this.beginDragging(m)
     })
   }
 
- 
+  beginDragging(m: Annotation) {
+    console.log("BEGINNING DRAG")
+    if (m.getAttachment().dragging) {
+      m.getAttachment().dragging.enable()
+    }
+    if (ShapeAnnotation.is(m) || ImageAnnotation.is(this.item) || BarrierAnnotation.is(this.item)) {
+      m.getAttachment().enableEdit()
+      m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
+      m.getAttachment().on('drag', this.snapShapeToGrid, this)
+    }
+    if (TokenAnnotation.is(this.item)) {
+      if (this.edit) {
+        m.getAttachment().enableEdit()
+      }
+      m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
+      m.getAttachment().on('drag', this.snapShapeToGrid, this)
+      m.getAttachment().on('dragend', this.dropsave, this)
+    }
+    if (MarkerTypeAnnotation.is(m)) {
+      m.getAttachment().on('drag', this.snapMarkerToGrid, this)
+    }
+  }
 
   public updateMuliEdit() {
 
@@ -584,6 +601,23 @@ export class MarkerTabComponent implements OnInit {
 
   public xout() {
     // Create an exl
+  }
+
+
+
+  public addVision() {
+    if (this.item && TokenAnnotation.is(this.item)) {
+      this.item.vision = new Vision()
+      this.save()
+    }
+  }
+
+  public editVision() {
+    if (this.item && TokenAnnotation.is(this.item)) {
+      VisionEditComponent.open(this.modal, this.item.vision).subscribe(a => {
+        this.save()
+      })
+    }
   }
 }
 

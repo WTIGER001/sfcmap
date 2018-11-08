@@ -195,6 +195,9 @@ import { MapBarrierComponent } from './maps/controls/map-barrier/map-barrier.com
 import { LightSelectionComponent } from './maps/controls/light-selection/light-selection.component';
 import { BarrierEditComponent } from './maps/controls/barrier-edit/barrier-edit.component';
 import { BarrierSelectionComponent } from './maps/controls/barrier-selection/barrier-selection.component';
+import { VisionEditComponent } from './controls/vision-edit/vision-edit.component';
+import { VisionViewComponent } from './controls/vision-view/vision-view.component';
+import { UnitsComponent } from './controls/units/units.component';
 
 @NgModule({
   declarations: [
@@ -347,6 +350,9 @@ import { BarrierSelectionComponent } from './maps/controls/barrier-selection/bar
     LightSelectionComponent,
     BarrierEditComponent,
     BarrierSelectionComponent,
+    VisionEditComponent,
+    VisionViewComponent,
+    UnitsComponent,
   ],
   imports: [
     BrowserModule,
@@ -410,6 +416,7 @@ import { BarrierSelectionComponent } from './maps/controls/barrier-selection/bar
     SettingsComponent,
     AuraEditComponent,
     TokenLightingEditComponent,
+    VisionEditComponent,
   ],
   exports: [CheckboxComponent]
 })

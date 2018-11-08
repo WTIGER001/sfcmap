@@ -1,7 +1,7 @@
 <div class="page scroller scroller-dark" *ngIf="!item">SOMETHING WENT WRONG</div>
 
 <div class="page scroller scroller-dark" *ngIf="item">
-  <app-edit-toolbar [item]="item" (onSave)="save()"></app-edit-toolbar>
+  <app-edit-toolbar [item]="item" (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
   <div class="rows">
     <app-edit-picture [picture]="item.image" [searchTerm]="getSearchTerm()" (choice)="updatePicture($event)">
     </app-edit-picture>
@@ -21,7 +21,7 @@
     <label class="lbl">Aura</label>
     <input type="text" class="form-control" [(ngModel)]="item.aura">
 
-   
+
 
     <label class="lbl">Slot</label>
     <input type="text" class="form-control" [(ngModel)]="item.slot">
@@ -127,7 +127,7 @@
 
   </div>
 
- <h2>Information</h2>
+  <h2>Information</h2>
   <div class="twocol">
     <label class="lbl">Aura</label>
     <input type="text" class="form-control" [(ngModel)]="item.aura">

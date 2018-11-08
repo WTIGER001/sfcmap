@@ -1,0 +1,14 @@
+<div class="vision-view">
+  <div>
+    Normal Vision
+  </div>
+  <div *ngIf="item.vision.dark">
+    Dark Vision: {{item.vision.darkRange.value}} {{item.vision.darkRange.unit}}
+  </div>
+  <div *ngIf="item.vision.lowLight">
+    Low Light Vision: {{item.vision.lowLightRange.value}} {{item.vision.lowLightRange.unit}}
+  </div>
+  <div class="blind" *ngIf="!item.vision.enabled && !item.vision.dark && !item.vision.lowLight">
+    No vision...
+  </div>
+</div>

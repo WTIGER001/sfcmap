@@ -22,7 +22,11 @@ export class EditCharacterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.data.subscribe((data: { asset: Asset }) => this.character = <Character>data.asset)
+    this.route.data.subscribe((data: { asset: Asset }) => {
+      if (data.asset) {
+        this.character = <Character>data.asset
+      }
+    })
   }
 
   save() {

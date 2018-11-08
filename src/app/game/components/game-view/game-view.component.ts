@@ -26,8 +26,12 @@ export class GameViewComponent implements OnInit {
   cntItems = 0
   cntSpells = 0
 
-  constructor(private data: DataService, private route: ActivatedRoute, private restrict: RestrictService, private cd: CommonDialogService, 
-    private router: Router, private modal : NgbModal, private afAuth: AngularFireAuth) {
+  enableItems = false
+  enableSpells = false
+  enableEncounters = false
+
+  constructor(private data: DataService, private route: ActivatedRoute, private restrict: RestrictService, private cd: CommonDialogService,
+    private router: Router, private modal: NgbModal, private afAuth: AngularFireAuth) {
     this.data.user.subscribe(u => this.user = u);
   }
 
@@ -36,7 +40,7 @@ export class GameViewComponent implements OnInit {
     this.data.gameAssets.characters.items$.subscribe(items => this.cntCharacters = items.length)
     // this.data.gameAssets.monsters.items$.subscribe(items => this.cntMonsters = items.length)
     this.data.pathfinder.monsters$.subscribe(items => this.cntMonsters = items.length)
-    
+
     this.data.gameAssets.maps.items$.subscribe(items => this.cntMaps = items.length)
     this.data.gameAssets.encounters.items$.subscribe(items => this.cntEncounters = items.length)
     this.data.gameAssets.items.items$.subscribe(items => this.cntItems = items.length)

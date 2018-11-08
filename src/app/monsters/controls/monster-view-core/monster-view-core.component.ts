@@ -7,8 +7,8 @@ import { Monster } from '../../monster';
   styleUrls: ['./monster-view-core.component.css']
 })
 export class MonsterViewCoreComponent implements OnInit {
-  @Input() item : Monster
-  @Input() canEdit : boolean = true
+  @Input() item: Monster
+  @Input() canEdit: boolean = true
   @Output() onCancel = new EventEmitter()
   @Input() showTools = true
 
@@ -19,6 +19,10 @@ export class MonsterViewCoreComponent implements OnInit {
 
   cancel() {
     this.onCancel.emit()
+  }
+
+  delete() {
+    console.log("MonsterViewCoreComponent .. DELETE .. ")
   }
 
   sentences(text: string): string[] {

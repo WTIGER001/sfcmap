@@ -1,4 +1,6 @@
 import { Point } from "leaflet";
+import { Distance } from "./units";
+import { DistanceUnit } from "../util/transformation";
 
 export enum LightLevel {
   Bright = 5,
@@ -32,11 +34,11 @@ export class LightSource {
 export class Vision {
   enabled: boolean = true
   normal: boolean = true
-  dark: boolean = true
-  lowLight: boolean
-  lowLightRange: number
-  darkRange: number = 60
+  dark: boolean = false
   shared: boolean = true
+  lowLight: false
+  lowLightRange: Distance = new Distance(60, DistanceUnit.Feet.abbr)
+  darkRange: Distance = new Distance(60, DistanceUnit.Feet.abbr)
 }
 
 export class Barrier {

@@ -1,0 +1,65 @@
+<div class="dlg">
+  <div class="header">
+    <h1>Edit Light Source</h1>
+  </div>
+  <div class="bdy">
+    <div class="acol">
+
+      <div class="h-switch">
+        <input type="checkbox" class="switch" [(ngModel)]="vision.enabled">
+        <label>Normal Vision</label>
+      </div>
+
+      <div class="h-switch">
+        <input type="checkbox" class="switch" [(ngModel)]="vision.dark">
+        <label>Darkvision</label>
+      </div>
+      <label>Range</label>
+      <div class="range">
+        <div class="input-group">
+          <input class="form-control form-control-sm" type="number" [(ngModel)]="vision.darkRange.value">
+          <div ngbDropdown placement="bottom-right">
+            <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{vision.darkRange.unit}}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+              <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+                (click)="vision.darkRange.unit = u.abbr">{{u.name}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-switch">
+        <input type="checkbox" class="switch" [(ngModel)]="vision.lowLight">
+        <label>Darkvision</label>
+      </div>
+
+      <label>Range</label>
+      <div class="range">
+
+        <div class="input-group">
+          <input class="form-control form-control-sm" type="number" [(ngModel)]="vision.lowLightRange.value">
+          <div ngbDropdown placement="bottom-right">
+            <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{vision.lowLightRange.unit}}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+              <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+                (click)="vision.lowLightRange.unit = u.abbr">{{u.name}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>
+</div>

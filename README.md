@@ -121,13 +121,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Need to merge marker types and images... I think that they are really the same thing. Images are used to scale with the map and markers are for nonscaled. This will allow me to get rid of that stupid icon cache. MarkerType-Variable = ImageOverlay and MarkerType-Fixed = Marker, ImageAnnotation-variable = Image Overlay, ImageAnnotation-fixed = Marker. I just need to figure out how to edit the marker useing the drag handles... 
 
 ### Map 
-- Add map browser just like the monster browser
 - Support large maps that should be tiled. This will mean that we have to figure out how to image tile (likely in a server function) and then translate it into tile urls that leaflet can understand. Serving it all from firebase storage
-- Figure out the buggy loading issues
-- Fog / Exposed areas (basically just draw), predefined areas too
-- White Board
 - Mobile Fog of war based on user vision, but aware of doors and obstacles
-- Auras
 - Test on Firefox and edge
 
 ### Data Management
@@ -315,3 +310,60 @@ Monsters
 Map
 - Background Layers
 - Better Ruler
+
+Disconnected Ideas....
+--------------------------
+- Start to work on offline mode - Cache Auth and some information like maps and characters.
+- Add noauth character screen for testing
+- Multiple monster support
+- PC Gen import
+- Flight / burrow styling
+- Multiple people on same grid square
+- Delete from encounter messes with INIT Flow
+- Back button on rounds
+
+- Update vision and light to use distance
+- Offline Monster Explorer
+- Load from offline db? 
+
+Offline Sequence
+1. Progressive Web App with all scripts
+2. IndexedDB for data
+3. On load check if the browser is offline. If so then just use cached data.
+4. If offline then hide the login screen and show a small banner to indicate offline mode.
+
+Lighting Issues
+
+Behavior of a light source
+- A light source sends light out until it hits the nearest barrier or it hits its range (whichever comes first).
+- Get the intersections with the barriers (Sorted by angle)
+- Add the insterections between 2 barriers
+- Add the intersections with the barriers and radius
+- How to make a dim light range overwrite a normal ambient light
+- Click on a observer and see his LOS hightlighted or bordered
+
+- for Each intersection that is FARTHER from the radius make the distance the radius
+- Start to connect the dots
+-- If the first point is the radius distance then wait...
+-- If the first point is NOT the radius then move to that point
+-- Make arc
+
+
+-------------------------------------------------------------------------------------------
+Editing patterns
+- Edit on Selection? 
+- Do we want the users to edit from a selection screen with implicit saves? I think that is a better pattern than some areas. I also like some of the explicit save operations. 
+
+Pathfinder lighting
+--------------------
+
+How to support the pathfinder lighting rules
+
+Fog of war - Dynamic
+- Each time someone moves take their visibility mask and draw that on the FOW Image.
+- FOW - Dark, Dim -> Mediumz
+
+
+
+
+
