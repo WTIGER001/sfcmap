@@ -12,6 +12,7 @@ export class EditPictureComponent implements OnInit {
   @Input() picture: string
   @Input() multiple = false
   @Input() searchTerm = ''
+  @Input() size : 'lg' | 'sm' = 'lg'
 
 
   @ViewChild('filecontrolPic') fileButton

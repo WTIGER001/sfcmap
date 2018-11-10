@@ -74,6 +74,7 @@
     color: white;
     cursor: pointer;
     margin-bottom: 15px;
+    filter: drop-shadow(1px 1px 1px #11111188);
 }
 
 .tab-selected {

@@ -1,16 +1,16 @@
 <h2>Attributes</h2>
-<div class="attr-table">
-  <div class="attr-header">Atrribute</div>
-  <div class="attr-header">Max</div>
-  <div class="attr-header">Current</div>
+<div class="attr-table tbl">
+  <div class="tbl-header">Atrribute</div>
+  <div class="tbl-header tbl-header--right">Max</div>
+  <div class="tbl-header tbl-header--right">Current</div>
   <ng-container *ngFor="let attr of character.attributes; let even=even">
-    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
       <input class="form-control" [(ngModel)]="attr.attr">
     </div>
-    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
       <input class="form-control num" type="number" [(ngModel)]="attr.max">
     </div>
-    <div [class.attr-even]='even' [class.attr-odd]='!even'>
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
       <input class="form-control num" type="number" [(ngModel)]="attr.current">
     </div>
   </ng-container>

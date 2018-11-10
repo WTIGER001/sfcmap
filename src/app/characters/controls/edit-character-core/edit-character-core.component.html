@@ -1,5 +1,5 @@
 <div class="page scroller-dark areas page--wide">
-  <app-edit-toolbar [item]="character" (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
+  <app-edit-toolbar class="toolbar--raised" [item]="character" (onSave)="save()" (onCancel)="cancel()"></app-edit-toolbar>
   <div class="rows">
     <app-chr-picture [character]="character"></app-chr-picture>
     <app-edit-chr-personal [character]="character"></app-edit-chr-personal>

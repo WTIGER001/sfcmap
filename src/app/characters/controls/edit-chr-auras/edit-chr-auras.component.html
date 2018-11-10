@@ -12,7 +12,7 @@
   remove header
 -->
 
-<div class="attr-table">
+<div class="attr-table tbl">
   <!-- <ng-container *ngIf="item.auras && item.auras.length > 0">
     <div class="clickable" (click)="toggleAll()" placement="bottom" ngbTooltip="Toggle visiblity for all">
       <fa-icon [icon]="allvisible?'eye':'eye-slash'"></fa-icon>
@@ -26,7 +26,7 @@
   <ng-container *ngFor="let aura of item.auras; let even=even">
 
     <!-- Toggle Button-->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="toggle(aura, $event)" placement="bottom"
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="clickable pr-2" (click)="toggle(aura, $event)" placement="bottom"
       ngbTooltip="Toggle visiblity">
       <fa-icon *ngIf="aura.visible==0"  [fixedWidth]="true" icon="eye-slash" ></fa-icon>
       <fa-icon *ngIf="aura.visible==1"  [fixedWidth]="true" icon="eye"></fa-icon>
@@ -34,23 +34,23 @@
     </div>
 
     <!-- Color Sample -->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="cell pr-2">
       <div class="form-control form-control-sm  color-pick cell-item" [style.background]="aura.fillColor" [style.border-color]="aura.color" [style.border-style]="'solid'"
        [style.border-width]="aura.border ? aura.weight + 'px' : 0" ></div>
     </div>
 
     <!-- Name Entry -->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="cell pr-2">
       {{aura.name ? aura.name : '-- no name--'}}
     </div>
 
     <!-- Radius Entry -->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell text-right">
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="cell text-right">
       {{aura.radius.value}} 
     </div>
 
     <!-- Radius Units -->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="cell pr-2">
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="cell pr-2">
       <!-- <select class="cell-drop" [(ngModel)]="aura.radius.unit.abbr">
         <option *ngFor="let u of units" [value]="u.abbr">{{u.abbr}}</option>
       </select> -->
@@ -58,13 +58,13 @@
     </div>
 
     <!-- Edit Button -->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable pr-2" (click)="edit(aura)" placement="bottom"
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="clickable pr-2" (click)="edit(aura)" placement="bottom"
       ngbTooltip="Edit Aura">
       <fa-icon icon="edit"></fa-icon>
     </div>
 
     <!-- Delete Button -->
-    <div [class.attr-even]='even' [class.attr-odd]='!even' class="clickable" (click)="delete(aura)" placement="bottom"
+    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="clickable" (click)="delete(aura)" placement="bottom"
       ngbTooltip="Delete Aura">
       <fa-icon icon="trash"></fa-icon>
     </div>

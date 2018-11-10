@@ -2,13 +2,13 @@
   <h1>In Play</h1>
 
   <div class="buttongrid" >
-    <button class="btn btn-outline-secondary btn-tool" (click)="newEncounter()" placement="bottom" ngbTooltip="Create a New Encounter">
+    <button class="clickable btn-tool" (click)="newEncounter()" placement="bottom" ngbTooltip="Create a New Encounter">
       <fa-icon icon="plus" size="lg"></fa-icon>
     </button>
-    <button class="btn btn-outline-secondary btn-tool" (click)="loadEncounter()" placement="bottom" ngbTooltip="Open a New Encounter">
+    <button class="clickable btn-tool" (click)="loadEncounter()" placement="bottom" ngbTooltip="Open a New Encounter">
       <fa-icon icon="search" size="lg"></fa-icon>
     </button>
-    <button class="btn btn-outline-secondary btn-tool" (click)="done()" placement="bottom" ngbTooltip="End Encounter">
+    <button class="clickable btn-tool" (click)="done()" placement="bottom" ngbTooltip="End Encounter">
       <fa-icon icon="times" size="lg"></fa-icon>
     </button>
   </div>
@@ -18,7 +18,7 @@
       <h3>{{team}}</h3>
       <div class="small-tiles">
         <app-picture-tile size='tiny' [class.imgx]="item.dead" class="pic" [selected]="isSelected(item)" (click)="select(item)" *ngFor="let item of getMembers(team)" [picture]="pic(item)"
-         [caption]="caption(item)" [objPos]="item.imgPos"></app-picture-tile>
+         [caption]="caption(item)" [objPos]="item.imgPos" [badge]='item.badge'></app-picture-tile>
       </div>
     </ng-container>
   </div>

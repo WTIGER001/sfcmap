@@ -21,6 +21,8 @@
     --primary-color : white;
     --highlight-color : #9ed485;
     --muted-color: #515558;
+    --form-bg: #6969692b;
+    --form-focus-bg: #cab7b75c;
 }
 
 *, *::before, *::after {
@@ -275,7 +277,7 @@ h4 {
 /* -------------------------------------------- */
 .page {
   max-width: 800px;
-  background-color: rgb(34,34,34, .9);
+  background-color: rgb(34,34,34, .95);
   color: white;
   padding: 40px 40px 40px 40px;
   text-align: start;
@@ -350,7 +352,7 @@ h4 {
     margin-bottom: 6px;
     /* display: grid; */
     /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
-    grid-gap: 6px;
+    /* grid-gap: 6px; */
     width: 100%;
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
@@ -365,7 +367,7 @@ h4 {
 }
 
 .buttongrid .btn-tool {
-    padding: 6px 0;
+    padding: .5rem;
     min-width: 40px;
 }
 
@@ -403,19 +405,25 @@ h4 {
 }
 
 .toggle2 {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .sfc-map-zoombar {
- display: grid;
- grid-template-rows: 1fr 1fr 1fr
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  filter: drop-shadow(1px 1px 2px 11111188);
 }
 
-/* .sfc-map-zoombar-item {
-     width: 32px;
-    height: 32px; 
-} */
+.sfc-map-zoombar-item:hover {
+  background-color: lightgray;
+}
+
+.sfc-map-zoombar .active {
+  background-color: grey;
+}
 
 /* Buttons that are small and typically shown in a tablular arrangment */
 .btn-tbl {

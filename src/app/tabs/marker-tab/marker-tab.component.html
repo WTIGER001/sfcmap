@@ -3,71 +3,71 @@
 
   <div class="buttons">
     <div class="buttongrid" *ngIf="edit==false">
-      <button class="btn btn-outline-secondary btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a new marker">
+      <button class="clickable btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a new marker">
         <fa-icon icon="map-marker-alt" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="newPolyline()" placement="bottom" ngbTooltip="Create a new line">
+      <button class="clickable btn-tool" (click)="newPolyline()" placement="bottom" ngbTooltip="Create a new line">
         <!-- <img src="./assets/icons/polyline.png"> -->
         <fa-icon icon="signature" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="newRectangle()" placement="bottom" ngbTooltip="Create a new rectangle">
+      <button class="clickable btn-tool" (click)="newRectangle()" placement="bottom" ngbTooltip="Create a new rectangle">
         <!-- <img src="./assets/icons/rectangle.png"> -->
         <fa-icon icon="vector-square" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="newCircle()" placement="bottom" ngbTooltip="Create a new circle">
+      <button class="clickable btn-tool" (click)="newCircle()" placement="bottom" ngbTooltip="Create a new circle">
         <!-- <img src="./assets/icons/circle.png"> -->
         <fa-icon [icon]="['far', 'circle']" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="newPolygon()" placement="bottom" ngbTooltip="Create a new polygon">
+      <button class="clickable btn-tool" (click)="newPolygon()" placement="bottom" ngbTooltip="Create a new polygon">
         <!-- <img src="./assets/icons/polygon.png"> -->
         <fa-icon icon="draw-polygon" size="lg"></fa-icon>
       </button>
 
-      <button class="btn btn-outline-secondary btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Create a new imager">
+      <button class="clickable btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Create a new imager">
         <fa-icon icon="image" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="newBarrier()" placement="bottom" ngbTooltip="Create a new barrier">
+      <button class="clickable btn-tool" (click)="newBarrier()" placement="bottom" ngbTooltip="Create a new barrier">
         <fa-icon icon="rectangle-wide" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="addCharacter()" placement="bottom" ngbTooltip="Add a Character">
+      <button class="clickable btn-tool" (click)="addCharacter()" placement="bottom" ngbTooltip="Add a Character">
         <fa-icon icon="user-shield" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="addMonster()" placement="bottom" ngbTooltip="Add a Monster">
+      <button class="clickable btn-tool" (click)="addMonster()" placement="bottom" ngbTooltip="Add a Monster">
         <fa-icon icon="dragon" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="addToken()" placement="bottom" ngbTooltip="Add a Generic Token">
+      <button class="clickable btn-tool" (click)="addToken()" placement="bottom" ngbTooltip="Add a Generic Token">
         <fa-icon icon="helmet-battle" size="lg"></fa-icon>
       </button>
     </div>
     <div class="buttongrid" *ngIf="edit==false">
-      <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="editstart()" placement="bottom"
+      <button *ngIf="!selection.isEmpty()" class="clickable btn-tool" (click)="editstart()" placement="bottom"
         ngbTooltip="Edit the selected marker(s)">
         <fa-icon icon="pencil-alt" size="lg"></fa-icon>
       </button>
-      <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="permissions()" placement="bottom"
+      <button *ngIf="!selection.isEmpty()" class="clickable btn-tool" (click)="permissions()" placement="bottom"
         ngbTooltip="Set the access permissions">
         <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
         <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
       </button>
-      <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="togglePin()" placement="bottom"
+      <button *ngIf="!selection.isEmpty()" class="clickable btn-tool" (click)="togglePin()" placement="bottom"
         ngbTooltip="Pin this selection" [class.active]="selectionPinned">
         <fa-icon icon="thumbtack" size="lg"></fa-icon>
       </button>
-      <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom"
+      <button *ngIf="!selection.isEmpty()" class="clickable btn-tool" (click)="delete()" placement="bottom"
         ngbTooltip="Delete the selected marker(s)">
         <fa-icon icon="trash-alt" size="lg"></fa-icon>
       </button>
-      <button *ngIf="!selection.isEmpty()" class="btn btn-outline-secondary btn-tool" (click)="deselect()" placement="bottom"
+      <button *ngIf="!selection.isEmpty()" class="clickable btn-tool" (click)="deselect()" placement="bottom"
         ngbTooltip="Deselect Items">
         <fa-icon icon="times" size="lg"></fa-icon>
       </button>
     </div>
 
     <div class="buttonbar" *ngIf="edit==true">
-      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+      <button type="button" class="clickable btn-tool px-3" aria-label="Close" (click)="save()">
         <fa-icon icon="save" size="lg"></fa-icon> Save
       </button>
-      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
+      <button type="button" class="clickable btn-tool" aria-label="Close" (click)="cancel()">
         <fa-icon icon="times" size="lg"></fa-icon> Cancel
       </button>
     </div>
@@ -85,7 +85,7 @@
 
         <app-expander title="Vision" class="expander-tools" *ngIf="itemType(item) == 'token'">
           <fa-icon class="clickable edit-tool" (click)="editVision()" icon="edit"></fa-icon>
-          <button *ngIf="!item.vision" class="btn btn-outline-secondary btn-tool" (click)="addVision()">
+          <button *ngIf="!item.vision" class="clickable btn-tool" (click)="addVision()">
             <fa-icon icon="plus"></fa-icon> Add vision to this
           </button>
           <app-vision-view *ngIf="item.vision" [item]="item" (changes)="save()"></app-vision-view>

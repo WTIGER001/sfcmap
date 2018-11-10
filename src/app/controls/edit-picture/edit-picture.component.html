@@ -1,7 +1,7 @@
 <div class="drop-area" [class.drop-target]="dragging" [class.outlined]="picture == undefined" (dragover)="dragOver($event)"
   (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)">
   <label for="pic-att">
-    <img [src]="picture" *ngIf="picture">
+    <img [src]="picture" *ngIf="picture" [class.lg]='size=="lg"' [class.sm]='size=="sm"' >
     <div *ngIf='picture == undefined' class="centered">
       <fa-icon icon="plus" size="3x"></fa-icon>
       <div>Drop a picture here or click to select</div>

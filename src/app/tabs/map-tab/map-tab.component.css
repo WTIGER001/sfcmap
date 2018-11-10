@@ -26,6 +26,7 @@
 .color-pick {
   height: 2em;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .highlight {

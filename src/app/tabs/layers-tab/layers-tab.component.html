@@ -2,28 +2,28 @@
 
 
 <div class="buttonbar" *ngIf="edit==false">
-    <button class="btn btn-outline-secondary btn-tool" (click)="newLayer()" placement="bottom" ngbTooltip="Create a new layer">
+    <button class="clickable btn-tool" (click)="newLayer()" placement="bottom" ngbTooltip="Create a new layer">
         <fa-icon icon="plus" size="lg"></fa-icon>
     </button>
-    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected layer">
+    <button *ngIf="layer" class="clickable btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected layer">
         <fa-icon icon="pencil-alt" size="lg"></fa-icon>
     </button>
-    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="permissions()" placement="bottom" ngbTooltip="Set the access permissions">
+    <button *ngIf="layer" class="clickable btn-tool" (click)="permissions()" placement="bottom" ngbTooltip="Set the access permissions">
         <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
         <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
     </button>
-    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected layer">
+    <button *ngIf="layer" class="clickable btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected layer">
         <fa-icon icon="trash-alt" size="lg"></fa-icon>
     </button>
-    <button *ngIf="layer" class="btn btn-outline-secondary btn-tool" (click)="deselect()" placement="bottom" ngbTooltip="Deselect this layer">
+    <button *ngIf="layer" class="clickable btn-tool" (click)="deselect()" placement="bottom" ngbTooltip="Deselect this layer">
         <fa-icon icon="times" size="lg"></fa-icon>
     </button>
 </div>
 <div class="buttonbar" *ngIf="edit==true">
-    <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Save" (click)="save()">
+    <button type="button" class="clickable btn-tool px-3" aria-label="Save" (click)="save()">
         <fa-icon icon="save" size="lg"></fa-icon> Save
     </button>
-    <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Cancel" (click)="cancel()">
+    <button type="button" class="clickable btn-tool" aria-label="Cancel" (click)="cancel()">
         <fa-icon icon="times" size="lg"></fa-icon> Cancel
     </button>
 </div>

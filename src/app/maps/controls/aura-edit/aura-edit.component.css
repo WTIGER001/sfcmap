@@ -14,6 +14,7 @@ label {
 .color-pick {
     height: 38px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .sp-3 {

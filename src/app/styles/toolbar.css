@@ -80,9 +80,39 @@
   }
 
   .clickable:hover {
-    background-color: rgba(100,100,100, 0.8);
+    background-color: rgba(100,100,100, 0.8) !important;
   }
 
   .clickable-active {
     background-color: rgba(130,130,130, 0.8);
+  }
+
+  .clickable.active {
+    color: white;
+    background-color: rgba(80, 80, 80, 0.8);
+  }
+
+  .toolbar--raised {
+    margin-top: -20px;
+    margin-bottom: 20px;
+  }
+
+  button.clickable {
+    border: 0;
+    background: transparent;
+    color: #6c757d;
+    padding: 6px;
+  }
+
+  button.clickable:hover {
+    color: white;
+  }
+
+
+  button.clickable:focus {
+    color: white;
+
+  }
+  a.toolitem {
+    color: white
   }

@@ -1,5 +1,6 @@
 import { Control, Map as LeafletMap, DomUtil, DomEvent, ControlOptions } from "leaflet";
 import { MapService } from "../maps/map.service";
+import { Measure } from "./measure";
 
 export class ZoomControls extends Control {
   map: LeafletMap
@@ -7,6 +8,8 @@ export class ZoomControls extends Control {
   btnZoomIn: HTMLElement
   btnZoomOut: HTMLElement
   btnZoomExtents: HTMLElement
+  btnRuler : HTMLElement
+  measureXY : Measure
 
   constructor(private mapSvc: MapService, options?: ControlOptions) {
     super(options)
@@ -19,8 +22,9 @@ export class ZoomControls extends Control {
     // this.box.style.width = "30px"
     // this.box.innerHTML = "THIS IS A SCALE"
     this.btnZoomIn = this.makeBtn('plus', this.zoomIn)
-    this.btnZoomIn = this.makeBtn('minus', this.zoomOut)
-    this.btnZoomIn = this.makeBtn('expand', this.zoomExtents)
+    this.btnZoomOut = this.makeBtn('minus', this.zoomOut)
+    this.btnZoomExtents = this.makeBtn('expand', this.zoomExtents)
+    this.btnRuler = this.makeBtn('ruler', this.ruler)
 
     return this.box
   }
@@ -46,6 +50,24 @@ export class ZoomControls extends Control {
     let bounds = this.mapSvc.overlayLayer.getBounds()
     this.map.fitBounds(bounds)
     // this.map.flyToBounds(bounds)
+  }
+
+  ruler() {
+    if (this.measureXY) {
+      this.measureXY.disable()
+    } else {
+      this.map.dragging.disable()
+      this.map.doubleClickZoom.disable()
+      this.measureXY = new Measure(this.map, this.mapSvc._mapCfg)
+      this.measureXY.enable()
+      DomUtil.addClass(this.btnRuler, 'active')
+      this.measureXY.onDisable(() => {
+        this.map.dragging.enable()
+        this.map.doubleClickZoom.enable()
+        this.measureXY = undefined
+        DomUtil.removeClass(this.btnRuler, 'active')
+      })
+    }
   }
 
   private makeBtn(icon: string, fn: () => void): HTMLElement {

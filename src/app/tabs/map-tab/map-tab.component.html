@@ -3,39 +3,39 @@
   <!-- Buttons -->
   <div class="center-layout">
     <div class="buttongrid" *ngIf="edit==false">
-      <a [routerLink]="getLink()">
-        <button class="btn btn-outline-secondary btn-tool" placement="bottom" ngbTooltip="Edit this map">
-          <fa-icon icon="pencil-alt" size="lg"></fa-icon>
-        </button>
-      </a>
-      <button class="btn btn-outline-secondary btn-tool btnruler" [class.active]="measureXY" (click)="measure()"
-        placement="bottom" ngbTooltip="Measure the distance beween 2 points on the map">
-        <fa-icon icon="ruler" size="lg"></fa-icon>
-      </button>
-      <button class="btn btn-outline-secondary btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom"
-        ngbTooltip="Calibrate the distance between 2 points on the map">
-        <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
-      </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete this map">
-        <fa-icon icon="trash-alt" size="lg"></fa-icon>
-      </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="close()" placement="bottom" ngbTooltip="Close this map">
-        <fa-icon icon="times" size="lg"></fa-icon>
-      </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="share()" placement="bottom" ngbTooltip="Share map changes"
-        [class.active]="isSharing()">
+      <button class="clickable btn-tool" (click)="share()" placement="bottom" ngbTooltip="Share map changes" [class.active]="isSharing()">
         <fa-icon icon="broadcast-tower" size="lg"></fa-icon>
       </button>
-      <button class="btn btn-outline-secondary btn-tool" (click)="listen()" placement="bottom" ngbTooltip="Listen to map changes"
+      <button class="clickable btn-tool" (click)="listen()" placement="bottom" ngbTooltip="Listen to map changes"
         [class.active]="isListening()">
         <fa-icon icon="ear" size="lg"></fa-icon>
       </button>
+      <button class="clickable btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom" ngbTooltip="Calibrate the distance between 2 points on the map">
+        <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
+      </button>
+      <a [routerLink]="getLink()" class="toolitem">
+        <button class="clickable btn-tool" placement="bottom" ngbTooltip="Edit this map">
+          <fa-icon icon="pencil-alt" size="lg"></fa-icon>
+        </button>
+      </a>
+      <!-- <button class="clickable btn-tool btnruler" [class.active]="measureXY" (click)="measure()"
+        placement="bottom" ngbTooltip="Measure the distance beween 2 points on the map">
+        <fa-icon icon="ruler" size="lg"></fa-icon>
+      </button> -->
+      
+      <button class="clickable btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete this map">
+        <fa-icon icon="trash-alt" size="lg"></fa-icon>
+      </button>
+      <button class="clickable btn-tool" (click)="close()" placement="bottom" ngbTooltip="Close this map">
+        <fa-icon icon="times" size="lg"></fa-icon>
+      </button>
+      
     </div>
     <div class="buttonbar" *ngIf="edit==true">
-      <button type="button" class="btn btn-outline-secondary btn-tool px-3" aria-label="Close" (click)="save()">
+      <button type="button" class="clickable btn-tool px-3" aria-label="Close" (click)="save()">
         <fa-icon icon="save" size="lg"></fa-icon> Save
       </button>
-      <button type="button" class="btn btn-outline-secondary btn-tool" aria-label="Close" (click)="cancel()">
+      <button type="button" class="clickable btn-tool" aria-label="Close" (click)="cancel()">
         <fa-icon icon="times" size="lg"></fa-icon> Cancel
       </button>
     </div>
@@ -69,7 +69,7 @@
         <div class="input-group">
           <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
           <div ngbDropdown placement="bottom-right">
-            <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}}
+            <button class="clickable toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}}
             </button>
             <div ngbDropdownMenu aria-labelledby="dropDownUnits">
               <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
@@ -108,37 +108,37 @@
         <ng-container *ngIf="isGM">
           <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable" (change)="updateFow()">
           <div class="buttongrid">
-            <button class="btn btn-outline-secondary btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start"
+            <button class="clickable btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start"
               container="body" [class.active]="fow.hideAll">
               <fa-icon icon="eye-slash" size="lg"></fa-icon>
             </button>
 
-            <button class="btn btn-outline-secondary btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square"
+            <button class="clickable btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square"
               [class.highlight-btn]="isRectangle()">
               <fa-icon icon="draw-square" size="lg"></fa-icon>
             </button>
-            <button class="btn btn-outline-secondary btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon"
+            <button class="clickable btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon"
               [class.highlight-btn]="isPolygon()">
               <fa-icon icon="draw-polygon" size="lg"></fa-icon>
             </button>
-            <button class="btn btn-outline-secondary btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle"
+            <button class="clickable btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle"
               [class.highlight-btn]="isCircle()">
               <fa-icon icon="draw-circle" size="lg"></fa-icon>
             </button>
-            <button class="btn btn-outline-secondary btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
+            <button class="clickable btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
               <fa-icon icon="sync-alt" size="lg"></fa-icon>
             </button>
           </div>
           <div class="buttongrid highlight" *ngIf="fow_current_shp">
-            <button class="btn btn-outline-secondary btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()"
+            <button class="clickable btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()"
               placement="bottom" ngbTooltip="Show this area to players" container="body">
               <fa-icon icon="eye"> </fa-icon> Show
             </button>
-            <button class="btn btn-outline-secondary btn-tool grid-c2  highlight-choice" (click)="saveAsHide()"
+            <button class="clickable btn-tool grid-c2  highlight-choice" (click)="saveAsHide()"
               placement="bottom" ngbTooltip="Hide this area from players">
               <fa-icon icon="eye-slash"></fa-icon> Hide
             </button>
-            <button class="btn btn-outline-secondary btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom"
+            <button class="clickable btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom"
               ngbTooltip="Cancel this area">
               <fa-icon icon="times" size="lg"></fa-icon>
             </button>
@@ -148,10 +148,11 @@
             <div class="colors">
               <label class="mt-2">Player Fog Color</label>
               <label class="mt-2">GM Fog Color</label>
+              <div>
               <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.color" [style.background]="fow.color"
-                cpAlphaChannel='never' cpPosition='left' (colorPickerChange)="updateFow()"></div>
-              <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.gmcolor" [style.background]="fow.gmcolor"
-                cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateFow()"></div>
+                cpAlphaChannel='never' cpPosition='left' (colorPickerChange)="updateFow()"></div></div>
+              <div><div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.gmcolor" [style.background]="fow.gmcolor"
+                cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateFow()"></div></div>
             </div>
             <label class="mt-2">Fog Blur</label>
             <div class="slidecontainer">
@@ -179,7 +180,7 @@
           (change)="updateAndSave()"  placement="bottom"  ngbTooltip="Enable / Disable Dynamic Lighting">
 
         <div class="buttongrid">
-          <button class="btn btn-outline-secondary btn-tool" (click)="toggleShowLighting()" placement="bottom"
+          <button class="clickable btn-tool" (click)="toggleShowLighting()" placement="bottom"
             ngbTooltip="View lighting layer"  container="body" [class.active]="mapCfg && mapCfg.showLighting">
             <fa-icon icon="eye" size="lg"></fa-icon>
           </button>

@@ -21,7 +21,7 @@
   gap: 3px;
 }
 
-.frm-ctl {
+/* .frm-ctl {
   border-left: 0px solid white;
   border-right: 0px solid white;
   border-top: 0px solid white;
@@ -31,7 +31,7 @@
   background-color: transparent;
   color: white;
   min-width: 1em;
-}
+} */
 
 label {
   text-align: right;

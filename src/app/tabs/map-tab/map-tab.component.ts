@@ -180,7 +180,7 @@ export class MapTabComponent implements OnInit {
     } else {
       this.map.dragging.disable()
       this.map.doubleClickZoom.disable()
-      this.measureXY = new Measure(this.map, this.mapCfg, this.dialog, this.zone, this.data, this.mapSvc)
+      this.measureXY = new Measure(this.map, this.mapCfg)
       this.measureXY.enable()
       this.measureXY.onDisable(() => {
         this.map.dragging.enable()

@@ -7,3 +7,7 @@
 .tags {
   border-bottom: 0;
 }
+
+.personal label {
+  margin-top: 6px;
+}

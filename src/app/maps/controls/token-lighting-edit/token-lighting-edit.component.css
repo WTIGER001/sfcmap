@@ -6,6 +6,7 @@ label {
 .color-pick {
     height: 100%;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .acol {

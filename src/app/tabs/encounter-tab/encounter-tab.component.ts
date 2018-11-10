@@ -122,6 +122,7 @@ export class EncounterTabComponent implements OnInit {
     enc.mapInfo = this.mapSvc.getMapInfo()
     const all = this.calcParticipants()
     this.dialog.openEncounter(enc, all).subscribe(a => {
+      this.labelDuplicates(enc)
       this.data.activateEncounter(enc)
     })
   }
@@ -228,6 +229,7 @@ export class EncounterTabComponent implements OnInit {
     } else {
       this.teams = []
     }
+    this.labelDuplicates(this.encounter)
   }
 
   findToken(item: TokenRecord): TokenAnnotation {
@@ -338,38 +340,35 @@ export class EncounterTabComponent implements OnInit {
     this.data.deactivateEncounter(gameid, mapid)
   }
 
-  labelDuplicates() {
-    const dups = new Map<string, number>()
-    this.encounter.participants.forEach(p => {
-      let num = 1
-      if (dups.has(p.type)) {
-        num = dups.get(p.type)
-      }
-      dups.set(p.type, num)
-      if (num > 1) {
-        p.badge = this.convertBase(num)
-      }
-    })
-
+  labelDuplicates(encounter : Encounter) {
+    if (encounter && encounter.participants) {
+      const dups = new Map<string, number>()
+      encounter.participants.forEach(p => {
+        let num = 0
+        if (dups.has(p.itemid)) {
+          num = dups.get(p.itemid)
+        }
+        dups.set(p.itemid, num+1)
+        p.badge = this.toAlpha(num)
+      })
+    
+      encounter.participants.forEach(p => {
+        if (dups.get(p.itemid) == 1) {
+          p.badge = ''
+        }
+      })
+      console.log("Duplicates :", dups)
+    }
   }
 
-  convertBase(value): string {
-    const from_base = 10
-    const to_base = 26
-    var range = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
-    var from_range = range.slice(0, from_base);
-    var to_range = range.slice(0, to_base);
-
-    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
-      if (from_range.indexOf(digit) === -1) throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
-      return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
-    }, 0);
-
+  toAlpha(value : number ) : string {
+    var range = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     var new_value = '';
+    var dec_value = value
     while (dec_value > 0) {
-      new_value = to_range[dec_value % to_base] + new_value;
-      dec_value = (dec_value - (dec_value % to_base)) / to_base;
+      new_value = range[dec_value % 10] + new_value;
+      dec_value = (dec_value - (dec_value % 10)) / 10;
     }
-    return new_value || '0';
+    return new_value || 'A'
   }
 }

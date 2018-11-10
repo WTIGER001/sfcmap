@@ -10,7 +10,7 @@
   <div class="tiles">
     <app-picture-tile size='tiny' class="tile" [class.imgx]="item.dead" [class.myturn]="isMyTurn(item)" [selected]="isSelected(item)"
       (click)="select(item)" (dblclick)="dblclick(item)" *ngFor="let item of items" [picture]="pic(item)" [caption]="caption(item)"
-      [badge]="'1'" [objPos]="item.imgPos"></app-picture-tile>
+      [badge]='item.badge' [objPos]="item.imgPos"></app-picture-tile>
   </div>
   <div class="handle clickable" (click)="toggle()">
     <fa-icon *ngIf="!expanded" icon="caret-down" size="lg"></fa-icon>

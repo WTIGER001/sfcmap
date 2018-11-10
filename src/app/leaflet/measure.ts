@@ -3,7 +3,7 @@ import * as L from 'leaflet'
 import { MapConfig } from "../models";
 import { DialogService } from "../dialogs/dialog.service";
 import { NgZone } from "@angular/core";
-import { Trans, DistanceUnit } from "../util/transformation";
+import { DistanceUnit } from "../util/transformation";
 import { DataService } from "../data.service";
 import { MapService } from "../maps/map.service";
 import { Format } from "../util/format";
@@ -26,7 +26,7 @@ export class Measure implements Handler {
     active = false
     measureLine: L.Polyline
 
-    constructor(private map: LeafletMap, private mapCfg: MapConfig, private dialog: DialogService, private zone: NgZone, private data: DataService, private mapSvc: MapService) {
+    constructor(private map: LeafletMap, private mapCfg: MapConfig) {
         this.layer = layerGroup()
     }
 
