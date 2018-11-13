@@ -205,6 +205,13 @@ export class MarkerTabComponent implements OnInit {
     this.completeShape(s)
   }
 
+  test() {
+    let shp = this.mapSvc._map.editTools.startElem('div') 
+
+
+
+  }
+
 
   public addMonster() {
     // this.dialog.select(this.data.gameAssets.monsters.items$).subscribe(selected => {
@@ -391,6 +398,21 @@ export class MarkerTabComponent implements OnInit {
   }
 
   //TODO: Move to MapSvcAction
+
+  public deleteOne(item : Annotation) {
+    if (item != undefined) {
+   
+      this.CDialog.confirm("Are you sure you want to delete " + item.name + "?", "Confirm Delete").subscribe(result => {
+        if (result) {
+          this.mapSvc.deleteAnnotation(item)
+          this.edit = false
+          this.mapSvc.newMarkersLayer.clearLayers()
+          this.processSelection(new Selection([]))
+        }
+      })
+    }
+  }
+
   public delete() {
     if (this.item != undefined) {
       let names = []
@@ -412,6 +434,15 @@ export class MarkerTabComponent implements OnInit {
           this.processSelection(new Selection([]))
         }
       })
+    }
+  }
+
+
+
+
+  getAttrs() {
+    if (this.item && TokenAnnotation.is(this.item)) {
+      return this.item.calcCharacter ? this.item.calcCharacter .attributes || [] : []
     }
   }
 

@@ -1,25 +1,111 @@
 <div class="white marker-tab">
-  <h1>Annotations</h1>
+  <div class="title-btn">
+    <h1>Annotations</h1>
+    <div ngbDropdown placement="bottom-right" class="d-inline-block" *ngIf="!edit && selection.items.length>=1">
+      <button class="clickable ell-btn" id="dropdownOptions" ngbDropdownToggle>
+        <fa-icon icon="ellipsis-v" size="lg"></fa-icon>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownOptions" class="actiondropmenu">
+        <div class="actiondropmenu-inner">
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newMarker()">
+            <fa-icon fixedWidth='true' icon="map-marker-alt" size="lg"></fa-icon> Create a new marker
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newPolyline()">
+            <!-- <img src="./assets/icons/polyline.png"> -->
+            <fa-icon fixedWidth='true' icon="signature" size="lg"></fa-icon> Create a new line
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newRectangle()">
+            <!-- <img src="./assets/icons/rectangle.png"> -->
+            <fa-icon fixedWidth='true' icon="vector-square" size="lg"></fa-icon> Create a new rectangle
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newCircle()">
+            <!-- <img src="./assets/icons/circle.png"> -->
+            <fa-icon fixedWidth='true' [icon]="['far', 'circle']" size="lg"></fa-icon> Create a new circle
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newPolygon()">
+            <!-- <img src="./assets/icons/polygon.png"> -->
+            <fa-icon fixedWidth='true' icon="draw-polygon" size="lg"></fa-icon> Create a new polygon
+          </button>
 
-  <div class="buttons">
-    <div class="buttongrid" *ngIf="edit==false">
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newImage()">
+            <fa-icon fixedWidth='true' icon="image" size="lg"></fa-icon> Create a new image
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="newBarrier()">
+            <fa-icon fixedWidth='true' icon="rectangle-wide" size="lg"></fa-icon> Create a new barrier
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="addCharacter()">
+            <fa-icon fixedWidth='true' icon="user-shield" size="lg"></fa-icon> Add a Character
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="addMonster()">
+            <fa-icon fixedWidth='true' icon="dragon" size="lg"></fa-icon> Add a Monster
+          </button>
+          <button class="clickable clickable--grid  btn-tool new-action" (click)="addToken()">
+            <fa-icon fixedWidth='true' icon="helmet-battle" size="lg"></fa-icon> Add a Generic Token
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="edit==false && selection.items.length==0">
+    <span class="helptext">Add something to the map or select something on the map</span>
+
+    <div class="actiondropmenu-inner">
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newMarker()">
+        <fa-icon fixedWidth='true' icon="map-marker-alt" size="lg"></fa-icon> Create a new marker
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newPolyline()">
+        <!-- <img src="./assets/icons/polyline.png"> -->
+        <fa-icon fixedWidth='true' icon="signature" size="lg"></fa-icon> Create a new line
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newRectangle()">
+        <!-- <img src="./assets/icons/rectangle.png"> -->
+        <fa-icon fixedWidth='true' icon="vector-square" size="lg"></fa-icon> Create a new rectangle
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newCircle()">
+        <!-- <img src="./assets/icons/circle.png"> -->
+        <fa-icon fixedWidth='true' [icon]="['far', 'circle']" size="lg"></fa-icon> Create a new circle
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newPolygon()">
+        <!-- <img src="./assets/icons/polygon.png"> -->
+        <fa-icon fixedWidth='true' icon="draw-polygon" size="lg"></fa-icon> Create a new polygon
+      </button>
+
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newImage()">
+        <fa-icon fixedWidth='true' icon="image" size="lg"></fa-icon> Create a new image
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="newBarrier()">
+        <fa-icon fixedWidth='true' icon="rectangle-wide" size="lg"></fa-icon> Create a new barrier
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="addCharacter()">
+        <fa-icon fixedWidth='true' icon="user-shield" size="lg"></fa-icon> Add a Character
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="addMonster()">
+        <fa-icon fixedWidth='true' icon="dragon" size="lg"></fa-icon> Add a Monster
+      </button>
+      <button class="clickable clickable--grid  btn-tool new-action" (click)="addToken()">
+        <fa-icon fixedWidth='true' icon="helmet-battle" size="lg"></fa-icon> Add a Generic Token
+      </button>
+    </div>
+  </div>
+
+<div class="buttons">
+  <!-- 
+    <div class="buttongrid" *ngIf="edit==false && selection.items.length==0">
       <button class="clickable btn-tool" (click)="newMarker()" placement="bottom" ngbTooltip="Create a new marker">
         <fa-icon icon="map-marker-alt" size="lg"></fa-icon>
       </button>
       <button class="clickable btn-tool" (click)="newPolyline()" placement="bottom" ngbTooltip="Create a new line">
-        <!-- <img src="./assets/icons/polyline.png"> -->
         <fa-icon icon="signature" size="lg"></fa-icon>
       </button>
       <button class="clickable btn-tool" (click)="newRectangle()" placement="bottom" ngbTooltip="Create a new rectangle">
-        <!-- <img src="./assets/icons/rectangle.png"> -->
         <fa-icon icon="vector-square" size="lg"></fa-icon>
       </button>
       <button class="clickable btn-tool" (click)="newCircle()" placement="bottom" ngbTooltip="Create a new circle">
-        <!-- <img src="./assets/icons/circle.png"> -->
         <fa-icon [icon]="['far', 'circle']" size="lg"></fa-icon>
       </button>
       <button class="clickable btn-tool" (click)="newPolygon()" placement="bottom" ngbTooltip="Create a new polygon">
-        <!-- <img src="./assets/icons/polygon.png"> -->
         <fa-icon icon="draw-polygon" size="lg"></fa-icon>
       </button>
 
@@ -38,8 +124,8 @@
       <button class="clickable btn-tool" (click)="addToken()" placement="bottom" ngbTooltip="Add a Generic Token">
         <fa-icon icon="helmet-battle" size="lg"></fa-icon>
       </button>
-    </div>
-    <div class="buttongrid" *ngIf="edit==false">
+    </div> -->
+  <!-- <div class="buttongrid" *ngIf="edit==false">
       <button *ngIf="!selection.isEmpty()" class="clickable btn-tool" (click)="editstart()" placement="bottom"
         ngbTooltip="Edit the selected marker(s)">
         <fa-icon icon="pencil-alt" size="lg"></fa-icon>
@@ -61,21 +147,22 @@
         ngbTooltip="Deselect Items">
         <fa-icon icon="times" size="lg"></fa-icon>
       </button>
-    </div>
+    </div> -->
 
-    <div class="buttonbar" *ngIf="edit==true">
-      <button type="button" class="clickable btn-tool px-3" aria-label="Close" (click)="save()">
-        <fa-icon icon="save" size="lg"></fa-icon> Save
-      </button>
-      <button type="button" class="clickable btn-tool" aria-label="Close" (click)="cancel()">
-        <fa-icon icon="times" size="lg"></fa-icon> Cancel
-      </button>
-    </div>
+  <div class="buttonbar" *ngIf="edit==true">
+    <button type="button" class="clickable btn-tool px-3" aria-label="Close" (click)="save()">
+      <fa-icon icon="save" size="lg"></fa-icon> Save
+    </button>
+    <button type="button" class="clickable btn-tool" aria-label="Close" (click)="cancel()">
+      <fa-icon icon="times" size="lg"></fa-icon> Cancel
+    </button>
   </div>
-  <div class="scroller scroller-dark marker-scroll">
-    <!-- Display and Item -->
-    <ng-container *ngIf="!edit && selection.items.length>=1">
-      <div class="marker-container" *ngFor="let item of selection.items">
+</div>
+<div class="scroller scroller-dark marker-scroll">
+  <!-- Display and Item -->
+  <ng-container *ngIf="!edit && selection.items.length>=1">
+    <app-selection-container [item]="item" *ngFor="let item of selection.items" (deletes)="deleteOne($event)" (edits)="editstart()"></app-selection-container>
+    <!-- <div class="marker-container" *ngFor="let item of selection.items">
 
         <app-token-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'token'"></app-token-selection>
         <app-marker-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'marker'"></app-marker-selection>
@@ -83,59 +170,64 @@
         <app-shape-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'shape'"></app-shape-selection>
         <app-barrier-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'barrier'"></app-barrier-selection>
 
-        <app-expander title="Vision" class="expander-tools" *ngIf="itemType(item) == 'token'">
+        <app-token-bar [item]="item" [attributes]="getAttrs()" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-bar>
+
+        <app-expander text="Vision" class="expander-tools" *ngIf="itemType(item) == 'token'">
           <fa-icon class="clickable edit-tool" (click)="editVision()" icon="edit"></fa-icon>
           <button *ngIf="!item.vision" class="clickable btn-tool" (click)="addVision()">
             <fa-icon icon="plus"></fa-icon> Add vision to this
           </button>
           <app-vision-view *ngIf="item.vision" [item]="item" (changes)="save()"></app-vision-view>
         </app-expander>
-        <app-expander title="Auras" *ngIf="itemType(item) == 'token'">
+
+        <app-expander text="Auras" *ngIf="itemType(item) == 'token'">
           <app-edit-chr-auras [item]="item" (changes)="save()"></app-edit-chr-auras>
         </app-expander>
-        <app-expander title="Light" *ngIf="itemType(item) == 'token'">
+
+        <app-expander text="Light" *ngIf="itemType(item) == 'token'">
           <app-lighting-selection [item]="item" (changes)="save()"></app-lighting-selection>
         </app-expander>
-      </div>
-    </ng-container>
 
-    <!-- Edit of a single marker -->
-    <div *ngIf="edit && itemType(item)=='marker' && selection.items.length==1">
-      <app-edit-marker [marker]="item" [map]="map"></app-edit-marker>
+      </div> -->
+  </ng-container>
+
+  <!-- Edit of a single marker -->
+  <div *ngIf="edit && itemType(item)=='marker' && selection.items.length==1">
+    <app-edit-marker [marker]="item" [map]="map"></app-edit-marker>
+  </div>
+
+  <!-- Edit a single shape -->
+  <div *ngIf="edit && itemType(item) == 'shape' && selection.items.length == 1">
+    <app-edit-shape #editshape [shape]='item'></app-edit-shape>
+  </div>
+
+  <!-- Edit a single barrier -->
+  <div *ngIf="edit && itemType(item) == 'barrier' && selection.items.length == 1">
+    <app-barrier-edit #editbarrier [item]='item'></app-barrier-edit>
+  </div>
+
+  <!-- Edit a single image -->
+  <div *ngIf="edit && itemType(item) == 'image' && selection.items.length == 1">
+    <app-edit-image #editimage [image]='item'></app-edit-image>
+  </div>
+
+  <!-- Edit of multiple markers -->
+  <div *ngIf="edit && types()=='marker' && selection.items.length > 1">
+    <div class="form-group">
+      <label for="type" class="small">Type</label>
+      <app-marker-combo [(ngModel)]="markers.type" [map]="map" (change)="updateMuliEdit()"></app-marker-combo>
     </div>
-
-    <!-- Edit a single shape -->
-    <div *ngIf="edit && itemType(item) == 'shape' && selection.items.length == 1">
-      <app-edit-shape #editshape [shape]='item'></app-edit-shape>
-    </div>
-
-    <!-- Edit a single barrier -->
-    <div *ngIf="edit && itemType(item) == 'barrier' && selection.items.length == 1">
-      <app-barrier-edit #editbarrier [item]='item'></app-barrier-edit>
-    </div>
-
-    <!-- Edit a single image -->
-    <div *ngIf="edit && itemType(item) == 'image' && selection.items.length == 1">
-      <app-edit-image #editimage [image]='item'></app-edit-image>
-    </div>
-
-    <!-- Edit of multiple markers -->
-    <div *ngIf="edit && types()=='marker' && selection.items.length > 1">
-      <div class="form-group">
-        <label for="type" class="small">Type</label>
-        <app-marker-combo [(ngModel)]="markers.type" [map]="map" (change)="updateMuliEdit()"></app-marker-combo>
-      </div>
-      <div class="form-group">
-        <label for="type" class="small">Group</label>
-        <app-marker-group-combo [(ngModel)]="markers.group" [annotation]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
-      </div>
-    </div>
-
-    <div *ngIf="edit && types()!='marker' && selection.items.length > 1">
-      <div class="form-group">
-        <label for="type" class="small">Group</label>
-        <app-marker-group-combo [(ngModel)]="markers.group" [annotation]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
-      </div>
+    <div class="form-group">
+      <label for="type" class="small">Group</label>
+      <app-marker-group-combo [(ngModel)]="markers.group" [annotation]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
     </div>
   </div>
+
+  <div *ngIf="edit && types()!='marker' && selection.items.length > 1">
+    <div class="form-group">
+      <label for="type" class="small">Group</label>
+      <app-marker-group-combo [(ngModel)]="markers.group" [annotation]="markers" (change)="updateMuliEdit()"></app-marker-group-combo>
+    </div>
+  </div>
+</div>
 </div>

@@ -1,0 +1,13 @@
+<figure #figure [class.iconselected]="selected" >
+  <img [src]="getPicture()" [ngClass]="getImagePosClass()">
+  <figcaption *ngIf="item.showName">{{item.name}}</figcaption>
+  <span *ngIf="item.badge" class="badge badge-secondary badge-label">{{item.badge}}</span>
+  <ul class="bars" [style.gap]="calcBarGap()">
+    <ng-container *ngFor="let bar of item.bars">
+      <li class="bar" *ngIf="bar.visible==1" [style.background-color]="bar.bgColor" [style.height]="calcBarHeight(bar)">
+        <div class="bar-inner" [style.width]="calcBarWidth(bar)" [style.background-color]="getColor(bar)"></div>
+      </li>
+    </ng-container>
+  </ul>
+  <span *ngIf="item.flyHeight != 0" class="badge badge-secondary badge-fly ">{{flyHeight}}</span>
+</figure>

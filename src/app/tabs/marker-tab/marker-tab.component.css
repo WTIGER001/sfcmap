@@ -1,9 +1,49 @@
+
+.title-btn {
+  display: grid;
+  grid-template-columns: 1fr auto ;
+  align-items: center;
+  height: 2.5em;
+}
+
+.ell-btn {
+  padding: 6px 12px;
+  color: white;
+}
+
+.ell-btn::after {
+  border: 0;
+}
+
+.actiondropmenu {
+  background-color: black;
+  width: 280px;
+}
+.actiondropmenu-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%
+}
+
+.helptext {
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: lightgray;
+  display: block;
+}
+
+.new-action {
+  color: lightgray;
+  font-size: 1.1em
+}
+
 .marker-tab {
   display: grid;
   grid-template-rows: auto auto 1fr;
   height: 100%;
 }
-
 
 .marker-container {
     display: flex;

@@ -29,6 +29,7 @@ export class EncounterTabComponent implements OnInit {
   game: Game
   mapCfg: MapConfig
   time: Date
+  showBars = true
   constructor(private data: DataService, private audioSvc: AudioService, private dialog: DialogService, private mapSvc: MapService, private msg: MessageService) { }
 
   ngOnInit() {

@@ -5,13 +5,13 @@
   <div class="tbl-header tbl-header--right">Current</div>
   <ng-container *ngFor="let attr of character.attributes; let even=even">
     <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
-      <input class="form-control" [(ngModel)]="attr.attr">
+      <input class="form-control nobg" [(ngModel)]="attr.attr">
     </div>
     <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
-      <input class="form-control num" type="number" [(ngModel)]="attr.max">
+      <input class="form-control num nobg" type="number" [(ngModel)]="attr.max">
     </div>
     <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
-      <input class="form-control num" type="number" [(ngModel)]="attr.current">
+      <input class="form-control num nobg" type="number" [(ngModel)]="attr.current">
     </div>
   </ng-container>
 </div>

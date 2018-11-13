@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ExpanderComponent implements OnInit {
   @Input() expanded = false
-  @Input() title = "Title"
+  @Input() text = "Title"
 
   constructor() { }
 

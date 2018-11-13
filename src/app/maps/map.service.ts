@@ -99,6 +99,7 @@ export class MapService {
 
   public annotationAddUpate = new Subject()
   public annotationDelete = new Subject()
+  public zoom$ = new Subject<number>()
 
   mapPrefs: MapPrefs
   public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>(1)
@@ -205,6 +206,7 @@ export class MapService {
     map.on('zoom', () => {
       var currentZoom = map.getZoom();
       this.markerZoomLog.debug(`Map zooming`)
+      this.zoom$.next(currentZoom)
     })
 
     map.on('keypress ', (event: any) => {
@@ -410,6 +412,19 @@ export class MapService {
       } else {
         allItems.push(item)
       }
+    })
+    let sel = new Selection(allItems)
+    this.selection.next(sel)
+  }
+
+  removeFromSelection(...items: any[]) {
+    let old = this.selection.getValue()
+    let allItems = old.items.slice(0)
+    items.forEach(item => {
+      let indx = allItems.findIndex(i => item.id == i.id)
+      if (indx >= 0) {
+        allItems.splice(indx, 1)
+      } 
     })
     let sel = new Selection(allItems)
     this.selection.next(sel)

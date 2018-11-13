@@ -189,7 +189,6 @@ import { AuraEditComponent } from './maps/controls/aura-edit/aura-edit.component
 import { LightingSelectionComponent } from './maps/controls/lighting-selection/lighting-selection.component';
 import { EmitterEditComponent } from './maps/controls/emitter-edit/emitter-edit.component';
 import { DetectorEditComponent } from './maps/controls/detector-edit/detector-edit.component';
-import { VisionLightEditComponent } from './maps/controls/vision-light-edit/vision-light-edit.component';
 import { TokenLightingEditComponent } from './maps/controls/token-lighting-edit/token-lighting-edit.component';
 import { MapBarrierComponent } from './maps/controls/map-barrier/map-barrier.component';
 import { LightSelectionComponent } from './maps/controls/light-selection/light-selection.component';
@@ -198,6 +197,10 @@ import { BarrierSelectionComponent } from './maps/controls/barrier-selection/bar
 import { VisionEditComponent } from './controls/vision-edit/vision-edit.component';
 import { VisionViewComponent } from './controls/vision-view/vision-view.component';
 import { UnitsComponent } from './controls/units/units.component';
+import { TokenBarComponent } from './maps/controls/token-bar/token-bar.component';
+import { TokenBarEditComponent } from './maps/controls/token-bar-edit/token-bar-edit.component';
+import { TokenIconComponent } from './maps/controls/token-icon/token-icon.component';
+import { SelectionContainerComponent } from './maps/controls/selection-container/selection-container.component';
 
 @NgModule({
   declarations: [
@@ -344,7 +347,6 @@ import { UnitsComponent } from './controls/units/units.component';
     LightingSelectionComponent,
     EmitterEditComponent,
     DetectorEditComponent,
-    VisionLightEditComponent,
     TokenLightingEditComponent,
     MapBarrierComponent,
     LightSelectionComponent,
@@ -353,6 +355,10 @@ import { UnitsComponent } from './controls/units/units.component';
     VisionEditComponent,
     VisionViewComponent,
     UnitsComponent,
+    TokenBarComponent,
+    TokenBarEditComponent,
+    TokenIconComponent,
+    SelectionContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -417,6 +423,9 @@ import { UnitsComponent } from './controls/units/units.component';
     AuraEditComponent,
     TokenLightingEditComponent,
     VisionEditComponent,
+    TokenBarEditComponent,
+    PictureTileComponent,
+    TokenIconComponent,
   ],
   exports: [CheckboxComponent]
 })

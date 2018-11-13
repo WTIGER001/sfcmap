@@ -1,0 +1,12 @@
+.color-pick {
+  height: 2em;
+}
+
+.acol {
+  display: grid;
+  justify-content: flex-start;
+}
+
+.acol label {
+  text-align: left;
+}

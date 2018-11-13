@@ -5,10 +5,10 @@
   <div class="tbl-header"></div>
   <ng-container *ngFor="let r of character.rolls; let even=even">
     <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
-      <input class="form-control" [(ngModel)]="r.name">
+      <input class="form-control nobg" [(ngModel)]="r.name">
     </div>
     <div [class.tbl-even]='even' [class.tbl-odd]='!even'>
-      <input class="form-control " [(ngModel)]="r.expression">
+      <input class="form-control nobg" [(ngModel)]="r.expression">
     </div>
     <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="btns">
       <fa-icon icon="trash" class="row-btn" (click)="delete(r)"></fa-icon>

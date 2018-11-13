@@ -1,7 +1,10 @@
 import * as L from 'leaflet';
+import { getNumberOfCurrencyDigits } from '@angular/common';
 
 
 declare module 'leaflet' {
+  export function elemOverlay(type: string, bounds: LatLngBoundsExpression, options?: ElemOverlayOptions): ElemOverlay;
+
 
     class CanvasLayer extends L.Layer{
       delegate(del: any): CanvasLayer;
@@ -12,6 +15,12 @@ declare module 'leaflet' {
 
       setBounds(bounds : L.LatLngBounds)
     }
+
+  class ElemOverlay extends L.Layer {
+    setBounds(bounds: L.LatLngBounds)
+    getBounds(): L.LatLngBounds
+    getElement(): HTMLElement
+  }
 
     interface ILayerDraw {
 
@@ -133,6 +142,7 @@ declare module 'leaflet' {
         startRectangle(latLng?: LatLng, options?: PolylineOptions): L.Rectangle;
 
         startImage(url: string, latLng?: LatLng, options?: PolylineOptions): L.ImageOverlay;
+        startElem(type: string, latLng?: LatLng, options?: PolylineOptions): L.ElemOverlay;
 
 
         startCircle(latLng?: LatLng, options?: PolylineOptions): L.Circle;
@@ -207,6 +217,17 @@ declare module 'leaflet' {
         className?: string;
     }
 
+    interface ElemOverlayOptions extends LayerOptions {
+      opacity?: number;
+      alt?: string;
+      interactive?: boolean;
+      attribution?: string;
+      crossOrigin?: boolean;
+      errorOverlayUrl?: string;
+      zIndex?: number;
+      className?: string;
+      existing?: HTMLElement | string;
+    }
     
     interface Map {
         /**
@@ -319,6 +340,9 @@ declare module 'leaflet' {
     interface Polygon extends EditableMixin, PolygonEditor, PathDrag { }
     interface Rectangle extends EditableMixin, PathDrag { }
     interface ImageOverlay extends EditableMixin, PathDrag { }
+    interface ElemOverlay extends EditableMixin, PathDrag { }
+
+    
 }
 
 declare global {

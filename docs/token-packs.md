@@ -23,3 +23,12 @@ Token
 ## Behavior
 
 On browse - All token packs are listed
+
+{
+  "name" : "Name of Token Pack",
+  "id" : "ID OF token Pack",
+  "description" : "description", 
+  
+
+
+}

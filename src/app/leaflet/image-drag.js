@@ -46,6 +46,7 @@ L.Handler.ImgDrag = L.Handler.extend({
             this._draggable = new L.ImgDraggable(this._path);
         }
         var a = this._draggable.on(this.getEvents(), this)
+        console.log("DRAGGABLE IMAG" , this._draggable, a)
         a.enable();
         L.DomUtil.addClass(this._draggable._element, 'leaflet-path-draggable');
     },

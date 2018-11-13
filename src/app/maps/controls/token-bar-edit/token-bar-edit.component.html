@@ -1,0 +1,42 @@
+<div class="dlg">
+  <div class="header">
+    <h1>Edit Attribute Bar</h1>
+  </div>
+  <div class="bdy">
+    <div class="acol">
+      <!-- name -->
+      <label>Name</label>
+      <input type="text" class="form-control" [(ngModel)]="bar.name">
+
+      <!-- Source -->
+      <label>Attribute</label>
+      <select class="form-control" [(ngModel)]="bar.source">
+        <option *ngFor="let attr of attributes" [value]="attr.attr">{{attr.attr}}</option>
+      </select>
+
+      <label>Background</label>
+      <div class="form-control form-control-sm  color-pick" [(colorPicker)]="bar.bgColor" [style.background]="bar.bgColor"
+        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+
+      <label>Normal</label>
+      <div class="form-control form-control-sm  color-pick" [(colorPicker)]="bar.color" [style.background]="bar.color"
+        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+
+      <label>Warning Range</label>
+      <input type="number" class="form-control" [(ngModel)]="bar.warnRange">
+
+      <label>Warning</label>
+      <div class="form-control form-control-sm  color-pick" [(colorPicker)]="bar.warnColor" [style.background]="bar.warnColor"
+        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+    </div>
+  </div>
+  <div class="footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+      <fa-icon icon="check" size="lg" class="mr-2"></fa-icon>Select
+    </button>
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      <fa-icon icon="times" size="lg" class="mr-2">
+      </fa-icon>Cancel
+    </button>
+  </div>
+</div>

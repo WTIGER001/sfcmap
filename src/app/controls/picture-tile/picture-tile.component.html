@@ -1,10 +1,18 @@
-<figure [class.iconselected]="selected"
+<figure #figure [class.iconselected]="selected" 
 [ngClass]="getSizeClass()"
 (click)="toggleCheck()">
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
   <figcaption *ngIf="caption">{{caption}}</figcaption> 
-  <span *ngIf="badge" class="badge badge-secondary">{{badge}}</span>
+  <span *ngIf="badge" class="badge badge-secondary badge-label">{{badge}}</span>
   <div class="selected" *ngIf="isChecked()">
     <fa-icon [icon]="checkIcon" size="2x"></fa-icon>
   </div>
+  <ul class="bars">
+    <ng-container *ngFor="let bar of bars">
+    <li class="bar" *ngIf="bar.visible==1" [style.background-color]="bar.bgColor">
+      <div class="bar-inner" [style.width]="calcBarWidth(bar)" [style.background-color]="getColor(bar)"></div>
+    </li>
+    </ng-container>
+  </ul>
+  <span *ngIf="flyHeight != 0" class="badge badge-secondary badge-fly ">{{flyHeight}}</span>
 </figure>

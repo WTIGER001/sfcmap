@@ -79,6 +79,10 @@
     cursor: pointer;
   }
 
+  .clickable-sm {
+    padding: 4px;
+  }
+
   .clickable:hover {
     background-color: rgba(100,100,100, 0.8) !important;
   }
@@ -90,6 +94,10 @@
   .clickable.active {
     color: white;
     background-color: rgba(80, 80, 80, 0.8);
+  }
+
+  .clickable--grid {
+    display: grid
   }
 
   .toolbar--raised {

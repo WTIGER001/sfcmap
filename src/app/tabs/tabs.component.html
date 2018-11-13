@@ -18,9 +18,9 @@
     </div>
   </div>
 
-  <button type="button" class="close" aria-label="Close" (click)="expanded=false" [class.hide]="expanded==false">
+  <!-- <button type="button" class="close" aria-label="Close" (click)="expanded=false" [class.hide]="expanded==false">
     <span aria-hidden="true">&times;</span>
-  </button>
+  </button> -->
 
   <app-marker-tab class="side-container" [class.visible]="selected==='marker'" [class.hide]="selected!=='marker'"></app-marker-tab>
   <app-encounter-tab class="side-container" [class.visible]="selected==='encounter'" [class.hide]="selected!=='encounter'"></app-encounter-tab>

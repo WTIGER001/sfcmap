@@ -1,14 +1,3 @@
   <div class="pgmonster scroller scroller-dark monster-page">
-    <div class="selection-actions">
-      <div class="action" (click)="panTo()">
-        <fa-icon icon="location"></fa-icon> Locate on Map
-      </div>
-      <a *ngIf="item.pageUrl" class="action" [href]="item.pageurl" target="_blank">
-        <fa-icon icon="globe"></fa-icon> Open External Link
-      </a>
-      <div class="action" (click)="openDialog()">
-        <fa-icon icon="address-card"></fa-icon> View Monster Details
-      </div>
-    </div>
     <app-character-selection [character]="character" [noactions]='true'></app-character-selection>
   </div>

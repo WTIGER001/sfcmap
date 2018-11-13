@@ -1,18 +1,5 @@
-<div class="selection-actions" *ngIf="!noactions">
-  <div class="action" (click)="panTo()">
-    <fa-icon icon="location"></fa-icon> Locate on Map
-  </div>
-  <div *ngIf="character.mapLink" class="action" routerLink="/maps/{{character.mapLink}}">
-    <fa-icon icon="map"></fa-icon> Open Linked Map
-  </div>
-  <a *ngIf="character.pageUrl" class="action" [href]="character.pageurl" target="_blank">
-    <fa-icon icon="globe"></fa-icon> Open External Link
-  </a>
-  <div class="action" (click)="editCharacter()">
-    <fa-icon icon="edit"></fa-icon> Edit Character
-  </div>
-</div>
-<app-expander title="Personal">
+
+<app-expander text="Personal">
   <div class="end-margin">
     <div>
       <app-restricted-content [item]="character" field="type">{{lookupType()}}</app-restricted-content>
@@ -33,7 +20,7 @@
   </div>
 </app-expander>
 
-<app-expander title="Rolls">
+<app-expander text="Rolls">
   <app-restricted-content [item]="character" field="rolls">
     <div class="roll-tbl">
       <ng-container *ngFor="let a of character.rolls">
@@ -47,7 +34,7 @@
   </app-restricted-content>
 </app-expander>
 
-<app-expander title="Stats">
+<app-expander text="Stats">
   <app-restricted-content [item]="character" field="attributes">
     <div class="attr-tbl">
       <div> </div>
@@ -62,7 +49,7 @@
   </app-restricted-content>
 </app-expander>
 
-<app-expander title="Conditions">
+<app-expander text="Conditions">
   <app-character-edit-conditions [character]="character"></app-character-edit-conditions>
 </app-expander>
 

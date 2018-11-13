@@ -156,7 +156,6 @@ input.switch ~ label {
 .tbl input {
   border-radius: 0;
   padding: .15em;
-  background-color: transparent;
   color: white;
   font-size: .95em;
   text-overflow: ellipsis;
@@ -168,4 +167,25 @@ input.switch ~ label {
 
 .tbl input:focus {
   background-color: var(--form-focus-bg);
+}
+
+.footer-btn {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 5px;
+  padding: 4px;
+  grid-template-columns: auto auto;
+  gap: .5em;
+  grid-column: 1/-1;
+}
+
+.footer-btn:hover {
+  background-color: grey;
+}
+
+.nobg {
+  background-color: transparent;
 }

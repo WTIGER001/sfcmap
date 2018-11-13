@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 import { MapConfig, User, Prefs, Selection, ImageAnnotation, Asset } from '../../../models';
 import { latLngBounds, Layer, imageOverlay, CRS, Map as LeafletMap, LayerGroup, layerGroup, LeafletEvent, Marker, DomUtil, latLng, Transformation, CanvasLayer } from 'leaflet';
 import { Trans } from '../../../util/transformation';
@@ -16,6 +16,7 @@ import { Ping } from '../../../leaflet/ping';
 import { ZoomControls } from '../../../leaflet/zoom-controls';
 import { NotifyService } from '../../../notify.service';
 import { AnnotationManager } from '../../annotation-manager';
+import '../../../leaflet/ElemOverlay.js';
 import '../../../leaflet/path.js';
 import '../../../leaflet/image-drag.js';
 import '../../../leaflet/edit.js';
@@ -72,10 +73,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
   currentSelection: Selection = new Selection([])
 
   constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService, private route: ActivatedRoute,
-    private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService, private notify: NotifyService) {
+    private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService, private notify: NotifyService, private resolver: ComponentFactoryResolver, private viewref : ViewContainerRef) {
 
     this.makeLayers()
     this.setupSubscriptions()
+  
   }
 
   makeLayers() {
@@ -247,7 +249,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   }
 
   loadAnnotations(map: LeafletMap) {
-    const annotationMgr = new AnnotationManager(map, this.mapCfg, this.data, this.mapSvc, this.zone, this.notify, this.allMarkersLayer)
+    const annotationMgr = new AnnotationManager(map, this.mapCfg, this.data, this.mapSvc, this.zone, this.notify, this.allMarkersLayer, this.viewref, this.resolver)
   }
 
   /**

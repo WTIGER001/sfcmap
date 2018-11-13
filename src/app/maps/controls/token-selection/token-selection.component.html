@@ -1,16 +1,5 @@
-<img [src]="item?.url" height="150" class="centered my-2">
-
-<h3 class="name">{{item?.name}}</h3>
-<app-tags class="centered" [tags]="item.tags"></app-tags>
-<app-annotation-group-name *ngIf="item.group" class="centered-text" [item]="item"></app-annotation-group-name>
-
-<app-character-selection 
-  *ngIf="tokenIsCharacter(item)" 
-  [character]="getTokenItem(item)" 
-  (onPan)="pan()">
+<app-character-selection *ngIf="tokenIsCharacter(item)" [character]="getTokenItem(item)" (onPan)="pan()">
 </app-character-selection>
 
 <app-monster-selection *ngIf="tokenIsMonster(item)" [item]="getTokenItem(item)" (onPan)="pan()">
 </app-monster-selection>
-
-<app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>

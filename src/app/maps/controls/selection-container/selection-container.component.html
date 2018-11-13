@@ -1,0 +1,147 @@
+<!-- Shows the item selecte-->
+<div class="selection-area">
+  <!-- title -->
+  <div class="sel-title">
+    <h3>{{item.name}}</h3>
+    <div class="clickable" (click)="deselect()">
+      <fa-icon icon="times" size="lg"></fa-icon>
+    </div>
+  </div>
+
+  <!-- Picture -->
+  <app-svgbox *ngIf="itemType(item) == 'shape'" [shape]="item" [maxheight]="100" [padding]="10" class="center-flex"></app-svgbox>
+  
+  <img *ngIf="itemType(item) == 'token'" [src]="item?.url" height="150" class="centered my-2">
+  
+  <img *ngIf="itemType(item) == 'marker'" [src]="item?._iconUrl" height="40" class="centered my-2 iconselected">
+  
+  <img *ngIf="itemType(item) == 'image'" [src]="item?.url" height="150" class="centered my-2">
+
+  <!-- Tags -->
+  <app-tags class="centered" [tags]="item.tags"></app-tags>
+
+  <!-- Group Name-->
+  <app-annotation-group-name *ngIf="item.group" class="centered-text" [item]="item"></app-annotation-group-name>
+
+  <!-- Actions-->
+  <div class="selection-actions">
+    <div class="action" (click)="panTo()">
+      <fa-icon fixedWidth="true" icon="location"></fa-icon> Locate on Map
+    </div>
+    <div *ngIf="item.mapLink" class="action" routerLink="/maps/{{item.mapLink}}">
+      <fa-icon fixedWidth="true"  icon="map"></fa-icon> Open Linked Map
+    </div>
+    <a *ngIf="item.pageUrl" class="action" [href]="item.pageurl" target="_blank">
+      <fa-icon fixedWidth="true"  icon="globe"></fa-icon> Open External Link
+    </a>
+    <div class="action" (click)="edit()">
+      <fa-icon fixedWidth="true"  icon="pencil"></fa-icon> Edit
+    </div>
+    <div class="action" (click)="restrict()">
+      <fa-icon fixedWidth="true"  icon="unlock"></fa-icon> Access
+    </div>
+    <div class="action" (click)="pin()">
+      <fa-icon fixedWidth="true"  icon="thumbtack"></fa-icon> Pin Selection
+    </div>
+    <div class="action" (click)="delete()">
+      <fa-icon fixedWidth="true"  icon="pencil"></fa-icon> Delete
+    </div>
+    <div *ngIf="isCharacter()" class="action" (click)="editCharacter()">
+      <fa-icon fixedWidth="true"  icon="edit"></fa-icon> Edit Character
+    </div>
+    <div *ngIf="isMonster()" class="action" (click)="viewMonster()">
+      <fa-icon fixedWidth="true"  icon="address-card"></fa-icon> View Monster
+    </div>
+    <div *ngIf="isCharacter()" class="action" (click)="copyFrom()">
+      <fa-icon fixedWidth="true"  icon="cloud-download"></fa-icon> Copy from
+    </div>
+    <div *ngIf="isMonster()" class="action" (click)="copyFrom()">
+      <fa-icon fixedWidth="true"  icon="cloud-download"></fa-icon> Copy from
+    </div>
+    <div *ngIf="isMonster()" class="action" (click)="copyTo()">
+      <fa-icon fixedWidth="true"  icon="cloud-upload"></fa-icon> Copy To
+    </div>
+    <div *ngIf="isCharacter()" class="action" (click)="copyTo()">
+      <fa-icon fixedWidth="true"  icon="cloud-upload"></fa-icon> Copy To
+    </div>
+  </div>
+
+  <app-barrier-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'barrier'"></app-barrier-selection>
+
+  <app-token-bar [item]="item" [attributes]="getAttrs()" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-bar>
+
+  <!-- <app-token-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'token'"></app-token-selection> -->
+
+<!-- <app-expander text="Personal">
+  <div class="end-margin">
+    <div>
+      <app-restricted-content [item]="character" field="type">{{lookupType()}}</app-restricted-content>
+    </div>
+    <app-tags [tags]="character.tags"></app-tags>
+    <div>
+      <app-restricted-content [item]="character" field="size">Size: {{character?.size}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="character" field="speed">Speed: {{character?.speed}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="character" field="vision">Vision: {{character?.vision}}</app-restricted-content>
+    </div>
+    <div>
+      <app-restricted-content [item]="character" field="reach">Reach: {{character?.reach}}</app-restricted-content>
+    </div>
+  </div>
+</app-expander> -->
+
+<!-- <app-expander text="Rolls">
+  <app-restricted-content [item]="character" field="rolls">
+    <div class="roll-tbl">
+      <ng-container *ngFor="let a of character.rolls">
+        <div>{{a.name}}</div>
+        <div>{{evaluate(a)}}</div>
+        <div>
+          <fa-icon icon="dice-six" (click)="roll($event,a)" class="btn-tbl"></fa-icon>
+        </div>
+      </ng-container>
+    </div>
+  </app-restricted-content>
+</app-expander>
+
+<app-expander text="Stats">
+  <app-restricted-content [item]="character" field="attributes">
+    <div class="attr-tbl">
+      <div> </div>
+      <div class="numcell">Std</div>
+      <div class="numcell">Curr</div>
+      <ng-container *ngFor="let a of character.attributes">
+        <div>{{a.attr}}</div>
+        <div class="numcell">{{a.max}}</div>
+        <div class="numcell">{{a.current}}</div>
+      </ng-container>
+    </div>
+  </app-restricted-content>
+</app-expander> -->
+
+<!-- <app-expander text="Conditions">
+  <app-character-edit-conditions [character]="character"></app-character-edit-conditions>
+</app-expander> -->
+
+
+  <app-expander text="Vision" class="expander-tools" *ngIf="itemType(item) == 'token'">
+    <fa-icon class="clickable edit-tool" (click)="editVision()" icon="edit"></fa-icon>
+    <button *ngIf="!item.vision" class="clickable btn-tool" (click)="addVision()">
+      <fa-icon icon="plus"></fa-icon> Add vision to this
+    </button>
+    <app-vision-view *ngIf="item.vision" [item]="item" (changes)="save()"></app-vision-view>
+  </app-expander>
+
+  <app-expander text="Auras" *ngIf="itemType(item) == 'token'">
+    <app-edit-chr-auras [item]="item" (changes)="save()"></app-edit-chr-auras>
+  </app-expander>
+
+  <app-expander text="Light" *ngIf="itemType(item) == 'token'">
+    <app-lighting-selection [item]="item" (changes)="save()"></app-lighting-selection>
+  </app-expander>
+
+  <app-readmore class="text-muted mb-2 description" *ngIf="item.description" [value]="item.description"></app-readmore>
+</div>

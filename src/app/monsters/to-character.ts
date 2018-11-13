@@ -1,5 +1,5 @@
 import { Monster } from "./monster";
-import { Character, Attribute, Roll } from "../models";
+import { Character, Attribute, Roll } from "../models/character";
 
 export class MonsterToCharacter {
   public static convert(m : Monster) : Character {

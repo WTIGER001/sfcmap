@@ -2,7 +2,8 @@ figure {
   display: block;
   position: relative;
   overflow: hidden;
-  border-radius: 6px;
+  height: 100%;
+  width: 100%;
 }
 
 .tiny-pic{
@@ -81,14 +82,17 @@ figure:hover .selected {
     opacity: 1;
 }
 
+figure:hover .bars {
+  display: grid;
+}
 
 figure .bars {
+  display: grid;
   position: absolute;
   top: 3px;
   left: 3px;
   right: 3px;
   list-style: none;
-  display: grid;
   gap: 3px;
   padding: 0;
   margin: 0;
@@ -108,3 +112,10 @@ figure .bar {
   background-color: blue;
 }
 
+figure[data-size="small"] .bar{
+  display: none;
+}
+
+figure[data-size="normal"] .bar{
+  
+}

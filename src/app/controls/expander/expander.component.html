@@ -1,8 +1,8 @@
 <h4 class="pointer" (click)="expanded = !expanded">
   <fa-icon [fixedWidth]="true" size="lg"
     [icon]="expanded ? 'caret-down' : 'caret-right'"></fa-icon>
-  {{title}}
+  {{text}}
 </h4>
-<div class="ml-2" [ngbCollapse]="!expanded">
+<div class="ml-2 container-relative" [ngbCollapse]="!expanded">
  <ng-content></ng-content>
 </div>

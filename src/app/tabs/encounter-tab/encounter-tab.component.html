@@ -18,7 +18,7 @@
       <h3>{{team}}</h3>
       <div class="small-tiles">
         <app-picture-tile size='tiny' [class.imgx]="item.dead" class="pic" [selected]="isSelected(item)" (click)="select(item)" *ngFor="let item of getMembers(team)" [picture]="pic(item)"
-         [caption]="caption(item)" [objPos]="item.imgPos" [badge]='item.badge'></app-picture-tile>
+         [caption]="caption(item)" [objPos]="item.imgPos" [badge]='item.badge' [bars]="findToken(item)?.bars"></app-picture-tile>
       </div>
     </ng-container>
   </div>

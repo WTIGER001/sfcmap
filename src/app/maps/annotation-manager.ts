@@ -4,7 +4,7 @@ import { Map as LeafletMap, DomUtil, Marker, LayerGroup, featureGroup, Layer, la
 import { MapConfig, Annotation, MarkerTypeAnnotation, Operation, IconZoomLevelCache, MapPrefs, MarkerGroup, MarkerType, TokenAnnotation, ImageAnnotation, Selection } from "../models";
 import { DataService } from "../data.service";
 import { MapService } from "./map.service";
-import { NgZone } from "@angular/core";
+import { NgZone, ViewContainerRef, ComponentFactoryResolver } from "@angular/core";
 import { NotifyService, Debugger } from '../notify.service';
 import { HtmlUtil } from '../util/html-util';
 
@@ -12,7 +12,7 @@ export class AnnotationManager {
   /** Icons (one per marker type) at each soom level for the map. This is precomputed so that zooming is quick. Note this is computed each time there is a map change  */
   iconCache: IconZoomLevelCache
 
-
+ 
   /** Array of all Marker Groups for this map. For each marker group there is an associated layer */
   groups: MarkerGroup[] = []
 
@@ -31,8 +31,10 @@ export class AnnotationManager {
   log: Debugger
   mapLoad: Debugger
   markerZoomLog: Debugger
-  constructor(private leafletmap: LeafletMap, private mapCfg: MapConfig, private data: DataService,
-    private mapSvc: MapService, private zone: NgZone, private notify: NotifyService, private allMarkersLayer: LayerGroup) {
+  constructor(
+    private leafletmap: LeafletMap, private mapCfg: MapConfig, private data: DataService,
+    private mapSvc: MapService, private zone: NgZone, private notify: NotifyService, 
+    private allMarkersLayer: LayerGroup, private viewref: ViewContainerRef , private resolver: ComponentFactoryResolver) {
     console.log("SETUP ANNOTATION MANAGER");
 
     this.mapLoad = this.notify.newDebugger('Map Loading')
@@ -192,7 +194,7 @@ export class AnnotationManager {
     }
 
     if (lGrp) {
-      let mapitem = item.toLeaflet(this.iconCache)
+      let mapitem = item.toLeaflet(this.iconCache, this.resolver, this.viewref)
       this.addAnnotationItem(mapitem, item, group, lGrp);
     }
 

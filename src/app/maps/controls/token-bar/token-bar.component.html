@@ -1,0 +1,26 @@
+<app-expander text="Bars">
+  <div class="bars">
+    <ng-container *ngFor="let bar of item.bars">
+      <div class="clickable" (click)="toggle(bar, $event)" placement="bottom" ngbTooltip="Toggle visiblity" container="body">
+        <fa-icon *ngIf="bar.visible==0" [fixedWidth]="true" icon="eye-slash"></fa-icon>
+        <fa-icon *ngIf="bar.visible==1" [fixedWidth]="true" icon="eye"></fa-icon>
+        <fa-icon *ngIf="bar.visible==2" [fixedWidth]="true" icon="hand-pointer"></fa-icon>
+      </div>
+      <label>{{bar.name}}</label>
+      <input type="number" class="form-control" [(ngModel)]="bar.value">
+      <span class="slash">/</span>
+      <input type="number" class="form-control" [(ngModel)]="bar.max">
+      <div class="clickable clickable-sm" (click)="edit(bar)">
+        <fa-icon icon="edit"></fa-icon>
+      </div>
+      <div class="clickable  clickable-sm" (click)="delete(bar)" placement="bottom" ngbTooltip="Delete">
+        <fa-icon icon="trash"></fa-icon>
+      </div>
+
+    </ng-container>
+    <div class="footer-btn" (click)="add()">
+      <fa-icon icon="plus"></fa-icon>
+      Add Bar
+    </div>
+  </div>
+</app-expander>

@@ -1,0 +1,35 @@
+.bars {
+  display: grid;
+  grid-template-columns: auto 1fr 3em auto 3em auto auto;
+  grid-template-rows: 2em;
+  gap :.25em;
+  align-items: center;
+  margin-bottom: .75rem;
+}
+
+.bars input {
+  text-align: right;
+  padding: 0px .25rem; 
+}
+
+.bars label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.bars .clickable {
+  padding: 2px 4px;
+}
+
+.bars input::-webkit-inner-spin-button, 
+.bars input::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.expander-tool {
+  position: absolute;
+  top: -35px;
+  right: 0;
+}

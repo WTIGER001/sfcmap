@@ -1,11 +1,15 @@
-import { PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map as LeafletMap } from "leaflet";
+import {  elemOverlay, PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map as LeafletMap, ElemOverlay, DomUtil, ElemOverlayOptions } from "leaflet";
 import { IconZoomLevelCache } from "./icon-cache";
 import { IObjectType, ObjectType, Asset } from "./core";
 import { LangUtil } from "../util/LangUtil";
 import { ImageUtil } from "../util/ImageUtil";
-import { Aura } from "./aura";
+import { Aura, AuraVisible } from "./aura";
 import { Character } from "./character";
 import { LightSource, Vision } from "./light-vision";
+import { ComponentFactoryResolver, ViewContainerRef } from "@angular/core";
+import { PictureTileComponent } from "../controls/picture-tile/picture-tile.component";
+import { UUID } from "angular2-uuid";
+import { TokenIconComponent } from "../maps/controls/token-icon/token-icon.component";
 
 export enum AnchorPostitionChoice {
   TopLeft = 0,
@@ -99,10 +103,10 @@ export abstract class Annotation extends Asset {
     return layer.objAttach
   }
 
-  toLeaflet(iconCache?: IconZoomLevelCache): any {
+  toLeaflet(iconCache?: IconZoomLevelCache, resolver?: ComponentFactoryResolver, viewref?: ViewContainerRef): any {
     try {
       if (!this._leafletAttachment) {
-        this._leafletAttachment = this.createLeafletAttachment(iconCache)
+        this._leafletAttachment = this.createLeafletAttachment(iconCache, resolver, viewref);
         this._leafletAttachment.objAttach = this
       }
       return this._leafletAttachment
@@ -123,7 +127,7 @@ export abstract class Annotation extends Asset {
   }
 
   abstract copyPoints()
-  abstract createLeafletAttachment(iconCache: IconZoomLevelCache): any
+  abstract createLeafletAttachment(iconCache: IconZoomLevelCache, resolver?: ComponentFactoryResolver, viewref?: ViewContainerRef): any
   abstract center(): LatLng
 
 }
@@ -307,6 +311,10 @@ export class TokenAnnotation extends Annotation {
   sizeY: number = 1.524;
   snap = true;
   dead = false
+  bars : TokenBar[] = []
+  flyHeight = 0
+  showName = false
+  badge: string
   _saveImage = false
   _blob: Blob
   _selected: boolean
@@ -322,8 +330,8 @@ export class TokenAnnotation extends Annotation {
 
   copyOptionsToShape() {
     if (this._leafletAttachment) {
-      this.asItem().setUrl(this.url)
-      this.asItem().setOpacity(this.opacity)
+      // this.asItem().setUrl(this.url)
+      // this.asItem().setOpacity(this.opacity)
     }
   }
 
@@ -345,7 +353,7 @@ export class TokenAnnotation extends Annotation {
     ]
   }
 
-  options(): ImageOverlayOptions {
+  options(): ElemOverlayOptions {
     return {
       opacity: this.opacity,
       interactive: true,
@@ -353,35 +361,62 @@ export class TokenAnnotation extends Annotation {
     }
   }
 
-  asItem(): ImageOverlay {
+  asItem(): ElemOverlay {
     return this._leafletAttachment
   }
 
-  createLeafletAttachment(iconCache?: IconZoomLevelCache): any {
+  createLeafletAttachment(iconCache?: IconZoomLevelCache, resolver?: ComponentFactoryResolver, viewref?: ViewContainerRef): any {
+    console.log("StarTing to create token")
     let bounds = new LatLngBounds(this.points[0], this.points[1])
     let options = this.options()
     let img: ImageOverlay
 
-    if (this.dead) {
-      // It is in the cahce
-      if (DeadImages.Images[this.id]) {
-        img = imageOverlay(DeadImages.Images[this.id], bounds, options)
-      } else {
-        img = imageOverlay(this.url, bounds, options)
-        this.getDeadImage().then((deadurl: string) => {
-          img.setUrl(deadurl)
-        })
-      }
-    } else {
-      img = imageOverlay(this.url, bounds, options)
-    }
+    // Create the div
+    const factory = resolver.resolveComponentFactory(TokenIconComponent)
+    const component = factory.create(viewref.injector)
 
-    img.setBounds(bounds)
-    return img
+    // Set the inputs
+    component.instance.item = this
+
+    // add to the view
+    const inserted = viewref.insert(component.hostView)
+
+    options.existing = component.instance.elRef.nativeElement
+    const elem = elemOverlay('div', bounds, options)
+    elem['_component'] = component
+
+    console.log("ELEM OVERLAY CREATED", elem)
+    elem.setBounds(bounds)
+    
+    if (this.dead) {
+      DomUtil.addClass(component.instance.elRef.nativeElement, 'imgx')
+    } else {
+      DomUtil.removeClass(component.instance.elRef.nativeElement, 'imgx')
+    }
+    
+    return elem
+
+
+    // if (this.dead) {
+    //   // It is in the cahce
+    //   if (DeadImages.Images[this.id]) {
+    //     img = imageOverlay(DeadImages.Images[this.id], bounds, options)
+    //   } else {
+    //     img = imageOverlay(this.url, bounds, options)
+    //     this.getDeadImage().then((deadurl: string) => {
+    //       img.setUrl(deadurl)
+    //     })
+    //   }
+    // } else {
+    //   img = imageOverlay(this.url, bounds, options)
+    // }
+
+    // img.setBounds(bounds)
+    // return img
   }
 
   center(): LatLng {
-    return (<ImageOverlay>this._leafletAttachment).getBounds().getCenter()
+    return (<ElemOverlay>this._leafletAttachment).getBounds().getCenter()
   }
 
   async getDeadImage() {
@@ -392,17 +427,28 @@ export class TokenAnnotation extends Annotation {
   }
 
   setDead(dead: boolean) {
-    const img: ImageOverlay = this.asItem()
-    if (img) {
-      this.dead = dead
-      if (this.dead) {
-        this.getDeadImage().then((deadurl: string) => {
-          img.setUrl(deadurl)
-        })
-      } else {
-        img.setUrl(this.url)
-      }
+
+
+    const elem: ElemOverlay = this.asItem()
+    const component: PictureTileComponent = elem['_component'] 
+    const ref = component.elRef.nativeElement
+    
+    if (dead) {
+      DomUtil.addClass(ref, 'imgx')
+    } else {
+      DomUtil.removeClass(ref, 'imgx')
     }
+
+    // if (img) {
+    //   this.dead = dead
+    //   if (this.dead) {
+    //     this.getDeadImage().then((deadurl: string) => {
+    //       img.setUrl(deadurl)
+    //     })
+    //   } else {
+    //     img.setUrl(this.url)
+    //   }
+    // }
   }
 }
 
@@ -649,3 +695,14 @@ class DeadImages {
   static Images = {}
 }
 
+export class TokenBar {
+  name: string = "New Bar"
+  source: string
+  warnRange: number = 0.25
+  bgColor: string = '#444444'
+  color: string = 'blue'
+  warnColor: string = 'red'
+  visible :AuraVisible = AuraVisible.NotVisible
+  value: number = 100
+  max: number = 100
+}
