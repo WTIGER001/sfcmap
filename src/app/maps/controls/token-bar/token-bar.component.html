@@ -1,11 +1,8 @@
 <app-expander text="Bars">
   <div class="bars">
     <ng-container *ngFor="let bar of item.bars">
-      <div class="clickable" (click)="toggle(bar, $event)" placement="bottom" ngbTooltip="Toggle visiblity" container="body">
-        <fa-icon *ngIf="bar.visible==0" [fixedWidth]="true" icon="eye-slash"></fa-icon>
-        <fa-icon *ngIf="bar.visible==1" [fixedWidth]="true" icon="eye"></fa-icon>
-        <fa-icon *ngIf="bar.visible==2" [fixedWidth]="true" icon="hand-pointer"></fa-icon>
-      </div>
+      <app-visibility-toggle [visible]="bar.visible" (changes)="setBarVisible(bar, $event)"></app-visibility-toggle>
+
       <label>{{bar.name}}</label>
       <input type="number" class="form-control" [(ngModel)]="bar.value">
       <span class="slash">/</span>

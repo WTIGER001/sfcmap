@@ -17,6 +17,7 @@ import { MapAsset } from '../data-asset';
 import { LightingManager } from './lighting';
 import * as _ from 'lodash'
 import { LightImageRenderer } from './pathfinder-lighting';
+import { AnnotationFactory } from './annotation-factory';
 
 @Injectable({
   providedIn: 'root'
@@ -280,6 +281,7 @@ export class MapService {
     m.markerType = markerTypeId
     m.map = this._mapCfg.id
 
+    AnnotationFactory.
     let leafletMarker: Marker = m.toLeaflet(this.iconCache)
     if (leafletMarker) {
       console.log('MARKER OPTIONS', leafletMarker.options)

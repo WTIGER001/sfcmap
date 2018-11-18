@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, NgZone } from '@angular/core';
-import { TokenBar, TokenAnnotation } from 'src/app/models';
+import { TokenBar, TokenAnnotation } from 'src/app/models/annotations';
 import { LangUtil } from 'src/app/util/LangUtil';
 import { Assets } from 'src/app/assets';
-import { MapService } from '../../map.service';
 
 @Component({
   selector: 'app-token-icon',
@@ -13,14 +12,12 @@ export class TokenIconComponent implements OnInit {
   @ViewChild('figure') figure: ElementRef
   @Input() item: TokenAnnotation
   @Input() selected: boolean
+  @Input() showName: boolean = true
   barheight = '3px'
   observer: MutationObserver
 
   constructor(public elRef: ElementRef, private zone : NgZone) {
-    // this.mapSvc.zoom$.subscribe( z=> {
-    //   console.log("Map zoomed to ", z)
-
-    // })
+  
   }
 
   calcBarHeight() {

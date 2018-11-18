@@ -1,0 +1,35 @@
+.vision {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: .5em;
+  grid-column: 1/-1;
+  align-items: center;
+}
+
+.personal {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: .5em;
+  align-items: center;
+}
+
+.vision input {
+  text-align: right;
+  padding: 0px .25rem; 
+}
+
+.personal input {
+  padding: 0px .25rem; 
+}
+
+.personal select {
+  padding: 0 .25rem; 
+}
+
+.showme {
+  transform:  scale(1)
+}
+
+.hideme {
+  transform:  scale(0)
+}

@@ -201,6 +201,8 @@ import { TokenBarComponent } from './maps/controls/token-bar/token-bar.component
 import { TokenBarEditComponent } from './maps/controls/token-bar-edit/token-bar-edit.component';
 import { TokenIconComponent } from './maps/controls/token-icon/token-icon.component';
 import { SelectionContainerComponent } from './maps/controls/selection-container/selection-container.component';
+import { TokenPersonalComponent } from './maps/controls/token-personal/token-personal.component';
+import { VisibilityToggleComponent } from './controls/visibility-toggle/visibility-toggle.component';
 
 @NgModule({
   declarations: [
@@ -359,6 +361,8 @@ import { SelectionContainerComponent } from './maps/controls/selection-container
     TokenBarEditComponent,
     TokenIconComponent,
     SelectionContainerComponent,
+    TokenPersonalComponent,
+    VisibilityToggleComponent,
   ],
   imports: [
     BrowserModule,

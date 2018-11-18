@@ -70,28 +70,7 @@
 
   <app-token-bar [item]="item" [attributes]="getAttrs()" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-bar>
 
-  <!-- <app-token-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'token'"></app-token-selection> -->
-
-<!-- <app-expander text="Personal">
-  <div class="end-margin">
-    <div>
-      <app-restricted-content [item]="character" field="type">{{lookupType()}}</app-restricted-content>
-    </div>
-    <app-tags [tags]="character.tags"></app-tags>
-    <div>
-      <app-restricted-content [item]="character" field="size">Size: {{character?.size}}</app-restricted-content>
-    </div>
-    <div>
-      <app-restricted-content [item]="character" field="speed">Speed: {{character?.speed}}</app-restricted-content>
-    </div>
-    <div>
-      <app-restricted-content [item]="character" field="vision">Vision: {{character?.vision}}</app-restricted-content>
-    </div>
-    <div>
-      <app-restricted-content [item]="character" field="reach">Reach: {{character?.reach}}</app-restricted-content>
-    </div>
-  </div>
-</app-expander> -->
+  <app-token-personal [item]="item" (changes)="save()"></app-token-personal>
 
 <!-- <app-expander text="Rolls">
   <app-restricted-content [item]="character" field="rolls">
@@ -125,15 +104,6 @@
 <!-- <app-expander text="Conditions">
   <app-character-edit-conditions [character]="character"></app-character-edit-conditions>
 </app-expander> -->
-
-
-  <app-expander text="Vision" class="expander-tools" *ngIf="itemType(item) == 'token'">
-    <fa-icon class="clickable edit-tool" (click)="editVision()" icon="edit"></fa-icon>
-    <button *ngIf="!item.vision" class="clickable btn-tool" (click)="addVision()">
-      <fa-icon icon="plus"></fa-icon> Add vision to this
-    </button>
-    <app-vision-view *ngIf="item.vision" [item]="item" (changes)="save()"></app-vision-view>
-  </app-expander>
 
   <app-expander text="Auras" *ngIf="itemType(item) == 'token'">
     <app-edit-chr-auras [item]="item" (changes)="save()"></app-edit-chr-auras>

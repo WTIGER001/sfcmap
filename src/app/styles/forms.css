@@ -189,3 +189,9 @@ input.switch ~ label {
 .nobg {
   background-color: transparent;
 }
+
+input.nospin::-webkit-inner-spin-button, 
+input.nospin::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

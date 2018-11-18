@@ -42,18 +42,13 @@ export class TokenBarComponent implements OnInit {
     })
   }
 
-  toggle(bar: TokenBar, event) {
-    const reverse = event.ctrlKey
-
-    if (bar.visible == AuraVisible.NotVisible) {
-      bar.visible = reverse ? AuraVisible.OnSelect : AuraVisible.Visible
-    } else if (bar.visible == AuraVisible.Visible) {
-      bar.visible = reverse ? AuraVisible.NotVisible : AuraVisible.OnSelect
-    } else if (bar.visible == AuraVisible.OnSelect) {
-      bar.visible = reverse ? AuraVisible.Visible : AuraVisible.NotVisible
-    }
-
+  update() {
     this.emitChanges() 
+  }
+
+  setBarVisible(bar : TokenBar, visible : number) {
+    bar.visible = visible
+    this.changes.emit()
   }
 
   emitChanges() {

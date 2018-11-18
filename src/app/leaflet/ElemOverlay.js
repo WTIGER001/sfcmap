@@ -63,7 +63,11 @@ L.ElemOverlay = Layer.extend({
     this._bounds = this.toLatLngBounds(bounds);
 
 		Util.setOptions(this, options);
-	},
+  },
+  
+  getElement: function() {
+    return this._elem
+  },
 
 	onAdd: function () {
 		if (!this._elem) {

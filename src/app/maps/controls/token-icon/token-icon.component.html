@@ -1,6 +1,6 @@
 <figure #figure [class.iconselected]="selected" >
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
-  <figcaption *ngIf="item.showName">{{item.name}}</figcaption>
+  <figcaption appTextfit *ngIf="item.showName">{{item.name}}</figcaption>
   <span *ngIf="item.badge" class="badge badge-secondary badge-label">{{item.badge}}</span>
   <ul class="bars" [style.gap]="calcBarGap()">
     <ng-container *ngFor="let bar of item.bars">

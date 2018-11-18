@@ -1,0 +1,50 @@
+<app-expander text="Personal">
+  <div class="end-margin personal">
+    <!-- Name -->
+    <app-visibility-toggle [visible]="item.showName" (changes)="update()"></app-visibility-toggle>
+    <label>Alias</label>
+    <input type='text' class="form-control" [(ngModel)]="item.name" (ngChange)="update()">
+
+
+    <!-- Size -->
+    <label></label>
+    <label>Size</label>
+    <select class="form-control" [(ngModel)]="item.size"  (ngChange)="update()">
+      <option [value]="fine">Fine (½')</option>
+      <option [value]="diminutive">Diminutive (1')</option>
+      <option [value]="tiny">Tiny (2½')</option>
+      <option [value]="small">Small (5')</option>
+      <option [value]="medium">Medium (5')</option>
+      <option [value]="large">Large (10')</option>
+      <option [value]="huge">Huge (15')</option>
+      <option [value]="gargantuan">Gargantuan (20')</option>
+      <option [value]="colossal">Colossal (30')</option>
+    </select>
+
+    <!--- Speed -->
+    <app-visibility-toggle [visible]="item.showSpeed" (changes)="update()"></app-visibility-toggle>
+    <label>Speed</label>
+    <input type='number' class="form-control nospin" [(ngModel)]="item.speed"  (ngChange)="update()">
+
+    <!-- Reach -->
+    <app-visibility-toggle [visible]="item.showReach" (changes)="update()"></app-visibility-toggle>
+    <label>Reach</label>
+    <input type='number' class="form-control nospin" [(ngModel)]="item.reach" (ngChange)="update()">
+
+    <!-- vision -->
+    <div class='vision'>
+      <label>Vision</label>
+      <label>Darkvision</label>
+      <label>Low-Light</label>
+      <input type="checkbox" class="switch" [(ngModel)]="item.vision.normal">
+      <div class="h-switch">
+        <input type="checkbox" class="switch" [(ngModel)]="item.vision.dark">
+        <input type="number" class="form-control nospin " [(ngModel)]="item.vision.darkRange" [class.showme]="item.vision.dark" [class.hideme]="!item.vision.dark">
+      </div>
+      <div class="h-switch">
+        <input type="checkbox" class="switch" [(ngModel)]="item.vision.lowLight">
+        <input type="number" class="form-control nospin" [(ngModel)]="item.vision.lowLightRange" [class.showme]="item.vision.lowLight" [class.hideme]="!item.vision.dark">
+      </div>
+    </div>
+  </div>
+</app-expander>

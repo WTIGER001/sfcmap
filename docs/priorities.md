@@ -1,7 +1,6 @@
 # Top Priorities
 
 ## High
-- Make the token aware of selection and highlight correctly (add iconselected class)
 - Make bars show up when selected
 - Make token aware of zoom level and  update text correctly
 - Show a popup? with the name
@@ -19,6 +18,7 @@
 - Record HP Damage / Status on selection screen  {SM}
 - Show token information on map ( Like name and HP Bar, etc.) {MED}
 - Refactor Token Record
+- GM become a player
 
 ## Medium
 
@@ -46,6 +46,11 @@
 - Stand up tacticsfoundry.com presence  {MED}
 - New Logo {MED}
 - On new character add all pathfinder attributes and rolls {MED}
+- Add aura popups up dialog to start with
+- Add bar pops up dialog to start with and add values to bar
+- Condition Tracking
+-- Provide standard definitions for conditions per game system
+-- 
 
 ## Low
 
@@ -99,3 +104,4 @@
 - Hide inforamtion if the token gets too small (on the map)
 - Fix Order: Bars, Rolls, Condition, Stats,  Auras, Lights
 - Tokens as Angular components
+- Make the token aware of selection and highlight correctly (add iconselected class)

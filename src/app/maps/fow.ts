@@ -122,7 +122,7 @@ export class FowManager {
     if (this.imgOverlay) {
       this.imgOverlay.setUrl(data)
     } else {
-      this.imgOverlay = imageOverlay(data, llBounds, { pane: 'fow', interactive: !this.data.isGM() })
+      this.imgOverlay = imageOverlay(data, llBounds, { pane: 'fow', interactive: false })
     }
 
     this.imgOverlay.addTo(map)

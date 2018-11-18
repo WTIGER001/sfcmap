@@ -62,6 +62,10 @@ export class Encounter extends Asset {
 }
 
 export class TokenRecord {
+  // id, tokenId, initiative, team
+
+
+
   badge: string = ''
   itemid: string
   id: string // Id of the item. This could be a character, monster or token (how to handle multiple)

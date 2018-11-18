@@ -313,7 +313,6 @@ export class TokenAnnotation extends Annotation {
   dead = false
   bars : TokenBar[] = []
   flyHeight = 0
-  showName = false
   badge: string
   _saveImage = false
   _blob: Blob
@@ -323,6 +322,10 @@ export class TokenAnnotation extends Annotation {
   auras: Aura[] = []
   lights: LightSource[] = []
   vision: Vision = undefined
+
+  showName = false
+  showReach : boolean = false
+  showSpeed : boolean = false
 
   copyOptionsFromShape() {
 
@@ -388,6 +391,8 @@ export class TokenAnnotation extends Annotation {
     console.log("ELEM OVERLAY CREATED", elem)
     elem.setBounds(bounds)
     
+    console.log('Putting Dead', this.dead)
+
     if (this.dead) {
       DomUtil.addClass(component.instance.elRef.nativeElement, 'imgx')
     } else {
@@ -395,24 +400,6 @@ export class TokenAnnotation extends Annotation {
     }
     
     return elem
-
-
-    // if (this.dead) {
-    //   // It is in the cahce
-    //   if (DeadImages.Images[this.id]) {
-    //     img = imageOverlay(DeadImages.Images[this.id], bounds, options)
-    //   } else {
-    //     img = imageOverlay(this.url, bounds, options)
-    //     this.getDeadImage().then((deadurl: string) => {
-    //       img.setUrl(deadurl)
-    //     })
-    //   }
-    // } else {
-    //   img = imageOverlay(this.url, bounds, options)
-    // }
-
-    // img.setBounds(bounds)
-    // return img
   }
 
   center(): LatLng {
@@ -427,12 +414,11 @@ export class TokenAnnotation extends Annotation {
   }
 
   setDead(dead: boolean) {
-
-
     const elem: ElemOverlay = this.asItem()
-    const component: PictureTileComponent = elem['_component'] 
-    const ref = component.elRef.nativeElement
+    const ref: HTMLElement = elem.getElement()
     
+    console.log('Setting Dead', dead)
+
     if (dead) {
       DomUtil.addClass(ref, 'imgx')
     } else {
@@ -533,7 +519,7 @@ export class ShapeAnnotation extends Annotation {
     throw new Error("Type not supported -> " + this.type);
   }
 
-  private options(): PolylineOptions {
+  options(): PolylineOptions {
     let opts: PolylineOptions = {}
     opts.fill = this.fill
     opts.stroke = this.border
@@ -660,7 +646,7 @@ export class BarrierAnnotation extends Annotation {
     return polyline(this.points, this.options())
   }
 
-  private options(): PolylineOptions {
+  options(): PolylineOptions {
     let opts: PolylineOptions = {}
     opts.stroke = this.border
     opts.weight = this.weight

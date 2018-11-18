@@ -23,6 +23,7 @@ import '../../../leaflet/edit.js';
 import '../../../leaflet/CanvasLayer1.js';
 import { MapShareData } from 'src/app/models/system-models';
 import { CanvasLayer2 } from '../../../leaflet/CanvasLayer.js';
+import { AnnotationFactory } from '../../annotation-factory';
 
 @Component({
   selector: 'app-map-view',
@@ -71,6 +72,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   layers: Layer[] = [];
 
   currentSelection: Selection = new Selection([])
+  annotationMgr: AnnotationManager;
 
   constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService, private route: ActivatedRoute,
     private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService, private notify: NotifyService, private resolver: ComponentFactoryResolver, private viewref : ViewContainerRef) {
@@ -249,7 +251,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
   }
 
   loadAnnotations(map: LeafletMap) {
-    const annotationMgr = new AnnotationManager(map, this.mapCfg, this.data, this.mapSvc, this.zone, this.notify, this.allMarkersLayer, this.viewref, this.resolver)
+    this.annotationMgr = new AnnotationManager(map, this.mapCfg, this.data, this.mapSvc, this.zone, this.notify, this.allMarkersLayer, this.viewref, this.resolver)
   }
 
   /**
@@ -297,7 +299,9 @@ export class MapViewComponent implements OnInit, OnDestroy {
       a.map = this.mapCfg.id
       a.setBounds(imgBounds)
 
-      const shp = <L.ImageOverlay>a.toLeaflet(undefined)
+      // this.
+      const shp = AnnotationFactory.createImage(a)
+      // const shp = <L.ImageOverlay>a.toLeaflet(undefined)
       shp.addTo(this.mapSvc.newMarkersLayer)
 
       this.mapSvc.selectForEdit(a)

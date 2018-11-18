@@ -7,6 +7,7 @@ import { MapService } from "./map.service";
 import { NgZone, ViewContainerRef, ComponentFactoryResolver } from "@angular/core";
 import { NotifyService, Debugger } from '../notify.service';
 import { HtmlUtil } from '../util/html-util';
+import { AnnotationFactory } from './annotation-factory';
 
 export class AnnotationManager {
   /** Icons (one per marker type) at each soom level for the map. This is precomputed so that zooming is quick. Note this is computed each time there is a map change  */
@@ -28,6 +29,8 @@ export class AnnotationManager {
   // Trigger
   public completeMarkerGroups = new ReplaySubject<Array<MarkerGroup>>(1)
 
+  public factory : AnnotationFactory
+
   log: Debugger
   mapLoad: Debugger
   markerZoomLog: Debugger
@@ -40,6 +43,7 @@ export class AnnotationManager {
     this.mapLoad = this.notify.newDebugger('Map Loading')
     this.markerZoomLog = this.notify.newDebugger('Marker Zoom')
     this.iconCache = new IconZoomLevelCache(this.markerZoomLog, this.mapLoad)
+    this.factory = new AnnotationFactory(this.iconCache, this.resolver, this.viewref, [])
 
     // Get the user preferences
     this.data.userMapPrefs.subscribe(prefs => {
@@ -53,6 +57,7 @@ export class AnnotationManager {
     let makeMarkerTypes = this.data.gameAssets.markerTypes.items$.pipe(
       map(markertypes => {
         this.iconCache.load(markertypes, this.leafletmap)
+        this.factory.markerTypes = markertypes
         this.types.clear()
         markertypes.forEach(type => {
           this.types.set(type.id, type)
@@ -122,7 +127,8 @@ export class AnnotationManager {
   }
 
   private ensureAnnotationVisibility(annotation: Annotation, group: MarkerGroup, visible: boolean) {
-    let item = annotation.toLeaflet(undefined)
+    // let item = annotation.toLeaflet(undefined)
+    let item = this.factory.toLeaflet(annotation)
     let lGrp = this.lGroups.get(group.id)
     if (lGrp) {
       if (visible && !lGrp.hasLayer(item)) {
@@ -194,7 +200,9 @@ export class AnnotationManager {
     }
 
     if (lGrp) {
-      let mapitem = item.toLeaflet(this.iconCache, this.resolver, this.viewref)
+      // let mapitem = item.toLeaflet(this.iconCache, this.resolver, this.viewref)
+      let mapitem = this.factory.toLeaflet(item)
+      console.warn("NEW ITEM", mapitem)
       this.addAnnotationItem(mapitem, item, group, lGrp);
     }
 
@@ -376,8 +384,8 @@ export class AnnotationManager {
       return item.getAttachment()["_icon"]
     } else if (this.isImageOverlay(item)) {
       return item["_image"]
-    } else if (TokenAnnotation.is(item) && item._leafletAttachment._image) {
-      return item._leafletAttachment._image
+    } else if (TokenAnnotation.is(item) && item._leafletAttachment.getElement()) {
+      return item._leafletAttachment.getElement()
     } else if (ImageAnnotation.is(item) && item._leafletAttachment._image) {
       return item._leafletAttachment._image
     }

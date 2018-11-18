@@ -4,6 +4,7 @@ import { tap, filter } from "rxjs/operators";
 import { MapConfig, BarrierAnnotation, Annotation } from "../models";
 import { FeatureGroup, featureGroup, LatLng, latLng, polyline } from "leaflet";
 import { NgZone } from "@angular/core";
+import { AnnotationFactory } from "./annotation-factory";
 
 
 export class LightingManager {
@@ -70,7 +71,8 @@ export class LightingManager {
   addUpdateBarrier(a : BarrierAnnotation) {
     this.initLayer()
     if (this.mapCfg.showLighting) {
-      const item = a.toLeaflet()
+      // const item = a.toLeaflet()
+      const item = AnnotationFactory.createBarrier(a)
       item.addTo(this.lightlayer)
     }
   }

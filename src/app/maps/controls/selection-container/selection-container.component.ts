@@ -114,4 +114,8 @@ export class SelectionContainerComponent implements OnInit {
       return this.item.calcCharacter ? this.item.calcCharacter.attributes || [] : []
     }
   }
+
+  save() {
+    this.changes.emit()
+  }
 }
