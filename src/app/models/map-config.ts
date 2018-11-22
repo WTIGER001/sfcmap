@@ -27,7 +27,7 @@ export class MapConfig extends Asset {
   name: string
   description?: string
   defaultMarker?: string
-  ppm: number
+  ppm: number = 1.0
   image: string  /// Calculated
   thumb: string   /// Calculated
   width: number   /// Calculated

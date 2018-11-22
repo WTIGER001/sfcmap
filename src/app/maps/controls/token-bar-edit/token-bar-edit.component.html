@@ -14,20 +14,29 @@
         <option *ngFor="let attr of attributes" [value]="attr.attr">{{attr.attr}}</option>
       </select>
 
-      <label>Background</label>
-      <div class="form-control form-control-sm  color-pick" [(colorPicker)]="bar.bgColor" [style.background]="bar.bgColor"
-        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+      <!-- Value -->
+      <div class="value-row">
+        <label>Current Value</label>
+        <label>Max Value</label>
+        <input type="number" class="form-control nospin" [(ngModel)]="bar.value">
+        <input type="number" class="form-control nospin" [(ngModel)]="bar.max">
 
-      <label>Normal</label>
-      <div class="form-control form-control-sm  color-pick" [(colorPicker)]="bar.color" [style.background]="bar.color"
-        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        <label>Background</label>
+        <label>Normal</label>
 
-      <label>Warning Range</label>
-      <input type="number" class="form-control" [(ngModel)]="bar.warnRange">
+        <div class="form-control  color-pick" [(colorPicker)]="bar.bgColor" [style.background]="bar.bgColor"
+          cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
 
-      <label>Warning</label>
-      <div class="form-control form-control-sm  color-pick" [(colorPicker)]="bar.warnColor" [style.background]="bar.warnColor"
-        cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        <div class="form-control  color-pick" [(colorPicker)]="bar.color" [style.background]="bar.color" cpAlphaChannel='always'
+          cpPosition='left' (colorPickerChange)="update()"></div>
+
+        <label>Warning Range</label>
+        <label>Warning</label>
+
+        <input type="number" class="form-control nospin" [(ngModel)]="bar.warnRange">
+        <div class="form-control  color-pick" [(colorPicker)]="bar.warnColor" [style.background]="bar.warnColor"
+          cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+      </div>
     </div>
   </div>
   <div class="footer">

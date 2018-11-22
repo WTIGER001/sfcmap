@@ -126,6 +126,7 @@ export class DataService {
   subs: Subscription[] = []
 
   pathfinder: Pathfinder
+  pretendToBePlayer = false;
 
   // User & Assumed Groups ->  Map Configs
   constructor(private afAuth: AngularFireAuth, private notify: NotifyService, private storage: AngularFireStorage, public db: AngularFireDatabase, private cache: CacheService) {
@@ -427,7 +428,7 @@ export class DataService {
       map(game => DbConfig.pathFolderTo(Annotation.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
       map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
-      tap(item => console.log("--> Annotation State change: ", item)),
+      // tap(item => console.log("--> Annotation State change: ", item)),
       tap(p => this.record('annotation', 1)),
     )
   }
@@ -521,6 +522,16 @@ export class DataService {
   }
 
   isGM(user?: User) {
+    if (!user) {
+      user = this.user.value
+    }
+    if (this.pretendToBePlayer) {
+      return false
+    }
+    return this.isRealGM(user)
+  }
+
+  isRealGM(user?: User) {
     if (!user) {
       user = this.user.value
     }

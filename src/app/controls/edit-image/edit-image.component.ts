@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ImageAnnotation, MergedMapType, MapConfig } from '../../models';
 import { DataService } from '../../data.service';
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable, combineLatest } from 'rxjs';
 import { ImageResult } from '../../util/ImageUtil';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-image',
@@ -18,9 +19,26 @@ export class EditImageComponent {
   merged: MergedMapType[] = []
 
   constructor(private data: DataService) {
-    this.data.mapTypesWithMaps.subscribe(items => {
-      this.merged = items
-    })
+    combineLatest(this.data.gameAssets.maps.items$, this.data.gameAssets.mapTypes.items$).subscribe(
+      (value) => {
+        const maps = value[0]
+        const types = value[1]
+        let mergedArr = new Array<MergedMapType>()
+        types.forEach(mt => {
+          let merged = new MergedMapType()
+          merged.name = mt.name
+          merged.order = mt.order
+          merged.id = mt.id
+          merged.defaultMarker = mt.defaultMarker
+          merged.maps = maps.filter(m => m.mapType == merged.id && this.data.canView(m))
+          mergedArr.push(merged)
+        })
+
+        let items = mergedArr.sort((a, b) => a.order - b.order)
+        this.merged = items
+      }
+    )
+    
   }
 
   save() {

@@ -65,6 +65,13 @@ export class TokenIconComponent implements OnInit {
     return '10px'
   }
 
+  calcFontSize() {
+    if (this.elRef) {
+     return (this.elRef.nativeElement.offsetHeight * .14 ) + 'px'
+    }
+    return '10px';
+  }
+
   getColor(bar: TokenBar) {
     const warnColor = bar.warnColor || bar.color
     const perc = bar.value / bar.max
@@ -75,7 +82,7 @@ export class TokenIconComponent implements OnInit {
   }
 
   updateSize() {
-    console.log("Size changed... Updating", NgZone.isInAngularZone())
+    // console.log("Size changed... Updating", NgZone.isInAngularZone())
     const size = this.elRef.nativeElement.offsetWidth
     const hsize = this.elRef.nativeElement.offsetHeight
     if (size < 60) {

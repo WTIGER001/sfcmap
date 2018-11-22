@@ -61,6 +61,7 @@ export class MapService {
 
   /** Marker Types */
   types = new Map<string, MarkerType>()
+  markerTypes : MarkerType[] = []
 
   myMarkers = new Map<string, Annotation>()
 
@@ -185,6 +186,7 @@ export class MapService {
     this.data.gameAssets.markerTypes.items$.pipe(
       map(markertypes => {
         this.iconCache.load(markertypes, this._map)
+        this.markerTypes = markertypes
         this.types.clear()
         markertypes.forEach(type => {
           this.types.set(type.id, type)
@@ -281,8 +283,8 @@ export class MapService {
     m.markerType = markerTypeId
     m.map = this._mapCfg.id
 
-    AnnotationFactory.
-    let leafletMarker: Marker = m.toLeaflet(this.iconCache)
+    let leafletMarker: Marker = AnnotationFactory.createMarker(m, this.iconCache, this.markerTypes)
+    // let leafletMarker: Marker = m.toLeaflet(this.iconCache)
     if (leafletMarker) {
       console.log('MARKER OPTIONS', leafletMarker.options)
       console.log('MARKER ICON',  leafletMarker.options.icon)

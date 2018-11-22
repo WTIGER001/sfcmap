@@ -1,10 +1,10 @@
-<figure #figure [class.iconselected]="selected" >
+<figure #figure [class.iconselected]="selected" class="hover-target" >
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
-  <figcaption appTextfit *ngIf="item.showName">{{item.name}}</figcaption>
+  <figcaption  *ngIf="item.showName >= 1" [style.font-size]="calcFontSize()" [class.showonselect]="item.showName>=2" [class.showonhover]="item.showName==3" >{{item.name}}</figcaption>
   <span *ngIf="item.badge" class="badge badge-secondary badge-label">{{item.badge}}</span>
   <ul class="bars" [style.gap]="calcBarGap()">
     <ng-container *ngFor="let bar of item.bars">
-      <li class="bar" *ngIf="bar.visible==1" [style.background-color]="bar.bgColor" [style.height]="calcBarHeight(bar)">
+      <li class="bar" *ngIf="bar.visible>=1" [style.background-color]="bar.bgColor" [style.height]="calcBarHeight(bar)" [class.showonselect]="bar.visible>=2" [class.showonhover]="bar.visible==3">
         <div class="bar-inner" [style.width]="calcBarWidth(bar)" [style.background-color]="getColor(bar)"></div>
       </li>
     </ng-container>

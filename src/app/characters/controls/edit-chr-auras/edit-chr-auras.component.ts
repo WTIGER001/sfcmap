@@ -12,13 +12,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-chr-auras.component.css']
 })
 export class EditChrAurasComponent implements OnInit, AfterContentInit {
-  @Input() item : Character | TokenAnnotation
+  @Input() item: Character | TokenAnnotation
   units: DistanceUnit[] = DistanceUnit.units
   allvisible = AuraVisible.Visible
 
   @Output() changes = new EventEmitter()
 
-  constructor(private modal : NgbModal) { }
+  constructor(private modal: NgbModal) { }
 
   ngOnInit() {
   }
@@ -26,59 +26,52 @@ export class EditChrAurasComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     this.updateToggles()
   }
-  
 
   addRow() {
-    let a = new Aura()
-    this.item.auras.push(a)
+    AuraEditComponent.openDialog(this.modal, new Aura()).subscribe(a => {
+      this.item.auras.push(a)
+      this.emitChanges()
+    })
   }
 
-  updateUnit(aura : Aura, unit : string) {
+  updateUnit(aura: Aura, unit: string) {
     aura.radius.unit = unit
-    this.emitChanges() 
+    this.emitChanges()
   }
 
   updateColor() {
-    this.emitChanges() 
+    this.emitChanges()
   }
 
-  toggle(aura, event) {
-    const reverse = event.ctrlKey
-
-    if (aura.visible == AuraVisible.NotVisible) {
-      aura.visible = reverse ? AuraVisible.OnSelect : AuraVisible.Visible
-    } else if (aura.visible == AuraVisible.Visible) {
-      aura.visible = reverse ? AuraVisible.NotVisible : AuraVisible.OnSelect
-    } else if (aura.visible == AuraVisible.OnSelect) {
-      aura.visible = reverse ? AuraVisible.Visible : AuraVisible.NotVisible
-    }
-
+  toggle(aura : Aura, event : AuraVisible) {
+    console.log("AURA CHANGES", event)
+    aura.visible = event
     this.updateToggles()
-    this.emitChanges() 
+    this.emitChanges()
   }
 
   delete(aura) {
     const indx = this.item.auras.indexOf(aura)
     if (indx > 0) {
       this.item.auras.splice(indx, 1)
-      this.emitChanges() 
+      this.emitChanges()
     }
   }
 
   edit(aura) {
-    AuraEditComponent.openDialog(this.modal, aura).subscribe( a => { this.emitChanges()})
+    AuraEditComponent.openDialog(this.modal, aura).subscribe(a => { this.emitChanges() })
   }
 
   toggleAll() {
     const value = this.allvisible ? 0 : 1
-    this.item.auras.forEach( a => a.visible = value)
+    this.item.auras.forEach(a => a.visible = value)
     this.allvisible = value;
-    this.emitChanges() 
+    this.emitChanges()
   }
 
   updateToggles() {
     let vis = true
-    this.item.auras.forEach(a => vis = vis && a.visible == 1 )
+    this.item.auras.forEach(a => vis = vis && a.visible == 1)
     this.allvisible = vis ? 1 : 0
   }
 

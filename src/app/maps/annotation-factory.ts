@@ -19,30 +19,19 @@ export class AnnotationFactory {
   }
 
   toLeaflet(annotation: Annotation): any {
-    console.log("Creating Annotation", annotation)
     if (MarkerTypeAnnotation.is(annotation)) {
-      console.log("Creating MarkerTypeAnnotation", annotation)
-
-      return this.createMarker(annotation)
+      return AnnotationFactory.createMarker(annotation, this.iconCache, this.markerTypes)
     }
     if (ShapeAnnotation.is(annotation)) {
-      console.log("Creating ShapeAnnotation", annotation)
-
       return AnnotationFactory.createShape(annotation)
     }
     if (ImageAnnotation.is(annotation)) {
-      console.log("Creating ImageAnnotation", annotation)
-
       return AnnotationFactory.createImage(annotation)
     }
     if (TokenAnnotation.is(annotation)) {
-      console.log("Creating TokenAnnotation", annotation)
-      
       return this.createToken(annotation)
     }
     if (BarrierAnnotation.is(annotation)) {
-      console.log("Creating BarrierAnnotation", annotation)
-
       return AnnotationFactory.createBarrier(annotation)
     }
     console.log("No Match", annotation)
@@ -55,8 +44,8 @@ export class AnnotationFactory {
     item._leafletAttachment = leafletObj
   }
 
-  createMarker(item: MarkerTypeAnnotation): Marker {
-    const opts = this.markerTypeOptions(item)
+  public static createMarker(item: MarkerTypeAnnotation, cache : IconZoomLevelCache, types: MarkerType[]): Marker {
+    const opts = this.markerTypeOptions(item, cache, types)
     const m = marker(item.points[0], opts)
     m['iconUrl'] = () => {
       return m.options.icon.options.iconUrl
@@ -76,7 +65,6 @@ export class AnnotationFactory {
   }
 
   createToken(item: TokenAnnotation): ElemOverlay {
-    console.log("Creating Token Annotation", item)
     let bounds = new LatLngBounds(item.points[0], item.points[1])
     let options = AnnotationFactory.tokenOptions(item)
 
@@ -94,10 +82,7 @@ export class AnnotationFactory {
     const elem = elemOverlay('div', bounds, options)
     elem['_component'] = component
 
-    console.log("ELEM OVERLAY CREATED", elem)
     elem.setBounds(bounds)
-
-    console.log('Putting Dead', item.dead)
 
     if (item.dead) {
       DomUtil.addClass(component.instance.elRef.nativeElement, 'imgx')
@@ -209,10 +194,11 @@ export class AnnotationFactory {
     }
   }
 
-  markerTypeOptions(item: MarkerTypeAnnotation): MarkerOptions {
+  static markerTypeOptions(item: MarkerTypeAnnotation, cache: IconZoomLevelCache, markerTypes  : MarkerType[]): MarkerOptions {
     // Try the icon cache first. This is being phased out (hopefully)
-    if (this.iconCache) {
-      let icn = this.iconCache.getAnyIcon(item.markerType)
+    const myCache = cache 
+    if (myCache) {
+      let icn = myCache.getAnyIcon(item.markerType)
       if (icn) {
         return {
           icon: icn
@@ -221,10 +207,10 @@ export class AnnotationFactory {
     }
 
     // Try to build the marker from the marker types
-    if (this.markerTypes) {
-      const type = this.markerTypes.find(t => t.id == item.markerType)
+    if (markerTypes) {
+      const type = markerTypes.find(t => t.id == item.markerType)
       if (type) {
-        let icn = this.iconCache.getAnyIcon(item.markerType)
+        let icn = this.generateIcon(type)
         return {
           icon: icn
         }
@@ -241,7 +227,7 @@ export class AnnotationFactory {
     }
   }
 
-  generateIcon(type: MarkerType) {
+  static generateIcon(type: MarkerType) {
 
     let anchor = this.calcAnchor(type.iconSize, type)
     let icn = icon({
@@ -249,9 +235,10 @@ export class AnnotationFactory {
       iconSize: type.iconSize,
       iconAnchor: anchor
     })
+    return icn
   }
 
-  calcAnchor(size: [number, number], type: MarkerType): [number, number] {
+  static calcAnchor(size: [number, number], type: MarkerType): [number, number] {
 
     let [sx, sy] = [1, 1]
     if (type.anchorPosition == AnchorPostitionChoice.BottomLeft) {

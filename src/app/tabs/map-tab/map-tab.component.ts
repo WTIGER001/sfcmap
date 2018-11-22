@@ -37,7 +37,6 @@ export class MapTabComponent implements OnInit {
   link = []
   
   fow = new FogOfWar()
-  isGM = false
 
   constructor(private mapSvc: MapService, private data: DataService, private dialog: DialogService, private zone: NgZone, private commonDialog: CommonDialogService) {
     this.isCollapsed['grid'] = true
@@ -71,7 +70,10 @@ export class MapTabComponent implements OnInit {
     })
 
     this.mapSvc.fogOfWar.item$.subscribe( fow => this.fow = fow)
-    this.isGM = this.data.isGM()
+  }
+
+  isGM() {
+    return this.data.isGM()
   }
 
   isSharing() : boolean {

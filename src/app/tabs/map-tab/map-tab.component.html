@@ -105,7 +105,7 @@
       </h4>
 
       <div class="ml-2 mb-3 category" [ngbCollapse]="isCollapsed['fog']">
-        <ng-container *ngIf="isGM">
+        <ng-container *ngIf="isGM()">
           <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable" (change)="updateFow()">
           <div class="buttongrid">
             <button class="clickable btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start"
@@ -160,10 +160,10 @@
             </div>
           </div>
         </ng-container>
-        <span *ngIf="!isGM && fow.enabled">
+        <span *ngIf="!isGM() && fow.enabled">
           Fog of War is ENABLED! Your GM has control!
         </span>
-        <span *ngIf="!isGM && !fow.enabled">
+        <span *ngIf="!isGM() && !fow.enabled">
           Fog of War is disabled...have a good look around!
         </span>
       </div>

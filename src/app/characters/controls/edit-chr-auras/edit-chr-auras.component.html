@@ -26,12 +26,13 @@
   <ng-container *ngFor="let aura of item.auras; let even=even">
 
     <!-- Toggle Button-->
-    <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="clickable pr-2" (click)="toggle(aura, $event)" placement="bottom"
+    <!-- <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="clickable pr-2" (click)="toggle(aura, $event)" placement="bottom"
       ngbTooltip="Toggle visiblity">
       <fa-icon *ngIf="aura.visible==0"  [fixedWidth]="true" icon="eye-slash" ></fa-icon>
       <fa-icon *ngIf="aura.visible==1"  [fixedWidth]="true" icon="eye"></fa-icon>
       <fa-icon *ngIf="aura.visible==2"  [fixedWidth]="true" icon="hand-pointer"></fa-icon>
-    </div>
+    </div> -->
+    <app-visibility-toggle [class.tbl-even]='even' [class.tbl-odd]='!even' [visible]="aura.visible" (changes)="toggle(aura, $event)"></app-visibility-toggle>
 
     <!-- Color Sample -->
     <div [class.tbl-even]='even' [class.tbl-odd]='!even' class="cell pr-2">

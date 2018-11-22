@@ -2,6 +2,7 @@ import { ObjectType, RestrictedContent, Asset } from "./core";
 import { Distance } from "./units";
 import { Aura } from "./aura";
 import { LightSource } from "./light-vision";
+import { TokenBar } from "./annotations";
 
 export class Character extends Asset {
   public static readonly TYPE = 'db.Character'
@@ -46,6 +47,7 @@ export class Character extends Asset {
   alignment: string
   conditions: any
 
+  bars: TokenBar[];
   auras: Aura[] = []
   lights: LightSource[] = []
 

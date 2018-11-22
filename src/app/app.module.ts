@@ -203,6 +203,7 @@ import { TokenIconComponent } from './maps/controls/token-icon/token-icon.compon
 import { SelectionContainerComponent } from './maps/controls/selection-container/selection-container.component';
 import { TokenPersonalComponent } from './maps/controls/token-personal/token-personal.component';
 import { VisibilityToggleComponent } from './controls/visibility-toggle/visibility-toggle.component';
+import { AddsubDirective } from './controls/addsub.directive';
 
 @NgModule({
   declarations: [
@@ -363,6 +364,7 @@ import { VisibilityToggleComponent } from './controls/visibility-toggle/visibili
     SelectionContainerComponent,
     TokenPersonalComponent,
     VisibilityToggleComponent,
+    AddsubDirective,
   ],
   imports: [
     BrowserModule,

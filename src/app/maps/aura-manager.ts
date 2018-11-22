@@ -60,6 +60,16 @@ export class AuraManager {
     item.auras.forEach( a => {
       this.updateAura(item, a)
     })
+
+    // Create and display or hide an aura 
+    if (item.showReach) {
+    }
+
+    if (item.showSpeed) {
+
+    }
+
+
   }
 
   updateAura(item: TokenAnnotation,  aura : Aura) {

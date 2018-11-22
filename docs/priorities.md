@@ -1,56 +1,69 @@
 # Top Priorities
 
+## Now
+
+### Token Display on Map
+- Move auras to tokens (for drawing)
+- Show Flight / Burrow speed
+- Allow changing of size
+- Show Name / Style Name
+- Allow the token configuration to be copied to the character or monster (e.g. standard for all other drops)
+- Allow the bars to be copied from the character to the
+- Automatic auras for personal fields
+- Show dead style on map
+
+### Token Edit / View Tab
+
+
 ## High
-- Make bars show up when selected
-- Make token aware of zoom level and  update text correctly
-- Show a popup? with the name
-- Fix model updates to the bar values
-- Allow the bars to be copied back to the character
-- Allow the bars to be copied from the character
 - Show Dead
-- Bars
--- Round Tracking Bar for spells and haste
+- Fix map links
+- Rewrite Layers Tab
 - Personal
 -- Add Flight / Burrow
 -- Combine vision
 -- Allow changing of size
 -- Show Name / Style Name
-- Record HP Damage / Status on selection screen  {SM}
-- Show token information on map ( Like name and HP Bar, etc.) {MED}
 - Refactor Token Record
-- GM become a player
+- Tokens
+-- Move auras to tokens (for drawing)
+- Conditions
 
 ## Medium
 
+- Round Tracking Bar for spells and haste
+- Make bars show up when selected 
 - Flight / Burrow styling - Add a above/below ground field to the token {MED}
-- [BUG] Deleting a creature from the encounter messes up initiative {MED}
 - Back button on the round tracker (maybe just a full dialog to edit round and turn) {SM}
 - Arrow buttons to move character on map {MED}
 - Better permissions {UNK - NEED DESIGN}
 - Tokens - Add organization into groups on the index page {MED}
 - Tokens - Have the idea of a token pack with names and organization {MED}
-- [BUG] Map map tab go away when the map is no longer visible {MED}
 - Consolidate and standardize CSS {LG}
 - Saveable encounters that can be activated (preplace annotations ) {LG}
 - Reorganize Maps into hierarchial categories (or something to avoid one big bag of maps) {LG}
 - Add the abilty to provide hyperlinks in the chat to switch players to a map {MED}
-- [BUG] Fix flags on maps... They have not been showing up on the map anymore but they do show up on the chat {SM}
 - Private chat messages {MED}
 - Refactor chat into a service and control, put the controls on all tabs {LG}
 - Refactor code to have actions in services / utilities and have components only handle UI Interaction {XL}
 - Improve the measuring tool to have waypoints, show to other users and snap {LG} 
 - Allow images to be linked (e.g. provide place to paste or enter image url) {MED}
-- [BUG] Fix map links
 - Dynamic Lighting  {XL}
 - Pathfinder specific lighting rules  {LG}
-- Stand up tacticsfoundry.com presence  {MED}
 - New Logo {MED}
 - On new character add all pathfinder attributes and rolls {MED}
 - Add aura popups up dialog to start with
 - Add bar pops up dialog to start with and add values to bar
-- Condition Tracking
--- Provide standard definitions for conditions per game system
--- 
+- Provide standard definitions for conditions per game system
+- Remember filter and sort state for each index
+- [BUG] Fix flags on maps... They have not been showing up on the map anymore but they do show up on the chat {SM}
+- [BUG] Fix map links
+- [BUG] Dice history and up arrows
+- [BUG] Linked maps load incorrectly, with no annotations and the old annotations are not properly cleared out
+- [BUG] closing a map does not close the tabs
+- [BUG] Deleting a creature from the encounter messes up initiative {MED}
+- [BUG] Map map tab go away when the map is no longer visible {MED}
+- Show the name of a token annotation on the map and update with zoom 
 
 ## Low
 
@@ -83,6 +96,15 @@
 
 - Weather emulation (snow, rain and wind) {MED}
 
+## Styling 
+
+- Icon colors
+- Missing Button outlines
+- Muted text too dark
+- Map tab - Use Expander controls
+- Better default aura color
+- Filter box should be white and remove the help icon
+
 ## Epics / Milestones
 
 - Dynamic lighting
@@ -105,3 +127,7 @@
 - Fix Order: Bars, Rolls, Condition, Stats,  Auras, Lights
 - Tokens as Angular components
 - Make the token aware of selection and highlight correctly (add iconselected class)
+- Show 'things' on selection
+- [BUG] Fix model updates to the bar values
+- Add / minus in bars
+- GM become a player (for fow and lighting)

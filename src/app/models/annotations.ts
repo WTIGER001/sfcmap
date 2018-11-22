@@ -1,15 +1,10 @@
-import {  elemOverlay, PolylineOptions, MarkerOptions, Circle, Polyline, Rectangle, Marker, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map as LeafletMap, ElemOverlay, DomUtil, ElemOverlayOptions } from "leaflet";
+import {   PolylineOptions,  Circle, Polyline, Rectangle, Marker,  polyline,   LatLngExpression,  Polygon, ImageOverlay, LatLngBounds, imageOverlay, ImageOverlayOptions, LatLng, marker, latLngBounds, latLng, Layer, Map as LeafletMap, ElemOverlay, DomUtil, ElemOverlayOptions } from "leaflet";
 import { IconZoomLevelCache } from "./icon-cache";
-import { IObjectType, ObjectType, Asset } from "./core";
+import {  Asset } from "./core";
 import { LangUtil } from "../util/LangUtil";
-import { ImageUtil } from "../util/ImageUtil";
 import { Aura, AuraVisible } from "./aura";
 import { Character } from "./character";
 import { LightSource, Vision } from "./light-vision";
-import { ComponentFactoryResolver, ViewContainerRef } from "@angular/core";
-import { PictureTileComponent } from "../controls/picture-tile/picture-tile.component";
-import { UUID } from "angular2-uuid";
-import { TokenIconComponent } from "../maps/controls/token-icon/token-icon.component";
 
 export enum AnchorPostitionChoice {
   TopLeft = 0,
@@ -103,18 +98,6 @@ export abstract class Annotation extends Asset {
     return layer.objAttach
   }
 
-  toLeaflet(iconCache?: IconZoomLevelCache, resolver?: ComponentFactoryResolver, viewref?: ViewContainerRef): any {
-    try {
-      if (!this._leafletAttachment) {
-        this._leafletAttachment = this.createLeafletAttachment(iconCache, resolver, viewref);
-        this._leafletAttachment.objAttach = this
-      }
-      return this._leafletAttachment
-    } catch (error) {
-      console.log("Error Creating Leaflet Annotation", error, this);
-    }
-  }
-
   static findInLeaflet(map: LeafletMap, id: string): Annotation {
     let result = undefined
     map.eachLayer(layer => {
@@ -127,7 +110,6 @@ export abstract class Annotation extends Asset {
   }
 
   abstract copyPoints()
-  abstract createLeafletAttachment(iconCache: IconZoomLevelCache, resolver?: ComponentFactoryResolver, viewref?: ViewContainerRef): any
   abstract center(): LatLng
 
 }
@@ -188,22 +170,6 @@ export class MarkerTypeAnnotation extends Annotation {
     return this._leafletAttachment
   }
 
-  options(iconCache: IconZoomLevelCache): MarkerOptions {
-    this._cache = iconCache
-    let icn = iconCache.getAnyIcon(this.markerType)
-    return {
-      icon: icn
-    }
-  }
-
-  createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-    const m = marker(this.points[0], this.options(iconCache))
-    m['iconUrl'] = () => {
-      return m.options.icon.options.iconUrl
-    }
-    return m
-  }
-
   center(): LatLng {
     return this.toMarker().getLatLng()
   }
@@ -262,24 +228,8 @@ export class ImageAnnotation extends Annotation {
     ]
   }
 
-  options(): ImageOverlayOptions {
-    return {
-      opacity: this.opacity,
-      interactive: true,
-      errorOverlayUrl: "./assets/missing.png",
-    }
-  }
-
   asItem(): ImageOverlay {
     return this._leafletAttachment
-  }
-
-  createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-    let bounds = new LatLngBounds(this.points[0], this.points[1])
-    let options = this.options()
-    let img = imageOverlay(this.url, bounds, options)
-    img.setBounds(bounds)
-    return img
   }
 
   center(): LatLng {
@@ -309,6 +259,7 @@ export class TokenAnnotation extends Annotation {
   instanceId: number
   sizeX: number = 1.524;
   sizeY: number = 1.524;
+  size : string
   snap = true;
   dead = false
   bars : TokenBar[] = []
@@ -323,10 +274,12 @@ export class TokenAnnotation extends Annotation {
   lights: LightSource[] = []
   vision: Vision = undefined
 
-  showName = false
-  showReach : boolean = false
-  showSpeed : boolean = false
-
+  showName : AuraVisible = AuraVisible.NotVisible
+  showReach: AuraVisible = AuraVisible.NotVisible
+  showSpeed: AuraVisible = AuraVisible.NotVisible
+  reach : number
+  speed: number
+  
   copyOptionsFromShape() {
 
   }
@@ -356,61 +309,13 @@ export class TokenAnnotation extends Annotation {
     ]
   }
 
-  options(): ElemOverlayOptions {
-    return {
-      opacity: this.opacity,
-      interactive: true,
-      errorOverlayUrl: "./assets/missing.png",
-    }
-  }
-
   asItem(): ElemOverlay {
     return this._leafletAttachment
   }
 
-  createLeafletAttachment(iconCache?: IconZoomLevelCache, resolver?: ComponentFactoryResolver, viewref?: ViewContainerRef): any {
-    console.log("StarTing to create token")
-    let bounds = new LatLngBounds(this.points[0], this.points[1])
-    let options = this.options()
-    let img: ImageOverlay
-
-    // Create the div
-    const factory = resolver.resolveComponentFactory(TokenIconComponent)
-    const component = factory.create(viewref.injector)
-
-    // Set the inputs
-    component.instance.item = this
-
-    // add to the view
-    const inserted = viewref.insert(component.hostView)
-
-    options.existing = component.instance.elRef.nativeElement
-    const elem = elemOverlay('div', bounds, options)
-    elem['_component'] = component
-
-    console.log("ELEM OVERLAY CREATED", elem)
-    elem.setBounds(bounds)
-    
-    console.log('Putting Dead', this.dead)
-
-    if (this.dead) {
-      DomUtil.addClass(component.instance.elRef.nativeElement, 'imgx')
-    } else {
-      DomUtil.removeClass(component.instance.elRef.nativeElement, 'imgx')
-    }
-    
-    return elem
-  }
 
   center(): LatLng {
     return (<ElemOverlay>this._leafletAttachment).getBounds().getCenter()
-  }
-
-  async getDeadImage() {
-    if (!DeadImages.Images[this.id] && this.url) {
-      DeadImages.Images[this.id] = await ImageUtil.MarkX(this.url)
-    }
-    return DeadImages.Images[this.id]
   }
 
   setDead(dead: boolean) {
@@ -424,17 +329,6 @@ export class TokenAnnotation extends Annotation {
     } else {
       DomUtil.removeClass(ref, 'imgx')
     }
-
-    // if (img) {
-    //   this.dead = dead
-    //   if (this.dead) {
-    //     this.getDeadImage().then((deadurl: string) => {
-    //       img.setUrl(deadurl)
-    //     })
-    //   } else {
-    //     img.setUrl(this.url)
-    //   }
-    // }
   }
 }
 
@@ -506,18 +400,6 @@ export class ShapeAnnotation extends Annotation {
     }
   }
 
-  toShape(): Polygon | Polyline | Circle | Rectangle {
-    if (this.type == 'polygon') {
-      return this.toPolygon()
-    } else if (this.type == 'polyline') {
-      return this.toPolyline()
-    } else if (this.type == 'rectangle') {
-      return this.toRectangle()
-    } else if (this.type === 'circle') {
-      return this.toCircle()
-    }
-    throw new Error("Type not supported -> " + this.type);
-  }
 
   options(): PolylineOptions {
     let opts: PolylineOptions = {}
@@ -535,39 +417,6 @@ export class ShapeAnnotation extends Annotation {
       opts.fillOpacity = LangUtil.colorAlpha(this.fillColor)
     }
     return opts
-  }
-
-  private toPolygon(): Polygon {
-    return polygon(this.points, this.options())
-  }
-
-  private toPolyline(): Polyline {
-    return polyline(this.points, this.options())
-  }
-
-  private toRectangle(): Rectangle {
-    if (this.points && this.points.length > 1) {
-      return rectangle(this.points, this.options())
-    } else {
-      return rectangle([[0, 0], [1, 1]], this.options())
-    }
-  }
-
-  private toCircle(): Circle {
-    let options: CircleMarkerOptions = {
-      fill: this.fill,
-      fillColor: this.fillColor,
-      stroke: this.border,
-      color: this.color,
-      weight: this.weight,
-      radius: this.points[1]
-    }
-    let center: LatLngExpression = this.points[0]
-    return circle(center, options)
-  }
-
-  createLeafletAttachment(iconCache: IconZoomLevelCache): any {
-    return this.toShape()
   }
 
   asItem(): Polygon | Polyline | Circle | Rectangle {

@@ -24,6 +24,7 @@ import { SelectItemsComponent } from 'src/app/dialogs/select-items/select-items.
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuraManager } from 'src/app/maps/aura-manager';
 import { VisionEditComponent } from 'src/app/controls/vision-edit/vision-edit.component';
+import { CharacterActions } from 'src/app/characters/character-actions';
 
 @Component({
   selector: 'app-marker-tab',
@@ -250,6 +251,7 @@ export class MarkerTabComponent implements OnInit {
       s.itemType = item.objType
       if (Character.is(item)) {
         s.url = LangUtil.firstDefined(item.token, item.picture, './assets/missing.png')
+        CharacterActions.copyFromCharacter(s, item)
       } else if (Monster.is(item)) {
         s.url = LangUtil.firstDefined(item.thumb, item.image, './assets/missing.png')
       } else if (Token.is(item)) {
@@ -375,6 +377,11 @@ export class MarkerTabComponent implements OnInit {
     this.mapSvc.saveAnnotation(item)
 
     // Clear the temporary shape
+    // try {
+    //   this.mapSvc._map.editTools.featuresLayer.clearLayers()
+    // } catch (error) {
+
+    // }
     this.mapSvc.newMarkersLayer.clearLayers()
   }
 

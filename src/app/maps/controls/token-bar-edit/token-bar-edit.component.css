@@ -10,3 +10,10 @@
 .acol label {
   text-align: left;
 }
+
+.value-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0;
+  column-gap: 1em;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { TokenAnnotation, Vision } from 'src/app/models';
+import { AuraVisible } from 'src/app/models/aura';
 
 @Component({
   selector: 'app-token-personal',
@@ -19,6 +20,22 @@ export class TokenPersonalComponent implements OnInit {
     }
   }
 
+  updateShowName(value : AuraVisible) {
+    this.item.showName = value
+    this.update()
+  }
+  updateShowSpeed(value: AuraVisible) {
+    this.item.showSpeed = value
+    this.update()
+  }
+  updateShowReach(value: AuraVisible) {
+    this.item.showReach = value
+    this.update()
+  }
+
+  update() {
+    this.changes.emit()
+  }
 
 
 }

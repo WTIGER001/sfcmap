@@ -35,7 +35,6 @@ export class TokenBarEditComponent implements OnInit {
 
   }
 
-
   public static openDialog(modal: NgbModal, bar: TokenBar, attributes?: Attribute[]) : Observable<TokenBar> {
     const inst = modal.open(TokenBarEditComponent)
     inst.componentInstance.bar = bar

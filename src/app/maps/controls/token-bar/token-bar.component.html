@@ -4,16 +4,15 @@
       <app-visibility-toggle [visible]="bar.visible" (changes)="setBarVisible(bar, $event)"></app-visibility-toggle>
 
       <label>{{bar.name}}</label>
-      <input type="number" class="form-control" [(ngModel)]="bar.value">
+      <input type="text" addsub focus-select class="form-control" [ngModel]="bar.value" [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="updateBarValue(bar, $event)">
       <span class="slash">/</span>
-      <input type="number" class="form-control" [(ngModel)]="bar.max">
+      <input type="text" addsub focus-select class="form-control" [ngModel]="bar.max" [ngModelOptions]="{updateOn: 'blur'}"  (ngModelChange)="updateBarMax(bar, $event)">
       <div class="clickable clickable-sm" (click)="edit(bar)">
         <fa-icon icon="edit"></fa-icon>
       </div>
       <div class="clickable  clickable-sm" (click)="delete(bar)" placement="bottom" ngbTooltip="Delete">
         <fa-icon icon="trash"></fa-icon>
       </div>
-
     </ng-container>
     <div class="footer-btn" (click)="add()">
       <fa-icon icon="plus"></fa-icon>

@@ -1,6 +1,6 @@
 .attr-table {
   display: grid;
-  grid-template-columns: auto  auto 1fr auto auto auto auto;
+  grid-template-columns: auto  1.5em 1fr auto auto auto auto;
 }
 
 .hdr-span2 {

@@ -27,8 +27,11 @@ export class MapTypeComboComponent implements ControlValueAccessor {
   }
 
   @Input() set map(m: MapConfig) {
+    console.log("Setting Map")
+
     this.mk = m
     this.innerValue = m.mapType
+
     this.refresh()
   }
 
@@ -44,6 +47,7 @@ export class MapTypeComboComponent implements ControlValueAccessor {
   refresh() {
     this.data.gameAssets.mapTypes.items$
       .subscribe(v => {
+        console.log("refreshing maps")
         this.all = v
         if (this.innerValue) {
           this.selected = this.all.find(mg => mg.id == this.innerValue)

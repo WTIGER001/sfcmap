@@ -28,7 +28,7 @@
     <div class="action" (click)="panTo()">
       <fa-icon fixedWidth="true" icon="location"></fa-icon> Locate on Map
     </div>
-    <div *ngIf="item.mapLink" class="action" routerLink="/maps/{{item.mapLink}}">
+    <div *ngIf="item.mapLink" class="action" (click)="openLinkedMap()">
       <fa-icon fixedWidth="true"  icon="map"></fa-icon> Open Linked Map
     </div>
     <a *ngIf="item.pageUrl" class="action" [href]="item.pageurl" target="_blank">
@@ -70,7 +70,7 @@
 
   <app-token-bar [item]="item" [attributes]="getAttrs()" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-bar>
 
-  <app-token-personal [item]="item" (changes)="save()"></app-token-personal>
+  <app-token-personal [item]="item" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-personal>
 
 <!-- <app-expander text="Rolls">
   <app-restricted-content [item]="character" field="rolls">

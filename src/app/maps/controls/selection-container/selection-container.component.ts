@@ -6,6 +6,9 @@ import { Monster } from 'src/app/monsters/monster';
 import { EditCharacterDialogComponent } from 'src/app/characters/controls/edit-character-dialog/edit-character-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MonsterViewDialogComponent } from 'src/app/monsters/controls/monster-view-dialog/monster-view-dialog.component';
+import { Router } from '@angular/router';
+import { CharacterActions } from 'src/app/characters/character-actions';
+import { CommonDialogService } from 'src/app/dialogs/common-dialog.service';
 
 @Component({
   selector: 'app-selection-container',
@@ -18,7 +21,7 @@ export class SelectionContainerComponent implements OnInit {
   @Output() edits = new EventEmitter
   @Output() deletes = new EventEmitter
 
-  constructor(private data: DataService, private mapSvc: MapService, private modal: NgbModal) {
+  constructor(private data: DataService, private mapSvc: MapService, private modal: NgbModal, private router : Router, private dialog : CommonDialogService) {
 
   }
 
@@ -49,6 +52,11 @@ export class SelectionContainerComponent implements OnInit {
   pin() {
 
   }
+
+  openLinkedMap() {
+
+    this.router.navigate(['/game', this.item.owner, 'maps', this.item.mapLink])
+  } 
 
   isCharacter(): boolean {
     return (TokenAnnotation.is(this.item) && this.item.itemType == Character.TYPE)
@@ -83,11 +91,33 @@ export class SelectionContainerComponent implements OnInit {
   }
 
   copyTo() {
-
+    if (TokenAnnotation.is(this.item)) {
+      const token : TokenAnnotation = this.item
+      const char : Character = this.data.gameAssets.characters.currentItems.find( c => c.id == token.itemId)
+      if (char) {
+        this.dialog.confirm("Copy all the token values to the Character? This will overwrite the current values in the character.", "Copy to Character").subscribe( doit => {
+          if (doit) {
+            CharacterActions.copyToCharacter(token, char)
+            this.data.save(char)
+          }
+        })
+      }
+    }
   }
 
   copyFrom() {
-
+    if (TokenAnnotation.is(this.item)) {
+      const token: TokenAnnotation = this.item
+      const char: Character = this.data.gameAssets.characters.currentItems.find(c => c.id == token.itemId)
+      if (char) {
+        this.dialog.confirm("Copy all the values from the Character to this token? This will overwrite the current values in the token.", "Copy from Character").subscribe(doit => {
+          if (doit) {
+            CharacterActions.copyFromCharacter(token, char)
+            this.data.save(token)
+          }
+        })
+      }
+    }
   }
   
   public itemType(item: Annotation): string {
@@ -116,6 +146,7 @@ export class SelectionContainerComponent implements OnInit {
   }
 
   save() {
+    this.mapSvc.saveAnnotation(this.item)
     this.changes.emit()
   }
 }

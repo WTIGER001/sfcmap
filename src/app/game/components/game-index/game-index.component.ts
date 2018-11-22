@@ -38,4 +38,5 @@ export class GameIndexComponent implements OnInit {
   settings() {
     SettingsComponent.openDialog(this.modal)
   }
+
 }

@@ -200,9 +200,7 @@ export class AnnotationManager {
     }
 
     if (lGrp) {
-      // let mapitem = item.toLeaflet(this.iconCache, this.resolver, this.viewref)
       let mapitem = this.factory.toLeaflet(item)
-      console.warn("NEW ITEM", mapitem)
       this.addAnnotationItem(mapitem, item, group, lGrp);
     }
 

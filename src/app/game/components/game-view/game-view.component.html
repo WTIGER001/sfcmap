@@ -1,7 +1,12 @@
 <div class="outer" *ngIf="game">
   <div class="topbar">
     <ul class="buttons">
-      <a routerLink="/games">
+      <li class="tool-item">
+        <ng-container *ngIf="isViewer()"><fa-icon class="icon" icon="user" size="lg"></fa-icon> Viewer</ng-container>
+        <ng-container *ngIf="isPlayer()"><fa-icon class="icon" icon="user-shield" size="lg" (click)="toggleUserStatus()" ></fa-icon> Player</ng-container>
+        <ng-container *ngIf="isGM()"    ><fa-icon class="icon" icon="user-crown" size="lg" (click)="toggleUserStatus()"></fa-icon> GM</ng-container>
+      </li>
+      <!-- <a routerLink="/games">
         <li class="tool-item">
           <fa-icon class="icon" icon="home" size="lg"></fa-icon> Home
         </li>
@@ -13,7 +18,7 @@
       </a>
       <li class="tool-item" (click)="settings()">
         <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
-      </li>
+      </li> -->
 
       <a routerLink="edit">
         <li class="tool-item">

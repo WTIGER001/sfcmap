@@ -88,4 +88,26 @@ export class GameViewComponent implements OnInit {
   settings() {
     SettingsComponent.openDialog(this.modal)
   }
+
+
+  isGM() {
+    return this.data.isGM()
+  }
+
+  isPlayer() {
+    if(this.isGM()) {
+      return false
+    }
+    return this.data.isPlayer()
+  }
+
+  isViewer() {
+    return !(this.isGM() || this.isPlayer())
+  }
+
+  toggleUserStatus() {
+    if (this.data.isRealGM()) {
+      this.data.pretendToBePlayer = !this.data.pretendToBePlayer
+    }
+  }
 }

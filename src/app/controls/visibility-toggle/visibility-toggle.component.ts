@@ -20,11 +20,15 @@ export class VisibilityToggleComponent implements OnInit {
     const reverse = event.ctrlKey
 
     if (this.visible == AuraVisible.NotVisible) {
-      this.visible = reverse ? AuraVisible.OnSelect : AuraVisible.Visible
+      this.visible = reverse ? AuraVisible.OnHover : AuraVisible.Visible
     } else if (this.visible == AuraVisible.Visible) {
       this.visible = reverse ? AuraVisible.NotVisible : AuraVisible.OnSelect
     } else if (this.visible == AuraVisible.OnSelect) {
-      this.visible = reverse ? AuraVisible.Visible : AuraVisible.NotVisible
+      this.visible = reverse ? AuraVisible.Visible : AuraVisible.OnHover
+    } else if (this.visible == AuraVisible.OnHover) {
+      this.visible = reverse ? AuraVisible.OnSelect : AuraVisible.NotVisible
+    } else {
+      this.visible = AuraVisible.NotVisible
     }
     this.changes.emit(this.visible)
   }

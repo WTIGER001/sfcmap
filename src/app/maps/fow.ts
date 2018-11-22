@@ -94,7 +94,7 @@ export class FowManager {
 
   createOverlay(map: LeafletMap) {
     console.log(">>>>>>----->>>>>>>>>>>>>> Current Map ", this.mapSvc._mapCfg.name, this.fow.id, this.mapSvc._mapCfg.id, this.mapSvc._mapCfg)
-    let factor = this.mapSvc._mapCfg.ppm
+    let factor = this.mapSvc._mapCfg.ppm || 1
     const llBounds = latLngBounds([[0, 0], [this.mapSvc._mapCfg.height / factor, this.mapSvc._mapCfg.width / factor]]);
 
     const color = this.data.isGM() ? this.fow.gmcolor : this.fow.color
@@ -140,36 +140,39 @@ export class FowManager {
         ctx.fillStyle = '#fff'
       }
 
-      if (r.type == 'polygon') {
-        ctx.beginPath()
+      if (r.points && r.points[0]) {
+        if (r.type == 'polygon') {
+          ctx.beginPath()
 
-        // A polygons points are really in the second array
-        const pts: LatLng[] = r.points
+          // A polygons points are really in the second array
+          const pts: LatLng[] = r.points
 
-        // Move to the first point
-        ctx.moveTo(pts[0].lng * factor, pts[0].lat * factor)
-        for (let i = 1; i < pts.length; i++) {
-          ctx.lineTo(pts[i].lng * factor, pts[i].lat * factor)
+          // Move to the first point
+          ctx.moveTo(pts[0].lng * factor, pts[0].lat * factor)
+          for (let i = 1; i < pts.length; i++) {
+            ctx.lineTo(pts[i].lng * factor, pts[i].lat * factor)
+          }
+
+          ctx.fill()
+        } else if (r.type == 'rectangle') {
+          ctx.fillRect(
+            r.points[0].lng * factor,
+            r.points[0].lat * factor,
+            (r.points[1].lng - r.points[0].lng) * factor,
+            (r.points[1].lat - r.points[0].lat) * factor)
+        } else if (r.type == 'circle') {
+          ctx.beginPath()
+          ctx.arc(
+            r.points[0].lng * factor,
+            r.points[0].lat * factor,
+            r.points[1] * factor,
+            0,
+            Math.PI * 2
+          )
+          ctx.fill()
         }
-
-        ctx.fill()
-      } else if (r.type == 'rectangle') {
-        ctx.fillRect(
-          r.points[0].lng * factor,
-          r.points[0].lat * factor,
-          (r.points[1].lng - r.points[0].lng) * factor,
-          (r.points[1].lat - r.points[0].lat) * factor)
-      } else if (r.type == 'circle') {
-        ctx.beginPath()
-        ctx.arc(
-          r.points[0].lng * factor,
-          r.points[0].lat * factor,
-          r.points[1] * factor,
-          0,
-          Math.PI * 2
-        )
-        ctx.fill()
       }
+
     })
   }
 }
