@@ -411,25 +411,14 @@ export class DataService {
     this.subs.push(sub)
   }
 
-  // getAnnotations$(mapId: string): Observable<Annotation[]> {
-  //   return this.gameAssets.annotations.items$.pipe(
-  //     map(items => items.filter(item => item.map == mapId))
-  //   )
-  // }
-
-  // getAnnotationGroups$(mapId: string): Observable<MarkerGroup[]> {
-  //   return this.gameAssets.annotationFolders.items$.pipe(
-  //     map(items => items.filter(item => item.map == mapId))
-  //   )
-  // }
-
   getAnnotations$(mapId: string): Observable<ItemAction<Annotation>> {
     return this.game.pipe(
+      filter(game => game !== undefined ),
       map(game => DbConfig.pathFolderTo(Annotation.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
       map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
-      // tap(item => console.log("--> Annotation State change: ", item)),
       tap(p => this.record('annotation', 1)),
+      filter(item => this.canView(item.item))
     )
   }
 
@@ -442,73 +431,18 @@ export class DataService {
     )
   }
 
-  // getAnnotations(mapid: string): Observable<Array<Annotation>> {
-  //   return this.gameAssets.annotations.items$
-  //     .pipe(
-  //       tap(items => console.log("ALL ANNOTATIONS", items.length)),       
-  //       tap(items => this.record('annotations', items.length)),
-  //       map(items => items.filter(item => item.map == mapid)),
-  //       tap(items => console.log("ANNOTATIONS for this map", items.length)),
-  //       map(items => items.filter(item => this.canView(item))),
-  //       tap(items => console.log("viewable ANNOTATIONS", items),
-
-  //       )
-  //     )
-  // }
-
-  getCompleteAnnotationGroups(mapid: string): Observable<Array<MarkerGroup>> {
-    // let annotationObs = this.user.pipe(
-    //   mergeMap(u => this.getAnnotations(mapid))
-    // )
-    // let groupObs = this.user.pipe(
-    //   mergeMap(u => this.getMarkerGroups(mapid))
-    // )
-
-    // return combineLatest(this.gameAssets.markerTypes.items$, groupObs, annotationObs).pipe(
-    //   map(value => {
-
-    //     console.log(`Loading Complete Marker Groups for ${mapid} with ${value[1].length} Groups`)
-    //     let markerTypes = value[0]
-    //     let loadedGroups = value[1]
-    //     let annotations = value[2]
-    //     let groups = []
-    //     loadedGroups.forEach(grp => {
-    //       grp._annotations = annotations.filter(m => m.group == grp.id)
-    //       groups.push(grp)
-    //     })
-
-    //     let uncat = new MarkerGroup()
-    //     uncat.id = DataService.UNCATEGORIZED
-    //     uncat.name = "Ungrouped"
-    //     uncat._annotations = annotations.filter(m => (!m.group || m.group == ''))
-    //     if (uncat._annotations.length > 0) {
-    //       groups.push(uncat)
-    //     }
-    //     return groups
-    //   })
-    // )
-    return from([])
-  }
-
   private getMarkerGroups(mapid: string): Observable<Array<MarkerGroup>> {
     return this.gameAssets.annotationFolders.items$.pipe(
       map(items => items.filter(i => i.map == mapid))
     )
   }
 
-
   /**
    * Checks if an item is restricted from viewing
    * @param obj Item to Check
    */
   isRestricted(obj: any): boolean {
-    if (obj.view && obj.view.length > 0) {
-      return true
-    }
-    if (obj.edit && obj.edit.length > 0) {
-      return true
-    }
-    return false
+    return obj.restriction > 0
   }
 
   isPlayer(user?: User) {
@@ -737,6 +671,33 @@ export class DataService {
     }, () => {
       this.log.debug("Complete");
     })
+  }
+
+
+  saveMakerType(item: MarkerType, image?: Blob, thumb?: Blob) {
+    console.log('Saving Marker ', item.name)
+
+    if (item['__FILE']) {
+      let pathImage = 'images/' + item.owner + "/" + item.id
+      console.log("Preparing to save Marker DATA", map);
+
+      forkJoin(this.saveImage(item['__FILE'], pathImage)).pipe(
+        mergeMap(result => this.fillInMyUrl(item, pathImage, 'url'))
+      ).subscribe(() => {
+        this.setImageMetadata(pathImage)
+        console.log("Saving marker DATA", map);
+        this.save(item)
+      }, err => {
+        this.log.debug("ERROR");
+        this.log.debug(err);
+      }, () => {
+        this.log.debug("Complete");
+      })
+
+    } else {
+      console.log("No Images", map);
+      this.save(item)
+    }
   }
 
   setImageMetadata(path: string) {

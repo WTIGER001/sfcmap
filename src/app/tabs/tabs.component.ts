@@ -40,6 +40,16 @@ export class TabsComponent implements OnInit {
         this.selected = 'marker'
       }
     })
+
+    this.mapSvc.mapConfig.subscribe( map => {
+      if (map && map.id !== "BAD") {
+        console.log("OPENNING MAP TABS")
+      } else {
+        console.log("CLOSING MAP TABS")
+        this.expanded = false
+        this.selected = ''
+      }
+    })
   }
 
   private loadMap() {

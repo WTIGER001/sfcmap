@@ -1,0 +1,32 @@
+
+.dice {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 3em;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.dice-max {
+    color: green;
+}
+.dice-min {
+    color: red;
+}
+
+.roll-header-2 {
+    display: flex;
+    justify-content: space-between;
+    color: #9ed485;
+    font-size: 2em;
+}
+
+.dlg-sm {
+  width: auto;
+  border-radius: 20px;
+}
+
+.footer-sm {
+  margin: 0;
+}

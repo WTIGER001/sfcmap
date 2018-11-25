@@ -1,7 +1,6 @@
-<div  class="clickable clickable-sm" (click)="toggle($event)" placement="bottom"
-  ngbTooltip="Toggle visiblity" container="body">
-  <fa-icon *ngIf="visible==0" [fixedWidth]="true" icon="eye-slash" [style.color]="'grey'"></fa-icon>
-  <fa-icon *ngIf="visible==1" [fixedWidth]="true" icon="eye" [style.color]="'white'"></fa-icon>
-  <fa-icon *ngIf="visible==2" [fixedWidth]="true" icon="hand-pointer" [style.color]="'white'"></fa-icon>
-  <fa-icon *ngIf="visible==3" [fixedWidth]="true" icon="mouse-pointer" [style.color]="'white'"></fa-icon>
+<div  class="clickable clickable-sm" (click)="toggle($event)" >
+  <fa-icon *ngIf="visible==0" [fixedWidth]="true" icon="eye-slash" [style.color]="'grey'" placement="bottom" ngbTooltip="Never visible (click to change)" container="body"></fa-icon>
+  <fa-icon *ngIf="visible==1" [fixedWidth]="true" icon="eye" [style.color]="'white'"  placement="bottom" ngbTooltip="Always visible (click to change)" container="body"></fa-icon>
+  <fa-icon *ngIf="visible==2" [fixedWidth]="true" icon="hand-pointer" [style.color]="'white'"  placement="bottom" ngbTooltip="Visible when selected (click to change)" container="body"></fa-icon>
+  <fa-icon *ngIf="visible==3" [fixedWidth]="true" icon="mouse-pointer" [style.color]="'white'"  placement="bottom" ngbTooltip="Visible on hover or when selected (click to change)" container="body"></fa-icon>
 </div>

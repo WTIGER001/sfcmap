@@ -6,7 +6,7 @@ import { CoordsControl } from '../../../leaflet/coords';
 import { Scale } from '../../../leaflet/scale';
 import { MapService } from '../../map.service';
 import { DataService } from '../../../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AudioService } from '../../../audio.service';
 import { MessageService } from '../../../message.service';
 import { CommandService } from '../../../command.service';
@@ -24,6 +24,7 @@ import '../../../leaflet/CanvasLayer1.js';
 import { MapShareData } from 'src/app/models/system-models';
 import { CanvasLayer2 } from '../../../leaflet/CanvasLayer.js';
 import { AnnotationFactory } from '../../annotation-factory';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-map-view',
@@ -65,7 +66,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
     editable: true,
     divisions: 4,
     zoomControl: false,
-    center: this.bounds.getCenter(), 
+    center: this.bounds.getCenter(),
     doubleClickZoom: false
   }
 
@@ -74,12 +75,14 @@ export class MapViewComponent implements OnInit, OnDestroy {
   currentSelection: Selection = new Selection([])
   annotationMgr: AnnotationManager;
 
-  constructor(private zone: NgZone, private mapSvc: MapService, private data: DataService, private route: ActivatedRoute,
-    private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService, private notify: NotifyService, private resolver: ComponentFactoryResolver, private viewref : ViewContainerRef) {
+  constructor(
+    private zone: NgZone, private mapSvc: MapService, private data: DataService, private route: ActivatedRoute,
+    private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService, private notify: NotifyService,
+    private resolver: ComponentFactoryResolver, private viewref: ViewContainerRef, private router: Router, private location : Location) {
 
     this.makeLayers()
     this.setupSubscriptions()
-  
+
   }
 
   makeLayers() {
@@ -117,6 +120,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
       this.loadMap(this.mapCfg)
       // this.mapSvc.setConfig(this.mapCfg)
     })
+
+
   }
 
   ngOnDestroy() {
@@ -165,6 +170,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  doneone = false
 
   /**
    * Fired when the map is ready
@@ -172,9 +178,11 @@ export class MapViewComponent implements OnInit, OnDestroy {
    */
   onMapReady(map: LeafletMap) {
     console.log("Map Ready!", map, this.mapSvc._map, this.map);
+    this.doneone = false
     this.map = map
 
-
+    this.map['mapcfgid'] = this.mapCfg.id
+    this.map['title'] = this.mapCfg.name
     // Create a simple canvas layer
     // const cvs = new CanvasLayer(this.bounds, {pane: "fow"})
     // const cvs = new CanvasLayer()
@@ -219,6 +227,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
       } else {
         this.mapSvc.processingEvent = false
       }
+      this.keepRouteUpdated(map)
     })
     this.map.on('dragend', event => {
       const d = new MapShareData()
@@ -228,7 +237,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
       d.mapId = this.mapCfg.id
 
       this.data.shareEvent(d)
+
+      this.keepRouteUpdated(map)
     })
+
   }
 
   loadPlugins(map: LeafletMap) {
@@ -248,6 +260,63 @@ export class MapViewComponent implements OnInit, OnDestroy {
     }).addTo(map)
 
     this.applyPrefs()
+
+    this.route.paramMap.subscribe(params => {
+      this.updateFromRoute(map, params)
+    })
+  }
+
+  updateFromRoute(map: LeafletMap, params: ParamMap) {
+ 
+    let center = params.get('coords');
+    let zoom = params.get('zoom');
+    let flag = params.get('flag')
+    if (center) {
+      let ll = center.split(',')
+      let loc = latLng(parseFloat(ll[0]), parseFloat(ll[1]))
+      const currentCenter = map.getCenter()
+
+      if (Math.abs(loc.lat - currentCenter.lat) > 0.0001 && Math.abs(loc.lng - currentCenter.lng) > 0.0001) {
+        if (this.doneone) {
+          map.flyTo(loc)
+        } else{
+          this.doneone = true
+          map.panTo(loc, { animate: false })
+        }
+        // 
+      }
+
+      if (flag) {
+        Ping.showFlag(map, loc, 10000)
+      }
+    }
+    if (zoom) {
+      const zoomval: number = parseInt(zoom)
+      if (!isNaN(zoomval)) {
+        map.setZoom(zoomval)
+      }
+    }
+
+  }
+
+  keepRouteUpdated(map: LeafletMap) {
+    this.doneone = true
+
+    // Construct base route
+    const base: any[] = ['/game', this.mapCfg.owner, 'maps', this.mapCfg.id]
+
+    // Add 
+    const center = map.getCenter()
+    let coords = center.lat + "," + center.lng
+    const zoom = map.getZoom()
+
+    base.push({ coords: coords, zoom: zoom })
+
+
+    // this.router.navigate(base)
+    let url = this.router.createUrlTree(base).toString();
+    this.location.go(url);
+
   }
 
   loadAnnotations(map: LeafletMap) {
@@ -269,7 +338,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
       }
     }
   }
-
 
   /* ------------------------------------------------------------------------------------------ */
   /* Droppable files                                                                            */

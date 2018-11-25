@@ -66,11 +66,6 @@ export class AnnotationManager {
       }
       ))
 
-    this.data.getCompleteAnnotationGroups(mapCfg.id).subscribe(groups => {
-      console.log("Recieved new set of annotations, need to compare", groups)
-      this.completeMarkerGroups.next(groups)
-    })
-
     let loadGroups = this.completeMarkerGroups.pipe(
       map(groups => {
         this.groups = groups
@@ -128,7 +123,7 @@ export class AnnotationManager {
 
   private ensureAnnotationVisibility(annotation: Annotation, group: MarkerGroup, visible: boolean) {
     // let item = annotation.toLeaflet(undefined)
-    let item = this.factory.toLeaflet(annotation)
+    let item = this.factory.toLeaflet(annotation, this.mapCfg, this.data.pathfinder, this.mapSvc)
     let lGrp = this.lGroups.get(group.id)
     if (lGrp) {
       if (visible && !lGrp.hasLayer(item)) {
@@ -200,7 +195,7 @@ export class AnnotationManager {
     }
 
     if (lGrp) {
-      let mapitem = this.factory.toLeaflet(item)
+      let mapitem = this.factory.toLeaflet(item, this.mapCfg, this.data.pathfinder, this.mapSvc)
       this.addAnnotationItem(mapitem, item, group, lGrp);
     }
 

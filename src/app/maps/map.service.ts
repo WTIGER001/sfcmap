@@ -118,6 +118,7 @@ export class MapService {
   fogOfWar : MapAsset<FogOfWar>
   lighting : LightingManager
   lightRenderer: LightImageRenderer 
+  hovering = new Subject<any>()
 
   constructor(private zone: NgZone, private data: DataService, private notify: NotifyService, private router: Router) {
     this.log = this.notify.newDebugger('Map')
@@ -170,11 +171,6 @@ export class MapService {
       this.mapLoad.debug("Loading Categories ... " + cats.length)
       this.categories = cats
     })
-
-    this.mapConfig.pipe(
-      mergeMap(cfg => this.data.getCompleteAnnotationGroups(cfg.id)),
-      tap(groups => this.completeMarkerGroups.next(groups))
-    ).subscribe()
 
     this.fogOfWar = new MapAsset<FogOfWar>(FogOfWar.TYPE).subscribe(this.mapConfig, notify, data);
 
@@ -269,6 +265,7 @@ export class MapService {
    */
   public newTempMarker(latlng?: LatLng): MarkerTypeAnnotation {
     let markerTypeId = this.getDefaultMarker(this._mapCfg)
+    console.log("DEFAULT MARKER ", markerTypeId)
 
     let point = latlng
     if (latlng == undefined || latlng.lat == undefined) {
@@ -343,7 +340,6 @@ export class MapService {
               let ll = center.split(',')
               let loc = latLng(parseFloat(ll[0]), parseFloat(ll[1]))
               this.panTo(loc)
-
               if (opts.flag) {
                 Ping.showFlag(this._map, ll, 10000)
               }
@@ -443,11 +439,14 @@ export class MapService {
   }
 
   getDefaultMarker(item: MapConfig): string {
+    console.log("Finding Default Marker for : ", item)
     if (item.defaultMarker) {
       return item.defaultMarker
     }
 
     let mt = this.mapTypes.find(mt => mt.id == item.mapType)
+    console.log("Looking for map type : ", item.mapType, this.mapTypes)
+
     if (mt && mt.defaultMarker) {
       return mt.defaultMarker
     }

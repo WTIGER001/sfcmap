@@ -23,6 +23,7 @@
     --muted-color: #515558;
     --form-bg: #6969692b;
     --form-focus-bg: #cab7b75c;
+    --muted-text: #d7d7d8;
 }
 
 *, *::before, *::after {

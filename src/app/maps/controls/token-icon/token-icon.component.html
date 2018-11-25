@@ -1,4 +1,4 @@
-<figure #figure [class.iconselected]="selected" class="hover-target" >
+<figure #figure [class.iconselected]="selected" class="hover-target" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
   <figcaption  *ngIf="item.showName >= 1" [style.font-size]="calcFontSize()" [class.showonselect]="item.showName>=2" [class.showonhover]="item.showName==3" >{{item.name}}</figcaption>
   <span *ngIf="item.badge" class="badge badge-secondary badge-label">{{item.badge}}</span>
@@ -9,5 +9,5 @@
       </li>
     </ng-container>
   </ul>
-  <span *ngIf="item.flyHeight != 0" class="badge badge-secondary badge-fly ">{{flyHeight}}</span>
+  <span *ngIf="item.flyHeight != 0 && item.showFly >= 1" class="flyburrow"  [style.font-size]="calcFontSize(0.09)" [class.showonselect]="item.showFly>=2" [class.showonhover]="item.showFly==3">{{item.flyHeight|plus}}</span>
 </figure>

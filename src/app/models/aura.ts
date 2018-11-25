@@ -24,5 +24,6 @@ export class Aura {
   radius: Distance = new Distance(5, DistanceUnit.Feet.abbr)
   visible: number = AuraVisible.NotVisible
   visibleTo : number = AuraVisibleTo.Everyone
-  weight: number = 1;
+  weight: number = 1
+  style: string
 }

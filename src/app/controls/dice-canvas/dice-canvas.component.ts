@@ -48,7 +48,6 @@ export class DiceCanvasComponent implements AfterViewInit {
         this.diceResult.rolltype = rollType
         let copy = DiceRoll.copy(r)
         
-
         this.diceroll.emit(copy)
         this.dicetotal.emit(r.getText())
 

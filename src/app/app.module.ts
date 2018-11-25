@@ -204,6 +204,8 @@ import { SelectionContainerComponent } from './maps/controls/selection-container
 import { TokenPersonalComponent } from './maps/controls/token-personal/token-personal.component';
 import { VisibilityToggleComponent } from './controls/visibility-toggle/visibility-toggle.component';
 import { AddsubDirective } from './controls/addsub.directive';
+import { DiceResultComponent } from './controls/dice-result/dice-result.component';
+import { MarkerTypeSelectComponent } from './controls/marker-type-select/marker-type-select.component';
 
 @NgModule({
   declarations: [
@@ -365,6 +367,8 @@ import { AddsubDirective } from './controls/addsub.directive';
     TokenPersonalComponent,
     VisibilityToggleComponent,
     AddsubDirective,
+    DiceResultComponent,
+    MarkerTypeSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -432,6 +436,10 @@ import { AddsubDirective } from './controls/addsub.directive';
     TokenBarEditComponent,
     PictureTileComponent,
     TokenIconComponent,
+    DiceResultComponent,
+    MarkerTypeManagerComponent,
+    EditMapTypeComponent,
+    MarkerTypeSelectComponent,
   ],
   exports: [CheckboxComponent]
 })

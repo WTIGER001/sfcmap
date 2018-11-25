@@ -9,4 +9,5 @@
     height: 38px;
     cursor: pointer;
     border-radius: 5px;
+    border: solid 1px #6c757d;
 }

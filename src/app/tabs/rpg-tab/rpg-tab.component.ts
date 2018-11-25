@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
 import { emojify, search } from 'node-emoji';
 import { DataService } from '../../data.service';
-import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig, Prefs, UserChatLastSeen, UserChatLastCleared } from '../../models';
+import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig, Prefs, UserChatLastSeen, UserChatLastCleared, Game } from '../../models';
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
 import { LangUtil } from '../../util/LangUtil';
 import { AudioService, Sounds } from '../../audio.service';
@@ -28,6 +28,7 @@ export class RpgTabComponent implements OnInit {
   @ViewChild('actionBox') actionbox: any
   @ViewChild('acc') acc: any
 
+  game : Game
   expressionHistory: string[] = []
   records: ChatRecord[] = []
   box: Dice
@@ -73,6 +74,7 @@ export class RpgTabComponent implements OnInit {
 
 
     this.data.game.subscribe(game => {
+      this.game = game
       this.records = []
       if (this.subLastSeen) {
         this.subLastSeen.unsubscribe()
@@ -124,8 +126,9 @@ export class RpgTabComponent implements OnInit {
   link(rec: ChatRecord) {
     let item = rec.record
     if (PingMessage.is(item)) {
+      console.log("PING RECIEVED", item)
       let coords = item.lat + "," + item.lng
-      return ['map', item.map, { coords: coords, flag: true }]
+      return ['/game', this.game.id, 'maps', item.map, { coords: coords, flag: true }]
     }
   }
 

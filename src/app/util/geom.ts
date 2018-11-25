@@ -1,8 +1,28 @@
 import { Path, SVG, svg, LatLngBounds, LatLng, latLng, latLngBounds } from "leaflet";
 import { Annotation, ShapeAnnotation } from "../models";
 import { log, isArray } from "util";
+import { DistanceUnit } from "./transformation";
+
+export class BoundsUtil {
+  /**
+   * Creates an equal buffer around an existing bounds
+   * @param bounds Input Bounds
+   * @param bufferSize Size of the buffer (assumed to be meters)
+   * @param unit Unit of the bufferSize
+   */
+  public static buffer(bounds: LatLngBounds, bufferSize: number, unit?: DistanceUnit): LatLngBounds {
+    const buff = unit ? unit.toMeters(bufferSize) : bufferSize
+    const east = bounds.getEast() + buff
+    const west = bounds.getWest() - buff
+    const north = bounds.getNorth() + buff
+    const south = bounds.getSouth() - buff
+    const result =  latLngBounds([south, west], [north, east])
+    return result
+  }
 
 
+
+}
 
 export class Rect {
   public x2: number

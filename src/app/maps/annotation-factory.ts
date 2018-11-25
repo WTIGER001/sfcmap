@@ -1,9 +1,11 @@
-import { Annotation, MarkerTypeAnnotation, ImageAnnotation, TokenAnnotation, ShapeAnnotation, BarrierAnnotation, IconZoomLevelCache, MarkerType, AnchorPostitionChoice, Barrier } from "../models";
+import { Annotation, MarkerTypeAnnotation, ImageAnnotation, TokenAnnotation, ShapeAnnotation, BarrierAnnotation, IconZoomLevelCache, MarkerType, AnchorPostitionChoice, Barrier, MapConfig, GameSystem, TokenSize } from "../models";
 import { icon, marker, Marker, LatLngBounds, imageOverlay, elemOverlay, DomUtil, ElemOverlay, ImageOverlay, Polygon, Polyline, Circle, Rectangle, polygon, polyline, rectangle, CircleMarkerOptions, LatLngExpression, circle, PolylineOptions, ElemOverlayOptions, ImageOverlayOptions, MarkerOptions } from "leaflet";
 import { ComponentFactoryResolver, ViewContainerRef } from "@angular/core";
 import { TokenIconComponent } from "./controls/token-icon/token-icon.component";
 import { LangUtil } from "../util/LangUtil";
 import { Assets } from "../assets";
+import { DistanceUnit } from "../util/transformation";
+import { MapService } from "./map.service";
 
 export class AnnotationFactory {
   iconCache: IconZoomLevelCache
@@ -18,7 +20,7 @@ export class AnnotationFactory {
     this.markerTypes = markerTypes
   }
 
-  toLeaflet(annotation: Annotation): any {
+  toLeaflet(annotation: Annotation, mapCfg : MapConfig, gs : GameSystem, mapSvc : MapService): any {
     if (MarkerTypeAnnotation.is(annotation)) {
       return AnnotationFactory.createMarker(annotation, this.iconCache, this.markerTypes)
     }
@@ -29,7 +31,7 @@ export class AnnotationFactory {
       return AnnotationFactory.createImage(annotation)
     }
     if (TokenAnnotation.is(annotation)) {
-      return this.createToken(annotation)
+      return this.createToken(annotation, gs, mapSvc)
     }
     if (BarrierAnnotation.is(annotation)) {
       return AnnotationFactory.createBarrier(annotation)
@@ -64,7 +66,7 @@ export class AnnotationFactory {
     return img
   }
 
-  createToken(item: TokenAnnotation): ElemOverlay {
+  createToken(item: TokenAnnotation, gs: GameSystem, mapSvc : MapService): ElemOverlay {
     let bounds = new LatLngBounds(item.points[0], item.points[1])
     let options = AnnotationFactory.tokenOptions(item)
 
@@ -81,6 +83,18 @@ export class AnnotationFactory {
     options.existing = component.instance.elRef.nativeElement
     const elem = elemOverlay('div', bounds, options)
     elem['_component'] = component
+
+    component.instance.hover.subscribe(hovering => {
+      mapSvc.hovering.next({ item: item, hover: hovering })
+    })
+
+    // Calculate the bounds based on the size
+    const tokenSize = gs.sizes.find( s => s.key === item.size) || new TokenSize("unk", 'unk', 5, 5, DistanceUnit.Feet)
+    const w = tokenSize.unit.toMeters(tokenSize.width) 
+    const h = tokenSize.unit.toMeters(tokenSize.height) 
+    const lat = item.points[0].lat + h
+    const lng = item.points[0].lng + w
+    bounds = new LatLngBounds(item.points[0], [lat, lng] )
 
     elem.setBounds(bounds)
 
@@ -136,7 +150,8 @@ export class AnnotationFactory {
       stroke: item.border,
       color: item.color,
       weight: item.weight,
-      radius: item.points[1]
+      radius: item.points[1],
+      dashArray :item.style
     }
     let center: LatLngExpression = item.points[0]
     return circle(center, options)
@@ -153,6 +168,7 @@ export class AnnotationFactory {
     opts.fill = item.fill
     opts.stroke = item.border
     opts.weight = item.weight
+    opts.dashArray = item.style
     opts.noClip = true
     if (item.color) {
       opts.color = LangUtil.baseColor(item.color)
@@ -170,6 +186,7 @@ export class AnnotationFactory {
     let opts: PolylineOptions = {}
     opts.stroke = item.border
     opts.weight = item.weight
+
     opts.noClip = true
     if (item.color) {
       opts.color = LangUtil.baseColor(item.color)
@@ -198,6 +215,7 @@ export class AnnotationFactory {
     // Try the icon cache first. This is being phased out (hopefully)
     const myCache = cache 
     if (myCache) {
+      console.log("Loading Icon from cache", item.markerType)
       let icn = myCache.getAnyIcon(item.markerType)
       if (icn) {
         return {
@@ -208,6 +226,8 @@ export class AnnotationFactory {
 
     // Try to build the marker from the marker types
     if (markerTypes) {
+      console.log("Loading Icon from markerTypes", item.markerType)
+
       const type = markerTypes.find(t => t.id == item.markerType)
       if (type) {
         let icn = this.generateIcon(type)
@@ -217,12 +237,14 @@ export class AnnotationFactory {
       }
     }
 
+    console.log("Nothing Found for", item.markerType)
+
     // Default to the missing picture icon
     return {
       icon: icon({
-        iconUrl: Assets.MissingPicture,
-        iconSize: [50, 50],
-        iconAnchor: [25, 25]
+        iconUrl: Assets.MissingMarker,
+        iconSize: [30, 46],
+        iconAnchor: [15, 46]
       })
     }
   }

@@ -1,0 +1,35 @@
+.full-row {
+  width: 100%;
+  grid-column: 1/-1;
+  text-align: center;
+}
+
+
+.outer {
+  display: flex;
+  flex-direction: column;
+  min-width: 40vw;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 2fr 2fr auto auto;
+  gap: 5px;
+}
+
+
+.item:last-of-type {
+  border-bottom: 0px solid gray;
+}
+
+.title {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.short {
+  width: 5em;
+}

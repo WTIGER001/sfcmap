@@ -1,12 +1,30 @@
-<div class="form-group">
-  <label for="name">Name</label>
-  <input type="text" class="form-control " id="name" placeholder="Enter Map Type Name" [(ngModel)]="selected.name">
-</div>
-<div class="form-group">
-  <label for="name">Default Marker</label>
-  <app-marker-combo [(ngModel)]="selected.defaultMarker" [mapType]="selected"></app-marker-combo>
-</div>
-<div class="form-group">
-  <label for="name">Order</label>
-  <input type="text" class="form-control" id="name" placeholder="Enter Marker Name" [(ngModel)]="selected.order">
-</div>
+<div class="max">
+  <div class="page page--wide">
+    <div class="title">
+      <h1>Map Folders</h1>
+      <div class="toolbar">
+        <div class="clickable" (click)="close()">
+          <fa-icon icon="times" size="lg"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="outer">
+      <div class="item">
+      <label>Name</label>
+      <label>Default Marker</label>
+      <label>Order</label>
+      <span></span>
+
+      <ng-container *ngFor="let item of all">
+        <input type="text" class="form-control " id="name" placeholder="Enter Map Type Name" [(ngModel)]="item.name" [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="update(item)">
+        <app-marker-combo [(ngModel)]="item.defaultMarker" [mapType]="item"  (ngModelChange)="update(item)"></app-marker-combo>
+        <input type="number" class="form-control nospin short" id="name" placeholder="Display Order" [(ngModel)]="item.order"  [ngModelOptions]="{updateOn: 'blur'}" (ngModelChange)="update(item)">
+        <div class="clickable" (click)="delete(item)">
+          <fa-icon icon="trash-alt" size="lg"></fa-icon>
+        </div>
+      </ng-container>
+      <div class="clickable full-row" (click)="addItem()">
+        <fa-icon icon="folder-plus" size="lg"></fa-icon> Add New Folder
+      </div>
+    </div>
+  </div>

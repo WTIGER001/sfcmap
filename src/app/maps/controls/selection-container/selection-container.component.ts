@@ -9,6 +9,7 @@ import { MonsterViewDialogComponent } from 'src/app/monsters/controls/monster-vi
 import { Router } from '@angular/router';
 import { CharacterActions } from 'src/app/characters/character-actions';
 import { CommonDialogService } from 'src/app/dialogs/common-dialog.service';
+import { RestrictService } from 'src/app/dialogs/restrict.service';
 
 @Component({
   selector: 'app-selection-container',
@@ -20,13 +21,14 @@ export class SelectionContainerComponent implements OnInit {
   @Output() changes = new EventEmitter
   @Output() edits = new EventEmitter
   @Output() deletes = new EventEmitter
+  restricted = false;
 
-  constructor(private data: DataService, private mapSvc: MapService, private modal: NgbModal, private router : Router, private dialog : CommonDialogService) {
+  constructor(private data: DataService, private mapSvc: MapService, private modal: NgbModal, private router : Router, private dialog : CommonDialogService, private restrict : RestrictService) {
 
   }
 
   ngOnInit() {
-
+    this.restricted = this.data.isRestricted(this.item)
   }
 
   deselect() {
@@ -41,8 +43,23 @@ export class SelectionContainerComponent implements OnInit {
     this.edits.emit(this.item)
   }
 
-  restrict() {
+  canView(field: string) {
+    return this.data.canViewField(this.item, field)
+  }
 
+  canEdit(field: string) {
+    return this.data.canEditField(this.item, field)
+  }
+
+  permissions() {
+    if (this.item) {
+      this.restrict.openRestrict(this.item).subscribe((r) => {
+        if (r) {
+          this.data.save(this.item)
+          this.restricted = this.data.isRestricted(this.item)
+        }
+      })
+    }
   }
 
   delete() {

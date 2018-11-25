@@ -13,6 +13,8 @@ export class TokenIconComponent implements OnInit {
   @Input() item: TokenAnnotation
   @Input() selected: boolean
   @Input() showName: boolean = true
+  @Output() hover = new EventEmitter<boolean>()
+
   barheight = '3px'
   observer: MutationObserver
 
@@ -28,10 +30,6 @@ export class TokenIconComponent implements OnInit {
   calcBarGap() {
     const h = this.elRef.nativeElement.offsetHeight
     return h / 100 * 3 + "px"
-  }
-
-  getFontSize() {
-    return
   }
 
   ngOnInit() {
@@ -65,9 +63,10 @@ export class TokenIconComponent implements OnInit {
     return '10px'
   }
 
-  calcFontSize() {
+  calcFontSize(factor ?: number) {
+    const f = factor || 0.14
     if (this.elRef) {
-     return (this.elRef.nativeElement.offsetHeight * .14 ) + 'px'
+     return (this.elRef.nativeElement.offsetHeight * f)  + 'px'
     }
     return '10px';
   }
@@ -105,6 +104,14 @@ export class TokenIconComponent implements OnInit {
 
   getImagePosClass() {
     return "object-position-5"
+  }
+
+  mouseenter() {
+    this.hover.emit(true)
+  }
+
+  mouseleave() {
+    this.hover.emit(false)
   }
 
 }

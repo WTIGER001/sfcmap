@@ -1,0 +1,34 @@
+<div class=" max">
+  <div class="page page--wide">
+    <div class="title">
+      <h1>Select A Marker</h1>
+      <div class="toolbar">
+        <div class="clickable" (click)="close()">
+          <fa-icon icon="times" size="lg"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="outer">
+      <div class="scroller dark-scroller">
+        <app-expander [text]="folder.name" *ngFor="let folder of folders" [expanded]="true">
+          <div class="marker-list">
+            <ng-container *ngFor="let m of markers">
+              <figure class="marker clickable" *ngIf="m.category == folder.id" (click)="select(m)" (dblclick)="selectAndOk(m)" [class.selected]="m == selected">
+                <img [src]="m.url" height=45>
+                <figcaption>{{m.name}}</figcaption>
+              </figure>
+            </ng-container>
+          </div>
+        </app-expander>
+      </div>
+    </div>
+    <div class="footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="ok()">
+        <fa-icon icon="check" size="lg" class="mr-2"></fa-icon> Select
+      </button>
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        <fa-icon icon="times" size="lg" class="mr-2"></fa-icon>Cancel
+      </button>
+    </div>
+  </div>
+</div>

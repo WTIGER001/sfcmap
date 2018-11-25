@@ -5,6 +5,9 @@ import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { DataService } from '../../data.service';
 import { UUID } from 'angular2-uuid';
 import { Observable, ReplaySubject } from 'rxjs';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { tap } from 'rxjs/operators';
+import { Format } from 'src/app/util/format';
 
 @Component({
   selector: 'app-marker-type-manager',
@@ -19,17 +22,17 @@ export class MarkerTypeManagerComponent implements OnInit {
   filtered: Category[] = []
   categories: Category[] = []
   sType: string
+  folders : MarkerCategory[] = []
+  markers : MarkerType[] = []
 
-  constructor(private mapSvc: MapService, private cd: CommonDialogService, private data: DataService) {
-    this.data.categories.subscribe(categories => {
-      this.categories = categories
-      categories.forEach(c => {
-        if (!this.isCollapsed.hasOwnProperty(c.name)) {
-          this.isCollapsed[c.name] = true
-        }
-      })
-      this.applyFilter()
-    })
+  constructor(private mapSvc: MapService, private cd: CommonDialogService, private data: DataService, private activeModal : NgbActiveModal) {
+    this.data.gameAssets.markerCategories.items$.pipe(
+      tap(items => this.folders = items.sort((a, b) => a.name > b.name ? 1 : -1))
+    ).subscribe()
+    this.data.gameAssets.markerTypes.items$.pipe(
+      tap( items => this.markers = items.sort( (a,b) => a.name > b.name ? 1 : -1))
+    ).subscribe()
+
   }
 
   ngOnInit() {
@@ -83,11 +86,13 @@ export class MarkerTypeManagerComponent implements OnInit {
 
   delete() {
     if (this.sType == 'cat') {
-      if (this.selected.types.length > 0) {
+      const types = this.markers.filter( m => m.category == this.selected.id)
+      if (types.length > 0) {
         this.cd.confirm("Are you sure you want to delete " + this.selected.name + "? If you do then you will not be able to access the markers in this category any longer. Don't worry existing markers will continue to work.", "Confirm Delete").subscribe(
           r => {
             if (r) {
               this.data.delete(this.selected)
+              this.edit = false
             }
           }
         )
@@ -99,6 +104,7 @@ export class MarkerTypeManagerComponent implements OnInit {
         r => {
           if (r) {
             this.data.delete(this.selected)
+            this.edit = false
           }
         }
       )
@@ -110,8 +116,9 @@ export class MarkerTypeManagerComponent implements OnInit {
     this.sType = 'cat'
 
     let item = new MarkerCategory()
+    item.owner = this.data.game.getValue().id
     item.id = UUID.UUID().toString()
-    item.name = "New Category"
+    item.name = Format.nextString("New Category", this.folders.map(f => f.name))
     this.selected = item
   }
 
@@ -128,9 +135,11 @@ export class MarkerTypeManagerComponent implements OnInit {
       this.edit = true
 
       let item = new MarkerType()
+      item.owner = this.data.game.getValue().id
       item.id = UUID.UUID().toString()
       item.category = cat
-      item.name = "New Type"
+      item.name = item.name = Format.nextString("New Marker", this.markers.map(f => f.name))
+
       item.iconSize = [0, 0]
 
       this.selected = item
@@ -145,8 +154,7 @@ export class MarkerTypeManagerComponent implements OnInit {
     } else {
       this.selected.iconSize = this.split(this.selected.iconSize)
       this.selected.iconAnchor = this.split(this.selected.iconAnchor)
-      // this.data.saveMarkerType(this.selected)
-      this.data.save(this.selected)
+      this.data.saveMakerType(this.selected)
     }
   }
 
@@ -164,11 +172,13 @@ export class MarkerTypeManagerComponent implements OnInit {
   setType(t) {
     this.selected = t
     this.sType = 'type'
+    this.edit  = true
   }
 
-  setCat(t) {
+  setFolder(t) {
     this.selected = t
     this.sType = 'cat'
+    this.edit = true
   }
 
   drop(item: MarkerType | Category, cat: Category) {
@@ -194,4 +204,15 @@ export class MarkerTypeManagerComponent implements OnInit {
     return item.hasOwnProperty('types')
   }
 
+
+  close() {
+    this.activeModal.dismiss()
+  }
+
+
+  public static openDialog(modal : NgbModal) {
+    const d = modal.open(MarkerTypeManagerComponent)
+
+
+  }
 }

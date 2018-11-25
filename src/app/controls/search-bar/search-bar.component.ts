@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterContentInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { isArray } from 'util';
 import { DialogService } from '../../dialogs/dialog.service';
 import { distinctUntilChanged, throttleTime } from 'rxjs/operators';
 import { SortFilterUtil, SortFilterData, SortFilterField } from '../../util/sort-filter';
@@ -19,6 +18,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   search$ = new BehaviorSubject<string>('')
   view: string = ''
   filter = new SortFilterData()
+
 
   @Output() viewChanged = new EventEmitter()
   @Output() sortChanged = new EventEmitter()
@@ -57,8 +57,6 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
   }
 
   @Input() set items(s: any[]) {
-    console.debug("set items : ", s, new Error())
-
     this._items = s
     this.processFilterValues()
   }
@@ -78,6 +76,7 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
       this.applyFilters()
     })
   }
+
 
   getViewIcon() {
     let indx = this.views.indexOf(this.view)
@@ -186,4 +185,19 @@ export class SearchBarComponent implements OnInit, AfterContentInit {
 
   }
 
+  toolsRight: Tool[] = []
+  toolsLeft : Tool[] = []
+  addTool(side : 'left' | 'right', icon : string, text : string, click: () => void) {
+    if (side == 'left') {
+      this.toolsLeft.push(new Tool(icon, text, click))
+    } else if (side == 'right') {
+      this.toolsRight.push(new Tool(icon, text, click))
+    }
+  }
+}
+
+class Tool {
+  constructor(public icon: string, public text: string, public click: () => void) {
+
+  }
 }

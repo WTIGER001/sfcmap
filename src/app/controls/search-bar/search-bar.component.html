@@ -9,6 +9,9 @@
     <li *ngIf="hasSorts" (click)="toggleSort()">
       <fa-icon class="icon" icon="sort" size="lg"></fa-icon>Sort
     </li>
+    <li *ngFor="let t of toolsLeft" (click)="t.click()">
+      <fa-icon class="icon" [icon]="t.icon" size="lg"></fa-icon>{{t.text}}
+    </li>
   </ul>
   <div class="filters">
     <input type="text" [ngModel]="searchPhrase" (ngModelChange)="updateSearch($event)" (blur)="forceUpdateSearch($event)"
@@ -18,9 +21,9 @@
     <span class="badge badge-info badge-overlay">{{filtered.length}}</span>
   </div>
   <ul class="tool-bar">
-    <!-- <li (click)="clkLinks()" *ngIf="hasLinks">
-      <fa-icon class="icon" icon="link" size="lg" placement="bottom" ngbTooltip="Manage content links from other games and gamesystems"></fa-icon>Links
-    </li> -->
+    <li *ngFor="let t of toolsRight" (click)="t.click()">
+      <fa-icon class="icon" [icon]="t.icon" size="lg"></fa-icon>{{t.text}}
+    </li>
     <li *ngIf="hasImport" (click)="clkImport()">
       <fa-icon class="icon" icon="file-import" size="lg"></fa-icon>Import
     </li>

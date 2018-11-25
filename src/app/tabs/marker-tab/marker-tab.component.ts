@@ -14,7 +14,7 @@ import { Annotation, ShapeAnnotation, MarkerTypeAnnotation, ImageAnnotation } fr
 import { EditMarkerComponent } from '../../controls/edit-marker/edit-marker.component';
 import { GridLayer } from '../../leaflet/grid';
 import { EditImageComponent } from '../../controls/edit-image/edit-image.component';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, filter } from 'rxjs/operators';
 import { CharacterService } from 'src/app/characters/dialogs/character.service';
 import { LangUtil } from 'src/app/util/LangUtil';
 import { Rect } from 'src/app/util/geom';
@@ -100,9 +100,10 @@ export class MarkerTabComponent implements OnInit {
     // })
 
     this.mapSvc.annotationAddUpate.pipe(
+      filter(m => this.mapSvc._mapCfg && this.mapSvc._mapCfg.id != 'BAD' ),
       tap(m => {
         if (TokenAnnotation.is(m)) {
-          console.log("Added Token Annotation, making draggable")
+          // console.log("Added Token Annotation, making draggable")
           m.getAttachment().dragging.enable()
           m.getAttachment().on('editable:drawing:move', this.snapVertexToGrid, this)
           m.getAttachment().on('drag', this.snapShapeToGrid, this)
@@ -364,8 +365,11 @@ export class MarkerTabComponent implements OnInit {
     item.group = typeId
 
     // Disable the editing and dragging
-    if (item.getAttachment() && item.getAttachment().disableEdit && item.getAttachment().dragging.disable) {
+    if (item.getAttachment() && item.getAttachment().disableEdit ) {
       item.getAttachment().disableEdit()
+    }
+
+    if (item.getAttachment() && item.getAttachment().dragging && item.getAttachment().dragging.disable) {
       item.getAttachment().dragging.disable()
     }
 
@@ -484,7 +488,7 @@ export class MarkerTabComponent implements OnInit {
       m.setBounds(newBounds)
 
       if (TokenAnnotation.is(ann)) {
-        this.auras.updateAuras(ann)
+        this.auras.updateToken(ann, true, true)
       }
     }
   }
@@ -601,7 +605,7 @@ export class MarkerTabComponent implements OnInit {
   }
 
   beginDragging(m: Annotation) {
-    console.log("BEGINNING DRAG")
+    // console.log("BEGINNING DRAG")
     if (m.getAttachment().dragging) {
       m.getAttachment().dragging.enable()
     }

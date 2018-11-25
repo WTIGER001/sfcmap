@@ -24,18 +24,24 @@
         <label>Background</label>
         <label>Normal</label>
 
-        <div class="form-control  color-pick" [(colorPicker)]="bar.bgColor" [style.background]="bar.bgColor"
-          cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        <div class="colorholder">
+          <div class="form-control  color-pick" [(colorPicker)]="bar.bgColor" [style.background]="bar.bgColor"
+            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        </div>
 
-        <div class="form-control  color-pick" [(colorPicker)]="bar.color" [style.background]="bar.color" cpAlphaChannel='always'
-          cpPosition='left' (colorPickerChange)="update()"></div>
+        <div class="colorholder">
+          <div class="form-control  color-pick" [(colorPicker)]="bar.color" [style.background]="bar.color"
+            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        </div>
 
         <label>Warning Range</label>
         <label>Warning</label>
 
         <input type="number" class="form-control nospin" [(ngModel)]="bar.warnRange">
-        <div class="form-control  color-pick" [(colorPicker)]="bar.warnColor" [style.background]="bar.warnColor"
-          cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        <div class="colorholder">
+          <div class="form-control  color-pick" [(colorPicker)]="bar.warnColor" [style.background]="bar.warnColor"
+            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+        </div>
       </div>
     </div>
   </div>

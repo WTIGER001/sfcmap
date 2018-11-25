@@ -25,29 +25,28 @@ export class LightImageRenderer {
   constructor(private mapSvc: MapService, private data: DataService) {
 
     this.mapSvc.mapConfig.pipe(
-      tap(m => console.log('_____________________Recieved new map')),
       tap(m => this.update())
     ).subscribe()
 
     this.data.gameAssets.maps.items$.pipe(
-      tap(m => console.log('_____________________Recieved new Maps from DB')),
       filter(m => this.mapSvc._mapCfg != undefined),
       tap(m => this.update())
     ).subscribe()
 
     this.mapSvc.annotationAddUpate.pipe(
-      tap(m => console.log('_____________________Recieved new annotation from DB')),
       tap(m => this.update())
-
     ).subscribe()
 
     this.mapSvc.annotationDelete.pipe(
-      tap(m => console.log('_____________________Recieved deleted annotation from DB')),
       tap(m => this.update())
     ).subscribe()
   }
 
   public update() {
+    if (this.mapSvc._mapCfg == undefined || this.mapSvc._mapCfg.id == 'BAD') {
+      return
+    }
+
     // Get the context
     const map = this.mapSvc._map
     let factor = this.mapSvc._mapCfg.ppm

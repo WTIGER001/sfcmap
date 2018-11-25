@@ -3,6 +3,8 @@ import { MarkerType, MapConfig, MapType } from '../../models';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MapService } from '../../maps/map.service';
 import { DataService } from '../../data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MarkerTypeSelectComponent } from '../marker-type-select/marker-type-select.component';
 
 
 @Component({
@@ -28,8 +30,16 @@ export class MarkerComboComponent implements ControlValueAccessor {
   all = []
   categories = []
 
-  constructor(private mapSvc: MapService, private data: DataService) {
+  constructor(private mapSvc: MapService, private data: DataService, private modal : NgbModal) {
 
+  }
+
+  openDialog() {
+    MarkerTypeSelectComponent.openDialog(this.modal).subscribe(
+      m => {
+        this.select(m)
+      }
+    )
   }
 
   @Input() set mapId(mapId: string) {
@@ -68,8 +78,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
   }
 
   refresh() {
-    console.log("REFRESHING, ", this.all);
-
     let mapTypeId = ''
     if (this.mapId) {
       mapTypeId = this.mapId
@@ -82,14 +90,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
     if (this.innerValue) {
       this.selected = this.mapSvc.getMarkerType(this.innerValue)
     }
-
-    this.categories = this.all.filter(c => {
-      if (c.appliesTo && c.appliesTo.length > 0) {
-        return c.appliesTo.includes(mapTypeId)
-      } else {
-        return true
-      }
-    })
   }
 
   name(): string {
@@ -103,7 +103,6 @@ export class MarkerComboComponent implements ControlValueAccessor {
       return ''
     }
   }
-
 
   select(type: MarkerType) {
     this.value = type.id

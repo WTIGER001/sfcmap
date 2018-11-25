@@ -64,7 +64,7 @@ export class MessageService {
   }
 
   clearGameMessages() {
-    console.log("Clearing Messages");
+    // console.log("Clearing Messages");
     const clear = new UserChatLastCleared()
     clear.lastCleared = Date.now()
     const path = DbConfig.ASSET_FOLDER + "/" + this.data.game.value.id + "/user-chat-last-cleared/" + this.data.user.value.id
@@ -72,7 +72,7 @@ export class MessageService {
   }
 
   deleteGameMessages() {
-    console.log("Deleteing Messages");
+    // console.log("Deleteing Messages");
     if (this.data.isGM()) {
       const chatPath = DbConfig.pathFolderTo(ChatRecord.TYPE, this.data.game.value.id)
       this.data.db.list<ChatRecord>(chatPath).remove()
@@ -80,7 +80,7 @@ export class MessageService {
   }
 
   sendMessage(msg: ChatMessage | DiceRoll | PingMessage) {
-    console.log("Sending Message : ", msg);
+    // console.log("Sending Message : ", msg);
 
     let c = new ChatRecord()
     c.time = Date.now()
@@ -99,16 +99,13 @@ export class MessageService {
   }
 
   onPing$(): Observable<ChatRecord> {
-    return this.data.db.list<ChatRecord>("chat").stateChanges().pipe(
-      filter(value => {
-        let item = value.payload.val()
-
+    return this.messages.pipe(
+      filter(item => {
         if (PingMessage.is(item.record)) {
           return (new Date().getTime()) - item.time < 3000
         }
         return false
-      }),
-      map(action => ChatRecord.to(action.payload.val()))
+      })
     )
 
   }

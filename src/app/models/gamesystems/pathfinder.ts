@@ -1,4 +1,4 @@
-import { GameSystem, NameDescription } from "../game-system";
+import { GameSystem, NameDescription, TokenSize } from "../game-system";
 import { ReplaySubject, BehaviorSubject } from "rxjs";
 import { Monster } from "src/app/monsters/monster";
 import { CacheService } from "src/app/cache/cache.service";
@@ -8,6 +8,7 @@ import { CachedItem } from "src/app/cache/cache";
 import { AngularFirestore } from "angularfire2/firestore";
 import { AngularFireStorage } from "angularfire2/storage";
 import { Http } from "@angular/http";
+import { DistanceUnit } from "src/app/util/transformation";
 
 export class Pathfinder extends GameSystem {
   static readonly MONSTER_PATH = "cache/games/pathfinder/monsters"
@@ -58,7 +59,19 @@ export class Pathfinder extends GameSystem {
     new NameDescription('Unconscious', ''),
   ]
 
-  readonly emissionTypes : string[] = [
+  sizes = [
+    new TokenSize("fine", "Fine (½')", 0.5, 0.5, DistanceUnit.Feet),
+    new TokenSize("diminutive", "Diminutive (1')", 1, 1, DistanceUnit.Feet),
+    new TokenSize("tiny", "Tiny (2½')", 2.5, 2.5, DistanceUnit.Feet),
+    new TokenSize("small", "Small (5')", 5, 5, DistanceUnit.Feet),
+    new TokenSize("medium", "Medium (5')", 5, 5, DistanceUnit.Feet),
+    new TokenSize("large", "Large (10')", 10, 10, DistanceUnit.Feet),
+    new TokenSize("huge", "Huge (15')", 15, 15, DistanceUnit.Feet),
+    new TokenSize("gargantuan", "Gargantuan (20')", 20, 20, DistanceUnit.Feet),
+    new TokenSize("colossal", "Colossal (30')", 30, 30, DistanceUnit.Feet),
+  ]
+
+  readonly emissionTypes: string[] = [
     "Magic",
     "Scent",
     "Invisible",
@@ -75,7 +88,7 @@ export class Pathfinder extends GameSystem {
     super()
   }
 
-  load(cache : CacheService) {
+  load(cache: CacheService) {
     this.loadMonsters(cache)
   }
 
@@ -90,18 +103,18 @@ export class Pathfinder extends GameSystem {
     })
   }
 
-  
+
   subscribeToUpdates(db: AngularFireDatabase, cache: CacheService) {
-    db.object<CachedItem>(Pathfinder.MONSTER_PATH).valueChanges().subscribe( item => {
+    db.object<CachedItem>(Pathfinder.MONSTER_PATH).valueChanges().subscribe(item => {
       console.log("Getting new Monster cache record", item)
-      const remoteVersion = item?item.version:-1
+      const remoteVersion = item ? item.version : -1
       const localVersion = cache.version(Pathfinder.MONSTER_PATH)
       console.log(`Comparing Versions ${remoteVersion} vs ${localVersion}`)
       if (remoteVersion !== localVersion) {
-        cache.download(item).subscribe( data =>  {
-        const fromCache = <any[]>data
-        const real = fromCache.map(c => Monster.to(c))
-        this.monsters$.next(real)
+        cache.download(item).subscribe(data => {
+          const fromCache = <any[]>data
+          const real = fromCache.map(c => Monster.to(c))
+          this.monsters$.next(real)
         })
       }
     })

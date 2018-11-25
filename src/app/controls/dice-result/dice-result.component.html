@@ -1,0 +1,33 @@
+<div class="dlg dlg-sm">
+  <div class=" bdy ">
+    <div class="roll-header-2">
+      <div> {{roll.expression}}</div>
+      <!-- <div class="time" *ngIf="!isFav(roll.expression)">
+      <fa-icon (click)="toggleFav(roll.expression)" [icon]="['far', 'star']"></fa-icon>
+    </div>
+    <div *ngIf="isFav(roll.expression)">
+      <fa-icon (click)="toggleFav(roll.expression)" [icon]="['fas', 'star']"></fa-icon>
+    </div> -->
+    </div>
+    <div class="dice">
+      <ng-container *ngFor="let r of roll.dice; let last = last;">
+        <i [class]="r.getClass()" [class.mr-1]="true" [class.dice-max]="r.isMax()" [class.dice-min]="r.isMin()"></i>
+        <span class="empty-die mr-1" *ngIf="r.getNoClass()">{{r.getTotal()}}</span>
+      </ng-container>
+      <ng-container *ngIf="roll.modifier > 0">
+        + {{roll.modifier}}
+      </ng-container>
+      <ng-container *ngIf="roll.modifier < 0">
+        {{roll.modifier}}
+      </ng-container>
+      = {{roll.getTotal()}}
+    </div>
+  </div>
+  <div class="footer footer-sm">
+    <button type="button " class="btn btn-outline-secondary " (click)="cancel() ">
+      <fa-icon icon="times" size="lg" class="mr-2 ">
+      </fa-icon>Close
+    </button>
+  </div>
+
+</div>

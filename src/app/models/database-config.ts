@@ -1,5 +1,5 @@
 import { User, UserAssumedAccess, MapPrefs, Prefs } from "./user";
-import { Annotation } from "./annotations";
+import { Annotation, TokenAnnotation } from "./annotations";
 import { MapType } from "./map-type";
 import { MapConfig } from "./map-config";
 import { MarkerType } from "./marker-type";
@@ -39,18 +39,19 @@ export class DbConfig {
   }
 
 
-  static restrictableFields(objType: string) {
-    if (objType == MapConfig.TYPE) {
+  static restrictableFields(item : any) {
+    if (MapConfig.is(item)) {
       return ["name", "tags"]
     }
 
-    if (objType == Character.TYPE) { return Character.RESTRICTABLE }
+    if (Character.is(item)) { return Character.RESTRICTABLE }
 
-    if (objType == Monster.TYPE) {
+    if (Monster.is(item)) {
       return Monster.RESTRICT
     }
-    if (objType == Encounter.TYPE) {
-      return ['name', "tags"]
+
+    if (TokenAnnotation.is(item)) {
+      return ['Name', 'Bars', 'Personal', 'Auras', 'Light', 'Rolls', 'Stats']
     }
     return ['name', "tags"]
   }

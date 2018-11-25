@@ -37,8 +37,9 @@
     <div class="action" (click)="edit()">
       <fa-icon fixedWidth="true"  icon="pencil"></fa-icon> Edit
     </div>
-    <div class="action" (click)="restrict()">
-      <fa-icon fixedWidth="true"  icon="unlock"></fa-icon> Access
+    <div class="action" (click)="permissions()">
+      <fa-icon fixedWidth="true"  icon="unlock" *ngIf="!restricted"></fa-icon> 
+      <fa-icon fixedWidth="true"  icon="lock"   *ngIf="restricted" class="lockbtn"></fa-icon> Access
     </div>
     <div class="action" (click)="pin()">
       <fa-icon fixedWidth="true"  icon="thumbtack"></fa-icon> Pin Selection
@@ -68,11 +69,11 @@
 
   <app-barrier-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'barrier'"></app-barrier-selection>
 
-  <app-token-bar [item]="item" [attributes]="getAttrs()" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-bar>
+  <app-token-bar  [item]="item" [attributes]="getAttrs()" (changes)="save()" *ngIf="itemType(item) == 'token' && canView('Bars')"></app-token-bar>
 
-  <app-token-personal [item]="item" (changes)="save()" *ngIf="itemType(item) == 'token'"></app-token-personal>
+  <app-token-personal  [item]="item" (changes)="save()" *ngIf="itemType(item) == 'token' && canView('Personal')"></app-token-personal>
 
-<!-- <app-expander text="Rolls">
+<!-- <app-expander *ngIf="canView('Rolls')" text="Rolls">
   <app-restricted-content [item]="character" field="rolls">
     <div class="roll-tbl">
       <ng-container *ngFor="let a of character.rolls">
@@ -86,7 +87,7 @@
   </app-restricted-content>
 </app-expander>
 
-<app-expander text="Stats">
+<app-expander *ngIf="canView('Stats')" text="Stats">
   <app-restricted-content [item]="character" field="attributes">
     <div class="attr-tbl">
       <div> </div>
@@ -105,11 +106,11 @@
   <app-character-edit-conditions [character]="character"></app-character-edit-conditions>
 </app-expander> -->
 
-  <app-expander text="Auras" *ngIf="itemType(item) == 'token'">
+  <app-expander text="Auras" *ngIf="itemType(item) == 'token' && canView('Auras')">
     <app-edit-chr-auras [item]="item" (changes)="save()"></app-edit-chr-auras>
   </app-expander>
 
-  <app-expander text="Light" *ngIf="itemType(item) == 'token'">
+  <app-expander text="Light" *ngIf="itemType(item) == 'token' && canView('Light')">
     <app-lighting-selection [item]="item" (changes)="save()"></app-lighting-selection>
   </app-expander>
 

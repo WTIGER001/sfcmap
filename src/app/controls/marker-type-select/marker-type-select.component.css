@@ -4,13 +4,15 @@
   grid-template-columns: 1fr auto;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .outer {
   height: 60vh;
   width:70vw;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .marker-list {
@@ -38,8 +40,6 @@
 
 .toolbar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
   font-size: 1.3em;
 }
 
@@ -59,4 +59,12 @@ button.clickable.white:disabled {
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+
+.footer {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: auto auto;
 }

@@ -178,10 +178,10 @@ L.ElemOverlay = Layer.extend({
 	_initImage: function () {
     var elem
     if (this.options.existing) {
-      console.log("Using Previous DIV ", this._type)
+      // console.log("Using Previous DIV ", this._type)
       elem = this.options.existing
     } else {
-      console.log("Creating DIV ", this._type)
+      // console.log("Creating DIV ", this._type)
       var elem = DomUtil.create(this._type || 'div')
     }
     
@@ -317,10 +317,7 @@ L.Handler.ElemDrag = L.Handler.extend({
     if (!this._draggable) {
       this._draggable = new L.ElemDraggable(this._path);
     }
-    console.log("Draggable", this._draggable)
     var a = this._draggable.on(this.getEvents(), this)
-    console.log("DRAGGABLE DIV", this._draggable, a)
-
     a.enable();
     L.DomUtil.addClass(this._draggable._element, 'leaflet-path-draggable');
   },

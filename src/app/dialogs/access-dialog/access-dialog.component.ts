@@ -25,7 +25,7 @@ export class AccessDialogComponent implements OnInit {
     }
 
     calcFields() {
-        const availableFields = DbConfig.restrictableFields(this.item['objType'])
+        const availableFields = DbConfig.restrictableFields(this.item)
         availableFields.forEach(field => {
             const v: any = {
                 name: field,

@@ -21,12 +21,14 @@
 
 .category {
   position: relative;
+  margin-top: .5em;
 }
 
 .color-pick {
   height: 2em;
   cursor: pointer;
   border-radius: 5px;
+  border: solid 1px #6c757d;
 }
 
 .highlight {

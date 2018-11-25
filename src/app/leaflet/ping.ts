@@ -50,7 +50,6 @@ export class Ping {
     }
   }
 
-
   clear(evt) {
     if (this.timeoutHandle) {
       clearTimeout(this.timeoutHandle)
@@ -83,10 +82,11 @@ export class Ping {
   }
 
   static showFlag(map: LeafletMap, loc: LatLng, duration: number) {
+    console.log("Showing Flag", map, loc, duration)
     let icn = icon({
       iconUrl: "./assets/icons/red-flag.png",
       iconSize: [35, 40],
-      iconAnchor: [17, 40]
+      iconAnchor: [3, 40]
     })
     let opts = {
       icon: icn

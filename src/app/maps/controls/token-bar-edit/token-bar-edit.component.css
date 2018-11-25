@@ -1,5 +1,6 @@
 .color-pick {
   height: 2em;
+  border: solid 1px #6c757d;
 }
 
 .acol {
@@ -16,4 +17,8 @@
   grid-template-columns: 1fr 1fr;
   row-gap: 0;
   column-gap: 1em;
+}
+
+.colorholder {
+  overflow: hidden;
 }

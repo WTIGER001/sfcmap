@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { TokenAnnotation, Vision } from 'src/app/models';
+import { TokenAnnotation, Vision, TokenSize } from 'src/app/models';
 import { AuraVisible } from 'src/app/models/aura';
+import { DataService } from 'src/app/data.service';
 
 @Component({
   selector: 'app-token-personal',
@@ -11,8 +12,10 @@ export class TokenPersonalComponent implements OnInit {
 
   @Input() item : TokenAnnotation
   @Output() changes = new EventEmitter()
-
-  constructor() { }
+  sizes : TokenSize[] = []
+  constructor(private data : DataService) {
+    this.sizes = this.data.pathfinder.sizes
+   }
 
   ngOnInit() {
     if (this.item && !this.item.vision) { 
@@ -30,6 +33,10 @@ export class TokenPersonalComponent implements OnInit {
   }
   updateShowReach(value: AuraVisible) {
     this.item.showReach = value
+    this.update()
+  }
+  updateShowFly(value: AuraVisible) {
+    this.item.showFly = value
     this.update()
   }
 

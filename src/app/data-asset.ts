@@ -49,13 +49,13 @@ export class MapAsset<T> {
 
     const db = data.db
     const path = DbConfig.pathTo(this.type, mapcfg.owner, mapcfg.id)
-    console.log ("Listening for Map Asset at Path", path)
+    // console.log ("Listening for Map Asset at Path", path)
 
     this.sub = db.object<T>(path).valueChanges().pipe(
       filter(item => item !== null && item !== undefined),
-      tap(item => console.log("Map Asset Received", item)),
+      // tap(item => console.log("Map Asset Received", item)),
       map(item => DbConfig.toItem(item)),
-      tap(item => console.log("Map Asset CONVERTED", item)),
+      // tap(item => console.log("Map Asset CONVERTED", item)),
       tap(item => this.current = item),
       tap(item => data.record(this.type, 1)),
       tap(item => this.item$.next(item))
@@ -170,7 +170,7 @@ export class DataAssetArray<T> {
 
     // Combine all of them together
     this.sub = combineLatest(obs$).subscribe(results => {
-      console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
+      // console.log(this.type + " --> ASSETS -- RECIEVED", results.length);
 
       let all = []
       results.forEach(r => {

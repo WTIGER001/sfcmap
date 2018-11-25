@@ -22,11 +22,19 @@ label.small {
 }
 
 .toggle2 {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 .main {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 100%;
+  min-height: 2.5em;
+}
+
+.icon-dropdown {
+  width: 280px;
+  background-color: black
 }

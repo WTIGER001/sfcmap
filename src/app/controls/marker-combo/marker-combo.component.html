@@ -1,22 +1,3 @@
-<div class="input-group">
-
-  <div class="form-control form-control-sm main py-0" id="name" placeholder="Enter Marker Type">
-    <img *ngIf="selected" [src]="selected.url" height="32" class="mr-1"> {{name()}}
-  </div>
-
-  <div class="input-group-append">
-    <div ngbDropdown placement="bottom-right">
-      <button class="btn btn-outline-secondary toggle2" id="dropdownBasic1" ngbDropdownToggle (openChange)="refresh()"> </button>
-      <div ngbDropdownMenu class="icon-dropdown" aria-labelledby="dropdownBasic1">
-        <ng-container *ngFor="let cat of categories">
-          <h6 class="dropdown-header dh">{{cat.name}}</h6>
-          <div class="icon-holder">
-            <button *ngFor="let t of cat.types" class="dropdown-item btn-sm icon-flow" placement="bottom" [ngbTooltip]="t.name" (click)="select(t)">
-              <img [src]="t.url" height=30>
-            </button>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </div>
+<div class="form-control form-control-sm main py-0" id="name" placeholder="Enter Marker Type" (click)="openDialog()">
+  <img *ngIf="selected" [src]="selected.url" height="32" class="mr-1"> {{name()}}
 </div>

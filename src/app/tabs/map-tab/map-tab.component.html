@@ -3,14 +3,16 @@
   <!-- Buttons -->
   <div class="center-layout">
     <div class="buttongrid" *ngIf="edit==false">
-      <button class="clickable btn-tool" (click)="share()" placement="bottom" ngbTooltip="Share map changes" [class.active]="isSharing()">
+      <button class="clickable btn-tool" (click)="share()" placement="bottom" ngbTooltip="Share map changes"
+        [class.active]="isSharing()">
         <fa-icon icon="broadcast-tower" size="lg"></fa-icon>
       </button>
       <button class="clickable btn-tool" (click)="listen()" placement="bottom" ngbTooltip="Listen to map changes"
         [class.active]="isListening()">
         <fa-icon icon="ear" size="lg"></fa-icon>
       </button>
-      <button class="clickable btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom" ngbTooltip="Calibrate the distance between 2 points on the map">
+      <button class="clickable btn-tool" [class.active]="calibrateX" (click)="calibrate()" placement="bottom"
+        ngbTooltip="Calibrate the distance between 2 points on the map">
         <fa-icon icon="pencil-ruler" size="lg"></fa-icon>
       </button>
       <a [routerLink]="getLink()" class="toolitem">
@@ -22,14 +24,14 @@
         placement="bottom" ngbTooltip="Measure the distance beween 2 points on the map">
         <fa-icon icon="ruler" size="lg"></fa-icon>
       </button> -->
-      
+
       <button class="clickable btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete this map">
         <fa-icon icon="trash-alt" size="lg"></fa-icon>
       </button>
       <button class="clickable btn-tool" (click)="close()" placement="bottom" ngbTooltip="Close this map">
         <fa-icon icon="times" size="lg"></fa-icon>
       </button>
-      
+
     </div>
     <div class="buttonbar" *ngIf="edit==true">
       <button type="button" class="clickable btn-tool px-3" aria-label="Close" (click)="save()">
@@ -53,168 +55,165 @@
       <app-readmore class="text-muted mb-2 description" [value]="mapCfg?.description"></app-readmore>
     </div>
     <ng-container *ngIf="edit==false">
-      <!-- Grid Lines-->
-      <h4>
-        <fa-icon class="pointer" (click)="isCollapsed['grid'] = !isCollapsed['grid']" [fixedWidth]="true" size="lg"
-          [icon]="isCollapsed['grid'] ? 'caret-right' : 'caret-down'"></fa-icon> Gridlines
-      </h4>
 
-      <div class="ml-2" [ngbCollapse]="isCollapsed['grid']">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="grid_enable" [(ngModel)]="grid.options.enabled"
-            (change)="toggleGrid()">
-          <label class="custom-control-label" for="grid_enable"> Enable Gridlines</label>
-        </div>
-        Spacing
-        <div class="input-group">
-          <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
-          <div ngbDropdown placement="bottom-right">
-            <button class="clickable toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}}
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropDownUnits">
-              <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
-                (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
+      <!-- Grid Lines-->
+      <app-expander text="Gridlines">
+        <div class="ml-2 mb-3 category">
+          <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="grid.options.enabled" id="grid.options.enabled" (change)="toggleGrid()"
+            placement="bottom" ngbTooltip="Enable / Disable Gridlines" container="body">
+          Spacing
+          <div class="input-group">
+            <input class="form-control form-control-sm" type="number" [(ngModel)]="grid.options.spacing" (change)="updateGrid()">
+            <div ngbDropdown placement="bottom-right">
+              <button class="clickable toggle2" id="dropDownUnits" ngbDropdownToggle>{{grid.options.spacingUnit}}
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+                <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+                  (click)="grid.options.spacingUnit = u.abbr">{{u.name}}</button>
+              </div>
             </div>
           </div>
+          Offset NS
+          <div class="slidecontainer">
+            <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing" [step]="grid.options.spacing/50"
+              [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
+          </div>
+          Offset EW
+          <div class="slidecontainer">
+            <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing" [step]="grid.options.spacing/50"
+              [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
+          </div>
+          Color
+          <div>
+            <input class="form-control form-control-sm" [(colorPicker)]="grid.options.color" [style.background]="grid.options.color"
+              cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateGrid()" />
+          </div>
+          Line Weight
+          <div class="slidecontainer">
+            <input class="slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight" (change)="updateGrid()">
+          </div>
         </div>
-        Offset NS
-        <div class="slidecontainer">
-          <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing" [step]="grid.options.spacing/50"
-            [(ngModel)]="grid.options.offsetNS" id="myRange" (change)="updateGrid()">
-        </div>
-        Offset EW
-        <div class="slidecontainer">
-          <input class="slider" type="range" [min]="-grid.options.spacing" [max]="grid.options.spacing" [step]="grid.options.spacing/50"
-            [(ngModel)]="grid.options.offsetEW" id="myRange" (change)="updateGrid()">
-        </div>
-        Color
-        <div>
-          <input class="form-control form-control-sm" [(colorPicker)]="grid.options.color" [style.background]="grid.options.color"
-            cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateGrid()" />
-        </div>
-        Line Weight
-        <div class="slidecontainer">
-          <input class="slider" type="range" min="1" max="9" step="1" [(ngModel)]="grid.options.lineWeight" (change)="updateGrid()">
-        </div>
-      </div>
+      </app-expander>
 
       <!-- Fog of War-->
-      <h4>
-        <fa-icon class="pointer" (click)="isCollapsed['fog'] = !isCollapsed['fog']" [fixedWidth]="true" size="lg"
-          [icon]="isCollapsed['fog'] ? 'caret-right' : 'caret-down'"></fa-icon> Fog of War
-      </h4>
+      <app-expander text="Fog of War">
+        <div class="ml-2 mb-3 category">
+          <ng-container *ngIf="isGM()">
+            <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable"
+              (change)="updateFow()"  placement="bottom" ngbTooltip="Enable / Disable Fog of War" container="body" >
+            <div class="buttongrid">
+              <button class="clickable btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start"
+                container="body" [class.active]="fow.hideAll">
+                <fa-icon icon="eye-slash" size="lg"></fa-icon>
+              </button>
 
-      <div class="ml-2 mb-3 category" [ngbCollapse]="isCollapsed['fog']">
-        <ng-container *ngIf="isGM()">
-          <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="fow.enabled" id="fow.enable" (change)="updateFow()">
-          <div class="buttongrid">
-            <button class="clickable btn-tool" (click)="toggleHideAll()" placement="bottom" ngbTooltip="Toggle Hide All to start"
-              container="body" [class.active]="fow.hideAll">
-              <fa-icon icon="eye-slash" size="lg"></fa-icon>
-            </button>
-
-            <button class="clickable btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square"
-              [class.highlight-btn]="isRectangle()">
-              <fa-icon icon="draw-square" size="lg"></fa-icon>
-            </button>
-            <button class="clickable btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon"
-              [class.highlight-btn]="isPolygon()">
-              <fa-icon icon="draw-polygon" size="lg"></fa-icon>
-            </button>
-            <button class="clickable btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle"
-              [class.highlight-btn]="isCircle()">
-              <fa-icon icon="draw-circle" size="lg"></fa-icon>
-            </button>
-            <button class="clickable btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
-              <fa-icon icon="sync-alt" size="lg"></fa-icon>
-            </button>
-          </div>
-          <div class="buttongrid highlight" *ngIf="fow_current_shp">
-            <button class="clickable btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()"
-              placement="bottom" ngbTooltip="Show this area to players" container="body">
-              <fa-icon icon="eye"> </fa-icon> Show
-            </button>
-            <button class="clickable btn-tool grid-c2  highlight-choice" (click)="saveAsHide()"
-              placement="bottom" ngbTooltip="Hide this area from players">
-              <fa-icon icon="eye-slash"></fa-icon> Hide
-            </button>
-            <button class="clickable btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom"
-              ngbTooltip="Cancel this area">
-              <fa-icon icon="times" size="lg"></fa-icon>
-            </button>
-          </div>
-
-          <div class="fow-items mb-2">
-            <div class="colors">
-              <label class="mt-2">Player Fog Color</label>
-              <label class="mt-2">GM Fog Color</label>
-              <div>
-              <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.color" [style.background]="fow.color"
-                cpAlphaChannel='never' cpPosition='left' (colorPickerChange)="updateFow()"></div></div>
-              <div><div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.gmcolor" [style.background]="fow.gmcolor"
-                cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateFow()"></div></div>
+              <button class="clickable btn-tool" (click)="startRectangle()" placement="bottom" ngbTooltip="Draw square"
+                [class.highlight-btn]="isRectangle()">
+                <fa-icon icon="draw-square" size="lg"></fa-icon>
+              </button>
+              <button class="clickable btn-tool" (click)="startPoly()" placement="bottom" ngbTooltip="Draw Polygon"
+                [class.highlight-btn]="isPolygon()">
+                <fa-icon icon="draw-polygon" size="lg"></fa-icon>
+              </button>
+              <button class="clickable btn-tool" (click)="startCircle()" placement="bottom" ngbTooltip="Draw Circle"
+                [class.highlight-btn]="isCircle()">
+                <fa-icon icon="draw-circle" size="lg"></fa-icon>
+              </button>
+              <button class="clickable btn-tool" (click)="clear()" placement="bottom" ngbTooltip="Reset Fog of War">
+                <fa-icon icon="sync-alt" size="lg"></fa-icon>
+              </button>
             </div>
-            <label class="mt-2">Fog Blur</label>
-            <div class="slidecontainer">
-              <input class="slider" type="range" min="0" max="20" [step]="1" [(ngModel)]="fow.blur" (change)="updateFow()">
+            <div class="buttongrid highlight" *ngIf="fow_current_shp">
+              <button class="clickable btn-tool grid-c2 highlight-choice" (click)="saveAsReveal()" placement="bottom"
+                ngbTooltip="Show this area to players" container="body">
+                <fa-icon icon="eye"> </fa-icon> Show
+              </button>
+              <button class="clickable btn-tool grid-c2  highlight-choice" (click)="saveAsHide()" placement="bottom"
+                ngbTooltip="Hide this area from players">
+                <fa-icon icon="eye-slash"></fa-icon> Hide
+              </button>
+              <button class="clickable btn-tool  highlight-choice" (click)="cancelFowShape()" placement="bottom"
+                ngbTooltip="Cancel this area">
+                <fa-icon icon="times" size="lg"></fa-icon>
+              </button>
             </div>
-          </div>
-        </ng-container>
-        <span *ngIf="!isGM() && fow.enabled">
-          Fog of War is ENABLED! Your GM has control!
-        </span>
-        <span *ngIf="!isGM() && !fow.enabled">
-          Fog of War is disabled...have a good look around!
-        </span>
-      </div>
+
+            <div class="fow-items mb-2">
+              <div class="colors">
+                <label class="mt-2">Player Fog Color</label>
+                <label class="mt-2">GM Fog Color</label>
+                <div>
+                  <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.color" [style.background]="fow.color"
+                    cpAlphaChannel='never' cpPosition='left' (colorPickerChange)="updateFow()"></div>
+                </div>
+                <div>
+                  <div class="form-control form-control-sm  color-pick" [(colorPicker)]="fow.gmcolor"
+                    [style.background]="fow.gmcolor" cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="updateFow()"></div>
+                </div>
+              </div>
+              <label class="mt-2">Fog Blur</label>
+              <div class="slidecontainer">
+                <input class="slider" type="range" min="0" max="20" [step]="1" [(ngModel)]="fow.blur" (change)="updateFow()">
+              </div>
+            </div>
+          </ng-container>
+          <span *ngIf="!isGM() && fow.enabled">
+            Fog of War is ENABLED! Your GM has control!
+          </span>
+          <span *ngIf="!isGM() && !fow.enabled">
+            Fog of War is disabled...have a good look around!
+          </span>
+        </div>
+      </app-expander>
 
       <!-- Lighting-->
-      <h4>
-        <fa-icon class="pointer " (click)="isCollapsed['lighting'] = !isCollapsed['lighting']" [fixedWidth]="true" size="lg"
-          [icon]="isCollapsed['lighting'] ? 'caret-right' : 'caret-down'"></fa-icon>
-        Lighting
-      </h4>
+      <app-expander text="Lighting">
+        <div class="ml-2 mb-3 category">
+          <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="mapCfg.enableLighting" id="light.enable"
+            (change)="updateAndSave()" placement="bottom" ngbTooltip="Enable / Disable Dynamic Lighting">
 
-      <div class="ml-2 mb-3 category" [ngbCollapse]="isCollapsed['lighting']">
-        <input type="checkbox" class="switch tab-category-switch" [(ngModel)]="mapCfg.enableLighting" id="light.enable"
-          (change)="updateAndSave()"  placement="bottom"  ngbTooltip="Enable / Disable Dynamic Lighting">
+          <div class="buttongrid">
+            <button class="clickable btn-tool" (click)="toggleShowLighting()" placement="bottom" ngbTooltip="View lighting layer"
+              container="body" [class.active]="mapCfg && mapCfg.showLighting">
+              <fa-icon icon="eye" size="lg"></fa-icon>
+            </button>
 
-        <div class="buttongrid">
-          <button class="clickable btn-tool" (click)="toggleShowLighting()" placement="bottom"
-            ngbTooltip="View lighting layer"  container="body" [class.active]="mapCfg && mapCfg.showLighting">
-            <fa-icon icon="eye" size="lg"></fa-icon>
-          </button>
-
-          <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
-            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==5" placement="bottom"
-              ngbTooltip="Set ambient light to Daytime / Bright Light"  container="body">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='5' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
-              <fa-icon icon="sun" size="lg"></fa-icon>
-            </label>
-            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==4" placement="bottom"
-              ngbTooltip="Set ambient light to Daytime / Normal Light">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='4' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
-              <fa-icon icon="sun" size="lg"></fa-icon>
-            </label>
-            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==3" placement="bottom"
-              ngbTooltip="Set ambient light to Night / Dim Light">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='3' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
-              <fa-icon icon="moon" size="lg"></fa-icon>
-            </label>
-            <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==2" placement="bottom"
-              ngbTooltip="Set ambient light to Night / Darkness">
-              <input type="radio" name="options" id="option2" autocomplete="off" [value]='2' [(ngModel)]="mapCfg.ambientLight" (change)="updateAndSave()">
-              <fa-icon icon="cloud-moon" size="lg"></fa-icon>
-            </label>
+            <div class="btn-group btn-group-toggle" role="group" aria-label="Basic example">
+              <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==5" placement="bottom"
+                ngbTooltip="Set ambient light to Daytime / Bright Light" container="body">
+                <input type="radio" name="options" id="option2" autocomplete="off" [value]='5' [(ngModel)]="mapCfg.ambientLight"
+                  (change)="updateAndSave()">
+                <fa-icon icon="sun" size="lg"></fa-icon>
+              </label>
+              <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==4" placement="bottom"
+                ngbTooltip="Set ambient light to Daytime / Normal Light">
+                <input type="radio" name="options" id="option2" autocomplete="off" [value]='4' [(ngModel)]="mapCfg.ambientLight"
+                  (change)="updateAndSave()">
+                <fa-icon icon="sun" size="lg"></fa-icon>
+              </label>
+              <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==3" placement="bottom"
+                ngbTooltip="Set ambient light to Night / Dim Light">
+                <input type="radio" name="options" id="option2" autocomplete="off" [value]='3' [(ngModel)]="mapCfg.ambientLight"
+                  (change)="updateAndSave()">
+                <fa-icon icon="moon" size="lg"></fa-icon>
+              </label>
+              <label class="btn btn-outline-secondary" [class.active]="mapCfg.ambientLight==2" placement="bottom"
+                ngbTooltip="Set ambient light to Night / Darkness">
+                <input type="radio" name="options" id="option2" autocomplete="off" [value]='2' [(ngModel)]="mapCfg.ambientLight"
+                  (change)="updateAndSave()">
+                <fa-icon icon="cloud-moon" size="lg"></fa-icon>
+              </label>
+            </div>
           </div>
+
+          <label>Light Sources</label>
+          <app-lighting-selection *ngIf="mapCfg" [item]="mapCfg"></app-lighting-selection>
+
+          <label>Barriers</label>
+          <app-map-barrier *ngIf="mapCfg" [item]="mapCfg" (changes)="barrierChanged($event)"></app-map-barrier>
         </div>
+      </app-expander>
 
-        <label>Light Sources</label>
-        <app-lighting-selection *ngIf="mapCfg" [item]="mapCfg"></app-lighting-selection>
-
-        <label>Barriers</label>
-        <app-map-barrier *ngIf="mapCfg" [item]="mapCfg" (changes)="barrierChanged($event)"></app-map-barrier>
-      </div>
 
     </ng-container>
   </div>

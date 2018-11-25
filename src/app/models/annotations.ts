@@ -277,6 +277,8 @@ export class TokenAnnotation extends Annotation {
   showName : AuraVisible = AuraVisible.NotVisible
   showReach: AuraVisible = AuraVisible.NotVisible
   showSpeed: AuraVisible = AuraVisible.NotVisible
+  showFly: AuraVisible = AuraVisible.Visible
+
   reach : number
   speed: number
   
@@ -371,6 +373,7 @@ export class ShapeAnnotation extends Annotation {
     this.weight = this._leafletAttachment.options.weight
     this.fill = this._leafletAttachment.options.fill
     this.fillColor = this._leafletAttachment.options.fillColor
+    this.style = this._leafletAttachment.options.dashArray
   }
 
   copyOptionsToShape() {
@@ -407,6 +410,7 @@ export class ShapeAnnotation extends Annotation {
     opts.stroke = this.border
     opts.weight = this.weight
     opts.noClip = true
+    opts.dashArray = this.style
     if (this.color) {
       opts.color = LangUtil.baseColor(this.color)
       opts.opacity = LangUtil.colorAlpha(this.color)
@@ -500,6 +504,7 @@ export class BarrierAnnotation extends Annotation {
     opts.stroke = this.border
     opts.weight = this.weight
     opts.noClip = true
+    opts.dashArray = this.style
     if (this.color) {
       opts.color = LangUtil.baseColor(this.color)
       opts.opacity = LangUtil.colorAlpha(this.color)

@@ -4,6 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Game, MapConfig, MapType, Asset } from '../../../models';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { SortFilterField } from '../../../util/sort-filter';
+import { SearchBarComponent } from 'src/app/controls/search-bar/search-bar.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MarkerTypeManagerComponent } from 'src/app/controls/marker-type-manager/marker-type-manager.component';
+import { EditMapTypeComponent } from 'src/app/controls/edit-map-type/edit-map-type.component';
 
 @Component({
   selector: 'app-map-index',
@@ -12,6 +16,7 @@ import { SortFilterField } from '../../../util/sort-filter';
 })
 export class MapIndexComponent implements OnInit {
   @ViewChild('list') listElement: ElementRef
+  @ViewChild('searchbar') searchbar: SearchBarComponent
 
   gameid: string = 'unk'
   game: Game
@@ -47,7 +52,7 @@ export class MapIndexComponent implements OnInit {
     { name: "Folder", sort: true, filter: true, text: true, valueFn: (item) => this.lookupType(item.mapType), indexFn: (item) => this.lookupType(item.mapType), compareFn: this.compareTypes }
   ]
 
-  constructor(private data: DataService, private route: ActivatedRoute) {
+  constructor(private data: DataService, private route: ActivatedRoute, private modal : NgbModal) {
     this.lookupType.bind(this)
     this.compareTypes.bind(this)
   }
@@ -73,6 +78,18 @@ export class MapIndexComponent implements OnInit {
       this.filtered = m
     })
     this.data.gameAssets.mapTypes.items$.subscribe(a => this.types = a)
+
+    this.searchbar.addTool('right', 'map-marker-alt', 'Markers', () => { MarkerTypeManagerComponent.openDialog(this.modal)})
+    this.searchbar.addTool('right', 'folder-plus', 'Folders', () => { EditMapTypeComponent.openDialog(this.modal)})
+
+  }
+
+  openMarkers() {
+    MarkerTypeManagerComponent.openDialog(this.modal)
+  }
+
+  openMapTypes() {
+
   }
 
   updateItems($event: MapConfig[]) {

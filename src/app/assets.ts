@@ -1,5 +1,6 @@
 export class Assets {
   static readonly MissingPicture = './assets/missing.png'
+  static readonly MissingMarker = './assets/marker.png'
   static readonly CharacterCard = './assets/cards/character.png'
   static readonly CharacterCardSm = './assets/cards/character-sm.png'
   static readonly MonsterCard = './assets/cards/monster.png'

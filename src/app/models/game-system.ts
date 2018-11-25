@@ -3,6 +3,7 @@ import { ReplaySubject, Subscription, Observable, BehaviorSubject } from "rxjs";
 import { LangUtil } from "../util/LangUtil";
 import { AngularFireDatabase } from "angularfire2/database";
 import { Game, AssetOwner } from "./game";
+import { DistanceUnit } from "../util/transformation";
 
 export class GameSystem extends AssetOwner {
   public static readonly TYPE = 'db.GameSystem'
@@ -25,7 +26,7 @@ export class GameSystem extends AssetOwner {
   commonAttributes?: string[]
   commonRolls?: string[]
   conditions?: NameDescription[] = []
-
+  sizes?: TokenSize[] = []
 }
 
 export class PrimaryAttribute {
@@ -110,4 +111,10 @@ export class AssetSource<T> {
 
 export class NameDescription {
   constructor(public name: string, public description){}
+}
+
+export class TokenSize {
+  constructor(public key, public name, public width: number, public height : number,public unit : DistanceUnit) {
+    
+  }
 }
