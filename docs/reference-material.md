@@ -10,6 +10,9 @@ Reference material, such as monsters, spells and rules
 
 
 
+
+
+
 This option is to move away from the firebase database for this and instead use the storage area. THe flow would be as follows:
 
 STARTUP

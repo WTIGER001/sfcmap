@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbActiveModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { from, Observable, Subject } from 'rxjs';
-import { Distance, Game, Asset } from '../models';
+import { Distance, Game, Asset, TokenAnnotation } from '../models';
 import { DistanceEntryComponent } from './distance-entry/distance-entry.component';
 import { SortDialogComponent } from './sort-dialog/sort-dialog.component';
 import { FilterDialogComponent } from './filter-dialog/filter-dialog.component';
@@ -49,11 +49,12 @@ export class DialogService {
     return modalRef.componentInstance.result
   }
 
-  public openEncounter(encounter: Encounter, all : TokenRecord[]): Observable<boolean>  {
+  public openEncounter(encounter: Encounter, all : TokenRecord[], tokens : TokenAnnotation[]): Observable<boolean>  {
     
     const modalRef = this.modalSvc.open(EncounterDialogComponent);
     modalRef.componentInstance.encounter = encounter
     modalRef.componentInstance.all = all
+    modalRef.componentInstance.tokens = tokens
     modalRef.componentInstance.result = new Subject<boolean>()
     return modalRef.componentInstance.result
 

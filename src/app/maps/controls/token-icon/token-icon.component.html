@@ -1,4 +1,4 @@
-<figure #figure [class.iconselected]="selected" class="hover-target" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
+<figure #figure [class.iconselected]="selected" class="hover-target" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()" [class.imgx]="item.dead">
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
   <figcaption  *ngIf="item.showName >= 1" [style.font-size]="calcFontSize()" [class.showonselect]="item.showName>=2" [class.showonhover]="item.showName==3" >{{item.name}}</figcaption>
   <span *ngIf="item.badge" class="badge badge-secondary badge-label">{{item.badge}}</span>

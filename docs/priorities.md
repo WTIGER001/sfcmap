@@ -1,21 +1,17 @@
 # Top Priorities
 
-## Now
-
+## Unsorted
+- Marker Packs and Token Packs
+- Map Sub Folders
 
 ### Token Display on Map
-- Show dead style on map
 - Hide tokens from users (invisible)
 
 ### Token Edit / View Tab
 
-
 ## High
 - Fix map links
 - Rewrite Layers Tab
-- Personal
--- Allow changing of size
-- Refactor Token Record
 - Conditions
 
 ## Medium
@@ -31,8 +27,10 @@ Encounters
 - Saveable encounters that can be activated (preplace annotations ) {LG}
 
 Maps
-- Arrow buttons to move character on map {MED}
 - Improve the measuring tool to have waypoints, show to other users and snap {LG} 
+- Add 'layer' / 'panes' for background 
+- Allow the creation of a blank map of a certain size with the grid already created
+- Add text annotations
 
 Model
 - Better permissions {UNK - NEED DESIGN}
@@ -57,6 +55,19 @@ Chat
 - Add the abilty to provide hyperlinks in the chat to switch players to a map {MED}
 - Refactor chat into a service and control, put the controls on all tabs {LG}
 
+Game
+- Public and Private games
+
+Restrictions {XL}
+- Edit permissions on all forms
+- Character Restrictions
+- Creator Permissions
+- Restrict Map Cards from showing maps
+
+Tutorial / Help
+- Tutorial Help system
+- Release Notes
+- Static help documentation
 
 - Dynamic Lighting  {XL}
 - Pathfinder specific lighting rules  {LG}
@@ -145,3 +156,6 @@ Chat
 - Marker Types and Map Types - Make available on the map index 
 - Allow changing of size
 - Automatic auras for reach
+- Show dead style on map
+- Arrow buttons to move character on map {MED}
+- Allow changing of size

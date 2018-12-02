@@ -1,6 +1,6 @@
 <figure #figure [class.iconselected]="selected" 
 [ngClass]="getSizeClass()"
-(click)="toggleCheck()">
+(click)="toggleCheck()" [class.imgx]="crossedout">
   <img [src]="getPicture()" [ngClass]="getImagePosClass()">
   <figcaption *ngIf="caption">{{caption}}</figcaption> 
   <span *ngIf="badge" class="badge badge-secondary badge-label">{{badge}}</span>

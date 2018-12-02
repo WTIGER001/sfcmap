@@ -98,12 +98,6 @@ export class AnnotationFactory {
 
     elem.setBounds(bounds)
 
-    if (item.dead) {
-      DomUtil.addClass(component.instance.elRef.nativeElement, 'imgx')
-    } else {
-      DomUtil.removeClass(component.instance.elRef.nativeElement, 'imgx')
-    }
-
     AnnotationFactory.attachObj(item, elem)
     return elem
   }

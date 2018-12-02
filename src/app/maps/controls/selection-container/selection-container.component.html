@@ -65,6 +65,9 @@
     <div *ngIf="isCharacter()" class="action" (click)="copyTo()">
       <fa-icon fixedWidth="true"  icon="cloud-upload"></fa-icon> Copy To
     </div>
+    <div *ngIf="isToken()" class="action" (click)="toggleDead()" [class.active]="item.dead">
+      <fa-icon fixedWidth="true" icon="tombstone"></fa-icon> Dead
+    </div>
   </div>
 
   <app-barrier-selection [item]="item" (onPan)="pan()" *ngIf="itemType(item) == 'barrier'"></app-barrier-selection>

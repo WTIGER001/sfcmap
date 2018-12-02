@@ -122,7 +122,7 @@ export class EncounterTabComponent implements OnInit {
     enc.owner = this.data.game.getValue().id
     enc.mapInfo = this.mapSvc.getMapInfo()
     const all = this.calcParticipants()
-    this.dialog.openEncounter(enc, all).subscribe(a => {
+    this.dialog.openEncounter(enc, all[0], all[1]).subscribe(a => {
       this.labelDuplicates(enc)
       this.data.activateEncounter(enc)
     })
@@ -130,13 +130,9 @@ export class EncounterTabComponent implements OnInit {
 
   rollAllInitiatives() {
     console.log("Rolling for everyone")
-
     const roller = new DiceRoller(false, undefined)
-
     this.encounter.participants.forEach((p) => {
-      console.log("Rolling for ", p.name)
       const initRoll = this.getInit(p)
-      console.log("INIT for ", initRoll)
       if (initRoll) {
         p.initiative = roller.rollQuick(initRoll).getTotal()
       }
@@ -185,7 +181,7 @@ export class EncounterTabComponent implements OnInit {
 
   manage() {
     // Calculate all the possible participants
-    const possible = this.calcParticipants()
+    const [possible, tokens] = this.calcParticipants()
     // Determine who is not already in the encounter
     const diff = possible.filter(me => this.encounter.participants.findIndex(a => a.id == me.id) < 0)
     diff.forEach(a => a._delete = true)
@@ -193,7 +189,7 @@ export class EncounterTabComponent implements OnInit {
     const all = [...this.encounter.participants.slice(0), ...diff]
     // all.push(...diff)
 
-    this.dialog.openEncounter(this.encounter, all).subscribe(a => {
+    this.dialog.openEncounter(this.encounter, all, tokens).subscribe(a => {
       this.updateTeams()
       this.save()
     })
@@ -212,12 +208,30 @@ export class EncounterTabComponent implements OnInit {
 
   }
 
+
+  isDead(item) : boolean {
+   const t = this.findToken(item)
+    if (t) {
+      return t.dead
+    }
+    return false 
+  }
+
+  
   pic(item) {
-    return item.token
+    const t = this.findToken(item)
+    if (t) {
+      return t.url
+    }
+    return undefined
   }
 
   caption(item) {
-    return item.name ? item.name : "None"
+    const t = this.findToken(item)
+    if (t) {
+      return t.name
+    }
+    return "None"
   }
 
   badge(item) {
@@ -247,52 +261,40 @@ export class EncounterTabComponent implements OnInit {
     return rtn
   }
 
-  calcParticipants(): TokenRecord[] {
+  calcParticipants(): [TokenRecord[], TokenAnnotation[]] {
     const map = this.mapSvc._map
     const rtn: TokenRecord[] = []
+    const tokens : TokenAnnotation[] = []
     map.eachLayer(l => {
       if (this.isToken(l)) {
         const token: TokenAnnotation = this.getItemFromLayer(l)
         const r = new TokenRecord()
-        r.token = token.url
         r.itemid = token.itemId
         r.id = token.id
         r.type = token.itemType
         this.fillIn(r)
-
+        tokens.push(token)
         rtn.push(r)
       }
     })
-    return rtn
+    return [rtn, tokens]
   }
 
   fillIn(r: TokenRecord) {
     if (r.type == Character.TYPE) {
       const item: Character = this.data.gameAssets.characters.currentItems.find(i => i.id == r.itemid)
       if (item) {
-        r.name = item.name
-        r.hp = this.getAttrCurrent(item, 'HP')
-        r.maxHp = this.getAttrMax(item, 'HP')
         r.team = 'Players'
-        r.controlledBy = ['Everyone']
       }
     } else if (r.type == Monster.TYPE) {
       const item: Monster = this.data.pathfinder.monsters$.getValue().find(i => i.id == r.itemid)
       if (item) {
-        r.name = item.name
-        r.hp = item.hp
-        r.maxHp = item.hp
         r.team = 'Enemies'
-        r.controlledBy = ['GM']
-        r.xp = item.xp
-        r.treasure = item.treasure
       }
     } else if (r.type == Token.TYPE) {
       const item: Token = this.data.gameAssets.tokens.currentItems.find(i => i.id == r.itemid)
       if (item) {
-        r.name = item.name
         r.team = 'Enemies'
-        r.controlledBy = ['GM']
       }
     } else {
       throw new Error('Invlaid item type ' + r.type)

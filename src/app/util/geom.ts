@@ -4,6 +4,41 @@ import { log, isArray } from "util";
 import { DistanceUnit } from "./transformation";
 
 export class BoundsUtil {
+  static offset(bounds: LatLngBounds, direction: number, distance: number, unit?: DistanceUnit): any {
+    // 1, 4, 7 = LEFT
+    // 9, 6, 3 = RIGHT
+    // 7, 8, 9 = UP
+    // 1, 2, 3 = DOWN
+
+    let east = bounds.getEast() 
+    let west = bounds.getWest() 
+    let north = bounds.getNorth() 
+    let south = bounds.getSouth()
+
+    const dist = unit ? unit.toMeters(distance) : distance
+    // Shift LEFT or RIGHT
+    if ([1, 4, 7].includes(direction)) {
+      east = east - dist
+      west = west - dist
+    } else if ([9, 6, 3].includes(direction)) {
+      east = east + dist
+      west = west + dist
+    }
+
+    // Shift UP or DOWN
+    if ([7, 8, 9].includes(direction)) {
+      north = north + dist
+      south = south + dist
+    } else if ([1, 2, 3].includes(direction)) {
+      north = north - dist
+      south = south - dist
+    }
+
+    const result = latLngBounds([south, west], [north, east])
+    return result
+  }
+
+
   /**
    * Creates an equal buffer around an existing bounds
    * @param bounds Input Bounds
@@ -19,7 +54,6 @@ export class BoundsUtil {
     const result =  latLngBounds([south, west], [north, east])
     return result
   }
-
 
 
 }

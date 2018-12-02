@@ -4,6 +4,7 @@ import { Map } from 'leaflet';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import * as _ from 'lodash';
+import { TokenAnnotation } from 'src/app/models';
 
 
 @Component({
@@ -13,6 +14,7 @@ import * as _ from 'lodash';
 })
 export class EncounterDialogComponent implements OnInit {
   all : TokenRecord[]
+  tokens : TokenAnnotation[]
   encounter: Encounter
   result : Subject<boolean>
 
@@ -22,6 +24,10 @@ export class EncounterDialogComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  findToken(item : TokenRecord) : TokenAnnotation {
+    return this.tokens.find( t => t.id == item.id)
   }
 
   ok() {

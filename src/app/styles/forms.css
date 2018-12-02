@@ -131,10 +131,6 @@ input.switch ~ label {
   justify-content: start;
 }
 
-.tbl {
-
-}
-
 .tbl-even {
   background-color: var(--form-bg)
 }

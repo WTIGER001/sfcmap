@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from '../../../data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Game, MapConfig, MapType, Asset } from '../../../models';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { SortFilterField } from '../../../util/sort-filter';
@@ -52,7 +52,7 @@ export class MapIndexComponent implements OnInit {
     { name: "Folder", sort: true, filter: true, text: true, valueFn: (item) => this.lookupType(item.mapType), indexFn: (item) => this.lookupType(item.mapType), compareFn: this.compareTypes }
   ]
 
-  constructor(private data: DataService, private route: ActivatedRoute, private modal : NgbModal) {
+  constructor(private data: DataService, private route: ActivatedRoute, private modal : NgbModal, private router: Router) {
     this.lookupType.bind(this)
     this.compareTypes.bind(this)
   }
@@ -81,7 +81,7 @@ export class MapIndexComponent implements OnInit {
 
     this.searchbar.addTool('right', 'map-marker-alt', 'Markers', () => { MarkerTypeManagerComponent.openDialog(this.modal)})
     this.searchbar.addTool('right', 'folder-plus', 'Folders', () => { EditMapTypeComponent.openDialog(this.modal)})
-
+    this.searchbar.addTool('right', 'helmet-battle', 'Tokens', () => { this.router.navigate(["/game", this.gameid, 'tokens'])})
   }
 
   openMarkers() {

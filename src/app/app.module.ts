@@ -206,6 +206,8 @@ import { VisibilityToggleComponent } from './controls/visibility-toggle/visibili
 import { AddsubDirective } from './controls/addsub.directive';
 import { DiceResultComponent } from './controls/dice-result/dice-result.component';
 import { MarkerTypeSelectComponent } from './controls/marker-type-select/marker-type-select.component';
+import { ConditionsComponent } from './maps/controls/conditions/conditions.component';
+import { ConditionSelectComponent } from './maps/controls/condition-select/condition-select.component';
 
 @NgModule({
   declarations: [
@@ -369,6 +371,8 @@ import { MarkerTypeSelectComponent } from './controls/marker-type-select/marker-
     AddsubDirective,
     DiceResultComponent,
     MarkerTypeSelectComponent,
+    ConditionsComponent,
+    ConditionSelectComponent,
   ],
   imports: [
     BrowserModule,

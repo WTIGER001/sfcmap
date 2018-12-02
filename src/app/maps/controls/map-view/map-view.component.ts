@@ -25,6 +25,7 @@ import { MapShareData } from 'src/app/models/system-models';
 import { CanvasLayer2 } from '../../../leaflet/CanvasLayer.js';
 import { AnnotationFactory } from '../../annotation-factory';
 import { Location } from '@angular/common';
+import { KeyboardHandler } from 'src/app/leaflet/keyboard-handler';
 
 @Component({
   selector: 'app-map-view',
@@ -67,7 +68,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
     divisions: 4,
     zoomControl: false,
     center: this.bounds.getCenter(),
-    doubleClickZoom: false
+    doubleClickZoom: false,
+    keyboard: false
   }
 
   layers: Layer[] = [];
@@ -258,6 +260,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
     new ZoomControls(this.mapSvc, {
       position: 'topleft'
     }).addTo(map)
+
+    new KeyboardHandler(map, this.data, this.mapSvc ).enable()
 
     this.applyPrefs()
 

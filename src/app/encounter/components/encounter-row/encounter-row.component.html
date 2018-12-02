@@ -1,38 +1,16 @@
 <div class="overall">
   <div>
-  <app-picture-tile class="pic" size="square-sm" [picture]="getPic()" [caption]="getType()" 
-    canCheck="true" checkIcon="times" (checkChange)="checkChange($event)" [checked]="row._delete" [objPos]="getItem()?.imgPos"></app-picture-tile>
-
-    <label class="btn btn-sm btn-outline-secondary" ngbButtonLabel>
-      <input type="checkbox" ngbButton class="hideme" [(ngModel)]="row.dead"> <fa-icon icon="skull-crossbones"></fa-icon> Dead
-    </label>
+    <app-picture-tile class="pic" size="square-sm" [picture]="getPic()" [caption]="getType()" canCheck="true" checkIcon="times"
+      (checkChange)="checkChange($event)" [checked]="row._delete"></app-picture-tile>
   </div>
   <div class="myCol">
     <label>Name:</label>
-    <input type="text" class="form-control" [(ngModel)]="row.name">
+    <input type="text" class="form-control" [(ngModel)]="token.name">
 
     <label>Team:</label>
     <input type="text" class="form-control" [(ngModel)]="row.team">
 
-    <label>HP:</label>
-    <div class="line">
-      <input focus-select type="number" class="form-control" [(ngModel)]="row.hp"> /
-      <input focus-select type="number" class="form-control" [(ngModel)]="row.maxHp">
-    </div>
-
     <label>Initiative:</label>
-    <input focus-select  type="number" class="form-control" [(ngModel)]="row.initiative">
-
-    <label>XP:</label>
-    <input focus-select type="number" class="form-control" [(ngModel)]="row.xp">
-
-    <label>Statuses:</label>
-    <input focus-select type="text" class="form-control" [(ngModel)]="row.statuses">
-
-    <label>Controlled By:</label>
-    <input focus-select type="text" class="form-control" [(ngModel)]="row.controlledBy">
-
-    <label>Treasure:</label>
-    <input focus-select type="text" class="form-control" [(ngModel)]="row.treasure">
+    <input focus-select type="number nospin" class="form-control" [(ngModel)]="row.initiative">
   </div>
-</div> 
+</div>

@@ -51,6 +51,13 @@ export class SelectionContainerComponent implements OnInit {
     return this.data.canEditField(this.item, field)
   }
 
+  toggleDead() {
+    if (TokenAnnotation.is(this.item)) {
+      this.item.dead = !this.item.dead
+      this.data.save(this.item)
+    }
+  }
+
   permissions() {
     if (this.item) {
       this.restrict.openRestrict(this.item).subscribe((r) => {
@@ -81,6 +88,10 @@ export class SelectionContainerComponent implements OnInit {
 
   isMonster(): boolean {
     return (TokenAnnotation.is(this.item) && this.item.itemType == Monster.TYPE)
+  }
+
+  isToken() {
+    return TokenAnnotation.is(this.item)
   }
 
   editCharacter() {

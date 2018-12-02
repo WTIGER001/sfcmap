@@ -20,15 +20,25 @@ Token
 
 >Questions: Should we associate lighting and barriers? 
 
-## Behavior
+## Use Case
 
-On browse - All token packs are listed
+1.) User goes to the tokens page
+2.) Clicks "Add Packs"
+3.) gets a selection dialog for choosing a pack(s)
+4.) Clicks to ones to add
+5.) The packs are copied into the game 
+6.) THe packs are shown
 
-{
-  "name" : "Name of Token Pack",
-  "id" : "ID OF token Pack",
-  "description" : "description", 
-  
+Each pack is a file (like monsters) that is cached on the local computer. When a user uploads a token then that goes in his "Uploads" Pack. The images are in firebase storage. 
 
+Marker Packs
+- Same as Token packs but each definition is that of a marker type. 
+- Can they be edited? Yes... I guess so but that will mean a new version. 
 
-}
+Need to have an Asset Manager
+
+## New Token Pack
+1.) select '+ New Token Pack'
+2.) supply information
+3.) Upload images
+4.) Publish changes

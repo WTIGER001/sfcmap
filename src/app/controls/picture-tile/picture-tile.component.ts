@@ -24,6 +24,7 @@ export class PictureTileComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() x = true
   @Output() checkChange = new EventEmitter;
   @Input() zoom = 1
+  @Input() crossedout = false
 
   // @Input() barPercentage = 1
   // @Input() showBar : boolean = false

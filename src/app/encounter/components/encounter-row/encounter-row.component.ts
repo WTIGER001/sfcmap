@@ -1,25 +1,22 @@
-import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
+import { Component,  Input } from '@angular/core';
 import { TokenRecord } from '../../model/encounter';
-import { Character, Asset } from 'src/app/models';
+import { Character, Asset, TokenAnnotation } from 'src/app/models';
 import { Monster } from 'src/app/monsters/monster';
 import { Token } from 'src/app/maps/token';
 import { DataService } from 'src/app/data.service';
-import { LangUtil } from 'src/app/util/LangUtil';
 
 @Component({
   selector: 'app-encounter-row',
   templateUrl: './encounter-row.component.html',
   styleUrls: ['./encounter-row.component.css']
 })
-export class EncounterRowComponent implements OnInit , AfterContentInit{
+export class EncounterRowComponent {
   item : Asset
   @Input() row : TokenRecord
+  @Input() token: TokenAnnotation
   
   constructor(private data: DataService) { }
 
-  ngOnInit() {
-    
-  }
 
   getType() {
     if (this.row.type == Character.TYPE) {
@@ -32,28 +29,9 @@ export class EncounterRowComponent implements OnInit , AfterContentInit{
       return "???"
     }
   }
-  ngAfterContentInit() {
-    this.item = this.getItem()
-  }
-
-  getItem() : Asset {
-    if (this.row.type == Character.TYPE) {
-      return this.data.gameAssets.characters.currentItems.find( i => i.id == this.row.itemid)
-    } else if (this.row.type == Monster.TYPE) {
-      return this.data.pathfinder.monsters$.getValue().find(i => i.id == this.row.itemid)
-    } else if (this.row.type == Token.TYPE) {
-      return this.data.gameAssets.tokens.currentItems.find(i => i.id == this.row.itemid)
-    } else {
-      throw new Error('Invlaid item type ' + this.row.type)
-    }
-  }
 
   getPic() {
-    const item : any= this.getItem()
-    if (item) {
-      return LangUtil.firstDefined(item.token, item.thumb, item.image, item.thumb, './assets/missing.png')
-    }
-    return './assets/missing.png'
+    return this.token.url ||  './assets/missing.png'
   }
 
   checkChange(event) {

@@ -1,7 +1,7 @@
 <div class="maps">
   <h1>Map Index</h1>
   <app-search-bar #searchbar [items]="all" [fields]='fields' newText="New Map" [newLink]="['../new-map']" (itemsUpdated)="updateItems($event)"
-    (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event ">
+    (scrollRequest)="scrollTo($event)" (viewChanged)="view=$event " [hasImport]="false">
     
   </app-search-bar>
 

@@ -1,0 +1,36 @@
+<div class="page page--wide">
+  <div class="title">
+    <h1>Conditions</h1>
+    <div class="toolbar">
+      <button class="clickable" (click)="close">
+        <fa-icon icon="times" size="lg"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="page__body">
+    <app-expander [text]="category" *ngFor="let category of categories">
+      <div class="conditions-tbl">
+        <ng-container *ngFor="let item of conditions">
+          <ng-container *ngIf="item.category == category">
+            <input type="checkbox" class="eye" [(ngModel)]="item.visible">
+            <input type="checkbox" class="switch" [(ngModel)]="item.enabled">
+            <span>{{item.name}}</span>
+            <input type="number" class="form-control nospin" [(ngModel)]="item.duration">
+            <select class="form-control" [(ngModel)]="durationUnit">
+              <option>Rounds</option>
+              <option>Minutes</option>
+              <option>Hours</option>
+              <option>Days</option>
+              <option>Permanent</option>
+            </select>
+            <div class="help-card" id="{{item.key}}">
+              <label>Description</label>
+              <span>{{getDescription(item)}}</span>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </app-expander>
+
+  </div>
+</div>

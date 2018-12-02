@@ -19,11 +19,12 @@ export class EncounterOverlayComponent implements OnInit {
    * The active encounter for this map
    */
   encounter: Encounter
-  items: TokenRecord[]
+  items: TokenRecord[] = []
+  all: TokenRecord[] = []
   cfg: MapConfig
   expanded = true
   sel: Selection = new Selection([])
-
+  tmap = new Map<TokenRecord, TokenAnnotation>()
 
   constructor(private data: DataService, private mapSvc: MapService) { }
 
@@ -40,29 +41,43 @@ export class EncounterOverlayComponent implements OnInit {
       tap(enc => this.prepareEnc())
     ).subscribe()
 
+    this.mapSvc.annotationAddUpate.subscribe( a=> {
+      this.prepareEnc()
+    })
+    this.mapSvc.annotationDelete.subscribe(a => {
+      this.prepareEnc()
+    })
+
   }
 
   prepareEnc() {
     if (this.encounter) {
-      // Sort according to initiative order
-      this.items = this.encounter.participants.sort((a, b) => b.initiative - a.initiative)
-
-      this.checkAllDead()
+      this.items = []
+      this.all = this.encounter.participants.sort((a, b) => b.initiative - a.initiative)
+      this.all.forEach(record => {
+        const t = this.findToken(record)
+        if (t) {
+          this.tmap.set(record, t)
+          this.items.push(record)
+        }
+      })
     }
   }
 
+  isDead(item) : boolean {
+   return  this.tmap.get(item).dead
+  }
+
   pic(item) {
-    return item.token
+    return this.tmap.get(item).url
   }
 
   caption(item) {
-    return item.name
+    return this.tmap.get(item).name
   }
 
-
   select(item: TokenRecord) {
-    // Get the tokenAnnotation
-    const ta: TokenAnnotation = this.findToken(item)
+    const ta: TokenAnnotation = this.tmap.get(item)
     if (ta) {
       this.mapSvc.select(ta)
     }
@@ -70,7 +85,7 @@ export class EncounterOverlayComponent implements OnInit {
 
   isSelected(item) {
     if (!this.sel.isEmpty()) {
-      const ta: TokenAnnotation = this.findToken(item)
+      const ta: TokenAnnotation = this.tmap.get(item)
       return (this.sel.items.find(i => i.id == ta.id) != undefined)
     }
     return false
@@ -91,7 +106,8 @@ export class EncounterOverlayComponent implements OnInit {
     let a = { round: this.encounter.round, turn: this.encounter.turn }
     for (let i = 0; i < this.items.length; i++) {
       a = this.proposeNext(a.round, a.turn)
-      if (!this.items[a.turn].dead) {
+      const ta = this.tmap.get(this.items[a.turn])
+      if (!ta.dead) {
         this.encounter.round = a.round
         this.encounter.turn = a.turn
         break;
@@ -147,36 +163,11 @@ export class EncounterOverlayComponent implements OnInit {
 
   dblclick(item) {
     if (item !== undefined) {
-      const t = this.findToken(item)
+      const t = this.tmap.get(item)
       if (t) {
         this.mapSvc.panTo(t.center())
       }
     }
   }
 
-  checkAllDead() {
-    this.items.forEach(item => {
-      this.checkDead(item)
-    })
-  }
-
-  async checkDead(r: TokenRecord) {
-    const t = this.findToken(r)
-    if (t) {
-      if (t.dead != r.dead) {
-        t.setDead(r.dead);
-        this.data.save(t)
-      }
-
-      // const l = t.getAttachment()
-      // if (r.dead) {
-      //   console.log("Making Dead Image", t.url)
-      //   const deadImg = await ImageUtil.MarkX(t.url)
-      //   console.log("MADE Dead Image", deadImg)
-      //   l._image.src = deadImg
-      // } else {
-      //   l._image.src = r.token
-      // }
-    }
-  }
 }

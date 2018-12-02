@@ -1,0 +1,15 @@
+<app-expander text="Conditions">
+  <div class="condition">
+    <ng-container *ngFor="let item of conditions">
+      <input type="checkbox" class="switch" [(ngModel)]="item.enabled" id="condition_{{item.name}}">
+      <label for="condition_{{item.name}}">{{item.name}}</label>
+      <input type="number" class='form-control nospin' [(ngModel)]="item.duration">
+      <div class="clickable clickable-sm" (click)="info(item)"><fa-icon icon="question-square"></fa-icon></div>
+      <div class="clickable clickable-sm" (click)="edit(item)"><fa-icon icon="edit"></fa-icon></div>
+      <div class="clickable clickable-sm" (click)="delete(item)"><fa-icon icon="trash"></fa-icon></div>
+    </ng-container>
+    <div class="clickable addbtn" (click)="addItem()">
+      <fa-icon icon="plus" size="lg"></fa-icon> Add Condition
+    </div>
+  </div>
+</app-expander>
