@@ -249,26 +249,29 @@ export class TokenAnnotation extends Annotation {
       obj.subtype !== undefined && obj.subtype === TokenAnnotation.SUBTYPE
   }
 
+  /* Token */
   opacity: number = 1
   url?: string
   displayRange: [number, number] = [-20, 200]
-  aspect: number // width / height
-  keepAspect: boolean = false
+  snap = true;
   itemId: string
   itemType: string
   instanceId: number
-  sizeX: number = 1.524;
-  sizeY: number = 1.524;
-  size : string
-  snap = true;
-  dead = false
-  bars : TokenBar[] = []
-  flyHeight = 0
-  badge: string
   _saveImage = false
   _blob: Blob
   _selected: boolean
 
+
+  /* Character */
+  sizeX: number = 1.524;
+  sizeY: number = 1.524;
+  size : string
+  
+  dead = false
+  bars : TokenBar[] = []
+  flyHeight = 0
+  badge: string
+ 
   calcCharacter: Character
   auras: Aura[] = []
   lights: LightSource[] = []

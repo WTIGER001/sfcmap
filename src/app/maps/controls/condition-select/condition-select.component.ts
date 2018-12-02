@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./condition-select.component.css']
 })
 export class ConditionSelectComponent implements OnInit {
-
+  categories : string[] = []
   constructor() { }
 
   ngOnInit() {
   }
 
+  close() {
+    
+  }
 }

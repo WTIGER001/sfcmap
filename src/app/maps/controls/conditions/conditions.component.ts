@@ -7,11 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConditionsComponent implements OnInit {
   conditions : any[] = []
-
+  categories: any[] = []
   constructor() { }
 
   ngOnInit() {
   }
 
+  addItem() {
 
+  }
+
+  close()  {
+    
+  }
 }
