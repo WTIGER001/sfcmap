@@ -257,10 +257,10 @@ export class TokenAnnotation extends Annotation {
   itemId: string
   itemType: string
   instanceId: number
+
   _saveImage = false
   _blob: Blob
   _selected: boolean
-
 
   /* Character */
   sizeX: number = 1.524;

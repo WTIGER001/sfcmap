@@ -103,9 +103,9 @@ export class TokenIconComponent implements OnInit {
   }
 
   getImagePosClass() {
-    if (this.item.imgPos) {
-      return this.item.imgPos
-    }
+    // if (this.item.imgPos) {
+    //   return "object-position-" + this.item.imgPos
+    // }
     return "object-position-5"
   }
 
