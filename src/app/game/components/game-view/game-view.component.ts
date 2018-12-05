@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Game, User } from '../../../models';
-import { DataService } from '../../../data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RestrictService } from '../../../dialogs/restrict.service';
-import { CommonDialogService } from '../../../dialogs/common-dialog.service';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { SettingsComponent } from 'src/app/components/settings/settings.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SettingsComponent } from 'src/app/components/settings/settings.component';
+import { DataService } from '../../../data.service';
+import { CommonDialogService } from '../../../dialogs/common-dialog.service';
+import { RestrictService } from '../../../dialogs/restrict.service';
+import { Game, User } from '../../../models';
 
 @Component({
   selector: 'app-game-view',
@@ -31,7 +30,7 @@ export class GameViewComponent implements OnInit {
   enableEncounters = false
 
   constructor(private data: DataService, private route: ActivatedRoute, private restrict: RestrictService, private cd: CommonDialogService,
-    private router: Router, private modal: NgbModal, private afAuth: AngularFireAuth) {
+    private router: Router, private modal: NgbModal) {
     this.data.user.subscribe(u => this.user = u);
   }
 
@@ -81,9 +80,6 @@ export class GameViewComponent implements OnInit {
     )
   }
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
 
   settings() {
     SettingsComponent.openDialog(this.modal)

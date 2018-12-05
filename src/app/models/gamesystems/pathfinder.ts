@@ -1,14 +1,10 @@
-import { GameSystem, NameDescription, TokenSize } from "../game-system";
-import { ReplaySubject, BehaviorSubject } from "rxjs";
-import { Monster } from "src/app/monsters/monster";
-import { CacheService } from "src/app/cache/cache.service";
-import { NotifyService } from "src/app/notify.service";
-import { AngularFireDatabase } from "angularfire2/database";
+import { BehaviorSubject } from "rxjs";
 import { CachedItem } from "src/app/cache/cache";
-import { AngularFirestore } from "angularfire2/firestore";
-import { AngularFireStorage } from "angularfire2/storage";
-import { Http } from "@angular/http";
+import { CacheService } from "src/app/cache/cache.service";
+import { Monster } from "src/app/monsters/monster";
 import { DistanceUnit } from "src/app/util/transformation";
+import { GameSystem, NameDescription, TokenSize } from "../game-system";
+import { AngularFireDatabase } from "@angular/fire/database";
 
 export class Pathfinder extends GameSystem {
   static readonly MONSTER_PATH = "cache/games/pathfinder/monsters"

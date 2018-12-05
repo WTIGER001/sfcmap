@@ -1,21 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Dice, DiceRoller } from '../../util/dice';
-import * as THREE from 'src/scripts/three.min.js'
-import { Observable, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, mergeMap, tap } from 'rxjs/operators';
-import { emojify, search } from 'node-emoji';
-import { DataService } from '../../data.service';
-import { User, ChatRecord, ChatMessage, DiceRoll, PingMessage, MapConfig, Prefs, UserChatLastSeen, UserChatLastCleared, Game } from '../../models';
-import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
-import { LangUtil } from '../../util/LangUtil';
-import { AudioService, Sounds } from '../../audio.service';
-import { Ping } from '../../leaflet/ping';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ICommand } from '../../commands/ICommand';
-import { MessageService } from '../../message.service';
-import { DbConfig } from '../../models/database-config';
+import * as _ from 'lodash';
+import { search } from 'node-emoji';
+import { Observable, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { AudioService, Sounds } from '../../audio.service';
 import { DiceCanvasComponent } from '../../controls/dice-canvas/dice-canvas.component';
-import * as _ from 'lodash'
+import { DataService } from '../../data.service';
+import { MessageService } from '../../message.service';
+import { ChatMessage, ChatRecord, DiceRoll, Game, PingMessage, Prefs, User, UserChatLastSeen } from '../../models';
+import { Dice } from '../../util/dice';
 
 @Component({
   selector: 'app-rpg-tab',
@@ -45,7 +39,7 @@ export class RpgTabComponent implements OnInit {
   subLastSeen: Subscription
   lastSeen: UserChatLastSeen
 
-  constructor(public data: DataService, public firedb: AngularFireDatabase, public audio: AudioService, public router: Router, public msg: MessageService) {
+  constructor(public data: DataService,  public audio: AudioService, public router: Router, public msg: MessageService) {
     this.data.user.subscribe(u => this.user = u)
     this.data.users.subscribe(u => this.users = u)
 

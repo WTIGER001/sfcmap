@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FirestoreMigration, FirebaseDataabaseMigration } from '../../util/migration';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { MonsterImportCsv } from '../../monsters/monster-import-csv';
+import * as _ from 'lodash';
+import { CachedItem } from 'src/app/cache/cache';
 import { DataService } from '../../data.service';
 import { Monster } from '../../monsters/monster';
-import { CachedItem } from 'src/app/cache/cache';
-import * as _ from 'lodash';
+import { MonsterImportCsv } from '../../monsters/monster-import-csv';
 
 @Component({
   selector: 'app-admin',
@@ -14,14 +11,12 @@ import * as _ from 'lodash';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  constructor(private oldDb: AngularFireDatabase, private db: AngularFirestore, private data: DataService) { }
+  constructor(private data: DataService) { }
   monsters: Monster[] = []
   recieved = []
 
   ngOnInit() {
     const path = "assets/pathfinder/monster-index"
-    this.oldDb.list<Monster>(path).valueChanges().subscribe(all => this.monsters = all)
-
     this.recieved = RItem.generate(this.data.received)
   }
 
@@ -41,7 +36,6 @@ export class AdminComponent implements OnInit {
   }
 
   DeletePathfinder() {
-    this.oldDb.object("assets/pathfinder").remove()
   }
 
   async createCacheItem() {

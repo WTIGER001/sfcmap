@@ -1,13 +1,10 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { AfterContentInit, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouteUtil } from 'src/app/util/route-util';
 import { DataService } from '../../../data.service';
 import { RestrictService } from '../../../dialogs/restrict.service';
-import { Game, Asset } from '../../../models';
-import { DbConfig } from '../../../models/database-config';
+import { Asset, Game } from '../../../models';
 import { Monster } from '../../monster';
-import { MonsterImportCsv } from '../../monster-import-csv';
-import { RouteUtil } from 'src/app/util/route-util';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-monster-view',

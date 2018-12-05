@@ -1,12 +1,8 @@
-import * as CANNON from 'src/scripts/cannon.min.js'
-import * as THREE from 'src/scripts/three.min.js'
-import { Subject, Observable, of } from 'rxjs';
-import { validateArgCount } from '@firebase/util';
+import { Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as CANNON from 'src/scripts/cannon.min.js';
+import * as THREE from 'src/scripts/three.min.js';
 import { DiceRoll } from '../models';
-
-
-
 
 export class Dice {
     static readonly known_types = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];

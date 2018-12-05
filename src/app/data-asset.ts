@@ -1,12 +1,11 @@
 import { ReplaySubject, Observable, Subscription, of, combineLatest, merge } from "rxjs";
 import { mergeMap, map, tap, filter } from "rxjs/operators";
-import { FirebaseDatabase } from "angularfire2";
-import { AngularFireDatabase } from "angularfire2/database";
 import { Game, AssetLink, MapConfig } from "./models";
 import { NotifyService, Debugger } from "./notify.service";
 import { DbConfig } from "./models/database-config";
 import { DataService } from "./data.service";
 import { FogOfWar } from "./maps/fow";
+import { AngularFireDatabase } from "@angular/fire/database";
 
 export interface IDataAsset<T> {
   subscribe(game$: Observable<Game>, notify: NotifyService, data: DataService)

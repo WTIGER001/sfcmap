@@ -1,15 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DataService } from '../data.service';
-import { CachedItem } from './cache';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable, concat } from 'rxjs';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { AngularFireStorage , } from 'angularfire2/storage';
-import { TwitterAuthProvider_Instance } from '@firebase/auth-types';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { tap, mergeMap, map } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { CachedItem } from './cache';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'

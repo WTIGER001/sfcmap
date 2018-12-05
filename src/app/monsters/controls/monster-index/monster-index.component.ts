@@ -1,15 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
-import { MonsterDB } from '../../../models/monsterdb';
-import { DataService } from '../../../data.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { splitStringBySize } from '@firebase/database/dist/src/core/util/util';
-import { ReplaySubject, BehaviorSubject, Subject, of } from 'rxjs';
-import { debounce, tap, throttleTime, debounceTime, auditTime } from 'rxjs/operators';
-import { SearchBarComponent } from '../../../controls/search-bar/search-bar.component';
-import { SortFilterField } from '../../../util/sort-filter';
-import { GameSystem, Game } from '../../../models';
-import { Monster } from '../../monster';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FocusItemCmd } from 'od-virtualscroll';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { SearchBarComponent } from '../../../controls/search-bar/search-bar.component';
+import { DataService } from '../../../data.service';
+import { Game, GameSystem } from '../../../models';
+import { SortFilterField } from '../../../util/sort-filter';
+import { Monster } from '../../monster';
 
 
 @Component({

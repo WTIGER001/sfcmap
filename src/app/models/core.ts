@@ -1,4 +1,3 @@
-import { AngularFireAction, DatabaseSnapshot } from "angularfire2/database";
 import { isArray } from "util";
 
 export interface IObjectType {

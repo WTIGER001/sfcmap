@@ -1,7 +1,6 @@
-import * as xml2js from 'xml2js'
-import { Character, Attribute, Roll } from '../models';
-import { Subject, Observable, ReplaySubject } from 'rxjs';
-import { $ } from 'protractor';
+import { Observable, ReplaySubject } from 'rxjs';
+import * as xml2js from 'xml2js';
+import { Attribute, Character, Roll } from '../models';
 
 
 export class PCGenXml {

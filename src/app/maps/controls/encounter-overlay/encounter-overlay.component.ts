@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../../map.service';
+import { mergeMap, tap } from 'rxjs/operators';
 import { DataService } from 'src/app/data.service';
-import { tap, mergeMap } from 'rxjs/operators';
-import { MapConfig, TokenAnnotation, Annotation, Selection } from 'src/app/models';
 import { Encounter, TokenRecord } from 'src/app/encounter/model/encounter';
-import { ImageUtil } from 'src/app/util/ImageUtil';
+import { Annotation, MapConfig, Selection, TokenAnnotation } from 'src/app/models';
+import { MapService } from '../../map.service';
 
 /**
  * This component is displayed as part of the map.

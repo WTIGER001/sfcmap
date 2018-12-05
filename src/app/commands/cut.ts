@@ -1,13 +1,9 @@
-import { isReactNative } from "@firebase/util";
-import { ICommandName } from "selenium-webdriver";
-import { IUndoableAction } from "./IUndoableAction";
-import { MapService } from "../maps/map.service";
-import { Selection, Annotation } from "../models";
-import { LangUtil } from "../util/LangUtil";
 import { LatLng } from "leaflet";
-import { Observable, of } from "rxjs";
-import { ICommand } from "./ICommand";
 import { DataService } from "../data.service";
+import { MapService } from "../maps/map.service";
+import { Annotation, Selection } from "../models";
+import { LangUtil } from "../util/LangUtil";
+import { ICommand } from "./ICommand";
 
 
 export class CutCommand implements ICommand {

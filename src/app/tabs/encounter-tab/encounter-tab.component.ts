@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { UUID } from 'angular2-uuid';
+import * as _ from 'lodash';
+import { mergeMap, tap } from 'rxjs/operators';
+import { AudioService, Sounds } from 'src/app/audio.service';
 import { DataService } from 'src/app/data.service';
 import { DialogService } from 'src/app/dialogs/dialog.service';
-import { MapService } from 'src/app/maps/map.service';
 import { Encounter, TokenRecord } from 'src/app/encounter/model/encounter';
-import { UUID } from 'angular2-uuid';
-import { Layer } from 'leaflet';
-import { Character, Annotation, TokenAnnotation, Asset, Selection, Game, MapConfig, ChatMessage, ChatRecord, DiceRoll } from 'src/app/models';
+import { MapService } from 'src/app/maps/map.service';
 import { Token } from 'src/app/maps/token';
-import { Monster } from 'src/app/monsters/monster';
-import { LangUtil } from 'src/app/util/LangUtil';
-import * as _ from 'lodash';
-import { map, mergeMap, tap } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import { MessageService } from 'src/app/message.service';
+import { Annotation, Character, ChatRecord, DiceRoll, Game, MapConfig, Selection, TokenAnnotation } from 'src/app/models';
+import { Monster } from 'src/app/monsters/monster';
 import { DiceRoller } from 'src/app/util/dice';
-import { AudioService, Sounds } from 'src/app/audio.service';
-import { stringCompare } from '@firebase/database/dist/src/core/util/util';
 
 @Component({
   selector: 'app-encounter-tab',

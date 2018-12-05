@@ -6,28 +6,24 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-// import { TreeModule } from 'angular-tree-component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ToastrModule } from 'ngx-toastr';
-import { DragAndDropModule } from 'angular-draggable-droppable';
+// import { DragAndDropModule } from 'angular-draggable-droppable';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { TagInputModule } from 'ngx-chips';
 import { SortablejsModule } from 'angular-sortablejs/dist';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas as faspro} from '@fortawesome/pro-solid-svg-icons';
-// import { fas, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
-// import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
-// import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
 import { NgSpinKitModule } from 'ng-spin-kit';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VirtualScrollModule } from 'od-virtualscroll';
 import { DragulaModule } from 'ng2-dragula';
+import { LazyLoadImageModule, intersectionObserverPreset  } from 'ng-lazyload-image'
 
 
 import { AppComponent } from './app.component';
@@ -43,13 +39,13 @@ import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.
 import { NotifyService } from './notify.service';
 import { DataService } from './data.service';
 import { DialogService } from './dialogs/dialog.service';
-import { ChecklistModule } from 'angular-checklist';
 import { AccessDialogComponent } from './dialogs/access-dialog/access-dialog.component';
 import { RestrictService } from './dialogs/restrict.service';
 import { MarkerComboComponent } from './controls/marker-combo/marker-combo.component';
 import { LayersTabComponent } from './tabs/layers-tab/layers-tab.component';
 import { MarkerGroupComboComponent } from './controls/marker-group-combo/marker-group-combo.component';
 import { UnchecklistDirective } from './controls/unchecklist.directive';
+import { ChecklistDirective } from './controls/checklist.directive';
 import { MarkerSizingControlComponent } from './controls/marker-sizing-control/marker-sizing-control.component';
 import { LoginComponent } from './login/login.component';
 import { DistanceEntryComponent } from './dialogs/distance-entry/distance-entry.component';
@@ -222,6 +218,7 @@ import { ConditionSelectComponent } from './maps/controls/condition-select/condi
     LayersTabComponent,
     MarkerGroupComboComponent,
     UnchecklistDirective,
+    ChecklistDirective,
     MarkerSizingControlComponent,
     LoginComponent,
     DistanceEntryComponent,
@@ -389,12 +386,11 @@ import { ConditionSelectComponent } from './maps/controls/condition-select/condi
     LeafletModule.forRoot(),
     FontAwesomeModule,
     NgbModule.forRoot(),
-    ChecklistModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       timeOut: 3000
     }),
-    DragAndDropModule.forRoot(),
+    // DragAndDropModule.forRoot(),
     ColorPickerModule,
     TagInputModule,
     EmojifyModule,
@@ -402,6 +398,7 @@ import { ConditionSelectComponent } from './maps/controls/condition-select/condi
     NgSpinKitModule,
     NgxDatatableModule,
     VirtualScrollModule,
+    LazyLoadImageModule.forRoot({ preset: intersectionObserverPreset }),
     DragulaModule.forRoot()
   ],
   providers: [

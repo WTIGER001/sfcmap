@@ -12,10 +12,11 @@
 
 <a *ngIf="size=='small'" [routerLink]="[map.id]">
   <figure class="item-small-card">
-    <img class="image " [src]="map.thumb?map.thumb: '/assets/icons/maps.png' ">
+    <img [defaultImage]="'/assets/icons/maps.png'" [lazyLoad]="map.thumb?map.thumb: '/assets/icons/maps.png'" class="image " >
     <figcaption>{{map.name}}</figcaption>
   </figure>
 </a>
+
 
 <ng-container *ngIf="size=='line' " class="item-line ">
   <div><a [routerLink]="[map.id] ">{{map.name}}</a></div>

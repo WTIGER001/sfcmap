@@ -1,9 +1,8 @@
-import { ObjectType } from "./core";
-import { ReplaySubject, Subscription, Observable, BehaviorSubject } from "rxjs";
+import { Observable, ReplaySubject, Subscription } from "rxjs";
 import { LangUtil } from "../util/LangUtil";
-import { AngularFireDatabase } from "angularfire2/database";
-import { Game, AssetOwner } from "./game";
 import { DistanceUnit } from "../util/transformation";
+import { ObjectType } from "./core";
+import { AssetOwner } from "./game";
 
 export class GameSystem extends AssetOwner {
   public static readonly TYPE = 'db.GameSystem'
@@ -34,73 +33,73 @@ export class PrimaryAttribute {
   shape: 'heart' | 'shield' | 'rectangle' | 'circle'
 }
 
-export class AssetTracker<T extends ObjectType> {
+// export class AssetTracker<T extends ObjectType> {
 
-  constructor(public name: string, public folder: string, private db: AngularFireDatabase) {
+//   constructor(public name: string, public folder: string) {
 
-  }
-  parentPath: string
-  assetMap: Map<string, AssetSource<T>> = new Map()
-  merged: Array<T>
-  data$ = new ReplaySubject<Array<T>>()
+//   }
+//   parentPath: string
+//   assetMap: Map<string, AssetSource<T>> = new Map()
+//   merged: Array<T>
+//   data$ = new ReplaySubject<Array<T>>()
 
-  setSourceIds(ids: string[]) {
-    // Remove and unsubscribe the uncessary ids
-    const exists: string[] = []
-    this.assetMap.forEach((v, k) => exists.push(k))
-    const remove = LangUtil.arrayDiff(exists, ids)
-    remove.forEach(removeId => {
-      const src = this.assetMap.get(removeId)
-      src.sub.unsubscribe()
-      this.assetMap.delete(removeId)
-    })
+//   setSourceIds(ids: string[]) {
+//     // Remove and unsubscribe the uncessary ids
+//     const exists: string[] = []
+//     this.assetMap.forEach((v, k) => exists.push(k))
+//     const remove = LangUtil.arrayDiff(exists, ids)
+//     remove.forEach(removeId => {
+//       const src = this.assetMap.get(removeId)
+//       src.sub.unsubscribe()
+//       this.assetMap.delete(removeId)
+//     })
 
-    ids.forEach(id => {
-      if (!this.assetMap.has(id)) {
-        this.subSource(id)
-      }
-    })
-  }
+//     ids.forEach(id => {
+//       if (!this.assetMap.has(id)) {
+//         this.subSource(id)
+//       }
+//     })
+//   }
 
-  subSource(id: string) {
-    const obs$ = this.getItem$(id)
-    const src = new AssetSource<T>()
-    src.id = id
-    src.obs$ = obs$
-    src.sub = obs$.subscribe(data => {
-      src.data = data
-      this.updateData(id)
-    })
-    this.assetMap.set(id, src)
-  }
+//   subSource(id: string) {
+//     const obs$ = this.getItem$(id)
+//     const src = new AssetSource<T>()
+//     src.id = id
+//     src.obs$ = obs$
+//     src.sub = obs$.subscribe(data => {
+//       src.data = data
+//       this.updateData(id)
+//     })
+//     this.assetMap.set(id, src)
+//   }
 
-  getItem$(id: string): Observable<T[]> {
-    const path = "asset-containers/" + id + "/" + this.folder
-    return this.db.list<T>(path).valueChanges()
-  }
+//   getItem$(id: string): Observable<T[]> {
+//     const path = "asset-containers/" + id + "/" + this.folder
+//     return this.db.list<T>(path).valueChanges()
+//   }
 
-  updateData(id: string) {
-    const all = []
-    this.assetMap.forEach((src, id) => {
-      all.push(...src.data)
-    })
-    this.merged = all;
-    this.data$.next(all)
-  }
+//   updateData(id: string) {
+//     const all = []
+//     this.assetMap.forEach((src, id) => {
+//       all.push(...src.data)
+//     })
+//     this.merged = all;
+//     this.data$.next(all)
+//   }
 
-  dispose() {
-    this.data$.complete()
-    this.assetMap.forEach((src, id) => {
-      src.sub.unsubscribe()
-    })
-  }
+//   dispose() {
+//     this.data$.complete()
+//     this.assetMap.forEach((src, id) => {
+//       src.sub.unsubscribe()
+//     })
+//   }
 
-  /*
-    Loading order:
-    1.) Top Level - Load All
-    2.) Next Level - Load All - Filter for ones that do not exist and filter out excluded
-  */
-}
+//   /*
+//     Loading order:
+//     1.) Top Level - Load All
+//     2.) Next Level - Load All - Filter for ones that do not exist and filter out excluded
+//   */
+// }
 
 export class AssetSource<T> {
   id: string

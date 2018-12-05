@@ -1,9 +1,9 @@
-import { AngularFireDatabase } from "angularfire2/database";
-import { AngularFirestore } from "angularfire2/firestore";
 import { take, first } from "rxjs/operators";
 import { DbConfig } from "../models/database-config";
 import { Character, MapConfig, MapType, MarkerCategory, MarkerType, Annotation, MarkerGroup, User, UserAssumedAccess, CharacterType, Prefs, Restricition } from "../models";
 import { LangUtil } from "./LangUtil";
+import { AngularFireDatabase } from "@angular/fire/database";
+import { AngularFirestore } from "@angular/fire/firestore";
 
 export class FirebaseDataabaseMigration {
   constructor(private db: AngularFireDatabase, private defaultGameId, private gsId) { }

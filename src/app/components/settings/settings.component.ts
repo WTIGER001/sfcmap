@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { auth } from 'firebase';
 import { combineLatest } from 'rxjs';
 import { DataService } from '../../data.service';
-import { User, UserAssumedAccess, Prefs } from '../../models';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Prefs, User, UserAssumedAccess } from '../../models';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-settings',

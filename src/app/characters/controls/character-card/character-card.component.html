@@ -2,7 +2,7 @@
   <div class="crd" [class.p1]="position==1" [class.p2]="position==2" [class.p3]="position==3">
     <ng-container *ngIf="canView() == true">
       <a routerLink="{{character.id}}">
-        <img class="crd-picture" [ngClass]="getImagePosClass()" [src]="character.picture?character.picture:'/assets/cards/character.png'">
+        <img class="crd-picture" [ngClass]="getImagePosClass()"  [defaultImage]="'/assets/cards/character.png'" [lazyLoad]="character.picture?character.picture:'/assets/cards/character.png'">
       </a>
       <div class="crd-body crd-body scroller-dark">
         <ng-container *ngIf="page=='personal'">
@@ -109,7 +109,8 @@
 <ng-container *ngIf="size=='small'">
   <a routerLink="{{character.id}}">
     <div class="sm-card">
-      <img [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-sm" [ngClass]="getImagePosClass()">
+      <img  class="mini-pic-sm" [ngClass]="getImagePosClass()" [defaultImage]="'/assets/cards/character.png'"
+      [lazyLoad]="character.picture?character.picture:'/assets/cards/character-sm.png'">
       <span class="sm-name">{{character.name}}</span>
       <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>
       <div class="sm-attr">
@@ -122,7 +123,8 @@
 
 <ng-container *ngIf="size=='tiny'">
   <div class="tiny-card">
-    <img *ngIf="character.picture" [src]='character.picture?character.picture:"/assets/cards/character-sm.png"' class="mini-pic-tiny" [ngClass]="getImagePosClass()">
+    <img *ngIf="character.picture" [defaultImage]="'/assets/cards/character.png'"
+      [lazyLoad]="character.picture?character.picture:'/assets/cards/character-sm.png'" class="mini-pic-tiny" [ngClass]="getImagePosClass()">
     <div *ngIf="!character.picture" class="mini-pic-sm nopic"></div>
     <span class="sm-name">{{character.name}}</span>
     <fa-icon *ngIf="current" icon="bookmark" class="current"></fa-icon>

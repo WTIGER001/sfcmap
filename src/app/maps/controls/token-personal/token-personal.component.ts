@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { TokenAnnotation, Vision, TokenSize } from 'src/app/models';
-import { AuraVisible } from 'src/app/models/aura';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DataService } from 'src/app/data.service';
+import { TokenAnnotation, TokenSize, Vision } from 'src/app/models';
+import { AuraVisible } from 'src/app/models/aura';
 
 @Component({
   selector: 'app-token-personal',

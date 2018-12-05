@@ -2,14 +2,13 @@
  * The message service is used to send messages between players
  */
 import { Injectable } from '@angular/core';
-import { ChatMessage, DiceRoll, ChatRecord, PingMessage, User, UserChatLastCleared, UserChatLastSeen, Game } from './models';
-import { Subject, ReplaySubject, Observable } from 'rxjs';
-import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from 'angularfire2/database';
-import { filter, map, mergeMap, take, tap, distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs/operators';
-import { DataService } from './data.service';
-import { LangUtil } from './util/LangUtil';
 import { UUID } from 'angular2-uuid';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { distinctUntilKeyChanged, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { DataService } from './data.service';
+import { ChatMessage, ChatRecord, DiceRoll, Game, PingMessage, User, UserChatLastCleared, UserChatLastSeen } from './models';
 import { DbConfig } from './models/database-config';
+import { LangUtil } from './util/LangUtil';
 
 @Injectable({
   providedIn: 'root'
