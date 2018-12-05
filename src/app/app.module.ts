@@ -204,6 +204,7 @@ import { DiceResultComponent } from './controls/dice-result/dice-result.componen
 import { MarkerTypeSelectComponent } from './controls/marker-type-select/marker-type-select.component';
 import { ConditionsComponent } from './maps/controls/conditions/conditions.component';
 import { ConditionSelectComponent } from './maps/controls/condition-select/condition-select.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -399,7 +400,8 @@ import { ConditionSelectComponent } from './maps/controls/condition-select/condi
     NgxDatatableModule,
     VirtualScrollModule,
     LazyLoadImageModule.forRoot({ preset: intersectionObserverPreset }),
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     MapService,
