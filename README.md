@@ -362,8 +362,3 @@ How to support the pathfinder lighting rules
 Fog of war - Dynamic
 - Each time someone moves take their visibility mask and draw that on the FOW Image.
 - FOW - Dark, Dim -> Mediumz
-
-
-
-
-
