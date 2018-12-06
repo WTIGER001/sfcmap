@@ -1,0 +1,4 @@
+<div class="install" (window:beforeinstallprompt)="beforeInstall($event)" [class.hide]="!showInstall">
+  <button class="install-btn" (click)="addToHomeScreen()"><fa-icon  [style.color]="'green'" icon="check"></fa-icon> Install Tactics Foundry</button>
+  <button class="install-btn install-btn-no" (click)="noThanks()"><fa-icon icon="times"></fa-icon> No Thanks</button>
+</div>

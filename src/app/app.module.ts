@@ -23,8 +23,6 @@ import { NgSpinKitModule } from 'ng-spin-kit';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VirtualScrollModule } from 'od-virtualscroll';
 import { DragulaModule } from 'ng2-dragula';
-import { LazyLoadImageModule, intersectionObserverPreset  } from 'ng-lazyload-image'
-
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module'
@@ -205,6 +203,7 @@ import { MarkerTypeSelectComponent } from './controls/marker-type-select/marker-
 import { ConditionsComponent } from './maps/controls/conditions/conditions.component';
 import { ConditionSelectComponent } from './maps/controls/condition-select/condition-select.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { InstallPwaComponent } from './install-pwa/install-pwa.component';
 
 @NgModule({
   declarations: [
@@ -371,6 +370,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MarkerTypeSelectComponent,
     ConditionsComponent,
     ConditionSelectComponent,
+    InstallPwaComponent,
   ],
   imports: [
     BrowserModule,
@@ -399,7 +399,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     NgSpinKitModule,
     NgxDatatableModule,
     VirtualScrollModule,
-    LazyLoadImageModule.forRoot({ preset: intersectionObserverPreset }),
     DragulaModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

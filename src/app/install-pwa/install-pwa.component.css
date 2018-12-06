@@ -1,0 +1,35 @@
+.install {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.hide {
+  display: none;
+}
+
+.install-btn {
+    background-color: #e8dab4;
+    color: black;
+    border: 0;
+    margin-right: 15px;
+    padding: .5em 1em;
+    font-size: 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.install-btn-no {
+  background-color: grey ;
+  color: black;
+}
+
+.install-btn:hover {
+  background-color: lightblue;
+}

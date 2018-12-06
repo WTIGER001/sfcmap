@@ -1,7 +1,7 @@
 {
   "name": "Tactics Foundry",
   "short_name": "Tactics",
-  "theme_color": "#1976d2",
+  "theme_color": "#383838",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
