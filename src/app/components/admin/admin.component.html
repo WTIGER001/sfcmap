@@ -6,6 +6,11 @@
           <fa-icon icon="home" class="icon" size="lg"></fa-icon>Home
         </li>
       </a>
+      <a [routerLink]="['/new-tokenpack']">
+        <li>
+          <fa-icon icon="helmet-battle" class="icon" size="lg"></fa-icon>New Token Pack
+        </li>
+      </a>
     </div>
     <div class="all">
       <div>
@@ -32,7 +37,7 @@
 
       </div>
     </div>
-    <div>
+    <!-- <div>
       <button class="btn btn-outline-secondary" (click)="createCacheItem()">Publish Monster V1</button>
       <button class="btn btn-outline-secondary" (click)="DeletePathfinder()">Publish Monster V1</button>
     </div>
@@ -40,6 +45,6 @@
     <div>
       <h2>Import Monsters</h2>
       <input type="file" (change)="impMonsters()">
-    </div>
+    </div> -->
   </div>
 </div>

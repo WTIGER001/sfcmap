@@ -98,6 +98,7 @@ import { ImportCharacterComponent } from './characters/dialogs/import-character/
 import { FileDropComponent } from './controls/file-drop/file-drop.component';
 import { UserOnlineComponent } from './controls/user-online/user-online.component';
 import { KeepStylePipe } from './pipes/keep-style.pipe';
+import { KeepUrlPipe } from './pipes/keep-url.pipe';
 import { RandomImageComponent } from './dialogs/random-image/random-image.component';
 import { EditPictureComponent } from './controls/edit-picture/edit-picture.component';
 import { CharacterIndexComponent } from './characters/controls/character-index/character-index.component';
@@ -204,6 +205,17 @@ import { ConditionsComponent } from './maps/controls/conditions/conditions.compo
 import { ConditionSelectComponent } from './maps/controls/condition-select/condition-select.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { InstallPwaComponent } from './install-pwa/install-pwa.component';
+import { TokenPackEditComponent } from './maps/controls/token-pack-edit/token-pack-edit.component';
+import { TokenPackViewComponent } from './maps/controls/token-pack-view/token-pack-view.component';
+import { InventoryComponent } from './inventory/inventory.component';
+import { NewMapWizardImagePgComponent } from './maps/new-map-wizard/new-map-wizard-image-pg/new-map-wizard-image-pg.component';
+import { NewMapWizardCalibratePgComponent } from './maps/new-map-wizard/new-map-wizard-calibrate-pg/new-map-wizard-calibrate-pg.component';
+import { NewMapWizardInformationPgComponent } from './maps/new-map-wizard/new-map-wizard-information-pg/new-map-wizard-information-pg.component';
+import { NewMapWizardRestrictionsPgComponent } from './maps/new-map-wizard/new-map-wizard-restrictions-pg/new-map-wizard-restrictions-pg.component';
+import { NewMapWizardDimensionsPgComponent } from './maps/new-map-wizard/new-map-wizard-dimensions-pg/new-map-wizard-dimensions-pg.component';
+import { NewMapWizardComponent } from './maps/new-map-wizard/new-map-wizard/new-map-wizard.component';
+import { LoadingComponent } from './controls/loading/loading.component';
+import { BackgroundTabComponent } from './tabs/background-tab/background-tab.component';
 
 @NgModule({
   declarations: [
@@ -270,6 +282,7 @@ import { InstallPwaComponent } from './install-pwa/install-pwa.component';
     UserOnlineComponent,
     MonsterViewComponent,
     KeepStylePipe,
+    KeepUrlPipe,
     MonsterIndexComponent,
     RandomImageComponent,
     MonsterEditComponent,
@@ -371,6 +384,17 @@ import { InstallPwaComponent } from './install-pwa/install-pwa.component';
     ConditionsComponent,
     ConditionSelectComponent,
     InstallPwaComponent,
+    TokenPackEditComponent,
+    TokenPackViewComponent,
+    InventoryComponent,
+    NewMapWizardImagePgComponent,
+    NewMapWizardCalibratePgComponent,
+    NewMapWizardInformationPgComponent,
+    NewMapWizardRestrictionsPgComponent,
+    NewMapWizardDimensionsPgComponent,
+    NewMapWizardComponent,
+    LoadingComponent,
+    BackgroundTabComponent,
   ],
   imports: [
     BrowserModule,

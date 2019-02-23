@@ -5,6 +5,7 @@ export class CachedItem {
   version: number
   url: string
   path: string
+  image : string
   localChanges : boolean
 }
 

@@ -3,18 +3,20 @@
 ## From Recent Gaming Sessions
 - Fog of war on map icons in the index
 - Grids with spacing of other than 5x5 are strange
-- Hide tokens from users (invisible)
+- Hide tokens from users and a way for tokens to be marked as invisible
 - Switching Tabs to add HP is a pain
-- Need to be able to make peple swich maps
-- Fog of war is inconsitent
+- Need to be able to make people swich maps
+- Fog of war is inconsitently loaded - Maybe tie it to the game object and then load it as black by default
 - need to add multiple enimies at once. I would prefer to click add and then choose where to put it. For monsters if I hold the CTRL key down I should be able to add multiple
 - Token names should be the token row names too
 - Object position on tokens
+- For some reason there alwasys seems to be 1200 chat messages
 
 ## Unsorted
-- Marker Packs and Token Packs
-- Map Sub Folders
-- Tokens delegate to the character when the token is a character
+- Marker Packs and Token Packs - ugg, much more work
+- Map Sub Folders? 
+- Tokens delegate to the character when the token is a character - Not a good solution yet
+- Need to restrict games that you see
 
 ### Token Display on Map
 - Hide tokens from users (invisible)

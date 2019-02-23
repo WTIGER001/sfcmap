@@ -1,0 +1,53 @@
+
+<div class='missing' *ngIf="!map.image">
+  Please provide a map image in the previous step
+</div>
+
+<ng-container *ngIf="map.image">
+
+<p class="map-wide">
+  <i>The map is calibrated by measuring or specifying the number of pixels per meter (PPM). You can measure a
+    horizontal
+    distance on the map to calculate the PPM or you can directly enter the PPM. To measure a distance click on the
+    calibrate button and drag the line to the desired point and click again.</i>
+</p>
+
+<div class='parent' >
+  <div class="mapcontainer" [class.hide]="map==undefined" leaflet [leafletOptions]="options" [leafletLayers]="layers"
+    (leafletMapReady)="onMapReady($event)">
+  </div>
+  
+  <div class="calibrate-controls">
+    <button class="btn wiz-button" (click)="toggleCalibrate()">
+      <fa-icon icon="pencil-ruler"></fa-icon> Calibrate
+    </button>
+  
+    <label>Pixels Per Meter (PPM)</label>
+    <input type="number" class="form-control nospin" [(ngModel)]="map.ppm" (ngModelChange)="updatePPM()">
+  
+    <label>Physical Dimensions</label>
+    <div class="pdim">
+      <label>Height</label>
+      <label>Width</label>
+      <label>Unit</label>
+  
+      <input type="number" class="form-control form-control-sm nospin" [(ngModel)]="pHeight" (ngModelChange)="updatePDimH()">
+      <input type="number" class="form-control form-control-sm nospin" [(ngModel)]="pWidth" (ngModelChange)="updatePDimW()">
+      <select class="form-control form-control-sm" [(ngModel)]="pUnit" (ngModelChange)="updateUnit()">
+        <option *ngFor="let u of units">{{u.abbr}}</option>
+      </select>
+    </div>
+  
+    <label>Image Dimensions</label>
+    <div class="idim">
+      <label>Height</label>
+      <label>Width</label>
+  
+      <input type="number" class="form-control form-control-sm nospin" [(ngModel)]="map.height" (ngModelChange)="updatePPM()">
+      <input type="number" class="form-control form-control-sm nospin" [(ngModel)]="map.width" (ngModelChange)="updatePPM()">
+    </div>
+  </div>
+ 
+</div>
+
+</ng-container>

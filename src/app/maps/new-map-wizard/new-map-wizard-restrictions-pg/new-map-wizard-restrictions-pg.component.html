@@ -1,0 +1,49 @@
+<div class="pg--container">
+  <div class="twocol">
+    <label> Map Permissions</label>
+    <label> Name Permissions</label>
+    <div class="big">
+      <div class="highlight" [class.active]="restriction==0" (click)="restriction = 0">
+        <fa-icon icon="eye-slash" size="3x"></fa-icon>
+        <div>None</div>
+      </div>
+      <div class="highlight" [class.active]="restriction==1" (click)="restriction = 1">
+        <fa-icon icon="eye" size="3x"></fa-icon>
+        <div>View</div>
+      </div>
+      <div class="highlight" [class.active]="restriction==2" (click)="restriction = 2">
+        <fa-icon icon="edit" size="3x"></fa-icon>
+        <div>Change</div>
+      </div>
+    </div>
+    <div class="big">
+      <div class="highlight" [class.active]="namerestriction==0" (click)="namerestriction = 0">
+        <fa-icon icon="eye-slash" size="3x"></fa-icon>
+        <div>None</div>
+      </div>
+      <div class="highlight" [class.active]="namerestriction==1" (click)="namerestriction = 1">
+        <fa-icon icon="eye" size="3x"></fa-icon>
+        <div>View</div>
+      </div>
+      <div class="highlight" [class.active]="namerestriction==2" (click)="namerestriction = 2">
+        <fa-icon icon="edit" size="3x"></fa-icon>
+        <div>Change</div>
+      </div>
+    </div>
+  </div>
+  <label>Thumbnail</label>
+  <div class="thumbnails">
+    <figure class="clickable thumb" [class.active]="thumbrestriction==0" (click)="thumbrestriction = 0">
+      <img [src]="map.image">
+      <figcaption>Full Thumbnail</figcaption>
+    </figure>
+    <figure class="clickable thumb" [class.active]="thumbrestriction==1" (click)="thumbrestriction = 1">
+      <img [src]="fowThumb">
+      <figcaption>Thumbnail with FOW</figcaption>
+    </figure>
+    <figure class="clickable thumb" [class.active]="thumbrestriction==2" (click)="thumbrestriction = 2">
+      <img [src]="genericThumb">
+      <figcaption>Generic Thumbnail</figcaption>
+    </figure>
+  </div>
+</div>

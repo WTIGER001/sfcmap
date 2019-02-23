@@ -1,0 +1,32 @@
+
+<div class="white">
+  <h1>Backgrounds</h1>
+  <div>
+    <button class="clickable btn-tool" (click)="toggleEdit()" placement="bottom" ngbTooltip="Edit Mode">
+      <fa-icon icon="edit" size="lg"></fa-icon> Edit Background
+    </button>
+  <div>
+
+  <div class="buttongrid">
+    <button class="clickable btn-tool" (click)="newImage()" placement="bottom" ngbTooltip="Edit Mode">
+      <fa-icon icon="edit" size="lg"></fa-icon>
+    </button>
+    <button class="clickable btn-tool" (click)="calcMapItems()" placement="bottom" ngbTooltip="Open a New Encounter">
+      <fa-icon icon="search" size="lg"></fa-icon>
+    </button>
+    <button class="clickable btn-tool" (click)="newCircle()" placement="bottom" ngbTooltip="End Encounter">
+      <fa-icon icon="times" size="lg"></fa-icon>
+    </button>
+  </div>
+
+  <div class="scroller scroller-dark marker-scroll">
+    <ng-container *ngFor="let pack of packs">
+      <h3>{{pack.name}}</h3>
+      <div class="small-tiles">
+        <app-picture-tile  *ngFor="let item of pack.tokens" size='small' class="pic" [selected]="isSelected(item)" (click)="select(item)"
+          [picture]="pic(item)" ></app-picture-tile>
+      </div>
+    </ng-container>
+  </div>
+ 
+</div>

@@ -1,5 +1,6 @@
 import { Asset } from "./core";
 import { LightLevel } from "./light-vision";
+import { ImageResult } from "../util/ImageUtil";
 
 /**
  * A configuration for a map.
@@ -37,8 +38,11 @@ export class MapConfig extends Asset {
   tags: string[]
   gridOptions: any
   game: string = 'NONE_YET'
+  attribution : string 
 
   ambientLight : LightLevel = LightLevel.Normal
   enableLighting : boolean = false
   showLighting : boolean = false
+
+  _IMG : ImageResult // TEMP
 }

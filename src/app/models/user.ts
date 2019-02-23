@@ -189,11 +189,28 @@ export class Prefs extends ObjectType {
   savedExpressions: string[] = []
   lastChatId: string
 
-  static is(obj: any): obj is User {
+  static is(obj: any): obj is UserAssumedAccess {
     return obj.objType !== undefined && obj.objType === Prefs.TYPE
   }
 
   static to(obj: any): Prefs {
     return new Prefs().copyFrom(obj)
   }
+}
+
+export class UserInventory extends ObjectType  {
+  public static readonly TYPE = 'db.UserInventory'
+  public static readonly FOLDER = 'user-inventory'
+  readonly objType: string = UserInventory.TYPE
+
+  static is(obj: any): obj is UserInventory {
+    return obj.objType !== undefined && obj.objType === UserInventory.TYPE
+  }
+
+  static to(obj: any): UserInventory {
+    return new UserInventory().copyFrom(obj)
+  }
+
+  id : string
+  tokenSets : string[] = []
 }

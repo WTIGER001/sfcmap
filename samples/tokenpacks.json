@@ -1,0 +1,36 @@
+{
+  "restriction": 0,
+  "imgPos": 5,
+  "objType": "db.TokenPack",
+  "tokens": [
+    {
+      "restriction": 0,
+      "imgPos": 5,
+      "objType": "db.Token",
+      "type": "People",
+      "id": "testVillager_Female_04.png",
+      "fname": "Villager_Female_04.png",
+      "name": "Villager Female 04",
+      "image": "./assets/missing.png",
+      "owner": "test",
+      "url": "https://firebasestorage.googleapis.com/v0/b/sfcmap.appspot.com/o/tokenPacks%2Ftest%2FVillager_Female_04.png?alt=media&token=98feba6e-f716-4a1f-8b29-744aec3eaf25"
+    },
+    {
+      "restriction": 0,
+      "imgPos": 5,
+      "objType": "db.Token",
+      "type": "People",
+      "id": "testWhipper_50.png",
+      "fname": "Whipper_50.png",
+      "name": "Whipper 50",
+      "image": "./assets/missing.png",
+      "owner": "test",
+      "url": "https://firebasestorage.googleapis.com/v0/b/sfcmap.appspot.com/o/tokenPacks%2Ftest%2FWhipper_50.png?alt=media&token=45da4d57-2161-4662-b912-300c8cbf0f6b"
+    }
+  ],
+  "id": "test",
+  "name": "test",
+  "artist": "test",
+  "website": "test",
+  "description": "test"
+}

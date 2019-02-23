@@ -1,0 +1,10 @@
+.pg--container {
+  display: grid;
+  gap: .5em;
+  font-size: 1.25em;
+}
+
+.desc {
+  max-height: 20em;
+  height: 20em;
+}

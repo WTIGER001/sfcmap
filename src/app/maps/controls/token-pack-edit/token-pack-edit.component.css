@@ -1,0 +1,84 @@
+
+.page_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.token-pack-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+
+.dragging {
+  background-color: yellow;
+}
+
+.full-row {
+  grid-column: 1/-1;
+}
+
+.wide {
+  width: 100%;
+  height: 100%;
+}
+
+.new-token {
+  width: 105px;
+  height: 105px;
+  border: 2px dashed darkgreen;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.token-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  gap: 1em;
+}
+
+.token {
+  position: relative;
+  width: 105px;
+  height: 105px;
+}
+
+.token img {
+  max-height: 100%;
+  max-width: 100%;
+}
+.token input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+H3 {
+  background-color: rgba(0,0,0,.8);
+  width: 100%;
+  margin: .5em 0;
+  padding: .5em;
+}
+
+.text_small {
+  font-size: .9em;
+}
+
+.showpage {
+  display: block;
+}
+
+.wiz-page {
+  display: none;
+}
+
+.wiz-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1em;
+}

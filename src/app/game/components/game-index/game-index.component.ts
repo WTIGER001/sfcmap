@@ -39,4 +39,7 @@ export class GameIndexComponent implements OnInit {
     SettingsComponent.openDialog(this.modal)
   }
 
+  treasures() {
+    
+  }
 }

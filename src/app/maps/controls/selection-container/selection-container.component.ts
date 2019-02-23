@@ -94,6 +94,15 @@ export class SelectionContainerComponent implements OnInit {
     return TokenAnnotation.is(this.item)
   }
 
+  isForeground() {
+    return !this.item.background
+  }
+
+  toggleBackground() {
+    this.item.background = !this.item.background
+    this.save()
+  }
+
   editCharacter() {
     if (TokenAnnotation.is(this.item)) {
       const ta: TokenAnnotation = this.item

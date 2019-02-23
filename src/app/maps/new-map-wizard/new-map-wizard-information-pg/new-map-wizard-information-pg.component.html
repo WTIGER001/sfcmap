@@ -1,0 +1,16 @@
+<div class="pg--container">
+  <label>Name</label>
+  <input type="text" class="form-control" [(ngModel)]="map.name" (ngModelChanges)="update()">
+
+  <label>Category</label>
+  <app-map-type-combo [(ngModel)]="map.mapType" [map]="map"></app-map-type-combo>
+
+  <label>Tags</label>
+  <input type="text" class="form-control" [(ngModel)]="map.tags">
+
+  <label>Attribution</label>
+  <input type="text" class="form-control" [(ngModel)]="map.attribution">
+
+  <label>Description</label>
+  <textarea class="form-control form-control-sm desc" [(ngModel)]="map.description"></textarea>
+</div>

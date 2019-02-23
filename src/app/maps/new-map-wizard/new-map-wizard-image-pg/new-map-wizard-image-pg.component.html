@@ -1,0 +1,27 @@
+<div class="pg--container">
+  <div class="drop-area" [class.drop-target]="dragging" [class.outlined]="map.image == undefined" (dragover)="dragOver($event)"
+    (dragenter)="dragEnter($event)" (dragleave)="dragLeave($event)" (drop)="drop($event)" (click)="getFile()">
+    <img [src]="map.image | keepUrl" *ngIf="map.image" [class.lg]='size=="lg"' [class.sm]='size=="sm"'>
+    <div *ngIf='map.image == undefined'>
+      <div>Drop a picture here </div>
+    </div>
+    <input #filecontrolPic type="file" class="inputfile" placeholder="select files" (change)="uploadFile($event)">
+  </div>
+  <div class="centered">
+    <div class="btns">
+      <button class="btn btn-image" (click)="getFile()">
+        <fa-icon icon="cloud-upload" size="2x"></fa-icon>
+        <div>Upload Image</div>
+      </button>
+      <button class="btn btn-image" (click)="pasteUrl()">
+        <fa-icon icon="paste" size="2x"></fa-icon>
+        <div>Paste Image URL</div>
+      </button>
+      <button class="btn btn-image" (click)="randomImage()">
+        <fa-icon icon="search" size="2x"></fa-icon>
+        <div>Search</div>
+      </button>
+    </div>
+  </div>
+</div>
+<app-loading #loading></app-loading>

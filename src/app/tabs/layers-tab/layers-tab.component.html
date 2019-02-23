@@ -2,80 +2,69 @@
 
 
 <div class="buttonbar" *ngIf="edit==false">
-    <button class="clickable btn-tool" (click)="newLayer()" placement="bottom" ngbTooltip="Create a new layer">
-        <fa-icon icon="plus" size="lg"></fa-icon>
-    </button>
-    <button *ngIf="layer" class="clickable btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected layer">
-        <fa-icon icon="pencil-alt" size="lg"></fa-icon>
-    </button>
-    <button *ngIf="layer" class="clickable btn-tool" (click)="permissions()" placement="bottom" ngbTooltip="Set the access permissions">
-        <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
-        <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
-    </button>
-    <button *ngIf="layer" class="clickable btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected layer">
-        <fa-icon icon="trash-alt" size="lg"></fa-icon>
-    </button>
-    <button *ngIf="layer" class="clickable btn-tool" (click)="deselect()" placement="bottom" ngbTooltip="Deselect this layer">
-        <fa-icon icon="times" size="lg"></fa-icon>
-    </button>
+  <button class="clickable btn-tool" (click)="newLayer()" placement="bottom" ngbTooltip="Create a new layer">
+    <fa-icon icon="plus" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="layer" class="clickable btn-tool" (click)="editStart()" placement="bottom" ngbTooltip="Edit the selected layer">
+    <fa-icon icon="pencil-alt" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="layer" class="clickable btn-tool" (click)="permissions()" placement="bottom" ngbTooltip="Set the access permissions">
+    <fa-icon *ngIf="restricted == true" icon="lock" size="lg" class="lockbtn"></fa-icon>
+    <fa-icon *ngIf="restricted == false" icon="unlock" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="layer" class="clickable btn-tool" (click)="delete()" placement="bottom" ngbTooltip="Delete the selected layer">
+    <fa-icon icon="trash-alt" size="lg"></fa-icon>
+  </button>
+  <button *ngIf="layer" class="clickable btn-tool" (click)="deselect()" placement="bottom" ngbTooltip="Deselect this layer">
+    <fa-icon icon="times" size="lg"></fa-icon>
+  </button>
 </div>
 <div class="buttonbar" *ngIf="edit==true">
-    <button type="button" class="clickable btn-tool px-3" aria-label="Save" (click)="save()">
-        <fa-icon icon="save" size="lg"></fa-icon> Save
-    </button>
-    <button type="button" class="clickable btn-tool" aria-label="Cancel" (click)="cancel()">
-        <fa-icon icon="times" size="lg"></fa-icon> Cancel
-    </button>
+  <button type="button" class="clickable btn-tool px-3" aria-label="Save" (click)="save()">
+    <fa-icon icon="save" size="lg"></fa-icon> Save
+  </button>
+  <button type="button" class="clickable btn-tool" aria-label="Cancel" (click)="cancel()">
+    <fa-icon icon="times" size="lg"></fa-icon> Cancel
+  </button>
 </div>
 
 <div class="scroller scroller-dark scroll-layers">
-    <ng-container *ngIf="edit==false">
-        <ng-container *ngFor="let g of groups">
-            <div *ngIf="showEmpty || g._annotations?.length > 0">
-                <div class="pack" [class.selected]="isSelected(g)">
-                    <fa-icon *ngIf="g._annotations?.length > 0;else spacer" class="pointer" (click)="isCollapsed[g.id] = !isCollapsed[g.id]"
-                        [fixedWidth]="true" size="lg" [icon]="isCollapsed[g.id] ? 'caret-right' : 'caret-down'"></fa-icon>
-                    <ng-template #spacer>
-                        <fa-icon class="spacer" [fixedWidth]="true" size="lg" [icon]="'square'"></fa-icon>
-                    </ng-template>
+  <ng-container *ngIf="edit==false">
 
-                    <app-checkbox [checked]="isChecked(g)" (checkchange)="toggleGroup(g)"></app-checkbox>
-                    <label class="pointer" (click)="select(g)" placement="bottom" [ngbTooltip]="g.description">{{g.name}}</label>
-                    <fa-icon *ngIf="isRestricted(g)" class="text-muted grid-right" icon="lock"></fa-icon>
-                </div>
-                <div [ngbCollapse]="isCollapsed[g.id]" class="ml-5">
-                    <div class="pack" *ngFor="let m of g._annotations" [class.selected]="isAnnotationSelected(m)">
-                        <app-checkbox [checked]="isAnnotationChecked(m)" (checkchange)="toggleAnnotation(m)"></app-checkbox>
-                        <label (click)="selectAnnotation(m)"> {{m.name}}</label>
-                        <fa-icon *ngIf="isRestricted(m)" class="text-muted grid-right" icon="lock"></fa-icon>
-                    </div>
-                </div>
-            </div>
-        </ng-container>
-    </ng-container>
-    <div *ngIf="edit==true">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Layer Name" [(ngModel)]="layer.name">
+    <app-expander [text]="g.name" *ngFor="let g of groups; trackBy: trackById">
+      <ng-container *ngFor="let a of annotations; trackBy: trackById">
+        <div class="layer-row" >
+          <fa-icon [icon]="typeIcon(a)"></fa-icon>
+          <fa-icon [icon]="visIcon(a)"></fa-icon>
+          {{a.name}}
         </div>
-        <div class="form-group  pack">
-            <label for="layer-show-label" class="my-label">
-                <fa-icon *ngIf="!layer.showText" size="lg" class="pointer custom-unchecked" [icon]="'square'"></fa-icon>
-                <fa-layers *ngIf="layer.showText">
-                    <fa-icon size="lg" class="pointer custom-checked" [icon]="'square'"></fa-icon>
-                    <fa-icon class="pointer custom-check" [icon]="'check'" [transform]="'right-2'"></fa-icon>
-                </fa-layers>
-            </label>
-            <input type="checkbox" class="custom-control-input" id="layer-show-label" [(ngModel)]="layer.showText">
-            <label class="pointer" for="layer-show-label">Show Labels</label>
-        </div>
-        <div class="form-group">
-            <label for="text-style">Label Style</label>
-            <app-textbox-style-combo [(ngModel)]="layer.textStyle"></app-textbox-style-combo>
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="layer.description"></textarea>
-        </div>
+      </ng-container>
+    </app-expander>
+  </ng-container>
+  <div *ngIf="edit==true">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control form-control-sm" id="name" placeholder="Enter Layer Name" [(ngModel)]="layer.name">
     </div>
+    <div class="form-group  pack">
+      <label for="layer-show-label" class="my-label">
+        <fa-icon *ngIf="!layer.showText" size="lg" class="pointer custom-unchecked" [icon]="'square'"></fa-icon>
+        <fa-layers *ngIf="layer.showText">
+          <fa-icon size="lg" class="pointer custom-checked" [icon]="'square'"></fa-icon>
+          <fa-icon class="pointer custom-check" [icon]="'check'" [transform]="'right-2'"></fa-icon>
+        </fa-layers>
+      </label>
+      <input type="checkbox" class="custom-control-input" id="layer-show-label" [(ngModel)]="layer.showText">
+      <label class="pointer" for="layer-show-label">Show Labels</label>
+    </div>
+    <div class="form-group">
+      <label for="text-style">Label Style</label>
+      <app-textbox-style-combo [(ngModel)]="layer.textStyle"></app-textbox-style-combo>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description"
+        [(ngModel)]="layer.description"></textarea>
+    </div>
+  </div>
 </div>

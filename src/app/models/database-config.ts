@@ -1,4 +1,4 @@
-import { User, UserAssumedAccess, MapPrefs, Prefs } from "./user";
+import { User, UserAssumedAccess, MapPrefs, Prefs, UserInventory } from "./user";
 import { Annotation, TokenAnnotation } from "./annotations";
 import { MapType } from "./map-type";
 import { MapConfig } from "./map-config";
@@ -148,6 +148,8 @@ export class DbConfig {
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER + "/" + obj.id }
     if (MapPrefs.is(obj)) { return MapPrefs.FOLDER + "/" + obj.id }
     if (Prefs.is(obj)) { return Prefs.FOLDER + "/" + obj.id }
+    if (UserInventory.is(obj)) { return UserInventory.FOLDER + "/" + obj.id }
+
     if (Game.is(obj)) { return Game.FOLDER + "/" + obj.id }
     if (GameSystem.is(obj)) { return GameSystem.FOLDER + "/" + obj.id }
 
@@ -166,7 +168,7 @@ export class DbConfig {
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.FOLDER }
     if (MapPrefs.is(obj)) { return MapPrefs.FOLDER }
     if (Prefs.is(obj)) { return Prefs.FOLDER }
-
+    if (UserInventory.is(obj)) { return UserInventory.FOLDER }
     if (Game.is(obj)) { return Game.FOLDER }
     if (GameSystem.is(obj)) { return GameSystem.FOLDER }
 
@@ -185,6 +187,7 @@ export class DbConfig {
     if (UserAssumedAccess.is(obj)) { return UserAssumedAccess.to(obj) }
     if (MapPrefs.is(obj)) { return MapPrefs.to(obj) }
     if (Prefs.is(obj)) { return Prefs.to(obj) }
+    if (UserInventory.is(obj)) { return UserInventory.to(obj)}
 
     if (Game.is(obj)) { return Game.to(obj) }
     if (GameSystem.is(obj)) { return GameSystem.to(obj) }

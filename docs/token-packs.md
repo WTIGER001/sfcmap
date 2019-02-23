@@ -42,3 +42,30 @@ Need to have an Asset Manager
 2.) supply information
 3.) Upload images
 4.) Publish changes
+
+
+Link to create a new token pack
+Edit Page
+- Layout
+- Drop new image
+- Drop url
+- Create new Token
+- Save Function
+- Cancel Function
+- Maintainers
+View Page
+- Layout
+- Show Items
+- Add function
+Index Page
+- Show Token Packs
+- Subscribe to Token Packs
+- View and Edit Actions
+- Limit edit to 'maintainers'
+Token Packs
+- Verify download
+- Verify Edit and publish path
+- Make sure they show up in the selection panel
+My Tokens / Game Tokens
+- Allow users to upload tokens - Not sure how
+User Picker Control (based on tags)

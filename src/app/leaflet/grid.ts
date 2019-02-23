@@ -1,5 +1,5 @@
 import { LayerGroup, Map, polyline, latLng, PolylineOptions, LatLngExpression, LatLng, LatLngBounds, latLngBounds, LeafletMouseEvent, Rectangle, rectangle, DomEvent } from "leaflet";
-import { DistanceUnit } from "../util/transformation";
+import { DistanceUnit, Trans } from "../util/transformation";
 import { MapService } from "../maps/map.service";
 import { Rect } from "../util/geom";
 
@@ -49,12 +49,22 @@ export class GridLayer extends LayerGroup {
     return Rect.centerOn(bounds, latLng(newLat, newLng))
   }
 
+  getMapBounds() {
+    if (this.mapSvc && this.mapSvc.overlayLayer) {
+      return this.mapSvc.overlayLayer.getBounds();
+    } else {
+      const m = this.mapSvc._mapCfg
+      let factor = Trans.computeFactor(m)
+      return  latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
+    }
+  }
+
   /**
    * Gets the nearest vertex to the selected point. 
    * @param ll Point to search for
    */
   getGridVertex(ll: LatLng): LatLng {
-    let bounds = this.mapSvc.overlayLayer.getBounds()
+    const bounds = this.getMapBounds()
 
     let unit = DistanceUnit.getUnit(this.options.spacingUnit)
     let offsetEW = unit.toMeters((this.options.offsetEW || 0))
@@ -86,7 +96,7 @@ export class GridLayer extends LayerGroup {
    * @param ll Point to search for
    */
   getGridCell(ll: LatLng): LatLngBounds {
-    let bounds = this.mapSvc.overlayLayer.getBounds()
+    const bounds = this.getMapBounds()
 
     let unit = DistanceUnit.getUnit(this.options.spacingUnit)
     let offsetEW = unit.toMeters((this.options.offsetEW || 0))
@@ -139,9 +149,7 @@ export class GridLayer extends LayerGroup {
   }
 
   makelines() {
-    if (!this.mapSvc.overlayLayer) { return }
-    // let bounds = this.map.getBounds();
-    let bounds = this.mapSvc.overlayLayer.getBounds()
+    const bounds = this.getMapBounds()
 
     let lineFormat: PolylineOptions = {
       color: this.options.color,

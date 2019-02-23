@@ -1,0 +1,16 @@
+{
+  "id" : "Devin Night - Token 1-20",
+  "name" : "Characters", 
+  "description" : "General Character Icons", 
+  "image" : "",
+  "author" : "Devin Night", 
+  "website" : "https://immortalnights.com",
+  "tags" : "Fantasy",
+  "tokens" : [
+    { 
+      "name" : "Adventurer Dead 22", 
+      "image" : "",
+      "type" : "People"
+    }
+  ]
+}

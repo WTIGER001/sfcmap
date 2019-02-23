@@ -22,8 +22,7 @@ export class RpgTabComponent implements OnInit {
   @ViewChild('actionBox') actionbox: any
   @ViewChild('acc') acc: any
 
-  game : Game
-  expressionHistory: string[] = []
+  game : Game 
   records: ChatRecord[] = []
   box: Dice
   lastindex = -1
@@ -149,23 +148,34 @@ export class RpgTabComponent implements OnInit {
   }
 
   keydown() {
-    if (!this.acc.isPopupOpen()) {
-      this.lastindex = this.lastindex > 0 ? this.lastindex - 1 : 0
-      this.action = this.expressionHistory[this.lastindex]
-    }
+    this.incLast(-1)
   }
 
   keyup() {
+    this.incLast(1)
+  }
+
+  incLast(amount : number) {
     if (!this.acc.isPopupOpen()) {
-      this.lastindex = this.lastindex < this.expressionHistory.length - 1 ? this.lastindex + 1 : 20
-      this.action = this.expressionHistory[this.lastindex]
+      const mine = this.records
+        .filter(r => r.uid == this.user.id && r.getExpression() != undefined)
+        .map(r => r.getExpression())
+      const expressions = _.uniq(mine)
+
+      this.lastindex += amount
+      if (this.lastindex > expressions.length - 1) {
+        this.lastindex = 0
+      }
+
+      if (this.lastindex >= 0) {
+        this.action = expressions[this.lastindex]
+      }
     }
   }
 
-
   enterAction(e: string) {
-
     this.lastindex = -1
+   
     if (e.toLowerCase().trim().startsWith("/")) {
       let cmd = this.commands.get(e.toLowerCase())
       if (cmd) {
@@ -180,8 +190,6 @@ export class RpgTabComponent implements OnInit {
       message.message = e
       this.msg.sendMessage(message);
     }
-
-    // this.actionbox.nativeElement.value = ""
     this.action = ""
   }
 

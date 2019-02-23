@@ -1,6 +1,7 @@
-import { Control, Map as LeafletMap, DomUtil, DomEvent, ControlOptions } from "leaflet";
+import { Control, Map as LeafletMap, DomUtil, DomEvent, ControlOptions, Layer } from "leaflet";
 import { MapService } from "../maps/map.service";
 import { Measure } from "./measure";
+import { MapConfig } from "../models";
 
 export class ZoomControls extends Control {
   map: LeafletMap
@@ -11,8 +12,17 @@ export class ZoomControls extends Control {
   btnRuler : HTMLElement
   measureXY : Measure
 
-  constructor(private mapSvc: MapService, options?: ControlOptions) {
+  constructor(private mapSvc: MapService, options?: ControlOptions, private cfg ?: MapConfig, private primaryLayer ?: Layer) {
     super(options)
+  }
+
+  getMapCfg() : MapConfig {
+    return this.cfg ?this.cfg : this.mapSvc._mapCfg
+  }
+
+  getPrimaryLayer() : Layer {
+    return this.primaryLayer ? this.primaryLayer : this.mapSvc.overlayLayer
+
   }
 
   onAdd(map: LeafletMap): HTMLElement {
@@ -47,9 +57,14 @@ export class ZoomControls extends Control {
   }
 
   zoomExtents() {
-    let bounds = this.mapSvc.overlayLayer.getBounds()
+    let layer: any = this.getPrimaryLayer()
+    let bounds = layer.getBounds ? layer.getBounds() : this.map.getBounds()
     this.map.fitBounds(bounds)
     // this.map.flyToBounds(bounds)
+  }
+
+  update(primaryLayer?: Layer) {
+    this.primaryLayer = primaryLayer
   }
 
   ruler() {
@@ -58,7 +73,7 @@ export class ZoomControls extends Control {
     } else {
       this.map.dragging.disable()
       this.map.doubleClickZoom.disable()
-      this.measureXY = new Measure(this.map, this.mapSvc._mapCfg)
+      this.measureXY = new Measure(this.map, this.getMapCfg())
       this.measureXY.enable()
       DomUtil.addClass(this.btnRuler, 'active')
       this.measureXY.onDisable(() => {

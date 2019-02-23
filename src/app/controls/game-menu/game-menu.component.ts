@@ -23,6 +23,14 @@ export class GameMenuComponent implements OnInit {
       this.games = g
       this.setIds();
     })
+    data.game.subscribe( g => {
+      this.game = g
+      if (g) {
+        this.gameid = g.id
+      } else {
+        this.gameid = undefined
+      }
+    })
   }
 
   private setIds() {
@@ -35,13 +43,13 @@ export class GameMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(event => {
-      this.parse((<NavigationEnd>event).url)
-    })
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(event => {
+    //   this.parse((<NavigationEnd>event).url)
+    // })
 
-    this.parse(this.router.url)
+    // this.parse(this.router.url)
   }
 
   settings() {

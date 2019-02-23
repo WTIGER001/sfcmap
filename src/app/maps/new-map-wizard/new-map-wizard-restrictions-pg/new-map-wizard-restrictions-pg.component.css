@@ -1,0 +1,62 @@
+.pg--container {
+  font-size: 1.25em;
+}
+
+.twocol {
+  display: grid;
+  grid-template-columns: min-content max-content;
+  column-gap: 2em;
+  row-gap: 0;
+}
+
+.big {
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+  gap: 1em;
+  font-size: 1.0rem;
+  padding: 1em;
+  color: grey;
+}
+
+.highlight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: .5em;
+}
+
+.highlight.active, 
+.highlight:hover {
+  color: white;
+  background: grey;
+}
+
+.name {
+  display: grid;
+  grid-template-columns: min-content min-content min-content min-content;
+  gap: 1em;
+  align-items: center;
+}
+
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+}
+
+.thumb {
+  padding: 1em;
+  margin: 1em;
+}
+
+.thumb img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.thumb figcaption {
+  text-align: center;
+  padding-top: .8em;
+}

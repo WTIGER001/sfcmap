@@ -154,14 +154,21 @@ export class MapViewComponent implements OnInit, OnDestroy {
       let transformation = Trans.createTransform(m)
       this.bounds = latLngBounds([[0, 0], [m.height / factor, m.width / factor]]);
 
-      this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds, { pane: 'base' })
+      if (m.image) {
+        this.mapSvc.overlayLayer = imageOverlay(m.image, this.bounds, { pane: 'base' })
+      }
       this.crs.transformation = new Transformation(factor, 0, -factor, 0)
 
 
       // this.map.setMaxBounds(Rect.multiply(this.bounds, 1.25));
 
       this.layers.splice(0, this.layers.length)
-      this.layers.push(this.mapSvc.overlayLayer, this.allMarkersLayer, this.newMarkersLayer)
+      if (m.image) {
+        this.layers.push(this.mapSvc.overlayLayer, this.allMarkersLayer, this.newMarkersLayer)
+      } else {
+        this.layers.push( this.allMarkersLayer, this.newMarkersLayer)
+      }
+
 
       if (!sameMap || old.image != m.image) {
         // this.mapSvc.fit(this.bounds)
@@ -351,13 +358,14 @@ export class MapViewComponent implements OnInit, OnDestroy {
       let sw = latLng(0, 0)
       let ne = latLng(r.height, r.width)
       let bounds = latLngBounds(sw, ne)
-      let imgBounds = Rect.limitSize(bounds, this.mapSvc.overlayLayer.getBounds(), .5)
+      let mapBounds = this.mapSvc.overlayLayer ? this.mapSvc.overlayLayer.getBounds() : this.map.getBounds()
+      let imgBounds = Rect.limitSize(bounds, mapBounds, .5)
 
       // Get the center lat/long
       if (center) {
         imgBounds = Rect.centerOn(imgBounds, center)
       } else {
-        imgBounds = Rect.centerOn(imgBounds, this.mapSvc.overlayLayer.getBounds().getCenter())
+        imgBounds = Rect.centerOn(imgBounds, mapBounds.getCenter())
       }
 
       const a = new ImageAnnotation()
@@ -373,7 +381,6 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
       // this.
       const shp = AnnotationFactory.createImage(a)
-      // const shp = <L.ImageOverlay>a.toLeaflet(undefined)
       shp.addTo(this.mapSvc.newMarkersLayer)
 
       this.mapSvc.selectForEdit(a)

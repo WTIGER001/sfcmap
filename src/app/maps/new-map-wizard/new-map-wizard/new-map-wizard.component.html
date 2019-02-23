@@ -1,0 +1,61 @@
+<div class="page--container">
+  <div class="page wizard">
+    <div class="page--title">
+      <h1>Create a New Map</h1>
+      <div class="clickable" (click)="close()"><fa-icon icon="times" size="lg"></fa-icon></div>
+    </div>
+    <div class="page--body " *ngIf="!page">
+      <div class="center">
+        <button class="btn choice-btn" (click)="setWizard('image')">
+          Create a map from an existing image
+        </button>
+
+        <button class="btn choice-btn" (click)="setWizard('blank')">
+          Create a blank map
+        </button>
+      </div>
+    </div>
+    <div class="page--body wiz__columns" *ngIf="page">
+      <div class="wiz__selector">
+        <ul>
+          <li *ngFor="let pg of pages" class="clickable" [class.active]="pg == page" (click)="setPage(pg)">
+            {{pg.title}}
+          </li>
+        </ul>
+      </div>
+      <div class="wiz__area">
+        <div [class.hide]="page.key != 'image'">
+          <app-new-map-wizard-image-pg #pgImage [map]="map"></app-new-map-wizard-image-pg>
+          <button class="btn wiz-button" (click)="nextPage()" [disabled]="!canNext(pgImage)">
+            Next <fa-icon icon="arrow-alt-right"></fa-icon>
+          </button>
+        </div>
+        <div *ngIf="page.key == 'calibrate'">
+          <app-new-map-wizard-calibrate-pg #pgCalibrate [map]="map"></app-new-map-wizard-calibrate-pg>
+          <button class="btn wiz-button" (click)="nextPage()"  [disabled]="!canNext(pgCalibrate)">
+            Next <fa-icon icon="arrow-alt-right"></fa-icon>
+          </button>
+        </div>
+        <div [class.hide]="page.key != 'dimensions'">
+          <app-new-map-wizard-dimensions-pg #pgDimensions [map]="map"></app-new-map-wizard-dimensions-pg>
+          <button class="btn wiz-button" (click)="nextPage()"  [disabled]="!canNext(pgDimensions)">
+            Next <fa-icon icon="arrow-alt-right"></fa-icon>
+          </button>
+        </div>
+        <div [class.hide]="page.key != 'information'">
+          <app-new-map-wizard-information-pg #pgInformation [map]="map"></app-new-map-wizard-information-pg>
+          <button class="btn wiz-button" (click)="nextPage()"  [disabled]="!canNext(pgInformation)">
+            Next <fa-icon icon="arrow-alt-right"></fa-icon>
+          </button>
+        </div>
+        <div *ngIf="page.key == 'restrictions'">
+          <app-new-map-wizard-restrictions-pg [map]="map" [wiz]="getSelf()"></app-new-map-wizard-restrictions-pg>
+          <button class="btn wiz-button" (click)="finish()" [disabled]="!canFinish()">
+            <fa-icon icon="save"></fa-icon> Save and Finish
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

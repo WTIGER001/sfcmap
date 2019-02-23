@@ -1,0 +1,68 @@
+<div class="page_container">
+  <div class="page page--wide wide">
+    <div class="title-tools">
+      <h1>Token Pack</h1>
+    </div>
+    <div [class.showpage]="page==1" [class.wiz-page]="page!==1">
+      <div class="token-pack-info">
+        <div>
+          <label for="token-pack-id">ID</label>
+          <input type="text" class="form-control" [(ngModel)]="pack.id" id="token-pack-id">
+        </div>
+        <div>
+          <label for="token-pack-name">Name</label>
+          <input type="text" class="form-control" [(ngModel)]="pack.name" id="token-pack-name">
+        </div>
+        <div> <label for="token-pack-artist">Artist / Author</label>
+          <input type="text" class="form-control" [(ngModel)]="pack.artist" id="token-pack-artist">
+        </div>
+        <div>
+          <label for="token-pack-website">Website</label>
+          <input type="text" class="form-control" [(ngModel)]="pack.website" id="token-pack-website">
+        </div>
+        <div class="full-row">
+          <label for="token-pack-description">Description</label>
+          <textarea class="form-control" [(ngModel)]="pack.description" id="token-pack-description"></textarea>
+        </div>
+        <div class="full-row">
+          <label>Token Pack Summary Image</label>
+
+        </div>
+      </div>
+      <div class="wiz-buttons">
+        <button class="btn btn-outline-secondary" (click)="cancel()">
+          <fa-icon icon="times" size="lg"></fa-icon> Cancel
+        </button>
+        <button class="btn btn-secondary" (click)="nextPage()">
+          <fa-icon icon="save" size="lg"></fa-icon> Save and Add Tokens
+        </button>
+      </div>
+    </div>
+    <div [class.showpage]="page==2" [class.wiz-page]="page!==2">
+      <div class="tokens">
+        <h2>Tokens</h2>
+        <div *ngFor="let type of types">
+          <h3>{{type}}</h3>
+          <div class="token-tiles" (drop)="drop($event, type)" (dragover)="dragOver($event, type)" (dragenter)="dragEnter($event, type)"
+            [class.dragging]="dragging[type]" (dragleave)="dragLeave($event, type)">
+            <div class="token" *ngFor="let token of getTokens(type); trackBy: trackByFn">
+              <img [src]="token.image" alt="Token Image">
+              <input type="text" class="form-control text_small" [(ngModel)]="token.name">
+            </div>
+            <div class="new-token clickable" (click)="addToken()">
+              <fa-icon icon="plus" size="2x"></fa-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wiz-buttons">
+        <button class="btn btn-outline-secondary" (click)="cancel()">
+          <fa-icon icon="times" size="lg"></fa-icon> Finish Later
+        </button>
+        <button class="btn btn-secondary" (click)="save()">
+                <fa-icon icon="save" size="lg"></fa-icon> Finished
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

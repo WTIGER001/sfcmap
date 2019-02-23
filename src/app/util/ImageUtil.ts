@@ -25,14 +25,14 @@ export interface LoadImageOptions {
 }
 
 export class ImageUtil {
-  static off : HTMLCanvasElement
-  static offscreen() : HTMLCanvasElement {
+  static off: HTMLCanvasElement
+  static offscreen(): HTMLCanvasElement {
     if (!ImageUtil.off) {
       ImageUtil.off = document.createElement('canvas')
-    } 
+    }
     return ImageUtil.off
   }
-  
+
 
 
   public static THUMBNAIL_WIDTH = 242
@@ -46,6 +46,48 @@ export class ImageUtil {
     thumbnailMaxWidth: ImageUtil.THUMBNAIL_WIDTH,
     thumbnailKeepAspect: true
   }
+
+  public static loadImgFromUrl(url: string, options?: LoadImageOptions): Observable<ImageResult> {
+    const opts = Object.assign({}, ImageUtil.DefaultOptions)
+    if (options) {
+      Object.assign(opts, options)
+    }
+
+    const result = new Subject<ImageResult>()
+    const imgResult = new ImageResult()
+    var img = new Image()
+    img.crossOrigin = "Anonymous"
+    img.src = url.toString()
+    imgResult.dataURL = url.toString()
+
+    img.onload = function () {
+      imgResult.width = img.width
+      imgResult.height = img.height
+      imgResult.aspect = img.width / img.height
+
+      if (opts.createThumbnail) {
+        let canvas = document.createElement('canvas')
+        // set size proportional to image
+        let w = ImageUtil.THUMBNAIL_WIDTH * (img.width / img.height);
+        canvas.width = ImageUtil.THUMBNAIL_WIDTH;
+        canvas.height = canvas.width * (img.height / img.width);
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(b => imgResult.thumb = b)
+        imgResult.thumbHeight = canvas.height
+        imgResult.thumbWidth = canvas.width
+
+        canvas.remove()
+      }
+
+      // val.next(result)
+      result.next(imgResult)
+      result.complete()
+    }
+    return result
+  }
+
 
   public static loadImg(file: File, options?: LoadImageOptions): Observable<ImageResult> {
     const opts = Object.assign({}, ImageUtil.DefaultOptions)

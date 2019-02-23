@@ -5,11 +5,27 @@
     margin: 0;
     padding: 0;
     z-index: 1;
-    background-image: url('/assets/background2.jpg');
+    /* background-image: url('/assets/background2.jpg'); */
     background-size: cover;
     background-repeat: no-repeat;
 }
 
+
+@media (max-width: 1000px) {
+  .all {
+    background-image: url('/assets/background-1000.jpg');
+  }
+}
+@media (max-width: 1960px) and (min-width: 1001px) {
+  .all {
+    background-image: url('/assets/background-1960.jpg');
+  }
+}
+@media (min-width: 1961px) {
+  .all {
+    background-image: url('/assets/background2.jpg');
+  }
+}
 
 :host {
     position: absolute;

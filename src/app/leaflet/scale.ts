@@ -8,6 +8,7 @@ export class ScaleOptions {
     updateWhenIdle?: boolean
     divisions?: number
     barHeight?: number
+    offset?: boolean
 }
 
 export class Scale extends Control {
@@ -25,9 +26,16 @@ export class Scale extends Control {
         metric: false,
         imperial: true,
         updateWhenIdle: true,
-        divisions: 4
+        divisions: 4,
+        offset : true
     }
 
+    constructor(opts ?: ScaleOptions) {
+      super(opts)
+      if (opts) {
+        Object.assign(this.options, opts)
+      }
+    }
 
     show(map: LeafletMap, showMe: boolean): any {
         if (showMe && !this.onMap) {
@@ -41,9 +49,9 @@ export class Scale extends Control {
         this.map = map
 
         this.box = DomUtil.create("div", "sfc-scale")
-        // this.box.style.max = "100px"
-        // this.box.style.width = "30px"
-        // this.box.innerHTML = "THIS IS A SCALE"
+        if (this.options.offset) {
+          DomUtil.addClass(this.box, "sfc-scale-offset")
+        }
 
         if (this.options.imperial) {
             this.imperial = new ScaleRuler(this, 'imperial')

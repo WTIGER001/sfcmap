@@ -1,18 +1,19 @@
 <div class="outer">
   <div class="topbar">
     <ul class="buttons">
-     
-
       <a routerLink="/admin">
         <li class="tool-item">
           <fa-icon class="icon" icon="cog" size="lg"></fa-icon> Admin
         </li>
       </a>
-
       <li class="tool-item" (click)="settings()">
         <fa-icon class="icon" icon="sliders-h" size="lg"></fa-icon> Settings
       </li>
-
+      <a routerLink="/inventory">
+        <li class="tool-item" >
+          <fa-icon class="icon" icon="treasure-chest" size="lg" ngbTooltip="Manage token sets"></fa-icon> Inventory
+        </li>
+      </a>
     </ul>
     <h1 appTextfit [maxFontSize]="30">Choose a Game or Create One!</h1>
   </div>
@@ -23,7 +24,7 @@
       <div class="newgame">
         <img src="/assets/icons/game.png">
         <div class="title">
-          <fa-icon class="icon my-2" icon="plus" size="2x"></fa-icon>Create a New Game
+          <fa-icon class="icon my-2" icon="plus" size="2x"></fa-icon>
         </div>
       </div>
     </a>

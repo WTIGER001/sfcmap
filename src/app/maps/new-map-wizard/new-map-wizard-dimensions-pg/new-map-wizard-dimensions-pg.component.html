@@ -1,0 +1,32 @@
+<div class="pg--container">
+  <div class="inner">
+    <label class="span2">Grid Size</label>
+    <div class="span2">
+      <div class="input-group">
+        <input class="form-control form-control-sm nospin" type="number" [(ngModel)]="gridvalue"  (ngModelChanges)="update()">
+        <div ngbDropdown placement="bottom-right">
+          <button class="btn btn-outline-secondary toggle2" id="dropDownUnits" ngbDropdownToggle>{{gridunit}}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+            <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+              (click)="gridunit = u.abbr; update()">{{u.name}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <label>Height (Grid)</label>
+    <label>Width (Grid)</label>
+
+    <input type="number" class="nospin form-control" [(ngModel)]="hGrid" (ngModelChanges)="update()">
+    <input type="number" class="nospin form-control" [(ngModel)]="wGrid"  (ngModelChanges)="update()">
+
+    <span class="form-control">{{height()}}</span>
+    <span class="form-control">{{width()}}</span>
+
+    <label class="span2">Background Color</label>
+    <div class="colorholder">
+      <div class="form-control  color-pick" [(colorPicker)]="bgColor" [style.background]="bgColor" cpAlphaChannel='always'
+        cpPosition='left' (colorPickerChange)="update()"></div>
+    </div>
+  </div>
+</div>

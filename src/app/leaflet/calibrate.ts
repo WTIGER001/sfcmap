@@ -7,9 +7,12 @@ import { Trans, DistanceUnit } from "../util/transformation";
 import { DataService } from "../data.service";
 import { MapService } from "../maps/map.service";
 import { concatMap, take } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 
 export class CalibrateX implements Handler {
+  changes = new Subject<number>()
+
     // The first point in the measure
     start: L.LatLng
     startPx: L.Point
@@ -122,7 +125,9 @@ export class CalibrateX implements Handler {
                     this.mapCfg.ppm = newPPM
 
                     // Save the Map
-                    this.data.saveMap(this.mapCfg)
+                    if (this.data) {
+                      this.data.saveMap(this.mapCfg)
+                    }
 
                     // Go through each marker on the map and fix the coordinates
                     // TODO: Need to fix this for all annotations
@@ -134,7 +139,13 @@ export class CalibrateX implements Handler {
                     //     this.data.save(m)
                     // })
 
-                    this.mapSvc.setConfigId(this.mapCfg.id)
+                    if (this.mapSvc) {
+                      this.mapSvc.setConfigId(this.mapCfg.id)
+                    }
+
+                    if (this.changes) {
+                      this.changes.next(newPPM)
+                    }
                 })
             })
         }

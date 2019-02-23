@@ -81,6 +81,7 @@ export abstract class Annotation extends Asset {
   points: any[]
   tags: string[]
   snap: boolean
+  background : boolean = false
 
   // Do not save to database
   _leafletAttachment: any

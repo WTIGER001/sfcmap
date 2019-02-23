@@ -23,6 +23,7 @@ export class PictureTileComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() objPos : number = 5
   @Input() x = true
   @Output() checkChange = new EventEmitter;
+  @Output() change = new EventEmitter;
   @Input() zoom = 1
   @Input() crossedout = false
 
@@ -130,6 +131,7 @@ export class PictureTileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.canCheck) {
     this.checked = !this.checked
     this.checkChange.emit(this.checked)
+    this.change.emit(this.checked)
     }
   }
 

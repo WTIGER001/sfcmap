@@ -49,6 +49,15 @@ export class ChatRecord extends Asset {
 
     return obj
   }
+
+  getExpression() : string {
+    if (ChatMessage.is(this.record)) {
+      return this.record.message
+    } else if (DiceRoll.is(this.record)) {
+      return this.record.expression
+    }
+    return undefined
+  }
 }
 
 export class ChatMessage {

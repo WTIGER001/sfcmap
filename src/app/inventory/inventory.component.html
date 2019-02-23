@@ -1,0 +1,20 @@
+<div class="main_container">
+  <div class="topbar">
+    <ul class="buttons">
+      <a routerLink="/">
+        <li class="tool-item">
+          <fa-icon class="icon" icon="home" size="lg"></fa-icon> Home
+        </li>
+      </a>
+    </ul>
+    <h1>Inventory</h1>
+  </div>
+  <div class="main_content">
+    <div class='item_area'>
+      <div class="inventory_item" *ngFor="let item of available">
+        <app-picture-tile size="square" [picture]="item.image" [caption]="item.name" canCheck="true" checkIcon="times"
+          (checkChange)="checkChange($event, item)" [checked]="isCheched(item)"></app-picture-tile>
+      </div>
+    </div>
+  </div>
+</div>

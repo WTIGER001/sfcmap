@@ -1,0 +1,21 @@
+.pg--container {
+  /* padding: 1em; */
+
+}
+.inner {
+  display: grid;
+  grid-template-columns: 15em 15em;
+  gap: 1em;
+}
+
+.span2 {
+  grid-column: span 2;
+}
+
+.colorholder {
+  overflow: hidden;
+}
+
+.color-pick {
+  height: 1.8em;
+}

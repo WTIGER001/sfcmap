@@ -1,0 +1,20 @@
+.loading {
+  position: absolute;
+  height: 100px;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 50px;
+  background-color: rgba(0,0,0,.7);
+  color: white;
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading h1 {
+  margin-left: 20px;
+}

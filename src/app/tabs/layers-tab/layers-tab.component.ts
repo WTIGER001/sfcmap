@@ -2,12 +2,14 @@ import { Component, } from '@angular/core';
 import { MapService } from '../../maps/map.service';
 import { Map as LeafletMap, LayerGroup, Marker, Map } from 'leaflet';
 import { map, tap, mergeMap } from 'rxjs/operators';
-import { MapConfig, MarkerGroup, User, MapPrefs, Annotation, Selection } from '../../models';
+import { MapConfig, MarkerGroup, User, MapPrefs, Annotation, Selection, ImageAnnotation, MarkerTypeAnnotation, ShapeAnnotation, BarrierAnnotation, TokenAnnotation, Character, MarkerCategory } from '../../models';
 import { DataService } from '../../data.service';
 import { combineLatest, of } from 'rxjs';
 import { CommonDialogService } from '../../dialogs/common-dialog.service';
 import { RestrictService } from '../../dialogs/restrict.service';
 import { UUID } from 'angular2-uuid';
+import { Monster } from 'src/app/monsters/monster';
+import { Token } from 'src/app/maps/token';
 
 @Component({
   selector: 'app-layers-tab',
@@ -38,7 +40,7 @@ export class LayersTabComponent {
   mapConfig: MapConfig
 
   // All the known groups for the current map
-  groups: MarkerGroup[] = []
+  groups: MarkerCategory[] = []
 
   // Item that is currently being dragged. This can be either a Marker Group or an Annotation item
   dragging
@@ -52,6 +54,8 @@ export class LayersTabComponent {
   // Shows the empty groups in the
   showEmpty = true
 
+  annotations: Annotation[] = []
+
   selection: Selection = new Selection([])
 
   constructor(private mapSvc: MapService, private data: DataService, private dialog: CommonDialogService, private restrict: RestrictService) {
@@ -59,25 +63,64 @@ export class LayersTabComponent {
 
     this.mapSvc.selection.subscribe(s => this.selection = s)
 
-    this.data.userMapPrefs.pipe(
-      tap(p => this.mapPrefs = p),
-      mergeMap(p => this.mapSvc.mapConfig),
-      tap(m => this.mapConfig = m)
-    ).subscribe(mapCfg => {
-      this._shownGroups = this.mapPrefs.getMapPref(mapCfg.id).hiddenGroups || []
-      this._shownMarkers = this.mapPrefs.getMapPref(mapCfg.id).hiddenMarkers || []
-    })
+    this.mapSvc.annotationAddUpate.subscribe(a => this.calcMapItems())
+    this.mapSvc.annotationDelete.subscribe(a => this.calcMapItems())
+    this.data.gameAssets.markerCategories.items$.subscribe( g => this.groups = g)
 
-    this.mapSvc.completeMarkerGroups.pipe(
-      map(groups => {
-        this.groups = groups
-        this.groups.forEach(g => {
-          if (!this.isCollapsed.hasOwnProperty(g.id)) {
-            this.isCollapsed[g.id] = true
-          }
-        })
-      })
-    ).subscribe(() => { })
+    // this.data.userMapPrefs.pipe(
+    //   tap(p => this.mapPrefs = p),
+    //   mergeMap(p => this.mapSvc.mapConfig),
+    //   tap(m => this.mapConfig = m)
+    // ).subscribe(mapCfg => {
+    //   this._shownGroups = this.mapPrefs.getMapPref(mapCfg.id).hiddenGroups || []
+    //   this._shownMarkers = this.mapPrefs.getMapPref(mapCfg.id).hiddenMarkers || []
+    // })
+
+    // this.mapSvc.completeMarkerGroups.pipe(
+    //   map(groups => {
+    //     this.groups = groups
+    //     this.groups.forEach(g => {
+    //       if (!this.isCollapsed.hasOwnProperty(g.id)) {
+    //         this.isCollapsed[g.id] = true
+    //       }
+    //     })
+    //   })
+    // ).subscribe(() => { })
+  }
+  trackById(index: number, item: any) {
+    return item.id
+  }
+  calcMapItems() {
+    this.annotations = this.mapSvc.annotationsFromMap()
+    this.annotations[0].group
+  }
+
+  typeIcon(a: Annotation) {
+    if (MarkerTypeAnnotation.is(a)) {
+      return "map-marker-alt"
+    }
+    if (ShapeAnnotation.is(a)) {
+      if (a.type == 'polyline') { return "signature" }
+      if (a.type == 'polygon') { return 'draw-polygon' }
+      if (a.type == 'rectangle') { return 'vector-square' }
+      if (a.type == 'circle') {return ['far', 'circle'] }
+    }
+    if (ImageAnnotation.is(a)) {
+      return 'image'
+    }
+    if (BarrierAnnotation.is(a)) {
+      return 'rectangle-wide'
+    }
+    if (TokenAnnotation.is(a)) {
+      if (a.itemType == Character.TYPE) { return 'user-shield'}
+      if (a.itemType == Monster.TYPE) { return 'dragon'}
+      if (a.itemType == Token.TYPE) { return 'helmet-battle'}
+    }
+    return "times"
+  }
+
+  visIcon(a: Annotation) {
+    return 'eye'
   }
 
   newLayer() {
@@ -100,8 +143,8 @@ export class LayersTabComponent {
     if (this.layer) {
       this.restrict.openRestrict(this.layer).subscribe((r) => {
         if (r) {
-            this.data.save(this.layer)
-            this.restricted = this.data.isRestricted(this.layer)
+          this.data.save(this.layer)
+          this.restricted = this.data.isRestricted(this.layer)
         }
       })
     }

@@ -2,15 +2,15 @@ import { Injectable } from "@angular/core";
 import { UUID } from "angular2-uuid";
 import { User as FireUser } from "firebase";
 import { BehaviorSubject, combineLatest, concat, forkJoin, from, Observable, of, ReplaySubject, Subject, Subscription } from "rxjs";
-import { filter, first, map, mergeMap, take, tap } from "rxjs/operators";
+import { filter, first, map, mergeMap, take, tap, switchMap, concatMap } from "rxjs/operators";
 import { isArray } from "util";
 import { CachedItem } from "./cache/cache";
 import { CacheService } from "./cache/cache.service";
 import { DataAssetArray } from "./data-asset";
 import { Encounter } from "./encounter/model/encounter";
 import { Item } from "./items/item";
-import { Token } from "./maps/token";
-import { Annotation, Category, Game, GameSystem, ImageAnnotation, ItemAction, MapConfig, MapPrefs, MapType, MarkerCategory, MarkerGroup, MarkerType, MergedMapType, ObjectType, Online, Prefs, Restricition, TokenAnnotation, User, UserAssumedAccess } from "./models";
+import { Token, TokenPack } from "./maps/token";
+import { Annotation, Category, Game, GameSystem, ImageAnnotation, ItemAction, MapConfig, MapPrefs, MapType, MarkerCategory, MarkerGroup, MarkerType, MergedMapType, ObjectType, Online, Prefs, Restricition, TokenAnnotation, User, UserAssumedAccess, UserInventory } from "./models";
 import { Character } from "./models/character";
 import { CharacterType } from "./models/character-type";
 import { DbConfig } from "./models/database-config";
@@ -24,6 +24,7 @@ import { LangUtil } from "./util/LangUtil";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireDatabase, AngularFireAction, DatabaseSnapshot } from "@angular/fire/database";
+import * as _ from 'lodash'
 
 export class GameAssets {
   annotationFolders = new DataAssetArray<MarkerGroup>(MarkerGroup.TYPE)
@@ -55,13 +56,13 @@ export class GameAssets {
     this.tokens.subscribe(game$, notify, data)
 
 
+
+    
     game$.pipe(
       filter(game => game !== undefined),
       mergeMap(game => data.sharedEvents$(game.id)),
       tap(event => this.shareEvents.next(event))
     ).subscribe()
-
-
   }
 }
 
@@ -93,6 +94,7 @@ export class DataService {
   user = new BehaviorSubject<User>(DataService.NOBODY)
   userPrefs = new BehaviorSubject<Prefs>(new Prefs())
   userMapPrefs = new BehaviorSubject<MapPrefs>(new MapPrefs())
+  userInventory = new BehaviorSubject<UserInventory>(new UserInventory())
   userAccess = new BehaviorSubject<UserAssumedAccess>(new UserAssumedAccess())
   online = new ReplaySubject<Array<Online>>(1)
 
@@ -100,6 +102,8 @@ export class DataService {
   users = new BehaviorSubject<Array<User>>([])
   gamesystems = new BehaviorSubject<Array<GameSystem>>([])
   games = new ReplaySubject<Array<Game>>(1)
+
+  tokenpacks$ = new BehaviorSubject<TokenPack[]>([])
 
   // Game Level Observablaes
   game = new BehaviorSubject<Game>(undefined)
@@ -185,6 +189,15 @@ export class DataService {
       tap(p => this.log.info("User Access Loaded: ", p)),
       tap(p => this.record('user-access', 1)),
     ).subscribe(p => this.userAccess.next(UserAssumedAccess.to(p)))
+
+    // Inventory
+    this.user.pipe(
+      mergeMap(u => this.getOrCreate(u.id, new UserInventory)),
+      tap(p => this.log.info("User Invntory Loaded: ", p)),
+      tap(p => this.record('user-inventory', 1)),
+    ).subscribe(p => this.userInventory.next(UserInventory.to(p)))
+
+    this.handleUserInventory()
   }
 
   loadGamesystems() {
@@ -372,6 +385,9 @@ export class DataService {
       )
   }
 
+  getTokenPacks$(): Observable<CachedItem[]> {
+    return this.db.list<CachedItem>(TokenPack.FOLDER).valueChanges().pipe(first())
+  }
 
   private loadAndNotify<T>(subject: Subject<Array<T>>, name: string, errorType: string, current?: Array<T>, loading?: BehaviorSubject<boolean>) {
     this.log.debug('Base Item loadAndNotify ' + name)
@@ -410,7 +426,7 @@ export class DataService {
 
   getAnnotations$(mapId: string): Observable<ItemAction<Annotation>> {
     return this.game.pipe(
-      filter(game => game !== undefined ),
+      filter(game => game !== undefined),
       map(game => DbConfig.pathFolderTo(Annotation.TYPE, game.id)),
       mergeMap(path => this.db.list(path, ref => ref.orderByChild('map').equalTo(mapId)).stateChanges()),
       map(item => new ItemAction(item.type, DbConfig.toItem(item.payload.val()))),
@@ -595,8 +611,22 @@ export class DataService {
     return from(this.db.object(path).set(toSave))
   }
 
+  saveTokenImage(token: Token, image: Blob) {
+    let pathImage = `/tokenPacks/${token.owner}/${token.fname}`
+    forkJoin(this.saveImage(image, pathImage)).pipe(
+      mergeMap(result => this.fillInMyUrl(token, pathImage, 'image')),
+    ).subscribe(() => {
+      this.setImageMetadata(pathImage)
+    }, err => {
+      this.log.debug("ERROR");
+      this.log.debug(err);
+    }, () => {
+      this.log.debug("Complete");
+    })
+  }
+
   saveToken(t: Token, image?: Blob) {
-    console.log('Saving Map ', map.name)
+    console.log('Saving Token ', map.name)
 
     if (image) {
       let pathImage = 'tokens/' + t.id
@@ -644,6 +674,22 @@ export class DataService {
         this.log.debug("Complete");
       })
 
+    } else if (thumb) { 
+      let pathThumb = 'images/' + map.id + "_thumb"
+      console.log("Preparing to save Map DATA", map);
+
+      forkJoin(this.saveImage(thumb, pathThumb)).pipe(
+        mergeMap(result => this.fillInMapThumb(map))
+      ).subscribe(() => {
+        this.setImageMetadata(pathThumb)
+        this.save(map)
+      }, err => {
+        this.log.debug("ERROR");
+        this.log.debug(err);
+      }, () => {
+        this.log.debug("Complete");
+      })
+    
     } else {
       console.log("No Images", map);
       this.save(map)
@@ -720,6 +766,20 @@ export class DataService {
     return loadProgress
   }
 
+  saveAsFile(path: string, item: string) {
+    const ref = this.storage.ref(path)
+    let loadProgress = new Subject<number>()
+    loadProgress.subscribe(this.notify.progress("Loading File"))
+
+    const task = ref.putString(item)
+    task.percentageChanges()
+      .subscribe(loadProgress)
+
+    return loadProgress
+  }
+
+
+
   uploadFile(path: string, f: File): Observable<number> {
     const ref = this.storage.ref(path)
     let loadProgress = new Subject<number>()
@@ -748,6 +808,19 @@ export class DataService {
       })
     )
   }
+
+  storageUrl(path: string): Observable<string> {
+    console.log("Getting Storage Reference for ", path)
+    const ref = this.storage.ref(path);
+    console.log("Getting Storage Reference for 2 ", ref)
+
+    return ref.getDownloadURL().pipe(
+      map(item => {
+        return item
+      })
+    )
+  }
+
 
   pathToUrl(path: string): Observable<string> {
     const ref = this.storage.ref(path);
@@ -834,10 +907,11 @@ export class DataService {
   }
 
   fillInMyUrl(item: any, path: string, urlField: string): Observable<any> {
+    const fld = urlField ? urlField : "url"
     const ref = this.storage.ref(path);
     return ref.getDownloadURL().pipe(
       tap(url => console.log('Got URL ' + url)),
-      tap(url => item.url = url),
+      tap(url => item[fld] = url),
       map(url => item),
       tap(i => console.log('donw with item', item)),
       first()
@@ -1284,6 +1358,34 @@ export class DataService {
     if (itemType == Token.TYPE) {
       return this.gameAssets.tokens.currentItems.find(i => i.id == itemId)
     }
+  }
+
+  handleUserInventory() {
+    this.userInventory.pipe(
+      tap(inv => this.tokenpacks$.next([])),
+      tap( inv => console.log("Step 1", inv)),
+      map( inv => _.values(inv.tokenSets)),
+      tap(inv => console.log("Step 2", inv)),
+      mergeMap(items => concat(items.map(tk => this.db.object<CachedItem>(`/cache/tokenpacks/${tk}`).valueChanges()))),
+      tap(inv => console.log("Step 2", inv)),
+      mergeMap( item => item),
+      tap(item => {
+        console.log("Loading User Inventory", item)
+        const remoteVersion = item ? item.version : -1
+        const localVersion = this.cache.version(item.path)
+        console.log(`Comparing Versions ${remoteVersion} vs ${localVersion}`)
+        if (remoteVersion !== localVersion) {
+          this.cache.download(item).subscribe(data => {
+            console.log("Cached Item ", data)
+            const real = TokenPack.to(data)
+            this.tokenpacks$.getValue().push(real)
+            this.tokenpacks$.next(this.tokenpacks$.getValue())
+          })
+        }
+      })
+    ).subscribe(inv => {
+      // Get the cache records
+    })
   }
 
 }

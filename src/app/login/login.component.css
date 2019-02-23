@@ -1,12 +1,28 @@
 
 .login-container {
-    background-image: url('/assets/background2.jpg');
+    /* background-image: url('/assets/background2.jpg'); */
     background-size: cover;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height : 100vh;
     align-items: center
+}
+
+@media (max-width: 1000px) {
+  .login-container {
+    background-image: url('/assets/background-1000.jpg');
+  }
+}
+@media (max-width: 1960px) and (min-width: 1001px) {
+  .login-container {
+    background-image: url('/assets/background-1960.jpg');
+  }
+}
+@media (min-width: 1961px) {
+  .login-container {
+    background-image: url('/assets/background2.jpg');
+  }
 }
 
 .login {
