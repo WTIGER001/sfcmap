@@ -49,6 +49,14 @@ export class BackgroundTabComponent implements OnInit {
 
   }
 
+  newImage() {
+
+  }
+
+  newCircle() {
+    
+  }
+
   toggleEdit() {
     if (this.editmode) {
       this.finishEdit()
