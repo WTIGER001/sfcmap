@@ -58,11 +58,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Known Issues
 - You have to click on a layer twice the first time to get the effect
 
-## To Do
-------------------------------------------------------------------------------------------------------------
+## BUGS
+- When you add a new map or edit an exiting one if you add a tag then it fails because it is not an array.
+
+
 
 ### Priority List
--
+- 
 
 
 
