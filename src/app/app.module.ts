@@ -216,6 +216,9 @@ import { NewMapWizardDimensionsPgComponent } from './maps/new-map-wizard/new-map
 import { NewMapWizardComponent } from './maps/new-map-wizard/new-map-wizard/new-map-wizard.component';
 import { LoadingComponent } from './controls/loading/loading.component';
 import { BackgroundTabComponent } from './tabs/background-tab/background-tab.component';
+import { MapPixiComponent } from './maps/controls/map-pixi/map-pixi.component';
+import { ContextMenuComponent } from './controls/context-menu/context-menu.component';
+import { ContextMenuItemComponent } from './controls/context-menu-item/context-menu-item.component';
 
 @NgModule({
   declarations: [
@@ -395,6 +398,9 @@ import { BackgroundTabComponent } from './tabs/background-tab/background-tab.com
     NewMapWizardComponent,
     LoadingComponent,
     BackgroundTabComponent,
+    MapPixiComponent,
+    ContextMenuComponent,
+    ContextMenuItemComponent,
   ],
   imports: [
     BrowserModule,
