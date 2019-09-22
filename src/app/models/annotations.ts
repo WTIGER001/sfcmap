@@ -365,6 +365,7 @@ export class ShapeAnnotation extends Annotation {
   style: string
   fill: boolean
   fillColor: string
+  _radius: number = 0
 
   constructor(type: string) {
     super()
@@ -378,11 +379,26 @@ export class ShapeAnnotation extends Annotation {
     this.fill = this._leafletAttachment.options.fill
     this.fillColor = this._leafletAttachment.options.fillColor
     this.style = this._leafletAttachment.options.dashArray
+    if (this.type == 'circle') {
+      let item: Circle = <Circle>this._leafletAttachment
+      this._radius = item.getRadius()
+    }
   }
 
   copyOptionsToShape() {
     (<Polygon>this._leafletAttachment).setStyle(this.options())
     this._leafletAttachment.redraw()
+  }
+
+  get radius() : number{
+      return 
+      return (this.points && this.points.length == 2 )? this.points[1] : 0
+  }
+
+  set radius(value: number) {
+    this._radius = value
+    this.copyOptionsToShape()
+
   }
 
   copyPoints() {
@@ -405,6 +421,8 @@ export class ShapeAnnotation extends Annotation {
       let item: Circle = <Circle>this._leafletAttachment
       this.points = [item.getLatLng(), item.getRadius()]
     }
+
+    
   }
 
 

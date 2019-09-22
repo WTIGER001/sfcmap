@@ -5,6 +5,12 @@
 <div class="form-group" *ngIf='item.type=="rectangle"'>
   <app-checkbox [(ngModel)]="item.snap">Snap to grid</app-checkbox>
 </div>
+<ng-container *ngIf="item.type='circle'">
+  <div class="form-group">
+    <label>Radius</label>
+    <input type="text" class="form-control " id="radius" placeholder="Enter Radius (ft)" [(ngModel)]="item.radius">
+  </div>
+</ng-container>
 <div class="form-group">
   <label for="type">Group</label>
   <app-marker-group-combo [(ngModel)]="item.group" [annotation]="item"></app-marker-group-combo>

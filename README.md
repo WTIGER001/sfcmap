@@ -433,3 +433,9 @@ Fog of war - Dynamic
 -- AOE
 --- Define area
 
+## Projects
+
+### Pixi.js
+
+- Need to get a graphics libary created that can draw, select and edit shapes and images
+ 
