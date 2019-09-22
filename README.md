@@ -364,3 +364,72 @@ How to support the pathfinder lighting rules
 Fog of war - Dynamic
 - Each time someone moves take their visibility mask and draw that on the FOW Image.
 - FOW - Dark, Dim -> Mediumz
+
+
+---------------------
+
+# Version 2 Refactor
+
+## Maps
+- PIXI JS Maps
+- Tactical vs Strategic Grid?
+- Zoom / Pan buttons
+- Mouse movements
+- Display basic map image
+- Display Grids
+- Shapes
+-- Need to create shape 'handles' like leaflet... YUCK!
+-- Rendering shapes (pretty easy)
+-- Editing Shapes (sucks)
+-- Enter the radius or diameter of a circle in feet
+-- See the radius and diameter of a circle in feet
+-- See the sqft of a shape
+-- Save circle / rectangle setups to include: name, fill/line, damgage amd save (call these effects / spells)
+- Folders for maps
+- Privacy Icons for maps
+- Fog of war fix
+- Better add monster and token tabs
+- Are tokens downloaded / cached?
+- MOnsters
+-- Auto health bare
+-- Stamp
+-- Icon to show stacked people
+-- how to deal with smaller creatures
+-- Fix styling issues
+- Invisible Styling
+
+
+## Menu
+- Introduce a pie shaped menu / context. 
+- What you can do is based on your click
+- ON - Map Click
+-- Selected: Nothing, player
+--- Add Character Here (Choose from characters in party) 
+--- Add Monster (GM)
+--- Add Token 
+--- ruler
+--- Draw
+--- Add Aera of Effect
+--- Center Map
+
+
+
+## App
+- dont require logon for monsters and reference data
+- better chat client
+- Get Rid of tabs? What do I do with everything.. Maybe slide outs or ssomething
+- Fix logon
+- Break into modules
+- Fix upload issues
+- CHat command to redo the map annotations
+- CHat on bottom half of screen
+- GM should be able to have users go between maps. Not sure how to enable this. 
+
+
+## Spells and Spell LIke Effects
+- Database, user addable
+- Dont try to import them all?
+- Per character / users / ??
+-- AOE
+--- Define area
+
