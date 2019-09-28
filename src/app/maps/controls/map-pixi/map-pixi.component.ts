@@ -10,7 +10,6 @@ import { NotifyService } from 'src/app/notify.service';
 import { CommandService } from 'src/app/command.service';
 import { MessageService } from 'src/app/message.service';
 import { AudioService } from 'src/app/audio.service';
-import { ComponentFactoryResolver } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-map-pixi',
@@ -43,7 +42,7 @@ export class MapPixiComponent implements OnInit {
     private elementRef: ElementRef,
     private zone: NgZone, private mapSvc: MapService, private data: DataService, private route: ActivatedRoute,
     private audio: AudioService, private msg: MessageService, private cmdSvc: CommandService, private notify: NotifyService,
-    private resolver: ComponentFactoryResolver, private viewref: ViewContainerRef, private router: Router, private location: Location) {
+     private viewref: ViewContainerRef, private router: Router, private location: Location) {
 
     this.setupSubscriptions()
 
