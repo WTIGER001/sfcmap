@@ -11,4 +11,19 @@ export class Distance {
       }
       return distance.value
     }
+
+    asMeters() : number {
+      return Distance.toMeters(this)
+    }
+
+    fromMeters(val : number) {
+      console.log("FROM METERS", val);
+      
+      const foundUnit = DistanceUnit.getUnit(this.unit)
+      if (foundUnit) {
+        this.value = foundUnit.fromMeters(val)
+      } else {
+        console.error("No Unit found", this.unit);
+      }
+    }
 }

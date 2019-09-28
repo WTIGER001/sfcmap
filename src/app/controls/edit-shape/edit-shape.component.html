@@ -5,25 +5,34 @@
 <div class="form-group" *ngIf='item.type=="rectangle"'>
   <app-checkbox [(ngModel)]="item.snap">Snap to grid</app-checkbox>
 </div>
-<ng-container *ngIf="item.type='circle'">
-  <div class="form-group">
-    <label>Radius</label>
-    <input type="text" class="form-control " id="radius" placeholder="Enter Radius (ft)" [(ngModel)]="item.radius">
+<div class="form-group" *ngIf='item.type=="circle"'>
+  <label>Radius</label>
+  <div class="input-group">
+    <input class="form-control nospin" type="number" [ngModel]="fmtRadius()" (ngModelChange)="radius.value=$event" (change)="updateRadius()" step="0.01">
+    <div ngbDropdown placement="bottom-right">
+      <button class="clickable toggle2" id="dropDownUnits" ngbDropdownToggle>{{radius.unit}}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropDownUnits">
+        <button *ngFor="let u of units" class="dropdown-item btn-sm" placement="bottom" [ngbTooltip]="u.name"
+          (click)="radius.unit = u.abbr">{{u.name}}</button>
+      </div>
+    </div>
   </div>
-</ng-container>
+</div>
 <div class="form-group">
   <label for="type">Group</label>
   <app-marker-group-combo [(ngModel)]="item.group" [annotation]="item"></app-marker-group-combo>
 </div>
 <div class="custom-control custom-checkbox">
-  <input type="checkbox" class="custom-control-input" id="border_enable" [(ngModel)]="item.border" (ngChange)="update()">
+  <input type="checkbox" class="custom-control-input" id="border_enable" [(ngModel)]="item.border"
+    (ngChange)="update()">
   <label class="custom-control-label" for="border_enable"> Border</label>
 </div>
 <div class="area">
   <div class="form-group">
     <label>Color</label>
-    <div class="form-control form-control-sm color-pick" [(colorPicker)]="item.color" [style.background]="item.color" cpAlphaChannel='always'
-      cpPosition='left' (colorPickerChange)="update()"></div>
+    <div class="form-control form-control-sm color-pick" [(colorPicker)]="item.color" [style.background]="item.color"
+      cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
   </div>
   <div class="form-group">
     <label>Weight</label>
@@ -41,8 +50,9 @@
   </div>
   <div class="form-group">
     <label>Color</label>
-    <div class="form-control form-control-sm  color-pick" [(colorPicker)]="item.fillColor" [style.background]="item.fillColor"
-      cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()"></div>
+    <div class="form-control form-control-sm  color-pick" [(colorPicker)]="item.fillColor"
+      [style.background]="item.fillColor" cpAlphaChannel='always' cpPosition='left' (colorPickerChange)="update()">
+    </div>
   </div>
 </ng-container>
 <div class="form-group">
@@ -59,5 +69,6 @@
 </div>
 <div class="form-group">
   <label for="description">Description</label>
-  <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description" [(ngModel)]="item.description"></textarea>
+  <textarea class="form-control form-control-sm" rows="3" id="description" placeholder="Enter Description"
+    [(ngModel)]="item.description"></textarea>
 </div>

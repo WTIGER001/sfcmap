@@ -391,14 +391,22 @@ export class ShapeAnnotation extends Annotation {
   }
 
   get radius() : number{
-      return 
       return (this.points && this.points.length == 2 )? this.points[1] : 0
   }
 
+  // Expected to be in METERs
   set radius(value: number) {
+    console.log("Setting Radius ", value);
+    
     this._radius = value
-    this.copyOptionsToShape()
-
+    if (this.type == 'circle') {
+      let item: Circle = <Circle>this._leafletAttachment
+      if(item) {
+        item.setRadius(value)
+        this.copyOptionsToShape()
+        this.copyPoints()
+      }
+    }
   }
 
   copyPoints() {
@@ -421,7 +429,6 @@ export class ShapeAnnotation extends Annotation {
       let item: Circle = <Circle>this._leafletAttachment
       this.points = [item.getLatLng(), item.getRadius()]
     }
-
     
   }
 
