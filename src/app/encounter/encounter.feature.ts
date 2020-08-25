@@ -9,8 +9,9 @@ import { Tabs } from "../tabs/tabs";
     providers: []
 })
 export class EncounterFeature {
-    static initialize() {
+    static initialize() : void{
         DbConfig.register("Encounter", Encounter.is, Encounter.to, Encounter.folder, Encounter.path)
         // Tabs.register("Encounters", "paw", "", "app-encounters-tab", 50)
+        return
     }
 }

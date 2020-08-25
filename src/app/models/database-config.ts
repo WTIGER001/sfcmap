@@ -5,7 +5,6 @@ import { MapConfig } from "./map-config";
 import { MarkerType } from "./marker-type";
 import { MarkerCategory } from "./marker-category";
 import { ChatRecord } from "./chat";
-import { error } from "util";
 import { MarkerGroup } from "./annotation-group";
 import { CharacterType } from "./character-type";
 import { Character } from "./character";
@@ -152,6 +151,7 @@ export class DbConfig {
 
     if (Game.is(obj)) { return Game.FOLDER + "/" + obj.id }
     if (GameSystem.is(obj)) { return GameSystem.FOLDER + "/" + obj.id }
+
 
     // Reference level data
     if (obj.objType && obj.owner) {

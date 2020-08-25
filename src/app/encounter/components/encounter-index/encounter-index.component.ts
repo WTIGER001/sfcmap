@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./encounter-index.component.css']
 })
 export class EncounterIndexComponent implements OnInit {
-  @ViewChild('list') listElement: ElementRef
+  @ViewChild('list', { static: true }) listElement: ElementRef
 
   gameid: string = 'unk'
   game: Game

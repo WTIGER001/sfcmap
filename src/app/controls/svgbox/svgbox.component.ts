@@ -26,17 +26,17 @@ export class SvgboxComponent {
   @Input() maxheight = 150
   @Input() padding = 20
 
-  @ViewChild('svgdisplay') set svgdisplay(content: ElementRef) {
+  @ViewChild('svgdisplay', { static: true }) set svgdisplay(content: ElementRef) {
     this.svgelement = content;
     this.insertSVG()
   }
 
-  @ViewChild('svgdisplay2') set svgdisplay2(content: ElementRef) {
+  @ViewChild('svgdisplay2', { static: true }) set svgdisplay2(content: ElementRef) {
     this.svgelement2 = content;
     this.insertSVG()
   }
 
-  @ViewChild('svgholder') set svgholder(content: ElementRef) {
+  @ViewChild('svgholder', { static: true }) set svgholder(content: ElementRef) {
     this.grpelement = content;
     this.insertSVG()
   }

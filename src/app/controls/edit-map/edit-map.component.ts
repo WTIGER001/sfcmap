@@ -15,8 +15,8 @@ export class EditMapComponent implements OnInit, AfterViewInit {
   result: ImageResult
   thumbnail
   doneInit = false
-  @ViewChild('filecontrol') fileButton
-  @ViewChild('mycanvas') canvas
+  @ViewChild('filecontrol', { static: true }) fileButton
+  @ViewChild('mycanvas', { static: true }) canvas
 
   @Output() changes = new EventEmitter<MapConfig>()
   @Output() imageChanges = new EventEmitter<ImageResult>()

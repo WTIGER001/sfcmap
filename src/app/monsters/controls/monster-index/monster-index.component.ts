@@ -17,7 +17,7 @@ import { Monster } from '../../monster';
 export class MonsterIndexComponent implements OnInit {
   
   @ViewChild('list') listElement: ElementRef
-  @ViewChild('search') search: SearchBarComponent
+  @ViewChild('search', { static: true }) search: SearchBarComponent
 
   type = Monster.TYPE
   gameid: string

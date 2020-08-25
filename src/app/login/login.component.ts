@@ -15,10 +15,10 @@ export class LoginComponent implements OnInit {
   }
 
   loginGoogle() {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.afAuth.signInWithPopup(new auth.GoogleAuthProvider());
   }
 
   loginGithub() {
-    this.afAuth.auth.signInWithPopup(new auth.GithubAuthProvider());
+    this.afAuth.signInWithPopup(new auth.GithubAuthProvider());
   }
 }

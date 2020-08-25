@@ -15,7 +15,7 @@ import { DiceCanvasComponent } from 'src/app/controls/dice-canvas/dice-canvas.co
   styleUrls: ['./edit-character-core.component.css']
 })
 export class EditCharacterCoreComponent implements OnInit {
-  @ViewChild('dice') dice: DiceCanvasComponent
+  @ViewChild('dice', { static: true }) dice: DiceCanvasComponent
 
   @Input() character = new Character()
   @Input() mode = 'edit'
@@ -32,6 +32,7 @@ export class EditCharacterCoreComponent implements OnInit {
   }
 
   save() {
+    console.log("Saving Character", this.character);
     this.onSave.emit(this.character)
   }
 

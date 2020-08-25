@@ -9,8 +9,8 @@ import { ImageUtil, ImageResult } from '../../util/ImageUtil';
   styleUrls: ['./file-picker.component.css']
 })
 export class FilePickerComponent implements OnInit {
-  @ViewChild('filecontrol') fileButton
-  @ViewChild('myimage') myimage
+  @ViewChild('filecontrol', { static: true }) fileButton
+  @ViewChild('myimage', { static: true }) myimage
 
   @Input() src: string
   // @Output() filechanged = new EventEmitter();

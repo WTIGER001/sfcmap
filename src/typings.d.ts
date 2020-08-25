@@ -211,7 +211,7 @@ declare module 'leaflet' {
         alt?: string;
         interactive?: boolean;
         attribution?: string;
-        crossOrigin?: boolean;
+        crossOrigin?: string | boolean;
         errorOverlayUrl?: string;
         zIndex?: number;
         className?: string;

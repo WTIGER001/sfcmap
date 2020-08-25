@@ -2,7 +2,6 @@ import { Component, OnInit, Input, AfterContentInit, Output, EventEmitter } from
 import { Character, TokenAnnotation } from 'src/app/models';
 import { Aura, AuraVisible } from 'src/app/models/aura';
 import { DistanceUnit } from 'src/app/util/transformation';
-import { parseIntAutoRadix } from '@angular/common/src/i18n/format_number';
 import { AuraEditComponent } from 'src/app/maps/controls/aura-edit/aura-edit.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

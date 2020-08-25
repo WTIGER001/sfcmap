@@ -745,7 +745,7 @@ export class DataService {
 
   setImageMetadata(path: string) {
     const ref = this.storage.ref(path)
-    ref.updateMetatdata({ cacheControl: "max-age=31536000" }).subscribe()
+    ref.updateMetadata({ cacheControl: "max-age=31536000" }).subscribe()
   }
 
   saveImage(data: Blob, path: string) {

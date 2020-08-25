@@ -9,7 +9,7 @@ import { TokenBar } from 'src/app/models';
   styleUrls: ['./picture-tile.component.css']
 })
 export class PictureTileComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('figure') figure : ElementRef
+  @ViewChild('figure', { static: true }) figure : ElementRef
   @Input() item : any
   @Input() picture : string
   @Input() caption : string

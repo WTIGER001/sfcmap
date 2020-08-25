@@ -16,7 +16,7 @@ export class CheckboxComponent extends AbstractValueAccessor {
 
   id = UUID.UUID().toString()
   internalchecked = false
-  @ViewChild('checkel') checkel
+  @ViewChild('checkel', { static: true }) checkel
 
   @Output() checkchange = new EventEmitter()
 

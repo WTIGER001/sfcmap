@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { MapConfig } from 'src/app/models';
-import { checkAndUpdateDirectiveDynamic } from '@angular/core/src/view/provider';
 import { UpdateItemCmd } from 'od-virtualscroll';
 import { DistanceUnit, Trans } from 'src/app/util/transformation';
 import { MapOptions, Map, imageOverlay, latLngBounds, Layer, Transformation, ImageOverlay, control } from 'leaflet';

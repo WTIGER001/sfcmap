@@ -11,7 +11,7 @@ import { DataService } from '../../data.service';
   styleUrls: ['./dice-canvas.component.css']
 })
 export class DiceCanvasComponent implements AfterViewInit {
-  @ViewChild('canvas') canvas: ElementRef
+  @ViewChild('canvas', { static: true }) canvas: ElementRef
   @Input() clearTime = 10000
   @Output() diceroll = new EventEmitter()
   @Output() dicetotal = new EventEmitter()

@@ -17,7 +17,7 @@ import { UUID } from 'angular2-uuid';
 })
 export class TokenIndexComponent implements OnInit {
 
-  @ViewChild('search') search: SearchBarComponent
+  @ViewChild('search', { static: true }) search: SearchBarComponent
   dragging = false
   type = Token.TYPE
   gameid: string

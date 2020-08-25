@@ -13,7 +13,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class LineWeightComponent extends AbstractValueAccessor implements AfterViewInit {
   @Input() weights = [1.0, 2, 3, 4, 5, 6, 7, 8]
-  @ViewChild('selectedbutton') chooserButton
+  @ViewChild('selectedbutton', { static: true }) chooserButton
   @Output() change = new EventEmitter()
   emptyImage
   selected: number = 0

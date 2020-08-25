@@ -16,9 +16,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { EmojifyModule } from 'angular-emojify';
 import { TagInputModule } from 'ngx-chips';
-import { SortablejsModule } from 'angular-sortablejs/dist';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { SortablejsModule } from 'ngx-sortablejs'
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgSpinKitModule } from 'ng-spin-kit';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { VirtualScrollModule } from 'od-virtualscroll';
@@ -408,9 +407,9 @@ import { BackgroundTabComponent } from './tabs/background-tab/background-tab.com
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
-    LeafletModule.forRoot(),
+    LeafletModule,
     FontAwesomeModule,
-    NgbModule.forRoot(),
+    NgbModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       timeOut: 3000
@@ -470,7 +469,7 @@ import { BackgroundTabComponent } from './tabs/background-tab/background-tab.com
   exports: [CheckboxComponent]
 })
 export class AppModule {
-  constructor() {
+  constructor(library: FaIconLibrary) {
     // library.add(faGoogle, faGithub)
     // library.add(faStar, faCircle)
     // library.add(fas, faLayerGroup);

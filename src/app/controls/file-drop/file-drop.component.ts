@@ -7,7 +7,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 })
 export class FileDropComponent implements OnInit {
 
-  @ViewChild('filecontrol') fileButton
+  @ViewChild('filecontrol', { static: true }) fileButton
   @Output() fileschanged = new EventEmitter()
 
   dragging = false

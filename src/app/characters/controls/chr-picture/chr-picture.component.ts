@@ -12,7 +12,7 @@ import { positionElements } from '@ng-bootstrap/ng-bootstrap/util/positioning';
 })
 export class ChrPictureComponent implements OnInit {
   @Input() character: Character
-  @ViewChild('filecontrol') fileButton
+  @ViewChild('filecontrol', { static: true }) fileButton
   dragging = false
 
   maxSize = 10000000

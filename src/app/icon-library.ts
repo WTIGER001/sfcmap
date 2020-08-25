@@ -1,5 +1,3 @@
-import { Library } from "@fortawesome/fontawesome-svg-core";
-
 import { faStar as SOLID_STAR, faPlus, faBookmark, faShield, faShieldAlt, faCaretRight, faCaretLeft, faCaretDown, faCaretUp, faDiceSix, faDiceD20, faTrash, faTrashAlt, faArrowUp, faArrowDown, faArrowLeft, faArrowRight, faArrows, faPaperclip, 
   faLayerGroup, faTimes, faUnlink, faLink, faPencilAlt, faCheck, faPencil, faSortAmountUp, faSort, faSortAmountDown, faHome, faCog, faSlidersH, faSearch, faSignOut, faSignOutAlt, faSave, faLock, faUnlock, faRuler, faBroadcastTower, faEar, 
   faLightbulb, faMap, faSun, faCloudSun, faCloudMoon, faEye, faEyeSlash, faMoon, faMapMarkerAlt, faRectanglePortrait, faRectangleWide, faDoorOpen, faCampfire, faSignature, faVectorSquare, faDrawCircle, faDrawPolygon, faDrawSquare, faImage,
@@ -9,22 +7,23 @@ import { faStar as SOLID_STAR, faPlus, faBookmark, faShield, faShieldAlt, faCare
 import { faStar, faCircle } from '@fortawesome/free-regular-svg-icons';
 import { faGoogle, faGithub, fab } from '@fortawesome/free-brands-svg-icons';
 import { faQuestionSquare} from '@fortawesome/pro-light-svg-icons';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 
 export class Icons {
-  constructor(private library: Library) {
+  constructor(private library: FaIconLibrary) {
     this.addIcons(library)
   }
 
-  addIcons(l : Library) {
+  addIcons(l : FaIconLibrary) {
 
     this.solidPro(l)
     this.regularPro(l)
     this.brandsFree(l)
   }
 
-  solidPro(l : Library) {
-    l.add(
+  solidPro(l : FaIconLibrary) {
+    l.addIcons(
       faLayerGroup, 
       faPlus, 
       faBookmark,
@@ -135,17 +134,17 @@ export class Icons {
   }
 
 
-  lightPro(l: Library) {
-    l.add(faQuestionSquare)
+  lightPro(l: FaIconLibrary) {
+    l.addIcons(faQuestionSquare)
   }
 
-  regularPro(l: Library) {
-    l.add(faStar, faCircle)
+  regularPro(l: FaIconLibrary) {
+    l.addIcons(faStar, faCircle)
 
   }
 
-  brandsFree(l: Library) {
-    l.add(faGoogle, faGithub)
+  brandsFree(l: FaIconLibrary) {
+    l.addIcons(faGoogle, faGithub)
 
   }
 

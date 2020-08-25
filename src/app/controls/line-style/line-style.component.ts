@@ -21,7 +21,7 @@ export class LineStyleComponent extends AbstractValueAccessor implements AfterVi
     '12',
     '16'
   ]
-  @ViewChild('selectedbutton') chooserButton
+  @ViewChild('selectedbutton', { static: true }) chooserButton
   @Output() change = new EventEmitter()
   emptyImage
   selected: number = 0

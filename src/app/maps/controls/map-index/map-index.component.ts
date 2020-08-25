@@ -15,8 +15,8 @@ import { EditMapTypeComponent } from 'src/app/controls/edit-map-type/edit-map-ty
   styleUrls: ['./map-index.component.css']
 })
 export class MapIndexComponent implements OnInit {
-  @ViewChild('list') listElement: ElementRef
-  @ViewChild('searchbar') searchbar: SearchBarComponent
+  @ViewChild('list', { static: true }) listElement: ElementRef
+  @ViewChild('searchbar', { static: true }) searchbar: SearchBarComponent
 
   gameid: string = 'unk'
   game: Game

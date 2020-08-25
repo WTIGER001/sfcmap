@@ -5,7 +5,7 @@ import { DataService } from '../../../data.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
-import { SortablejsOptions } from 'angular-sortablejs/dist';
+import { SortablejsOptions } from 'ngx-sortablejs';
 
 @Component({
   selector: 'app-encounter',

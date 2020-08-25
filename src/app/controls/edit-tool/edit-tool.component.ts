@@ -18,7 +18,6 @@ export class EditToolComponent implements AfterContentInit {
 
   ngAfterContentInit() {
     this.disabled = !this.data.canEdit(this.item)
-    console.log("EDIT DISABLED", this.disabled, this.item);
   }
 
   save() {

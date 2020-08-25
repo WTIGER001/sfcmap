@@ -15,8 +15,8 @@ import { LoadingComponent } from 'src/app/controls/loading/loading.component';
 export class NewMapWizardImagePgComponent implements OnInit {
   @Input() map: MapConfig
   @Input() maxSize = 50000000
-  @ViewChild('filecontrolPic') fileButton
-  @ViewChild('loading') loading : LoadingComponent
+  @ViewChild('filecontrolPic', { static: true }) fileButton
+  @ViewChild('loading', { static: true }) loading : LoadingComponent
   @Input() searchTerm = 'fantasy rpg map'
   result : ImageResult
   dragging = false

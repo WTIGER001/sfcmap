@@ -131,7 +131,7 @@
   }
   .tool-bar {
     grid-row: 2;
-    justify-content: start;
+    justify-content: flex-start;
   }
   .filters {
     grid-row: 1;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { debug } from 'util';
 
 /**
  * The Config Service is responsible for accepting and providing the configuration for each extension.

@@ -10,8 +10,8 @@ import { SearchBarComponent } from '../../../controls/search-bar/search-bar.comp
   styleUrls: ['./gamesystem-index.component.css']
 })
 export class GamesystemIndexComponent implements AfterContentInit {
-  @ViewChild('list') listElement: ElementRef
-  @ViewChild('search') search: SearchBarComponent
+  @ViewChild('list', { static: true }) listElement: ElementRef
+  @ViewChild('search', { static: true }) search: SearchBarComponent
   all: GameSystem[] = []
   filtered: GameSystem[] = []
   view = 'card'

@@ -10,7 +10,7 @@ import { log } from 'util';
 })
 export class EditChrAttachmentsComponent implements OnInit {
   @Input() character: Character
-  @ViewChild('filecontrol') fileButton
+  @ViewChild('filecontrol', { static: true }) fileButton
 
   dragging = false
   maxSize = 10000000

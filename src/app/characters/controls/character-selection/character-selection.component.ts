@@ -21,7 +21,7 @@ import { MapService } from 'src/app/maps/map.service';
 export class CharacterSelectionComponent implements OnInit, OnChanges {
 
   static pages = ['personal', 'description', 'rolls', 'stats']
-  @ViewChild('dice') dice: DiceCanvasComponent
+  @ViewChild('dice', { static: true }) dice: DiceCanvasComponent
   @Input() character: Character
   @Input() noactions = false
   diceResult: DiceRoll

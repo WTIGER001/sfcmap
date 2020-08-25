@@ -15,7 +15,7 @@ export class EditPictureComponent implements OnInit {
   @Input() size : 'lg' | 'sm' = 'lg'
 
 
-  @ViewChild('filecontrolPic') fileButton
+  @ViewChild('filecontrolPic', { static: true }) fileButton
   @Output() choice = new EventEmitter()
 
   dragging = false

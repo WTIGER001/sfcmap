@@ -9,8 +9,8 @@ import { ImageUtil } from '../../util/ImageUtil';
   styleUrls: ['./edit-marker-type.component.css']
 })
 export class EditMarkerTypeComponent implements AfterViewInit {
-  @ViewChild('filecontrol') fileButton
-  @ViewChild('myimage') myimage
+  @ViewChild('filecontrol', { static: true }) fileButton
+  @ViewChild('myimage', { static: true }) myimage
   @Input() selected: MarkerType
   hasImage = false
   constructor() { }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { RouterModule, Routes, RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { EditCharacterComponent } from './characters/edit-character/edit-character.component';
@@ -94,6 +94,7 @@ const routes: Routes = [
   { path: '**', component: PageNotFoundComponent }
 ];
 
+@Injectable()
 export class CustomReuseStrategy implements RouteReuseStrategy {
   routesToCache: string[] = ["map"];
   storedRouteHandles = new Map<string, DetachedRouteHandle>();

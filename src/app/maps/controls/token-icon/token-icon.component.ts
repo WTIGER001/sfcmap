@@ -9,7 +9,7 @@ import { Assets } from 'src/app/assets';
   styleUrls: ['./token-icon.component.css']
 })
 export class TokenIconComponent implements OnInit {
-  @ViewChild('figure') figure: ElementRef
+  @ViewChild('figure', { static: true }) figure: ElementRef
   @Input() item: TokenAnnotation
   @Input() selected: boolean
   @Input() showName: boolean = true

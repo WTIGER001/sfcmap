@@ -12,7 +12,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 export class FindCharacterComponent implements OnInit {
   @Output() selected = new EventEmitter()
   @Input() ignore: string[] = []
-  @ViewChild('actionBox') textinput: ElementRef
+  @ViewChild('actionBox', { static: true }) textinput: ElementRef
   placeholder = "+ Add Character"
   txt: string
 
