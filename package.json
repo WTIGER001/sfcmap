@@ -52,7 +52,7 @@
     "core-js": "^3.6.5",
     "firebase": "^7.18.0",
     "hammerjs": "^2.0.8",
-    "jszip": "^3.5.0",
+    "jszip": "^3.7.0",
     "leaflet": "^1.6.0",
     "leaflet.coordinates": "^0.1.5",
     "leaflet.path.drag": "0.0.6",
