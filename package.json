@@ -79,7 +79,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^10.0.6",
-    "@angular-devkit/build-angular": "~0.1000.6",
+    "@angular-devkit/build-angular": "~15.0.4",
     "@angular/compiler-cli": "^10.0.11",
     "@angular/language-service": "^10.0.11",
     "@types/cannon": "^0.1.4",
